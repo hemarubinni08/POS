@@ -61,7 +61,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleDto> findAll() {
-        Type listType = new TypeToken<List<RoleDto>>() {}.getType();
+        Type listType = new TypeToken<List<RoleDto>>() {
+        }.getType();
         return modelMapper.map(roleRepository.findAll(), listType);
     }
 }

@@ -20,20 +20,6 @@ public class UserController {
         return "user/list";
     }
 
-    @GetMapping("/register")
-    public String add(Model model, @ModelAttribute UserDto userDto) {
-        return "user/register";
-    }
-
-    @PostMapping("/register")
-    public String addPost(Model model, @ModelAttribute UserDto userDto) {
-        UserDto response = userService.save(userDto);
-        if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-        }
-        return "user/register";
-    }
-
     @GetMapping("/get")
     public String update(Model model, @RequestParam String username) {
         UserDto response = userService.findByUserName(username);
@@ -46,6 +32,7 @@ public class UserController {
         UserDto response = userService.update(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            return "user/user";
         }
         return "redirect:/user/list";
     }

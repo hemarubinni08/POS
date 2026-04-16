@@ -16,13 +16,13 @@ public class RoleController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("users", roleService.findAll());
+        model.addAttribute("roles", roleService.findAll());
         return "role/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute RoleDto userDto) {
-        return "role/register";
+        return "role/add";
     }
 
     @PostMapping("/add")
@@ -31,7 +31,7 @@ public class RoleController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
-        return "role/register";
+        return "redirect:/role/list";
     }
 
     @GetMapping("/get")

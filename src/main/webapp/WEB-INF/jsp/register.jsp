@@ -91,24 +91,15 @@
             <form:input path="name"/>
         </div>
 
-        <!-- Email -->
         <div class="form-group">
             <label>Email</label>
-            <form:input path="email" type="email"/>
+            <form:input path="username"/>
         </div>
 
         <div class="form-group">
-            <label>Primary Role</label>
-            <form:select path="role">
-                <form:option value="" label="-- Select Primary Role --"/>
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
-            </form:select>
-        </div>
-
-        <div class="form-group">
-            <label>Additional Roles</label>
+            <label>Roles</label>
             <form:select path="roles" multiple="true">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
+                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
             </form:select>
         </div>
 
@@ -118,18 +109,8 @@
         </div>
 
         <div class="form-group">
-            <label>Username</label>
-            <form:input path="userName"/>
-        </div>
-
-        <div class="form-group">
             <label>Password</label>
             <form:password path="password"/>
-        </div>
-
-        <div class="form-group">
-            <label>Age</label>
-            <form:input path="age"/>
         </div>
 
         <input type="submit" value="Register" class="btn-submit"/>
