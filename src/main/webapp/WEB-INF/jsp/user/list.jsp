@@ -56,7 +56,7 @@
                     <table class="table table-bordered table-hover align-middle text-center">
                         <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Email</th>
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Roles</th>
@@ -68,8 +68,8 @@
                             <tr>
                                 <td>
                                     <a class="user-link"
-                                       href="/user/get?identifier=${user.identifier}">
-                                        ${user.identifier}
+                                       href="/user/get?username=${user.identifier}">
+                                        ${user.username}
                                     </a>
                                 </td>
                                 <td>${user.name}</td>
@@ -77,7 +77,7 @@
                                 <td>${user.roles}</td>
                                 <td>
                                     <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.identifier}"
+                                       href="/user/delete?identifier=${user.username}"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
                                         Delete
                                     </a>

@@ -79,7 +79,7 @@ ${message}
 
     <form:form action="/user/update" method="post" modelAttribute="userDto">
 
-        <form:hidden path="id"/>
+        <form:input type="hidden" path="id"/>
 
         <div class="mb-3">
             <label>Name</label>
@@ -121,7 +121,7 @@ ${message}
     </form:form>
 
     <div class="text-center mt-3">
-        <a href="/user/listOfUsers">← Back to User List</a>
+        <a href="/user/list">← Back to User List</a>
     </div>
 
 </div>
