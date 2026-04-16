@@ -41,13 +41,13 @@
 
                 <div class="card-body">
 
-                    <c:if test="${empty role}">
+                    <c:if test="${empty roles}">
                         <div class="alert alert-warning text-center">
                             No roles found
                         </div>
                     </c:if>
 
-                    <c:if test="${not empty role}">
+                    <c:if test="${not empty roles}">
                         <table class="table table-bordered table-hover text-center align-middle">
                             <thead>
                             <tr>
