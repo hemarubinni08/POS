@@ -82,11 +82,11 @@
                 </div>
 
                 <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
-                    <a href="http://localhost:8080/" class="btn btn-secondary">
+                    <a href="/" class="btn btn-secondary">
                         Home
                     </a>
 
-                    <a href="/role/addRoleJdbc" class="btn btn-success">
+                    <a href="/role/add" class="btn btn-success">
                         + Add New Role
                     </a>
                 </div>
