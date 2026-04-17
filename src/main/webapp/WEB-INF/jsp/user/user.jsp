@@ -77,7 +77,7 @@ ${message}
 <div class="update-card">
     <h3>Update User</h3>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto">
+    <form:form action="/user/update" method="post" modelAttribute="user">
 
         <form:input type="hidden" path="id"/>
 
@@ -107,7 +107,7 @@ ${message}
             </div>
 
             <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
+                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
             </form:select>
 
 
