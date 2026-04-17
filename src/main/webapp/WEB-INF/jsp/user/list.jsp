@@ -62,8 +62,8 @@
                             <th>Roles</th>
                             <th>Action</th>
                         </tr>
-                        </thead>
-                        <tbody>
+                        </head>
+                        <body>
                         <c:forEach var="user" items="${users}">
                             <tr>
                                 <td>
@@ -77,14 +77,14 @@
                                 <td>${user.roles}</td>
                                 <td>
                                     <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
+                                       href="/user/delete?username=${user.username}"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
                                         Delete
                                     </a>
                                 </td>
                             </tr>
                         </c:forEach>
-                        </tbody>
+                        </body>
                     </table>
                 </div>
             </c:if>
