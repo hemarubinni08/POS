@@ -36,4 +36,49 @@ public class NodeServiceImpl implements NodeService {
         }.getType();
         return modelMapper.map(nodes, listType);
     }
+
+    @Override
+    public NodeDto findByIdentifier(String identifier) {
+        return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);
+    }
+
+    @Override
+    public NodeDto save(NodeDto nodeDto) {
+        String identifier = nodeDto.getIdentifier();
+        Node existingNode = nodeRepository.findByIdentifier(identifier);
+        if (existingNode != null) {
+            nodeDto.setMessage("Node with identifier - " + identifier + " already exists");
+            nodeDto.setSuccess(false);
+            return nodeDto;
+        }
+        Node node = modelMapper.map(nodeDto, Node.class);
+        nodeRepository.save(node);
+        return nodeDto;
+    }
+
+    @Override
+    public NodeDto update(NodeDto nodeDto) {
+        String identifier = nodeDto.getIdentifier();
+        Node existingNode = nodeRepository.findByIdentifier(identifier);
+        if (existingNode == null) {
+            nodeDto.setMessage("Node with identifier - " + identifier + " not found");
+            nodeDto.setSuccess(false);
+            return nodeDto;
+        }
+        modelMapper.map(nodeDto, existingNode);
+        nodeRepository.save(existingNode);
+        return nodeDto;
+    }
+
+    @Override
+    public boolean delete(String identifier) {
+        return nodeRepository.deleteByIdentifier(identifier);
+    }
+
+    @Override
+    public List<NodeDto> findAll() {
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
+        return modelMapper.map(nodeRepository.findAll(), listType);
+    }
 }
