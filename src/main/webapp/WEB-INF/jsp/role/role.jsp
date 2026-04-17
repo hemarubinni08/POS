@@ -48,7 +48,7 @@ ${message}
                        method="post"
                        modelAttribute="roleDto">
 
-                <form:hidden path="id" value="${role.id}/>
+                <form:hidden path="id" value="${role.id}"/>
 
                 <div class="mb-4">
                     <label class="form-label">Role Name</label>
