@@ -1,10 +1,7 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.model.Node;
-import com.ust.pos.model.NodeRepository;
-import com.ust.pos.model.User;
-import com.ust.pos.model.UserRepository;
+import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -27,6 +24,7 @@ public class NodeServiceImpl implements NodeService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Override
     public List<NodeDto> getNodesForRoles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
@@ -36,7 +34,6 @@ public class NodeServiceImpl implements NodeService {
         }.getType();
         return modelMapper.map(nodes, listType);
     }
-
     @Override
     public NodeDto findByIdentifier(String identifier) {
         return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);
@@ -72,7 +69,8 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public boolean delete(String identifier) {
-        return nodeRepository.deleteByIdentifier(identifier);
+        nodeRepository.deleteByIdentifier(identifier);
+        return true;
     }
 
     @Override

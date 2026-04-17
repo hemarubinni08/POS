@@ -1,15 +1,16 @@
 package com.ust.pos.role.service;
 
 import com.ust.pos.dto.RoleDto;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Transactional
 public interface RoleService {
-    RoleDto save(RoleDto userDto);
+    RoleDto save(RoleDto roleDto);
 
-    RoleDto update(RoleDto userDto);
+    RoleDto update(RoleDto roleDto);
 
-    boolean delete(String username);
+    boolean delete(String identifier);
 
     List<RoleDto> findAll();
 

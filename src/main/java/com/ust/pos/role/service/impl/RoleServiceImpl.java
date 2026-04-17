@@ -56,7 +56,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public boolean delete(String identifier) {
-        return roleRepository.deleteByIdentifier(identifier);
+        roleRepository.deleteByIdentifier(identifier);
+        return true;
     }
 
     @Override

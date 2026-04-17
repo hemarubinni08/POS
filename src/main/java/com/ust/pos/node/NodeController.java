@@ -2,6 +2,7 @@ package com.ust.pos.node;
 
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.node.service.NodeService;
+import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/node")
 public class NodeController {
+    @Autowired
+    RoleService roleService;
 
     @Autowired
     private NodeService nodeService;
@@ -21,13 +24,14 @@ public class NodeController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute NodeDto userDto) {
+    public String add(Model model, @ModelAttribute NodeDto nodeDto) {
+        model.addAttribute("roles", roleService.findAll());
         return "node/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute NodeDto userDto) {
-        NodeDto response = nodeService.save(userDto);
+    public String addPost(Model model, @ModelAttribute NodeDto nodeDto) {
+        NodeDto response = nodeService.save(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
@@ -36,14 +40,15 @@ public class NodeController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
+        model.addAttribute("roles", roleService.findAll());
         NodeDto response = nodeService.findByIdentifier(identifier);
         model.addAttribute("node", response);
         return "node/node";
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute NodeDto userDto) {
-        NodeDto response = nodeService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute NodeDto nodeDto) {
+        NodeDto response = nodeService.update(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
@@ -53,6 +58,6 @@ public class NodeController {
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         nodeService.delete(identifier);
-        return "node/node";
+        return "redirect:/node/list";
     }
 }

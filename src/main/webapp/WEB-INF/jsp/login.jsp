@@ -1,160 +1,119 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Login</title>
+    <meta charset="UTF-8">
+    <title>Login</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg1: #0f172a;
+            --bg2: #1e293b;
 
-<style>
-*{ box-sizing:border-box; }
+            --card: #ffffff;
+            --text: #0f172a;
+            --muted: #6b7280;
 
-body{
-    margin:0;
-    font-family:Inter,sans-serif;
-    background:#f4f7fb;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-}
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
 
-.container{
-    width:400px;
-    background:#fff;
-    padding:32px;
-    border-radius:16px;
-    box-shadow:0 12px 35px rgba(0,0,0,0.08);
-}
+            --border: #e5e7eb;
+            --radius: 10px;
 
-h2{
-    text-align:center;
-    color:#2563eb;
-    margin-bottom:22px;
-    font-weight:700;
-}
+            --shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
 
-form{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', Arial, sans-serif;
+        }
 
-.field{ position:relative; }
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--bg1), var(--bg2));
+        }
 
-input{
-    width:100%;
-    padding:12px;
-    border:1px solid #e5e7eb;
-    border-radius:10px;
-    font-size:14px;
-    background:#fafafa;
-    outline:none;
-    transition:.2s;
-}
+        form {
+            width: 340px;
+            background: var(--card);
+            padding: 28px 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
 
-input:focus{
-    background:#fff;
-    border-color:#2563eb;
-    box-shadow:0 0 0 3px rgba(37,99,235,.12);
-}
+        h2 {
+            text-align: center;
+            margin-bottom: 22px;
+            font-size: 20px;
+            color: var(--text);
+        }
 
-label{
-    position:absolute;
-    top:10px;
-    left:12px;
-    font-size:12px;
-    color:#6b7280;
-    background:#fff;
-    padding:0 4px;
-    pointer-events:none;
-    transition:.2s;
-}
+        .form-group {
+            margin-bottom: 16px;
+        }
 
-input:focus + label,
-input:not(:placeholder-shown) + label{
-    top:-8px;
-    font-size:11px;
-    color:#2563eb;
-}
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: var(--muted);
+        }
 
-.btn{
-    padding:12px;
-    background:#2563eb;
-    color:#fff;
-    border:none;
-    border-radius:10px;
-    font-weight:600;
-    cursor:pointer;
-}
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: 0.2s;
+        }
 
-.btn:hover{ background:#1e40af; }
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
 
-.toast{
-    position:fixed;
-    top:20px;
-    right:20px;
-    background:#111827;
-    color:#fff;
-    padding:12px 16px;
-    border-radius:10px;
-    font-size:13px;
-    opacity:0;
-    transition:.3s;
-}
-.toast.show{ opacity:1; }
-.toast.success{ background:#16a34a; }
-.toast.error{ background:#dc2626; }
-</style>
+        button {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+        }
+    </style>
 </head>
 
 <body>
 
-<div id="toast" class="toast"></div>
+<form th:action="@{/login}" method="post">
+    <h2>Login</h2>
 
-<div class="container">
-<h2>Login</h2>
-
-<form action="${pageContext.request.contextPath}/login" method="post" onsubmit="return validateLogin(event);">
-
-    <div class="field">
-        <input type="text" id="username" name="username" placeholder=" " />
+    <div class="form-group">
         <label>Username</label>
+        <input type="text" name="username" required />
     </div>
 
-    <div class="field">
-        <input type="password" id="password" name="password" placeholder=" " />
+    <div class="form-group">
         <label>Password</label>
+        <input type="password" name="password" required />
     </div>
 
-    <button type="submit" class="btn">Login</button>
+    <button type="submit">Login</button>
 </form>
-
-</div>
-
-<script>
-function showToast(msg,type="error"){
-    const t=document.getElementById("toast");
-    t.innerText=msg;
-    t.className="toast show "+type;
-    setTimeout(()=>t.className="toast",2500);
-}
-
-function validateLogin(e){
-    const username=document.getElementById("username").value.trim();
-    const password=document.getElementById("password").value.trim();
-
-    if(username==="" || password===""){
-        e.preventDefault();
-        showToast("Please enter username and password","error");
-        return false;
-    }
-
-    showToast("Logging in...","success");
-    return true;
-}
-</script>
 
 </body>
 </html>

@@ -4,150 +4,150 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>User Registration</title>
+    <title>User Registration</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<style>
-body {
-margin: 0;
-font-family: Inter, sans-serif;
-background: linear-gradient(135deg, #eef2ff, #f8fafc);
-height: 100vh;
-display: flex;
-justify-content: center;
-align-items: center;
-}
+    <style>
+        :root {
+            --bg1: #0f172a;
+            --bg2: #1e293b;
 
-/* CARD */
-.register-card {
-width: 850px;
-background: rgba(255,255,255,0.92);
-backdrop-filter: blur(10px);
-padding: 30px;
-border-radius: 20px;
-box-shadow: 0 20px 50px rgba(0,0,0,0.08);
-}
+            --card: #ffffff;
+            --text: #0f172a;
+            --muted: #6b7280;
 
-/* TITLE */
-h2 {
-text-align: center;
-margin-bottom: 20px;
-font-size: 24px;
-font-weight: 700;
-color: #111827;
-}
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
 
-/* GRID LAYOUT */
-.form-grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 18px 25px;
-}
+            --border: #e5e7eb;
 
-/* FULL WIDTH FIELD */
-.full {
-grid-column: span 2;
-}
+            --radius: 14px;
+            --shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
 
-/* FORM GROUP */
-.form-group label {
-font-size: 13px;
-font-weight: 600;
-color: #374151;
-margin-bottom: 6px;
-display: block;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-input, select {
-width: 100%;
-padding: 10px 12px;
-border-radius: 10px;
-border: 1px solid #e5e7eb;
-font-size: 14px;
-outline: none;
-transition: 0.2s;
-}
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--bg1), var(--bg2));
+        }
 
-input:focus, select:focus {
-border-color: #2563eb;
-box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
-}
+        .register-card {
+            width: 440px;
+            background: var(--card);
+            padding: 32px 34px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
 
-/* MULTI SELECT */
-select[multiple] {
-height: 110px;
-}
+        h2 {
+            text-align: center;
+            margin-bottom: 22px;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text);
+        }
 
-/* BUTTON */
-.btn-submit {
-margin-top: 20px;
-width: 100%;
-padding: 12px;
-background: linear-gradient(135deg, #2563eb, #1e40af);
-color: white;
-border: none;
-border-radius: 12px;
-font-size: 15px;
-font-weight: 600;
-cursor: pointer;
-transition: 0.2s;
-}
+        .form-group {
+            margin-bottom: 14px;
+        }
 
-.btn-submit:hover {
-transform: translateY(-2px);
-box-shadow: 0 10px 25px rgba(37,99,235,0.25);
-}
-</style>
+        label {
+            display: block;
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 14px;
+            transition: 0.2s;
+            background: #fff;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        select[multiple] {
+            height: 120px;
+        }
+
+        .btn-submit {
+            margin-top: 12px;
+            width: 100%;
+            padding: 11px 14px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-hover);
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="register-card">
+    <h2>User Registration</h2>
 
-<h2>Create Account</h2>
+    <form:form action="register" method="post" modelAttribute="userDto">
 
-<form:form action="register" method="post" modelAttribute="userDto">
+        <div class="form-group">
+            <label>Name</label>
+            <form:input path="name"/>
+        </div>
 
-<div class="form-grid">
+        <div class="form-group">
+            <label>Email</label>
+            <form:input path="username"/>
+        </div>
 
-<!-- Name -->
-<div class="form-group">
-<label>Name</label>
-<form:input path="name"/>
-</div>
+        <div class="form-group">
+            <label>Roles</label>
+            <form:select path="roles" multiple="true">
+                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+            </form:select>
+        </div>
 
-<!-- Email -->
-<div class="form-group">
-<label>Email</label>
-<form:input path="username"/>
-</div>
+        <div class="form-group">
+            <label>Phone Number</label>
+            <form:input path="phoneNo"/>
+        </div>
 
-<!-- Phone -->
-<div class="form-group">
-<label>Phone Number</label>
-<form:input path="phoneNo"/>
-</div>
+        <div class="form-group">
+            <label>Password</label>
+            <form:password path="password"/>
+        </div>
 
-<!-- Password -->
-<div class="form-group">
-<label>Password</label>
-<form:password path="password"/>
-</div>
+        <button type="submit" class="btn-submit">Register</button>
 
-<!-- Roles (full width) -->
-<div class="form-group full">
-<label>Roles</label>
-<form:select path="roles" multiple="true">
-<form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-</form:select>
-</div>
-
-</div>
-
-<input type="submit" value="Register" class="btn-submit"/>
-
-</form:form>
+    </form:form>
 
 </div>
 

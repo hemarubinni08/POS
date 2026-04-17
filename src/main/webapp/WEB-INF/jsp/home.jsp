@@ -1,173 +1,217 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dashboard</title>
+    <title>Role Management</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f7fb;
+            --surface: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
 
-<style>
-body{
-margin:0;
-font-family:Inter,sans-serif;
-background:linear-gradient(135deg,#eef2ff,#f8fafc);
-color:#1f2937;
-}
+            --primary: #111827;
+            --danger: #ef4444;
 
-/* SIDEBAR */
-.sidebar{
-position:fixed;
-left:0;
-top:0;
-width:250px;
-height:100vh;
-background:#ffffff;
-border-right:1px solid #e5e7eb;
-box-shadow:2px 0 20px rgba(0,0,0,0.05);
-}
+            --border: #e5e7eb;
 
-.sidebar-header{
-padding:18px;
-font-weight:700;
-color:#2563eb;
-border-bottom:1px solid #eee;
-}
+            --radius-sm: 6px;
 
-.sidebar a{
-display:block;
-padding:12px 18px;
-margin:6px 10px;
-text-decoration:none;
-color:#374151;
-border-radius:8px;
-transition:0.2s;
-}
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 6px 18px rgba(0,0,0,0.08);
 
-.sidebar a:hover{
-background:#eef2ff;
-color:#2563eb;
-transform:translateX(4px);
-}
+            --topbar-h: 56px;
+            --sidebar-w: 240px;
+        }
 
-/* CONTENT WRAPPER */
-.content{
-margin-left:250px;
-padding:40px;
-display:flex;
-align-items:center;
-justify-content:center;
-min-height:100vh;
-position:relative;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-/* LOGOUT BUTTON */
-.logout-btn{
-position:absolute;
-top:25px;
-right:30px;
-padding:10px 16px;
-background:#ffffff;
-border:1px solid #e5e7eb;
-border-radius:10px;
-font-size:13px;
-font-weight:600;
-color:#374151;
-text-decoration:none;
-box-shadow:0 4px 12px rgba(0,0,0,0.05);
-transition:0.2s;
-}
+        body {
+            background: var(--bg);
+            color: var(--text);
+        }
 
-.logout-btn:hover{
-background:#f3f4f6;
-color:#2563eb;
-transform:translateY(-2px);
-border-color:#2563eb;
-}
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-/* WELCOME CARD */
-.welcome-card{
-background:rgba(255,255,255,0.9);
-backdrop-filter:blur(10px);
-border-radius:20px;
-padding:50px 60px;
-text-align:center;
-box-shadow:0 20px 50px rgba(0,0,0,0.08);
-max-width:600px;
-animation:fadeIn 0.6s ease-in-out;
-}
+        /* TOPBAR */
+        .topbar {
+            height: var(--topbar-h);
+            background: var(--primary);
+            color: #fff;
 
-.welcome-card h1{
-font-size:34px;
-margin-bottom:10px;
-color:#111827;
-}
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
-.welcome-card p{
-font-size:16px;
-color:#6b7280;
-margin-bottom:20px;
-}
+            padding: 0 16px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
 
-.highlight{
-color:#2563eb;
-font-weight:600;
-}
+            box-shadow: var(--shadow-sm);
+            z-index: 1000;
+        }
 
-.badge{
-display:inline-block;
-margin-top:10px;
-padding:6px 14px;
-border-radius:999px;
-background:#dbeafe;
-color:#1e3a8a;
-font-size:13px;
-}
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-@keyframes fadeIn{
-from{opacity:0; transform:translateY(10px);}
-to{opacity:1; transform:translateY(0);}
-}
-</style>
+        .topbar-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .menu {
+            width: 36px;
+            height: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            padding: 6px;
+        }
+
+        .menu:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .menu div {
+            height: 2px;
+            background: #fff;
+            border-radius: 2px;
+        }
+
+        /* BUTTON */
+        .btn {
+            border: none;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            top: var(--topbar-h);
+            left: -260px;
+            width: var(--sidebar-w);
+            height: calc(100vh - var(--topbar-h));
+
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+
+            transition: 0.25s ease;
+            box-shadow: var(--shadow-md);
+            padding-top: 10px;
+            z-index: 999;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 18px;
+            margin: 4px 10px;
+            border-radius: var(--radius-sm);
+
+            color: var(--muted);
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover {
+            background: #f3f4f6;
+            color: var(--text);
+        }
+
+        /* CONTENT */
+        .content {
+            margin-top: var(--topbar-h);
+            padding: 28px;
+            transition: margin-left 0.25s ease;
+        }
+
+        .sidebar.active ~ .content {
+            margin-left: var(--sidebar-w);
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: var(--muted);
+        }
+    </style>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-<div class="sidebar-header">User Management System</div>
+<div class="topbar">
+    <div class="topbar-left">
+        <div class="menu" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="topbar-title">Role Management</div>
+    </div>
 
-<c:forEach var="node" items="${nodes}">
-<a href="${pageContext.request.contextPath}${node.path}">
-${node.name}
-</a>
-</c:forEach>
+    <form action="${pageContext.request.contextPath}/logout" method="post" style="margin:0;">
+        <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
 </div>
 
-<!-- CONTENT -->
+<div class="sidebar" id="sidebar">
+    <c:forEach var="node" items="${nodes}">
+        <a href="${pageContext.request.contextPath}${node.path}">
+            ${node.identifier}
+        </a>
+    </c:forEach>
+</div>
+
 <div class="content">
-
-<!-- LOGOUT -->
-<a class="logout-btn"
-   href="${pageContext.request.contextPath}/login">
-Logout
-</a>
-
-<!-- WELCOME CARD -->
-<div class="welcome-card">
-
-<h1>Welcome to Dashboard</h1>
-
-<p>
-Hello, <span class="highlight">${sessionScope.userName}</span>
-Welcome back! You are now inside the User Management System.
-</p>
-
-<div class="badge">System Ready</div>
-
-</div>
-
+    <div class="title">Welcome to the Role Management System</div>
+    <div class="subtitle">Please select an option from the menu.</div>
 </div>
 
 </body>
