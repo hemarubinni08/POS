@@ -5,11 +5,11 @@ import com.ust.pos.dto.RoleDto;
 import java.util.List;
 
 public interface RoleService {
-    RoleDto save(RoleDto userDto);
+    RoleDto save(RoleDto nodeDto);
 
-    RoleDto update(RoleDto userDto);
+    RoleDto update(RoleDto nodeDto);
 
-    boolean delete(String username);
+    void delete(String username);
 
     List<RoleDto> findAll();
 
