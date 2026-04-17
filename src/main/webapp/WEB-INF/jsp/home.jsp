@@ -51,7 +51,7 @@ color:#2563eb;
 transform:translateX(4px);
 }
 
-/* CONTENT */
+/* CONTENT WRAPPER */
 .content{
 margin-left:250px;
 padding:40px;
@@ -59,6 +59,31 @@ display:flex;
 align-items:center;
 justify-content:center;
 min-height:100vh;
+position:relative;
+}
+
+/* LOGOUT BUTTON */
+.logout-btn{
+position:absolute;
+top:25px;
+right:30px;
+padding:10px 16px;
+background:#ffffff;
+border:1px solid #e5e7eb;
+border-radius:10px;
+font-size:13px;
+font-weight:600;
+color:#374151;
+text-decoration:none;
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
+transition:0.2s;
+}
+
+.logout-btn:hover{
+background:#f3f4f6;
+color:#2563eb;
+transform:translateY(-2px);
+border-color:#2563eb;
 }
 
 /* WELCOME CARD */
@@ -123,7 +148,15 @@ ${node.name}
 <!-- CONTENT -->
 <div class="content">
 
+<!-- LOGOUT -->
+<a class="logout-btn"
+   href="${pageContext.request.contextPath}/login">
+Logout
+</a>
+
+<!-- WELCOME CARD -->
 <div class="welcome-card">
+
 <h1>Welcome to Dashboard</h1>
 
 <p>
@@ -131,7 +164,7 @@ Hello, <span class="highlight">${sessionScope.userName}</span>
 Welcome back! You are now inside the User Management System.
 </p>
 
-<div class="badge">System is running smoothly</div>
+<div class="badge">System Ready</div>
 
 </div>
 

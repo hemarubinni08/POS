@@ -4,118 +4,150 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Registration</title>
+<title>User Registration</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<style>
+body {
+margin: 0;
+font-family: Inter, sans-serif;
+background: linear-gradient(135deg, #eef2ff, #f8fafc);
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+}
 
-        .register-card {
-            width: 430px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 35px 40px;
-            border-radius: 16px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-        }
+/* CARD */
+.register-card {
+width: 850px;
+background: rgba(255,255,255,0.92);
+backdrop-filter: blur(10px);
+padding: 30px;
+border-radius: 20px;
+box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+}
 
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #4b6cb7;
-            font-weight: 600;
-        }
+/* TITLE */
+h2 {
+text-align: center;
+margin-bottom: 20px;
+font-size: 24px;
+font-weight: 700;
+color: #111827;
+}
 
-        .form-group {
-            margin-bottom: 16px;
-        }
+/* GRID LAYOUT */
+.form-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 18px 25px;
+}
 
-        label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 6px;
-            display: block;
-        }
+/* FULL WIDTH FIELD */
+.full {
+grid-column: span 2;
+}
 
-        input, select {
-            width: 100%;
-            padding: 11px 14px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
+/* FORM GROUP */
+.form-group label {
+font-size: 13px;
+font-weight: 600;
+color: #374151;
+margin-bottom: 6px;
+display: block;
+}
 
-        select[multiple] {
-            height: 130px; /* ✅ MAKES MULTI-SELECT CLEAR */
-        }
+input, select {
+width: 100%;
+padding: 10px 12px;
+border-radius: 10px;
+border: 1px solid #e5e7eb;
+font-size: 14px;
+outline: none;
+transition: 0.2s;
+}
 
-        small {
-            color: #666;
-            font-size: 11px;
-        }
+input:focus, select:focus {
+border-color: #2563eb;
+box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
 
-        .btn-submit {
-            margin-top: 10px;
-            width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, #4b6cb7, #182848);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-    </style>
+/* MULTI SELECT */
+select[multiple] {
+height: 110px;
+}
+
+/* BUTTON */
+.btn-submit {
+margin-top: 20px;
+width: 100%;
+padding: 12px;
+background: linear-gradient(135deg, #2563eb, #1e40af);
+color: white;
+border: none;
+border-radius: 12px;
+font-size: 15px;
+font-weight: 600;
+cursor: pointer;
+transition: 0.2s;
+}
+
+.btn-submit:hover {
+transform: translateY(-2px);
+box-shadow: 0 10px 25px rgba(37,99,235,0.25);
+}
+</style>
 </head>
 
 <body>
 
 <div class="register-card">
-    <h2>User Registration</h2>
 
-    <form:form action="register" method="post" modelAttribute="userDto">
+<h2>Create Account</h2>
 
-        <!-- Name -->
-        <div class="form-group">
-            <label>Name</label>
-            <form:input path="name"/>
-        </div>
+<form:form action="register" method="post" modelAttribute="userDto">
 
-        <div class="form-group">
-            <label>Email</label>
-            <form:input path="username"/>
-        </div>
+<div class="form-grid">
 
-        <div class="form-group">
-            <label>Roles</label>
-            <form:select path="roles" multiple="true">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-            </form:select>
-        </div>
+<!-- Name -->
+<div class="form-group">
+<label>Name</label>
+<form:input path="name"/>
+</div>
 
-        <div class="form-group">
-            <label>Phone Number</label>
-            <form:input path="phoneNo"/>
-        </div>
+<!-- Email -->
+<div class="form-group">
+<label>Email</label>
+<form:input path="username"/>
+</div>
 
-        <div class="form-group">
-            <label>Password</label>
-            <form:password path="password"/>
-        </div>
+<!-- Phone -->
+<div class="form-group">
+<label>Phone Number</label>
+<form:input path="phoneNo"/>
+</div>
 
-        <input type="submit" value="Register" class="btn-submit"/>
+<!-- Password -->
+<div class="form-group">
+<label>Password</label>
+<form:password path="password"/>
+</div>
 
-    </form:form>
+<!-- Roles (full width) -->
+<div class="form-group full">
+<label>Roles</label>
+<form:select path="roles" multiple="true">
+<form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+</form:select>
+</div>
+
+</div>
+
+<input type="submit" value="Register" class="btn-submit"/>
+
+</form:form>
 
 </div>
 
