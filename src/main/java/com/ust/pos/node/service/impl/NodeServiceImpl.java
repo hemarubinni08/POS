@@ -1,0 +1,39 @@
+package com.ust.pos.node.service.impl;
+
+import com.ust.pos.dto.NodeDto;
+import com.ust.pos.model.Node;
+import com.ust.pos.model.NodeRepository;
+import com.ust.pos.model.User;
+import com.ust.pos.model.UserRepository;
+import com.ust.pos.node.service.NodeService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+@Service
+public class NodeServiceImpl implements NodeService {
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private NodeRepository nodeRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public List<NodeDto> getNodesForRoles() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        User currentUser = userRepository.findByUsername(principalObject.getUsername());
+        List<Node> nodes = nodeRepository.findByRoles(currentUser.getRoles());
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
+        return modelMapper.map(nodes, listType);
+    }
+}
