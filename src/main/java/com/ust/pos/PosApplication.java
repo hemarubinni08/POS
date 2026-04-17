@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,8 +28,13 @@ public class PosApplication {
     }
 
     @Bean
-    ModelMapper getModelMapper() {
-        return new ModelMapper();
+    public ModelMapper modelMapper() {
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.STRICT);
+        mapper.getConfiguration().setSkipNullEnabled(true);
+        mapper.getConfiguration().setCollectionsMergeEnabled(false);
+        return mapper;
     }
 
     @Bean
