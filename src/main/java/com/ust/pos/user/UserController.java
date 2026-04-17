@@ -39,6 +39,7 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
+        userService.delete(username);
         return "user/user";
     }
 }
