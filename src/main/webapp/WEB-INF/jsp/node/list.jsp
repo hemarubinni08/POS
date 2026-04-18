@@ -8,20 +8,24 @@
 
     <style>
         :root {
-            --bg1: #0f172a;
-            --bg2: #1e293b;
-
+            --bg: #f6fff8;
             --card: #ffffff;
-            --text: #0f172a;
+
+            --text: #1f2937;
             --muted: #6b7280;
 
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
+            --primary: #28a745;
+            --primary-hover: #218838;
+
+            --accent: #ffc107;
+
+            --danger: #dc3545;
+            --danger-hover: #c82333;
 
             --border: #e5e7eb;
 
             --radius: 14px;
-            --shadow: 0 20px 50px rgba(0,0,0,0.25);
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         * {
@@ -32,10 +36,8 @@
         }
 
         body {
-            min-height: 100vh;
+            background: var(--bg);
             padding: 40px 16px;
-            background: linear-gradient(135deg, var(--bg1), var(--bg2));
-            color: var(--text);
         }
 
         .container {
@@ -55,8 +57,8 @@
             justify-content: space-between;
             align-items: center;
             padding: 18px 20px;
-            background: linear-gradient(135deg, var(--primary), #1e40af);
-            color: #fff;
+            background: var(--primary);
+            color: white;
         }
 
         .header h2 {
@@ -65,18 +67,17 @@
         }
 
         .add-btn {
-            background: #fff;
+            background: white;
             color: var(--primary);
             padding: 8px 12px;
             border-radius: 10px;
             font-size: 13px;
             font-weight: 600;
             text-decoration: none;
-            transition: 0.2s;
         }
 
         .add-btn:hover {
-            background: #f1f5f9;
+            background: #e9f7ef;
         }
 
         .card-body {
@@ -90,16 +91,14 @@
 
         th, td {
             padding: 12px;
-            text-align: left;
             border-bottom: 1px solid var(--border);
             font-size: 13px;
         }
 
         th {
-            font-size: 12px;
             text-transform: uppercase;
+            font-size: 12px;
             color: var(--muted);
-            font-weight: 600;
         }
 
         tr:hover {
@@ -112,15 +111,30 @@
         }
 
         .actions a {
-            margin-right: 10px;
-            font-size: 13px;
+            margin-right: 8px;
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 12px;
             font-weight: 600;
             text-decoration: none;
-            color: var(--primary);
         }
 
-        .actions a:hover {
-            text-decoration: underline;
+        .edit-btn {
+            background: var(--accent);
+            color: black;
+        }
+
+        .edit-btn:hover {
+            background: #e0a800;
+        }
+
+        .delete-btn {
+            background: var(--danger);
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: var(--danger-hover);
         }
 
         .empty {
@@ -130,7 +144,6 @@
             color: var(--muted);
         }
 
-        /* BACK BUTTON */
         .card-footer {
             display: flex;
             justify-content: center;
@@ -145,14 +158,13 @@
             border-radius: 8px;
             font-size: 13px;
             font-weight: 600;
-            background: #e5e7eb;
-            color: #111827;
+            background: var(--accent);
+            color: black;
             text-decoration: none;
-            transition: 0.2s;
         }
 
         .back-home:hover {
-            background: #d1d5db;
+            background: #e0a800;
         }
     </style>
 </head>
@@ -165,7 +177,8 @@
 
         <div class="header">
             <h2>Node Management</h2>
-            <a class="add-btn" href="${pageContext.request.contextPath}/node/add">
+            <a class="add-btn"
+               href="${pageContext.request.contextPath}/node/add">
                 + Add Node
             </a>
         </div>
@@ -201,10 +214,14 @@
                                 </td>
 
                                 <td class="actions">
-                                    <a href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}">
+                                    <a class="edit-btn"
+                                       href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}">
                                         Edit
                                     </a>
-                                    <a href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}">
+
+                                    <a class="delete-btn"
+                                       href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
+                                       onclick="return confirm('Delete this node?');">
                                         Delete
                                     </a>
                                 </td>
@@ -218,7 +235,10 @@
         </div>
 
         <div class="card-footer">
-            <a href="${pageContext.request.contextPath}/" class="back-home">← Back to Home JSP</a>
+            <a href="${pageContext.request.contextPath}/"
+               class="back-home">
+                ← Back to Home
+            </a>
         </div>
 
     </div>

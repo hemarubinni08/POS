@@ -1,119 +1,184 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg1: #0f172a;
-            --bg2: #1e293b;
-
+            --bg: #f6fff8;
             --card: #ffffff;
-            --text: #0f172a;
+            --text: #1f2937;
             --muted: #6b7280;
 
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
+            --primary: #28a745;
+            --primary-hover: #218838;
+
+            --accent: #ffc107;
+            --accent-hover: #e0a800;
 
             --border: #e5e7eb;
-            --radius: 10px;
+            --radius: 14px;
 
-            --shadow: 0 10px 30px rgba(0,0,0,0.25);
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
             font-family: 'Inter', Arial, sans-serif;
+            box-sizing: border-box;
         }
 
         body {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, var(--bg1), var(--bg2));
+            background: var(--bg);
+            margin: 0;
         }
 
-        form {
-            width: 340px;
+        .login-card {
+            width: 380px;
             background: var(--card);
-            padding: 28px 30px;
+            padding: 32px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
+            border-top: 5px solid var(--accent);
         }
 
         h2 {
             text-align: center;
             margin-bottom: 22px;
-            font-size: 20px;
             color: var(--text);
-        }
-
-        .form-group {
-            margin-bottom: 16px;
+            font-weight: 600;
         }
 
         label {
-            display: block;
-            margin-bottom: 6px;
             font-size: 13px;
             color: var(--muted);
+            margin-bottom: 5px;
+            display: block;
         }
 
-        input {
-            width: 100%;
-            padding: 10px 12px;
-            font-size: 14px;
+        .form-control {
+            border-radius: 10px;
+            padding: 10px;
             border: 1px solid var(--border);
-            border-radius: 8px;
-            transition: 0.2s;
         }
 
-        input:focus {
-            outline: none;
+        .form-control:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+            box-shadow: 0 0 0 3px rgba(40,167,69,0.15);
         }
 
-        button {
+        .btn-login {
             width: 100%;
-            padding: 10px 12px;
+            padding: 10px;
             background: var(--primary);
             color: white;
+            border-radius: 10px;
             border: none;
-            border-radius: 8px;
-            font-size: 14px;
             font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
+            margin-top: 10px;
         }
 
-        button:hover {
+        .btn-login:hover {
             background: var(--primary-hover);
         }
+
+        .btn-register {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: var(--accent);
+            color: black;
+            text-align: center;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-top: 10px;
+            text-decoration: none;
+        }
+
+        .btn-register:hover {
+            background: var(--accent-hover);
+            color: black;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 12px 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
     </style>
+
+    <script>
+        function validateLoginForm() {
+            let username = document.getElementsByName("username")[0].value.trim();
+            let password = document.getElementsByName("password")[0].value.trim();
+
+            if (username === "" || password === "") {
+                alert("Please fill in all fields.");
+                return false;
+            }
+
+            let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
+
+            if (!username.match(emailPattern)) {
+                alert("Enter a valid email address.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 
 <body>
 
-<form th:action="@{/login}" method="post">
-    <h2>Login</h2>
+<div class="login-card">
 
-    <div class="form-group">
-        <label>Username</label>
-        <input type="text" name="username" required />
-    </div>
+    <!-- LOGIN FORM -->
+    <form action="${pageContext.request.contextPath}/login"
+          method="post"
+          onsubmit="return validateLoginForm()">
 
-    <div class="form-group">
-        <label>Password</label>
-        <input type="password" name="password" required />
-    </div>
+        <h2>Login</h2>
 
-    <button type="submit">Login</button>
-</form>
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email"
+                   name="username"
+                   class="form-control"
+                   required />
+        </div>
+
+        <div class="mb-3">
+            <label>Password</label>
+            <input type="password"
+                   name="password"
+                   class="form-control"
+                   required />
+        </div>
+
+        <button type="submit" class="btn-login">Login</button>
+    </form>
+
+    <div class="divider">OR</div>
+
+    <!-- REGISTER BUTTON -->
+    <a href="${pageContext.request.contextPath}/register"
+       class="btn-register">
+        New User? Register
+    </a>
+
+</div>
 
 </body>
 </html>

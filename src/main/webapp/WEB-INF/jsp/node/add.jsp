@@ -6,29 +6,31 @@
 <head>
     <title>Add Node</title>
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         :root {
-            --bg1: #0f172a;
-            --bg2: #1e293b;
-
+            --bg: #f6fff8;
             --card: #ffffff;
-            --text: #0f172a;
+
+            --text: #1f2937;
             --muted: #6b7280;
 
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
+            --primary: #28a745;
+            --primary-hover: #218838;
+
+            --accent: #ffc107;
 
             --border: #e5e7eb;
 
             --radius: 14px;
-            --shadow: 0 20px 50px rgba(0,0,0,0.25);
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
         }
 
         body {
@@ -36,20 +38,20 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background: var(--bg);
             padding: 20px;
-            background: linear-gradient(135deg, var(--bg1), var(--bg2));
         }
 
-        .container {
+        .container-box {
             width: 100%;
-            max-width: 460px;
+            max-width: 480px;
         }
 
         .card {
             background: var(--card);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 22px;
+            padding: 24px;
         }
 
         h2 {
@@ -61,86 +63,110 @@
         }
 
         label {
-            display: block;
-            margin-top: 12px;
             font-size: 13px;
             color: var(--muted);
-            font-weight: 500;
+            margin-top: 10px;
         }
 
-        input, select {
-            width: 100%;
+        .form-control, select {
             margin-top: 6px;
-            padding: 10px 12px;
+            border-radius: 10px;
+            padding: 10px;
             border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 14px;
-            background: #fff;
-            transition: 0.2s;
         }
 
-        input:focus, select:focus {
-            outline: none;
+        .form-control:focus, select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+            box-shadow: 0 0 0 3px rgba(40,167,69,0.15);
         }
 
         select[multiple] {
             height: 120px;
         }
 
-        button {
+        .btn-save {
             margin-top: 18px;
             width: 100%;
-            padding: 11px 14px;
-            border: none;
+            padding: 10px;
             border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
+            border: none;
             background: var(--primary);
-            color: #fff;
-            transition: 0.2s;
+            color: white;
+            font-weight: 600;
         }
 
-        button:hover {
+        .btn-save:hover {
             background: var(--primary-hover);
         }
 
-        a {
+        .btn-back {
             display: block;
             text-align: center;
-            margin-top: 14px;
-            font-size: 13px;
-            color: var(--primary);
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 10px;
+            background: var(--accent);
+            color: black;
             font-weight: 600;
             text-decoration: none;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .btn-back:hover {
+            background: #e0a800;
+            color: black;
         }
     </style>
+
+    <script>
+        function validateNode() {
+            let identifier = document.getElementsByName("identifier")[0].value.trim();
+            let path = document.getElementsByName("path")[0].value.trim();
+            let roles = document.getElementsByName("roles")[0];
+
+            if (identifier === "" || path === "") {
+                alert("All fields are required!");
+                return false;
+            }
+
+            if (roles.selectedOptions.length === 0) {
+                alert("Select at least one role!");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 
 <body>
 
-<div class="container">
+<div class="container-box">
 
     <div class="card">
 
         <h2>Add Node</h2>
 
-        <form action="${pageContext.request.contextPath}/node/add" method="post">
+        <form action="${pageContext.request.contextPath}/node/add"
+              method="post"
+              onsubmit="return validateNode()">
 
             <label>Identifier</label>
-            <input type="text" name="identifier" required />
+            <input type="text"
+                   name="identifier"
+                   class="form-control"
+                   required />
 
             <label>Path</label>
-            <input type="text" name="path" required />
+            <input type="text"
+                   name="path"
+                   class="form-control"
+                   required />
 
             <label>Roles</label>
-            <select name="roles" multiple required>
+            <select name="roles"
+                    multiple
+                    class="form-control"
+                    required>
                 <c:forEach var="role" items="${roles}">
                     <option value="${role.identifier}">
                         ${role.identifier}
@@ -148,12 +174,15 @@
                 </c:forEach>
             </select>
 
-            <button type="submit">Save</button>
+            <button type="submit" class="btn-save">
+                Save Node
+            </button>
 
         </form>
 
-        <a href="${pageContext.request.contextPath}/node/list">
-            Back to Node List
+        <a href="${pageContext.request.contextPath}/node/list"
+           class="btn-back">
+            ← Back to Node List
         </a>
 
     </div>

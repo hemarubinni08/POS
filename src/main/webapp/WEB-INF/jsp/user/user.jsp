@@ -7,31 +7,36 @@
 <head>
     <title>Update User</title>
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg1: #0f172a;
-            --bg2: #1e293b;
-
+            --bg: #f6fff8;
             --card: #ffffff;
-            --text: #0f172a;
+
+            --text: #1f2937;
             --muted: #6b7280;
 
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
+            --primary: #28a745;
+            --primary-hover: #218838;
+
+            --accent: #ffc107;
 
             --border: #e5e7eb;
-
             --radius: 14px;
-            --shadow: 0 20px 50px rgba(0,0,0,0.25);
+
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
 
             --success: #16a34a;
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
         }
 
         body {
@@ -39,96 +44,72 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background: var(--bg);
             padding: 20px;
-            background: linear-gradient(135deg, var(--bg1), var(--bg2));
         }
 
-        .container {
+        .container-box {
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
         }
 
         .card {
             background: var(--card);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 24px;
+            padding: 26px;
         }
 
         h3 {
             text-align: center;
-            font-size: 18px;
             font-weight: 600;
             margin-bottom: 18px;
             color: var(--text);
         }
 
         label {
-            display: block;
             font-size: 13px;
             color: var(--muted);
-            font-weight: 500;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
-        input, select {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 8px;
+        .form-control, select {
+            border-radius: 10px;
+            padding: 10px;
             border: 1px solid var(--border);
-            font-size: 14px;
-            transition: 0.2s;
-            background: #fff;
         }
 
-        input:focus, select:focus {
-            outline: none;
+        .form-control:focus, select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-
-        .form-group {
-            margin-bottom: 14px;
+            box-shadow: 0 0 0 3px rgba(40,167,69,0.15);
         }
 
         select[multiple] {
-            height: 120px;
-        }
-
-        .roles-current {
-            font-size: 12px;
-            color: var(--muted);
-            margin-bottom: 8px;
+            height: 110px;
         }
 
         .badge {
-            display: inline-block;
-            padding: 4px 8px;
+            background: #e9f7ef;
+            color: #1e7e34;
             border-radius: 999px;
+            padding: 5px 10px;
             font-size: 11px;
-            background: #e5e7eb;
-            color: #111827;
-            margin-right: 4px;
-            margin-top: 4px;
+            margin: 2px;
+            display: inline-block;
         }
 
-        .btn {
+        .btn-update {
             width: 100%;
-            padding: 11px 14px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-primary {
+            padding: 10px;
             background: var(--primary);
-            color: #fff;
+            color: white;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            margin-top: 10px;
         }
 
-        .btn-primary:hover {
+        .btn-update:hover {
             background: var(--primary-hover);
         }
 
@@ -137,7 +118,7 @@
             text-align: center;
             margin-top: 14px;
             font-size: 13px;
-            color: var(--primary);
+            color: var(--accent);
             font-weight: 600;
             text-decoration: none;
         }
@@ -153,11 +134,32 @@
             margin-bottom: 10px;
         }
     </style>
+
+    <script>
+        function validateForm() {
+            let name = document.getElementsByName("name")[0].value.trim();
+            let email = document.getElementsByName("username")[0].value.trim();
+            let phone = document.getElementsByName("phoneNo")[0].value.trim();
+
+            if (name === "" || email === "" || phone === "") {
+                alert("All fields are required!");
+                return false;
+            }
+
+            let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
+            if (!email.match(emailPattern)) {
+                alert("Invalid email format!");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 
 <body>
 
-<div class="container">
+<div class="container-box">
 
     <c:if test="${not empty message}">
         <div class="message">${message}</div>
@@ -167,47 +169,50 @@
 
         <h3>Update User</h3>
 
-        <form:form action="/user/update" method="post" modelAttribute="user">
+        <form:form action="${pageContext.request.contextPath}/user/update"
+                   method="post"
+                   modelAttribute="user"
+                   onsubmit="return validateForm()">
 
             <form:hidden path="id"/>
 
-            <div class="form-group">
+            <div class="mb-3">
                 <label>Name</label>
-                <form:input path="name" required="true"/>
+                <form:input path="name" cssClass="form-control" required="true"/>
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
                 <label>Email</label>
-                <form:input path="username" required="true"/>
+                <form:input path="username" cssClass="form-control" type="email" required="true"/>
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
                 <label>Phone Number</label>
-                <form:input path="phoneNo" required="true"/>
+                <form:input path="phoneNo" cssClass="form-control" required="true"/>
             </div>
 
-            <div class="form-group">
-
+            <div class="mb-3">
                 <label>Roles</label>
 
-                <div class="roles-current">
-                    Current:
+                <div class="mb-2">
+                    <strong style="font-size:12px; color:var(--muted)">Current:</strong><br/>
                     <c:forEach var="r" items="${user.roles}">
                         <span class="badge">${r}</span>
                     </c:forEach>
                 </div>
 
-                <form:select path="roles" multiple="true">
+                <form:select path="roles" multiple="true" cssClass="form-control" required="true">
                     <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
                 </form:select>
-
             </div>
 
-            <button type="submit" class="btn btn-primary">Update User</button>
+            <button type="submit" class="btn-update">Update User</button>
 
         </form:form>
 
-        <a href="/user/list" class="back-link">← Back to User List</a>
+        <a href="${pageContext.request.contextPath}/user/list" class="back-link">
+            ← Back to User List
+        </a>
 
     </div>
 

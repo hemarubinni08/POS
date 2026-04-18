@@ -6,27 +6,37 @@
 <head>
     <title>Role Management</title>
 
-    <!-- Ensures correct routing (prevents login/navigation issues) -->
     <base href="${pageContext.request.contextPath}/">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg: #0b1220;
-            --panel: rgba(255,255,255,0.06);
-            --text: #e5e7eb;
-            --muted: #9ca3af;
+            --bg: #f6fff8;
+            --panel: #ffffff;
 
-            --danger: #ef4444;
+            --text: #1f2937;
+            --muted: #6b7280;
 
-            --border: rgba(255,255,255,0.08);
+            --primary: #28a745;
+            --primary-hover: #218838;
+
+            --accent: #ffc107;
+
+            --danger: #dc3545;
+
+            --border: #e5e7eb;
 
             --radius: 14px;
 
             --topbar-h: 64px;
             --sidebar-w: 260px;
+
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         * {
@@ -37,7 +47,7 @@
         }
 
         body {
-            background: radial-gradient(circle at top, #111827, #0b1220);
+            background: var(--bg);
             color: var(--text);
         }
 
@@ -46,7 +56,7 @@
             color: inherit;
         }
 
-        /* ================= TOPBAR ================= */
+        /* TOPBAR */
         .topbar {
             position: fixed;
             top: 0;
@@ -60,10 +70,9 @@
 
             padding: 0 20px;
 
-            background: rgba(17, 24, 39, 0.75);
-            backdrop-filter: blur(14px);
-
+            background: white;
             border-bottom: 1px solid var(--border);
+
             z-index: 1000;
         }
 
@@ -78,7 +87,7 @@
             font-size: 16px;
         }
 
-        /* ================= MENU ICON ================= */
+        /* MENU */
         .menu {
             width: 40px;
             height: 36px;
@@ -92,34 +101,22 @@
         }
 
         .menu:hover {
-            background: rgba(255,255,255,0.08);
+            background: #f1f5f9;
         }
 
         .menu div {
             height: 2px;
-            background: #fff;
-            border-radius: 2px;
+            background: #333;
         }
 
-        /* ================= BUTTON ================= */
-        .btn {
-            border: none;
-            padding: 9px 14px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
+        /* BUTTON */
         .btn-danger {
             background: var(--danger);
-            color: white;
+            border-radius: 10px;
+            padding: 8px 14px;
         }
 
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-
-        /* ================= SIDEBAR (FIXED) ================= */
+        /* SIDEBAR */
         .sidebar {
             position: fixed;
             top: var(--topbar-h);
@@ -128,13 +125,11 @@
             width: var(--sidebar-w);
             height: calc(100vh - var(--topbar-h));
 
-            background: rgba(17, 26, 46, 0.92);
-            backdrop-filter: blur(16px);
-
+            background: #ffffff;
             border-right: 1px solid var(--border);
 
             transform: translateX(-100%);
-            transition: transform 0.3s ease;
+            transition: 0.3s;
 
             padding: 16px 10px;
             z-index: 999;
@@ -152,30 +147,27 @@
 
             font-size: 14px;
             color: var(--muted);
-
             transition: 0.2s;
         }
 
         .sidebar a:hover {
-            background: rgba(255,255,255,0.06);
-            color: #fff;
+            background: #f1f5f9;
+            color: var(--primary);
             transform: translateX(4px);
         }
 
-        /* ================= CONTENT (FIXED PUSH BEHAVIOR) ================= */
+        /* CONTENT */
         .content {
             margin-top: var(--topbar-h);
             padding: 30px;
-
-            transition: margin-left 0.3s ease;
-            margin-left: 0;
+            transition: margin-left 0.3s;
         }
 
         .sidebar.active ~ .content {
             margin-left: var(--sidebar-w);
         }
 
-        /* ================= CARD ================= */
+        /* CARD */
         .card {
             max-width: 800px;
             padding: 24px;
@@ -184,7 +176,7 @@
             background: var(--panel);
             border: 1px solid var(--border);
 
-            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
         }
 
         .h1 {
@@ -196,6 +188,11 @@
         .sub {
             font-size: 14px;
             color: var(--muted);
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
         }
     </style>
 
@@ -238,7 +235,7 @@
     <div class="card">
         <div class="h1">Welcome</div>
         <div class="sub">
-            Select a module from the sidebar to manage roles and permissions.
+            Select a <span class="highlight">module</span> from the sidebar to manage roles and permissions.
         </div>
     </div>
 </div>

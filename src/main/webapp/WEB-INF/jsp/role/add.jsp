@@ -10,31 +10,33 @@
     <meta charset="UTF-8">
     <title>Add Role</title>
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         :root {
-            --bg1: #0f172a;
-            --bg2: #1e293b;
-
+            --bg: #f6fff8;
             --card: #ffffff;
-            --text: #0f172a;
+
+            --text: #1f2937;
             --muted: #6b7280;
 
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
+            --primary: #28a745;
+            --primary-hover: #218838;
+
+            --accent: #ffc107;
 
             --success: #16a34a;
 
             --border: #e5e7eb;
 
             --radius: 14px;
-            --shadow: 0 20px 50px rgba(0,0,0,0.25);
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
         }
 
         body {
@@ -43,11 +45,10 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-
-            background: linear-gradient(135deg, var(--bg1), var(--bg2));
+            background: var(--bg);
         }
 
-        .container {
+        .container-box {
             width: 100%;
             max-width: 460px;
         }
@@ -60,7 +61,7 @@
         }
 
         .card-header {
-            background: linear-gradient(135deg, var(--primary), #1e40af);
+            background: var(--primary);
             color: #fff;
             padding: 16px;
             text-align: center;
@@ -75,58 +76,58 @@
         .alert {
             background: #dcfce7;
             color: #166534;
-            padding: 10px 12px;
+            padding: 10px;
             border-radius: 8px;
-            font-size: 13px;
             text-align: center;
             margin-bottom: 12px;
         }
 
         label {
-            display: block;
             font-size: 13px;
             color: var(--muted);
             margin-bottom: 6px;
-            font-weight: 500;
         }
 
-        input {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-size: 14px;
-            transition: 0.2s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-
-        .form-group {
-            margin-bottom: 14px;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 11px 14px;
-            border: none;
+        .form-control {
             border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
+            padding: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(40,167,69,0.15);
         }
 
         .btn-primary {
+            width: 100%;
+            padding: 10px;
             background: var(--primary);
-            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
         }
 
         .btn-primary:hover {
             background: var(--primary-hover);
+        }
+
+        .btn-back {
+            width: 100%;
+            padding: 10px;
+            background: var(--accent);
+            color: black;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            display: block;
+            margin-top: 10px;
+            text-decoration: none;
+        }
+
+        .btn-back:hover {
+            background: #e0a800;
+            color: black;
         }
 
         .card-footer {
@@ -134,14 +135,27 @@
             padding: 12px;
             font-size: 12px;
             color: var(--muted);
-            border-top: 1px solid #f1f5f9;
+            border-top: 1px solid var(--border);
         }
     </style>
+
+    <script>
+        function validateRole() {
+            let role = document.getElementsByName("identifier")[0].value.trim();
+
+            if (role === "") {
+                alert("Role name is required!");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 
 <body>
 
-<div class="container">
+<div class="container-box">
 
     <div class="card">
 
@@ -158,13 +172,16 @@
             </c:if>
 
             <form:form method="post"
-                       action="/role/add"
-                       modelAttribute="roleDto">
+                       action="${pageContext.request.contextPath}/role/add"
+                       modelAttribute="roleDto"
+                       onsubmit="return validateRole()">
 
-                <div class="form-group">
+                <div class="mb-3">
                     <label>Role Name</label>
-                    <form:input path="identifier" cssClass="form-control"
-                                placeholder="Enter role name" />
+                    <form:input path="identifier"
+                                cssClass="form-control"
+                                placeholder="Enter role name"
+                                required="true"/>
                 </div>
 
                 <button type="submit" class="btn btn-primary">
@@ -172,6 +189,12 @@
                 </button>
 
             </form:form>
+
+            <!-- BACK BUTTON -->
+            <a href="${pageContext.request.contextPath}/role/list"
+               class="btn-back">
+                ← Back to Role List
+            </a>
 
         </div>
 

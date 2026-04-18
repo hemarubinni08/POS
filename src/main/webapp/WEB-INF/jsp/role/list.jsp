@@ -8,23 +8,24 @@
 
     <style>
         :root {
-            --bg1: #0f172a;
-            --bg2: #1e293b;
-
+            --bg: #f6fff8;
             --card: #ffffff;
-            --text: #0f172a;
+
+            --text: #1f2937;
             --muted: #6b7280;
 
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
+            --primary: #28a745;
+            --primary-hover: #218838;
 
-            --danger: #ef4444;
-            --danger-hover: #dc2626;
+            --accent: #ffc107;
+
+            --danger: #dc3545;
+            --danger-hover: #c82333;
 
             --border: #e5e7eb;
 
             --radius: 14px;
-            --shadow: 0 20px 50px rgba(0,0,0,0.25);
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         * {
@@ -35,10 +36,8 @@
         }
 
         body {
-            min-height: 100vh;
+            background: var(--bg);
             padding: 40px 16px;
-            background: linear-gradient(135deg, var(--bg1), var(--bg2));
-            color: var(--text);
         }
 
         .container {
@@ -58,8 +57,8 @@
             text-align: center;
             font-size: 18px;
             font-weight: 600;
-            color: #fff;
-            background: linear-gradient(135deg, var(--primary), #1e40af);
+            color: white;
+            background: var(--primary);
         }
 
         .card-body {
@@ -67,11 +66,10 @@
         }
 
         .alert {
-            background: #fef3c7;
-            color: #92400e;
-            padding: 10px 12px;
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
             border-radius: 8px;
-            font-size: 13px;
             text-align: center;
         }
 
@@ -79,8 +77,6 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
-            overflow: hidden;
-            border-radius: 10px;
         }
 
         th, td {
@@ -91,22 +87,14 @@
         }
 
         th {
-            background: #f3f4f6;
-            font-weight: 600;
-            color: var(--text);
+            background: #f9fafb;
+            color: var(--muted);
+            text-transform: uppercase;
+            font-size: 12px;
         }
 
         tr:hover {
             background: #f9fafb;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        .link {
-            color: var(--primary);
-            font-weight: 600;
         }
 
         .btn {
@@ -114,37 +102,35 @@
             border-radius: 8px;
             font-size: 13px;
             font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: 0.2s;
+            text-decoration: none;
             display: inline-block;
         }
 
         .btn-danger {
             background: var(--danger);
-            color: #fff;
+            color: white;
         }
 
         .btn-danger:hover {
             background: var(--danger-hover);
         }
 
-        .btn-secondary {
-            background: #e5e7eb;
-            color: #111827;
-        }
-
-        .btn-secondary:hover {
-            background: #d1d5db;
-        }
-
         .btn-success {
-            background: #16a34a;
+            background: var(--primary);
             color: white;
         }
 
         .btn-success:hover {
-            background: #15803d;
+            background: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--accent);
+            color: black;
+        }
+
+        .btn-secondary:hover {
+            background: #e0a800;
         }
 
         .card-footer {
@@ -154,22 +140,6 @@
             padding: 16px;
             background: #f9fafb;
             border-top: 1px solid var(--border);
-        }
-
-        /* NEW BACK BUTTON */
-        .back-home {
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            background: #e5e7eb;
-            color: #111827;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-
-        .back-home:hover {
-            background: #d1d5db;
         }
     </style>
 </head>
@@ -181,7 +151,7 @@
     <div class="card">
 
         <div class="card-header">
-            List of Roles
+            Role List
         </div>
 
         <div class="card-body">
@@ -203,17 +173,12 @@
                     <tbody>
                     <c:forEach var="role" items="${roles}">
                         <tr>
-                            <td>
-
-                                    ${role.id}
-
-                            </td>
-
+                            <td>${role.id}</td>
                             <td>${role.identifier}</td>
 
                             <td>
                                 <a class="btn btn-danger"
-                                   href="/role/delete?identifier=${role.identifier}"
+                                   href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
                                    onclick="return confirm('Are you sure you want to delete this role?');">
                                     Delete
                                 </a>
@@ -221,15 +186,21 @@
                         </tr>
                     </c:forEach>
                     </tbody>
-
                 </table>
             </c:if>
 
         </div>
 
         <div class="card-footer">
-            <a href="/role/add" class="btn btn-success">+ Add New Role</a>
-            <a href="/" class="back-home">← Back to Home JSP</a>
+            <a href="${pageContext.request.contextPath}/role/add"
+               class="btn btn-success">
+                + Add Role
+            </a>
+
+            <a href="${pageContext.request.contextPath}/"
+               class="btn btn-secondary">
+                ← Back to Home
+            </a>
         </div>
 
     </div>

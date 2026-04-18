@@ -8,23 +8,24 @@
 
     <style>
         :root {
-            --bg1: #0f172a;
-            --bg2: #1e293b;
-
+            --bg: #f6fff8;
             --card: #ffffff;
-            --text: #0f172a;
+
+            --text: #1f2937;
             --muted: #6b7280;
 
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
+            --primary: #28a745;
+            --primary-hover: #218838;
 
-            --danger: #ef4444;
-            --danger-hover: #dc2626;
+            --accent: #ffc107;
+
+            --danger: #dc3545;
+            --danger-hover: #c82333;
 
             --border: #e5e7eb;
 
             --radius: 14px;
-            --shadow: 0 20px 50px rgba(0,0,0,0.25);
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         * {
@@ -35,10 +36,8 @@
         }
 
         body {
-            min-height: 100vh;
+            background: var(--bg);
             padding: 40px 16px;
-            background: linear-gradient(135deg, var(--bg1), var(--bg2));
-            color: var(--text);
         }
 
         .container {
@@ -58,19 +57,12 @@
             text-align: center;
             font-size: 18px;
             font-weight: 600;
-            color: #fff;
-            background: linear-gradient(135deg, var(--primary), #1e40af);
+            color: white;
+            background: var(--primary);
         }
 
         .card-body {
             padding: 18px;
-        }
-
-        h3 {
-            text-align: center;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
         }
 
         table {
@@ -89,7 +81,6 @@
             font-size: 12px;
             text-transform: uppercase;
             color: var(--muted);
-            font-weight: 600;
         }
 
         tr:hover {
@@ -111,38 +102,35 @@
             border-radius: 8px;
             font-size: 13px;
             font-weight: 600;
-            border: none;
-            cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            transition: 0.2s;
         }
 
         .btn-danger {
             background: var(--danger);
-            color: #fff;
+            color: white;
         }
 
         .btn-danger:hover {
             background: var(--danger-hover);
         }
 
-        .btn-secondary {
-            background: #e5e7eb;
-            color: #111827;
-        }
-
-        .btn-secondary:hover {
-            background: #d1d5db;
-        }
-
         .btn-success {
-            background: #16a34a;
-            color: #fff;
+            background: var(--primary);
+            color: white;
         }
 
         .btn-success:hover {
-            background: #15803d;
+            background: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--accent);
+            color: black;
+        }
+
+        .btn-secondary:hover {
+            background: #e0a800;
         }
 
         .card-footer {
@@ -159,11 +147,10 @@
         }
 
         .alert {
-            background: #fef3c7;
-            color: #92400e;
-            padding: 10px 12px;
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
             border-radius: 8px;
-            font-size: 13px;
             text-align: center;
         }
 
@@ -171,23 +158,6 @@
             font-size: 12px;
             color: var(--muted);
             margin-top: 10px;
-        }
-
-        /* NEW BACK BUTTON STYLE */
-        .back-home {
-            display: inline-block;
-            padding: 7px 10px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            background: #e5e7eb;
-            color: #111827;
-            transition: 0.2s;
-        }
-
-        .back-home:hover {
-            background: #d1d5db;
         }
     </style>
 </head>
@@ -225,7 +195,7 @@
                         <tr>
                             <td>
                                 <a class="user-link"
-                                   href="/user/get?username=${user.username}">
+                                   href="${pageContext.request.contextPath}/user/get?username=${user.username}">
                                     ${user.username}
                                 </a>
                             </td>
@@ -236,7 +206,7 @@
 
                             <td>
                                 <a class="btn btn-danger"
-                                   href="/user/delete?username=${user.username}"
+                                   href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
                                    onclick="return confirm('Are you sure you want to delete this user?');">
                                     Delete
                                 </a>
@@ -253,8 +223,13 @@
         <div class="card-footer">
 
             <div class="footer-actions">
-                <a href="/register" class="btn btn-success">Register</a>
-                <a href="/" class="back-home">← Back to Home JSP</a>
+                <a href="${pageContext.request.contextPath}/register" class="btn btn-success">
+                    Register
+                </a>
+
+                <a href="${pageContext.request.contextPath}/" class="btn btn-secondary">
+                    ← Back to Home
+                </a>
             </div>
 
             <div class="muted">User Management System</div>
