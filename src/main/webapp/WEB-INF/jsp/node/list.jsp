@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Role List</title>
+    <title>Node List</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -28,41 +28,43 @@
         <div class="col-md-8">
 
             <!-- Page Title -->
-            <h4 class="text-center mb-4">List of Roles</h4>
+            <h4 class="text-center mb-4">List of Nodes</h4>
 
             <!-- Empty State -->
-            <c:if test="${empty roles}">
+            <c:if test="${empty nodes}">
                 <div class="alert alert-warning text-center">
-                    No roles found
+                    No nodes found
                 </div>
             </c:if>
 
-            <!-- Roles Table -->
-            <c:if test="${not empty roles}">
+            <!-- Nodes Table -->
+            <c:if test="${not empty nodes}">
                 <table class="table table-bordered table-hover align-middle">
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Role</th>
-                        <th>Description</th>
+                        <th>Identifier</th>
+                        <th>Path</th>
+                        <th>Nodes</th>
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="role" items="${roles}">
+                    <c:forEach var="node" items="${nodes}">
                         <tr>
-                            <td>${role.id}</td>
-                            <td>${role.identifier}</td>
-                            <td>${role.description}</td>
+                            <td>${node.id}</td>
+                            <td>${node.identifier}</td>
+                            <td>${node.path}</td>
+                            <td>${node.roles}</td>
                             <td class="d-flex justify-content-center gap-2">
-                                <a href="/role/get?identifier=${role.identifier}"
-                                   class="btn btn-primary btn-sm">
+                                <a href="/node/get?identifier=${node.identifier}"
+                                   class="btn btn-success btn-sm">
                                     Edit
                                 </a>
 
-                                <a href="/role/delete?identifier=${role.identifier}"
+                                <a href="/node/delete?identifier=${node.identifier}"
                                    class="btn btn-danger btn-sm"
-                                   onclick="return confirm('Are you sure you want to delete this role?');">
+                                   onclick="return confirm('Are you sure you want to delete this node?');">
                                     Delete
                                 </a>
                             </td>
@@ -73,9 +75,15 @@
                 </table>
             </c:if>
 
+            <!-- Action Buttons -->
             <div class="d-flex justify-content-center gap-3 mt-4">
-                <a href="/" class="btn btn-secondary">Home</a>
-                <a href="/role/add" class="btn btn-success">+ Add New Role</a>
+                <a href="/" class="btn btn-secondary">
+                    Home
+                </a>
+
+                <a href="/node/add" class="btn btn-success">
+                    + Add New Node
+                </a>
             </div>
 
         </div>

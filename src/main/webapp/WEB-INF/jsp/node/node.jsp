@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Role</title>
+    <title>Edit Node</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -35,40 +35,54 @@ ${message}
 <div class="card shadow-lg">
     <div class="card-body">
 
-        <h4 style="color: #5C4F4A;" class="text-center mb-4">Edit Role</h4>
+        <h4 style="color: #5C4F4A;" class="text-center mb-4">Edit Node</h4>
 
-        <c:if test="${empty roleDto}">
+        <c:if test="${empty node}">
             <div class="alert alert-danger text-center">
-                Role not found
+                Node not found
             </div>
         </c:if>
 
-        <c:if test="${not empty roleDto}">
-            <form:form action="/role/update"
+        <c:if test="${not empty node}">
+            <form:form action="/node/update"
                        method="post"
-                       modelAttribute="roleDto">
+                       modelAttribute="nodeDto">
 
-                <form:hidden path="id" value="${roleDto.id}"/>
+                <form:hidden path="id" value="${node.id}"/>
 
                 <div class="mb-4">
-                    <label class="form-label">Role Name</label>
+                    <label class="form-label">Node Name</label>
                     <form:input path="identifier"
                                 cssClass="form-control"
-                                placeholder="Enter role"
-                                required="true"
-                                readonly="true"/>
+                                placeholder="Enter node"
+                                value="${node.identifier}"
+                                required="true" readonly="true"/>
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label">Role Description</label>
-                    <form:textarea path="description"
+                    <label class="form-label">Node Path</label>
+                    <form:input path="path"
                                 cssClass="form-control"
-                                placeholder="Enter description"
+                                placeholder="Enter path"
+                                value="${node.path}"
                                 required="true"/>
                 </div>
 
+                <div class="mb-4">
+                    <label class="form-label">Node Roles</label>
+                    <div class="mb-1 text-muted">
+                        Current:
+                        <c:forEach var="r" items="${node.roles}">
+                            <span class="badge bg-secondary me-1">${r}</span>
+                        </c:forEach>
+                    </div>
+                    <form:select path="roles" multiple="true" cssClass="form-control">
+                        <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+                    </form:select>
+                </div>
+
                 <div class="d-flex justify-content-between">
-                    <a href="/role/list" class="btn btn-outline-secondary">
+                    <a href="/node/list" class="btn btn-outline-secondary">
                         Cancel
                     </a>
                     <button type="submit" class="btn btn-success">
@@ -78,6 +92,7 @@ ${message}
 
             </form:form>
         </c:if>
+
     </div>
 </div>
 

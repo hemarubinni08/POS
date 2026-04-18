@@ -12,16 +12,12 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-color: #EDE9E6;
             min-height: 100vh;
         }
 
-        .card {
-            border-radius: 15px;
-        }
-
-        .table th {
-            background-color: #343a40;
+        .table thead th {
+            background-color: #C9996B !important;
             color: white;
         }
 
@@ -39,75 +35,73 @@
 <body>
 
 <div class="container mt-5">
-    <div class="card shadow-lg">
-        <div class="card-body">
 
-            <h3 class="text-center mb-4">User Management</h3>
+    <!-- Page Title -->
+    <h3 class="text-center mb-4">User Management</h3>
 
-            <!-- NO USERS MESSAGE -->
-            <c:if test="${empty users}">
-                <div class="alert alert-warning text-center">
-                    No users found
-                </div>
-            </c:if>
-
-            <c:if test="${not empty users}">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center">
-                        <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Roles</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="user" items="${users}">
-                            <tr>
-                                <td>
-                                    <a class="user-link"
-                                       href="/user/get?username=${user.username}">
-                                        ${user.username}
-                                    </a>
-                                </td>
-                                <td>${user.name}</td>
-                                <td>${user.phoneNo}</td>
-                                <td>${user.roles}</td>
-                                <td>
-                                    <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
-                                       onclick="return confirm('Are you sure you want to delete this user?');">
-                                        Delete
-                                    </a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </c:if>
-
+    <!-- NO USERS MESSAGE -->
+    <c:if test="${empty users}">
+        <div class="alert alert-warning text-center">
+            No users found
         </div>
+    </c:if>
 
-        <div class="card-footer text-center">
-            <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">
-                    Home
-                </a>
+    <!-- USERS TABLE -->
+    <c:if test="${not empty users}">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Roles</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="user" items="${users}">
+                    <tr>
+                        <td>${user.username}</td>
+                        <td>${user.name}</td>
+                        <td>${user.phoneNo}</td>
+                        <td>${user.roles}</td>
+                        <td class="d-flex justify-content-center gap-2">
+                            <a class="btn btn-primary btn-sm"
+                               href="/user/get?username=${user.username}">
+                                Edit
+                            </a>
 
-                <a href="/register" class="btn btn-success">
-                    Register
-                </a>
-            </div>
+                            <a class="btn btn-danger btn-sm"
+                               href="/user/delete?username=${user.username}"
+                               onclick="return confirm('Are you sure you want to delete this user?');">
+                                Delete
+                            </a>
+                        </td>
 
-            <div class="text-muted small mt-2">
-                User Management System
-            </div>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
+    </c:if>
 
+    <!-- ACTION BUTTONS -->
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <a href="/" class="btn btn-secondary">
+            Home
+        </a>
+
+        <a href="/register" class="btn btn-success">
+            Register
+        </a>
     </div>
+
+    <!-- FOOTER TEXT -->
+    <div class="text-center text-muted small mt-3">
+        User Management System
+    </div>
+
 </div>
 
 </body>

@@ -36,7 +36,7 @@
 
         <div class="card shadow-lg">
             <div class="card-header text-center text-white">
-                <h4 class="mb-0">Add New Role</h4>
+                <h4 class="mb-0">Add New Node</h4>
             </div>
 
             <div class="card-body">
@@ -48,25 +48,31 @@
                 </c:if>
 
                 <form:form method="post"
-                           action="/role/add"
-                           modelAttribute="roleDto">
+                           action="/node/add"
+                           modelAttribute="nodeDto">
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Role Name</label>
+                        <label class="form-label fw-semibold">Node Name</label>
                         <form:input path="identifier"
                                     cssClass="form-control"
-                                    placeholder="Enter role name" />
+                                    placeholder="Enter node name" />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Role Name</label>
-                        <form:textarea path="description"
+                        <label class="form-label fw-semibold">Node Path</label>
+                        <form:input path="path"
                                     cssClass="form-control"
-                                    placeholder="Enter description"
-                                    required="true"/>
+                                    placeholder="Enter node path" />
                     </div>
 
-                    <div class="d-grid">
+                    <div class="form-group">
+                        <label>Roles</label>
+                        <form:select path="roles" cssClass="form-control" multiple="true">
+                            <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+                        </form:select>
+                    </div>
+
+                    <div class="d-grid mt-3">
                         <button type="submit" class="btn btn-success btn-md">
                             Add Role
                         </button>
@@ -74,7 +80,7 @@
 
                 </form:form>
                 <div class="text-center text-white">
-                    <a href="/role/list">Back to List</a>
+                    <a href="/node/list">Back to List</a>
                 </div>
 
             </div>
