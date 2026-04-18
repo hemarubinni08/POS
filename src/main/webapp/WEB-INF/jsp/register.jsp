@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -44,6 +45,7 @@
             align-items: center;
         }
 
+        /* BACK BUTTON */
         .back-arrow {
             position: absolute;
             top: 20px;
@@ -157,10 +159,17 @@
 
 <body>
 
-<a href="${pageContext.request.contextPath}/user/list" class="back-arrow">←</a>
+<a href="${pageContext.request.contextPath}/login" class="back-arrow">←</a>
 
 <div class="register-card">
+
     <h2>Register User</h2>
+
+    <c:if test="${not empty errorMsg}">
+        <div class="alert alert-danger text-center">
+            ${errorMsg}
+        </div>
+    </c:if>
 
     <form:form action="register"
                method="post"
@@ -169,8 +178,8 @@
 
         <div class="row">
 
-            <!-- LEFT -->
             <div class="col-md-6">
+
                 <div class="mb-3">
                     <label>Name</label>
                     <form:input path="name" cssClass="form-control" required="true"/>
@@ -190,10 +199,12 @@
                                 maxlength="10"
                                 required="true"/>
                 </div>
+
             </div>
 
-            <!-- RIGHT -->
+            <!-- RIGHT SIDE -->
             <div class="col-md-6">
+
                 <div class="mb-3">
                     <label>Password</label>
                     <form:password path="password" cssClass="form-control" required="true"/>
@@ -205,6 +216,7 @@
                         <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
                     </form:select>
                 </div>
+
             </div>
 
         </div>
