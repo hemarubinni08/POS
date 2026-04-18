@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <title>Register</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -23,7 +22,6 @@
         }
 
         h3 {
-            color: #000;
             font-weight: 600;
         }
 
@@ -45,7 +43,6 @@
 
 <div class="card shadow p-4">
 
-    <!-- TITLE -->
     <h3 class="text-center mb-4">Register</h3>
 
     <!-- ERROR MESSAGE -->
@@ -55,7 +52,6 @@
         </div>
     </c:if>
 
-    <!-- FORM -->
     <form:form action="register" method="post" modelAttribute="userDto">
 
         <!-- NAME -->
@@ -64,35 +60,51 @@
             <form:input path="name" cssClass="form-control" required="required"/>
         </div>
 
-        <!-- EMAIL -->
+        <!-- EMAIL (SAFE + VALIDATED) -->
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <form:input path="username" type="email" cssClass="form-control" required="required"/>
+
+            <input type="email"
+                   name="username"
+                   class="form-control"
+                   required
+                   pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+                   title="Enter a valid email like example@gmail.com" />
         </div>
 
-        <!-- ROLES -->
+        <!-- ROLES (REQUIRED) -->
         <div class="mb-3">
             <label class="form-label">Roles</label>
 
-            <div class="role-box">
+            <div class="role-box" id="roleBox">
+
                 <c:forEach items="${roles}" var="role">
                     <div class="form-check">
-                        <form:checkbox path="roles"
-                                       value="${role.identifier}"
-                                       cssClass="form-check-input"
-                                       id="role_${role.identifier}" />
+
+                        <input type="checkbox"
+                               name="roles"
+                               value="${role.identifier}"
+                               class="form-check-input role-check"
+                               id="role_${role.identifier}" />
 
                         <label class="form-check-label" for="role_${role.identifier}">
                             ${role.identifier}
                         </label>
+
                     </div>
                 </c:forEach>
+
             </div>
+
+            <small id="roleError" class="text-danger d-none">
+                Please select at least one role
+            </small>
         </div>
 
         <!-- PHONE -->
         <div class="mb-3">
             <label class="form-label">Phone Number</label>
+
             <form:input path="phoneNo"
                         cssClass="form-control"
                         maxlength="10"
@@ -112,7 +124,7 @@
             Register
         </button>
 
-        <!-- LOGIN LINK -->
+        <!-- LOGIN -->
         <div class="text-center mt-3">
             <small>
                 Already have an account?
@@ -123,19 +135,44 @@
     </form:form>
 </div>
 
-<!-- AUTO HIDE ERROR -->
+<!-- ROLE VALIDATION SCRIPT -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const alertBox = document.getElementById("errorAlert");
+document.addEventListener("DOMContentLoaded", function () {
 
-        if (alertBox) {
-            setTimeout(() => {
-                alertBox.style.opacity = "0";
-                alertBox.style.transition = "all 0.5s ease";
-                setTimeout(() => alertBox.remove(), 500);
-            }, 3000);
+    const checks = document.querySelectorAll(".role-check");
+    const error = document.getElementById("roleError");
+
+    function validateRoles() {
+        let selected = false;
+
+        checks.forEach(c => {
+            if (c.checked) selected = true;
+        });
+
+        if (selected) {
+            error.classList.add("d-none");
+        }
+    }
+
+    checks.forEach(c => {
+        c.addEventListener("change", validateRoles);
+    });
+
+    document.querySelector("form").addEventListener("submit", function (e) {
+
+        let selected = false;
+
+        checks.forEach(c => {
+            if (c.checked) selected = true;
+        });
+
+        if (!selected) {
+            e.preventDefault();
+            error.classList.remove("d-none");
         }
     });
+
+});
 </script>
 
 </body>
