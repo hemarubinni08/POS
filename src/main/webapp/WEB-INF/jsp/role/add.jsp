@@ -10,7 +10,6 @@
     <meta charset="UTF-8">
     <title>Add Role</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -25,8 +24,6 @@
             --primary-hover: #218838;
 
             --accent: #ffc107;
-
-            --success: #16a34a;
 
             --border: #e5e7eb;
 
@@ -136,14 +133,6 @@
         .btn-primary:hover {
             background: var(--primary-hover);
         }
-
-        .card-footer {
-            text-align: center;
-            padding: 12px;
-            font-size: 12px;
-            color: var(--muted);
-            border-top: 1px solid var(--border);
-        }
     </style>
 
     <script>
@@ -192,6 +181,14 @@
                     <form:input path="identifier"
                                 cssClass="form-control"
                                 placeholder="Enter role name"
+                                required="true"/>
+                </div>
+
+                <div class="mb-3">
+                    <label>Description</label>
+                    <form:input path="description"
+                                cssClass="form-control"
+                                placeholder="Enter role description"
                                 required="true"/>
                 </div>
 

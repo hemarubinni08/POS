@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Role List</title>
+    <title>Role Management</title>
 
     <style>
         :root {
@@ -36,31 +36,28 @@
         }
 
         body {
-            position: relative;
-            background: var(--bg);
+            min-height: 100vh;
             padding: 40px 16px;
+            background: var(--bg);
+            color: var(--text);
+            position: relative;
         }
 
         .back-arrow {
             position: absolute;
             top: 20px;
             left: 20px;
-
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 50%;
             width: 42px;
             height: 42px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
-            border-radius: 50%;
-            background: var(--card);
-            border: 1px solid var(--border);
-
+            text-decoration: none;
             color: var(--text);
             font-size: 18px;
-            text-decoration: none;
-
             box-shadow: var(--shadow);
             transition: 0.2s;
         }
@@ -71,7 +68,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1100px;
             margin: auto;
         }
 
@@ -95,50 +92,47 @@
             padding: 18px;
         }
 
-        .alert {
-            background: #fff3cd;
-            color: #856404;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
         }
 
         th, td {
             padding: 12px;
             text-align: center;
             border-bottom: 1px solid var(--border);
-            font-size: 14px;
+            font-size: 13px;
         }
 
         th {
-            background: #f9fafb;
-            color: var(--muted);
-            text-transform: uppercase;
             font-size: 12px;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-weight: 600;
+            background: #f9fafb;
         }
 
         tr:hover {
             background: #f9fafb;
         }
 
+        .actions a {
+            margin-right: 6px;
+        }
+
         .btn {
-            padding: 6px 10px;
+            padding: 7px 10px;
             border-radius: 8px;
             font-size: 13px;
             font-weight: 600;
             text-decoration: none;
             display: inline-block;
+            transition: 0.2s;
         }
 
         .btn-danger {
             background: var(--danger);
-            color: white;
+            color: #fff;
         }
 
         .btn-danger:hover {
@@ -147,20 +141,42 @@
 
         .btn-success {
             background: var(--primary);
-            color: white;
+            color: #fff;
         }
 
         .btn-success:hover {
             background: var(--primary-hover);
         }
 
+        .btn-secondary {
+            background: var(--accent);
+            color: black;
+        }
+
+        .btn-secondary:hover {
+            background: #e0a800;
+        }
+
         .card-footer {
+            padding: 16px;
+            text-align: center;
+            background: #f9fafb;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-actions {
             display: flex;
             justify-content: center;
             gap: 12px;
-            padding: 16px;
-            background: #f9fafb;
-            border-top: 1px solid var(--border);
+        }
+
+        .alert {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-align: center;
         }
     </style>
 </head>
@@ -174,7 +190,7 @@
     <div class="card">
 
         <div class="card-header">
-            Role List
+            Role Management
         </div>
 
         <div class="card-body">
@@ -188,7 +204,8 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Roles</th>
+                        <th>Role</th>
+                        <th>Description</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -198,27 +215,40 @@
                         <tr>
                             <td>${role.id}</td>
                             <td>${role.identifier}</td>
+                            <td>${role.description}</td>
 
-                            <td>
+                            <td class="actions">
+
+                               <a class="btn btn-secondary"
+                                  href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}">
+                                   Edit
+                               </a>
+
                                 <a class="btn btn-danger"
                                    href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
                                    onclick="return confirm('Are you sure you want to delete this role?');">
                                     Delete
                                 </a>
+
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
+
                 </table>
             </c:if>
 
         </div>
 
         <div class="card-footer">
-            <a href="${pageContext.request.contextPath}/role/add"
-               class="btn btn-success">
-                + Add Role
-            </a>
+
+            <div class="footer-actions">
+                <a href="${pageContext.request.contextPath}/role/add"
+                   class="btn btn-success">
+                    + Add Role
+                </a>
+            </div>
+
         </div>
 
     </div>

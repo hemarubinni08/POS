@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -9,27 +9,26 @@
 
     <style>
         :root {
-            --bg1: #0f172a;
-            --bg2: #1e293b;
-
+            --bg: #f6fff8;
             --card: #ffffff;
-            --text: #0f172a;
+
+            --text: #1f2937;
             --muted: #6b7280;
 
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
+            --primary: #28a745;
+            --primary-hover: #218838;
+
+            --accent: #ffc107;
 
             --border: #e5e7eb;
 
             --radius: 14px;
-            --shadow: 0 20px 50px rgba(0,0,0,0.25);
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
         }
 
         body {
@@ -37,18 +36,48 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, var(--bg1), var(--bg2));
+            background: var(--bg);
+            padding: 20px;
+            position: relative;
+        }
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 18px;
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+
+        .back-arrow:hover {
+            background: var(--accent);
+            color: black;
+        }
+
+        .container-box {
+            width: 100%;
+            max-width: 480px;
         }
 
         .card {
-            width: 420px;
             background: var(--card);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 26px;
+            padding: 24px;
         }
 
-        h4 {
+        h2 {
             text-align: center;
             font-size: 18px;
             font-weight: 600;
@@ -56,130 +85,94 @@
             color: var(--text);
         }
 
-        .form-group {
-            margin-bottom: 14px;
-        }
-
         label {
-            display: block;
             font-size: 13px;
             color: var(--muted);
-            margin-bottom: 6px;
-            font-weight: 500;
+            margin-top: 10px;
         }
 
-        input {
-            width: 100%;
-            padding: 10px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            font-size: 14px;
-            transition: 0.2s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-
-        input[readonly] {
-            background: #f3f4f6;
-            cursor: not-allowed;
-        }
-
-        .help-text {
-            font-size: 11px;
-            color: var(--muted);
+        .form-control {
             margin-top: 6px;
-            line-height: 1.4;
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 16px;
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 10px 12px;
             border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            border: none;
-            transition: 0.2s;
+            padding: 10px;
+            border: 1px solid var(--border);
             width: 100%;
         }
 
-        .btn-secondary {
-            background: #e5e7eb;
-            color: #111827;
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(40,167,69,0.15);
         }
 
-        .btn-secondary:hover {
-            background: #d1d5db;
-        }
-
-        .btn-primary {
+        .btn-update {
+            margin-top: 18px;
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
             background: var(--primary);
-            color: #fff;
+            color: white;
+            font-weight: 600;
+            transition: 0.2s;
         }
 
-        .btn-primary:hover {
+        .btn-update:hover {
             background: var(--primary-hover);
         }
 
-        .alert {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            text-align: center;
-            margin-bottom: 12px;
+        .readonly-field {
+            background: #f3f4f6;
+            cursor: not-allowed;
         }
     </style>
 </head>
 
 <body>
 
-<div class="card">
+<a href="${pageContext.request.contextPath}/role/list" class="back-arrow">
+    ←
+</a>
 
-    <h4>Edit Role</h4>
+<div class="container-box">
+    <div class="card">
 
-    <c:if test="${empty role}">
-        <div class="alert">Role not found</div>
-    </c:if>
+        <h2>Edit Role</h2>
 
-    <c:if test="${not empty role}">
+        <c:if test="${empty role}">
+            <div style="color:red; text-align:center;">
+                Role not found
+            </div>
+        </c:if>
 
-        <form:form action="/role/update" method="post" modelAttribute="role">
+        <c:if test="${not empty role}">
 
-            <form:hidden path="id"/>
+            <form:form action="${pageContext.request.contextPath}/role/update"
+                       method="post"
+                       modelAttribute="role">
 
-            <div class="form-group">
+                <form:hidden path="id"/>
+                <form:hidden path="identifier"/>
+
                 <label>Role Name</label>
+                <input type="text"
+                       class="form-control readonly-field"
+                       value="${role.identifier}"
+                       readonly />
 
-                <form:input path="identifier" readonly="true"/>
+                <label>Description</label>
+                <form:input path="description"
+                            cssClass="form-control"
+                            required="true"/>
 
-                <div class="help-text">
-                    This role name is a system identifier and cannot be edited as it is used for authorization and access control.
-                </div>
-            </div>
+                <button type="submit" class="btn-update">
+                    Update Role
+                </button>
 
-            <div class="btn-group">
-                <a href="/role/list" class="btn btn-secondary">Cancel</a>
-                <button type="submit" class="btn btn-primary">Update</button>
-            </div>
+            </form:form>
 
-        </form:form>
+        </c:if>
 
-    </c:if>
-
+    </div>
 </div>
 
 </body>
