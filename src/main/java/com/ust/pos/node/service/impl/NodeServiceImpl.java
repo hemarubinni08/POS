@@ -1,20 +1,19 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.model.Node;
-import com.ust.pos.model.NodeRepository;
-import com.ust.pos.model.User;
-import com.ust.pos.model.UserRepository;
+import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.modelmapper.internal.bytebuddy.description.method.MethodDescription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class NodeServiceImpl implements NodeService {
@@ -31,9 +30,70 @@ public class NodeServiceImpl implements NodeService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
-        List<Node> nodes = nodeRepository.findByRoles(currentUser.getRoles());
-        Type listType = new TypeToken<List<NodeDto>>() {
+        List<NodeDto> nodeDtos = new ArrayList<>();
+        Set<String> nodesStr = new HashSet<>();
+        List<Node> nodes = nodeRepository.findAll();
+        for (String role : currentUser.getRoles()) {
+            for (Node node : nodes) {
+                if (node.getRoles() != null && node.getRoles().contains(role)) {
+                    nodesStr.add(node.getIdentifier());
+                }
+            }
+        }
+        for (String nodeStr : nodesStr) {
+            nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
+        }
+        return nodeDtos;
+    }
+
+    @Override
+    public NodeDto save(NodeDto nodeDto) {
+        String identifier = nodeDto.getIdentifier();
+        Node existingNode = nodeRepository.findByIdentifier(identifier);
+        if (existingNode != null) {
+            nodeDto.setMessage("Node with identifier - " + identifier + " already exists");
+            nodeDto.setSuccess(false);
+            return nodeDto;
+        }
+        Node node = modelMapper.map(nodeDto, Node.class);
+        nodeRepository.save(node);
+        return nodeDto;
+    }
+
+    @Override
+    public NodeDto update(NodeDto nodeDto) {
+        Optional<Node> nodeOptional = nodeRepository.findById(nodeDto.getId());
+
+        if(nodeOptional.isPresent()){
+            Node node = nodeOptional.get();
+            if(!node.getIdentifier().equalsIgnoreCase(nodeDto.getIdentifier())) {
+                if (nodeRepository.existsByIdentifier(nodeDto.getIdentifier())) {
+                    nodeDto.setMessage("User with username/email - " + nodeDto.getIdentifier() + " already exists");
+                    return nodeDto;
+                }
+            }
+            modelMapper.map(nodeDto, node);
+            nodeRepository.save(node);
+        }
+        return nodeDto;
+    }
+
+    @Override
+    @Transactional
+    public boolean delete(String identifier) {
+        nodeRepository.deleteByIdentifier(identifier);
+        return true;
+    }
+
+    @Override
+    public List<NodeDto> findAll() {
+        Type listType = new TypeToken<List<NodeDto>>(){
         }.getType();
-        return modelMapper.map(nodes, listType);
+        return modelMapper.map(nodeRepository.findAll(), listType);
+    }
+
+    @Override
+    public NodeDto findByIdentifier(String identifier) {
+        return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);
     }
 }

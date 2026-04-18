@@ -4,6 +4,7 @@ import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
 import com.ust.pos.role.service.RoleService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +56,10 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public boolean delete(String identifier) {
-        return roleRepository.deleteByIdentifier(identifier);
+        roleRepository.deleteByIdentifier(identifier);
+        return true;
     }
 
     @Override

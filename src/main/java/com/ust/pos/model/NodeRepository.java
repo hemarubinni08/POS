@@ -1,6 +1,8 @@
 package com.ust.pos.model;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,5 +13,7 @@ public interface NodeRepository extends JpaRepository<Node, Long> {
 
     List<Node> findByRoles(List<String> roles);
 
-    boolean deleteByIdentifier(String identifier);
+    void deleteByIdentifier(String identifier);
+
+    boolean existsByIdentifier(String identifier);
 }

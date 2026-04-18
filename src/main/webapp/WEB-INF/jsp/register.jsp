@@ -1,122 +1,219 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>User Registration</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Registration | Retail Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --retail-navy: #1e293b;
+            --retail-blue: #2563eb;
+            --bg-light: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --error-red: #ef4444;
+            --error-bg: #fee2e2;
+        }
+
         body {
             margin: 0;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-color: var(--bg-light);
+            background-image: radial-gradient(#cbd5e1 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         .register-card {
-            width: 430px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 35px 40px;
-            border-radius: 16px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #4b6cb7;
-            font-weight: 600;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        input, select {
             width: 100%;
-            padding: 11px 14px;
+            max-width: 450px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid var(--retail-blue);
+        }
+
+        .header { margin-bottom: 25px; }
+        h2 { margin: 0; color: var(--text-main); font-size: 24px; font-weight: 700; }
+        .subtitle { color: var(--text-muted); font-size: 14px; margin-top: 5px; }
+
+        /* Backend Error Alert Style */
+        .alert-error {
+            background-color: var(--error-bg);
+            color: var(--error-red);
+            padding: 12px;
             border-radius: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid #fecaca;
+            font-size: 13px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .form-group { margin-bottom: 20px; position: relative; }
+
+        label.field-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1.5px solid var(--border-color);
             font-size: 14px;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+            background-color: #fcfcfc;
         }
 
-        select[multiple] {
-            height: 130px; /* ✅ MAKES MULTI-SELECT CLEAR */
+        input:focus {
+            outline: none;
+            border-color: var(--retail-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        small {
-            color: #666;
-            font-size: 11px;
+        .checkbox-container {
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            background-color: #fcfcfc;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .checkbox-container span {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-main);
+            cursor: pointer;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: var(--retail-blue);
+        }
+
+        /* Hidden validation hook for roles */
+        .validation-hook {
+            position: absolute; bottom: 0; left: 50%; opacity: 0; width: 0; height: 0; pointer-events: none;
         }
 
         .btn-submit {
             margin-top: 10px;
             width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, #4b6cb7, #182848);
+            padding: 14px;
+            background-color: var(--retail-navy);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
+            transition: background-color 0.2s;
         }
+
+        .btn-submit:hover { background-color: #0f172a; }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        .footer-link a { color: var(--retail-blue); text-decoration: none; font-weight: 600; }
     </style>
 </head>
 
 <body>
 
 <div class="register-card">
-    <h2>User Registration</h2>
+    <div class="header">
+        <h2>Create Staff Account</h2>
+        <p class="subtitle">System Onboarding & Role Assignment</p>
+    </div>
+
+    <%-- Displaying the error message from model.addAttribute("message", ...) --%>
+    <c:if test="${not empty message}">
+        <div class="alert-error">
+            ${message}
+        </div>
+    </c:if>
 
     <form:form action="register" method="post" modelAttribute="userDto">
 
-        <!-- Name -->
         <div class="form-group">
-            <label>Name</label>
-            <form:input path="name"/>
+            <label class="field-label">Full Name</label>
+            <form:input path="name" placeholder="John Doe" required="required"/>
         </div>
 
         <div class="form-group">
-            <label>Email</label>
-            <form:input path="username"/>
+            <label class="field-label">Email Address</label>
+            <form:input path="username" type="email" placeholder="name@retail.com" required="required"/>
         </div>
 
         <div class="form-group">
-            <label>Roles</label>
-            <form:select path="roles" multiple="true">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-            </form:select>
+            <label class="field-label">Assign System Roles</label>
+            <div class="checkbox-container">
+                <form:checkboxes path="roles" items="${roles}" itemValue="identifier"
+                                 itemLabel="identifier" element="span"
+                                 onchange="document.getElementById('roleWatcher').required = !Array.from(document.getElementsByName('roles')).some(x => x.checked);"/>
+
+                <input type="checkbox" id="roleWatcher" class="validation-hook" required title="Please select at least one role">
+            </div>
         </div>
 
         <div class="form-group">
-            <label>Phone Number</label>
-            <form:input path="phoneNo"/>
+            <label class="field-label">Phone Number</label>
+            <form:input path="phoneNo"
+                        type="tel"
+                        placeholder="9876543210"
+                        required="required"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                        maxlength="10"
+                        pattern="[0-9]{10}"
+                        inputmode="numeric"
+                        title="Please enter exactly 10 digits"/>
         </div>
 
         <div class="form-group">
-            <label>Password</label>
-            <form:password path="password"/>
+            <label class="field-label">Secure Password</label>
+            <form:password path="password" placeholder="••••••••"
+                           minlength="6" required="required"/>
         </div>
 
-        <input type="submit" value="Register" class="btn-submit"/>
+        <button type="submit" class="btn-submit">Register User</button>
 
     </form:form>
 
+    <div class="footer-link">
+        Already have an account?
+        <a href="${pageContext.request.contextPath}/login">Sign In</a>
+    </div>
 </div>
 
 </body>

@@ -4,6 +4,7 @@ import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,31 +49,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(UserDto userDto) {
-        String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
 
-        if (userOptional.isEmpty()) {
-            userDto.setMessage("User with username/email - " + userDto.getUsername() + " not found");
-            userDto.setSuccess(false);
-            return userDto;
-        } else {
-            User existingUser = userOptional.get();
-            if (!username.equalsIgnoreCase(existingUser.getUsername())) {
-                if (userRepository.findByUsername(username) != null) {
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            if(!user.getUsername().equalsIgnoreCase(userDto.getUsername())) {
+                if (userRepository.existsByUsername(userDto.getUsername())) {
                     userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
-                    userDto.setSuccess(false);
                     return userDto;
                 }
             }
-            modelMapper.map(userDto, existingUser);
-            userRepository.save(existingUser);
+                modelMapper.map(userDto, user);
+                userRepository.save(user);
         }
         return userDto;
     }
 
     @Override
+    @Transactional
     public boolean delete(String username) {
-        return userRepository.deleteByUsername(username);
+        userRepository.deleteByUsername(username);
+        return true;
     }
 
     @Override

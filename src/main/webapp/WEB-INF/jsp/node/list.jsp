@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
@@ -8,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Staff | Retail Core</title>
+    <title>Node Management | Retail Core</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
@@ -87,6 +86,10 @@
             transition: margin-left 0.3s ease;
         }
 
+        @media (min-width: 1200px) {
+            .sidebar.active + .content-wrapper { margin-left: var(--sidebar-width); }
+        }
+
         .top-navbar {
             background: white;
             height: 64px;
@@ -108,82 +111,38 @@
 
         .menu-toggle span { display: block; height: 2px; width: 100%; background-color: var(--text-dark); border-radius: 2px; }
 
-        .main-content {
-            padding: 40px;
-            display: flex;
-            justify-content: center;
-        }
+        .main-content { padding: 40px; }
 
-        .update-card {
-            width: 100%;
-            max-width: 500px;
+        .data-card {
             background: white;
-            padding: 32px;
             border-radius: 12px;
             border: 1px solid var(--border-color);
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            overflow: hidden;
         }
 
-        .form-label-custom {
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            letter-spacing: 0.025em;
-        }
-
-        .form-control-custom {
-            border: 1.5px solid var(--border-color);
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        .form-control-custom:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-            outline: none;
-        }
-
-        .checkbox-group {
-            border: 1.5px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            max-height: 160px;
-            overflow-y: auto;
-            background: #fcfcfc;
-        }
-
-        .checkbox-group span {
+        .card-header-custom {
+            padding: 20px 24px;
+            background: white;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
-            font-size: 14px;
-            cursor: pointer;
         }
 
-        .checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-right: 12px;
-            accent-color: var(--accent-blue);
-        }
-
-        .btn-update {
-            width: 100%;
-            padding: 12px;
-            background: var(--sidebar-bg);
-            color: white;
-            border: none;
-            border-radius: 8px;
+        .table thead th {
+            background-color: #f8fafc;
+            color: var(--text-muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             font-weight: 600;
-            margin-top: 20px;
-            transition: opacity 0.2s;
+            padding: 16px;
         }
 
-        .btn-update:hover { opacity: 0.9; }
+        .table tbody td { padding: 16px; font-size: 14px; color: var(--text-dark); border-bottom: 1px solid var(--border-color); }
+
+        .btn-action { font-size: 13px; font-weight: 600; border-radius: 6px; padding: 6px 12px; }
 
         .overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -210,9 +169,9 @@
         <nav class="nav-menu">
             <div class="nav-label">System Modules</div>
             <a href="${pageContext.request.contextPath}/" class="nav-item">Home</a>
-            <c:forEach var="node" items="${nodes}">
-                <a href="${node.path}" class="nav-item">
-                    ${node.identifier}
+            <c:forEach var="n" items="${nodes}">
+                <a href="${n.path}" class="nav-item ${fn:contains(pageContext.request.requestURI, n.path) ? 'active' : ''}">
+                    ${n.identifier}
                 </a>
             </c:forEach>
         </nav>
@@ -230,51 +189,59 @@
             <button class="menu-toggle" onclick="toggleSidebar()">
                 <span></span><span></span><span></span>
             </button>
-            <div class="breadcrumb-text small text-muted">Management / Update User</div>
+            <div class="breadcrumb-text small text-muted">Configuration / System Nodes</div>
         </header>
 
         <section class="main-content">
-            <div class="update-card">
-                <h4 class="mb-4 font-weight-bold" style="color: var(--text-dark);">Update Staff Member</h4>
-
-                <form:form action="/user/update" method="post" modelAttribute="userDto">
-                    <%-- Path points to userDto.id --%>
-                    <form:hidden path="id" />
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">Full Name</label>
-                        <form:input path="name" cssClass="form-control form-control-custom" required="true"/>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">Email Address</label>
-                        <form:input path="username" cssClass="form-control form-control-custom" required="true"/>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">Phone Number</label>
-                        <form:input path="phoneNo" cssClass="form-control form-control-custom" required="true"/>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">System Roles</label>
-                        <div class="checkbox-group">
-                            <%-- Path 'roles' inside userDto must be a List<String> or List<Role> --%>
-                            <form:checkboxes path="roles"
-                                             items="${roles}"
-                                             itemValue="identifier"
-                                             itemLabel="identifier"
-                                             element="span"/>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn-update">Save Changes</button>
-                </form:form>
-
-                <div class="text-center mt-4">
-                    <a href="/user/list" class="text-decoration-none small font-weight-bold" style="color: var(--accent-blue);">
-                        &larr; Return to User List
+            <div class="data-card">
+                <div class="card-header-custom">
+                    <h5 class="m-0 font-weight-bold" style="color: var(--text-dark);">Module Registry</h5>
+                    <a href="/node/add" class="btn btn-primary btn-action">
+                        + Register New Node
                     </a>
+                </div>
+
+                <div class="p-0">
+                    <c:if test="${empty nodes}">
+                        <div class="p-5 text-center">
+                            <p class="text-muted">No system nodes have been registered yet.</p>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty nodes}">
+                        <div class="table-responsive">
+                            <table class="table table-hover m-0">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 15%;">Node ID</th>
+                                        <th>Identifier / Display Name</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="nodeItem" items="${nodes}">
+                                        <tr>
+                                            <td>#${nodeItem.id}</td>
+                                            <td><strong>${nodeItem.identifier}</strong></td>
+                                            <td class="text-end">
+                                                <div class="d-flex justify-content-end gap-2">
+                                                    <a class="btn btn-outline-primary btn-action"
+                                                       href="/node/get?identifier=${nodeItem.identifier}">
+                                                        Edit
+                                                    </a>
+                                                    <a class="btn btn-outline-danger btn-action"
+                                                       href="/node/delete?identifier=${nodeItem.identifier}"
+                                                       onclick="return confirm('Deleting this node will remove it from all navigation menus. Continue?');">
+                                                        Remove
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </c:if>
                 </div>
             </div>
         </section>

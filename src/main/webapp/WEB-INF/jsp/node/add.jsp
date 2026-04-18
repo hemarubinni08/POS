@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Staff | Retail Core</title>
+    <title>Add Node | Retail Core</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
@@ -84,7 +84,6 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            transition: margin-left 0.3s ease;
         }
 
         .top-navbar {
@@ -105,7 +104,6 @@
             display: flex; flex-direction: column; justify-content: space-between;
             width: 24px; height: 18px;
         }
-
         .menu-toggle span { display: block; height: 2px; width: 100%; background-color: var(--text-dark); border-radius: 2px; }
 
         .main-content {
@@ -114,7 +112,7 @@
             justify-content: center;
         }
 
-        .update-card {
+        .form-card {
             width: 100%;
             max-width: 500px;
             background: white;
@@ -134,9 +132,9 @@
         }
 
         .form-control-custom {
-            border: 1.5px solid var(--border-color);
+            border: 1.5 solid var(--border-color);
             border-radius: 8px;
-            padding: 10px 14px;
+            padding: 12px 14px;
             font-size: 14px;
             transition: all 0.2s;
         }
@@ -161,7 +159,6 @@
             align-items: center;
             margin-bottom: 10px;
             font-size: 14px;
-            cursor: pointer;
         }
 
         .checkbox-group input[type="checkbox"] {
@@ -171,19 +168,19 @@
             accent-color: var(--accent-blue);
         }
 
-        .btn-update {
+        .btn-submit {
             width: 100%;
             padding: 12px;
-            background: var(--sidebar-bg);
+            background: var(--accent-blue);
             color: white;
             border: none;
             border-radius: 8px;
             font-weight: 600;
             margin-top: 20px;
-            transition: opacity 0.2s;
+            transition: background 0.2s;
         }
 
-        .btn-update:hover { opacity: 0.9; }
+        .btn-submit:hover { background: #2563eb; }
 
         .overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -210,9 +207,9 @@
         <nav class="nav-menu">
             <div class="nav-label">System Modules</div>
             <a href="${pageContext.request.contextPath}/" class="nav-item">Home</a>
-            <c:forEach var="node" items="${nodes}">
-                <a href="${node.path}" class="nav-item">
-                    ${node.identifier}
+            <c:forEach var="n" items="${nodes}">
+                <a href="${n.path}" class="nav-item">
+                    ${n.identifier}
                 </a>
             </c:forEach>
         </nav>
@@ -230,50 +227,52 @@
             <button class="menu-toggle" onclick="toggleSidebar()">
                 <span></span><span></span><span></span>
             </button>
-            <div class="breadcrumb-text small text-muted">Management / Update User</div>
+            <div class="breadcrumb-text small text-muted">Configuration / Register Node</div>
         </header>
 
         <section class="main-content">
-            <div class="update-card">
-                <h4 class="mb-4 font-weight-bold" style="color: var(--text-dark);">Update Staff Member</h4>
+            <div class="form-card shadow-sm">
+                <h4 class="mb-4 font-weight-bold" style="color: var(--text-dark);">Register New System Node</h4>
 
-                <form:form action="/user/update" method="post" modelAttribute="userDto">
-                    <%-- Path points to userDto.id --%>
-                    <form:hidden path="id" />
+                <c:if test="${not empty node}">
+                    <div class="alert alert-success border-0 small py-2 mb-4 text-center">
+                        Node "<strong>${node}</strong>" has been successfully initialized.
+                    </div>
+                </c:if>
 
+                <form:form method="post" action="/node/add" modelAttribute="nodeDto">
                     <div class="mb-3">
-                        <label class="form-label-custom">Full Name</label>
-                        <form:input path="name" cssClass="form-control form-control-custom" required="true"/>
+                        <label class="form-label-custom">Node Name (Display Label)</label>
+                        <form:input path="identifier"
+                                    cssClass="form-control form-control-custom"
+                                    placeholder="e.g., Staff Management"
+                                    required="true"/>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label-custom">Email Address</label>
-                        <form:input path="username" cssClass="form-control form-control-custom" required="true"/>
+                        <label class="form-label-custom">Navigation Path (URL)</label>
+                        <form:input path="path"
+                                    cssClass="form-control form-control-custom"
+                                    placeholder="e.g., /staff/list"
+                                    required="true"/>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label-custom">Phone Number</label>
-                        <form:input path="phoneNo" cssClass="form-control form-control-custom" required="true"/>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">System Roles</label>
+                        <label class="form-label-custom">Permitted Access Roles</label>
                         <div class="checkbox-group">
-                            <%-- Path 'roles' inside userDto must be a List<String> or List<Role> --%>
-                            <form:checkboxes path="roles"
-                                             items="${roles}"
-                                             itemValue="identifier"
-                                             itemLabel="identifier"
-                                             element="span"/>
+                            <form:checkboxes path="roles" items="${roles}" itemValue="identifier" itemLabel="identifier" element="span"/>
+                        </div>
+                        <div class="small text-muted mt-2" style="font-size: 11px;">
+                            Select which roles are allowed to see and access this navigation node.
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-update">Save Changes</button>
+                    <button type="submit" class="btn-submit">Register Node</button>
                 </form:form>
 
                 <div class="text-center mt-4">
-                    <a href="/user/list" class="text-decoration-none small font-weight-bold" style="color: var(--accent-blue);">
-                        &larr; Return to User List
+                    <a href="/node/list" class="text-decoration-none small font-weight-bold" style="color: var(--accent-blue);">
+                        &larr; Return to Node Registry
                     </a>
                 </div>
             </div>

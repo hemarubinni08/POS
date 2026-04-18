@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Staff | Retail Core</title>
+    <title>Edit Node | Retail Core</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
@@ -84,7 +84,6 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            transition: margin-left 0.3s ease;
         }
 
         .top-navbar {
@@ -105,7 +104,6 @@
             display: flex; flex-direction: column; justify-content: space-between;
             width: 24px; height: 18px;
         }
-
         .menu-toggle span { display: block; height: 2px; width: 100%; background-color: var(--text-dark); border-radius: 2px; }
 
         .main-content {
@@ -114,9 +112,9 @@
             justify-content: center;
         }
 
-        .update-card {
+        .form-card {
             width: 100%;
-            max-width: 500px;
+            max-width: 480px;
             background: white;
             padding: 32px;
             border-radius: 12px;
@@ -136,7 +134,7 @@
         .form-control-custom {
             border: 1.5px solid var(--border-color);
             border-radius: 8px;
-            padding: 10px 14px;
+            padding: 12px 14px;
             font-size: 14px;
             transition: all 0.2s;
         }
@@ -147,43 +145,26 @@
             outline: none;
         }
 
-        .checkbox-group {
-            border: 1.5px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            max-height: 160px;
-            overflow-y: auto;
-            background: #fcfcfc;
-        }
-
-        .checkbox-group span {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-right: 12px;
-            accent-color: var(--accent-blue);
-        }
-
-        .btn-update {
-            width: 100%;
-            padding: 12px;
+        .btn-submit {
+            padding: 10px 24px;
             background: var(--sidebar-bg);
             color: white;
             border: none;
             border-radius: 8px;
             font-weight: 600;
-            margin-top: 20px;
             transition: opacity 0.2s;
         }
 
-        .btn-update:hover { opacity: 0.9; }
+        .btn-cancel {
+            padding: 10px 24px;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 14px;
+        }
 
         .overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -210,9 +191,9 @@
         <nav class="nav-menu">
             <div class="nav-label">System Modules</div>
             <a href="${pageContext.request.contextPath}/" class="nav-item">Home</a>
-            <c:forEach var="node" items="${nodes}">
-                <a href="${node.path}" class="nav-item">
-                    ${node.identifier}
+            <c:forEach var="n" items="${nodes}">
+                <a href="${n.path}" class="nav-item ${fn:contains(pageContext.request.requestURI, n.path) ? 'active' : ''}">
+                    ${n.identifier}
                 </a>
             </c:forEach>
         </nav>
@@ -230,52 +211,54 @@
             <button class="menu-toggle" onclick="toggleSidebar()">
                 <span></span><span></span><span></span>
             </button>
-            <div class="breadcrumb-text small text-muted">Management / Update User</div>
+            <div class="breadcrumb-text small text-muted">Configuration / Update Node</div>
         </header>
 
         <section class="main-content">
-            <div class="update-card">
-                <h4 class="mb-4 font-weight-bold" style="color: var(--text-dark);">Update Staff Member</h4>
+            <div class="form-card">
+                <h4 class="mb-4 font-weight-bold" style="color: var(--text-dark);">Edit System Node</h4>
 
-                <form:form action="/user/update" method="post" modelAttribute="userDto">
-                    <%-- Path points to userDto.id --%>
-                    <form:hidden path="id" />
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">Full Name</label>
-                        <form:input path="name" cssClass="form-control form-control-custom" required="true"/>
+                <c:if test="${not empty message}">
+                    <div class="alert alert-info border-0 small py-2 mb-4">
+                        ${message}
                     </div>
+                </c:if>
 
-                    <div class="mb-3">
-                        <label class="form-label-custom">Email Address</label>
-                        <form:input path="username" cssClass="form-control form-control-custom" required="true"/>
+                <c:if test="${empty node}">
+                    <div class="alert alert-danger border-0 small py-2">
+                        System Error: Node data not found.
                     </div>
+                </c:if>
 
-                    <div class="mb-3">
-                        <label class="form-label-custom">Phone Number</label>
-                        <form:input path="phoneNo" cssClass="form-control form-control-custom" required="true"/>
-                    </div>
+                <c:if test="${not empty node}">
+                    <form:form action="/node/update" method="post" modelAttribute="nodeDto">
+                        <%-- Hidden ID to ensure it is passed back to the controller --%>
+                        <form:hidden path="id" value="${node.id}"/>
 
-                    <div class="mb-3">
-                        <label class="form-label-custom">System Roles</label>
-                        <div class="checkbox-group">
-                            <%-- Path 'roles' inside userDto must be a List<String> or List<Role> --%>
-                            <form:checkboxes path="roles"
-                                             items="${roles}"
-                                             itemValue="identifier"
-                                             itemLabel="identifier"
-                                             element="span"/>
+                        <div class="mb-3">
+                            <label class="form-label-custom">Node Name (Display)</label>
+                            <form:input path="identifier"
+                                        cssClass="form-control form-control-custom"
+                                        value="${node.identifier}"
+                                        placeholder="e.g. Inventory Management"
+                                        required="true"/>
                         </div>
-                    </div>
 
-                    <button type="submit" class="btn-update">Save Changes</button>
-                </form:form>
+                        <div class="mb-4">
+                            <label class="form-label-custom">Navigation Path</label>
+                            <form:input path="path"
+                                        cssClass="form-control form-control-custom"
+                                        value="${node.path}"
+                                        placeholder="e.g. /inventory/list"
+                                        required="true"/>
+                        </div>
 
-                <div class="text-center mt-4">
-                    <a href="/user/list" class="text-decoration-none small font-weight-bold" style="color: var(--accent-blue);">
-                        &larr; Return to User List
-                    </a>
-                </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="/node/list" class="btn-cancel">Cancel</a>
+                            <button type="submit" class="btn-submit">Save Node</button>
+                        </div>
+                    </form:form>
+                </c:if>
             </div>
         </section>
     </main>
