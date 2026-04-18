@@ -34,11 +34,16 @@ public class UserController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute UserDto userDto) {
+
         UserDto response = userService.update(userDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            model.addAttribute("user", userDto);
+            model.addAttribute("roles", roleService.findAll());
             return "user/user";
         }
+
         return "redirect:/user/list";
     }
 

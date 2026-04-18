@@ -7,7 +7,6 @@
 <head>
     <title>Update User</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -21,11 +20,17 @@
             --primary: #28a745;
             --primary-hover: #218838;
 
-            --accent: #ffc107;
+            --danger: #dc2626;
+            --danger-bg: #fee2e2;
+            --danger-border: #fca5a5;
+
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+            --success-border: #86efac;
 
             --border: #e5e7eb;
-            --radius: 14px;
 
+            --radius: 14px;
             --shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
@@ -44,6 +49,7 @@
             position: relative;
         }
 
+        /* BACK BUTTON */
         .back-arrow {
             position: absolute;
             top: 20px;
@@ -64,8 +70,8 @@
         }
 
         .back-arrow:hover {
-            background: var(--accent);
-            color: black;
+            background: var(--primary);
+            color: white;
         }
 
         .container-box {
@@ -84,38 +90,11 @@
             text-align: center;
             font-weight: 600;
             margin-bottom: 18px;
-            color: var(--text);
         }
 
         label {
             font-size: 13px;
             color: var(--muted);
-            margin-bottom: 5px;
-        }
-
-        .form-control, select {
-            border-radius: 10px;
-            padding: 10px;
-            border: 1px solid var(--border);
-        }
-
-        .form-control:focus, select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(40,167,69,0.15);
-        }
-
-        select[multiple] {
-            height: 120px;
-        }
-
-        .badge {
-            background: #e9f7ef;
-            color: #1e7e34;
-            border-radius: 999px;
-            padding: 5px 10px;
-            font-size: 11px;
-            margin: 2px;
-            display: inline-block;
         }
 
         .btn-update {
@@ -126,51 +105,134 @@
             border-radius: 10px;
             border: none;
             font-weight: 600;
-            margin-top: 10px;
         }
 
         .btn-update:hover {
             background: var(--primary-hover);
         }
 
-        .message {
+        /* SERVER MESSAGES */
+        .server-msg {
             text-align: center;
+            padding: 10px 14px;
+            border-radius: 10px;
             font-size: 13px;
-            color: #16a34a;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+        }
+
+        .server-msg.success {
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid var(--success-border);
+        }
+
+        .server-msg.error {
+            background: var(--danger-bg);
+            color: var(--danger);
+            border: 1px solid var(--danger-border);
+        }
+
+        /* INPUT ERRORS */
+        .invalid-feedback {
+            font-size: 12px;
+            color: var(--danger);
+            margin-top: 4px;
+        }
+
+        /* INPUT ERROR BORDER */
+        .error-border {
+            border: 1px solid var(--danger) !important;
+        }
+
+        /* TOAST */
+        .toast-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1f2937;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.3s;
+            font-size: 13px;
+            z-index: 999;
+        }
+
+        .toast-message.show {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 
     <script>
         function validateForm() {
-            let name = document.getElementsByName("name")[0].value.trim();
-            let email = document.getElementsByName("username")[0].value.trim();
-            let phone = document.getElementsByName("phoneNo")[0].value.trim();
 
-            if (name === "" || email === "" || phone === "") {
-                alert("All fields are required!");
+            document.getElementById("emailErr").innerText = "";
+            document.getElementById("phoneErr").innerText = "";
+
+            let emailInput = document.getElementsByName("username")[0];
+            let phoneInput = document.getElementsByName("phoneNo")[0];
+
+            emailInput.classList.remove("error-border");
+            phoneInput.classList.remove("error-border");
+
+            let name = document.getElementsByName("name")[0].value.trim();
+            let email = emailInput.value.trim();
+            let phone = phoneInput.value.trim();
+
+            if (!name || !email || !phone) {
+                showToast("All fields are required");
                 return false;
             }
+
+            let valid = true;
 
             let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
-            if (!email.match(emailPattern)) {
-                alert("Invalid email format!");
-                return false;
+            if (!emailPattern.test(email)) {
+                document.getElementById("emailErr").innerText = "Enter a valid email address";
+                emailInput.classList.add("error-border");
+                valid = false;
             }
 
-            return true;
+            let phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phone)) {
+                document.getElementById("phoneErr").innerText = "Phone must be 10 digits";
+                phoneInput.classList.add("error-border");
+                valid = false;
+            }
+
+            return valid;
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            toast.innerText = msg;
+            toast.classList.add("show");
+
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
         }
     </script>
 </head>
 
 <body>
 
-<a href="${pageContext.request.contextPath}/user/list" class="back-arrow">←</a>
+<!-- BACK BUTTON -->
+<a href="${pageContext.request.contextPath}/user/list" class="back-arrow">
+    ←
+</a>
 
 <div class="container-box">
 
+    <!-- SERVER MESSAGE (FIXED LOGIC) -->
     <c:if test="${not empty message}">
-        <div class="message">${message}</div>
+        <div class="server-msg ${messageType == 'success' ? 'success' : 'error'}">
+            ${message}
+        </div>
     </c:if>
 
     <div class="card">
@@ -186,36 +248,36 @@
 
             <div class="row">
 
-                <!-- LEFT COLUMN -->
                 <div class="col-md-6">
+
                     <div class="mb-3">
                         <label>Name</label>
-                        <form:input path="name" cssClass="form-control" required="true"/>
+                        <form:input path="name" cssClass="form-control"/>
                     </div>
 
                     <div class="mb-3">
                         <label>Email</label>
-                        <form:input path="username" cssClass="form-control" type="email" required="true"/>
+                        <form:input path="username" cssClass="form-control"/>
+                        <div id="emailErr" class="invalid-feedback"></div>
                     </div>
+
                 </div>
 
-                <!-- RIGHT COLUMN -->
                 <div class="col-md-6">
+
                     <div class="mb-3">
                         <label>Phone Number</label>
-                        <form:input path="phoneNo" cssClass="form-control" required="true"/>
+                        <form:input path="phoneNo" cssClass="form-control"/>
+                        <div id="phoneErr" class="invalid-feedback"></div>
                     </div>
+
                 </div>
 
             </div>
 
-            <!-- FULL WIDTH ROLES -->
             <div class="mb-3">
                 <label>Roles</label>
-
-
-
-                <form:select path="roles" multiple="true" cssClass="form-control" required="true">
+                <form:select path="roles" multiple="true" cssClass="form-control">
                     <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
                 </form:select>
             </div>
@@ -225,8 +287,10 @@
         </form:form>
 
     </div>
-
 </div>
+
+<!-- TOAST -->
+<div id="toast" class="toast-message"></div>
 
 </body>
 </html>
