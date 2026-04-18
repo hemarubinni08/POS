@@ -36,11 +36,11 @@ public class SecurityController {
         UserDto response = userService.save(userDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("roles", roleService.findAll()); // ✅ REQUIRED
+            model.addAttribute("roles", roleService.findAll());
             model.addAttribute("errorMessage", response.getMessage());
             return "register";
         }
 
-        return "redirect:/login"; // ✅ successful → go to login
+        return "redirect:/login";
     }
 }
