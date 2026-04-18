@@ -203,10 +203,6 @@
 
         </div>
 
-        <div class="card-footer">
-            POS Management System
-        </div>
-
     </div>
 
 </div>

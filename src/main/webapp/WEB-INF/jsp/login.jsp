@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Login</title>
 
+    <!-- JSTL -->
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -144,12 +147,19 @@
 
 <div class="login-card">
 
+    <h2>Login</h2>
+
+    <!-- ERROR MESSAGE FROM CONTROLLER -->
+    <c:if test="${not empty errorMsg}">
+        <div class="alert alert-danger text-center py-2">
+            ${errorMsg}
+        </div>
+    </c:if>
+
     <!-- LOGIN FORM -->
     <form action="${pageContext.request.contextPath}/login"
           method="post"
           onsubmit="return validateLoginForm()">
-
-        <h2>Login</h2>
 
         <div class="mb-3">
             <label>Email</label>

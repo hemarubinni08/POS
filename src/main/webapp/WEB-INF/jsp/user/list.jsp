@@ -254,9 +254,6 @@
                     + Add User
                 </a>
             </div>
-
-            <div class="muted">User Management System</div>
-
         </div>
 
     </div>
