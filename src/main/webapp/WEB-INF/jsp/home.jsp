@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Role Management</title>
+    <title>POS</title>
 
     <base href="${pageContext.request.contextPath}/">
 
@@ -213,7 +213,7 @@
             <div></div>
             <div></div>
         </div>
-        <div class="title">Role Management</div>
+        <div class="title">POS</div>
     </div>
 
     <form action="logout" method="post" style="margin:0;">
