@@ -46,6 +46,7 @@ public class RoleController {
         RoleDto response = roleService.update(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            model.addAttribute("role",userDto);
         }
         return "redirect:/role/list";
     }
