@@ -12,26 +12,42 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
             min-height: 100vh;
         }
 
         .card {
             border-radius: 15px;
+            background-color: #ffffff;
         }
 
         .table th {
-            background-color: #343a40;
-            color: white;
+            background-color: #a78bfa;
+            color: #ffffff;
         }
 
-        a.user-link {
-            text-decoration: none;
-            font-weight: 500;
+        .table-hover tbody tr:hover {
+            background-color: #f5f3ff;
         }
 
-        a.user-link:hover {
-            text-decoration: underline;
+        .btn-secondary {
+            background-color: #c4b5fd;
+            border: none;
+            color: #4c1d95;
+        }
+
+        .btn-secondary:hover {
+            background-color: #b197fc;
+            color: #ffffff;
+        }
+
+        .btn-success {
+            background-color: #7c3aed;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #6d28d9;
         }
     </style>
 </head>
@@ -42,7 +58,9 @@
     <div class="card shadow-lg">
         <div class="card-body">
 
-            <h3 class="text-center mb-4">User Management</h3>
+            <h3 class="text-center mb-4 fw-semibold">
+                User Management
+            </h3>
 
             <!-- NO USERS MESSAGE -->
             <c:if test="${empty users}">
@@ -64,26 +82,34 @@
                         </tr>
                         </thead>
                         <tbody>
+
                         <c:forEach var="user" items="${users}">
                             <tr>
-                                <td>
-                                    <a class="user-link"
-                                       href="/user/get?username=${user.username}">
-                                        ${user.username}
-                                    </a>
+
+                                <td class="fw-semibold">
+                                    ${user.username}
                                 </td>
+
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
-                                <td>
-                                    <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
+
+
+                                <td class="d-flex justify-content-center gap-2">
+                                    <a href="/user/get?username=${user.username}"
+                                       class="btn btn-primary btn-sm">
+                                        Edit
+                                    </a>
+
+                                    <a href="/user/delete?username=${user.username}"
+                                       class="btn btn-danger btn-sm"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
                                         Delete
                                     </a>
                                 </td>
                             </tr>
                         </c:forEach>
+
                         </tbody>
                     </table>
                 </div>
