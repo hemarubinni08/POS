@@ -71,8 +71,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delete(String username) {
-        return userRepository.deleteByUsername(username);
+    public void delete(String username) {
+        userRepository.deleteByUsername(username);
     }
 
     @Override

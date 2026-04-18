@@ -9,7 +9,7 @@
             margin: 0;
             height: 100vh;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -63,6 +63,21 @@
             font-size: 15px;
             cursor: pointer;
         }
+        .register-link {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .register-link:hover {
+            color: #5a67d8;
+            text-decoration: underline;
+        }
 
         button:hover {
             background-color: #5a67d8;
@@ -85,6 +100,8 @@
     </div>
 
     <button type="submit">Login</button>
+    <a href ="/register">don't have an account?</a>
+
 </form>
 
 </body>

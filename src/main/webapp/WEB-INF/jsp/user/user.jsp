@@ -73,27 +73,61 @@
 </head>
 
 <body>
-${message}
+
 <div class="update-card">
     <h3>Update User</h3>
+        <!-- ✅ MESSAGE DISPLAY -->
+        <c:if test="${not empty message}">
+            <div class="error-message">
+                ${message}
+            </div>
+        </c:if>
 
     <form:form action="/user/update" method="post" modelAttribute="userDto">
 
-        <form:input type="hidden" path="id"/>
+        <form:input type="hidden" path="id" />
 
         <div class="mb-3">
             <label>Name</label>
             <form:input path="name" cssClass="form-control" required="true"/>
         </div>
 
+         <%--<div class="mb-3">
+             <label>Email</label>
+             <form:input
+                     path="username"
+                     cssClass="form-control"
+                     type="email"
+                     required="true"
+                     id="email"
+                     pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$"
+                     oninput="validateEmail()"
+             />
+
+             <small id="emailError" class="text-danger" style="display:none; font-size:11px;">
+                 Email must be a valid address ending with .com
+             </small>
+         </div>--%>
+
          <div class="mb-3">
-            <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
-        </div>
+                     <label>Email</label>
+                     <form:input id="email" path="username" type="email" cssClass="form-control" required="true"
+                                             pattern="^[a-zA-Z]+[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$"
+                                             title="Enter a valid email address ending with .com"
+                                             />
+                     <small id="emailError" class="text-danger" style="display:none; font-size:11px;">
+                          Email must be a valid address ending with .com
+                      </small>
+                 </div>
 
         <div class="mb-3">
             <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" required="true"/>
+            <form:input path="phoneNo" cssClass="form-control" required="true"
+                                    maxlength="10"
+                                    pattern="[0-9]{10}"
+                                    title="Enter exactly 10 digit phone number"
+                                    oninput="this.value=this.value.replace(/[^0-9]/g, '')"
+                                    />
         </div>
 
         <div class="mb-3">
@@ -101,13 +135,13 @@ ${message}
 
             <div class="mb-1 text-muted">
                 Current:
-                <c:forEach var="r" items="${user.roles}">
+                <c:forEach var="r" items="${userDto.roles}">
                     <span class="badge bg-secondary me-1">${r}</span>
                 </c:forEach>
             </div>
 
             <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
+                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
             </form:select>
 
 
@@ -115,7 +149,7 @@ ${message}
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
             </small>
         </div>
-
+        <small>${message}</small>
         <button type="submit" class="btn-update">Update User</button>
 
     </form:form>
@@ -125,6 +159,26 @@ ${message}
     </div>
 
 </div>
+
+<script>
+
+function validateEmail(email) {
+  // Removed quotes and the extra ']'
+  const regex = "/^[^\s@]+@[^\s@]+\.[^\s@]+$/";
+  return regex.test(email);
+}
+
+const emailField = document.getElementById('email');
+emailField.addEventListener('input', () => {
+  if (!validateEmail(emailField.value)) {
+    emailField.setCustomValidity('Invalid email format');
+  } else {
+    // This clears the error so the form can submit
+    emailField.setCustomValidity('');
+  }
+});
+
+</script>
 
 </body>
 </html>

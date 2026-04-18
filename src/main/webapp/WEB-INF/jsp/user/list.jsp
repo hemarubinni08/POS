@@ -77,10 +77,14 @@
                                 <td>${user.roles}</td>
                                 <td>
                                     <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
+                                       href="/user/delete?username=${user.username}"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
                                         Delete
                                     </a>
+                                    <a href="/user/get?username=${user.username}"
+                                                                                 class="btn btn-sm btn-warning">
+                                                                                    Update
+                                                                                   </a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -95,10 +99,6 @@
             <div class="d-flex justify-content-center gap-3">
                 <a href="/" class="btn btn-secondary">
                     Home
-                </a>
-
-                <a href="/register" class="btn btn-success">
-                    Register
                 </a>
             </div>
 
