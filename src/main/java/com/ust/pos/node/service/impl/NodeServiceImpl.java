@@ -26,7 +26,11 @@ public class NodeServiceImpl implements NodeService {
     private ModelMapper modelMapper;
     @Override
     public NodeDto findByIdentifier(String identifier) {
-        return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);
+        Node node = nodeRepository.findByIdentifier(identifier);
+        if(node == null){
+            return  null;
+        }
+        return modelMapper.map(node,NodeDto.class);
     }
 
     @Override

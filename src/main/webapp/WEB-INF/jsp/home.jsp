@@ -21,7 +21,7 @@
             left: 0;
             width: 240px;
             height: 100vh;
-            background: linear-gradient(180deg, #0f2027, #203a43);
+            background: linear-gradient(to right, #bdc3c7, #2c3e50);
             padding-top: 30px;
             box-shadow: 2px 0 10px rgba(0,0,0,0.15);
         }

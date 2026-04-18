@@ -12,7 +12,7 @@
 
     <style>
         body {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
+            background: linear-gradient(to right, #bdc3c7, #2c3e50);
             min-height: 100vh;
         }
         .card {
@@ -43,7 +43,6 @@
 
         <div class="d-flex gap-2">
             <a href="/" class="btn btn-outline-light btn-sm">Home</a>
-            <a href="/register" class="btn btn-light btn-sm fw-semibold">+ Register</a>
         </div>
     </div>
 </nav>
@@ -103,7 +102,7 @@
                             <td>
                                 <a href="/user/get?username=${user.username}"
                                    class="btn btn-sm btn-outline-primary me-2">
-                                    Update
+                                    Edit
                                 </a>
 
                                 <a href="/user/delete?username=${user.username}"

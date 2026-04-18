@@ -1,100 +1,76 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
     <style>
         body {
             margin: 0;
             height: 100vh;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(to right, #bdc3c7, #2c3e50);
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .login-box {
-            background: #ffffff;
+            background: #fff;
             padding: 30px 35px;
             width: 340px;
             border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
         }
 
         h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #333;
         }
 
         label {
-            display: block;
-            margin-bottom: 6px;
             font-size: 14px;
-            color: #555;
         }
 
         input {
             width: 100%;
             padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
             margin-bottom: 15px;
-            box-sizing: border-box;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 10px;
             border-radius: 6px;
-            font-size: 15px;
-            cursor: pointer;
-            border: none;
-            box-sizing: border-box;
+            border: 1px solid #ccc;
         }
 
-        .login-btn {
-            background-color: #667eea;
+        .btn-login {
+            width: 100%;
+            background: #667eea;
             color: white;
-            margin-bottom: 10px;
         }
 
-        .login-btn:hover {
-            background-color: #5a67d8;
+        .btn-login:hover {
+            background: #5a67d8;
         }
 
-        .register-btn {
-            background-color: #f1f1f1;
-            color: #333;
-            text-decoration: none;
+        .register-link {
             display: block;
             text-align: center;
+            margin-top: 10px;
         }
 
-        .register-btn:hover {
-            background-color: #ddd;
-        }
-
-        .error {
-            color: red;
-            font-size: 13px;
+        .msg {
             text-align: center;
             margin-bottom: 10px;
+            font-size: 13px;
+            color: red;
         }
 
         .success {
             color: green;
-            font-size: 13px;
-            text-align: center;
-            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -105,34 +81,37 @@
 
     <h2>Login</h2>
 
-    <!-- ERROR -->
-    <div class="error" th:if="${param.error}">
-        Invalid username or password
-    </div>
+    <!-- COMMON ERROR MESSAGE -->
+    <c:if test="${param.error}">
+        <div class="msg">
+            Your username or password is incorrect.
+        </div>
+    </c:if>
 
-    <!-- LOGOUT -->
-    <div class="success" th:if="${param.logout}">
-        You have been logged out successfully
-    </div>
+    <!-- LOGOUT MESSAGE -->
+    <c:if test="${param.logout}">
+        <div class="msg success">
+            You have been logged out successfully.
+        </div>
+    </c:if>
 
-    <form th:action="@{/login}" method="post">
+    <form action="/login" method="post">
 
         <label>Username</label>
-        <input type="text" name="username" required />
+        <input type="text" name="username" required>
 
         <label>Password</label>
-        <input type="password" name="password" required />
+        <input type="password" name="password" required>
 
-        <!-- SAME SIZE BUTTONS -->
-        <button type="submit" class="btn login-btn">
+        <button type="submit" class="btn btn-login">
             Login
         </button>
 
-        <a href="/register" class="btn register-btn">
-            Create New Account
-        </a>
-
     </form>
+
+    <a href="/register" class="register-link">
+        Register New Account
+    </a>
 
 </div>
 

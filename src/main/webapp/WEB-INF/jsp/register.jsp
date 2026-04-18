@@ -8,14 +8,13 @@
     <meta charset="UTF-8">
     <title>User Registration</title>
 
-    <!-- Bootstrap + Font -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(to right, #bdc3c7, #2c3e50);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -31,7 +30,7 @@
 
         h3 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: 600;
             color: #4b6cb7;
         }
@@ -53,10 +52,6 @@
             overflow-y: auto;
         }
 
-        .form-check {
-            margin-bottom: 5px;
-        }
-
         .btn-primary {
             width: 100%;
             border-radius: 10px;
@@ -64,9 +59,10 @@
             font-weight: 600;
         }
 
-        .form-check-input:checked {
-            background-color: #4b6cb7;
-            border-color: #4b6cb7;
+        .alert {
+            font-size: 13px;
+            padding: 8px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -77,38 +73,41 @@
 
     <h3>Register User</h3>
 
+    <!-- MESSAGE FROM CONTROLLER -->
+    <c:if test="${not empty message}">
+        <div class="alert alert-danger text-center">
+            ${message}
+        </div>
+    </c:if>
+
+    <!-- POPUP (optional) -->
+    <c:if test="${not empty message}">
+        <script>
+            alert("${message}");
+        </script>
+    </c:if>
+
     <form:form action="register" method="post" modelAttribute="userDto">
 
         <!-- NAME -->
         <div class="mb-3">
-            <label class="form-label">Full Name <span class="text-danger">*</span></label>
-            <form:input path="name"
-                        cssClass="form-control"
-                        placeholder="Enter your name"
-                        required="required"/>
+            <label class="form-label">Full Name</label>
+            <form:input path="name" cssClass="form-control" required="required"/>
         </div>
 
-        <!-- EMAIL (VALIDATED FRONTEND ONLY) -->
+        <!-- EMAIL -->
         <div class="mb-3">
-            <label class="form-label">Email Address <span class="text-danger">*</span></label>
-
-            <form:input path="username"
-                        cssClass="form-control"
-                        placeholder="Enter valid email"
-                        type="email"
-                        required="required"
-                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
-                        title="Enter valid email like example@gmail.com"/>
+            <label class="form-label">Email</label>
+            <form:input path="username" cssClass="form-control" type="email" required="required"/>
         </div>
 
         <!-- ROLES -->
         <div class="mb-3">
-            <label class="form-label">Select Roles <span class="text-danger">*</span></label>
+            <label class="form-label">Select Roles</label>
 
             <div class="role-box">
                 <c:forEach items="${roles}" var="role">
                     <div class="form-check">
-
                         <form:checkbox path="roles"
                                        value="${role.identifier}"
                                        cssClass="form-check-input"
@@ -117,53 +116,38 @@
                         <label class="form-check-label" for="role_${role.identifier}">
                             ${role.identifier}
                         </label>
-
                     </div>
                 </c:forEach>
             </div>
         </div>
 
-        <!-- PHONE -->
+        <!-- PHONE (ONLY NUMBERS) -->
         <div class="mb-3">
-            <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+            <label class="form-label">Phone Number</label>
 
             <form:input path="phoneNo"
                         cssClass="form-control"
-                        placeholder="Enter 10-digit number"
                         required="required"
-                        pattern="^[6-9][0-9]{9}$"
-                        title="Enter valid 10-digit Indian mobile number"/>
+                        maxlength="10"
+                        pattern="^[0-9]{10}$"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                        title="Enter only 10 digit numbers"/>
         </div>
 
         <!-- PASSWORD -->
-        <div class="mb-4">
-            <label class="form-label">Password <span class="text-danger">*</span></label>
-
-            <form:password path="password"
-                           cssClass="form-control"
-                           placeholder="Enter password"
-                           required="required"
-                           minlength="6"
-                           title="Password must be at least 6 characters"/>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <form:password path="password" cssClass="form-control" required="required"/>
         </div>
 
         <!-- BUTTON -->
-        <button type="submit" class="btn btn-primary mb-2">
+        <button type="submit" class="btn btn-primary">
             Register
         </button>
 
-        <a href="/" class="btn btn-danger w-100 mb-3 mt-2">
-            Cancel
+        <a href="/login" class="btn btn-link w-100 mt-2">
+            Already have an account? Login
         </a>
-
-        <div class="text-center">
-            <small>
-                Already have an account?
-                <a href="/login" class="text-decoration-none fw-semibold">
-                    Login
-                </a>
-            </small>
-        </div>
 
     </form:form>
 
