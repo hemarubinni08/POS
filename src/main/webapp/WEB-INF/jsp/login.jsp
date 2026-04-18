@@ -15,22 +15,18 @@
             align-items: center;
         }
 
-        form {
+        .login-box {
             background: #ffffff;
             padding: 30px 35px;
-            width: 320px;
+            width: 340px;
             border-radius: 10px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #333;
-        }
-
-        form div {
-            margin-bottom: 18px;
         }
 
         label {
@@ -46,6 +42,8 @@
             font-size: 14px;
             border: 1px solid #ccc;
             border-radius: 6px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
         }
 
         input:focus {
@@ -53,39 +51,90 @@
             border-color: #667eea;
         }
 
-        button {
+        .btn {
             width: 100%;
             padding: 10px;
-            background-color: #667eea;
-            color: white;
-            border: none;
             border-radius: 6px;
             font-size: 15px;
             cursor: pointer;
+            border: none;
+            box-sizing: border-box;
         }
 
-        button:hover {
+        .login-btn {
+            background-color: #667eea;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .login-btn:hover {
             background-color: #5a67d8;
+        }
+
+        .register-btn {
+            background-color: #f1f1f1;
+            color: #333;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .register-btn:hover {
+            background-color: #ddd;
+        }
+
+        .error {
+            color: red;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .success {
+            color: green;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 
 <body>
 
-<form th:action="@{/login}" method="post">
+<div class="login-box">
+
     <h2>Login</h2>
-    <div>
-        <label>Username:</label>
+
+    <!-- ERROR -->
+    <div class="error" th:if="${param.error}">
+        Invalid username or password
+    </div>
+
+    <!-- LOGOUT -->
+    <div class="success" th:if="${param.logout}">
+        You have been logged out successfully
+    </div>
+
+    <form th:action="@{/login}" method="post">
+
+        <label>Username</label>
         <input type="text" name="username" required />
-    </div>
 
-    <div>
-        <label>Password:</label>
+        <label>Password</label>
         <input type="password" name="password" required />
-    </div>
 
-    <button type="submit">Login</button>
-</form>
+        <!-- SAME SIZE BUTTONS -->
+        <button type="submit" class="btn login-btn">
+            Login
+        </button>
+
+        <a href="/register" class="btn register-btn">
+            Create New Account
+        </a>
+
+    </form>
+
+</div>
 
 </body>
 </html>

@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <title>User Registration</title>
 
-    <!-- Bootstrap + Google Font -->
+    <!-- Bootstrap + Font -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -79,19 +79,31 @@
 
     <form:form action="register" method="post" modelAttribute="userDto">
 
-
+        <!-- NAME -->
         <div class="mb-3">
-            <label class="form-label">Full Name</label>
-            <form:input path="name" cssClass="form-control" placeholder="Enter your name"/>
+            <label class="form-label">Full Name <span class="text-danger">*</span></label>
+            <form:input path="name"
+                        cssClass="form-control"
+                        placeholder="Enter your name"
+                        required="required"/>
         </div>
 
+        <!-- EMAIL (VALIDATED FRONTEND ONLY) -->
         <div class="mb-3">
-            <label class="form-label">Email Address</label>
-            <form:input path="username" cssClass="form-control" placeholder="Enter email"/>
+            <label class="form-label">Email Address <span class="text-danger">*</span></label>
+
+            <form:input path="username"
+                        cssClass="form-control"
+                        placeholder="Enter valid email"
+                        type="email"
+                        required="required"
+                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+                        title="Enter valid email like example@gmail.com"/>
         </div>
 
+        <!-- ROLES -->
         <div class="mb-3">
-            <label class="form-label">Select Roles</label>
+            <label class="form-label">Select Roles <span class="text-danger">*</span></label>
 
             <div class="role-box">
                 <c:forEach items="${roles}" var="role">
@@ -111,16 +123,31 @@
             </div>
         </div>
 
+        <!-- PHONE -->
         <div class="mb-3">
-            <label class="form-label">Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" placeholder="Enter phone"/>
+            <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+
+            <form:input path="phoneNo"
+                        cssClass="form-control"
+                        placeholder="Enter 10-digit number"
+                        required="required"
+                        pattern="^[6-9][0-9]{9}$"
+                        title="Enter valid 10-digit Indian mobile number"/>
         </div>
 
+        <!-- PASSWORD -->
         <div class="mb-4">
-            <label class="form-label">Password</label>
-            <form:password path="password" cssClass="form-control" placeholder="Enter password"/>
+            <label class="form-label">Password <span class="text-danger">*</span></label>
+
+            <form:password path="password"
+                           cssClass="form-control"
+                           placeholder="Enter password"
+                           required="required"
+                           minlength="6"
+                           title="Password must be at least 6 characters"/>
         </div>
 
+        <!-- BUTTON -->
         <button type="submit" class="btn btn-primary mb-2">
             Register
         </button>
