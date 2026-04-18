@@ -31,7 +31,7 @@ public class RoleController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
-        return "redirect:/role/list";
+        return "role/add";
     }
 
     @GetMapping("/get")

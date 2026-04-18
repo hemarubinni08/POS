@@ -17,4 +17,5 @@ public interface NodeService {
     List<NodeDto> findAll();
 
     NodeDto findByIdentifier(String identifier);
+
 }

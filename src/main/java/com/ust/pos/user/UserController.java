@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("user", userService.findAll());
         return "user/list";
     }
 
@@ -36,9 +36,10 @@ public class UserController {
         UserDto response = userService.update(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            model.addAttribute("user",userDto);
             return "user/user";
         }
-        return "redirect:/user/list";
+        return "redirect:user/list";
     }
 
     @GetMapping("/delete")

@@ -19,7 +19,7 @@ public class NodeController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("node", nodeService.findAll());
+        model.addAttribute("nodes", nodeService.findAll());
         return "node/list";
     }
 
@@ -35,7 +35,7 @@ public class NodeController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
-        return "redirect:/node/list";
+        return "node/add";
     }
 
     @GetMapping("/get")
@@ -51,6 +51,7 @@ public class NodeController {
         NodeDto response = nodeService.update(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            model.addAttribute("node", nodeDto);   // ✅ IMPORTANT
         }
         return "redirect:/node/list";
     }

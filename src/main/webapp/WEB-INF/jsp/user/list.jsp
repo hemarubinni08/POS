@@ -12,7 +12,7 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ffffff;
             min-height: 100vh;
         }
 
@@ -25,13 +25,35 @@
             color: white;
         }
 
-        a.user-link {
-            text-decoration: none;
-            font-weight: 500;
+        /* Top navigation */
+        .top-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
         }
 
-        a.user-link:hover {
-            text-decoration: underline;
+        .top-link {
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .top-link:hover {
+            text-decoration: none;
+            color: #000;
+        }
+
+        /* Action icons */
+        .action-link {
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 6px;
+        }
+
+        .action-link:hover {
+            text-decoration: none;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -42,16 +64,22 @@
     <div class="card shadow-lg">
         <div class="card-body">
 
+            <!-- 🔙 Back Arrow + 🏠 Home -->
+            <div class="top-actions">
+                <a href="javascript:history.back()" class="top-link">← </a>
+                <a href="/" class="btn btn-secondary btn-sm">Home</a>
+            </div>
+
             <h3 class="text-center mb-4">User Management</h3>
 
             <!-- NO USERS MESSAGE -->
-            <c:if test="${empty users}">
+            <c:if test="${empty user}">
                 <div class="alert alert-warning text-center">
                     No users found
                 </div>
             </c:if>
 
-            <c:if test="${not empty users}">
+            <c:if test="${not empty user}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
                         <thead>
@@ -62,29 +90,31 @@
                             <th>Roles</th>
                             <th>Action</th>
                         </tr>
-                        </head>
-                        <body>
-                        <c:forEach var="user" items="${users}">
+                        </thead>
+
+                        <tbody>
+                        <c:forEach var="user" items="${user}">
                             <tr>
-                                <td>
-                                    <a class="user-link"
-                                       href="/user/get?username=${user.username}">
-                                        ${user.username}
-                                    </a>
-                                </td>
+                                <td>${user.username}</td>
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
                                 <td>
-                                    <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?username=${user.username}"
+                                    <!-- ✏️ Edit -->
+                                    <a href="/user/get?username=${user.username}"
+                                       class="action-link">✏️</a>
+
+                                    <!-- 🗑 Delete -->
+                                    <a href="/user/delete?username=${user.username}"
+                                       class="action-link"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
-                                        Delete
+                                        🗑
                                     </a>
                                 </td>
                             </tr>
                         </c:forEach>
-                        </body>
+                        </tbody>
+
                     </table>
                 </div>
             </c:if>
@@ -92,20 +122,9 @@
         </div>
 
         <div class="card-footer text-center">
-            <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">
-                    Home
-                </a>
-
-                <a href="/register" class="btn btn-success">
-                    Register
-                </a>
-            </div>
-
             <div class="text-muted small mt-2">
                 User Management System
             </div>
-        </div>
 
     </div>
 </div>

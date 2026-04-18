@@ -12,7 +12,7 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #2193b0, #6dd5ed);
+            background: #ffffff;
             min-height: 100vh;
         }
         .card {
@@ -75,7 +75,7 @@
                             </div>
 
                             <div class="d-flex justify-content-between">
-                                <a href="${pageContext.request.contextPath}/node/list"
+                                <a href="/node/list"
                                    class="btn btn-secondary">
                                     Cancel
                                 </a>
