@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Retail POS | Role List</title>
+<title>Retail POS | Node List</title>
 
 <!-- Font Awesome Icons -->
 <link rel="stylesheet"
@@ -31,16 +31,16 @@
         background-color: var(--bg-light);
         background-image: radial-gradient(#cbd5e1 0.5px, transparent 0.5px);
         background-size: 24px 24px;
+        padding: 40px 20px;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 40px 20px;
     }
 
     .container {
         background: var(--card-bg);
         width: 100%;
-        max-width: 1000px;
+        max-width: 1100px;
         padding: 40px;
         border-radius: 12px;
         box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1),
@@ -90,7 +90,19 @@
         background-color: #f8fafc;
     }
 
-    /* Icon-only actions */
+    .role-tag {
+        display: inline-block;
+        padding: 4px 10px;
+        margin: 2px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        background: #eef2ff;
+        color: #4f46e5;
+        border: 1px solid #e0e7ff;
+    }
+
+    /* Icon‑only actions */
     .action-icon {
         color: var(--primary);
         font-size: 16px;
@@ -107,14 +119,11 @@
         color: #dc2626;
     }
 
-    .alert {
-        background-color: #fef3c7;
-        border: 1px solid #fde68a;
-        color: #92400e;
-        padding: 14px;
-        border-radius: 6px;
+    .empty {
+        padding: 30px;
+        color: #94a3b8;
         text-align: center;
-        margin-top: 20px;
+        font-style: italic;
     }
 
     .footer-links {
@@ -143,55 +152,76 @@
 <div class="container">
 
     <div class="header">
-        <h2>Registered Roles</h2>
-        <p>Manage access roles for the POS system.</p>
+        <h2>Node Management</h2>
+        <p>Manage application nodes and route permissions.</p>
     </div>
 
-    <c:if test="${empty roles}">
-        <div class="alert">No roles found</div>
-    </c:if>
-
-    <c:if test="${not empty roles}">
-        <table>
-            <thead>
+    <table>
+        <thead>
             <tr>
                 <th>ID</th>
-                <th>Role</th>
-                <th>Description</th>
+                <th>Node Name</th>
+                <th>Roles</th>
+                <th>Path</th>
                 <th>Action</th>
             </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="role" items="${roles}">
-                <tr>
-                    <td>${role.id}</td>
-                    <td>${role.identifier}</td>
-                    <td>${role.description}</td>
-                    <td>
-                        <!-- Edit Role -->
-                        <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
-                           class="action-icon"
-                           title="Edit Role">
-                            <i class="fa-solid fa-pen"></i>
-                        </a>
+        </thead>
 
-                        <!-- Delete Role -->
-                        <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
-                           class="action-icon delete-icon"
-                           title="Delete Role"
-                           onclick="return confirm('Are you sure you want to delete this role?');">
-                            <i class="fa-solid fa-trash"></i>
-                        </a>
+        <tbody>
+        <c:choose>
+            <c:when test="${not empty nodes}">
+                <c:forEach var="n" items="${nodes}">
+                    <tr>
+                        <td>${n.id}</td>
+                        <td>${n.identifier}</td>
+
+                        <td>
+                            <c:choose>
+                                <c:when test="${not empty n.roles}">
+                                    <c:forEach var="r" items="${n.roles}">
+                                        <span class="role-tag">${r}</span>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>—</c:otherwise>
+                            </c:choose>
+                        </td>
+
+                        <td>${n.path}</td>
+
+                        <td>
+                            <!-- Edit -->
+                            <a class="action-icon"
+                               href="${pageContext.request.contextPath}/node/get?identifier=${n.identifier}"
+                               title="Edit Node">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+
+                            <!-- Delete -->
+                            <a class="action-icon delete-icon"
+                               href="${pageContext.request.contextPath}/node/delete?identifier=${n.identifier}"
+                               onclick="return confirm('Are you sure you want to delete this node?');"
+                               title="Delete Node">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:when>
+
+            <c:otherwise>
+                <tr>
+                    <td colspan="5" class="empty">
+                        No nodes found in the system.
                     </td>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
+            </c:otherwise>
+        </c:choose>
+        </tbody>
+    </table>
 
     <div class="footer-links">
-        <a href="/">Home</a>
-        <a href="${pageContext.request.contextPath}/role/add">Add New Role</a>
+        <a href="${pageContext.request.contextPath}/node/add">Add New Node</a>
+        <a href="${pageContext.request.contextPath}/">Home</a>
     </div>
 
 </div>

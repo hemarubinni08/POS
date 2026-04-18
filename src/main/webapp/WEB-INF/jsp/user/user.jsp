@@ -1,128 +1,218 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update User</title>
+<meta charset="UTF-8">
+<title>Edit Profile</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
+<style>
+    /* ✅ Modern UI Transformation */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <style>
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: "Segoe UI", Arial, sans-serif;
-        }
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: radial-gradient(circle at top left, #f8fafc, #e2e8f0);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #334155;
+    }
 
-        .update-card {
-            width: 460px;
-            background: #fff;
-            padding: 30px 35px;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-        }
+    .edit-card {
+        width: 100%;
+        max-width: 440px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        backdrop-filter: blur(10px);
+    }
 
-        h3 {
-            text-align: center;
-            color: #4b6cb7;
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        color: #1e293b;
+        font-size: 24px;
+    }
 
-        label {
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
-        }
+    label {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+        color: #64748b;
+    }
 
-        .form-control,
-        select {
-            border-radius: 8px;
-            padding: 10px 12px;
-        }
+    /* Target Spring Form Inputs */
+    input[type="text"], input[type="email"], select {
+        width: 100%;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        background-color: #fcfcfd;
+        font-size: 15px;
+        color: #1e293b;
+        transition: all 0.2s ease;
+    }
 
-        select[multiple] {
-            height: 120px;
-        }
+    input:focus {
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        background-color: #ffffff;
+    }
 
-        .btn-update {
-            width: 100%;
-            padding: 12px;
-            background: #4b6cb7;
-            border: none;
-            color: white;
-            font-weight: 600;
-            border-radius: 8px;
-        }
+    .role-list {
+        border: 1px solid #f1f5f9;
+        border-radius: 12px;
+        padding: 8px;
+        max-height: 160px;
+        overflow-y: auto;
+        margin-bottom: 24px;
+        background: #f8fafc;
+    }
 
-        .btn-update:hover {
-            background: #182848;
-        }
+    /* Custom Scrollbar */
+    .role-list::-webkit-scrollbar { width: 5px; }
+    .role-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-        small {
-            font-size: 11px;
-            color: #666;
-        }
-    </style>
+    .role-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 12px;
+        margin-bottom: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: background 0.2s;
+        cursor: pointer;
+    }
+
+    .role-item:hover {
+        background-color: #eff6ff;
+        color: #2563eb;
+    }
+
+    /* Styled Checkbox */
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: #6366f1;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: #1e293b;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    button:hover {
+        background: #0f172a;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    button:active {
+        transform: translateY(0);
+    }
+
+    .error {
+        margin-top: 15px;
+        text-align: center;
+        color: #e11d48;
+        background: #fff1f2;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .link-btn {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #64748b;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .link-btn:hover {
+        color: #4f46e5;
+    }
+
+</style>
 </head>
 
 <body>
-${message}
-<div class="update-card">
-    <h3>Update User</h3>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto">
+<div class="edit-card">
 
-        <form:input type="hidden" path="id"/>
+    <h2>Edit Profile</h2>
 
-        <div class="mb-3">
+    <c:if test="${not empty user}">
+
+        <form:form action="${pageContext.request.contextPath}/user/update"
+                   method="post"
+                   modelAttribute="user">
+
+            <form:hidden path="id"/>
+
             <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
-        </div>
+            <form:input path="name" placeholder="Full Name"/>
 
-         <div class="mb-3">
-            <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
-        </div>
+            <label>Email Address</label>
+            <form:input path="username" placeholder="name@example.com"/>
 
-        <div class="mb-3">
             <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" required="true"/>
-        </div>
+            <form:input path="phoneNo"
+                        required="true"
+                        pattern="[0-9]{10}"
+                        placeholder="10-digit number"
+                        title="Enter a valid 10-digit phone number"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
 
-        <div class="mb-3">
-            <label>Roles</label>
-
-            <div class="mb-1 text-muted">
-                Current:
-                <c:forEach var="r" items="${user.roles}">
-                    <span class="badge bg-secondary me-1">${r}</span>
+            <label>Assign Roles</label>
+            <div class="role-list">
+                <c:forEach var="r" items="${roles}">
+                    <label class="role-item">
+                        <span>${r.identifier}</span>
+                        <form:checkbox path="roles" value="${r.identifier}" />
+                    </label>
                 </c:forEach>
             </div>
 
-            <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
-            </form:select>
+            <button type="submit">Save Changes</button>
 
+            <a href="${pageContext.request.contextPath}/user/list" class="link-btn">
+                Back to User List
+            </a>
 
-            <small>
-                Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
-            </small>
-        </div>
+        </form:form>
 
-        <button type="submit" class="btn-update">Update User</button>
+    </c:if>
 
-    </form:form>
-
-    <div class="text-center mt-3">
-        <a href="/user/list">← Back to User List</a>
-    </div>
+    <c:if test="${not empty message}">
+        <p class="error">${message}</p>
+    </c:if>
 
 </div>
 

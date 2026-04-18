@@ -1,122 +1,227 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>User Registration</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retail POS | Staff Registration</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --bg-light: #f8fafc;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+        --card-bg: #ffffff;
+    }
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    * { box-sizing: border-box; }
 
-        .register-card {
-            width: 430px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 35px 40px;
-            border-radius: 16px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-        }
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'Inter', -apple-system, system-ui, sans-serif;
+        background-color: var(--bg-light);
+        background-image: radial-gradient(#cbd5e1 0.5px, transparent 0.5px);
+        background-size: 24px 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+    }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #4b6cb7;
-            font-weight: 600;
-        }
+    .container {
+        background: var(--card-bg);
+        padding: 40px;
+        width: 100%;
+        max-width: 460px;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1),
+                    0 2px 4px -1px rgba(0,0,0,0.06);
+        border-top: 5px solid var(--primary);
+    }
 
-        .form-group {
-            margin-bottom: 16px;
-        }
+    .header {
+        margin-bottom: 30px;
+    }
 
-        label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 6px;
-            display: block;
-        }
+    .header h2 {
+        margin: 0;
+        font-size: 24px;
+        color: var(--text-main);
+    }
 
-        input, select {
-            width: 100%;
-            padding: 11px 14px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
+    .header p {
+        margin-top: 8px;
+        font-size: 14px;
+        color: var(--text-muted);
+    }
 
-        select[multiple] {
-            height: 130px; /* ✅ MAKES MULTI-SELECT CLEAR */
-        }
+    .error-msg {
+        background-color: #fef2f2;
+        color: #dc2626;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
 
-        small {
-            color: #666;
-            font-size: 11px;
-        }
+    .form-group { margin-bottom: 18px; }
 
-        .btn-submit {
-            margin-top: 10px;
-            width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, #4b6cb7, #182848);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-    </style>
+    label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        font-size: 15px;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+
+    .role-section { margin: 24px 0; }
+
+    .role-list {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        max-height: 160px;
+        overflow-y: auto;
+        background: #fbfcfe;
+    }
+
+    .role-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .role-item:last-child { border-bottom: none; }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        background-color: #1e293b;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    button:hover { background-color: #0f172a; }
+
+    /* Back Button */
+    .back-btn {
+        display: block;
+        margin-top: 12px;
+        text-align: center;
+        padding: 12px;
+        border-radius: 6px;
+        background-color: #e5e7eb;
+        color: #111827;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .back-btn:hover {
+        background-color: #d1d5db;
+    }
+
+    .footer-links {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+        text-align: center;
+    }
+
+    .link-btn {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+    }
+</style>
 </head>
 
 <body>
 
-<div class="register-card">
-    <h2>User Registration</h2>
+<div class="container">
+    <div class="header">
+        <h2>Create Staff Account</h2>
+        <p>Register new personnel for the POS system.</p>
+    </div>
 
-    <form:form action="register" method="post" modelAttribute="userDto">
+    <c:if test="${not empty message}">
+        <div class="error-msg">⚠️ ${message}</div>
+    </c:if>
 
-        <!-- Name -->
+    <form action="${pageContext.request.contextPath}/register" method="post">
+
         <div class="form-group">
-            <label>Name</label>
-            <form:input path="name"/>
+            <label>Full Name</label>
+            <input type="text" name="name" value="${userDto.name}" required>
         </div>
 
         <div class="form-group">
-            <label>Email</label>
-            <form:input path="username"/>
+            <label>E-mail Address</label>
+            <input type="email" name="username" value="${userDto.username}" required>
         </div>
 
         <div class="form-group">
-            <label>Roles</label>
-            <form:select path="roles" multiple="true">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-            </form:select>
+            <label>Secure Password</label>
+            <input type="password" name="password" required>
         </div>
 
         <div class="form-group">
             <label>Phone Number</label>
-            <form:input path="phoneNo"/>
+            <input type="text" name="phoneNo" value="${userDto.phoneNo}" required>
         </div>
 
-        <div class="form-group">
-            <label>Password</label>
-            <form:password path="password"/>
+        <div class="role-section">
+            <label>Access Permissions (Roles)</label>
+            <div class="role-list">
+                <c:forEach var="r" items="${roles}">
+                    <div class="role-item">
+                        <span>${r.identifier}</span>
+                        <input type="checkbox" name="roles" value="${r.identifier}">
+                    </div>
+                </c:forEach>
+            </div>
         </div>
 
-        <input type="submit" value="Register" class="btn-submit"/>
+        <!-- Register -->
+        <button type="submit">Complete Registration</button>
 
-    </form:form>
+        <!-- Back Button -->
+        <a href="${pageContext.request.contextPath}/user/list" class="back-btn">
+            ← Back
+        </a>
 
+        <div class="footer-links">
+            <a href="${pageContext.request.contextPath}/user/list" class="link-btn">
+                View Registered Users
+            </a>
+        </div>
+
+    </form>
 </div>
 
 </body>
