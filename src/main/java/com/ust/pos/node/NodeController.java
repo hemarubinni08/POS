@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/node")
 public class NodeController {
 
+    public static final String ROLES = "roles";
+    public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     @Autowired
     private NodeService nodeService;
 
@@ -27,7 +29,7 @@ public class NodeController {
     @GetMapping("/add")
     public String addPage(Model model) {
         model.addAttribute("nodeDto", new NodeDto());
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         return "node/add";
     }
 
@@ -38,12 +40,12 @@ public class NodeController {
         NodeDto response = nodeService.save(nodeDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute(ROLES, roleService.findAll());
             model.addAttribute("message", response.getMessage());
             return "node/add";
         }
 
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/get")
@@ -52,7 +54,7 @@ public class NodeController {
 
         NodeDto nodeDto = nodeService.findByIdentifier(identifier);
         model.addAttribute("nodeDto", nodeDto);
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
 
         return "node/node";
     }
@@ -63,17 +65,17 @@ public class NodeController {
         NodeDto response = nodeService.update(nodeDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute(ROLES, roleService.findAll());
             model.addAttribute("message", response.getMessage());
             return "node/node";
         }
 
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
         nodeService.delete(identifier);
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 }

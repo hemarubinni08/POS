@@ -15,6 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    public static final String LOGIN = "/login";
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -35,15 +37,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 
-                        .requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers(LOGIN, "/register").permitAll()
                         .anyRequest().authenticated()
                 )
 
                 .formLogin(form -> form
-                        .loginPage("/login")
+                        .loginPage(LOGIN)
                         .failureHandler((request, response, exception) -> {
                             request.getSession().setAttribute("errorMessage", "Wrong credentials");
-                            response.sendRedirect("/login");
+                            response.sendRedirect(LOGIN);
                         })
                 )
 

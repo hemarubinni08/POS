@@ -19,8 +19,6 @@ public class HomeController {
             model.addAttribute("nodes", nodeService.getNodesForRoles());
             return "home";
         } catch (RuntimeException ex) {
-
-
             if ("USER_DELETED".equals(ex.getMessage())) {
                 return "redirect:/login";
             }

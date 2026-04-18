@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
+    public static final String USER_USER = "user/user";
     @Autowired
     private UserService userService;
 
@@ -33,13 +34,13 @@ public class UserController {
 
         if (userDto == null) {
             model.addAttribute("message", "User not found");
-            return "user/user";
+            return USER_USER;
         }
 
         model.addAttribute("userDto", userDto);
         model.addAttribute("roles", roleService.findAll());
 
-        return "user/user";
+        return USER_USER;
     }
 
     //  Update user
@@ -52,7 +53,7 @@ public class UserController {
         if (!response.isSuccess()) {
             model.addAttribute("roles", roleService.findAll());
             model.addAttribute("message", response.getMessage());
-            return "user/user";
+            return USER_USER;
         }
 
         return "redirect:/user/list";
