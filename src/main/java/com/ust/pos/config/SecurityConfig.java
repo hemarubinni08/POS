@@ -38,13 +38,12 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/register").permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .failureUrl("/login?error")
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
-
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()

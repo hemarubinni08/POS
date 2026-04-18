@@ -4,6 +4,7 @@ import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
 import com.ust.pos.role.service.RoleService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
+@Transactional
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
@@ -55,8 +57,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean delete(String identifier) {
-        return roleRepository.deleteByIdentifier(identifier);
+    public void delete(String identifier) {
+        roleRepository.deleteByIdentifier(identifier);
     }
 
     @Override

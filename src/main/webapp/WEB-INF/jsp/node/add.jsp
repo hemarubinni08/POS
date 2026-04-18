@@ -1,11 +1,14 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update User</title>
+    <meta charset="UTF-8">
+    <title>Add Node</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
@@ -37,7 +40,7 @@
             font-weight: 600;
         }
 
-        /* ✅ Back Icon (same everywhere) */
+        /* ✅ Back Icon (Same as Role pages) */
         .back-icon {
             position: absolute;
             top: 16px;
@@ -68,10 +71,9 @@
         }
 
         label {
-            margin-bottom: 6px;
             display: block;
+            margin-bottom: 6px;
             font-weight: 500;
-            font-size: 14px;
             color: #333;
         }
 
@@ -91,12 +93,18 @@
         }
 
         select[multiple] {
-            height: 120px;
+            height: auto;
         }
 
-        .badge {
-            font-size: 12px;
-            background: #6c757d;
+        .error-message {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+            background: rgba(220, 53, 69, 0.12);
+            border: 1px solid #dc3545;
+            color: #dc3545;
         }
 
         .btn-submit {
@@ -116,16 +124,6 @@
             transform: scale(1.05);
         }
 
-        .alert {
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-size: 14px;
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-
         .footer-text {
             text-align: center;
             margin-top: 15px;
@@ -139,54 +137,43 @@
 
 <div class="card-container">
 
-    <!-- ✅ Back to User List -->
-    <a href="/user/list" class="back-icon">←</a>
+    <!-- ✅ Back to Node List -->
+    <a href="/node/list" class="back-icon">←</a>
 
-    <h2>Update User</h2>
+    <h2>Add New Node</h2>
 
-    <!-- ✅ Message -->
+    <!-- ✅ Error / Info Message -->
     <c:if test="${not empty message}">
-        <div class="alert">
+        <div class="error-message">
             ${message}
         </div>
     </c:if>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto">
-
-        <!-- ID (hidden) -->
-        <form:input path="id" type="hidden"/>
-
-        <div class="form-group">
-            <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
-        </div>
+    <form:form method="post"
+               action="/node/add"
+               modelAttribute="nodeDto">
 
         <div class="form-group">
-            <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
-        </div>
-
-        <div class="form-group">
-            <label>Phone Number</label>
-            <form:input path="phoneNo"
+            <label>Node Name</label>
+            <form:input path="identifier"
                         cssClass="form-control"
-                        maxlength="10"
-                        pattern="[0-9]{10}"
-                        title="Enter exactly 10 digits"
-                        oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
+                        placeholder="Enter node name"
+                        required="required"/>
+        </div>
+
+        <div class="form-group">
+            <label>Path</label>
+            <form:input path="path"
+                        cssClass="form-control"
+                        placeholder="Enter path"
+                        required="required"/>
         </div>
 
         <div class="form-group">
             <label>Roles</label>
-
-            <div class="mb-2 text-muted">
-                Current:
-                <c:forEach var="r" items="${userDto.roles}">
-                    <span class="badge me-1">${r}</span>
-                </c:forEach>
-            </div>
-
-            <form:select path="roles" multiple="true" cssClass="form-control">
+            <form:select path="roles"
+                         multiple="true"
+                         cssClass="form-control">
                 <form:options items="${roles}"
                               itemValue="identifier"
                               itemLabel="identifier"/>
@@ -194,13 +181,13 @@
         </div>
 
         <button type="submit" class="btn-submit">
-            Update User
+            Add Node
         </button>
 
     </form:form>
 
     <div class="footer-text">
-        User Management System
+        POS Management System
     </div>
 
 </div>

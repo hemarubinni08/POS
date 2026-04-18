@@ -4,6 +4,7 @@ import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -50,7 +52,6 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
         String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
-
         if (userOptional.isEmpty()) {
             userDto.setMessage("User with username/email - " + userDto.getUsername() + " not found");
             userDto.setSuccess(false);
@@ -71,8 +72,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delete(String username) {
-        return userRepository.deleteByUsername(username);
+    public Void delete(String username) {
+        userRepository.deleteByUsername(username);
+        return null;
     }
 
     @Override

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Role List</title>
+    <title>Node List</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -21,7 +21,7 @@
 
         .card-container {
             position: relative;
-            width: 750px;
+            width: 900px;
             background: rgba(255, 255, 255, 0.95);
             padding: 35px 40px;
             border-radius: 16px;
@@ -58,6 +58,7 @@
             background: #4b6cb7;
             color: #ffffff;
             transform: translateX(-4px) scale(1.05);
+            box-shadow: 0 8px 18px rgba(75, 108, 183, 0.35);
         }
 
         table {
@@ -79,9 +80,7 @@
             border-bottom: 1px solid #eee;
             font-size: 14px;
             color: #333;
-
-            /* ✅ FIX: Prevent vertical wrapping */
-            white-space: nowrap;
+            word-break: break-word;
         }
 
         tr:hover {
@@ -93,8 +92,6 @@
             margin: 0 6px;
             text-decoration: none;
             color: #4b6cb7;
-            display: inline-flex;
-            align-items: center;
             transition: 0.2s ease;
         }
 
@@ -159,40 +156,43 @@
 
     <a href="/" class="back-icon">←</a>
 
-    <h2>List of Roles</h2>
+    <h2>List of Nodes</h2>
 
-    <c:if test="${empty roles}">
+    <c:if test="${empty nodes}">
         <div class="alert alert-warning">
-            No roles found
+            No nodes found
         </div>
     </c:if>
 
-    <c:if test="${not empty roles}">
+    <c:if test="${not empty nodes}">
         <table>
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Role</th>
-                <th>Description</th>
+                <th>Node</th>
+                <th>Path</th>
+                <th>Roles</th>
                 <th>Action</th>
             </tr>
             </thead>
 
             <tbody>
-            <c:forEach var="role" items="${roles}">
+            <c:forEach var="node" items="${nodes}">
                 <tr>
-                    <td>${role.id}</td>
-                    <td>${role.identifier}</td>
-                    <td>${role.description}</td>
+                    <td>${node.id}</td>
+                    <td>${node.identifier}</td>
+                    <td>${node.path}</td>
+                    <td>${node.roles}</td>
+
                     <td>
-                        <a href="/role/get?identifier=${role.identifier}"
+                        <a href="/node/get?identifier=${node.identifier}"
                            class="action-icon"
                            title="Edit">✏️</a>
 
-                        <a href="/role/delete?identifier=${role.identifier}"
+                        <a href="/node/delete?identifier=${node.identifier}"
                            class="action-icon"
                            title="Delete"
-                           onclick="return confirm('Are you sure you want to delete this role?');">
+                           onclick="return confirm('Are you sure you want to delete this node?');">
                             🗑
                         </a>
                     </td>
@@ -204,7 +204,7 @@
 
     <div class="footer-actions">
         <a href="/" class="btn btn-home">Home</a>
-        <a href="/role/add" class="btn btn-add">+ Add New Role</a>
+        <a href="/node/add" class="btn btn-add">+ Add New Node</a>
     </div>
 
 </div>

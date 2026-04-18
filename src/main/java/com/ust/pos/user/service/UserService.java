@@ -11,7 +11,7 @@ public interface UserService {
 
     UserDto update(UserDto userDto);
 
-    boolean delete(String username);
+    Void delete(String username);
 
     List<UserDto> findAll();
 }
