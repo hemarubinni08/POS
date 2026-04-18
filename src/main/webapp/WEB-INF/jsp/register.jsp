@@ -55,7 +55,7 @@
         }
 
         select[multiple] {
-            height: 130px; /* ✅ MAKES MULTI-SELECT CLEAR */
+            height: 130px;
         }
 
         small {

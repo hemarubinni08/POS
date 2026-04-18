@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Role List</title>
+    <title>Node List</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -36,40 +36,44 @@
 
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white text-center">
-                    <h4 class="mb-0">List of Roles</h4>
+                    <h4 class="mb-0">List of Nodes</h4>
                 </div>
 
                 <div class="card-body">
 
-                    <c:if test="${empty roles}">
+                    <c:if test="${empty nodes}">
                         <div class="alert alert-warning text-center">
-                            No roles found
+                            No nodes found
                         </div>
                     </c:if>
 
-                    <c:if test="${not empty roles}">
+                    <c:if test="${not empty nodes}">
                         <table class="table table-bordered table-hover text-center align-middle">
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Role</th>
+                                <th>Node</th>
+                                <th>Path</th>
+                                <th>Roles</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="role" items="${roles}">
+                            <c:forEach var="node" items="${nodes}">
                                 <tr>
                                     <td>
-                                        <a href="/role/get?identifier=${role.identifier}"
+                                        <a href="/node/get?identifier=${node.identifier}"
                                            class="text-decoration-none fw-semibold">
-                                            ${role.id}
+                                            ${node.id}
                                         </a>
                                     </td>
-                                    <td>${role.identifier}</td>
+                                    <td>${node.identifier}</td>
+                                    <td>${node.path}</td>
+                                    <td>${node.roles}</td>
                                     <td>
-                                        <a href="/role/delete?identifier=${role.identifier}"
+                                        <a href="/node/delete?identifier=${node.identifier}"
                                            class="btn btn-danger btn-sm"
-                                           onclick="return confirm('Are you sure you want to delete this role?');">
+                                           onclick="return confirm('Are you sure you want to delete this node?');">
                                             Delete
                                         </a>
                                     </td>
@@ -86,8 +90,8 @@
                         Home
                     </a>
 
-                    <a href="/role/add" class="btn btn-success">
-                        + Add New Role
+                    <a href="/node/add" class="btn btn-success">
+                        + Add New Node
                     </a>
                 </div>
 

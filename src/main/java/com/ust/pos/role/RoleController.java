@@ -36,16 +36,18 @@ public class RoleController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-        RoleDto response = roleService.findByIdentifier(identifier);
-        model.addAttribute("role", response);
+        RoleDto roleDto = roleService.findByIdentifier(identifier);
+        model.addAttribute("roleDto", roleDto);
         return "role/role";
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RoleDto userDto) {
-        RoleDto response = roleService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute RoleDto roleDto) {
+        RoleDto response = roleService.update(roleDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            model.addAttribute("roleDto", roleDto);
+            return "role/role";
         }
         return "redirect:/role/list";
     }
@@ -53,6 +55,6 @@ public class RoleController {
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         roleService.delete(identifier);
-        return "role/role";
+        return "redirect:/role/list";
     }
 }

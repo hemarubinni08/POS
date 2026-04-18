@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Role</title>
+    <title>Edit node</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -35,31 +35,54 @@ ${message}
 <div class="card shadow-lg">
     <div class="card-body">
 
-        <h4 class="text-center mb-4 text-primary">Edit Role</h4>
+        <h4 class="text-center mb-4 text-primary">Edit Node</h4>
 
-        <c:if test="${empty roleDto}">
+        <c:if test="${empty nodeDto}">
             <div class="alert alert-danger text-center">
-                Role not found
+                Node not found
             </div>
         </c:if>
 
-        <c:if test="${not empty roleDto}">
-            <form:form action="/role/update"
+        <c:if test="${not empty nodeDto}">
+            <form:form action="/node/update"
                        method="post"
-                       modelAttribute="roleDto">
+                       modelAttribute="nodeDto">
 
-                <form:hidden path="id" value="${roleDto.id}"/>
+                <form:hidden path="id" value="${nodeDto.id}"/>
 
                 <div class="mb-4">
-                    <label class="form-label">Role Name</label>
+                    <label class="form-label">Node Name</label>
                     <form:input path="identifier"
                                 cssClass="form-control"
-                                placeholder="Enter role"
+                                placeholder="Enter Node"
                                 required="true"/>
                 </div>
 
+                <div class="mb-4">
+                    <label class="form-label">Node Path</label>
+                    <form:input path="path"
+                                cssClass="form-control"
+                                placeholder="Enter Path"
+                                required="true"/>
+                </div>
+                <div class="mb-4">
+                    <label>Roles</label>
+
+                    <div class="mb-1 text-muted">
+                        Current:
+                        <c:forEach var="r" items="${nodeDto.roles}">
+                            <span class="badge bg-secondary me-1">${r}</span>
+                        </c:forEach>
+                    </div>
+
+                    <form:select path="roles" multiple="true" cssClass="form-control">
+                        <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+                    </form:select>
+
+                </div>
+
                 <div class="d-flex justify-content-between">
-                    <a href="/role/list" class="btn btn-outline-secondary">
+                    <a href="/node/list" class="btn btn-outline-secondary">
                         Cancel
                     </a>
                     <button type="submit" class="btn btn-primary">
