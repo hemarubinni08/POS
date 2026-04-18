@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -29,7 +30,7 @@
 
         h2 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             color: #4b6cb7;
             font-weight: 600;
         }
@@ -46,7 +47,7 @@
             display: block;
         }
 
-        input, select {
+        input {
             width: 100%;
             padding: 11px 14px;
             border-radius: 8px;
@@ -54,17 +55,30 @@
             font-size: 14px;
         }
 
-        select[multiple] {
-            height: 130px; /* ✅ MAKES MULTI-SELECT CLEAR */
+        /* ROLE CHECKBOX CONTAINER */
+        .role-box {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            max-height: 140px;
+            overflow-y: auto;
         }
 
-        small {
-            color: #666;
-            font-size: 11px;
+        .role-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0;
+            font-size: 14px;
+        }
+
+        .role-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
         }
 
         .btn-submit {
-            margin-top: 10px;
+            margin-top: 12px;
             width: 100%;
             padding: 13px;
             background: linear-gradient(135deg, #4b6cb7, #182848);
@@ -75,17 +89,53 @@
             font-weight: 600;
             cursor: pointer;
         }
+
+        .message {
+            margin-bottom: 16px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            border: 1px solid #7dd3fc;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 1px solid #4b6cb7;
+            color: #4b6cb7;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            background-color: #4b6cb7;
+            color: #fff;
+        }
     </style>
 </head>
 
 <body>
 
 <div class="register-card">
+
+    <!-- ✅ MESSAGE ALIGNED INSIDE CARD -->
+    <c:if test="${not empty message}">
+        <div class="message">
+            ${message}
+        </div>
+    </c:if>
+
     <h2>User Registration</h2>
 
     <form:form action="register" method="post" modelAttribute="userDto">
 
-        <!-- Name -->
         <div class="form-group">
             <label>Name</label>
             <form:input path="name"/>
@@ -93,19 +143,28 @@
 
         <div class="form-group">
             <label>Email</label>
-            <form:input path="username"/>
+            <form:input path="username" type="email"/>
         </div>
 
         <div class="form-group">
             <label>Roles</label>
-            <form:select path="roles" multiple="true">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-            </form:select>
+            <div class="role-box">
+                <c:forEach items="${roles}" var="role">
+                    <label class="role-item">
+                        <input type="checkbox" name="roles" value="${role.identifier}"/>
+                        <span>${role.identifier}</span>
+                    </label>
+                </c:forEach>
+            </div>
         </div>
 
         <div class="form-group">
-            <label>Phone Number</label>
-            <form:input path="phoneNo"/>
+            <label>Phone Number <span style="color:red">*</span></label>
+            <form:input path="phoneNo"
+                        placeholder="Enter 10-digit number"
+                        required="required"
+                        pattern="^[6-9][0-9]{9}$"
+                        title="Enter valid 10-digit Indian mobile number"/>
         </div>
 
         <div class="form-group">
@@ -115,8 +174,12 @@
 
         <input type="submit" value="Register" class="btn-submit"/>
 
-    </form:form>
+        <!-- ✅ CENTERED BACK BUTTON -->
+        <div style="text-align:center;">
+            <a href="/login" class="back-btn">Back</a>
+        </div>
 
+    </form:form>
 </div>
 
 </body>

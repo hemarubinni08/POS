@@ -1,77 +1,137 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Role</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <title>Update Role</title>
 
     <style>
         body {
+            margin: 0;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f1f5f9;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 30px;
         }
 
-        .card {
-            width: 400px;
-            border-radius: 15px;
+        .container {
+            width: 75%;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+            border-top: 6px solid #1e293b;
         }
 
-        h4 {
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #1e293b;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
             font-weight: 600;
+            color: #334155;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-size: 14px;
+        }
+
+        input[readonly] {
+            background-color: #f8fafc;
+            color: #64748b;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1e293b;
+            box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.15);
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #ffffff;
+            background-color: #1e293b;
+            transition: background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #0f172a;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.35);
+        }
+
+        .btn-group {
+            margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
-${message}
-<div class="card shadow-lg">
-    <div class="card-body">
 
-        <h4 class="text-center mb-4 text-primary">Edit Role</h4>
+<div class="container">
+    <h2>Update Role</h2>
 
-        <c:if test="${empty role}">
-            <div class="alert alert-danger text-center">
-                Role not found
-            </div>
-        </c:if>
+    <form action="${pageContext.request.contextPath}/role/update" method="post">
 
-        <c:if test="${not empty role}">
-            <form:form action="/role/update"
-                       method="post"
-                       modelAttribute="roleDto">
+        <div class="form-group">
+            <label>ID</label>
+            <input
+                type="text"
+                name="id"
+                value="${role.id}"
+                readonly
+            />
+        </div>
 
-                <form:hidden path="id" value="${role.id}/>
+        <div class="form-group">
+            <label>Identifier</label>
+            <input
+                type="text"
+                name="identifier"
+                value="${role.identifier}"
+                readonly
+            />
+        </div>
 
-                <div class="mb-4">
-                    <label class="form-label">Role Name</label>
-                    <form:input path="identifier"
-                                cssClass="form-control"
-                                placeholder="Enter role"
-                                required="true"/>
+        <div class="form-group">
+                    <label>Description</label>
+                    <input
+                        type="text"
+                        name="description"
+                        value="${role.description}"
+                        required
+                    />
                 </div>
 
-                <div class="d-flex justify-content-between">
-                    <a href="/role/list" class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
-                    <button type="submit" class="btn btn-primary">
-                        Update
-                    </button>
-                </div>
+        <div class="btn-group">
+            <button type="submit" class="btn">
+                Update Role
+            </button>
+        </div>
 
-            </form:form>
-        </c:if>
-
-    </div>
+    </form>
 </div>
-
 </body>
 </html>

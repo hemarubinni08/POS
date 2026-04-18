@@ -38,17 +38,29 @@
         label {
             font-weight: 600;
             font-size: 14px;
-            color: #333;
         }
 
-        .form-control,
-        select {
+        .form-control {
             border-radius: 8px;
             padding: 10px 12px;
         }
 
-        select[multiple] {
-            height: 120px;
+        .role-box {
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            padding: 10px;
+            max-height: 140px;
+            overflow-y: auto;
+        }
+
+        .role-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .role-item input {
+            margin-right: 8px;
         }
 
         .btn-update {
@@ -56,7 +68,7 @@
             padding: 12px;
             background: #4b6cb7;
             border: none;
-            color: white;
+            color: #fff;
             font-weight: 600;
             border-radius: 8px;
         }
@@ -64,16 +76,12 @@
         .btn-update:hover {
             background: #182848;
         }
-
-        small {
-            font-size: 11px;
-            color: #666;
-        }
     </style>
 </head>
 
 <body>
 ${message}
+
 <div class="update-card">
     <h3>Update User</h3>
 
@@ -86,44 +94,53 @@ ${message}
             <form:input path="name" cssClass="form-control" required="true"/>
         </div>
 
-         <div class="mb-3">
+        <div class="mb-3">
             <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
+            <form:input path="username" cssClass="form-control" required="true" type="email"/>
         </div>
 
-        <div class="mb-3">
-            <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" required="true"/>
-        </div>
+           <div class="mb-3">
+                   <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+
+                   <form:input path="phoneNo"
+                               cssClass="form-control"
+                               placeholder="Enter 10-digit number"
+                               required="required"
+                               pattern="^[6-9][0-9]{9}$"
+                               title="Enter valid 10-digit Indian mobile number"/>
+               </div>
 
         <div class="mb-3">
             <label>Roles</label>
 
-            <div class="mb-1 text-muted">
-                Current:
-                <c:forEach var="r" items="${user.roles}">
-                    <span class="badge bg-secondary me-1">${r}</span>
+            <div class="role-box">
+                <c:forEach var="r" items="${roles}">
+                    <c:set var="checked" value="false"/>
+
+                    <c:forEach var="ur" items="${userDto.roles}">
+                        <c:if test="${ur == r.identifier}">
+                            <c:set var="checked" value="true"/>
+                        </c:if>
+                    </c:forEach>
+
+                    <div class="role-item">
+                        <input
+                            type="checkbox"
+                            name="roles"
+                            value="${r.identifier}"
+                            <c:if test="${checked}">checked</c:if>
+                        <label>${r.identifier}</label>
+                    </div>
                 </c:forEach>
             </div>
-
-            <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
-            </form:select>
-
-
-            <small>
-                Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
-            </small>
         </div>
 
         <button type="submit" class="btn-update">Update User</button>
-
     </form:form>
 
     <div class="text-center mt-3">
         <a href="/user/list">← Back to User List</a>
     </div>
-
 </div>
 
 </body>
