@@ -204,10 +204,9 @@
                     <c:forEach var="role" items="${roles}">
                         <tr>
                             <td>
-                                <a class="link"
-                                   href="/role/get?identifier=${role.identifier}">
+
                                     ${role.id}
-                                </a>
+
                             </td>
 
                             <td>${role.identifier}</td>

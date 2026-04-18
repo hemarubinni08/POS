@@ -6,25 +6,27 @@
 <head>
     <title>Role Management</title>
 
+    <!-- Ensures correct routing (prevents login/navigation issues) -->
+    <base href="${pageContext.request.contextPath}/">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg: #f5f7fb;
-            --surface: #ffffff;
-            --text: #111827;
-            --muted: #6b7280;
+            --bg: #0b1220;
+            --panel: rgba(255,255,255,0.06);
+            --text: #e5e7eb;
+            --muted: #9ca3af;
 
-            --primary: #111827;
             --danger: #ef4444;
 
-            --border: #e5e7eb;
+            --border: rgba(255,255,255,0.08);
 
-            --radius-sm: 6px;
+            --radius: 14px;
 
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
-            --shadow-md: 0 6px 18px rgba(0,0,0,0.08);
-
-            --topbar-h: 56px;
-            --sidebar-w: 240px;
+            --topbar-h: 64px;
+            --sidebar-w: 260px;
         }
 
         * {
@@ -35,7 +37,7 @@
         }
 
         body {
-            background: var(--bg);
+            background: radial-gradient(circle at top, #111827, #0b1220);
             color: var(--text);
         }
 
@@ -44,51 +46,53 @@
             color: inherit;
         }
 
-        /* TOPBAR */
+        /* ================= TOPBAR ================= */
         .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
             height: var(--topbar-h);
-            background: var(--primary);
-            color: #fff;
 
             display: flex;
             justify-content: space-between;
             align-items: center;
 
-            padding: 0 16px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            padding: 0 20px;
 
-            box-shadow: var(--shadow-sm);
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(14px);
+
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
         }
 
         .topbar-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
-        .topbar-title {
-            font-size: 15px;
+        .title {
             font-weight: 600;
+            font-size: 16px;
         }
 
+        /* ================= MENU ICON ================= */
         .menu {
-            width: 36px;
-            height: 32px;
+            width: 40px;
+            height: 36px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             gap: 5px;
             cursor: pointer;
-            border-radius: var(--radius-sm);
-            padding: 6px;
+            padding: 8px;
+            border-radius: 10px;
         }
 
         .menu:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.08);
         }
 
         .menu div {
@@ -97,12 +101,11 @@
             border-radius: 2px;
         }
 
-        /* BUTTON */
+        /* ================= BUTTON ================= */
         .btn {
             border: none;
-            padding: 8px 14px;
-            border-radius: var(--radius-sm);
-            font-size: 13px;
+            padding: 9px 14px;
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
         }
@@ -116,63 +119,82 @@
             background: #dc2626;
         }
 
-        /* SIDEBAR */
+        /* ================= SIDEBAR (FIXED) ================= */
         .sidebar {
             position: fixed;
             top: var(--topbar-h);
-            left: -260px;
+            left: 0;
+
             width: var(--sidebar-w);
             height: calc(100vh - var(--topbar-h));
 
-            background: var(--surface);
+            background: rgba(17, 26, 46, 0.92);
+            backdrop-filter: blur(16px);
+
             border-right: 1px solid var(--border);
 
-            transition: 0.25s ease;
-            box-shadow: var(--shadow-md);
-            padding-top: 10px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+
+            padding: 16px 10px;
             z-index: 999;
         }
 
         .sidebar.active {
-            left: 0;
+            transform: translateX(0);
         }
 
         .sidebar a {
             display: block;
-            padding: 12px 18px;
-            margin: 4px 10px;
-            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            margin: 6px 8px;
+            border-radius: 10px;
 
-            color: var(--muted);
             font-size: 14px;
+            color: var(--muted);
 
             transition: 0.2s;
         }
 
         .sidebar a:hover {
-            background: #f3f4f6;
-            color: var(--text);
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+            transform: translateX(4px);
         }
 
-        /* CONTENT */
+        /* ================= CONTENT (FIXED PUSH BEHAVIOR) ================= */
         .content {
             margin-top: var(--topbar-h);
-            padding: 28px;
-            transition: margin-left 0.25s ease;
+            padding: 30px;
+
+            transition: margin-left 0.3s ease;
+            margin-left: 0;
         }
 
         .sidebar.active ~ .content {
             margin-left: var(--sidebar-w);
         }
 
-        .title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 6px;
+        /* ================= CARD ================= */
+        .card {
+            max-width: 800px;
+            padding: 24px;
+
+            border-radius: var(--radius);
+            background: var(--panel);
+            border: 1px solid var(--border);
+
+            backdrop-filter: blur(12px);
         }
 
-        .subtitle {
-            font-size: 13px;
+        .h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .sub {
+            font-size: 14px;
             color: var(--muted);
         }
     </style>
@@ -186,6 +208,7 @@
 
 <body>
 
+<!-- TOPBAR -->
 <div class="topbar">
     <div class="topbar-left">
         <div class="menu" onclick="toggleMenu()">
@@ -193,25 +216,31 @@
             <div></div>
             <div></div>
         </div>
-        <div class="topbar-title">Role Management</div>
+        <div class="title">Role Management</div>
     </div>
 
-    <form action="${pageContext.request.contextPath}/logout" method="post" style="margin:0;">
+    <form action="logout" method="post" style="margin:0;">
         <button type="submit" class="btn btn-danger">Logout</button>
     </form>
 </div>
 
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
     <c:forEach var="node" items="${nodes}">
-        <a href="${pageContext.request.contextPath}${node.path}">
+        <a href="${node.path}">
             ${node.identifier}
         </a>
     </c:forEach>
 </div>
 
+<!-- CONTENT -->
 <div class="content">
-    <div class="title">Welcome to the Role Management System</div>
-    <div class="subtitle">Please select an option from the menu.</div>
+    <div class="card">
+        <div class="h1">Welcome</div>
+        <div class="sub">
+            Select a module from the sidebar to manage roles and permissions.
+        </div>
+    </div>
 </div>
 
 </body>
