@@ -38,6 +38,7 @@ public class NodeController {
         NodeDto response = nodeService.save(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            return "node/add";
         }
         return "redirect:/node/list";
     }

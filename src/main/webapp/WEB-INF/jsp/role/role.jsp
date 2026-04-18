@@ -7,70 +7,175 @@
 <head>
     <title>Edit Role</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .card {
-            width: 400px;
-            border-radius: 15px;
+        .card-container {
+            position: relative;
+            width: 430px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px 40px;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
         }
 
-        h4 {
+        .back-icon {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #4b6cb7;
+            text-decoration: none;
+            font-weight: 600;
+            background: rgba(75, 108, 183, 0.08);
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+            transition: all 0.25s ease;
+        }
+
+        .back-icon:hover {
+            background: #4b6cb7;
+            color: #ffffff;
+            transform: translateX(-4px) scale(1.05);
+            box-shadow: 0 8px 18px rgba(75, 108, 183, 0.35);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #4b6cb7;
             font-weight: 600;
         }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input[readonly] {
+            background: #f5f5f5;
+        }
+
+        .btn-submit {
+            margin-top: 10px;
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            margin-top: 10px;
+            width: 100%;
+            padding: 11px;
+            background: #f1f1f1;
+            color: #333;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .home-link {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4b6cb7;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            background: rgba(75, 108, 183, 0.08);
+            transition: all 0.25s ease;
+        }
+
+        .home-link:hover {
+            background: #4b6cb7;
+            color: #ffffff;
+            box-shadow: 0 8px 18px rgba(75, 108, 183, 0.35);
+            transform: translateY(-2px);
+        }
+
     </style>
 </head>
 
 <body>
-${message}
-<div class="card shadow-lg">
-    <div class="card-body">
 
-        <h4 class="text-center mb-4 text-primary">Edit Role</h4>
+<div class="card-container">
 
-        <c:if test="${empty roleDto}">
-            <div class="alert alert-danger text-center">
-                Role not found
+    <a href="/role/list" class="back-icon">←</a>
+    <a href="/" class="home-link">Home</a>
+
+    <h2>Edit Role</h2>
+
+    <c:if test="${empty roleDto}">
+        <div class="alert alert-danger">
+            Role not found
+        </div>
+    </c:if>
+
+    <c:if test="${not empty roleDto}">
+        <form:form action="/role/update"
+                   method="post"
+                   modelAttribute="roleDto">
+
+            <form:hidden path="id" value="${roleDto.id}"/>
+
+            <div class="form-group">
+                <label>Role Name</label>
+                <form:input path="identifier" readonly="true"/>
             </div>
-        </c:if>
 
-        <c:if test="${not empty roleDto}">
-            <form:form action="/role/update"
-                       method="post"
-                       modelAttribute="roleDto">
+            <div class="form-group">
+                <label>Role Description</label>
+                <form:input path="description" placeholder="Enter role description" required="true"/>
+            </div>
 
-                <form:hidden path="id" value="${roleDto.id}"/>
+            <input type="submit" value="Update Role" class="btn-submit"/>
 
-                <div class="mb-4">
-                    <label class="form-label">Role Name</label>
-                    <form:input path="identifier"
-                                cssClass="form-control"
-                                placeholder="Enter role"
-                                required="true"/>
-                </div>
+            <a href="/role/list" class="btn-cancel">Cancel</a>
 
-                <div class="d-flex justify-content-between">
-                    <a href="/role/list" class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
-                    <button type="submit" class="btn btn-primary">
-                        Update
-                    </button>
-                </div>
+        </form:form>
+    </c:if>
 
-            </form:form>
-        </c:if>
-
-    </div>
 </div>
 
 </body>

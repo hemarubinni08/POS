@@ -9,7 +9,7 @@
             margin: 0;
             height: 100vh;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -62,10 +62,39 @@
             border-radius: 6px;
             font-size: 15px;
             cursor: pointer;
+            margin-bottom: 12px;
+        }
+
+        .register-link {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .register-link:hover {
+            color: #5a67d8;
+            text-decoration: underline;
         }
 
         button:hover {
             background-color: #5a67d8;
+        }
+
+        .error-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(220, 53, 69, 0.12);
+            border: 1px solid #dc3545;
+            color: #dc3545;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -74,6 +103,21 @@
 
 <form th:action="@{/login}" method="post">
     <h2>Login</h2>
+
+    <!-- ✅ ERROR MESSAGE -->
+    <c:if test="${param.error != null}">
+        <div class="error-message">
+            Invalid username or password
+        </div>
+    </c:if>
+
+    <!-- ✅ LOGOUT MESSAGE (optional) -->
+    <c:if test="${param.logout != null}">
+        <div class="error-message" style="color:#155724; border-color:#28a745;">
+            Logged out successfully
+        </div>
+    </c:if>
+
     <div>
         <label>Username:</label>
         <input type="text" name="username" required />
@@ -85,6 +129,8 @@
     </div>
 
     <button type="submit">Login</button>
+    <a href ="/register">Don't have an account?</a>
+
 </form>
 
 </body>
