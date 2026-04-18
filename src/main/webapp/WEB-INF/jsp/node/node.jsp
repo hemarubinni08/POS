@@ -1,13 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update User</title>
+    <title>Edit Node</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
         body {
@@ -16,9 +15,9 @@
             background: #d1d5db;
         }
 
-        /* 🎯 SAME CONTAINER */
+        /* 🎯 CONTAINER */
         .container {
-            width: 460px;
+            width: 420px;
             margin: 100px auto;
             background: #f1f5f9;
             padding: 35px;
@@ -27,7 +26,7 @@
         }
 
         /* 🔷 TITLE */
-        h3 {
+        h2 {
             text-align: center;
             margin-bottom: 25px;
             font-size: 22px;
@@ -44,8 +43,8 @@
             color: #334155;
         }
 
-        /* ✏ INPUT */
-        .form-control {
+        /* ✏ INPUT + SELECT */
+        input, select {
             width: 100%;
             margin-top: 6px;
             padding: 10px;
@@ -56,7 +55,7 @@
             transition: 0.2s;
         }
 
-        .form-control:focus {
+        input:focus, select:focus {
             border-color: #0891b2;
             box-shadow: 0 0 0 2px rgba(8,145,178,0.2);
         }
@@ -66,44 +65,32 @@
         }
 
         /* 🔥 BUTTON */
-        .btn-update {
+        button {
             margin-top: 28px;
             width: 100%;
             padding: 12px;
             background: linear-gradient(135deg, #0891b2, #0e7490);
+            color: #ffffff;
             border: none;
-            color: white;
             font-weight: 600;
             border-radius: 20px;
             cursor: pointer;
             transition: 0.25s;
         }
 
-        .btn-update:hover {
+        button:hover {
             background: linear-gradient(135deg, #0e7490, #075985);
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(8,145,178,0.4);
         }
 
-        /* ✅ CURRENT ROLES BADGE */
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            background: #64748b;
-            color: white;
-            border-radius: 10px;
-            font-size: 11px;
-            margin-right: 4px;
-        }
-
-        /* ℹ TEXT */
-        small {
-            font-size: 11px;
-            color: #64748b;
+        button:active {
+            transform: translateY(0);
+            box-shadow: none;
         }
 
         /* 🔙 BACK LINK */
-        .back-link {
+        a {
             display: block;
             text-align: center;
             margin-top: 20px;
@@ -111,18 +98,11 @@
             font-weight: 600;
             text-decoration: none;
             font-size: 13px;
+            transition: 0.2s;
         }
 
-        .back-link:hover {
+        a:hover {
             color: #0e7490;
-        }
-
-        /* 🧾 MESSAGE */
-        .message {
-            text-align: center;
-            margin-bottom: 10px;
-            color: #166534;
-            font-size: 13px;
         }
     </style>
 </head>
@@ -131,48 +111,31 @@
 
 <div class="container">
 
-    <div class="message">
-        ${message}
-    </div>
+    <h2>Edit Node</h2>
 
-    <h3>Update User</h3>
+    <form action="${pageContext.request.contextPath}/node/update" method="post">
 
-    <form:form action="/user/update" method="post" modelAttribute="user">
+        <input type="hidden" name="id" value="${node.id}" />
+        <input type="hidden" name="identifier" value="${node.identifier}" />
 
-        <form:input type="hidden" path="id"/>
-
-        <label>Name</label>
-        <form:input path="name" cssClass="form-control" required="true"/>
-
-        <label>Email</label>
-        <form:input path="username" cssClass="form-control" required="true"/>
-
-        <label>Phone Number</label>
-        <form:input path="phoneNo" cssClass="form-control" required="true"/>
+        <label>Path</label>
+        <input type="text" name="path" value="${node.path}" required />
 
         <label>Roles</label>
-
-        <div style="margin-bottom: 6px;">
-            Current:
-            <c:forEach var="r" items="${user.roles}">
-                <span class="badge">${r}</span>
+        <select name="roles" multiple required>
+            <c:forEach var="role" items="${roles}">
+                <option value="${role.identifier}"
+                    <c:if test="${node.roles.contains(role.identifier)}">selected</c:if>>
+                    ${role.identifier}
+                </option>
             </c:forEach>
-        </div>
+        </select>
 
-        <form:select path="roles" multiple="true" cssClass="form-control">
-            <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-        </form:select>
+        <button type="submit">Update</button>
+    </form>
 
-        <small>
-            Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
-        </small>
-
-        <button type="submit" class="btn-update">Update User</button>
-
-    </form:form>
-
-    <a href="/user/list" class="back-link">
-        ← Back to User List
+    <a href="${pageContext.request.contextPath}/node/list">
+        Back to Node List
     </a>
 
 </div>
