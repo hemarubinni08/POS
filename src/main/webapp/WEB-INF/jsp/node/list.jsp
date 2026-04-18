@@ -253,8 +253,6 @@
                 </a>
             </div>
 
-            <div class="muted">Node Management System</div>
-
         </div>
 
     </div>
