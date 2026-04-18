@@ -213,12 +213,7 @@
             <div class="mb-3">
                 <label>Roles</label>
 
-                <div class="mb-2">
-                    <strong style="font-size:12px; color:var(--muted)">Current:</strong><br/>
-                    <c:forEach var="r" items="${user.roles}">
-                        <span class="badge">${r}</span>
-                    </c:forEach>
-                </div>
+
 
                 <form:select path="roles" multiple="true" cssClass="form-control" required="true">
                     <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
