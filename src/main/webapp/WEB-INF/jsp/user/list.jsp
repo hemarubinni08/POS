@@ -36,8 +36,35 @@
         }
 
         body {
-            background: var(--bg);
+            min-height: 100vh;
             padding: 40px 16px;
+            background: var(--bg);
+            color: var(--text);
+            position: relative;
+        }
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 18px;
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+
+        .back-arrow:hover {
+            background: var(--accent);
+            color: black;
         }
 
         .container {
@@ -81,20 +108,17 @@
             font-size: 12px;
             text-transform: uppercase;
             color: var(--muted);
+            font-weight: 600;
+            background: #f9fafb;
         }
 
         tr:hover {
             background: #f9fafb;
         }
 
-        .user-link {
-            color: var(--primary);
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .user-link:hover {
-            text-decoration: underline;
+        /* Action buttons spacing */
+        .actions a {
+            margin-right: 6px;
         }
 
         .btn {
@@ -104,11 +128,12 @@
             font-weight: 600;
             text-decoration: none;
             display: inline-block;
+            transition: 0.2s;
         }
 
         .btn-danger {
             background: var(--danger);
-            color: white;
+            color: #fff;
         }
 
         .btn-danger:hover {
@@ -117,7 +142,7 @@
 
         .btn-success {
             background: var(--primary);
-            color: white;
+            color: #fff;
         }
 
         .btn-success:hover {
@@ -149,8 +174,9 @@
         .alert {
             background: #fff3cd;
             color: #856404;
-            padding: 10px;
+            padding: 10px 12px;
             border-radius: 8px;
+            font-size: 13px;
             text-align: center;
         }
 
@@ -163,6 +189,8 @@
 </head>
 
 <body>
+
+<a href="${pageContext.request.contextPath}/" class="back-arrow">←</a>
 
 <div class="container">
 
@@ -193,18 +221,17 @@
                     <tbody>
                     <c:forEach var="user" items="${users}">
                         <tr>
-                            <td>
-                                <a class="user-link"
-                                   href="${pageContext.request.contextPath}/user/get?username=${user.username}">
-                                    ${user.username}
-                                </a>
-                            </td>
-
+                            <td>${user.username}</td>
                             <td>${user.name}</td>
                             <td>${user.phoneNo}</td>
                             <td>${user.roles}</td>
 
-                            <td>
+                            <td class="actions">
+                                <a class="btn btn-secondary"
+                                   href="${pageContext.request.contextPath}/user/get?username=${user.username}">
+                                    Edit
+                                </a>
+
                                 <a class="btn btn-danger"
                                    href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
                                    onclick="return confirm('Are you sure you want to delete this user?');">
@@ -224,11 +251,7 @@
 
             <div class="footer-actions">
                 <a href="${pageContext.request.contextPath}/register" class="btn btn-success">
-                    Register
-                </a>
-
-                <a href="${pageContext.request.contextPath}/" class="btn btn-secondary">
-                    ← Back to Home
+                    + Add User
                 </a>
             </div>
 

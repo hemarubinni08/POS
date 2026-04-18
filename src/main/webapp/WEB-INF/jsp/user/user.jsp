@@ -10,9 +10,6 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
     <style>
         :root {
             --bg: #f6fff8;
@@ -30,8 +27,6 @@
             --radius: 14px;
 
             --shadow: 0 10px 30px rgba(0,0,0,0.08);
-
-            --success: #16a34a;
         }
 
         * {
@@ -46,11 +41,36 @@
             align-items: center;
             background: var(--bg);
             padding: 20px;
+            position: relative;
+        }
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 18px;
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+
+        .back-arrow:hover {
+            background: var(--accent);
+            color: black;
         }
 
         .container-box {
             width: 100%;
-            max-width: 520px;
+            max-width: 800px;
         }
 
         .card {
@@ -85,7 +105,7 @@
         }
 
         select[multiple] {
-            height: 110px;
+            height: 120px;
         }
 
         .badge {
@@ -113,24 +133,10 @@
             background: var(--primary-hover);
         }
 
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 14px;
-            font-size: 13px;
-            color: var(--accent);
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
         .message {
             text-align: center;
             font-size: 13px;
-            color: var(--success);
+            color: #16a34a;
             margin-bottom: 10px;
         }
     </style>
@@ -159,6 +165,8 @@
 
 <body>
 
+<a href="${pageContext.request.contextPath}/user/list" class="back-arrow">←</a>
+
 <div class="container-box">
 
     <c:if test="${not empty message}">
@@ -176,21 +184,32 @@
 
             <form:hidden path="id"/>
 
-            <div class="mb-3">
-                <label>Name</label>
-                <form:input path="name" cssClass="form-control" required="true"/>
+            <div class="row">
+
+                <!-- LEFT COLUMN -->
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label>Name</label>
+                        <form:input path="name" cssClass="form-control" required="true"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <form:input path="username" cssClass="form-control" type="email" required="true"/>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label>Phone Number</label>
+                        <form:input path="phoneNo" cssClass="form-control" required="true"/>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="mb-3">
-                <label>Email</label>
-                <form:input path="username" cssClass="form-control" type="email" required="true"/>
-            </div>
-
-            <div class="mb-3">
-                <label>Phone Number</label>
-                <form:input path="phoneNo" cssClass="form-control" required="true"/>
-            </div>
-
+            <!-- FULL WIDTH ROLES -->
             <div class="mb-3">
                 <label>Roles</label>
 
@@ -209,10 +228,6 @@
             <button type="submit" class="btn-update">Update User</button>
 
         </form:form>
-
-        <a href="${pageContext.request.contextPath}/user/list" class="back-link">
-            ← Back to User List
-        </a>
 
     </div>
 

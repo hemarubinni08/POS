@@ -23,6 +23,7 @@
             --primary-hover: #218838;
 
             --accent: #ffc107;
+
             --border: #e5e7eb;
 
             --radius: 14px;
@@ -31,9 +32,11 @@
 
         * {
             font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
         }
 
         body {
+            position: relative;
             background: var(--bg);
             min-height: 100vh;
             display: flex;
@@ -41,8 +44,37 @@
             align-items: center;
         }
 
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+            background: var(--card);
+            border: 1px solid var(--border);
+
+            color: var(--text);
+            font-size: 18px;
+            text-decoration: none;
+
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+
+        .back-arrow:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
         .register-card {
-            width: 720px; /* wider for landscape */
+            width: 720px;
             background: var(--card);
             padding: 28px;
             border-radius: var(--radius);
@@ -112,6 +144,12 @@
                 return false;
             }
 
+            let phonePattern = /^[0-9]{10}$/;
+            if (!phone.match(phonePattern)) {
+                alert("Phone number must be exactly 10 digits!");
+                return false;
+            }
+
             return true;
         }
     </script>
@@ -119,15 +157,19 @@
 
 <body>
 
+<a href="${pageContext.request.contextPath}/user/list" class="back-arrow">←</a>
+
 <div class="register-card">
     <h2>Register User</h2>
 
-    <form:form action="register" method="post" modelAttribute="userDto"
+    <form:form action="register"
+               method="post"
+               modelAttribute="userDto"
                onsubmit="return validateForm()">
 
         <div class="row">
 
-            <!-- LEFT COLUMN -->
+            <!-- LEFT -->
             <div class="col-md-6">
                 <div class="mb-3">
                     <label>Name</label>
@@ -141,11 +183,16 @@
 
                 <div class="mb-3">
                     <label>Phone Number</label>
-                    <form:input path="phoneNo" cssClass="form-control" required="true"/>
+                    <form:input path="phoneNo"
+                                cssClass="form-control"
+                                type="tel"
+                                pattern="[0-9]{10}"
+                                maxlength="10"
+                                required="true"/>
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN -->
+            <!-- RIGHT -->
             <div class="col-md-6">
                 <div class="mb-3">
                     <label>Password</label>
@@ -162,7 +209,9 @@
 
         </div>
 
-        <button type="submit" class="btn-submit w-100">Register</button>
+        <button type="submit" class="btn-submit w-100">
+            Register
+        </button>
 
     </form:form>
 </div>

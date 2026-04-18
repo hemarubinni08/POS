@@ -46,6 +46,31 @@
             align-items: center;
             padding: 20px;
             background: var(--bg);
+            position: relative;
+        }
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 18px;
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+
+        .back-arrow:hover {
+            background: var(--accent);
+            color: black;
         }
 
         .container-box {
@@ -112,24 +137,6 @@
             background: var(--primary-hover);
         }
 
-        .btn-back {
-            width: 100%;
-            padding: 10px;
-            background: var(--accent);
-            color: black;
-            border-radius: 10px;
-            font-weight: 600;
-            text-align: center;
-            display: block;
-            margin-top: 10px;
-            text-decoration: none;
-        }
-
-        .btn-back:hover {
-            background: #e0a800;
-            color: black;
-        }
-
         .card-footer {
             text-align: center;
             padding: 12px;
@@ -154,6 +161,10 @@
 </head>
 
 <body>
+
+<a href="${pageContext.request.contextPath}/role/list" class="back-arrow">
+    ←
+</a>
 
 <div class="container-box">
 
@@ -189,12 +200,6 @@
                 </button>
 
             </form:form>
-
-            <!-- BACK BUTTON -->
-            <a href="${pageContext.request.contextPath}/role/list"
-               class="btn-back">
-                ← Back to Role List
-            </a>
 
         </div>
 

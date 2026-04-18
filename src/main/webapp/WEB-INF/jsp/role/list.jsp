@@ -36,8 +36,38 @@
         }
 
         body {
+            position: relative;
             background: var(--bg);
             padding: 40px 16px;
+        }
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+            background: var(--card);
+            border: 1px solid var(--border);
+
+            color: var(--text);
+            font-size: 18px;
+            text-decoration: none;
+
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+
+        .back-arrow:hover {
+            background: var(--accent);
+            color: black;
         }
 
         .container {
@@ -124,15 +154,6 @@
             background: var(--primary-hover);
         }
 
-        .btn-secondary {
-            background: var(--accent);
-            color: black;
-        }
-
-        .btn-secondary:hover {
-            background: #e0a800;
-        }
-
         .card-footer {
             display: flex;
             justify-content: center;
@@ -145,6 +166,8 @@
 </head>
 
 <body>
+
+<a href="${pageContext.request.contextPath}/" class="back-arrow">←</a>
 
 <div class="container">
 
@@ -195,11 +218,6 @@
             <a href="${pageContext.request.contextPath}/role/add"
                class="btn btn-success">
                 + Add Role
-            </a>
-
-            <a href="${pageContext.request.contextPath}/"
-               class="btn btn-secondary">
-                ← Back to Home
             </a>
         </div>
 

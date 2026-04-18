@@ -40,6 +40,31 @@
             align-items: center;
             background: var(--bg);
             padding: 20px;
+            position: relative;
+        }
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 18px;
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+
+        .back-arrow:hover {
+            background: var(--accent);
+            color: black;
         }
 
         .container-box {
@@ -98,23 +123,6 @@
         .btn-update:hover {
             background: var(--primary-hover);
         }
-
-        .btn-back {
-            display: block;
-            text-align: center;
-            margin-top: 12px;
-            padding: 10px;
-            border-radius: 10px;
-            background: var(--accent);
-            color: black;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .btn-back:hover {
-            background: #e0a800;
-            color: black;
-        }
     </style>
 
     <script>
@@ -138,6 +146,10 @@
 </head>
 
 <body>
+
+<a href="${pageContext.request.contextPath}/node/list" class="back-arrow">
+    ←
+</a>
 
 <div class="container-box">
     <div class="card">
@@ -173,11 +185,6 @@
             </button>
 
         </form>
-
-        <a href="${pageContext.request.contextPath}/node/list"
-           class="btn-back">
-            ← Back to Node List
-        </a>
 
     </div>
 </div>
