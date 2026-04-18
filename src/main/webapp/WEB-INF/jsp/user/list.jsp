@@ -2,34 +2,32 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>User Management</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(to right, #6a11cb, #2575fc);
             min-height: 100vh;
         }
-
         .card {
-            border-radius: 15px;
+            border-radius: 16px;
         }
-
-        .table th {
-            background-color: #343a40;
-            color: white;
+        .btn {
+            border-radius: 10px;
         }
-
+        .table th, .table td {
+            vertical-align: middle;
+        }
         a.user-link {
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
         }
-
         a.user-link:hover {
             text-decoration: underline;
         }
@@ -38,76 +36,93 @@
 
 <body>
 
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-dark shadow">
+    <div class="container-fluid">
+        <span class="navbar-brand fw-bold">User Management</span>
+
+        <div class="d-flex gap-2">
+            <a href="/" class="btn btn-outline-light btn-sm">Home</a>
+            <a href="/register" class="btn btn-light btn-sm fw-semibold">+ Register</a>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTAINER -->
 <div class="container mt-5">
-    <div class="card shadow-lg">
-        <div class="card-body">
 
-            <h3 class="text-center mb-4">User Management</h3>
+    <div class="card shadow p-3">
 
-            <!-- NO USERS MESSAGE -->
-            <c:if test="${empty users}">
-                <div class="alert alert-warning text-center">
-                    No users found
-                </div>
-            </c:if>
+        <h3 class="fw-bold mb-3 text-center">User List</h3>
 
-            <c:if test="${not empty users}">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center">
-                        <thead>
+        <!-- EMPTY -->
+        <c:if test="${empty users}">
+            <div class="text-center py-4 text-light">
+                No users found
+            </div>
+        </c:if>
+
+        <!-- TABLE -->
+        <c:if test="${not empty users}">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0 text-center">
+
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Roles</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <c:forEach var="user" items="${users}">
                         <tr>
-                            <th>Email</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Roles</th>
-                            <th>Action</th>
+                            <td>
+                                <a class="user-link"
+                                   href="/user/get?username=${user.username}">
+                                    ${user.username}
+                                </a>
+                            </td>
+
+                            <td>${user.name}</td>
+
+                            <td class="text-muted">${user.phoneNo}</td>
+
+                            <td>
+                                <c:forEach var="role" items="${user.roles}">
+                                    <span class="badge bg-secondary me-1">
+                                        ${role}
+                                    </span>
+                                </c:forEach>
+                            </td>
+
+                            <td>
+                                <a href="/user/get?username=${user.username}"
+                                   class="btn btn-sm btn-outline-primary me-2">
+                                    Update
+                                </a>
+
+                                <a href="/user/delete?username=${user.username}"
+                                   class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('Are you sure you want to delete this user?');">
+                                    Delete
+                                </a>
+                            </td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="user" items="${users}">
-                            <tr>
-                                <td>
-                                    <a class="user-link"
-                                       href="/user/get?username=${user.username}">
-                                        ${user.username}
-                                    </a>
-                                </td>
-                                <td>${user.name}</td>
-                                <td>${user.phoneNo}</td>
-                                <td>${user.roles}</td>
-                                <td>
-                                    <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
-                                       onclick="return confirm('Are you sure you want to delete this user?');">
-                                        Delete
-                                    </a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </c:if>
+                    </c:forEach>
 
-        </div>
+                    </tbody>
 
-        <div class="card-footer text-center">
-            <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">
-                    Home
-                </a>
-
-                <a href="/register" class="btn btn-success">
-                    Register
-                </a>
+                </table>
             </div>
-
-            <div class="text-muted small mt-2">
-                User Management System
-            </div>
-        </div>
+        </c:if>
 
     </div>
+
 </div>
 
 </body>

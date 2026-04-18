@@ -15,44 +15,57 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping("/list")
-    public String home(Model model) {
+    public String list(Model model) {
         model.addAttribute("roles", roleService.findAll());
         return "role/list";
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute RoleDto userDto) {
+    public String addPage(Model model) {
+        model.addAttribute("roleDto", new RoleDto());
         return "role/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute RoleDto userDto) {
-        RoleDto response = roleService.save(userDto);
+    public String addPost(Model model,
+                          @ModelAttribute("roleDto") RoleDto roleDto) {
+
+        RoleDto response = roleService.save(roleDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            return "role/add";
         }
+
         return "redirect:/role/list";
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String identifier) {
-        RoleDto response = roleService.findByIdentifier(identifier);
-        model.addAttribute("role", response);
+    public String updatePage(Model model,
+                             @RequestParam String identifier) {
+
+        RoleDto roleDto = roleService.findByIdentifier(identifier);
+        model.addAttribute("roleDto", roleDto);
         return "role/role";
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RoleDto userDto) {
-        RoleDto response = roleService.update(userDto);
+    public String updatePost(Model model,
+                             @ModelAttribute("roleDto") RoleDto roleDto) {
+
+        RoleDto response = roleService.update(roleDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            return "role/role";
         }
+
         return "redirect:/role/list";
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam String identifier) {
+    public String delete(@RequestParam String identifier) {
         roleService.delete(identifier);
-        return "role/role";
+        return "redirect:/role/list";
     }
 }

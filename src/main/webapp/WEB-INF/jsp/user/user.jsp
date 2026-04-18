@@ -1,129 +1,129 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Update User</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 
     <style>
         body {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: "Segoe UI", Arial, sans-serif;
         }
-
-        .update-card {
-            width: 460px;
-            background: #fff;
-            padding: 30px 35px;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        .card {
+            border-radius: 16px;
         }
-
-        h3 {
-            text-align: center;
-            color: #4b6cb7;
-            margin-bottom: 25px;
-            font-weight: 600;
+        .form-control {
+            border-radius: 10px;
         }
-
-        label {
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
-        }
-
-        .form-control,
-        select {
-            border-radius: 8px;
-            padding: 10px 12px;
-        }
-
-        select[multiple] {
-            height: 120px;
-        }
-
-        .btn-update {
-            width: 100%;
-            padding: 12px;
-            background: #4b6cb7;
-            border: none;
-            color: white;
-            font-weight: 600;
-            border-radius: 8px;
-        }
-
-        .btn-update:hover {
-            background: #182848;
-        }
-
-        small {
-            font-size: 11px;
-            color: #666;
+        .btn {
+            border-radius: 10px;
         }
     </style>
 </head>
 
 <body>
-${message}
-<div class="update-card">
-    <h3>Update User</h3>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto">
-
-        <form:input type="hidden" path="id"/>
-
-        <div class="mb-3">
-            <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
-        </div>
-
-         <div class="mb-3">
-            <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
-        </div>
-
-        <div class="mb-3">
-            <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" required="true"/>
-        </div>
-
-        <div class="mb-3">
-            <label>Roles</label>
-
-            <div class="mb-1 text-muted">
-                Current:
-                <c:forEach var="r" items="${user.roles}">
-                    <span class="badge bg-secondary me-1">${r}</span>
-                </c:forEach>
-            </div>
-
-            <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
-            </form:select>
-
-
-            <small>
-                Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
-            </small>
-        </div>
-
-        <button type="submit" class="btn-update">Update User</button>
-
-    </form:form>
-
-    <div class="text-center mt-3">
-        <a href="/user/list">← Back to User List</a>
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark bg-dark shadow">
+    <div class="container-fluid">
+        <span class="navbar-brand fw-bold">User Management</span>
+        <a href="/user/list" class="btn btn-outline-light btn-sm">Back</a>
     </div>
+</nav>
 
+<!-- MAIN CONTAINER -->
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow p-4" style="width: 500px;">
+
+        <h3 class="text-center mb-4 fw-bold">Update User</h3>
+
+        <!-- USER NOT FOUND -->
+        <c:if test="${empty userDto}">
+            <div class="alert alert-danger text-center">
+                User not found
+            </div>
+        </c:if>
+
+        <!-- FORM -->
+        <c:if test="${not empty userDto}">
+
+            <form:form action="/user/update"
+                       method="post"
+                       modelAttribute="userDto">
+
+                <!-- Hidden ID -->
+                <form:hidden path="id"/>
+
+                <!-- NAME -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Name</label>
+                    <form:input path="name"
+                                cssClass="form-control"
+                                placeholder="Enter name"/>
+                </div>
+
+                <!-- EMAIL -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Email</label>
+                    <form:input path="username"
+                                cssClass="form-control"
+                                placeholder="Enter email"/>
+                </div>
+
+                <!-- PHONE -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Phone</label>
+                    <form:input path="phoneNo"
+                                cssClass="form-control"
+                                placeholder="Enter phone number"/>
+                </div>
+
+                <!-- ROLES -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Roles</label>
+
+                    <div class="border rounded p-2">
+                        <c:forEach items="${roles}" var="role">
+                            <div class="form-check">
+
+                                <form:checkbox path="roles"
+                                               value="${role.identifier}"
+                                               cssClass="form-check-input"
+                                               id="role_${role.identifier}"/>
+
+                                <label class="form-check-label"
+                                       for="role_${role.identifier}">
+                                    ${role.identifier}
+                                </label>
+
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        Update
+                    </button>
+
+                    <a href="/user/list" class="btn btn-outline-secondary w-100">
+                        Cancel
+                    </a>
+                </div>
+
+            </form:form>
+
+        </c:if>
+
+    </div>
 </div>
 
 </body>

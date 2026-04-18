@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Role List</title>
+    <title>Node List</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -32,11 +32,11 @@
 <!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
-        <span class="navbar-brand fw-bold">Role Management</span>
+        <span class="navbar-brand fw-bold">Node Management</span>
 
         <div class="d-flex gap-2">
             <a href="/" class="btn btn-outline-light btn-sm">Home</a>
-            <a href="/role/add" class="btn btn-light btn-sm fw-semibold">+ Add Role</a>
+            <a href="/node/add" class="btn btn-light btn-sm fw-semibold">+ Add Node</a>
         </div>
     </div>
 </nav>
@@ -46,7 +46,7 @@
 
     <div class="card shadow p-3">
 
-        <h3 class="fw-bold mb-3 text-center">Role List</h3>
+        <h3 class="fw-bold mb-3 text-center">Node List</h3>
 
         <div class="table-responsive">
             <table class="table table-hover table-striped mb-0">
@@ -54,7 +54,8 @@
                 <thead class="table-dark">
                 <tr>
                     <th>Identifier</th>
-                    <th>Description</th>
+                    <th>Path</th>
+                    <th>Roles</th>
                     <th class="text-center">Actions</th>
                 </tr>
                 </thead>
@@ -62,37 +63,47 @@
                 <tbody>
 
                 <!-- EMPTY CASE -->
-                <c:if test="${empty roles}">
+                <c:if test="${empty nodes}">
                     <tr>
-                        <td colspan="3" class="text-center py-4 text-light">
-                            No roles found.
+                        <td colspan="4" class="text-center py-4 text-light">
+                            No nodes found.
                         </td>
                     </tr>
                 </c:if>
 
                 <!-- DATA -->
-                <c:forEach items="${roles}" var="role">
+                <c:forEach items="${nodes}" var="node">
                     <tr>
                         <td>
-                            <a href="/role/get?identifier=${role.identifier}"
+                            <a href="/node/get?identifier=${node.identifier}"
                                class="fw-semibold text-decoration-none">
-                                ${role.identifier}
+                                ${node.identifier}
                             </a>
                         </td>
 
-                        <td class="text-muted">
-                            ${role.description}
+                        <td class="text-muted">${node.path}</td>
+
+                        <td>
+                            <c:if test="${empty node.roles}">
+                                <span class="text-muted">No Roles</span>
+                            </c:if>
+
+                            <c:forEach items="${node.roles}" var="r">
+                                <span class="badge bg-secondary me-1">
+                                    ${r}
+                                </span>
+                            </c:forEach>
                         </td>
 
                         <td class="text-center">
-                            <a href="/role/get?identifier=${role.identifier}"
+                            <a href="/node/get?identifier=${node.identifier}"
                                class="btn btn-sm btn-outline-primary me-2">
                                 Update
                             </a>
 
-                            <a href="/role/delete?identifier=${role.identifier}"
+                            <a href="/node/delete?identifier=${node.identifier}"
                                class="btn btn-sm btn-outline-danger"
-                               onclick="return confirm('Are you sure you want to delete this role?');">
+                               onclick="return confirm('Are you sure you want to delete this node?');">
                                 Delete
                             </a>
                         </td>
