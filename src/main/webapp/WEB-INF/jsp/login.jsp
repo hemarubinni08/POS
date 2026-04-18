@@ -1,7 +1,9 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Login</title>
 
     <style>
@@ -25,8 +27,22 @@
 
         h2 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #333;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .success {
+            color: green;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 14px;
         }
 
         form div {
@@ -67,13 +83,45 @@
         button:hover {
             background-color: #5a67d8;
         }
+
+        .register-link {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
 <body>
 
-<form th:action="@{/login}" method="post">
+<form action="${pageContext.request.contextPath}/login" method="post">
+
     <h2>Login</h2>
+
+    <!-- ✅ ERROR MESSAGE -->
+    <c:if test="${param.error != null}">
+        <div class="error">
+            Invalid username or password
+        </div>
+    </c:if>
+
+    <!-- ✅ LOGOUT MESSAGE -->
+    <c:if test="${param.logout != null}">
+        <div class="success">
+            You have been logged out successfully
+        </div>
+    </c:if>
+
     <div>
         <label>Username:</label>
         <input type="text" name="username" required />
@@ -85,6 +133,12 @@
     </div>
 
     <button type="submit">Login</button>
+
+    <div class="register-link">
+        New user?
+        <a href="${pageContext.request.contextPath}/register">Register here</a>
+    </div>
+
 </form>
 
 </body>

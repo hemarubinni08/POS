@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Management</title>
+    <title>Node Management</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -29,13 +29,22 @@
             color: white;
         }
 
-        a.user-link {
+        a.node-link {
             text-decoration: none;
             font-weight: 500;
+            color: #0d6efd;
         }
 
-        a.user-link:hover {
+        a.node-link:hover {
             text-decoration: underline;
+        }
+
+        .role-text {
+            display: inline-block;
+            margin: 2px 6px;
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
         }
 
         .action-icons a {
@@ -57,66 +66,74 @@
 
         <div class="card-body">
 
-            <h3 class="text-center mb-4">User Management</h3>
+            <h3 class="text-center mb-4">Node Management</h3>
 
-            <!-- NO USERS -->
-            <c:if test="${empty users}">
+            <!-- NO NODES -->
+            <c:if test="${empty nodes}">
                 <div class="alert alert-warning text-center">
-                    No users found
+                    No nodes found
                 </div>
             </c:if>
 
             <!-- TABLE -->
-            <c:if test="${not empty users}">
+            <c:if test="${not empty nodes}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
 
                         <thead>
                         <tr>
-                            <th>Email</th>
-                            <th>Name</th>
-                            <th>Phone</th>
+                            <th>ID</th>
+                            <th>Identifier</th>
+                            <th>Path</th>
                             <th>Roles</th>
                             <th>Action</th>
                         </tr>
                         </thead>
 
                         <tbody>
-                        <c:forEach var="user" items="${users}">
+                        <c:forEach var="node" items="${nodes}">
                             <tr>
 
-                                <!-- EMAIL -->
+                                <!-- ID -->
+                                <td>${node.id}</td>
+
+                                <!-- Identifier -->
                                 <td>
-                                    <a class="user-link"
-                                       href="${pageContext.request.contextPath}/user/get?username=${user.username}">
-                                        ${user.username}
+                                    <a class="node-link"
+                                       href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}">
+                                        ${node.identifier}
                                     </a>
                                 </td>
 
-                                <!-- NAME -->
-                                <td>${user.name}</td>
+                                <!-- Path -->
+                                <td>${node.path}</td>
 
-                                <!-- PHONE -->
-                                <td>${user.phoneNo}</td>
+                                <!-- Roles -->
+                                <td>
+                                    <c:if test="${empty node.roles}">
+                                        <span class="text-muted">No roles</span>
+                                    </c:if>
 
-                                <!-- ROLES -->
-                                <td>${user.roles}</td>
+                                    <c:forEach var="role" items="${node.roles}">
+                                        <span class="role-text">${role}</span>
+                                    </c:forEach>
+                                </td>
 
                                 <!-- ACTION ICONS -->
                                 <td class="action-icons">
 
                                     <!-- EDIT ICON -->
-                                    <a href="${pageContext.request.contextPath}/user/get?username=${user.username}"
+                                    <a href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}"
                                        class="text-primary"
                                        title="Edit">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
 
                                     <!-- DELETE ICON -->
-                                    <a href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
+                                    <a href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
                                        class="text-danger"
                                        title="Delete"
-                                       onclick="return confirm('Are you sure you want to delete this user?');">
+                                       onclick="return confirm('Are you sure you want to delete this node?');">
                                         <i class="bi bi-trash"></i>
                                     </a>
 
@@ -139,13 +156,13 @@
                     Home
                 </a>
 
-                <a href="${pageContext.request.contextPath}/register" class="btn btn-success">
-                    Register
+                <a href="${pageContext.request.contextPath}/node/add" class="btn btn-success">
+                    + Add New Node
                 </a>
             </div>
 
             <div class="text-muted small mt-2">
-                User Management System
+                Node Management System
             </div>
         </div>
 

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -10,6 +9,7 @@
     <meta charset="UTF-8">
     <title>Add Role</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -18,56 +18,103 @@
             background: linear-gradient(135deg, #667eea, #764ba2);
             min-height: 100vh;
         }
+
         .card {
-            border-radius: 12px;
+            border-radius: 15px;
         }
+
         .form-control {
             border-radius: 8px;
         }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        /* Error highlight */
+        .input-error {
+            border: 2px solid #dc3545 !important;
+            background-color: #fff5f5;
+        }
+
+        /* Grey buttons */
+        .btn-grey {
+            background: #6c757d;
+            border: none;
+            color: white;
+        }
+
+        .btn-grey:hover {
+            background: #5a6268;
+        }
     </style>
 </head>
+
 <body>
 
-<div class="container d-flex justify-content-center align-items-center mt-5">
+<div class="container mt-5 d-flex justify-content-center">
     <div class="col-md-5">
 
         <div class="card shadow-lg">
-            <div class="card-header text-center bg-primary text-white">
-                <h4 class="mb-0">Add New Role</h4>
-            </div>
 
             <div class="card-body">
 
-                <c:if test="${not empty role}">
-                    <div class="alert alert-success text-center">
-                        ${role}
+                <h3 class="text-center mb-4">Add Role</h3>
+
+                <!-- ERROR MESSAGE -->
+                <c:if test="${not empty error}">
+                    <div class="alert alert-danger text-center">
+                        ${error}
                     </div>
                 </c:if>
 
-                <form:form method="post"
-                           action="/role/add"
-                           modelAttribute="roleDto">
+                <!-- FORM -->
+                <form action="${pageContext.request.contextPath}/role/add" method="post">
 
+                    <!-- Role Identifier -->
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Role Name</label>
-                        <form:input path="identifier"
-                                    cssClass="form-control"
-                                    placeholder="Enter role name" />
+                        <label class="form-label">Role Identifier</label>
+                        <input type="text"
+                               name="identifier"
+                               placeholder="e.g. ADMIN, USER"
+                               value="${param.identifier}"
+                               class="form-control ${not empty error && error.contains('already') ? 'input-error' : ''}"
+                               required>
                     </div>
 
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description"
+                                  class="form-control"
+                                  rows="3"
+                                  placeholder="Describe role responsibilities">${param.description}</textarea>
+                    </div>
+
+                    <!-- BUTTONS -->
+                    <div class="d-flex gap-2 mt-4">
+
+                        <!-- Submit -->
+                        <button type="submit" class="btn btn-grey w-100">
                             Add Role
                         </button>
+
+                        <!-- Cancel -->
+                        <a href="${pageContext.request.contextPath}/user/list"
+                           class="btn btn-grey w-100 text-center">
+                            Cancel
+                        </a>
+
                     </div>
 
-                </form:form>
+                </form>
 
             </div>
 
             <div class="card-footer text-center text-muted small">
-                POS Management System
+                Role Management System
             </div>
+
         </div>
 
     </div>

@@ -11,27 +11,35 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/role")
 public class RoleController {
 
+    public static final String REDIRECT_ROLE_LIST = "redirect:/role/list";
+    public static final String ROLES = "roles";
     @Autowired
     private RoleService roleService;
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         return "role/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute RoleDto userDto) {
+        model.addAttribute("nodes", roleService.findAll());
+        model.addAttribute(ROLES,roleService.findAll());
         return "role/add";
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute RoleDto userDto) {
+
         RoleDto response = roleService.save(userDto);
+
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute("error", response.getMessage());
+            model.addAttribute(ROLES, roleService.findAll());
+            return "role/add";
         }
-        return "redirect:/role/list";
+        return REDIRECT_ROLE_LIST;
     }
 
     @GetMapping("/get")
@@ -47,12 +55,12 @@ public class RoleController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
-        return "redirect:/role/list";
+        return REDIRECT_ROLE_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         roleService.delete(identifier);
-        return "role/role";
+        return REDIRECT_ROLE_LIST;
     }
 }

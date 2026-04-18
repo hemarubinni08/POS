@@ -4,6 +4,7 @@ import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,59 +26,91 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
 
+    // ✅ FIX 1: SAFE findByUserName (NO ModelMapper crash)
     @Override
     public UserDto findByUserName(String username) {
-        return modelMapper.map(userRepository.findByUsername(username), UserDto.class);
+
+        User user = userRepository.findByUsername(username);
+
+        if (user == null) {
+            return null;
+        }
+
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override
     public UserDto save(UserDto userDto) {
-        String username = userDto.getUsername();
-        User existingUser = userRepository.findByUsername(username);
+
+        User existingUser =
+                userRepository.findByUsername(userDto.getUsername());
+
         if (existingUser != null) {
-            userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
+            userDto.setMessage(
+                    "User with username/email - " + userDto.getUsername() + " already exists");
             userDto.setSuccess(false);
             return userDto;
         }
+
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
         userRepository.save(user);
+
+        userDto.setSuccess(true);
+        userDto.setMessage("User created successfully");
         return userDto;
     }
 
+    // ✅ FIX 2: USERNAME-BASED UPDATE (supports email change)
     @Override
-    public UserDto update(UserDto userDto) {
-        String username = userDto.getUsername();
-        Optional<User> userOptional = userRepository.findById(userDto.getId());
+    public UserDto update(String oldUsername, UserDto userDto) {
 
-        if (userOptional.isEmpty()) {
-            userDto.setMessage("User with username/email - " + userDto.getUsername() + " not found");
+        User existingUser =
+                userRepository.findByUsername(oldUsername);
+
+        if (existingUser == null) {
+            userDto.setMessage("User not found");
             userDto.setSuccess(false);
             return userDto;
-        } else {
-            User existingUser = userOptional.get();
-            if (!username.equalsIgnoreCase(existingUser.getUsername())) {
-                if (userRepository.findByUsername(username) != null) {
-                    userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
-                    userDto.setSuccess(false);
-                    return userDto;
-                }
-            }
-            modelMapper.map(userDto, existingUser);
-            userRepository.save(existingUser);
         }
+
+        // ✅ If username is changed, check uniqueness
+        if (!oldUsername.equalsIgnoreCase(userDto.getUsername())) {
+
+            User emailCheck =
+                    userRepository.findByUsername(userDto.getUsername());
+
+            if (emailCheck != null) {
+                userDto.setMessage(
+                        "User with username/email - " + userDto.getUsername() + " already exists");
+                userDto.setSuccess(false);
+                return userDto;
+            }
+        }
+
+        // ✅ Update fields
+        existingUser.setName(userDto.getName());
+        existingUser.setUsername(userDto.getUsername()); // NEW email
+        existingUser.setPhoneNo(userDto.getPhoneNo());
+        existingUser.setRoles(userDto.getRoles());
+
+        userRepository.save(existingUser);
+
+        userDto.setSuccess(true);
+        userDto.setMessage("User updated successfully");
         return userDto;
     }
 
     @Override
-    public boolean delete(String username) {
-        return userRepository.deleteByUsername(username);
+    @Transactional
+    public void delete(String username) {
+        userRepository.deleteByUsername(username);
     }
 
     @Override
     public List<UserDto> findAll() {
-        Type listType = new TypeToken<List<UserDto>>() {
-        }.getType();
+        Type listType = new TypeToken<List<UserDto>>() {}.getType();
         return modelMapper.map(userRepository.findAll(), listType);
     }
 }

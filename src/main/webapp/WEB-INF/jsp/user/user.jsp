@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -31,7 +30,7 @@
         h3 {
             text-align: center;
             color: #4b6cb7;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             font-weight: 600;
         }
 
@@ -41,90 +40,159 @@
             color: #333;
         }
 
-        .form-control,
-        select {
+        .form-control {
             border-radius: 8px;
             padding: 10px 12px;
         }
 
-        select[multiple] {
-            height: 120px;
+        /* 🔽 Dropdown with checkbox */
+        .dropdown-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #fff;
         }
 
-        .btn-update {
+        .dropdown-list {
+            display: none;
+            position: absolute;
             width: 100%;
-            padding: 12px;
-            background: #4b6cb7;
-            border: none;
+            max-height: 180px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            z-index: 1000;
+            margin-top: 5px;
+        }
+
+        .role-dropdown.active .dropdown-list {
+            display: block;
+        }
+
+        .dropdown-list label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .dropdown-list label:hover {
+            background: #f1f1f1;
+        }
+
+        /* 🔘 GREY BUTTONS */
+        .btn-grey {
+            background: #6c757d;
             color: white;
             font-weight: 600;
+            border: none;
+            padding: 10px;
             border-radius: 8px;
         }
 
-        .btn-update:hover {
-            background: #182848;
-        }
-
-        small {
-            font-size: 11px;
-            color: #666;
+        .btn-grey:hover {
+            background: #5a6268;
+            color: white;
         }
     </style>
 </head>
 
 <body>
-${message}
+
 <div class="update-card">
+
     <h3>Update User</h3>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto">
+    <!-- ERROR MESSAGE -->
+    <c:if test="${not empty message}">
+        <div class="alert alert-danger text-center">
+            ${message}
+        </div>
+    </c:if>
 
-        <form:input type="hidden" path="id"/>
+    <form action="${pageContext.request.contextPath}/user/update" method="post">
 
+        <input type="hidden" name="oldUsername" value="${user.username}" />
+        <input type="hidden" name="id" value="${user.id}" />
+
+        <!-- Name -->
         <div class="mb-3">
             <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
+            <input type="text" name="name" class="form-control"
+                   value="${user.name}" required />
         </div>
 
-         <div class="mb-3">
+        <!-- Email -->
+        <div class="mb-3">
             <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
+            <input type="email" name="username" class="form-control"
+                   value="${user.username}" required />
         </div>
 
+        <!-- Phone -->
         <div class="mb-3">
             <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" required="true"/>
+            <input type="text" name="phoneNo" class="form-control"
+                   value="${user.phoneNo}" required />
         </div>
 
-        <div class="mb-3">
-            <label>Roles</label>
+        <!-- Roles Dropdown with Checkbox -->
+        <div class="mb-3 position-relative role-dropdown" id="roleDropdown">
 
-            <div class="mb-1 text-muted">
-                Current:
-                <c:forEach var="r" items="${user.roles}">
-                    <span class="badge bg-secondary me-1">${r}</span>
-                </c:forEach>
+            <label>Select Roles</label>
+
+            <div class="dropdown-box" onclick="toggleDropdown()">
+                Select Roles
             </div>
 
-            <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
-            </form:select>
+            <div class="dropdown-list">
 
+                <c:forEach var="role" items="${roles}">
+                    <label>
+                        <input type="checkbox" name="roles"
+                               value="${role.identifier}"
+                               <c:if test="${user.roles.contains(role.identifier)}">
+                                   checked
+                               </c:if>>
+                        ${role.identifier}
+                    </label>
+                </c:forEach>
 
-            <small>
-                Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
-            </small>
+            </div>
         </div>
 
-        <button type="submit" class="btn-update">Update User</button>
+        <!-- BUTTONS (GREY) -->
+        <div class="d-flex gap-2 mt-3">
 
-    </form:form>
+            <button type="submit" class="btn btn-grey w-100">
+                Update User
+            </button>
 
-    <div class="text-center mt-3">
-        <a href="/user/list">← Back to User List</a>
-    </div>
+            <a href="/user/list" class="btn btn-grey w-100 text-center">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
 
 </div>
+
+<script>
+    function toggleDropdown() {
+        document.getElementById("roleDropdown").classList.toggle("active");
+    }
+
+    document.addEventListener("click", function (e) {
+        const dropdown = document.getElementById("roleDropdown");
+        if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove("active");
+        }
+    });
+</script>
 
 </body>
 </html>
