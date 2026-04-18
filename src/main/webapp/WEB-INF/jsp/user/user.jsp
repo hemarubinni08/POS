@@ -50,6 +50,17 @@
         select[multiple] {
             height: 120px;
         }
+        .error-message {
+                    margin-bottom: 16px;
+                    padding: 10px;
+                    background: rgba(220, 53, 69, 0.12);
+                    border: 1px solid #dc3545;
+                    color: #dc3545;
+                    border-radius: 8px;
+                    text-align: center;
+                    font-size: 13px;
+                    font-weight: 500;
+                }
 
         .btn-update {
             width: 100%;
@@ -149,7 +160,7 @@
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
             </small>
         </div>
-        <small>${message}</small>
+
         <button type="submit" class="btn-update">Update User</button>
 
     </form:form>
