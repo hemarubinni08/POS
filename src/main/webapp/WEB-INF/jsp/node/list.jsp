@@ -1,30 +1,33 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Node List</title>
+<meta charset="UTF-8">
+<title>Node List</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet">
 
-    <style>
-        body {
-            background: linear-gradient(to right, #bdc3c7, #2c3e50);
-            min-height: 100vh;
-        }
-        .card {
-            border-radius: 16px;
-        }
-        .btn {
-            border-radius: 10px;
-        }
-        .table th, .table td {
-            vertical-align: middle;
-        }
-    </style>
+<style>
+    body {
+        background-color: #E9EEF5;
+        min-height: 100vh;
+    }
+
+    .card {
+        border-radius: 16px;
+    }
+
+    .btn {
+        border-radius: 10px;
+    }
+
+    .table th, .table td {
+        vertical-align: middle;
+    }
+</style>
 </head>
 
 <body>
@@ -49,10 +52,12 @@
         <h3 class="fw-bold mb-3 text-center">Node List</h3>
 
         <div class="table-responsive">
+
             <table class="table table-hover table-striped mb-0">
 
                 <thead class="table-dark">
                 <tr>
+                    <th>ID</th>
                     <th>Identifier</th>
                     <th>Path</th>
                     <th>Roles</th>
@@ -65,7 +70,7 @@
                 <!-- EMPTY CASE -->
                 <c:if test="${empty nodes}">
                     <tr>
-                        <td colspan="4" class="text-center py-4 text-light">
+                        <td colspan="5" class="text-center py-4 text-muted">
                             No nodes found.
                         </td>
                     </tr>
@@ -74,6 +79,9 @@
                 <!-- DATA -->
                 <c:forEach items="${nodes}" var="node">
                     <tr>
+
+                        <td>${node.id}</td>
+
                         <td>
                             <a href="/node/get?identifier=${node.identifier}"
                                class="fw-semibold text-decoration-none">
@@ -81,17 +89,13 @@
                             </a>
                         </td>
 
-                        <td class="text-muted">${node.path}</td>
+                        <td class="text-muted">
+                            ${node.path}
+                        </td>
 
                         <td>
-                            <c:if test="${empty node.roles}">
-                                <span class="text-muted">No Roles</span>
-                            </c:if>
-
-                            <c:forEach items="${node.roles}" var="r">
-                                <span class="badge bg-secondary me-1">
-                                    ${r}
-                                </span>
+                            <c:forEach items="${node.roles}" var="role" varStatus="s">
+                                ${role}<c:if test="${!s.last}">, </c:if>
                             </c:forEach>
                         </td>
 
@@ -107,12 +111,14 @@
                                 Delete
                             </a>
                         </td>
+
                     </tr>
                 </c:forEach>
 
                 </tbody>
 
             </table>
+
         </div>
 
     </div>

@@ -12,7 +12,7 @@
 
     <style>
         body {
-            background: linear-gradient(to right, #bdc3c7, #2c3e50);
+            background-color: #E9EEF5;
             min-height: 100vh;
         }
         .card {

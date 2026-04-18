@@ -20,7 +20,7 @@ public class NodeController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        model.addAttribute("nodes", nodeService.findAll());
+        model.addAttribute("nodes", nodeService.getNodesForRoles());
         return "node/list";
     }
 
@@ -58,8 +58,7 @@ public class NodeController {
     }
 
     @PostMapping("/update")
-    public String update(Model model,
-                             @ModelAttribute NodeDto nodeDto) {
+    public String update(Model model, @ModelAttribute NodeDto nodeDto) {
 
         NodeDto response = nodeService.update(nodeDto);
 

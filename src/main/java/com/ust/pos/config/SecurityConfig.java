@@ -41,8 +41,10 @@ public class SecurityConfig {
 
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/", true)
-                        .permitAll()
+                        .failureHandler((request, response, exception) -> {
+                            request.getSession().setAttribute("errorMessage", "Wrong credentials");
+                            response.sendRedirect("/login");
+                        })
                 )
 
                 .logout(logout -> logout
@@ -51,4 +53,5 @@ public class SecurityConfig {
                 );
         return http.build();
     }
+
 }

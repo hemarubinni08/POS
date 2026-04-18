@@ -1,119 +1,68 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #bdc3c7, #2c3e50);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .login-box {
-            background: #fff;
-            padding: 30px 35px;
-            width: 340px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        label {
-            font-size: 14px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-
-        .btn-login {
-            width: 100%;
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-login:hover {
-            background: #5a67d8;
-        }
-
-        .register-link {
-            display: block;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .msg {
-            text-align: center;
-            margin-bottom: 10px;
-            font-size: 13px;
-            color: red;
-        }
-
-        .success {
-            color: green;
-        }
-    </style>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body style="background-color: #E9EEF5" class="d-flex align-items-center justify-content-center vh-100">
 
-<div class="login-box">
+<div class="card shadow p-4" style="width: 350px;">
+    <h3 style="color: #000000;" class="text-center mb-4">Login</h3>
 
-    <h2>Login</h2>
-
-    <!-- COMMON ERROR MESSAGE -->
-    <c:if test="${param.error}">
-        <div class="msg">
-            Your username or password is incorrect.
+    <form th:action="@{/login}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="text" name="username" class="form-control" required />
         </div>
-    </c:if>
 
-    <!-- LOGOUT MESSAGE -->
-    <c:if test="${param.logout}">
-        <div class="msg success">
-            You have been logged out successfully.
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required />
         </div>
-    </c:if>
 
-    <form action="/login" method="post">
+        <%
+            String error = (String) session.getAttribute("errorMessage");
+            if (error != null && !error.trim().isEmpty()) {
+        %>
+            <div id="errorAlert"
+                 class="alert alert-danger text-center py-2 mb-3"
+                 role="alert">
+                <strong>Login failed:</strong> <%= error %>
+            </div>
+        <%
+                session.removeAttribute("errorMessage");
+            }
+        %>
 
-        <label>Username</label>
-        <input type="text" name="username" required>
+        <button type="submit" class="btn btn-success w-100">Login</button>
 
-        <label>Password</label>
-        <input type="password" name="password" required>
-
-        <button type="submit" class="btn btn-login">
-            Login
-        </button>
-
+        <!-- Register link -->
+        <div class="text-center mt-3">
+            <small>
+                Don't have an account?
+                <a href="/register" class="text-decoration-none">Register here</a>
+            </small>
+        </div>
     </form>
-
-    <a href="/register" class="register-link">
-        Register New Account
-    </a>
-
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const alertBox = document.getElementById("errorAlert");
 
+        if (alertBox) {
+            setTimeout(() => {
+                alertBox.style.opacity = "0";
+                alertBox.style.transform = "translateY(-5px)";
+                alertBox.style.transition = "all 0.5s ease";
+
+                setTimeout(() => alertBox.remove(), 500);
+            }, 3500); // disappears after 3.5 seconds
+        }
+    });
+</script>
 </body>
 </html>

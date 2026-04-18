@@ -7,11 +7,12 @@
     <meta charset="UTF-8">
     <title>Update Node</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(to right, #bdc3c7, #2c3e50);
+            background-color: #E9EEF5;
             min-height: 100vh;
         }
         .card {
@@ -28,31 +29,36 @@
 
 <body>
 
+<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
-        <span class="navbar-brand fw-bold">User Profile</span>
+        <span class="navbar-brand fw-bold">Node Management</span>
         <a href="/node/list" class="btn btn-outline-light btn-sm">Back</a>
     </div>
 </nav>
 
+<!-- MAIN CONTAINER -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    <div class="card shadow p-4" style="width: 450px;">
+
+    <div class="card shadow p-4" style="width: 500px;">
 
         <h3 class="text-center mb-4 fw-bold">Update Node</h3>
 
-        <!-- SHOW ERROR MESSAGE -->
+        <!-- MESSAGE -->
         <c:if test="${not empty message}">
-            <div class="alert alert-danger">${message}</div>
+            <div class="alert alert-danger text-center">
+                ${message}
+            </div>
         </c:if>
 
         <form action="/node/update" method="post">
 
-            <!-- IDENTIFIER (READ ONLY) -->
+            <!-- IDENTIFIER -->
             <div class="mb-3">
                 <label class="form-label">Identifier</label>
                 <input type="text"
-                       class="form-control"
                        name="identifier"
+                       class="form-control"
                        value="${nodeDto.identifier}"
                        readonly>
             </div>
@@ -61,8 +67,8 @@
             <div class="mb-3">
                 <label class="form-label">Path</label>
                 <input type="text"
-                       class="form-control"
                        name="path"
+                       class="form-control"
                        value="${nodeDto.path}"
                        required>
             </div>
@@ -77,28 +83,25 @@
                         <span class="text-danger">No roles available</span>
                     </c:if>
 
-                    <c:forEach items="${roles}" var="role">
-
-                        <c:set var="isChecked" value="false" />
-
-                        <!-- CHECK IF ROLE ALREADY EXISTS -->
-                        <c:if test="${not empty nodeDto.roles}">
-                            <c:forEach items="${nodeDto.roles}" var="nr">
-                                <c:if test="${nr eq role.identifier}">
-                                    <c:set var="isChecked" value="true" />
-                                </c:if>
-                            </c:forEach>
-                        </c:if>
+                    <c:forEach items="${roles}" var="r">
 
                         <div class="form-check">
                             <input class="form-check-input"
                                    type="checkbox"
                                    name="roles"
-                                   value="${role.identifier}"
-                                   <c:if test="${isChecked}">checked</c:if>>
+                                   value="${r.identifier}"
+
+                                   <c:if test="${not empty nodeDto.roles}">
+                                       <c:forEach items="${nodeDto.roles}" var="nr">
+                                           <c:if test="${nr eq r.identifier}">
+                                               checked
+                                           </c:if>
+                                       </c:forEach>
+                                   </c:if>
+                            >
 
                             <label class="form-check-label">
-                                ${role.identifier}
+                                ${r.identifier}
                             </label>
                         </div>
 
@@ -109,8 +112,13 @@
 
             <!-- BUTTONS -->
             <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary w-100">Update & Save</button>
-                <a href="/node/list" class="btn btn-outline-secondary w-100">Cancel</a>
+                <button type="submit" class="btn btn-primary w-100">
+                    Update
+                </button>
+
+                <a href="/node/list" class="btn btn-outline-secondary w-100">
+                    Cancel
+                </a>
             </div>
 
         </form>

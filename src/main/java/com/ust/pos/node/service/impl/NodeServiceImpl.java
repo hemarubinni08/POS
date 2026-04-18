@@ -12,7 +12,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class NodeServiceImpl implements NodeService {
@@ -24,13 +27,14 @@ public class NodeServiceImpl implements NodeService {
 
     @Autowired
     private ModelMapper modelMapper;
+
     @Override
     public NodeDto findByIdentifier(String identifier) {
         Node node = nodeRepository.findByIdentifier(identifier);
-        if(node == null){
-            return  null;
+        if (node == null) {
+            return null;
         }
-        return modelMapper.map(node,NodeDto.class);
+        return modelMapper.map(node, NodeDto.class);
     }
 
     @Override
@@ -75,13 +79,40 @@ public class NodeServiceImpl implements NodeService {
     }
 
     public List<NodeDto> getNodesForRoles() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-        User currentUser = userRepository.findByUsername(principalObject.getUsername());
-        List<Node> nodes = nodeRepository.findByRoles(currentUser.getRoles());
-        Type listType = new TypeToken<List<NodeDto>>() {
-        }.getType();
-        return modelMapper.map(nodes, listType);
-    }
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || authentication.getPrincipal() == null) {
+            return new ArrayList<>();
+        }
+
+        org.springframework.security.core.userdetails.User principalObject =
+                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+
+        User currentUser = userRepository.findByUsername(principalObject.getUsername());
+
+        if (currentUser == null) {
+            SecurityContextHolder.clearContext();
+            throw new RuntimeException("USER_DELETED");
+        }
+
+        List<NodeDto> nodeDtos = new ArrayList<>();
+        Set<String> nodesStr = new HashSet<>();
+
+        List<Node> nodes = nodeRepository.findAll();
+
+        for (String role : currentUser.getRoles()) {
+            for (Node node : nodes) {
+                if (node.getRoles() != null && node.getRoles().contains(role)) {
+                    nodesStr.add(node.getIdentifier());
+                }
+            }
+        }
+
+        for (String nodeStr : nodesStr) {
+            nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
+        }
+
+        return nodeDtos;
+    }
 }
