@@ -6,24 +6,40 @@
 <head>
     <title>Role List</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
+            background: #ffffff;
             min-height: 100vh;
         }
+
         .card {
             border-radius: 16px;
         }
+
         .card-header {
             border-top-left-radius: 16px;
             border-top-right-radius: 16px;
         }
+
         table th {
             background-color: #0d6efd;
             color: white;
+        }
+
+        /* ✅ REMOVE UNDERLINE FROM ICON LINKS */
+        .action-link {
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 6px;
+        }
+
+        .action-link:hover {
+            text-decoration: none;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -53,24 +69,31 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Role</th>
+                                <th>Description</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
+
                             <tbody>
                             <c:forEach var="role" items="${roles}">
                                 <tr>
-                                    <td>
-                                        <a href="/role/get?identifier=${role.identifier}"
-                                           class="text-decoration-none fw-semibold">
-                                            ${role.id}
-                                        </a>
-                                    </td>
+                                    <td>${role.id}</td>
                                     <td>${role.identifier}</td>
+                                    <td>${role.description}</td>
                                     <td>
+                                        <!-- ✏️ Edit -->
+                                        <a href="/role/get?identifier=${role.identifier}"
+                                           class="action-link"
+                                           title="Edit">
+                                            ✏️
+                                        </a>
+
+                                        <!-- 🗑 Delete -->
                                         <a href="/role/delete?identifier=${role.identifier}"
-                                           class="btn btn-danger btn-sm"
+                                           class="action-link"
+                                           title="Delete"
                                            onclick="return confirm('Are you sure you want to delete this role?');">
-                                            Delete
+                                            🗑
                                         </a>
                                     </td>
                                 </tr>
@@ -85,12 +108,10 @@
                     <a href="/" class="btn btn-secondary">
                         Home
                     </a>
-
                     <a href="/role/add" class="btn btn-success">
-                        + Add New Role
+                        Add New Role
                     </a>
                 </div>
-
             </div>
 
         </div>

@@ -39,11 +39,12 @@
             <div class="card-body">
 
                 <!-- Success message -->
-                <c:if test="${not empty message}">
-                    <div class="alert alert-success text-center">
-                        ${message}
-                    </div>
-                </c:if>
+                 <!-- ✅ ERROR MESSAGE (shows when node already exists) -->
+                    <c:if test="${not empty message}">
+                        <div class="alert alert-danger text-center">
+                            ${message}
+                        </div>
+                    </c:if>
 
                 <form:form method="post"
                            action="/node/add"

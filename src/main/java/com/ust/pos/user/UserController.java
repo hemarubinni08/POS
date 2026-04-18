@@ -28,7 +28,7 @@ public class UserController {
     public String update(Model model, @RequestParam String username, @ModelAttribute UserDto userDto) {
         UserDto response = userService.findByUserName(username);
         model.addAttribute("roles",roleService.findAll());
-        model.addAttribute("user", response);
+        model.addAttribute("users", response);
         return "user/user";
     }
 
@@ -45,6 +45,6 @@ public class UserController {
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
         userService.delete(username);
-        return "user/user";
+        return "redirect:/user/list";
     }
 }

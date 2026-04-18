@@ -12,7 +12,7 @@ public interface NodeService {
 
     NodeDto update(NodeDto nodeDto);
 
-    boolean delete(String username);
+     void delete(String username);
 
     List<NodeDto> findAll();
 

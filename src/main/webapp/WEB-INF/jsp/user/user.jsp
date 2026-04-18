@@ -13,7 +13,7 @@
     <style>
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -77,7 +77,7 @@ ${message}
 <div class="update-card">
     <h3>Update User</h3>
 
-    <form:form action="/user/update" method="post" modelAttribute="user">
+    <form:form action="/user/update" method="post" modelAttribute="users">
 
         <form:input type="hidden" path="id"/>
 
@@ -88,12 +88,24 @@ ${message}
 
          <div class="mb-3">
             <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
+            <form:input type="email" path="username" cssClass="form-control" required="true"/>
         </div>
 
-        <div class="mb-3">
+
+        <%--<div class="mb-3">
             <label>Phone Number</label>
             <form:input path="phoneNo" cssClass="form-control" required="true"/>
+        </div>--%>
+        <!-- Phone -->
+        <div class="mb-3">
+            <label>Phone Number</label>
+            <form:input
+                path="phoneNo"
+                cssClass="form-control"
+                maxlength="10"
+                pattern="[0-9]{10}"
+                title="Enter exactly 10 digit phone number"
+                oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
         </div>
 
         <div class="mb-3">
