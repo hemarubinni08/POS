@@ -13,7 +13,7 @@
     <style>
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-color: #FFF8F0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,15 +22,15 @@
 
         .update-card {
             width: 460px;
-            background: #fff;
+            background: #ffffff;
             padding: 30px 35px;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            border-radius: 18px;
+            box-shadow: 0 18px 35px rgba(75, 46, 43, 0.25);
         }
 
         h3 {
             text-align: center;
-            color: #4b6cb7;
+            color: #4B2E2B;
             margin-bottom: 25px;
             font-weight: 600;
         }
@@ -38,13 +38,20 @@
         label {
             font-weight: 600;
             font-size: 14px;
-            color: #333;
+            color: #4B2E2B;
         }
 
         .form-control,
         select {
             border-radius: 8px;
             padding: 10px 12px;
+            border: 1px solid #ccb7b2;
+        }
+
+        .form-control:focus,
+        select:focus {
+            border-color: #4B2E2B;
+            box-shadow: none;
         }
 
         select[multiple] {
@@ -54,27 +61,43 @@
         .btn-update {
             width: 100%;
             padding: 12px;
-            background: #4b6cb7;
+            background-color: #4B2E2B;
             border: none;
             color: white;
             font-weight: 600;
-            border-radius: 8px;
+            border-radius: 10px;
         }
 
         .btn-update:hover {
-            background: #182848;
+            background-color: #3a2421;
+        }
+
+        .badge {
+            background-color: #6b4a46;
         }
 
         small {
             font-size: 11px;
-            color: #666;
+            color: #6b4a46;
+        }
+
+        a {
+            color: #4B2E2B;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #3a2421;
         }
     </style>
 </head>
 
 <body>
-${message}
+
 <div class="update-card">
+
     <h3>Update User</h3>
 
     <form:form action="/user/update" method="post" modelAttribute="userDto">
@@ -86,7 +109,7 @@ ${message}
             <form:input path="name" cssClass="form-control" required="true"/>
         </div>
 
-         <div class="mb-3">
+        <div class="mb-3">
             <label>Email</label>
             <form:input path="username" cssClass="form-control" required="true"/>
         </div>
@@ -101,22 +124,25 @@ ${message}
 
             <div class="mb-1 text-muted">
                 Current:
-                <c:forEach var="r" items="${user.roles}">
-                    <span class="badge bg-secondary me-1">${r}</span>
+                <c:forEach var="r" items="${userDto.roles}">
+                    <span class="badge me-1">${r}</span>
                 </c:forEach>
             </div>
 
             <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
+                <form:options items="${roles}"
+                              itemValue="identifier"
+                              itemLabel="identifier"/>
             </form:select>
-
 
             <small>
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
             </small>
         </div>
 
-        <button type="submit" class="btn-update">Update User</button>
+        <button type="submit" class="btn-update mt-2">
+            Update User
+        </button>
 
     </form:form>
 

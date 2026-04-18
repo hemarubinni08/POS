@@ -12,36 +12,127 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-color: #FFF8F0;
             min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            padding-top: 40px;
         }
 
         .card {
-            border-radius: 15px;
+            border-radius: 16px;
+            box-shadow: 0 18px 35px rgba(75, 46, 43, 0.25);
+            border: none;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        h3 {
+            color: #4B2E2B;
+            font-weight: 600;
+        }
+
+        .table {
+            margin-bottom: 0;
         }
 
         .table th {
-            background-color: #343a40;
-            color: white;
+            background-color: #4B2E2B;
+            color: #FFF8F0;
+            border-color: #4B2E2B;
+            font-weight: 600;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #fff3eb;
         }
 
         a.user-link {
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
+            color: #4B2E2B;
         }
 
         a.user-link:hover {
             text-decoration: underline;
+            color: #3a2421;
         }
+
+        .btn-danger {
+            background-color: #8d3c36;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #702f2a;
+        }
+
+        .btn-secondary {
+            background-color: #4B2E2B;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #3a2421;
+        }
+
+        .card-footer {
+            background-color: #fff3eb;
+            border-top: none;
+        }
+
+        .text-muted {
+            color: #6b4a46 !important;
+        }
+
+        .btn-edit {
+            background-color: #4B2E2B;
+            color: #FFF8F0;
+            border: none;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-edit:hover {
+            background-color: #3a2421;
+            color: #FFF8F0;
+        }
+
+        .register-btn {
+            background-color:  #4B2E2B;
+            color: #FFF8F0;
+            border: none;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .register-btn:hover {
+            background-color: #4B2E2B;
+            color: #FFF8F0;
+        }
+        ``
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="card shadow-lg">
-        <div class="card-body">
+<div class="container">
+    <div class="card">
 
+        <div class="card-body">
             <h3 class="text-center mb-4">User Management</h3>
 
             <!-- NO USERS MESSAGE -->
@@ -51,6 +142,7 @@
                 </div>
             </c:if>
 
+            <!-- USERS TABLE -->
             <c:if test="${not empty users}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
@@ -60,24 +152,26 @@
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Roles</th>
+                            <th>Edit</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         <c:forEach var="user" items="${users}">
                             <tr>
-                                <td>
-                                    <a class="user-link"
-                                       href="/user/get?username=${user.username}">
-                                        ${user.username}
-                                    </a>
-                                </td>
+                                <td>${user.username}</td>
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
                                 <td>
+                                    <a class="btn-edit"
+                                       href="/user/get?username=${user.username}">
+                                       Edit
+                                    </a>
+                                </td>
+                                <td>
                                     <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
+                                       href="/user/delete?username=${user.username}"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
                                         Delete
                                     </a>
@@ -88,7 +182,6 @@
                     </table>
                 </div>
             </c:if>
-
         </div>
 
         <div class="card-footer text-center">
@@ -96,12 +189,10 @@
                 <a href="/" class="btn btn-secondary">
                     Home
                 </a>
-
-                <a href="/register" class="btn btn-success">
-                    Register
+                <a href="/register" class="register-btn">
+                            Register
                 </a>
             </div>
-
             <div class="text-muted small mt-2">
                 User Management System
             </div>

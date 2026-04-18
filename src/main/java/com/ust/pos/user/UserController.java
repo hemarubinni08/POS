@@ -1,6 +1,7 @@
 package com.ust.pos.user;
 
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
     @GetMapping("/list")
     public String home(Model model) {
         model.addAttribute("users", userService.findAll());
@@ -21,9 +25,10 @@ public class UserController {
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String username) {
+    public String update(Model model, @RequestParam String username, @ModelAttribute UserDto userDto) {
         UserDto response = userService.findByUserName(username);
-        model.addAttribute("user", response);
+        model.addAttribute("userDto", response);
+        model.addAttribute("roles",roleService.findAll());
         return "user/user";
     }
 
@@ -40,6 +45,6 @@ public class UserController {
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
         userService.delete(username);
-        return "user/user";
+        return "redirect:/user/list";
     }
 }
