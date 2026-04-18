@@ -50,9 +50,10 @@ public class RoleController {
         return "redirect:/role/list";
     }
 
+
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         roleService.delete(identifier);
-        return "role/role";
+        return "redirect:/role/list";
     }
 }

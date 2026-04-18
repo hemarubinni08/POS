@@ -1,91 +1,190 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+    <title>POS System</title>
 
     <style>
         body {
             margin: 0;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .main {
             display: flex;
+            height: 100vh;
+        }
+
+        /* LEFT SIDE (SOFT LIGHT PANEL) */
+        .left {
+            flex: 1;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
             justify-content: center;
+            background: linear-gradient(135deg, #e2e8f0, #f8fafc);
+        }
+
+        .left h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+
+        .left p {
+            font-size: 18px;
+            color: #475569;
+            max-width: 520px;
+        }
+
+        /* RIGHT SIDE (CARD SAME AS REGISTER) */
+        .right {
+            width: 460px;
+            display: flex;
             align-items: center;
+            justify-content: center;
+            padding: 40px;
         }
 
-        form {
+        .form-box {
+            width: 100%;
             background: #ffffff;
-            padding: 30px 35px;
-            width: 320px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            padding: 36px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+            border-top: 6px solid #1e293b;
         }
 
-        h2 {
+        .form-box h2 {
             text-align: center;
-            margin-bottom: 25px;
-            color: #333;
-        }
-
-        form div {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
-            color: #555;
+            margin-bottom: 26px;
+            font-size: 22px;
+            font-weight: 700;
         }
 
         input {
             width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
+            padding: 12px;
+            margin-bottom: 16px;
             border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            font-size: 14px;
+            background-color: #ffffff;
+        }
+
+        input::placeholder {
+            color: #94a3b8;
         }
 
         input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #1e293b;
+            box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.15);
         }
 
-        button {
-            width: 100%;
+        .error-msg {
+            margin-bottom: 16px;
             padding: 10px;
-            background-color: #667eea;
-            color: white;
-            border: none;
             border-radius: 6px;
-            font-size: 15px;
+            background-color: #fee2e2;
+            color: #b91c1c;
+            font-size: 14px;
+            text-align: center;
+            border: 1px solid #fca5a5;
+        }
+
+        /* BUTTON */
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            background-color: #1e293b;
+            color: #ffffff;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #5a67d8;
+        .btn-login:hover {
+            background-color: #0f172a;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.35);
         }
+
+        /* REGISTER TEXT */
+        .extra-text {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .extra-text a {
+            color: #1e293b;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .extra-text a:hover {
+            text-decoration: underline;
+        }
+
     </style>
 </head>
 
 <body>
 
-<form th:action="@{/login}" method="post">
-    <h2>Login</h2>
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username" required />
+<div class="main">
+
+    <!-- LEFT -->
+    <div class="left">
+        <h1>POS MADE SIMPLE</h1>
+
+        <p>
+            Modern retail application
+        </p>
     </div>
 
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required />
+    <!-- RIGHT -->
+    <div class="right">
+        <div class="form-box">
+
+            <h2>Login to your account</h2>
+
+            <c:if test="${param.error == 'true'}">
+                <div class="error-msg">
+                    Invalid username or password
+                </div>
+            </c:if>
+
+            <form action="${pageContext.request.contextPath}/login" method="post">
+
+                <input type="text" name="username" placeholder="Enter username" required>
+
+                <input type="password" name="password" placeholder="Enter password" required>
+
+                <button type="submit" class="btn-login">
+                    Sign In
+                </button>
+
+            </form>
+
+            <!-- REGISTER -->
+            <div class="extra-text">
+                Don’t have an account?
+                <a href="${pageContext.request.contextPath}/register">
+                    Register here
+                </a>
+            </div>
+
+        </div>
     </div>
 
-    <button type="submit">Login</button>
-</form>
+</div>
 
 </body>
 </html>

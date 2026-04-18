@@ -1,37 +1,84 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>User Registration</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
     <style>
         body {
             margin: 0;
-            font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
         }
 
-        .register-card {
-            width: 430px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 35px 40px;
-            border-radius: 16px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        .main {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* LEFT PANEL */
+        .left {
+            flex: 1;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, #e2e8f0, #f8fafc);
+        }
+
+        .left h1 {
+            font-size: 52px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .left p {
+            font-size: 17px;
+            color: #475569;
+            max-width: 480px;
+            line-height: 1.6;
+        }
+
+        .feature {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #334155;
+        }
+
+        /* RIGHT PANEL */
+        .right {
+            width: 460px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .container {
+            background: #ffffff;
+            width: 100%;
+            padding: 36px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+            border-top: 6px solid #1e293b;
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 30px;
-            color: #4b6cb7;
-            font-weight: 600;
+            margin-bottom: 26px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            text-align: center;
+            font-size: 13px;
         }
 
         .form-group {
@@ -39,83 +86,175 @@
         }
 
         label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 5px;
             display: block;
         }
 
         input, select {
             width: 100%;
-            padding: 11px 14px;
+            padding: 12px;
             border-radius: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
             font-size: 14px;
+            transition: 0.2s;
         }
 
-        select[multiple] {
-            height: 130px; /* ✅ MAKES MULTI-SELECT CLEAR */
+        input:focus, select:focus {
+            outline: none;
+            border-color: #1e293b;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(30,41,59,0.15);
         }
 
-        small {
-            color: #666;
-            font-size: 11px;
+        select {
+            min-height: 100px;
+        }
+
+        /* BUTTONS */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
         .btn-submit {
-            margin-top: 10px;
-            width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, #4b6cb7, #182848);
+            background: #1e293b;
             color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
         }
+
+        .btn-submit:hover {
+            background: #0f172a;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+        }
+
+        .btn-clear {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .btn-clear:hover {
+            background: #cbd5e1;
+        }
+
+        /* FOOTER LINK */
+        .back-login {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .back-login a {
+            color: #1e293b;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .back-login a:hover {
+            text-decoration: underline;
+        }
+
     </style>
 </head>
 
 <body>
 
-<div class="register-card">
-    <h2>User Registration</h2>
+<div class="main">
 
-    <form:form action="register" method="post" modelAttribute="userDto">
+    <!-- LEFT -->
+    <div class="left">
+        <h1>Create your POS account</h1>
 
-        <!-- Name -->
-        <div class="form-group">
-            <label>Name</label>
-            <form:input path="name"/>
+        <p>
+            Start managing your retail with a modern system.
+        </p>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+
+        <div class="container">
+            <h2>User Registration</h2>
+
+            <c:if test="${not empty message}">
+                <div class="message">
+                    ${message}
+                </div>
+            </c:if>
+
+            <form method="post">
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" placeholder="Enter full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="username"
+                           placeholder="Enter Gmail address"
+                           pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter password" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" name="phoneNo"
+                           placeholder="Enter mobile number"
+                           pattern="[0-9]{10}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Assigned Roles</label>
+                    <select name="roles" multiple>
+                        <c:forEach items="${roles}" var="role">
+                            <option value="${role.identifier}">
+                                ${role.identifier}
+                            </option>
+                        </c:forEach>
+                    </select>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-submit">
+                        Register
+                    </button>
+
+                    <button type="reset" class="btn btn-clear">
+                        Clear
+                    </button>
+                </div>
+
+                <div class="back-login">
+                    Already have an account?
+                    <a href="${pageContext.request.contextPath}/login">
+                        Login here
+                    </a>
+                </div>
+
+            </form>
         </div>
 
-        <div class="form-group">
-            <label>Email</label>
-            <form:input path="username"/>
-        </div>
-
-        <div class="form-group">
-            <label>Roles</label>
-            <form:select path="roles" multiple="true">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-            </form:select>
-        </div>
-
-        <div class="form-group">
-            <label>Phone Number</label>
-            <form:input path="phoneNo"/>
-        </div>
-
-        <div class="form-group">
-            <label>Password</label>
-            <form:password path="password"/>
-        </div>
-
-        <input type="submit" value="Register" class="btn-submit"/>
-
-    </form:form>
+    </div>
 
 </div>
 

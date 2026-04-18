@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update User</title>
+    <title>Create Node</title>
 
     <style>
         body {
@@ -32,7 +32,6 @@
             color: #1e293b;
             font-size: 22px;
             font-weight: 700;
-            letter-spacing: 0.4px;
         }
 
         .form-group {
@@ -47,7 +46,8 @@
             color: #334155;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
             padding: 12px;
             border-radius: 6px;
@@ -56,19 +56,15 @@
             background-color: #ffffff;
         }
 
-        input[readonly] {
-            background-color: #f8fafc;
-            color: #64748b;
+        select {
+            min-height: 110px;
         }
 
-        input:focus, select:focus {
+        input:focus,
+        select:focus {
             outline: none;
             border-color: #1e293b;
             box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.15);
-        }
-
-        select[multiple] {
-            height: 120px;
         }
 
         .btn-group {
@@ -86,25 +82,24 @@
             font-weight: 600;
             cursor: pointer;
             text-align: center;
-            text-decoration: none;
         }
 
-        .btn-update {
+        .btn-save {
             background-color: #1e293b;
             color: #ffffff;
         }
 
-        .btn-update:hover {
+        .btn-save:hover {
             background-color: #0f172a;
-            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.35);
         }
 
-        .btn-cancel {
+        .btn-back {
             background-color: #e2e8f0;
             color: #1e293b;
+            text-decoration: none;
         }
 
-        .btn-cancel:hover {
+        .btn-back:hover {
             background-color: #cbd5e1;
         }
     </style>
@@ -113,36 +108,25 @@
 <body>
 
 <div class="container">
-    <h2>Update User</h2>
+    <h2>Create Node</h2>
 
-    <form action="${pageContext.request.contextPath}/user/update" method="post">
+    <form method="post">
 
         <div class="form-group">
-            <label>ID</label>
-            <input type="text" name="id" value="${user.id}" readonly>
+            <label>Identifier</label>
+            <input type="text"
+                   name="identifier"
+                   placeholder="Enter identifier"
+                   required>
         </div>
 
         <div class="form-group">
-            <label>Username</label>
-            <input type="email" name="username" value="${user.username}">
+            <label>Path</label>
+            <input type="text"
+                   name="path"
+                   placeholder="/admin/dashboard"
+                   required>
         </div>
-
-        <div class="form-group">
-            <label>Name</label>
-            <input type="text" name="name" value="${user.name}">
-        </div>
-
-        <div class="form-group">
-                   <label>Phone Number</label>
-                   <input type="tel"
-                          name="phoneNo"
-                          placeholder="Enter mobile number"
-                          pattern="[0-9]{10}"
-                          maxlength="10"
-                          inputmode="numeric"
-                          value="${user.phoneNo}"
-                          required>
-               </div>
 
         <div class="form-group">
             <label>Roles</label>
@@ -156,13 +140,13 @@
         </div>
 
         <div class="btn-group">
-            <button type="submit" class="btn btn-update">
-                Update User
+            <button type="submit" class="btn btn-save">
+                Save Node
             </button>
 
-            <a href="${pageContext.request.contextPath}/user/list"
-               class="btn btn-cancel">
-                Cancel
+            <a href="${pageContext.request.contextPath}/node/list"
+               class="btn btn-back">
+                Back
             </a>
         </div>
 
