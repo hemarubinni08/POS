@@ -210,7 +210,7 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>Identifier</th>
+                        <th>Nodes</th>
                         <th>Path</th>
                         <th>Roles</th>
                         <th>Action</th>

@@ -21,8 +21,7 @@ public class SecurityController {
     private RoleService roleService;
 
     @GetMapping("/login")
-    public String login(@RequestParam(value = "error", required = false) String error,
-                        Model model) {
+    public String login(@RequestParam(value = "error", required = false) String error, Model model) {
 
         if (error != null) {
             model.addAttribute("errorMsg", "Invalid email or password");

@@ -188,7 +188,7 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Role</th>
+                        <th>Roles</th>
                         <th>Action</th>
                     </tr>
                     </thead>
