@@ -44,7 +44,12 @@ public class PosApplication {
         ds.setUrl(environment.getProperty("spring.datasource.url"));
         ds.setUsername(environment.getProperty("spring.datasource.username"));
         ds.setPassword(environment.getProperty("spring.datasource.password"));
-        ds.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
+        ds.setDriverClassName(
+                environment.getProperty(
+                        "spring.datasource.driver-class-name",
+                        "com.mysql.cj.jdbc.Driver"
+                )
+        );
         return ds;
     }
 }

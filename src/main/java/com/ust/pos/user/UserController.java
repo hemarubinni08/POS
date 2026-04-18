@@ -56,6 +56,11 @@ public class UserController {
                          HttpServletRequest request) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth == null || !auth.isAuthenticated()) {
+            throw new IllegalStateException("User is not authenticated");
+        }
+
         String loggedInUsername = auth.getName();
 
         userService.delete(username);

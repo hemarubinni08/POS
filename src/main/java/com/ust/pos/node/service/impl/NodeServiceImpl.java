@@ -8,6 +8,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -26,12 +27,31 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public List<NodeDto> getNodesForRoles() {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-        User currentUser = userRepository.findByUsername(principalObject.getUsername());
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("User is not authenticated");
+        }
+
+        Object principal = authentication.getPrincipal();
+
+        if (!(principal instanceof UserDetails)) {
+            throw new IllegalStateException("Invalid principal type");
+        }
+
+        UserDetails userDetails = (UserDetails) principal;
+
+        User currentUser = userRepository.findByUsername(userDetails.getUsername());
+
+        if (currentUser == null) {
+            throw new IllegalStateException("User not found in database");
+        }
+
         List<Node> nodes = nodeRepository.findByRoles(currentUser.getRoles());
-        Type listType = new TypeToken<List<NodeDto>>() {
-        }.getType();
+
+        Type listType = new TypeToken<List<NodeDto>>() {}.getType();
+
         return modelMapper.map(nodes, listType);
     }
     @Override
