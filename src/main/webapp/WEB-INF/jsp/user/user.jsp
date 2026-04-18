@@ -20,6 +20,8 @@
             --primary: #28a745;
             --primary-hover: #218838;
 
+            --accent: #ffc107;
+
             --danger: #dc2626;
             --danger-bg: #fee2e2;
             --danger-border: #fca5a5;
@@ -49,7 +51,7 @@
             position: relative;
         }
 
-        /* BACK BUTTON */
+        /* ✅ BACK BUTTON (MATCHED WITH ADD ROLE PAGE) */
         .back-arrow {
             position: absolute;
             top: 20px;
@@ -70,8 +72,8 @@
         }
 
         .back-arrow:hover {
-            background: var(--primary);
-            color: white;
+            background: var(--accent);
+            color: black;
         }
 
         .container-box {
@@ -111,7 +113,6 @@
             background: var(--primary-hover);
         }
 
-        /* SERVER MESSAGES */
         .server-msg {
             text-align: center;
             padding: 10px 14px;
@@ -132,19 +133,16 @@
             border: 1px solid var(--danger-border);
         }
 
-        /* INPUT ERRORS */
         .invalid-feedback {
             font-size: 12px;
             color: var(--danger);
             margin-top: 4px;
         }
 
-        /* INPUT ERROR BORDER */
         .error-border {
             border: 1px solid var(--danger) !important;
         }
 
-        /* TOAST */
         .toast-message {
             position: fixed;
             bottom: 20px;
@@ -199,7 +197,7 @@
 
             let phonePattern = /^[0-9]{10}$/;
             if (!phonePattern.test(phone)) {
-                document.getElementById("phoneErr").innerText = "Phone must be 10 digits";
+                document.getElementById("phoneErr").innerText = "Phone must be exactly 10 digits";
                 phoneInput.classList.add("error-border");
                 valid = false;
             }
@@ -216,19 +214,33 @@
                 toast.classList.remove("show");
             }, 2500);
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const phoneInput = document.getElementsByName("phoneNo")[0];
+
+            phoneInput.addEventListener("input", function () {
+                this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);
+            });
+
+            phoneInput.addEventListener("paste", function (e) {
+                let paste = (e.clipboardData || window.clipboardData).getData("text");
+                if (!/^\d+$/.test(paste)) {
+                    e.preventDefault();
+                    showToast("Only digits allowed in phone number");
+                }
+            });
+        });
     </script>
 </head>
 
 <body>
 
-<!-- BACK BUTTON -->
 <a href="${pageContext.request.contextPath}/user/list" class="back-arrow">
     ←
 </a>
 
 <div class="container-box">
 
-    <!-- SERVER MESSAGE (FIXED LOGIC) -->
     <c:if test="${not empty message}">
         <div class="server-msg ${messageType == 'success' ? 'success' : 'error'}">
             ${message}
@@ -267,7 +279,10 @@
 
                     <div class="mb-3">
                         <label>Phone Number</label>
-                        <form:input path="phoneNo" cssClass="form-control"/>
+                        <form:input path="phoneNo"
+                                    cssClass="form-control"
+                                    maxlength="10"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,10)" />
                         <div id="phoneErr" class="invalid-feedback"></div>
                     </div>
 
@@ -289,7 +304,6 @@
     </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast" class="toast-message"></div>
 
 </body>
