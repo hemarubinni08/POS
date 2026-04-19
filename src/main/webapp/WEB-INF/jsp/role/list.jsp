@@ -190,7 +190,6 @@
         <table>
             <thead>
             <tr>
-                <th>ID</th>
                 <th>Role</th>
                 <th>Description</th>
                 <th>Action</th>
@@ -200,7 +199,6 @@
             <tbody>
             <c:forEach var="role" items="${roles}">
                 <tr>
-                    <td>${role.id}</td>
                     <td>${role.identifier}</td>
                     <td>${role.description}</td>
 

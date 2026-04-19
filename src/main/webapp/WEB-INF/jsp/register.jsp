@@ -139,7 +139,7 @@
 
         <div class="form-group">
             <label>Password</label>
-            <form:password path="password"/>
+            <form:password path="password" required="required"/>
         </div>
 
         <input type="submit" value="Register" class="btn-submit"/>

@@ -22,34 +22,38 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
+            AuthenticationConfiguration config) {
+        try {
+            return config.getAuthenticationManager();
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to create AuthenticationManager", ex);
+        }
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) {
+        try {
+            http
+                    .csrf(csrf -> csrf.disable())
+                    .authorizeHttpRequests(auth -> auth
+                            .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                            .requestMatchers("/login", "/register").permitAll()
+                            .anyRequest().authenticated()
+                    )
+                    .formLogin(form -> form
+                            .loginPage("/login")
+                            .defaultSuccessUrl("/", true)
+                            .permitAll()
+                    )
+                    .logout(logout -> logout
+                            .logoutSuccessUrl("/login?logout")
+                            .permitAll()
+                    );
 
-        http
-                .csrf(csrf -> csrf.disable()) // Disable for testing
+            return http.build();
 
-                .authorizeHttpRequests(auth -> auth
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-
-                        .requestMatchers("/login", "/register").permitAll()
-                        .anyRequest().authenticated()
-                )
-
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .failureUrl("/login?error")
-                        .defaultSuccessUrl("/", true)
-                        .permitAll()
-                )
-
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                );
-        return http.build();
+        } catch (Exception ex) {
+            throw new IllegalStateException("Failed to configure SecurityFilterChain", ex);
+        }
     }
 }

@@ -87,7 +87,7 @@
                 <c:forEach var="n" items="${node}">
                     <li class="nav-item">
                         <a href="${n.path}">
-                            <i class="bi bi-dot"></i> ${n.identifier}
+                            ${n.identifier}
                         </a>
                     </li>
                 </c:forEach>
