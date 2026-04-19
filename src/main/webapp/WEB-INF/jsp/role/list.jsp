@@ -7,23 +7,67 @@
     <title>Role List</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+          rel="stylesheet"/>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
 
     <style>
         body {
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
             min-height: 100vh;
+
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb, #f9fafb);
         }
+
         .card {
             border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         }
+
         .card-header {
             border-top-left-radius: 16px;
             border-top-right-radius: 16px;
+            background: linear-gradient(135deg, #d1d5db, #f3f4f6);
+            color: #111827 !important;
+            font-weight: 700;
         }
+
         table th {
-            background-color: #0d6efd;
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        table td {
+            background: #f9fafb;
+            color: #111827;
+        }
+
+        .icon-btn {
+            border: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
             color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .edit-btn {
+            background: #3b82f6;
+        }
+
+        .delete-btn {
+            background: #ef4444;
         }
     </style>
 </head>
@@ -35,7 +79,8 @@
         <div class="col-md-8">
 
             <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white text-center">
+
+                <div class="card-header text-center">
                     <h4 class="mb-0">List of Roles</h4>
                 </div>
 
@@ -49,53 +94,65 @@
 
                     <c:if test="${not empty roles}">
                         <table class="table table-bordered table-hover text-center align-middle">
+
                             <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Role</th>
-                                <th>Action</th>
+                                <th>Update</th>
+                                <th>Delete</th>
                             </tr>
                             </thead>
+
                             <tbody>
                             <c:forEach var="role" items="${roles}">
                                 <tr>
+
                                     <td>
-                                        <a href="/role/get?identifier=?${role.identifier}"
-                                           class="text-decoration-none fw-semibold">
-                                            ${role.id}
-                                        </a>
+                                        ${role.id}
                                     </td>
+
                                     <td>${role.identifier}</td>
+
                                     <td>
-                                        <a href="/role/deleteByIdJdbc?id=${r.id}"
-                                           class="btn btn-danger btn-sm"
-                                           onclick="return confirm('Are you sure you want to delete this role?');">
-                                            Delete
+                                        <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
+                                           class="icon-btn edit-btn">
+                                            <i class="bi bi-pencil-square"></i>
                                         </a>
                                     </td>
+
+                                    <td>
+                                        <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
+                                           class="icon-btn delete-btn"
+                                           onclick="return confirm('Are you sure you want to delete this role?');">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </td>
+
                                 </tr>
                             </c:forEach>
                             </tbody>
+
                         </table>
                     </c:if>
 
                 </div>
 
                 <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
-                    <a href="/" class="btn btn-secondary">
+
+                    <a href="${pageContext.request.contextPath}/" class="btn btn-secondary">
                         Home
                     </a>
 
-                    <a href="/role/add" class="btn btn-success">
+                    <a href="${pageContext.request.contextPath}/role/add"
+                       class="btn btn-primary">
                         + Add New Role
                     </a>
+
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
-
 </body>
 </html>

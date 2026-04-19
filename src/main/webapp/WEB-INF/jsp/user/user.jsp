@@ -1,129 +1,205 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update User</title>
+    <title>Edit User</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <style>
         body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: "Segoe UI", Arial, sans-serif;
+
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb, #f9fafb);
+            color: #111827;
         }
 
-        .update-card {
-            width: 460px;
-            background: #fff;
-            padding: 30px 35px;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        .container {
+            margin-top: 60px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .card-body {
+            padding: 25px;
         }
 
         h3 {
-            text-align: center;
-            color: #4b6cb7;
-            margin-bottom: 25px;
+            font-weight: 800;
+            font-size: 26px;
+            letter-spacing: 0.5px;
+            color: #111827;
+        }
+
+        .table {
+            color: #111827;
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background: #e5e7eb;
+            color: #111827;
+            border: 1px solid #d1d5db;
             font-weight: 600;
         }
 
-        label {
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
+        .table td {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
         }
 
-        .form-control,
-        select {
-            border-radius: 8px;
-            padding: 10px 12px;
+        .form-control, .form-select {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            color: #111827;
+            border-radius: 6px;
         }
 
-        select[multiple] {
-            height: 120px;
+        .form-control:focus, .form-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        .btn-update {
-            width: 100%;
-            padding: 12px;
-            background: #4b6cb7;
+        .icon-btn {
             border: none;
-            color: white;
-            font-weight: 600;
+            padding: 6px 10px;
             border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s ease;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .btn-update:hover {
-            background: #182848;
+        .icon-btn:hover {
+            transform: scale(1.1);
         }
 
-        small {
-            font-size: 11px;
-            color: #666;
+        .edit-btn {
+            background: #2563eb;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+        }
+
+        td .btn {
+            padding: 6px 10px;
         }
     </style>
 </head>
 
 <body>
-${message}
-<div class="update-card">
-    <h3>Update User</h3>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto">
+<div class="container">
+    <div class="card">
+        <div class="card-body">
 
-        <form:input type="hidden" path="id"/>
+            <h3 class="text-center mb-3">Edit User</h3>
 
-        <div class="mb-3">
-            <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
+            <form action="${pageContext.request.contextPath}/user/update" method="post">
+
+                <table class="table table-bordered text-center align-middle">
+
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Roles</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+
+                        <td>
+                            <input type="text" class="form-control"
+                                   name="id"
+                                   value="${user.id}"
+                                   readonly>
+                        </td>
+
+                        <td>
+                            <input type="text" class="form-control"
+                                   name="username"
+                                   value="${user.username}"
+                                   required>
+                        </td>
+
+                        <td>
+                            <input type="text" class="form-control"
+                                   name="name"
+                                   value="${user.name}"
+                                   required>
+                        </td>
+
+                        <td>
+                            <input type="text"
+                                   class="form-control"
+                                   name="phoneNo"
+                                   value="${user.phoneNo}"
+                                   required
+                                   maxlength="10"
+                                   pattern="^[0-9]{10}$"
+                                   title="Phone number must be exactly 10 digits (numbers only)">
+                        </td>
+
+                        <td>
+                            <select class="form-select" name="roles" multiple>
+                                <c:forEach var="role" items="${roles}">
+                                    <option value="${role.identifier}"
+                                        <c:if test="${user.roles.contains(role.identifier)}">
+                                            selected
+                                        </c:if>>
+                                        ${role.identifier}
+                                    </option>
+                                </c:forEach>
+                            </select>
+                        </td>
+
+                        <td class="d-flex justify-content-center gap-2">
+
+                            <button type="submit"
+                                    class="icon-btn edit-btn"
+                                    title="Update">
+                                <i class="bi bi-pencil-square"></i>
+                            </button>
+
+                            <a class="icon-btn delete-btn"
+                               href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
+                               onclick="return confirm('Delete this user?');"
+                               title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </a>
+
+                        </td>
+
+                    </tr>
+                    </tbody>
+
+                </table>
+
+            </form>
+
         </div>
-
-         <div class="mb-3">
-            <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
-        </div>
-
-        <div class="mb-3">
-            <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" required="true"/>
-        </div>
-
-        <div class="mb-3">
-            <label>Roles</label>
-
-            <div class="mb-1 text-muted">
-                Current:
-                <c:forEach var="r" items="${user.roles}">
-                    <span class="badge bg-secondary me-1">${r}</span>
-                </c:forEach>
-            </div>
-
-            <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
-            </form:select>
-
-
-            <small>
-                Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
-            </small>
-        </div>
-
-        <button type="submit" class="btn-update">Update User</button>
-
-    </form:form>
-
-    <div class="text-center mt-3">
-        <a href="/user/list">← Back to User List</a>
     </div>
-
 </div>
 
 </body>

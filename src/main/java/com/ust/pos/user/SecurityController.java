@@ -37,6 +37,6 @@ public class SecurityController {
             model.addAttribute("message", response.getMessage());
             return "register";
         }
-        return "home";
+        return "register:/user/list";
     }
 }
