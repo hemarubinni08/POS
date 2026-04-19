@@ -159,7 +159,7 @@
 
 <body>
 
-<a href="${pageContext.request.contextPath}/login" class="back-arrow">←</a>
+<a href="${pageContext.request.contextPath}/user/list" class="back-arrow">←</a>
 
 <div class="register-card">
 
