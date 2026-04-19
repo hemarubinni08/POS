@@ -9,7 +9,7 @@ public interface RoleService {
 
     RoleDto update(RoleDto userDto);
 
-    boolean delete(String username);
+    void delete(String username);
 
     List<RoleDto> findAll();
 

@@ -41,14 +41,9 @@
             color: #333;
         }
 
-        .form-control,
-        select {
+        .form-control {
             border-radius: 8px;
             padding: 10px 12px;
-        }
-
-        select[multiple] {
-            height: 120px;
         }
 
         .btn-update {
@@ -65,37 +60,48 @@
             background: #182848;
         }
 
-        small {
-            font-size: 11px;
-            color: #666;
+        .error {
+            color: red;
+            font-size: 13px;
         }
     </style>
 </head>
 
 <body>
-${message}
+
 <div class="update-card">
     <h3>Update User</h3>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto">
+    <form:form action="/user/update" method="post" modelAttribute="user">
 
         <form:input type="hidden" path="id"/>
 
+        <!-- Name -->
         <div class="mb-3">
             <label>Name</label>
             <form:input path="name" cssClass="form-control" required="true"/>
+            <form:errors path="name" cssClass="error"/>
         </div>
 
-         <div class="mb-3">
+        <!-- Email -->
+        <div class="mb-3">
             <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
+            <form:input path="username" type="email" cssClass="form-control" required="true"/>
+            <form:errors path="username" cssClass="error"/>
         </div>
 
+        <!-- Phone -->
         <div class="mb-3">
             <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" required="true"/>
+            <form:input path="phoneNo"
+                        cssClass="form-control"
+                        pattern="[0-9]{10}"
+                        title="Enter a valid 10 digit phone number"
+                        required="true"/>
+            <form:errors path="phoneNo" cssClass="error"/>
         </div>
 
+        <!-- Roles -->
         <div class="mb-3">
             <label>Roles</label>
 
@@ -106,19 +112,21 @@ ${message}
                 </c:forEach>
             </div>
 
-            <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
+            <form:select path="roles" multiple="true" required="true" cssClass="form-control">
+                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
             </form:select>
 
-
-            <small>
-                Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
-            </small>
+            <small>Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple</small>
         </div>
 
         <button type="submit" class="btn-update">Update User</button>
 
     </form:form>
+
+
+    <c:if test="${not empty message}">
+        <p class="error">${message}</p>
+    </c:if>
 
     <div class="text-center mt-3">
         <a href="/user/list">← Back to User List</a>

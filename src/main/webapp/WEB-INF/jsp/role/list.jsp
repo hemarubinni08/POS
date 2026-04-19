@@ -53,21 +53,33 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Role</th>
-                                <th>Action</th>
+                                <th>Description</th>
+                                <th>Actions</th> <!-- updated -->
                             </tr>
                             </thead>
                             <tbody>
+
                             <c:forEach var="role" items="${roles}">
                                 <tr>
                                     <td>
-                                        <a href="/role/get?identifier=?${role.identifier}"
+                                        <a href="/role/get?identifier=${role.identifier}"
                                            class="text-decoration-none fw-semibold">
                                             ${role.id}
                                         </a>
                                     </td>
+
                                     <td>${role.identifier}</td>
+                                    <td>${role.description}</td>
+
                                     <td>
-                                        <a href="/role/deleteByIdJdbc?id=${r.id}"
+                                        <!-- EDIT BUTTON -->
+                                        <a href="/role/get?identifier=${role.identifier}"
+                                           class="btn btn-primary btn-sm me-2">
+                                            Edit
+                                        </a>
+
+                                        <!-- DELETE BUTTON -->
+                                        <a href="/role/delete?identifier=${role.identifier}"
                                            class="btn btn-danger btn-sm"
                                            onclick="return confirm('Are you sure you want to delete this role?');">
                                             Delete
@@ -75,6 +87,7 @@
                                     </td>
                                 </tr>
                             </c:forEach>
+
                             </tbody>
                         </table>
                     </c:if>

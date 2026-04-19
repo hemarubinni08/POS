@@ -38,28 +38,53 @@
 
             <div class="card-body">
 
+                <!-- Success Message -->
                 <c:if test="${not empty role}">
                     <div class="alert alert-success text-center">
                         ${role}
                     </div>
                 </c:if>
 
+                <!-- Form -->
                 <form:form method="post"
                            action="/role/add"
                            modelAttribute="roleDto">
 
+                    <!-- Role Name -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Role Name</label>
                         <form:input path="identifier"
                                     cssClass="form-control"
-                                    placeholder="Enter role name" />
+                                    placeholder="Enter role name"
+                                    required="required"/>
                     </div>
 
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Role Description</label>
+                        <form:input path="description"
+                                    cssClass="form-control"
+                                    placeholder="Enter description"
+                                    required="required"/>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <a href="/role/list" class="btn btn-secondary">
+                            Cancel
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
                             Add Role
                         </button>
                     </div>
+
+                    <!-- Error Message -->
+                    <c:if test="${not empty message}">
+                        <div class="alert alert-danger mt-3 text-center">
+                            ${message}
+                        </div>
+                    </c:if>
 
                 </form:form>
 

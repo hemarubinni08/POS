@@ -37,26 +37,28 @@ ${message}
 
         <h4 class="text-center mb-4 text-primary">Edit Role</h4>
 
-        <c:if test="${empty role}">
-            <div class="alert alert-danger text-center">
-                Role not found
-            </div>
-        </c:if>
 
-        <c:if test="${not empty role}">
+
             <form:form action="/role/update"
                        method="post"
                        modelAttribute="roleDto">
 
-                <form:hidden path="id" value="${role.id}/>
+                <form:hidden path="id"/>
 
                 <div class="mb-4">
                     <label class="form-label">Role Name</label>
                     <form:input path="identifier"
                                 cssClass="form-control"
                                 placeholder="Enter role"
-                                required="true"/>
+                                readonly="true"/>
                 </div>
+                 <div class="mb-4">
+                       <label class="form-label">Description</label>
+                       <form:input path="description"
+                                   cssClass="form-control"
+                                  placeholder="Enter description"
+                                  required="true"/>
+                                </div>
 
                 <div class="d-flex justify-content-between">
                     <a href="/role/list" class="btn btn-outline-secondary">
@@ -68,7 +70,7 @@ ${message}
                 </div>
 
             </form:form>
-        </c:if>
+
 
     </div>
 </div>

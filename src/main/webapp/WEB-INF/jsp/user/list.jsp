@@ -6,7 +6,7 @@
 <head>
     <title>User Management</title>
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -44,62 +44,83 @@
 
             <h3 class="text-center mb-4">User Management</h3>
 
-            <!-- NO USERS MESSAGE -->
+            <!-- NO USERS -->
             <c:if test="${empty users}">
                 <div class="alert alert-warning text-center">
                     No users found
                 </div>
             </c:if>
 
+            <!-- USERS TABLE -->
             <c:if test="${not empty users}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
+
                         <thead>
                         <tr>
                             <th>Email</th>
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Roles</th>
-                            <th>Action</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
+
                         <tbody>
                         <c:forEach var="user" items="${users}">
                             <tr>
-                                <td>
-                                    <a class="user-link"
-                                       href="/user/get?username=${user.username}">
-                                        ${user.username}
-                                    </a>
-                                </td>
+
+                                <!-- Email -->
+                                <td>${user.username}</td>
+                                <!-- Name -->
                                 <td>${user.name}</td>
+                                <!-- Phone -->
                                 <td>${user.phoneNo}</td>
-                                <td>${user.roles}</td>
+
+                                <!-- Roles  -->
+                                <td>
+                                    <c:if test="${not empty user.roles}">
+                                        <c:forEach var="role" items="${user.roles}">
+                                            <span class="badge bg-primary me-1">
+                                                ${role}
+                                            </span>
+                                        </c:forEach>
+                                    </c:if>
+
+                                    <c:if test="${empty user.roles}">
+                                        <span class="text-muted">No Roles</span>
+                                    </c:if>
+                                </td>
+
+                                <!-- Actions -->
                                 <td>
                                     <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
-                                       onclick="return confirm('Are you sure you want to delete this user?');">
+                                       href="/user/delete?username=${user.username}"
+                                       onclick="return confirm('Are you sure you want to delete ${user.name}?');">
                                         Delete
                                     </a>
+
+                                    <a class="btn btn-primary btn-sm"
+                                       href="/user/get?username=${user.username}">
+                                        Edit
+                                    </a>
                                 </td>
+
                             </tr>
                         </c:forEach>
                         </tbody>
+
                     </table>
                 </div>
             </c:if>
 
         </div>
 
+        <!-- FOOTER -->
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">
-                    Home
-                </a>
-
-                <a href="/register" class="btn btn-success">
-                    Register
-                </a>
+                <a href="/" class="btn btn-secondary">Home</a>
+                <a href="/register" class="btn btn-success">Register</a>
             </div>
 
             <div class="text-muted small mt-2">
