@@ -30,7 +30,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">User Management</span>
@@ -38,30 +37,32 @@
     </div>
 </nav>
 
-<!-- MAIN CONTAINER -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="card shadow p-4" style="width: 500px;">
 
         <h3 class="text-center mb-4 fw-bold">Update User</h3>
 
-        <!-- USER NOT FOUND -->
         <c:if test="${empty userDto}">
             <div class="alert alert-danger text-center">
                 User not found
             </div>
         </c:if>
 
-        <!-- FORM -->
+        <c:if test="${not empty userDto.message}">
+            <div class="alert alert-danger text-center">
+                ${userDto.message}
+            </div>
+        </c:if>
+
         <c:if test="${not empty userDto}">
 
             <form:form action="/user/update"
                        method="post"
                        modelAttribute="userDto">
 
-                <!-- Hidden ID -->
                 <form:hidden path="id"/>
+                <form:hidden path="oldUsername"/>
 
-                <!-- NAME -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Name</label>
                     <form:input path="name"
@@ -69,7 +70,6 @@
                                 placeholder="Enter name"/>
                 </div>
 
-                <!-- EMAIL -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Email</label>
                     <form:input path="username"
@@ -77,7 +77,6 @@
                                 placeholder="Enter email"/>
                 </div>
 
-                <!-- PHONE -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Phone</label>
                     <form:input path="phoneNo"
@@ -85,7 +84,6 @@
                                 placeholder="Enter phone number"/>
                 </div>
 
-                <!-- ROLES -->
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Roles</label>
 
@@ -108,7 +106,6 @@
                     </div>
                 </div>
 
-                <!-- BUTTONS -->
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary w-100">
                         Update

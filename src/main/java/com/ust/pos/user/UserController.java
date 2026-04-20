@@ -4,6 +4,8 @@ import com.ust.pos.dto.UserDto;
 import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,20 +15,23 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     public static final String USER_USER = "user/user";
+
     @Autowired
     private UserService userService;
 
     @Autowired
     private RoleService roleService;
 
-    //  List all users
+    /* ================= LIST ================= */
+
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("users", userService.findAll());
         return "user/list";
     }
 
-    //  Get user for update
+    /* ================= GET USER ================= */
+
     @GetMapping("/get")
     public String getUser(Model model, @RequestParam String username) {
 
@@ -37,32 +42,59 @@ public class UserController {
             return USER_USER;
         }
 
+        //  store old username BEFORE edit
+        userDto.setOldUsername(userDto.getUsername());
+
         model.addAttribute("userDto", userDto);
         model.addAttribute("roles", roleService.findAll());
 
         return USER_USER;
     }
 
-    //  Update user
+    /* ================= UPDATE ================= */
+
     @PostMapping("/update")
     public String updateUser(Model model,
                              @ModelAttribute("userDto") UserDto userDto) {
 
-        UserDto response = userService.update(userDto);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null) {
+            String loggedInUser = authentication.getName();
 
-        if (!response.isSuccess()) {
-            model.addAttribute("roles", roleService.findAll());
-            model.addAttribute("message", response.getMessage());
-            return USER_USER;
+            UserDto response = userService.update(userDto);
+
+            if (!response.isSuccess()) {
+                model.addAttribute("roles", roleService.findAll());
+                model.addAttribute("message", response.getMessage());
+                return USER_USER;
+            }
+
+            //  logout if current user updated themselves
+            if (loggedInUser.equals(userDto.getOldUsername())) {
+                SecurityContextHolder.clearContext();
+                return "redirect:/login";
+            }
         }
 
         return "redirect:/user/list";
     }
 
-    //  Delete user
+    /* ================= DELETE ================= */
+
     @GetMapping("/delete")
     public String delete(@RequestParam String username) {
-        userService.delete(username);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null) {
+            String loggedInUser = authentication.getName();
+
+            userService.delete(username);
+
+            if (loggedInUser.equals(username)) {
+                SecurityContextHolder.clearContext();
+                return "redirect:/login";
+            }
+        }
         return "redirect:/user/list";
     }
 }

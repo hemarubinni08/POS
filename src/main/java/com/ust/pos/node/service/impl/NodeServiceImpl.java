@@ -80,39 +80,50 @@ public class NodeServiceImpl implements NodeService {
 
     public List<NodeDto> getNodesForRoles() {
 
+        List<NodeDto> nodeDtos = new ArrayList<>();
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || authentication.getPrincipal() == null) {
-            return new ArrayList<>();
+        if (authentication != null) {
+
+            org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+
+            if (principalObject != null) findNodes(principalObject, nodeDtos);
+
         }
 
-        org.springframework.security.core.userdetails.User principalObject =
-                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        return nodeDtos;
+
+    }
+
+    private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
 
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
 
-        if (currentUser == null) {
-            SecurityContextHolder.clearContext();
-            throw new RuntimeException("USER_DELETED");
-        }
-
-        List<NodeDto> nodeDtos = new ArrayList<>();
         Set<String> nodesStr = new HashSet<>();
 
         List<Node> nodes = nodeRepository.findAll();
 
         for (String role : currentUser.getRoles()) {
+
             for (Node node : nodes) {
+
                 if (node.getRoles() != null && node.getRoles().contains(role)) {
+
                     nodesStr.add(node.getIdentifier());
+
                 }
+
             }
+
         }
 
         for (String nodeStr : nodesStr) {
+
             nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
+
         }
 
-        return nodeDtos;
     }
+
 }

@@ -29,45 +29,59 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByUserName(String username) {
-        return modelMapper.map(userRepository.findByUsername(username), UserDto.class);
+        User user = userRepository.findByUsername(username);
+        return user != null ? modelMapper.map(user, UserDto.class) : null;
     }
 
     @Override
     public UserDto save(UserDto userDto) {
-        String username = userDto.getUsername();
-        User existingUser = userRepository.findByUsername(username);
+
+        User existingUser = userRepository.findByUsername(userDto.getUsername());
+
         if (existingUser != null) {
-            userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
+            userDto.setMessage("User already exists with username/email: " + userDto.getUsername());
             userDto.setSuccess(false);
             return userDto;
         }
+
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
         userRepository.save(user);
+
+        userDto.setSuccess(true);
         return userDto;
     }
 
     @Override
     public UserDto update(UserDto userDto) {
-        String username = userDto.getUsername();
+
         Optional<User> userOptional = userRepository.findById(userDto.getId());
 
         if (userOptional.isEmpty()) {
-            userDto.setMessage("User with username/email - " + userDto.getUsername() + " not found");
+            userDto.setMessage("User not found");
             userDto.setSuccess(false);
             return userDto;
-        } else {
-            User existingUser = userOptional.get();
-            if (!username.equalsIgnoreCase(existingUser.getUsername())) {
-                if (userRepository.findByUsername(username) != null) {
-                    userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
-                    userDto.setSuccess(false);
-                    return userDto;
-                }
-            }
-            modelMapper.map(userDto, existingUser);
-            userRepository.save(existingUser);
         }
+
+        User existingUser = userOptional.get();
+
+        if (!userDto.getUsername().equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(userDto.getUsername()) != null) {
+            userDto.setMessage("Username already exists: " + userDto.getUsername());
+            userDto.setSuccess(false);
+            return userDto;
+        }
+
+        if (userDto.getPassword() == null || userDto.getPassword().isEmpty()) {
+            userDto.setPassword(existingUser.getPassword());
+        } else {
+            userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+
+        modelMapper.map(userDto, existingUser);
+        userRepository.save(existingUser);
+
+        userDto.setSuccess(true);
         return userDto;
     }
 

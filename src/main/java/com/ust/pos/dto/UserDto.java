@@ -13,4 +13,5 @@ public class UserDto extends CommonDto {
     private String phoneNo;
     private List<String> roles;
     private String password;
+    private String oldUsername;
 }
