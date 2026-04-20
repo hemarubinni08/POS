@@ -28,7 +28,6 @@
             font-weight: 600;
         }
 
-        /* Dropdown container */
         .role-dropdown {
             position: relative;
         }
@@ -39,6 +38,7 @@
             border-radius: 8px;
             background: #fff;
             cursor: pointer;
+            min-height: 42px;
         }
 
         .dropdown-list {
@@ -98,7 +98,6 @@
 
                 <form:hidden path="id"/>
 
-                <!-- Identifier -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Node Identifier</label>
                     <form:input path="identifier"
@@ -106,7 +105,6 @@
                                 readonly="true"/>
                 </div>
 
-                <!-- Path -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Node Path</label>
                     <form:input path="path"
@@ -114,20 +112,30 @@
                                 required="true"/>
                 </div>
 
-                <!-- Roles Dropdown with Checkbox -->
                 <div class="mb-4 role-dropdown" id="roleDropdown">
 
                     <label class="form-label fw-semibold">Assign Roles</label>
 
-                    <div class="dropdown-box" onclick="toggleDropdown()">
-                        Select Roles
+                    <div class="dropdown-box" id="selectedRolesText" onclick="toggleDropdown()">
+                        <c:choose>
+                            <c:when test="${not empty node.roles}">
+                                <c:forEach var="r" items="${node.roles}" varStatus="s">
+                                    ${r}<c:if test="${!s.last}">, </c:if>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                Select Roles
+                            </c:otherwise>
+                        </c:choose>
                     </div>
 
                     <div class="dropdown-list">
                         <c:forEach items="${roles}" var="role">
                             <label>
                                 <input type="checkbox" name="roles"
-                                       value="${role.identifier}">
+                                       value="${role.identifier}"
+                                       onchange="updateSelectedRoles()"
+                                       <c:if test="${node.roles.contains(role.identifier)}">checked</c:if>>
                                 ${role.identifier}
                             </label>
                         </c:forEach>
@@ -135,9 +143,7 @@
 
                 </div>
 
-                <!-- Buttons (ALL GREY) -->
                 <div class="d-flex gap-2">
-
                     <button type="submit" class="btn btn-secondary w-100">
                         Update
                     </button>
@@ -146,7 +152,6 @@
                        class="btn btn-secondary w-100 text-center">
                         Cancel
                     </a>
-
                 </div>
 
             </form:form>
@@ -158,6 +163,17 @@
 <script>
     function toggleDropdown() {
         document.getElementById("roleDropdown").classList.toggle("active");
+    }
+
+    function updateSelectedRoles() {
+        const checked = document.querySelectorAll(
+            "#roleDropdown .dropdown-list input[type='checkbox']:checked"
+        );
+
+        const values = Array.from(checked).map(cb => cb.value);
+
+        document.getElementById("selectedRolesText").innerText =
+            values.length > 0 ? values.join(", ") : "Select Roles";
     }
 
     document.addEventListener("click", function (e) {

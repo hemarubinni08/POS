@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
 
-    // ✅ FIX 1: SAFE findByUserName (NO ModelMapper crash)
     @Override
     public UserDto findByUserName(String username) {
 
@@ -62,7 +61,6 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
-    // ✅ FIX 2: USERNAME-BASED UPDATE (supports email change)
     @Override
     public UserDto update(String oldUsername, UserDto userDto) {
 
@@ -75,7 +73,6 @@ public class UserServiceImpl implements UserService {
             return userDto;
         }
 
-        // ✅ If username is changed, check uniqueness
         if (!oldUsername.equalsIgnoreCase(userDto.getUsername())) {
 
             User emailCheck =
@@ -89,9 +86,8 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        // ✅ Update fields
         existingUser.setName(userDto.getName());
-        existingUser.setUsername(userDto.getUsername()); // NEW email
+        existingUser.setUsername(userDto.getUsername());
         existingUser.setPhoneNo(userDto.getPhoneNo());
         existingUser.setRoles(userDto.getRoles());
 
@@ -110,7 +106,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> findAll() {
-        Type listType = new TypeToken<List<UserDto>>() {}.getType();
+        Type listType = new TypeToken<List<UserDto>>() {
+        }.getType();
         return modelMapper.map(userRepository.findAll(), listType);
     }
 }

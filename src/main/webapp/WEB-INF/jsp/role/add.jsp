@@ -31,13 +31,11 @@
             font-weight: 500;
         }
 
-        /* Error highlight */
         .input-error {
             border: 2px solid #dc3545 !important;
             background-color: #fff5f5;
         }
 
-        /* Grey buttons */
         .btn-grey {
             background: #6c757d;
             border: none;
@@ -61,17 +59,14 @@
 
                 <h3 class="text-center mb-4">Add Role</h3>
 
-                <!-- ERROR MESSAGE -->
                 <c:if test="${not empty error}">
                     <div class="alert alert-danger text-center">
                         ${error}
                     </div>
                 </c:if>
 
-                <!-- FORM -->
                 <form action="${pageContext.request.contextPath}/role/add" method="post">
 
-                    <!-- Role Identifier -->
                     <div class="mb-3">
                         <label class="form-label">Role Identifier</label>
                         <input type="text"
@@ -82,7 +77,6 @@
                                required>
                     </div>
 
-                    <!-- Description -->
                     <div class="mb-3">
                         <label class="form-label">Description</label>
                         <textarea name="description"
@@ -91,15 +85,12 @@
                                   placeholder="Describe role responsibilities">${param.description}</textarea>
                     </div>
 
-                    <!-- BUTTONS -->
                     <div class="d-flex gap-2 mt-4">
 
-                        <!-- Submit -->
                         <button type="submit" class="btn btn-grey w-100">
                             Add Role
                         </button>
 
-                        <!-- Cancel -->
                         <a href="${pageContext.request.contextPath}/user/list"
                            class="btn btn-grey w-100 text-center">
                             Cancel

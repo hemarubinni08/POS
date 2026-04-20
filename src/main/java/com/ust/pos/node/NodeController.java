@@ -1,7 +1,6 @@
 package com.ust.pos.node;
 
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.dto.RoleDto;
 import com.ust.pos.node.service.NodeService;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +15,21 @@ public class NodeController {
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     public static final String ROLES = "roles";
     @Autowired
-    private NodeService nodeService;
-
-    @Autowired
     public RoleService roleService;
+    @Autowired
+    private NodeService nodeService;
 
     @GetMapping("/list")
     public String home(Model model) {
         model.addAttribute("nodes", nodeService.findAll());
-        model.addAttribute(ROLES,roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         return "node/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute NodeDto userDto) {
         model.addAttribute("nodes", nodeService.findAll());
-        model.addAttribute(ROLES,roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         return "node/add";
     }
 
@@ -51,7 +49,7 @@ public class NodeController {
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         NodeDto response = nodeService.findByIdentifier(identifier);
-        model.addAttribute(ROLES,roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         model.addAttribute("node", response);
         return "node/node";
     }

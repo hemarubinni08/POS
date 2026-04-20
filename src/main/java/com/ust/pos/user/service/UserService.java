@@ -9,9 +9,6 @@ public interface UserService {
 
     UserDto save(UserDto userDto);
 
-
-
-    // ✅ FIX 2: USERNAME-BASED UPDATE (supports email change)
     UserDto update(String oldUsername, UserDto userDto);
 
     void delete(String username);

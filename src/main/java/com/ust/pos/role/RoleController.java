@@ -25,7 +25,7 @@ public class RoleController {
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute RoleDto userDto) {
         model.addAttribute("nodes", roleService.findAll());
-        model.addAttribute(ROLES,roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         return "role/add";
     }
 

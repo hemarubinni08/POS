@@ -1,286 +1,207 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Registration</title>
+<title>User Registration</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        .register-card {
-            width: 430px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 35px 40px;
-            border-radius: 16px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-        }
+.back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+.back-btn::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-left: 3px solid #333;
+    border-bottom: 3px solid #333;
+    transform: rotate(45deg);
+    margin-left: 5px;
+}
 
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #4b6cb7;
-            font-weight: 600;
-        }
+.register-card {
+    width: 430px;
+    background: rgba(255,255,255,0.95);
+    padding: 35px 40px;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+}
 
-        .form-group {
-            margin-bottom: 16px;
-        }
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #4b6cb7;
+}
 
-        label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 6px;
-            display: block;
-        }
+.form-group {
+    margin-bottom: 16px;
+}
 
-        input {
-            width: 100%;
-            padding: 11px 14px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
+label {
+    font-size: 13px;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 6px;
+}
 
-        .error {
-            color: #cc0000;
-            font-size: 12px;
-            margin-top: 4px;
-            display: block;
-        }
+input {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
 
-        .btn-submit, .btn-secondary {
-            width: 100%;
-            padding: 13px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            margin-top: 10px;
-        }
+.error {
+    color: red;
+    font-size: 12px;
+    display: none;
+}
 
-        .btn-submit {
-            background: linear-gradient(135deg, #4b6cb7, #182848);
-            color: white;
-        }
+input:invalid:not(:placeholder-shown):not(:focus) {
+    border-color: red;
+}
+input:invalid:not(:placeholder-shown):not(:focus) + .error {
+    display: block;
+}
 
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
+#roleList {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+.role-item {
+    padding: 6px 4px;
+}
+.role-item label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+.role-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
 
-        /* ===== DROPDOWN ===== */
-        .dropdown {
-            position: relative;
-            width: 100%;
-        }
-
-        .dropdown-btn {
-            width: 100%;
-            padding: 11px 14px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            background: white;
-            text-align: left;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            width: 100%;
-            background: white;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            margin-top: 5px;
-            max-height: 150px;
-            overflow-y: auto;
-            z-index: 1000;
-        }
-
-        .dropdown-content label {
-            display: flex;
-            align-items: center;
-            padding: 8px 10px;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .dropdown-content label:hover {
-            background: #f2f2f2;
-        }
-
-        .dropdown-content input {
-            width: auto;
-            margin-right: 8px;
-        }
-    </style>
+.btn-submit {
+    margin: 20px auto 0;
+    display: block;
+    width: 220px;
+    padding: 13px;
+    background: linear-gradient(135deg, #4b6cb7, #182848);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+</style>
 </head>
 
 <body>
 
+<div class="back-btn" onclick="history.back()"></div>
+
 <div class="register-card">
     <h2>User Registration</h2>
 
-    <c:if test="${not empty errorMessage}">
-        <div style="color:red; text-align:center; margin-bottom:15px;">
-            ${errorMessage}
-        </div>
-    </c:if>
+    <form action="register" method="post" onsubmit="return validateRoles();">
 
-    <form:form action="register" method="post" modelAttribute="userDto" id="registrationForm">
-
+        <!-- NAME -->
         <div class="form-group">
             <label>Name</label>
-            <form:input path="name" id="name"/>
-            <form:errors path="name" cssClass="error"/>
+            <input type="text" name="name" required placeholder="Enter name">
+            <span class="error">Name is required</span>
         </div>
 
+        <!-- EMAIL -->
         <div class="form-group">
             <label>Email</label>
-            <form:input path="username" id="email"/>
-            <form:errors path="username" cssClass="error"/>
+            <input type="email" name="username" required placeholder="Enter email">
+            <span class="error">Valid email is required</span>
         </div>
 
-        <!-- ===== ROLES DROPDOWN ===== -->
+        <!-- ROLES -->
         <div class="form-group">
             <label>Roles</label>
-
-            <div class="dropdown">
-                <button type="button" class="dropdown-btn" onclick="toggleDropdown()">
-                    Select Roles
-                    <span>▼</span>
-                </button>
-
-                <div id="rolesDropdown" class="dropdown-content">
-                    <c:forEach var="role" items="${roles}">
-                        <label>
-                            <input type="checkbox" name="roles" value="${role.identifier}">
-                            ${role.identifier}
-                        </label>
-                    </c:forEach>
+            <div id="roleList">
+                <div class="role-item">
+                    <label><input type="checkbox" name="roles" value="Admin"> Admin</label>
+                </div>
+                <div class="role-item">
+                    <label><input type="checkbox" name="roles" value="User"> User</label>
+                </div>
+                <div class="role-item">
+                    <label><input type="checkbox" name="roles" value="Manager"> Manager</label>
                 </div>
             </div>
-
-            <form:errors path="roles" cssClass="error"/>
+            <span class="error" id="roleError">Select at least one role</span>
         </div>
 
+        <!-- PHONE -->
         <div class="form-group">
             <label>Phone Number</label>
-            <form:input path="phoneNo" id="phone"/>
-            <form:errors path="phoneNo" cssClass="error"/>
+            <input type="tel" name="phoneNo" pattern="[0-9]{10}" required placeholder="10 digit number">
+            <span class="error">Enter valid 10 digit phone number</span>
         </div>
 
+        <!-- PASSWORD -->
         <div class="form-group">
             <label>Password</label>
-            <form:password path="password" id="password"/>
-            <form:errors path="password" cssClass="error"/>
+            <input type="password" name="password" minlength="6" required placeholder="Enter password">
+            <span class="error">Minimum 6 characters required</span>
         </div>
 
-        <input type="submit" value="Register" class="btn-submit"/>
-
-    </form:form>
-
-    <!-- USER LIST BUTTON -->
-    <button type="button" class="btn-secondary" onclick="window.location.href='/user/list'">
-        User List
-    </button>
-
+        <input type="submit" value="Register" class="btn-submit">
+    </form>
 </div>
 
 <script>
-    // PHONE VALIDATION
-    document.getElementById("phone").addEventListener("input", function () {
-        this.value = this.value.replace(/[^0-9]/g, '');
-        if (this.value.length > 10) {
-            this.value = this.value.slice(0, 10);
-        }
+function validateRoles() {
+    const roles = document.querySelectorAll('input[name="roles"]');
+    const roleError = document.getElementById('roleError');
+    let selected = false;
+
+    roles.forEach(r => {
+        if (r.checked) selected = true;
     });
 
-    // FORM VALIDATION
-    document.getElementById("registrationForm").addEventListener("submit", function (e) {
-        let isValid = true;
-
-        document.querySelectorAll(".client-error").forEach(el => el.remove());
-
-        function showError(element, message) {
-            const span = document.createElement("span");
-            span.className = "error client-error";
-            span.innerText = message;
-            element.parentNode.appendChild(span);
-            isValid = false;
-        }
-
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const phone = document.getElementById("phone").value.trim();
-        const password = document.getElementById("password").value;
-        const roles = document.querySelectorAll('input[name="roles"]:checked');
-
-        const nameRegex = /^[A-Za-z ]{3,}$/;
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const phoneRegex = /^[0-9]{10}$/;
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
-
-        if (!name || !nameRegex.test(name)) {
-            showError(document.getElementById("name"), "Enter a valid name (min 3 letters)");
-        }
-
-        if (!email || !emailRegex.test(email)) {
-            showError(document.getElementById("email"), "Enter a valid email address");
-        }
-
-        if (roles.length === 0) {
-            showError(document.querySelector(".dropdown"), "Select at least one role");
-        }
-
-        if (!phone || !phoneRegex.test(phone)) {
-            showError(document.getElementById("phone"), "Enter valid 10-digit phone number");
-        }
-
-        if (!password || !passwordRegex.test(password)) {
-            showError(document.getElementById("password"),
-                "Password must be 8+ chars with uppercase, lowercase, number & special char"
-            );
-        }
-
-        if (!isValid) {
-            e.preventDefault();
-        }
-    });
-
-    // DROPDOWN TOGGLE
-    function toggleDropdown() {
-        const dropdown = document.getElementById("rolesDropdown");
-        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    if (!selected) {
+        roleError.style.display = 'block';
+        return false;
+    } else {
+        roleError.style.display = 'none';
+        return true;
     }
-
-    document.addEventListener("click", function (e) {
-        const dropdown = document.getElementById("rolesDropdown");
-        const button = document.querySelector(".dropdown-btn");
-
-        if (!button.contains(e.target) && !dropdown.contains(e.target)) {
-            dropdown.style.display = "none";
-        }
-    });
+}
 </script>
 
 </body>

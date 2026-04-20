@@ -70,7 +70,9 @@
         }
 
         button {
-            width: 100%;
+            display: block;
+            width: 160px;
+            margin: 20px auto 0;
             padding: 10px;
             background-color: #667eea;
             color: white;
@@ -85,7 +87,7 @@
         }
 
         .register-link {
-            margin-top: 15px;
+            margin-top: 18px;
             text-align: center;
             font-size: 14px;
         }
@@ -105,30 +107,23 @@
 <body>
 
 <form action="${pageContext.request.contextPath}/login" method="post">
-
     <h2>Login</h2>
 
-    <!-- ✅ ERROR MESSAGE -->
     <c:if test="${param.error != null}">
-        <div class="error">
-            Invalid username or password
-        </div>
+        <div class="error">Invalid username or password</div>
     </c:if>
 
-    <!-- ✅ LOGOUT MESSAGE -->
     <c:if test="${param.logout != null}">
-        <div class="success">
-            You have been logged out successfully
-        </div>
+        <div class="success">You have been logged out successfully</div>
     </c:if>
 
     <div>
-        <label>Username:</label>
+        <label>Email</label>
         <input type="text" name="username" required />
     </div>
 
     <div>
-        <label>Password:</label>
+        <label>Password</label>
         <input type="password" name="password" required />
     </div>
 
@@ -138,7 +133,6 @@
         New user?
         <a href="${pageContext.request.contextPath}/register">Register here</a>
     </div>
-
 </form>
 
 </body>

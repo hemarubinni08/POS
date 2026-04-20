@@ -6,7 +6,6 @@
 <head>
     <title>Role Management</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -60,14 +59,12 @@
 
             <h3 class="text-center mb-4">Role Management</h3>
 
-            <!-- NO ROLES MESSAGE -->
             <c:if test="${empty roles}">
                 <div class="alert alert-warning text-center">
                     No roles found
                 </div>
             </c:if>
 
-            <!-- ROLE TABLE -->
             <c:if test="${not empty roles}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
@@ -85,7 +82,6 @@
                         <c:forEach var="role" items="${roles}">
                             <tr>
 
-                                <!-- ID -->
                                 <td>
                                     <a class="role-link"
                                        href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}">
@@ -93,10 +89,8 @@
                                     </a>
                                 </td>
 
-                                <!-- Role Name -->
                                 <td>${role.identifier}</td>
 
-                                <!-- Description -->
                                 <td>
                                     <c:choose>
                                         <c:when test="${empty role.description}">
@@ -108,17 +102,14 @@
                                     </c:choose>
                                 </td>
 
-                                <!-- ACTION ICONS -->
                                 <td class="action-icons">
 
-                                    <!-- EDIT ICON -->
                                     <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
                                        class="text-primary"
                                        title="Edit">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
 
-                                    <!-- DELETE ICON -->
                                     <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
                                        class="text-danger"
                                        title="Delete"
@@ -138,7 +129,6 @@
 
         </div>
 
-        <!-- FOOTER -->
         <div class="card-footer text-center">
 
             <div class="d-flex justify-content-center gap-3">

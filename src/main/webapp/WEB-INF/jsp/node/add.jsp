@@ -10,7 +10,6 @@
     <meta charset="UTF-8">
     <title>Add Node</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -32,13 +31,11 @@
             font-weight: 500;
         }
 
-        /* ❌ error highlight */
         .input-error {
             border: 2px solid #dc3545 !important;
             background-color: #fff5f5;
         }
 
-        /* Grey buttons */
         .btn-grey {
             background: #6c757d;
             border: none;
@@ -49,7 +46,6 @@
             background: #5a6268;
         }
 
-        /* Dropdown */
         .dropdown-check {
             position: relative;
             width: 100%;
@@ -110,7 +106,6 @@
 
                 <h3 class="text-center mb-4">Add Node</h3>
 
-                <!-- ✅ ERROR MESSAGE (from validation JSP) -->
                 <c:if test="${not empty error}">
                     <div class="alert alert-danger text-center">
                         ${error}
@@ -194,7 +189,6 @@
     </div>
 </div>
 
-<!-- JS -->
 <script>
     function toggleDropdown() {
         document.getElementById("roleDropdown").classList.toggle("active");

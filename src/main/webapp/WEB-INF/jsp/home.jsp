@@ -16,13 +16,11 @@
             background: #f4f6f9;
         }
 
-        /* MAIN LAYOUT */
         .layout {
             display: flex;
             height: 100%;
         }
 
-        /* LEFT SIDEBAR */
         .sidebar {
             width: 260px;
             background: #2c3e50;
@@ -39,7 +37,6 @@
             font-size: 20px;
         }
 
-        /* MENU */
         .menu {
             flex-grow: 1;
         }
@@ -66,7 +63,6 @@
             margin-top: 20px;
         }
 
-        /* LOGOUT */
         .logout-form {
             margin-top: auto;
         }
@@ -86,7 +82,6 @@
             background: #c0392b;
         }
 
-        /* RIGHT CONTENT */
         .content {
             flex: 1;
             padding: 40px;
@@ -107,7 +102,6 @@
 
 <div class="layout">
 
-    <!-- ✅ LEFT SIDEBAR -->
     <div class="sidebar">
         <h2>Home</h2>
 
@@ -116,7 +110,6 @@
                 <p class="empty">No modules available</p>
             </c:if>
 
-            <!-- ✅ FIXED: use identifier instead of name -->
             <c:forEach var="node" items="${nodes}">
                 <a class="nav-link"
                    href="${pageContext.request.contextPath}${node.path}">
@@ -125,7 +118,7 @@
             </c:forEach>
         </div>
 
-        <!-- ✅ LOGOUT -->
+        <!-- LOGOUT -->
         <form class="logout-form"
               action="${pageContext.request.contextPath}/logout"
               method="post">
@@ -133,7 +126,6 @@
         </form>
     </div>
 
-    <!-- ✅ RIGHT CONTENT -->
     <div class="content">
         <h1>Welcome</h1>
         <p>Please select a module from the left navigation menu.</p>

@@ -1,8 +1,10 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.dto.RoleDto;
-import com.ust.pos.model.*;
+import com.ust.pos.model.Node;
+import com.ust.pos.model.NodeRepository;
+import com.ust.pos.model.User;
+import com.ust.pos.model.UserRepository;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -13,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,12 +31,17 @@ public class NodeServiceImpl implements NodeService {
 
     public List<NodeDto> getNodesForRoles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-        User currentUser = userRepository.findByUsername(principalObject.getUsername());
-        List<Node> nodes = nodeRepository.findByRoles(currentUser.getRoles());
-        Type listType = new TypeToken<List<NodeDto>>() {
-        }.getType();
-        return modelMapper.map(nodes, listType);
+        if (authentication != null) {
+            org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+            if (principalObject != null) {
+                User currentUser = userRepository.findByUsername(principalObject.getUsername());
+                List<Node> nodes = nodeRepository.findByRoles(currentUser.getRoles());
+                Type listType = new TypeToken<List<NodeDto>>() {
+                }.getType();
+                return modelMapper.map(nodes, listType);
+            }
+        }
+        return new ArrayList<>();
     }
 
     @Override
