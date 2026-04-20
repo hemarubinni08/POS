@@ -44,7 +44,6 @@
 
             <h3 class="text-center mb-4">User Management</h3>
 
-            <!-- NO USERS MESSAGE -->
             <c:if test="${empty users}">
                 <div class="alert alert-warning text-center">
                     No users found
@@ -63,6 +62,7 @@
                             <th>Action</th>
                         </tr>
                         </thead>
+
                         <tbody>
                         <c:forEach var="user" items="${users}">
                             <tr>
@@ -72,12 +72,20 @@
                                         ${user.username}
                                     </a>
                                 </td>
+
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
+
                                 <td>
+
+                                    <a class="btn btn-warning btn-sm me-2"
+                                       href="/user/get?username=${user.username}">
+                                        Edit
+                                    </a>
+
                                     <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
+                                       href="/user/delete?username=${user.username}"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
                                         Delete
                                     </a>
@@ -93,13 +101,8 @@
 
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">
-                    Home
-                </a>
-
-                <a href="/register" class="btn btn-success">
-                    Register
-                </a>
+                <a href="/" class="btn btn-secondary">Home</a>
+                <a href="/register" class="btn btn-success">Register</a>
             </div>
 
             <div class="text-muted small mt-2">

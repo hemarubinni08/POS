@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Role List</title>
+    <title>Node List</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -25,6 +25,10 @@
             background-color: #0d6efd;
             color: white;
         }
+        .badge-role {
+            background-color: #6c757d;
+            margin: 2px;
+        }
     </style>
 </head>
 
@@ -32,66 +36,65 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-9">
+        <div class="col-md-10">
 
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white text-center">
-                    <h4 class="mb-0">List of Roles</h4>
+                    <h4 class="mb-0">List of Nodes</h4>
                 </div>
 
                 <div class="card-body">
 
-                    <c:if test="${empty roles}">
+                    <c:if test="${empty nodes}">
                         <div class="alert alert-warning text-center">
-                            No roles found
+                            No nodes found
                         </div>
                     </c:if>
 
-                    <c:if test="${not empty roles}">
-                        <table class="table table-bordered table-hover text-center align-middle">
+                    <c:if test="${not empty nodes}">
+                        <table class="table table-bordered table-hover align-middle text-center">
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Role</th>
-                                <th>Description</th>
+                                <th>Identifier</th>
+                                <th>Path</th>
+                                <th>Roles</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            <c:forEach var="role" items="${roles}">
+                            <c:forEach var="node" items="${nodes}">
                                 <tr>
-                                    <td>
-                                        <a href="/role/get?identifier=${role.identifier}">
-                                            ${role.id}
-                                        </a>
-                                    </td>
+                                    <td>${node.id}</td>
 
-                                    <td>${role.identifier}</td>
+                                    <td>${node.identifier}</td>
+
+                                    <td>${node.path}</td>
 
                                     <td>
-                                        <c:choose>
-                                            <c:when test="${empty role.description}">
-                                                <span class="text-muted">—</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${role.description}
-                                            </c:otherwise>
-                                        </c:choose>
+                                        <c:if test="${empty node.roles}">
+                                            <span class="text-muted">No roles</span>
+                                        </c:if>
+
+                                        <c:forEach var="role" items="${node.roles}">
+                                            <span class="badge badge-role">${role}</span>
+                                        </c:forEach>
                                     </td>
 
                                     <td class="d-flex justify-content-center gap-2">
 
-                                        <a class="btn btn-sm btn-warning"
-                                           href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}">
+                                        <a href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}"
+                                           class="btn btn-sm btn-warning">
                                             Edit
                                         </a>
 
-                                        <a class="btn btn-sm btn-danger"
-                                           href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
-                                           onclick="return confirm('Are you sure you want to delete this role?');">
+                                        <a href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
+                                           class="btn btn-sm btn-danger"
+                                           onclick="return confirm('Are you sure you want to delete this node?');">
                                             Delete
                                         </a>
+
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -102,8 +105,15 @@
                 </div>
 
                 <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
-                    <a href="/" class="btn btn-secondary">Home</a>
-                    <a href="/role/add" class="btn btn-success">+ Add New Role</a>
+                    <a href="${pageContext.request.contextPath}/"
+                       class="btn btn-secondary">
+                        Home
+                    </a>
+
+                    <a href="${pageContext.request.contextPath}/node/add"
+                       class="btn btn-success">
+                        + Add New Node
+                    </a>
                 </div>
 
             </div>

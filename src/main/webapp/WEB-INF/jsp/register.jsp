@@ -1,122 +1,187 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Registration</title>
+<title>POS | Register User</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f766e, #020617);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+/* 🔷 CARD */
+.card {
+    width: 420px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 18px;
+    padding: 35px 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
 
-        .register-card {
-            width: 430px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 35px 40px;
-            border-radius: 16px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-        }
+/* 🔙 BACK */
+.back {
+    text-decoration: none;
+    font-size: 13px;
+    color: #0f766e;
+    display: inline-block;
+    margin-bottom: 10px;
+}
 
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #4b6cb7;
-            font-weight: 600;
-        }
+/* 🧾 TITLE */
+.card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0f172a;
+    font-size: 22px;
+}
 
-        .form-group {
-            margin-bottom: 16px;
-        }
+/* ❌ ERROR */
+.error-message {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 15px;
+}
 
-        label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 6px;
-            display: block;
-        }
+/* 🏷 LABEL */
+label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+}
 
-        input, select {
-            width: 100%;
-            padding: 11px 14px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
+/* ✏ INPUT */
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
 
-        select[multiple] {
-            height: 130px; /* ✅ MAKES MULTI-SELECT CLEAR */
-        }
+input:focus, select:focus {
+    border-color: #0f766e;
+    box-shadow: 0 0 0 2px rgba(15,118,110,0.2);
+}
 
-        small {
-            color: #666;
-            font-size: 11px;
-        }
+select[multiple] {
+    height: 120px;
+}
 
-        .btn-submit {
-            margin-top: 10px;
-            width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, #4b6cb7, #182848);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-    </style>
+/* ✅ BUTTON */
+button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #0f766e, #134e4a);
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(15,118,110,0.5);
+}
+</style>
+
+<script>
+function validateForm() {
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("username").value.trim();
+    const roles = document.getElementById("roles").selectedOptions.length;
+    const phone = document.getElementById("phoneNo").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    const phoneRegex = /^[0-9]{10}$/;
+
+    if (!name || !email || !phone || !password || roles === 0) {
+        alert("Please fill all fields");
+        return false;
+    }
+
+    if (!gmailRegex.test(email)) {
+        alert("Email should be name@gmail.com");
+        return false;
+    }
+
+    if (!phoneRegex.test(phone)) {
+        alert("Mobile number must be 10 digits");
+        return false;
+    }
+
+    return true;
+}
+</script>
+
 </head>
-
 <body>
 
-<div class="register-card">
+<div class="card">
+
+    <a href="${pageContext.request.contextPath}/user/list" class="back">← Back</a>
+
     <h2>User Registration</h2>
 
-    <form:form action="register" method="post" modelAttribute="userDto">
+    <c:if test="${not empty message}">
+        <div class="error-message">${message}</div>
+    </c:if>
 
-        <!-- Name -->
-        <div class="form-group">
-            <label>Name</label>
-            <form:input path="name"/>
-        </div>
+    <form:form action="register"
+               method="post"
+               modelAttribute="userDto"
+               onsubmit="return validateForm();">
 
-        <div class="form-group">
-            <label>Email</label>
-            <form:input path="username"/>
-        </div>
+        <label>Name</label>
+        <form:input path="name" id="name"/>
 
-        <div class="form-group">
-            <label>Roles</label>
-            <form:select path="roles" multiple="true">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-            </form:select>
-        </div>
+        <label>Email</label>
+        <form:input path="username"
+                    id="username"
+                    pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                    title="Format: name@gmail.com"/>
 
-        <div class="form-group">
-            <label>Phone Number</label>
-            <form:input path="phoneNo"/>
-        </div>
+        <label>Mobile Number</label>
+        <form:input path="phoneNo"
+                    id="phoneNo"
+                    maxlength="10"
+                    pattern="[0-9]{10}"
+                    title="Enter 10-digit number"/>
 
-        <div class="form-group">
-            <label>Password</label>
-            <form:password path="password"/>
-        </div>
+        <label>Password</label>
+        <form:password path="password" id="password" minlength="6"/>
 
-        <input type="submit" value="Register" class="btn-submit"/>
+        <label>Select Roles</label>
+        <form:select path="roles" id="roles" multiple="true">
+            <form:options items="${roles}"
+                          itemValue="identifier"
+                          itemLabel="identifier"/>
+        </form:select>
+
+        <button type="submit">Register</button>
 
     </form:form>
-
 </div>
 
 </body>

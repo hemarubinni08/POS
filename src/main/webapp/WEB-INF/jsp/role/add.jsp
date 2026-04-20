@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -26,6 +26,7 @@
         }
     </style>
 </head>
+
 <body>
 
 <div class="container d-flex justify-content-center align-items-center mt-5">
@@ -38,27 +39,47 @@
 
             <div class="card-body">
 
-                <c:if test="${not empty role}">
-                    <div class="alert alert-success text-center">
-                        ${role}
+                <c:if test="${not empty message}">
+                    <div class="alert alert-danger text-center">
+                        ${message}
                     </div>
                 </c:if>
 
                 <form:form method="post"
-                           action="/role/add"
+                           action="${pageContext.request.contextPath}/role/add"
                            modelAttribute="roleDto">
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Role Name</label>
-                        <form:input path="identifier"
-                                    cssClass="form-control"
-                                    placeholder="Enter role name" />
+                        <label class="form-label fw-semibold">
+                            Role Identifier <span class="text-danger">*</span>
+                        </label>
+                        <form:input
+                                path="identifier"
+                                cssClass="form-control"
+                                placeholder="e.g. ADMIN, USER"
+                                required="true"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <form:textarea
+                                path="description"
+                                cssClass="form-control"
+                                rows="3"
+                                placeholder="Describe role responsibilities"/>
                     </div>
 
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
                             Add Role
                         </button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a href="${pageContext.request.contextPath}/role/list"
+                           class="text-decoration-none fw-semibold">
+                            ← Back to Role List
+                        </a>
                     </div>
 
                 </form:form>

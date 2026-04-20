@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -7,6 +6,7 @@
 <head>
     <title>Update User</title>
 
+    <!-- ✅ Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"/>
 
@@ -31,7 +31,7 @@
         h3 {
             text-align: center;
             color: #4b6cb7;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             font-weight: 600;
         }
 
@@ -42,13 +42,13 @@
         }
 
         .form-control,
-        select {
+        .form-select {
             border-radius: 8px;
             padding: 10px 12px;
         }
 
         select[multiple] {
-            height: 120px;
+            height: 130px;
         }
 
         .btn-update {
@@ -73,58 +73,101 @@
 </head>
 
 <body>
-${message}
+
 <div class="update-card">
     <h3>Update User</h3>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto">
+    <!-- ✅ ERROR MESSAGE DISPLAY -->
+    <c:if test="${not empty message}">
+        <div class="alert alert-danger text-center">
+            ${message}
+        </div>
+    </c:if>
 
-        <form:input type="hidden" path="id"/>
+    <!-- ✅ FORM (ONLY ONE FORM TAG) -->
+    <form action="${pageContext.request.contextPath}/user/update" method="post">
 
+        <!-- ✅ Required for username update -->
+        <input type="hidden" name="oldUsername" value="${user.username}" />
+
+        <!-- Optional -->
+        <input type="hidden" name="id" value="${user.id}" />
+
+        <!-- Name -->
         <div class="mb-3">
             <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
+            <input type="text" name="name" class="form-control"
+                   value="${user.name}" required />
         </div>
 
-         <div class="mb-3">
+        <!-- Email -->
+        <div class="mb-3">
             <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
+            <input type="email" name="username" class="form-control"
+                   value="${user.username}" required />
         </div>
 
+        <!-- Phone -->
         <div class="mb-3">
             <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" required="true"/>
+            <input type="text" name="phoneNo" class="form-control"
+                   value="${user.phoneNo}" required />
         </div>
 
+        <!-- Roles -->
         <div class="mb-3">
-            <label>Roles</label>
-
-            <div class="mb-1 text-muted">
-                Current:
-                <c:forEach var="r" items="${user.roles}">
-                    <span class="badge bg-secondary me-1">${r}</span>
+            <label class="fw-semibold">Select Roles</label>
+            <select name="roles" id="roles" class="form-select" multiple required size="5">
+                <c:forEach var="role" items="${roles}">
+                    <option value="${role.identifier}"
+                        <c:if test="${user.roles.contains(role.identifier)}">
+                            selected
+                        </c:if>>
+                        ${role.identifier}
+                    </option>
                 </c:forEach>
-            </div>
+            </select>
 
-            <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
-            </form:select>
-
-
-            <small>
-                Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
+            <small class="text-muted">
+                Hold <kbd>Ctrl</kbd> (Windows/Linux) or <kbd>Cmd</kbd> (Mac)
             </small>
         </div>
 
-        <button type="submit" class="btn-update">Update User</button>
-
-    </form:form>
+        <button type="submit" class="btn-update">
+            Update User
+        </button>
+    </form>
 
     <div class="text-center mt-3">
         <a href="/user/list">← Back to User List</a>
     </div>
-
 </div>
+
+<script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+
+        const name = this.name.value.trim();
+        const phone = this.phoneNo.value.trim();
+        const roles = document.getElementById("roles");
+
+        if (!/^[A-Za-z ]{3,}$/.test(name)) {
+            alert("Name must contain at least 3 letters.");
+            e.preventDefault();
+            return;
+        }
+
+        if (!/^[0-9]{10}$/.test(phone)) {
+            alert("Phone number must be exactly 10 digits.");
+            e.preventDefault();
+            return;
+        }
+
+        if ([...roles.options].filter(o => o.selected).length === 0) {
+            alert("Please select at least one role.");
+            e.preventDefault();
+        }
+    });
+</script>
 
 </body>
 </html>

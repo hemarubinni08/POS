@@ -9,9 +9,9 @@ public interface UserService {
 
     UserDto save(UserDto userDto);
 
-    UserDto update(UserDto userDto);
+    UserDto update(String oldUsername, UserDto userDto);
 
-    boolean delete(String username);
+    void delete(String username);
 
     List<UserDto> findAll();
 }
