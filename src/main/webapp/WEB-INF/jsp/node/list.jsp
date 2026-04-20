@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | User List</title>
+    <title>POS Management | Node Management</title>
 
     <style>
         body {
@@ -21,9 +21,9 @@
 
         .container {
             width: 95%;
-            max-width: 1100px;
+            max-width: 1000px;
             background: #ffffff;
-            padding: 0; /* Remove padding to let header flush to edges */
+            padding: 0;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
             overflow: hidden;
@@ -50,17 +50,11 @@
         h2 {
             color: #1F2937;
             font-size: 18px;
-            margin-bottom: 20px;
+            margin: 0;
             font-weight: 600;
         }
 
-        .header-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-
-        .btn-register {
+        .btn-add {
             padding: 10px 20px;
             background: #0B3C5D;
             color: white;
@@ -71,7 +65,7 @@
             transition: opacity 0.2s;
         }
 
-        .btn-register:hover {
+        .btn-add:hover {
             opacity: 0.9;
         }
 
@@ -79,7 +73,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 14px;
-            margin-bottom: 20px;
+            margin-top: 10px;
         }
 
         thead {
@@ -103,8 +97,13 @@
             color: #1F2937;
         }
 
-        tbody tr:hover {
-            background-color: #F9FAFB;
+        code {
+            background: #F1F5F9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #475569;
+            font-family: Consolas, monospace;
+            font-size: 13px;
         }
 
         .role-badge {
@@ -118,11 +117,6 @@
             font-weight: 600;
         }
 
-        .action-cell {
-            display: flex;
-            gap: 10px;
-        }
-
         .btn-action {
             padding: 6px 14px;
             border-radius: 6px;
@@ -130,6 +124,7 @@
             font-size: 12px;
             font-weight: 700;
             transition: opacity 0.2s;
+            display: inline-block;
         }
 
         .btn-view {
@@ -140,21 +135,16 @@
         .btn-delete {
             background: #FEE2E2;
             color: #DC2626;
+            margin-left: 5px;
         }
 
         .btn-action:hover {
             opacity: 0.8;
         }
 
-        .no-data {
-            text-align: center;
-            padding: 40px;
-            color: #9CA3AF;
-        }
-
         .back-link {
             display: block;
-            margin-top: 10px;
+            margin-top: 20px;
             font-size: 14px;
             color: #6B7280;
             text-decoration: none;
@@ -185,19 +175,15 @@
         .toast-success { background: #16A34A; }
         .toast-error { background: #DC2626; }
         .toast.show { right: 24px; }
-
     </style>
 </head>
 
 <body>
-
-<c:set var="toastClass" value="${colour eq 'red' ? 'toast-error' : 'toast-success'}" />
-
-<c:if test="${not empty message}">
-    <div id="toast" class="toast ${toastClass}">
-        ${message}
-    </div>
-</c:if>
+    <c:if test="${not empty message}">
+        <div id="toast" class="toast ${colour eq 'red' ? 'toast-error' : 'toast-success'}">
+            ${message}
+        </div>
+    </c:if>
 
     <div class="container">
         <div class="brand-header">
@@ -205,75 +191,50 @@
         </div>
 
         <div class="content-body">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2>User Administration</h2>
-                <a href="${pageContext.request.contextPath}/register" class="btn-register">
-                    + Add New User
-                </a>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2>System Node Configuration</h2>
+                <a href="${pageContext.request.contextPath}/node/add" class="btn-add"> + Add New Node</a>
             </div>
 
             <table>
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Email Address</th>
-                        <th>Phone</th>
-                        <th>Roles</th>
+                        <th>Node Name</th>
+                        <th>Path Mapping</th>
+                        <th>Assigned Roles</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    <c:choose>
-                        <c:when test="${not empty users}">
-                            <c:forEach var="user" items="${users}">
-                                <tr>
-                                    <td style="font-weight: 600; color: #6B7280;">#${user.id}</td>
-                                    <td>${user.name}</td>
-                                    <td>${user.username}</td>
-                                    <td>${user.phoneNo}</td>
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${not empty user.roles}">
-                                                <c:forEach var="r" items="${user.roles}">
-                                                    <span class="role-badge">${r}</span>
-                                                </c:forEach>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <span style="color:#9CA3AF; font-style: italic;">No roles</span>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
-                                    <td>
-                                        <div class="action-cell">
-                                            <a href="${pageContext.request.contextPath}/user/get?username=${user.username}" class="btn-action btn-view">
-                                                View
-                                            </a>
-                                            <a href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
-                                               class="btn-action btn-delete"
-                                               onclick="return confirm('Are you sure you want to delete this user?')">
-                                                Delete
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </c:when>
-
-                        <c:otherwise>
-                            <tr>
-                                <td colspan="6" class="no-data">
-                                    No user records found in the system.
-                                </td>
-                            </tr>
-                        </c:otherwise>
-                    </c:choose>
+                    <c:forEach var="node" items="${nodes}">
+                        <tr>
+                            <td style="font-weight: 600; color: #6B7280;">#${node.id}</td>
+                            <td style="font-weight: 600;">${node.identifier}</td>
+                            <td><code>${node.path}</code></td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${not empty node.roles}">
+                                        <c:forEach var="r" items="${node.roles}">
+                                            <span class="role-badge">${r}</span>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise><span style="color:#9CA3AF; font-style: italic;">No roles</span></c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}" class="btn-action btn-view">View / Edit</a>
+                                <a href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
+                                   class="btn-action btn-delete"
+                                   onclick="return confirm('Are you sure you want to delete this node?')">Delete</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
 
             <a href="${pageContext.request.contextPath}/" class="back-link">
-                ← Back to Dashboard
+                ← Back to Homepage
             </a>
         </div>
     </div>
@@ -283,9 +244,12 @@
             const toast = document.getElementById("toast");
             if (toast) {
                 setTimeout(() => toast.classList.add("show"), 200);
-                setTimeout(() => toast.classList.remove("show"), 4000);
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 3500);
             }
         });
     </script>
+
 </body>
 </html>

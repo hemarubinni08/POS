@@ -4,6 +4,7 @@ import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -28,22 +30,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByUserName(String username) {
-        return modelMapper.map(userRepository.findByUsername(username), UserDto.class);
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override
     public UserDto save(UserDto userDto) {
+        UserDto responseDto = new UserDto();
         String username = userDto.getUsername();
         User existingUser = userRepository.findByUsername(username);
         if (existingUser != null) {
-            userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
-            userDto.setSuccess(false);
-            return userDto;
+            responseDto.setSuccess(false);
+            responseDto.setMessage("Sorry! That Email already exists.");
+            return responseDto;
         }
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
-        return userDto;
+        responseDto.setSuccess(true);
+        responseDto.setMessage("User registered successfully");
+        return responseDto;
     }
 
     @Override
@@ -57,22 +66,24 @@ public class UserServiceImpl implements UserService {
             return userDto;
         } else {
             User existingUser = userOptional.get();
-            if (!username.equalsIgnoreCase(existingUser.getUsername())) {
-                if (userRepository.findByUsername(username) != null) {
+            if (!username.equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(username) != null) {
                     userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
                     userDto.setSuccess(false);
                     return userDto;
-                }
+
             }
             modelMapper.map(userDto, existingUser);
             userRepository.save(existingUser);
         }
+
+        userDto.setSuccess(true);
+        userDto.setMessage("User updated successfully");
         return userDto;
     }
 
     @Override
-    public boolean delete(String username) {
-        return userRepository.deleteByUsername(username);
+    public void delete(String username) {
+        userRepository.deleteByUsername(username);
     }
 
     @Override

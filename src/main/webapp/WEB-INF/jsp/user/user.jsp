@@ -1,130 +1,246 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update User</title>
+<meta charset="UTF-8">
+<title>POS Management | User Profile</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #F4F5F7;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-    <style>
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: "Segoe UI", Arial, sans-serif;
-        }
+    .profile-card {
+        background: #FFFFFF;
+        width: 100%;
+        max-width: 500px;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        position: relative;
+        overflow: hidden;
+    }
 
-        .update-card {
-            width: 460px;
-            background: #fff;
-            padding: 30px 35px;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-        }
+    .brand-header {
+        background: #0B3C5D;
+        padding: 25px;
+        color: #FFFFFF;
+        text-align: center;
+    }
 
-        h3 {
-            text-align: center;
-            color: #4b6cb7;
-            margin-bottom: 25px;
-            font-weight: 600;
-        }
+    .brand-header h1 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 0.8px;
+    }
 
-        label {
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
-        }
+    .profile-body {
+        padding: 30px 40px;
+    }
 
-        .form-control,
-        select {
-            border-radius: 8px;
-            padding: 10px 12px;
-        }
+    h2 {
+        color: #1F2937;
+        font-size: 18px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 600;
+    }
 
-        select[multiple] {
-            height: 120px;
-        }
+    .profile-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #E5E7EB;
+    }
 
-        .btn-update {
-            width: 100%;
-            padding: 12px;
-            background: #4b6cb7;
-            border: none;
-            color: white;
-            font-weight: 600;
-            border-radius: 8px;
-        }
+    .label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #4B5563;
+        width: 35%;
+    }
 
-        .btn-update:hover {
-            background: #182848;
-        }
+    .value {
+        font-size: 14px;
+        color: #1F2937;
+        width: 65%;
+        text-align: right;
+    }
 
-        small {
-            font-size: 11px;
-            color: #666;
-        }
-    </style>
+    input, select {
+        width: 65%;
+        padding: 8px 12px;
+        border: 1px solid #E5E7EB;
+        border-radius: 8px;
+        font-size: 14px;
+        display: none; /* Hidden until edit mode */
+        box-sizing: border-box;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        border-color: #0B3C5D;
+        background: #F9FAFB;
+    }
+
+    .actions {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .btn {
+        padding: 10px 24px;
+        border-radius: 8px;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+
+    .edit-btn {
+        background: #0B3C5D;
+        color: white;
+    }
+
+    .save-btn {
+        background: #16A34A;
+        color: white;
+        display: none;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    .back-link {
+        display: block;
+        margin-top: 20px;
+        font-size: 13px;
+        color: #6B7280;
+        text-decoration: none;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .back-link:hover {
+        color: #0B3C5D;
+        text-decoration: underline;
+    }
+
+    /* Toast Notification */
+    .toast {
+        position: fixed;
+        top: 24px;
+        right: -400px;
+        min-width: 280px;
+        padding: 16px 20px;
+        border-radius: 12px;
+        color: #FFFFFF;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        z-index: 9999;
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .toast-success { background: #16A34A; }
+    .toast-error { background: #DC2626; }
+    .toast.show { right: 24px; }
+</style>
 </head>
 
 <body>
-${message}
-<div class="update-card">
-    <h3>Update User</h3>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto">
-
-        <form:input type="hidden" path="id"/>
-
-        <div class="mb-3">
-            <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
-        </div>
-
-         <div class="mb-3">
-            <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
-        </div>
-
-        <div class="mb-3">
-            <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" required="true"/>
-        </div>
-
-        <div class="mb-3">
-            <label>Roles</label>
-
-            <div class="mb-1 text-muted">
-                Current:
-                <c:forEach var="r" items="${user.roles}">
-                    <span class="badge bg-secondary me-1">${r}</span>
-                </c:forEach>
-            </div>
-
-            <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
-            </form:select>
-
-
-            <small>
-                Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
-            </small>
-        </div>
-
-        <button type="submit" class="btn-update">Update User</button>
-
-    </form:form>
-
-    <div class="text-center mt-3">
-        <a href="/user/list">← Back to User List</a>
+<div class="profile-card">
+    <div class="brand-header">
+        <h1>POS Management</h1>
     </div>
 
+    <div class="profile-body">
+        <c:if test="${not empty message}">
+            <div id="toast" class="toast ${colour eq 'red' ? 'toast-error' : 'toast-success'}">
+               ${message}
+            </div>
+        </c:if>
+
+        <form:form action="${pageContext.request.contextPath}/user/update" method="post" modelAttribute="user">
+            <input type="hidden" name="id" value="${user.id}" />
+
+            <h2>User Profile Details</h2>
+
+            <div class="profile-row">
+                <span class="label">Full Name</span>
+                <span class="value">${user.name}</span>
+                <input type="text" name="name" value="${user.name}" />
+            </div>
+
+            <div class="profile-row">
+                <span class="label">Email Address</span>
+                <span class="value">${user.username}</span>
+                <input type="text" name="username" value="${user.username}" />
+            </div>
+
+            <div class="profile-row">
+                <span class="label">Phone Number</span>
+                <span class="value">${user.phoneNo}</span>
+                <input type="text" name="phoneNo" value="${user.phoneNo}" />
+            </div>
+
+            <div class="profile-row">
+                <span class="label">Assigned Roles</span>
+                <span class="value">${user.roles}</span>
+                <select name="roles" multiple style="height:80px;">
+                    <c:forEach var="role" items="${roles}">
+                        <option value="${role.identifier}"
+                            <c:if test="${user.roles != null && user.roles.contains(role.identifier)}">
+                                selected="selected"
+                            </c:if>>
+                            ${role.identifier}
+                        </option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <div class="actions">
+                <button type="button" class="btn edit-btn" onclick="enableEdit()">Edit Profile</button>
+                <button type="submit" class="btn save-btn">Save Changes</button>
+                <a href="${pageContext.request.contextPath}/user/list" class="back-link">
+                    ← Back to Users List
+                </a>
+            </div>
+        </form:form>
+    </div>
 </div>
+
+<script>
+    function enableEdit(){
+        document.querySelectorAll('.value').forEach(v => v.style.display = 'none');
+        document.querySelectorAll('input, select').forEach(i => i.style.display = 'inline-block');
+        document.querySelector('.edit-btn').style.display = 'none';
+        document.querySelector('.save-btn').style.display = 'inline-block';
+        document.querySelector('h2').innerText = "Edit User Profile";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const toast = document.getElementById("toast");
+        if (toast) {
+            setTimeout(() => toast.classList.add("show"), 200);
+            setTimeout(() => toast.classList.remove("show"), 3500);
+        }
+    });
+</script>
 
 </body>
 </html>

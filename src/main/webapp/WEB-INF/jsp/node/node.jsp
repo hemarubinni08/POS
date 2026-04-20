@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Role Profile</title>
+    <title>POS Management | Node Profile</title>
 
     <style>
         body {
@@ -70,24 +71,25 @@
             width: 40%;
         }
 
-        .value, .static-value {
+        .value {
             font-size: 14px;
             color: #1F2937;
             width: 60%;
             text-align: right;
         }
 
-        input[type="text"] {
+        .edit-field {
+            display: none;
             width: 60%;
             padding: 8px 12px;
-            border: 1px solid #E5E7EB;
             border-radius: 8px;
+            border: 1px solid #E5E7EB;
             font-size: 14px;
-            display: none; /* Hidden until edit mode */
             box-sizing: border-box;
+            font-family: inherit;
         }
 
-        input:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: #0B3C5D;
             background: #F9FAFB;
@@ -136,7 +138,6 @@
             text-decoration: underline;
         }
 
-        /* Toast Styles */
         .toast {
             position: fixed;
             top: 24px;
@@ -153,14 +154,14 @@
         }
 
         .toast-success { background: #16A34A; }
+        .toast-error { background: #DC2626; }
         .toast.show { right: 24px; }
     </style>
 </head>
 
 <body>
-
     <c:if test="${not empty message}">
-        <div id="toast" class="toast toast-success">
+        <div id="toast" class="toast ${colour eq 'red' ? 'toast-error' : 'toast-success'}">
             ${message}
         </div>
     </c:if>
@@ -171,68 +172,76 @@
         </div>
 
         <div class="profile-body">
-            <form action="${pageContext.request.contextPath}/role/update" method="post">
-                <input type="hidden" name="id" value="${role.id}" />
+            <form:form action="${pageContext.request.contextPath}/node/update" method="post" modelAttribute="node">
+                <input type="hidden" name="id" value="${node.id}" />
 
-                <h2>Role Configuration</h2>
+                <h2>Node Configuration</h2>
 
                 <div class="profile-row">
-                    <span class="label">Role Identifier</span>
-                    <span class="static-value">${role.identifier}</span>
-                    <input type="hidden" name="identifier" value="${role.identifier}" />
+                    <span class="label">Node Name</span>
+                    <span class="value">${node.identifier}</span>
+                    <input type="hidden" name="identifier" value="${node.identifier}" />
                 </div>
 
                 <div class="profile-row">
-                    <span class="label">Description</span>
-                    <span class="value">
+                    <span class="label">Path Mapping</span>
+                    <span class="value display-mode">${node.path}</span>
+                    <input type="text" name="path" class="edit-field" value="${node.path}" required />
+                </div>
+
+                <div class="profile-row">
+                    <span class="label">Assigned Roles</span>
+                    <span class="value display-mode">
                         <c:choose>
-                            <c:when test="${not empty role.description}">
-                                ${role.description}
+                            <c:when test="${not empty node.roles}">
+                                <c:forEach var="r" items="${node.roles}" varStatus="s">
+                                    ${r}<c:if test="${!s.last}">, </c:if>
+                                </c:forEach>
                             </c:when>
-                            <c:otherwise>
-                                <i style="color:#9CA3AF;">No description provided</i>
-                            </c:otherwise>
+                            <c:otherwise><i style="color: #9CA3AF;">No roles assigned</i></c:otherwise>
                         </c:choose>
                     </span>
-                    <input type="text"
-                           name="description"
-                           value="${role.description}"
-                           placeholder="e.g. System Administrator" />
+
+                    <select name="roles" class="edit-field" multiple style="height: 100px;">
+                        <c:forEach var="role" items="${roles}">
+                            <option value="${role.identifier}"
+                                <c:if test="${node.roles.contains(role.identifier)}">selected</c:if>>
+                                ${role.identifier}
+                            </option>
+                        </c:forEach>
+                    </select>
                 </div>
 
                 <div class="actions">
-                    <button type="button" class="btn edit-btn" onclick="enableEdit()">Edit Role</button>
+                    <button type="button" class="btn edit-btn" onclick="enableEdit()">Edit Node</button>
                     <button type="submit" class="btn save-btn">Save Changes</button>
 
-                    <a href="${pageContext.request.contextPath}/role/list" class="back-link">
-                        ← Back to Roles List
+                    <a href="${pageContext.request.contextPath}/node/list" class="back-link">
+                        ← Back to Nodes List
                     </a>
                 </div>
-            </form>
+            </form:form>
         </div>
     </div>
 
     <script>
         function enableEdit() {
-            document.querySelectorAll('.value')
-                .forEach(v => v.style.display = 'none');
-
-            document.querySelectorAll('input[type="text"]')
-                .forEach(i => i.style.display = 'inline-block');
-
+            document.querySelectorAll('.display-mode').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.edit-field').forEach(el => el.style.display = 'inline-block');
             document.querySelector('.edit-btn').style.display = 'none';
             document.querySelector('.save-btn').style.display = 'inline-block';
-            document.querySelector('h2').innerText = "Edit Role Details";
+            document.querySelector('h2').innerText = "Edit Node Details";
         }
 
         document.addEventListener("DOMContentLoaded", function () {
             const toast = document.getElementById("toast");
             if (toast) {
                 setTimeout(() => toast.classList.add("show"), 200);
-                setTimeout(() => toast.classList.remove("show"), 3500);
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 3500);
             }
         });
     </script>
-
 </body>
 </html>

@@ -26,8 +26,7 @@ public class PosApplication {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.STRICT);
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         mapper.getConfiguration().setSkipNullEnabled(true);
         mapper.getConfiguration().setCollectionsMergeEnabled(false);
         return mapper;
@@ -44,7 +43,11 @@ public class PosApplication {
         ds.setUrl(environment.getProperty("spring.datasource.url"));
         ds.setUsername(environment.getProperty("spring.datasource.username"));
         ds.setPassword(environment.getProperty("spring.datasource.password"));
-        ds.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
+        String driverClass =environment.getProperty("spring.datasource.driver-class-name");
+        if(driverClass != null)
+        {
+            ds.setDriverClassName(driverClass);
+        }
         return ds;
     }
 }
