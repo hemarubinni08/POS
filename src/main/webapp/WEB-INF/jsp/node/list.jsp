@@ -231,8 +231,7 @@
                                 </a>
 
                                 <a class="btn btn-danger"
-                                   href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
-                                   onclick="return confirm('Are you sure you want to delete this node?');">
+                                   href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}">
                                     Delete
                                 </a>
                             </td>
