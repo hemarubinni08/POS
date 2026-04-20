@@ -68,7 +68,7 @@
                 <input type="text"
                        name="path"
                        class="form-control"
-                       placeholder="Enter path"
+                       placeholder="/example/example"
                        required>
             </div>
 

@@ -50,7 +50,7 @@ public class NodeController {
 
     @GetMapping("/get")
     public String update(Model model,
-                             @RequestParam String identifier) {
+                         @RequestParam String identifier) {
 
         NodeDto nodeDto = nodeService.findByIdentifier(identifier);
         model.addAttribute("nodeDto", nodeDto);

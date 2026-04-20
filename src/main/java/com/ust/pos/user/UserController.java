@@ -58,7 +58,7 @@ public class UserController {
                              @ModelAttribute("userDto") UserDto userDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null) {
+        if (authentication != null) {
             String loggedInUser = authentication.getName();
 
             UserDto response = userService.update(userDto);
@@ -85,7 +85,7 @@ public class UserController {
     public String delete(@RequestParam String username) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null) {
+        if (authentication != null) {
             String loggedInUser = authentication.getName();
 
             userService.delete(username);
