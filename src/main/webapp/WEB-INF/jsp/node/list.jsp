@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Node Management</title>
 
@@ -43,7 +43,7 @@
             display: inline-block;
             margin: 2px 6px;
             font-size: 15px;
-            color: #333;
+            color: blue;
             font-weight: 500;
         }
 
@@ -68,14 +68,12 @@
 
             <h3 class="text-center mb-4">Node Management</h3>
 
-            <!-- NO NODES -->
             <c:if test="${empty nodes}">
                 <div class="alert alert-warning text-center">
                     No nodes found
                 </div>
             </c:if>
 
-            <!-- TABLE -->
             <c:if test="${not empty nodes}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
@@ -94,10 +92,8 @@
                         <c:forEach var="node" items="${nodes}">
                             <tr>
 
-                                <!-- ID -->
                                 <td>${node.id}</td>
 
-                                <!-- Identifier -->
                                 <td>
                                     <a class="node-link"
                                        href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}">
@@ -105,10 +101,8 @@
                                     </a>
                                 </td>
 
-                                <!-- Path -->
                                 <td>${node.path}</td>
 
-                                <!-- Roles -->
                                 <td>
                                     <c:if test="${empty node.roles}">
                                         <span class="text-muted">No roles</span>
@@ -119,17 +113,14 @@
                                     </c:forEach>
                                 </td>
 
-                                <!-- ACTION ICONS -->
                                 <td class="action-icons">
 
-                                    <!-- EDIT ICON -->
                                     <a href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}"
                                        class="text-primary"
                                        title="Edit">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
 
-                                    <!-- DELETE ICON -->
                                     <a href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
                                        class="text-danger"
                                        title="Delete"
@@ -149,7 +140,6 @@
 
         </div>
 
-        <!-- FOOTER -->
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
                 <a href="${pageContext.request.contextPath}/" class="btn btn-secondary">
