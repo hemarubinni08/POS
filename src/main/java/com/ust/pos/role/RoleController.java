@@ -22,16 +22,22 @@ public class RoleController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute RoleDto roleDto) {
+    public String add(Model model) {
+        model.addAttribute("roleDto", new RoleDto());
         return "role/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute RoleDto roleDto) {
+    public String addPost(@ModelAttribute RoleDto roleDto, Model model) {
+
         RoleDto response = roleService.save(roleDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            model.addAttribute("messageType", "error");
+            return "role/add";
         }
+
         return REDIRECT_ROLE_LIST;
     }
 

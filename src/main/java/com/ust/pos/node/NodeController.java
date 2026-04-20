@@ -25,17 +25,24 @@ public class NodeController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute NodeDto nodeDto) {
+    public String add(Model model) {
+        model.addAttribute("nodeDto", new NodeDto());
         model.addAttribute("roles", roleService.findAll());
         return "node/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute NodeDto nodeDto) {
+    public String addPost(@ModelAttribute NodeDto nodeDto, Model model) {
+
         NodeDto response = nodeService.save(nodeDto);
+
         if (!response.isSuccess()) {
+            model.addAttribute("roles", roleService.findAll());
             model.addAttribute("message", response.getMessage());
+            model.addAttribute("messageType", "error");
+            return "node/add";
         }
+
         return REDIRECT_NODE_LIST;
     }
 

@@ -5,194 +5,136 @@
 <html>
 <head>
     <title>Add Node</title>
-
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         :root {
-            --bg: #f6fff8;
-            --card: #ffffff;
-
-            --text: #1f2937;
-            --muted: #6b7280;
-
-            --primary: #28a745;
-            --primary-hover: #218838;
-
-            --accent: #ffc107;
-
-            --border: #e5e7eb;
-
-            --radius: 14px;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
-        }
-
-        * {
-            font-family: 'Inter', sans-serif;
-            box-sizing: border-box;
+            --bg:#f6fff8;
+            --card:#ffffff;
+            --text:#1f2937;
+            --muted:#6b7280;
+            --primary:#28a745;
+            --accent:#ffc107;
+            --danger:#dc2626;
+            --danger-bg:#fee2e2;
+            --danger-border:#fca5a5;
+            --success:#16a34a;
+            --success-bg:#dcfce7;
+            --success-border:#86efac;
+            --border:#e5e7eb;
+            --radius:14px;
+            --shadow:0 10px 30px rgba(0,0,0,.08);
         }
 
         body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: var(--bg);
-            padding: 20px;
-            position: relative;
+            background:var(--bg);
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:20px;
+            position:relative;
         }
 
         .back-arrow {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: var(--text);
-            font-size: 18px;
-            box-shadow: var(--shadow);
-            transition: 0.2s;
+            position:absolute;
+            top:20px;
+            left:20px;
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:var(--card);
+            border:1px solid var(--border);
+            text-decoration:none;
+            color:var(--text);
+            font-size:18px;
+            box-shadow:var(--shadow);
+            transition:.2s;
         }
-
         .back-arrow:hover {
-            background: var(--accent);
-            color: black;
-        }
-
-        .container-box {
-            width: 100%;
-            max-width: 480px;
+            background:var(--accent);
+            color:black;
         }
 
         .card {
-            background: var(--card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 24px;
-        }
-
-        h2 {
-            text-align: center;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 18px;
-            color: var(--text);
+            width:480px;
+            padding:24px;
+            border-radius:var(--radius);
+            box-shadow:var(--shadow);
         }
 
         label {
-            font-size: 13px;
-            color: var(--muted);
-            margin-top: 10px;
-        }
-
-        .form-control, select {
-            margin-top: 6px;
-            border-radius: 10px;
-            padding: 10px;
-            border: 1px solid var(--border);
-        }
-
-        .form-control:focus, select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(40,167,69,0.15);
-        }
-
-        select[multiple] {
-            height: 120px;
+            font-size:13px;
+            color:var(--muted);
+            margin-top:10px;
         }
 
         .btn-save {
-            margin-top: 18px;
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            border: none;
-            background: var(--primary);
-            color: white;
-            font-weight: 600;
+            margin-top:18px;
+            width:100%;
+            background:var(--primary);
+            color:#fff;
+            border:none;
+            border-radius:10px;
+            padding:10px;
         }
 
-        .btn-save:hover {
-            background: var(--primary-hover);
+        .server-msg {
+            text-align:center;
+            padding:10px;
+            margin-bottom:12px;
+            border-radius:10px;
+            font-size:13px;
+        }
+        .server-msg.error {
+            background:var(--danger-bg);
+            color:var(--danger);
+            border:1px solid var(--danger-border);
+        }
+        .server-msg.success {
+            background:var(--success-bg);
+            color:var(--success);
+            border:1px solid var(--success-border);
         }
     </style>
-
-    <script>
-        function validateNode() {
-            let identifier = document.getElementsByName("identifier")[0].value.trim();
-            let path = document.getElementsByName("path")[0].value.trim();
-            let roles = document.getElementsByName("roles")[0];
-
-            if (identifier === "" || path === "") {
-                alert("All fields are required!");
-                return false;
-            }
-
-            if (roles.selectedOptions.length === 0) {
-                alert("Select at least one role!");
-                return false;
-            }
-
-            return true;
-        }
-    </script>
 </head>
 
 <body>
 
-<a href="${pageContext.request.contextPath}/node/list" class="back-arrow">
-    ←
-</a>
+<a href="${pageContext.request.contextPath}/node/list" class="back-arrow">←</a>
 
-<div class="container-box">
+<div class="card">
 
-    <div class="card">
+    <h5 class="text-center mb-3">Add Node</h5>
 
-        <h2>Add Node</h2>
+    <c:if test="${not empty message}">
+        <div class="server-msg ${messageType}">
+            ${message}
+        </div>
+    </c:if>
 
-        <form action="${pageContext.request.contextPath}/node/add"
-              method="post"
-              onsubmit="return validateNode()">
+    <form action="${pageContext.request.contextPath}/node/add" method="post">
 
-            <label>Identifier</label>
-            <input type="text"
-                   name="identifier"
-                   class="form-control"
-                   required />
+        <label>Identifier</label>
+        <input name="identifier" value="${nodeDto.identifier}" class="form-control" required>
 
-            <label>Path</label>
-            <input type="text"
-                   name="path"
-                   class="form-control"
-                   required />
+        <label>Path</label>
+        <input name="path" value="${nodeDto.path}" class="form-control" required>
 
-            <label>Roles</label>
-            <select name="roles"
-                    multiple
-                    class="form-control"
-                    required>
-                <c:forEach var="role" items="${roles}">
-                    <option value="${role.identifier}">
-                        ${role.identifier}
-                    </option>
-                </c:forEach>
-            </select>
+        <label>Roles</label>
+        <select name="roles" multiple class="form-control" required>
+            <c:forEach items="${roles}" var="role">
+                <option value="${role.identifier}">
+                    ${role.identifier}
+                </option>
+            </c:forEach>
+        </select>
 
-            <button type="submit" class="btn-save">
-                Save Node
-            </button>
-
-        </form>
-
-    </div>
+        <button class="btn-save">Save Node</button>
+    </form>
 
 </div>
 

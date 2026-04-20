@@ -61,15 +61,22 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public NodeDto save(NodeDto nodeDto) {
-        String identifier = nodeDto.getIdentifier();
-        Node existingNode = nodeRepository.findByIdentifier(identifier);
+
+        Node existingNode =
+                nodeRepository.findByIdentifier(nodeDto.getIdentifier());
+
         if (existingNode != null) {
-            nodeDto.setMessage("Node with identifier - " + identifier + " already exists");
             nodeDto.setSuccess(false);
+            nodeDto.setMessage(
+                    "Node with identifier '" + nodeDto.getIdentifier() + "' already exists");
             return nodeDto;
         }
+
         Node node = modelMapper.map(nodeDto, Node.class);
         nodeRepository.save(node);
+
+        nodeDto.setSuccess(true);
+        nodeDto.setMessage("Node created successfully");
         return nodeDto;
     }
 
