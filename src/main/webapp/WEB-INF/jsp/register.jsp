@@ -17,6 +17,30 @@ body {
     background: #d1d5db;
 }
 
+/* 🔙 BACK ARROW */
+.back-arrow {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    text-decoration: none;
+    color: #334155;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.25s;
+}
+
+.back-arrow:hover {
+    background: #e2e8f0;
+    transform: translateY(-2px);
+}
+
 /* 🎯 CONTAINER */
 .register-card {
     width: 430px;
@@ -128,11 +152,15 @@ function validateForm() {
 
 <body>
 
+<!-- ✅ BACK BUTTON -->
+<a href="${pageContext.request.contextPath}/user/list" class="back-arrow">
+    &#8592;
+</a>
+
 <div class="register-card">
 
 <h2>User Registration</h2>
 
-<!-- ✅ ERROR MESSAGE (TOP, PERFECT ALIGNMENT) -->
 <c:if test="${not empty message}">
     <div class="error-message">
         ${message}
@@ -144,11 +172,9 @@ function validateForm() {
            modelAttribute="userDto"
            onsubmit="return validateForm();">
 
-    <!-- Name -->
     <label>Name</label>
     <form:input path="name" id="name" required="true"/>
 
-    <!-- Email -->
     <label>Email</label>
     <form:input
             path="username"
@@ -157,7 +183,6 @@ function validateForm() {
             pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
             title="Email must be in the format name@gmail.com"/>
 
-    <!-- Roles -->
     <label>Roles</label>
     <form:select path="roles" id="roles" multiple="true" required="true">
         <form:options items="${roles}"
@@ -165,17 +190,17 @@ function validateForm() {
                       itemLabel="identifier"/>
     </form:select>
 
-<div class="form-group">
-    <label>Mobile number</label>
-    <form:input path="phoneNo"
-                type="tel"
-                pattern="[0-9]{10}"
-                maxlength="10"
-                required="true"
-                title="Enter a valid 10-digit mobile number"/>
-</div>
+    <div class="form-group">
+        <label>Mobile number</label>
+        <form:input path="phoneNo"
+                    id="phoneNo"
+                    type="tel"
+                    pattern="[0-9]{10}"
+                    maxlength="10"
+                    required="true"
+                    title="Enter a valid 10-digit mobile number"/>
+    </div>
 
-    <!-- Password -->
     <label>Password</label>
     <form:password path="password" id="password" required="true"/>
 

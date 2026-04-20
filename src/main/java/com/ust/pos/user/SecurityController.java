@@ -39,15 +39,6 @@ public class SecurityController {
         return "register";
     }
 
-//    @PostMapping("/register")
-//    public String addPost(Model model, @ModelAttribute UserDto userDto) {
-//        UserDto response = userService.save(userDto);
-//        if (!response.isSuccess()) {
-//            model.addAttribute("message", response.getMessage());
-//            return "register";
-//        }
-//        return "home";
-//    }
 @PostMapping("/register")
 public String addPost(Model model, @ModelAttribute UserDto userDto, RedirectAttributes redirectAttributes
 ) {

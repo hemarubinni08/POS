@@ -17,6 +17,8 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
+    public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
+    public static final String USER_WITH_USERNAME_EMAIL1 = USER_WITH_USERNAME_EMAIL;
     @Autowired
     private UserRepository userRepository;
 
@@ -36,7 +38,7 @@ public class UserServiceImpl implements UserService {
         String username = userDto.getUsername();
         User existingUser = userRepository.findByUsername(username);
         if (existingUser != null) {
-            userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
+            userDto.setMessage(USER_WITH_USERNAME_EMAIL1 + userDto.getUsername() + " already exists");
             userDto.setSuccess(false);
             return userDto;
         }
@@ -51,24 +53,24 @@ public class UserServiceImpl implements UserService {
         String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
 
+        User existingUser;
         if (userOptional.isEmpty()) {
-            userDto.setMessage("User with username/email - " + userDto.getUsername() + " not found");
+            userDto.setMessage(USER_WITH_USERNAME_EMAIL1 + userDto.getUsername() + " not found");
             userDto.setSuccess(false);
             return userDto;
         } else {
-            User existingUser = userOptional.get();
-            if (!username.equalsIgnoreCase(existingUser.getUsername())) {
-                if (userRepository.findByUsername(username) != null) {
-                    userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
-                    userDto.setSuccess(false);
-                    return userDto;
-                }
+            existingUser = userOptional.get();
+            if (!username.equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(username) != null) {
+                userDto.setMessage(USER_WITH_USERNAME_EMAIL1 + userDto.getUsername() + " already exists");
+                userDto.setSuccess(false);
+                return userDto;
             }
-            modelMapper.map(userDto, existingUser);
-            userRepository.save(existingUser);
         }
+        modelMapper.map(userDto, existingUser);
+        userRepository.save(existingUser);
         return userDto;
     }
+
 
     @Override
     public boolean delete(String username) {

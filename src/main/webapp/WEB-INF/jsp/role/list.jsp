@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Role List</title>
+    <title>Role Management</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
@@ -15,10 +15,10 @@
             background: #d1d5db;
         }
 
-        /* 🎯 CONTAINER (same as Add Node) */
+        /* 🎯 SAME CONTAINER AS NODE */
         .container {
             width: 90%;
-            max-width: 800px;
+            max-width: 900px;
             margin: 80px auto;
             background: #f1f5f9;
             padding: 35px;
@@ -96,12 +96,12 @@
         /* 🚫 EMPTY */
         .empty {
             text-align: center;
-            padding: 25px;
+            padding: 30px;
             color: #475569;
             font-size: 14px;
         }
 
-        /* 🔽 FOOTER BUTTONS */
+        /* 🔽 FOOTER */
         .footer {
             display: flex;
             justify-content: center;
@@ -131,54 +131,51 @@
 
     <h2>List of Roles</h2>
 
-    <c:if test="${empty roles}">
-        <div class="empty">
-            No roles found
-        </div>
-    </c:if>
+    <c:choose>
+        <c:when test="${empty roles}">
+            <div class="empty">
+                No roles available
+            </div>
+        </c:when>
 
-    <c:if test="${not empty roles}">
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Role</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <c:forEach var="role" items="${roles}">
+        <c:otherwise>
+            <table>
+                <thead>
                 <tr>
-
-                    <!-- ID (no hyperlink, as you wanted earlier) -->
-                    <td>${role.id}</td>
-
-                    <td>${role.identifier}</td>
-
-                    <td>
-                        <a href="/role/get?identifier=${role.identifier}"
-                           class="btn edit-btn">Edit</a>
-
-                        <a href="/role/delete?identifier=${role.identifier}"
-                           class="btn delete-btn"
-                           onclick="return confirm('Are you sure you want to delete this role?');">
-                            Delete
-                        </a>
-                    </td>
-
+                    <th>ID</th>
+                    <th>Role</th>
+                    <th>Actions</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
+                </thead>
+
+                <tbody>
+                <c:forEach var="role" items="${roles}">
+                    <tr>
+                        <td>${role.id}</td>
+                        <td>${role.identifier}</td>
+
+                        <td>
+                            <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
+                               class="btn edit-btn">Edit</a>
+
+                            <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
+                               class="btn delete-btn"
+                               onclick="return confirm('Are you sure you want to delete this role?');">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
 
     <div class="footer">
         <a href="/" class="btn home-btn">Home</a>
 
-        <a href="/role/add" class="btn add-btn">
-             Add New Role
-        </a>
+        <a href="${pageContext.request.contextPath}/role/add"
+           class="btn add-btn">Add Role</a>
     </div>
 
 </div>

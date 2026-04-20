@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -15,7 +15,6 @@
             background: #d1d5db;
         }
 
-        /* 🎯 CONTAINER (same as add node) */
         .container {
             width: 90%;
             max-width: 1000px;
@@ -26,7 +25,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        /* 🔷 TITLE */
         h2 {
             text-align: center;
             margin-bottom: 25px;
@@ -35,7 +33,6 @@
             font-weight: 600;
         }
 
-        /* 📊 TABLE */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -60,7 +57,6 @@
             background: rgba(8,145,178,0.05);
         }
 
-        /* 🔥 BUTTON BASE */
         .btn {
             padding: 6px 14px;
             border-radius: 20px;
@@ -69,10 +65,13 @@
             font-weight: 600;
             color: white;
             transition: 0.25s;
-            display: inline-block;
         }
 
-        /* ✏️ EDIT */
+        /* ✅ SPACE BETWEEN BUTTONS */
+        .action-btn {
+            margin-right: 8px;
+        }
+
         .edit-btn {
             background: linear-gradient(135deg, #0891b2, #0e7490);
         }
@@ -83,7 +82,6 @@
             box-shadow: 0 6px 15px rgba(8,145,178,0.4);
         }
 
-        /* ❌ DELETE */
         .delete-btn {
             background: linear-gradient(135deg, #ef4444, #dc2626);
         }
@@ -93,15 +91,12 @@
             box-shadow: 0 6px 15px rgba(239,68,68,0.4);
         }
 
-        /* 🚫 EMPTY */
         .empty {
             text-align: center;
             padding: 30px;
             color: #475569;
-            font-size: 14px;
         }
 
-        /* 🔽 FOOTER */
         .footer {
             display: flex;
             justify-content: center;
@@ -109,18 +104,22 @@
             margin-top: 25px;
         }
 
+        .add-btn {
+            background: linear-gradient(135deg, #0891b2, #0e7490);
+        }
+
+        .add-btn:hover {
+            background: linear-gradient(135deg, #0e7490, #075985);
+            transform: translateY(-2px);
+        }
+
+        /* ✅ HOME BUTTON */
         .home-btn {
             background: #64748b;
         }
 
-        .register-btn {
-            background: linear-gradient(135deg, #0891b2, #0e7490);
-        }
-
-        .register-btn:hover {
-            background: linear-gradient(135deg, #0e7490, #075985);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(8,145,178,0.4);
+        .home-btn:hover {
+            background: #475569;
         }
     </style>
 </head>
@@ -131,53 +130,61 @@
 
     <h2>User Management</h2>
 
-    <c:if test="${empty users}">
-        <div class="empty">
-            No users found
-        </div>
-    </c:if>
+    <c:choose>
+        <c:when test="${empty users}">
+            <div class="empty">No users found</div>
+        </c:when>
 
-    <c:if test="${not empty users}">
-        <table>
-            <thead>
-            <tr>
-                <th>Email</th>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Roles</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <c:forEach var="user" items="${users}">
+        <c:otherwise>
+            <table>
+                <thead>
                 <tr>
-                    <td>${user.username}</td>
-                    <td>${user.name}</td>
-                    <td>${user.phoneNo}</td>
-                    <td>${user.roles}</td>
-
-                    <td>
-                        <a href="/user/get?username=${user.username}"
-                           class="btn edit-btn">Edit</a>
-
-                        <a href="/user/delete?username=${user.username}"
-                           class="btn delete-btn"
-                           onclick="return confirm('Are you sure you want to delete this user?');">
-                            Delete
-                        </a>
-                    </td>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Roles</th>
+                    <th>Action</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
+                </thead>
+
+                <tbody>
+                <c:forEach var="user" items="${users}">
+                    <tr>
+                        <td>${user.username}</td>
+                        <td>${user.name}</td>
+                        <td>${user.phoneNo}</td>
+                        <td>${user.roles}</td>
+
+                        <td>
+                            <a class="btn edit-btn action-btn"
+                               href="${pageContext.request.contextPath}/user/get?username=${user.username}">
+                                Edit
+                            </a>
+
+                            <a class="btn delete-btn"
+                               href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
+                               onclick="return confirm('Are you sure you want to delete this user?');">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
 
     <div class="footer">
-        <a href="/" class="btn home-btn">Home</a>
 
-        <a href="/register" class="btn register-btn">
-            Register
+        <!-- ✅ HOME BUTTON -->
+        <a href="${pageContext.request.contextPath}/"
+           class="btn home-btn">
+            Home
+        </a>
+
+        <a href="${pageContext.request.contextPath}/register"
+           class="btn add-btn">
+            Add User
         </a>
     </div>
 
