@@ -17,7 +17,7 @@ body {
     background: #d1d5db;
 }
 
-/* 🔙 BACK ARROW */
+/* BACK ARROW */
 .back-arrow {
     position: fixed;
     top: 20px;
@@ -41,7 +41,7 @@ body {
     transform: translateY(-2px);
 }
 
-/* 🎯 CONTAINER */
+/* CONTAINER */
 .register-card {
     width: 430px;
     margin: 100px auto;
@@ -51,7 +51,7 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* 🔷 TITLE */
+/* TITLE */
 h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -60,7 +60,7 @@ h2 {
     font-weight: 600;
 }
 
-/* ❌ ERROR MESSAGE */
+/* ERROR MESSAGE */
 .error-message {
     margin-bottom: 15px;
     padding: 10px 12px;
@@ -72,7 +72,7 @@ h2 {
     text-align: center;
 }
 
-/* 🏷 LABEL */
+/* LABEL */
 label {
     margin-top: 16px;
     display: block;
@@ -81,7 +81,7 @@ label {
     color: #334155;
 }
 
-/* ✏ INPUT */
+/* INPUT */
 input, select {
     width: 100%;
     margin-top: 6px;
@@ -102,7 +102,7 @@ select[multiple] {
     height: 130px;
 }
 
-/* 🔥 BUTTON */
+/* BUTTON */
 .btn-submit {
     margin-top: 28px;
     width: 100%;
@@ -152,7 +152,7 @@ function validateForm() {
 
 <body>
 
-<!-- ✅ BACK BUTTON -->
+<!-- BACK BUTTON -->
 <a href="${pageContext.request.contextPath}/user/list" class="back-arrow">
     &#8592;
 </a>

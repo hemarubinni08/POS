@@ -16,7 +16,6 @@
             background: #d1d5db;
         }
 
-        /* 🎯 SAME CONTAINER AS NODE */
         .container {
             width: 420px;
             margin: 100px auto;
@@ -26,7 +25,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        /* 🔷 TITLE */
+        /* TITLE */
         h2 {
             text-align: center;
             margin-bottom: 25px;
@@ -35,7 +34,7 @@
             font-weight: 600;
         }
 
-        /* ❌ ERROR */
+        /* ERROR */
         .error {
             background: rgba(239,68,68,0.1);
             color: #dc2626;
@@ -46,7 +45,7 @@
             margin-bottom: 15px;
         }
 
-        /* 🏷 LABEL */
+        /* LABEL */
         label {
             margin-top: 16px;
             display: block;
@@ -55,7 +54,7 @@
             color: #334155;
         }
 
-        /* ✏ INPUT */
+        /* INPUT */
         input {
             width: 100%;
             margin-top: 6px;
@@ -77,7 +76,7 @@
             cursor: not-allowed;
         }
 
-        /* 🔥 BUTTONS */
+        /* BUTTONS */
         .btn-group {
             display: flex;
             justify-content: space-between;
@@ -95,7 +94,7 @@
             transition: 0.25s;
         }
 
-        /* ❌ CANCEL */
+        /* CANCEL */
         .cancel-btn {
             background: #64748b;
             color: white;
@@ -105,7 +104,7 @@
             background: #475569;
         }
 
-        /* ✅ UPDATE */
+        /* UPDATE */
         .update-btn {
             background: linear-gradient(135deg, #0891b2, #0e7490);
             color: white;
@@ -117,7 +116,7 @@
             box-shadow: 0 6px 15px rgba(8,145,178,0.4);
         }
 
-        /* 🔙 BACK LINK */
+        /* BACK LINK */
         .back {
             display: block;
             text-align: center;

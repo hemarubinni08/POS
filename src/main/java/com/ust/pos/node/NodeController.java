@@ -36,6 +36,8 @@ public class NodeController {
         NodeDto response = nodeService.save(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            model.addAttribute("roles", roleService.findAll());
+            return "node/add";
         }
         return REDIRECT_NODE_LIST;
     }

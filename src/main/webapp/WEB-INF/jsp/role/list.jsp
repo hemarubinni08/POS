@@ -15,7 +15,6 @@
             background: #d1d5db;
         }
 
-        /* 🎯 SAME CONTAINER AS NODE */
         .container {
             width: 90%;
             max-width: 900px;
@@ -26,7 +25,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        /* 🔷 TITLE */
+        /* TITLE */
         h2 {
             text-align: center;
             margin-bottom: 25px;
@@ -35,7 +34,7 @@
             font-weight: 600;
         }
 
-        /* 📊 TABLE */
+        /* TABLE */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -60,7 +59,7 @@
             background: rgba(8,145,178,0.05);
         }
 
-        /* 🔥 BUTTON BASE */
+        /* BUTTON BASE */
         .btn {
             padding: 6px 14px;
             border-radius: 20px;
@@ -72,7 +71,7 @@
             display: inline-block;
         }
 
-        /* ✏️ EDIT */
+        /* EDIT */
         .edit-btn {
             background: linear-gradient(135deg, #0891b2, #0e7490);
         }
@@ -83,7 +82,7 @@
             box-shadow: 0 6px 15px rgba(8,145,178,0.4);
         }
 
-        /* ❌ DELETE */
+        /* DELETE */
         .delete-btn {
             background: linear-gradient(135deg, #ef4444, #dc2626);
         }
@@ -93,7 +92,7 @@
             box-shadow: 0 6px 15px rgba(239,68,68,0.4);
         }
 
-        /* 🚫 EMPTY */
+        /* EMPTY */
         .empty {
             text-align: center;
             padding: 30px;
@@ -101,7 +100,7 @@
             font-size: 14px;
         }
 
-        /* 🔽 FOOTER */
+        /* FOOTER */
         .footer {
             display: flex;
             justify-content: center;
@@ -144,6 +143,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Role</th>
+                    <th>Description</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -153,6 +153,7 @@
                     <tr>
                         <td>${role.id}</td>
                         <td>${role.identifier}</td>
+                        <td>${role.description}</td>
 
                         <td>
                             <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"

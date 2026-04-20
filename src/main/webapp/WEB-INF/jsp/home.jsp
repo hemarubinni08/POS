@@ -15,7 +15,7 @@
             background: #d1d5db;
         }
 
-        /* 🔷 TOPBAR */
+        /* TOPBAR */
         .topbar {
             height: 60px;
             background: #cbd5e1;
@@ -50,7 +50,7 @@
             color: #0891b2;
         }
 
-        /* 🔥 LOGOUT BUTTON */
+        /* LOGOUT BUTTON */
         .logout-form {
             position: absolute;
             right: 50px;
@@ -74,7 +74,7 @@
             box-shadow: 0 6px 15px rgba(8,145,178,0.4);
         }
 
-        /* 🧊 SIDEBAR */
+        /* SIDEBAR */
         .sidebar {
             position: fixed;
             top: 60px;
@@ -105,7 +105,7 @@
             transform: translateX(6px);
         }
 
-        /* 🎯 CONTENT */
+        /* CONTENT */
         .content {
             margin-top: 60px;
             height: calc(100vh - 60px);
@@ -115,7 +115,7 @@
             padding-top: 80px;
         }
 
-        /* 💎 CARD */
+        /* CARD */
         .welcome-box {
             background: #f1f5f9;
             padding: 40px 50px;
@@ -146,7 +146,7 @@
 
 <body>
 
-<!-- 🔷 TOPBAR -->
+<!-- TOPBAR -->
 <div class="topbar">
     <div class="topbar-left">
         <div class="menu" onclick="toggleMenu()">
@@ -157,13 +157,13 @@
         <strong>Role Management</strong>
     </div>
 
-    <!-- 🔥 LOGOUT -->
+    <!-- LOGOUT -->
     <form action="${pageContext.request.contextPath}/logout" method="post" class="logout-form">
         <button type="submit" class="logout-btn">Logout</button>
     </form>
 </div>
 
-<!-- 🧊 SIDEBAR -->
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
     <c:forEach var="node" items="${nodes}">
         <a href="${pageContext.request.contextPath}${node.path}">
@@ -172,7 +172,7 @@
     </c:forEach>
 </div>
 
-<!-- 🎯 CONTENT -->
+<!-- CONTENT -->
 <div class="content">
     <div class="welcome-box">
         <div class="welcome">Welcome to the Role Management System</div>

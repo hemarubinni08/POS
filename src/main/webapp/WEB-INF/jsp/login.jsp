@@ -16,7 +16,7 @@ body {
     background: #d1d5db;
 }
 
-/* 🎯 SAME AS NODE */
+/* SAME AS NODE */
 .container {
     width: 420px;
     margin: 100px auto;
@@ -26,7 +26,7 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* 🔷 TITLE */
+/* TITLE */
 h2 {
     text-align: center;
     margin-bottom: 25px;
@@ -35,7 +35,7 @@ h2 {
     font-weight: 600;
 }
 
-/* 🏷 LABEL */
+/* LABEL */
 label {
     margin-top: 16px;
     display: block;
@@ -44,7 +44,7 @@ label {
     color: #334155;
 }
 
-/* ✏ INPUT */
+/* INPUT */
 input {
     width: 100%;
     margin-top: 6px;
@@ -61,7 +61,7 @@ input:focus {
     box-shadow: 0 0 0 2px rgba(8,145,178,0.2);
 }
 
-/* 🔥 BUTTON */
+/* BUTTON */
 .btn-login {
     margin-top: 28px;
     width: 100%;
@@ -81,7 +81,7 @@ input:focus {
     box-shadow: 0 6px 15px rgba(8,145,178,0.4);
 }
 
-/* ❌ ERROR MESSAGE */
+/* ERROR MESSAGE */
 .error-message {
     margin-bottom: 15px;
     padding: 10px;
@@ -92,7 +92,7 @@ input:focus {
     font-size: 13px;
 }
 
-/* 🔗 REGISTER LINK */
+/* REGISTER LINK */
 .register-text {
     text-align: center;
     margin-top: 20px;
@@ -141,7 +141,7 @@ function validateLoginForm() {
 
 <h2>Login</h2>
 
-<!-- ✅ SAME LOGIC, NEW STYLE -->
+<!-- SAME LOGIC, NEW STYLE -->
 <c:if test="${not empty errorMsg}">
     <div class="error-message">
         ${errorMsg}

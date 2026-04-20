@@ -15,7 +15,7 @@
             background: #d1d5db;
         }
 
-        /* 🎯 CONTAINER */
+        /* CONTAINER */
         .container {
             width: 420px;
             margin: 100px auto;
@@ -25,7 +25,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        /* 🔷 TITLE */
+        /* TITLE */
         h2 {
             text-align: center;
             margin-bottom: 25px;
@@ -34,7 +34,7 @@
             font-weight: 600;
         }
 
-        /* 🏷 LABEL */
+        /* LABEL */
         label {
             margin-top: 16px;
             display: block;
@@ -43,7 +43,7 @@
             color: #334155;
         }
 
-        /* ✏ INPUT + SELECT */
+        /* INPUT + SELECT */
         input, select {
             width: 100%;
             margin-top: 6px;
@@ -64,7 +64,7 @@
             height: 120px;
         }
 
-        /* 🔥 BUTTON */
+        /* BUTTON */
         button {
             margin-top: 28px;
             width: 100%;
@@ -89,7 +89,7 @@
             box-shadow: none;
         }
 
-        /* 🔙 BACK LINK */
+        /* BACK LINK */
         a {
             display: block;
             text-align: center;

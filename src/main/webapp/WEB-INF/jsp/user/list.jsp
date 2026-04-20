@@ -67,7 +67,6 @@
             transition: 0.25s;
         }
 
-        /* ✅ SPACE BETWEEN BUTTONS */
         .action-btn {
             margin-right: 8px;
         }
@@ -113,7 +112,7 @@
             transform: translateY(-2px);
         }
 
-        /* ✅ HOME BUTTON */
+        /* HOME BUTTON */
         .home-btn {
             background: #64748b;
         }
@@ -176,15 +175,10 @@
 
     <div class="footer">
 
-        <!-- ✅ HOME BUTTON -->
+        <!-- HOME BUTTON -->
         <a href="${pageContext.request.contextPath}/"
            class="btn home-btn">
             Home
-        </a>
-
-        <a href="${pageContext.request.contextPath}/register"
-           class="btn add-btn">
-            Add User
         </a>
     </div>
 

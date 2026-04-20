@@ -16,7 +16,7 @@ body {
     background: #d1d5db;
 }
 
-/* 🎯 CONTAINER */
+/* CONTAINER */
 .container {
     width: 520px;
     margin: 80px auto;
@@ -26,7 +26,7 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* 🔷 TITLE */
+/* TITLE */
 h2 {
     text-align: center;
     margin-bottom: 25px;
@@ -35,7 +35,7 @@ h2 {
     font-weight: 600;
 }
 
-/* 🏷 LABEL */
+/* LABEL */
 label {
     margin-top: 16px;
     display: block;
@@ -44,7 +44,7 @@ label {
     color: #334155;
 }
 
-/* ✏ INPUT */
+/* INPUT */
 input, select {
     width: 100%;
     margin-top: 6px;
@@ -65,7 +65,7 @@ select[multiple] {
     height: 120px;
 }
 
-/* 🔥 UPDATE BUTTON */
+/* UPDATE BUTTON */
 .btn-update {
     padding: 10px 20px;
     background: linear-gradient(135deg, #0891b2, #0e7490);
@@ -83,14 +83,14 @@ select[multiple] {
     box-shadow: 0 6px 15px rgba(8,145,178,0.4);
 }
 
-/* 🔙 BUTTON GROUP */
+/* BUTTON GROUP */
 .btn-group {
     display: flex;
     justify-content: space-between;
     margin-top: 25px;
 }
 
-/* 🔙 BACK BUTTON */
+/* BACK BUTTON */
 .back-btn {
     background: #64748b;
     color: white;
@@ -105,7 +105,7 @@ select[multiple] {
     background: #475569;
 }
 
-/* ⚠ SERVER MESSAGE */
+/* SERVER MESSAGE */
 .server-msg {
     margin-bottom: 15px;
     padding: 10px;
@@ -245,16 +245,16 @@ function showToast(msg) {
         <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
     </form:select>
 
-    <!-- ✅ BUTTON GROUP -->
+    <!-- BUTTON GROUP -->
     <div class="btn-group">
 
-        <!-- 🔙 BACK -->
+        <!-- BACK -->
         <a href="${pageContext.request.contextPath}/user/list"
            class="back-btn">
             Back to Users
         </a>
 
-        <!-- ✅ UPDATE -->
+        <!-- UPDATE -->
         <button type="submit" class="btn-update">
             Update User
         </button>

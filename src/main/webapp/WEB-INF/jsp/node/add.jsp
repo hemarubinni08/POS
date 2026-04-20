@@ -15,7 +15,7 @@
             background: #d1d5db;
         }
 
-        /* 🎯 CENTER CONTAINER */
+        /* CONTAINER */
         .container {
             width: 420px;
             margin: 100px auto;
@@ -25,16 +25,28 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        /* 🔷 TITLE */
+        /* TITLE */
         h2 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-size: 22px;
             color: #0891b2;
             font-weight: 600;
         }
 
-        /* 🏷 LABEL */
+        /* ERROR MESSAGE */
+        .error-message {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* LABEL */
         label {
             margin-top: 16px;
             display: block;
@@ -43,7 +55,7 @@
             color: #334155;
         }
 
-        /* ✏ INPUTS */
+        /* INPUTS */
         input, select {
             width: 100%;
             margin-top: 6px;
@@ -64,7 +76,7 @@
             height: 120px;
         }
 
-        /* 🔥 BUTTON */
+        /* BUTTON */
         button {
             margin-top: 28px;
             width: 100%;
@@ -89,7 +101,7 @@
             box-shadow: none;
         }
 
-        /* 🔙 BACK LINK */
+        /* BACK LINK */
         a {
             display: block;
             text-align: center;
@@ -98,7 +110,6 @@
             font-weight: 600;
             text-decoration: none;
             font-size: 13px;
-            transition: 0.2s;
         }
 
         a:hover {
@@ -113,17 +124,24 @@
 
     <h2>Add Node</h2>
 
+    <!-- ERROR MESSAGE AT TOP -->
+    <c:if test="${not empty message}">
+        <div class="error-message">
+            ${message}
+        </div>
+    </c:if>
+
     <form action="${pageContext.request.contextPath}/node/add" method="post">
 
-        <!-- ✅ Identifier -->
+        <!-- Identifier -->
         <label>Identifier</label>
         <input type="text" name="identifier" required />
 
-        <!-- ✅ Path -->
+        <!-- Path -->
         <label>Path</label>
         <input type="text" name="path" required />
 
-        <!-- ✅ Roles -->
+        <!-- Roles -->
         <label>Roles</label>
         <select name="roles" multiple required>
             <c:forEach var="role" items="${roles}">
