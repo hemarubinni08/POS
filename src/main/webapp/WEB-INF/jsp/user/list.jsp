@@ -233,8 +233,7 @@
                                 </a>
 
                                 <a class="btn btn-danger"
-                                   href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
-                                   onclick="return confirm('Are you sure you want to delete this user?');">
+                                   href="${pageContext.request.contextPath}/user/delete?username=${user.username}">
                                     Delete
                                 </a>
                             </td>

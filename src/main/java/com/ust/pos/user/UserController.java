@@ -32,7 +32,7 @@ public class UserController {
     public String update(Model model, @RequestParam String username) {
         UserDto response = userService.findByUserName(username);
         model.addAttribute("user", response);
-        model.addAttribute("roles",roleService.findAll());
+        model.addAttribute("roles", roleService.findAll());
         return "user/user";
     }
 

@@ -225,8 +225,7 @@
                                </a>
 
                                 <a class="btn btn-danger"
-                                   href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
-                                   onclick="return confirm('Are you sure you want to delete this role?');">
+                                   href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}">
                                     Delete
                                 </a>
 

@@ -50,10 +50,12 @@ public class NodeServiceImpl implements NodeService {
 
         List<Node> nodes = nodeRepository.findByRoles(currentUser.getRoles());
 
-        Type listType = new TypeToken<List<NodeDto>>() {}.getType();
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
 
         return modelMapper.map(nodes, listType);
     }
+
     @Override
     public NodeDto findByIdentifier(String identifier) {
         return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);
@@ -62,13 +64,11 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public NodeDto save(NodeDto nodeDto) {
 
-        Node existingNode =
-                nodeRepository.findByIdentifier(nodeDto.getIdentifier());
+        Node existingNode = nodeRepository.findByIdentifier(nodeDto.getIdentifier());
 
         if (existingNode != null) {
             nodeDto.setSuccess(false);
-            nodeDto.setMessage(
-                    "Node with identifier '" + nodeDto.getIdentifier() + "' already exists");
+            nodeDto.setMessage("Node with identifier '" + nodeDto.getIdentifier() + "' already exists");
             return nodeDto;
         }
 

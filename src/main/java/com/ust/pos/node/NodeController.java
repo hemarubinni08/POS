@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/node")
 public class NodeController {
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
+    public static final String ROLES = "roles";
     @Autowired
     RoleService roleService;
 
@@ -27,7 +28,7 @@ public class NodeController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("nodeDto", new NodeDto());
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         return "node/add";
     }
 
@@ -37,7 +38,7 @@ public class NodeController {
         NodeDto response = nodeService.save(nodeDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute(ROLES, roleService.findAll());
             model.addAttribute("message", response.getMessage());
             model.addAttribute("messageType", "error");
             return "node/add";
@@ -48,7 +49,7 @@ public class NodeController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         NodeDto response = nodeService.findByIdentifier(identifier);
         model.addAttribute("node", response);
         return "node/node";

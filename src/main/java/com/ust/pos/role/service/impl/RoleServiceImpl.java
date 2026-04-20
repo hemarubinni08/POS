@@ -29,13 +29,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDto save(RoleDto roleDto) {
 
-        Role existing =
-                roleRepository.findByIdentifier(roleDto.getIdentifier());
+        Role existing = roleRepository.findByIdentifier(roleDto.getIdentifier());
 
         if (existing != null) {
             roleDto.setSuccess(false);
-            roleDto.setMessage(
-                    "Role '" + roleDto.getIdentifier() + "' already exists");
+            roleDto.setMessage("Role '" + roleDto.getIdentifier() + "' already exists");
             return roleDto;
         }
 
