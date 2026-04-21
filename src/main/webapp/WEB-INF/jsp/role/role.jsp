@@ -1,74 +1,110 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Edit Role</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
     <style>
         body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: #f5f7fb;
         }
 
-        .card {
-            width: 400px;
-            border-radius: 15px;
+        .page-container {
+            max-width: 500px;
+            margin: auto;
         }
 
-        h4 {
+        .card-custom {
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        h2 {
+            text-align: center;
             font-weight: 600;
+            margin-bottom: 25px;
+            color: #198754;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .form-control[readonly] {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .error-text {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
         }
     </style>
 </head>
 
 <body>
-${message}
-<div class="card shadow-lg">
-    <div class="card-body">
 
-        <h4 class="text-center mb-4 text-primary">Edit Role</h4>
+<div class="container mt-5 page-container">
+    <div class="card-custom">
 
-        <c:if test="${empty role}">
-            <div class="alert alert-danger text-center">
-                Role not found
+        <h2>Edit Role</h2>
+
+        <form action="${pageContext.request.contextPath}/role/update" method="post">
+
+            <input type="hidden" name="id" value="${role.id}" />
+
+            <div class="mb-3">
+                <label class="form-label">Role Name</label>
+                <input type="text"
+                       name="identifier"
+                       value="${role.identifier}"
+                       class="form-control"
+                       readonly />
             </div>
-        </c:if>
 
-        <c:if test="${not empty role}">
-            <form:form action="/role/update"
-                       method="post"
-                       modelAttribute="roleDto">
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <input type="text"
+                       name="description"
+                       value="${role.description}"
+                       class="form-control"
+                       required />
+            </div>
 
-                <form:hidden path="id" value="${role.id}/>
+            <c:if test="${not empty error}">
+                <div class="error-text">${error}</div>
+            </c:if>
 
-                <div class="mb-4">
-                    <label class="form-label">Role Name</label>
-                    <form:input path="identifier"
-                                cssClass="form-control"
-                                placeholder="Enter role"
-                                required="true"/>
-                </div>
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-primary">Update</button>
 
-                <div class="d-flex justify-content-between">
-                    <a href="/role/list" class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
-                    <button type="submit" class="btn btn-primary">
-                        Update
-                    </button>
-                </div>
-
-            </form:form>
-        </c:if>
+                <a href="${pageContext.request.contextPath}/role/list"
+                   class="btn btn-secondary ms-3">Cancel</a>
+            </div>
+        </form>
 
     </div>
 </div>

@@ -34,9 +34,10 @@ public class SecurityController {
     public String addPost(Model model, @ModelAttribute UserDto userDto) {
         UserDto response = userService.save(userDto);
         if (!response.isSuccess()) {
+            model.addAttribute("roles", roleService.findAll());
             model.addAttribute("message", response.getMessage());
             return "register";
         }
-        return "home";
+        return "login";
     }
 }

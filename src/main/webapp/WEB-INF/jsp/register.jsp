@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -41,12 +42,11 @@
         label {
             font-size: 13px;
             font-weight: 500;
-            color: #333;
             margin-bottom: 6px;
             display: block;
         }
 
-        input, select {
+        input {
             width: 100%;
             padding: 11px 14px;
             border-radius: 8px;
@@ -54,17 +54,56 @@
             font-size: 14px;
         }
 
-        select[multiple] {
-            height: 130px; /* ✅ MAKES MULTI-SELECT CLEAR */
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: 3px;
         }
 
-        small {
-            color: #666;
-            font-size: 11px;
+        #roleList {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .role-item {
+            padding: 6px 4px;
+        }
+
+        /* ✅ FIXED ALIGNMENT */
+        .role-item label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .role-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+        }
+
+        #selectedRoles {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .role-chip {
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
         }
 
         .btn-submit {
-            margin-top: 10px;
+            margin-top: 15px;
             width: 100%;
             padding: 13px;
             background: linear-gradient(135deg, #4b6cb7, #182848);
@@ -85,39 +124,89 @@
 
     <form:form action="register" method="post" modelAttribute="userDto">
 
-        <!-- Name -->
         <div class="form-group">
             <label>Name</label>
-            <form:input path="name"/>
+            <form:input path="name" required="true"/>
+            <form:errors path="name" cssClass="error"/>
         </div>
 
         <div class="form-group">
             <label>Email</label>
-            <form:input path="username"/>
+            <form:input path="username"
+                        type="email"
+                        required="true"
+                        pattern="^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"/>
+            <form:errors path="username" cssClass="error"/>
         </div>
 
         <div class="form-group">
             <label>Roles</label>
-            <form:select path="roles" multiple="true">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-            </form:select>
+
+            <div id="roleList">
+                <c:forEach items="${roles}" var="role">
+                    <div class="role-item">
+                        <label>
+                            <input type="checkbox"
+                                   name="roles"
+                                   value="${role.identifier}"
+                                   onchange="toggleRole(this)">
+                            ${role.identifier}
+                        </label>
+                    </div>
+                </c:forEach>
+            </div>
+
+            <div id="selectedRoles"></div>
+
+            <form:errors path="roles" cssClass="error"/>
         </div>
 
         <div class="form-group">
             <label>Phone Number</label>
-            <form:input path="phoneNo"/>
+            <form:input path="phoneNo"
+                        required="true"
+                        pattern="[0-9]{10}"
+                        maxlength="10"/>
+            <form:errors path="phoneNo" cssClass="error"/>
         </div>
 
         <div class="form-group">
             <label>Password</label>
-            <form:password path="password"/>
+            <form:password path="password"
+                           required="true"
+                           minlength="8"
+                           pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}"/>
+            <form:errors path="password" cssClass="error"/>
         </div>
 
         <input type="submit" value="Register" class="btn-submit"/>
 
     </form:form>
-
 </div>
+
+<script>
+function toggleRole(cb) {
+    const roleItem = cb.closest('.role-item');
+    const selected = document.getElementById('selectedRoles');
+    const value = cb.value;
+
+    if (cb.checked) {
+        roleItem.style.display = 'none';
+
+        const chip = document.createElement('div');
+        chip.className = 'role-chip';
+        chip.innerText = value;
+
+        chip.onclick = function () {
+            cb.checked = false;
+            roleItem.style.display = 'block';
+            chip.remove();
+        };
+
+        selected.appendChild(chip);
+    }
+}
+</script>
 
 </body>
 </html>

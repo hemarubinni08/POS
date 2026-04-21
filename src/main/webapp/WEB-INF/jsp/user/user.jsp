@@ -73,27 +73,31 @@
 </head>
 
 <body>
-${message}
 <div class="update-card">
     <h3>Update User</h3>
 
     <form:form action="/user/update" method="post" modelAttribute="userDto">
 
-        <form:input type="hidden" path="id"/>
-
+        <form:input type="hidden" path="id" value="${user.id}"/>
+        <p style="color:red;">${message}</p>
         <div class="mb-3">
             <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
+            <form:input path="name" cssClass="form-control" value="${user.name}" required="true"/>
         </div>
 
          <div class="mb-3">
-            <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
-        </div>
+             <label>Email</label>
+             <form:input path="username" type="email"
+                 cssClass="form-control"
+                 value="${user.username}"
+                 required="true"
+                 pattern="^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$" />
+             <form:errors path="username" cssClass="error"/>
+         </div>
 
         <div class="mb-3">
             <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" required="true"/>
+            <form:input path="phoneNo" cssClass="form-control" value="${user.phoneNo}" pattern="[0-9]{10}" maxlength="10" required="true"   title="Phone number must be exactly 10 digits"/>
         </div>
 
         <div class="mb-3">
@@ -107,7 +111,7 @@ ${message}
             </div>
 
             <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
+                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
             </form:select>
 
 
@@ -116,7 +120,7 @@ ${message}
             </small>
         </div>
 
-        <button type="submit" class="btn-update">Update User</button>
+        <button type="submit" class="btn-update">Update</button>
 
     </form:form>
 
