@@ -6,9 +6,7 @@
 <html>
 <head>
     <title>User Registration</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
     <style>
         body {
             margin: 0;
@@ -55,7 +53,6 @@
             font-size: 14px;
         }
 
-        /* ROLE CHECKBOX CONTAINER */
         .role-box {
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -81,7 +78,7 @@
             margin-top: 12px;
             width: 100%;
             padding: 13px;
-            background: linear-gradient(135deg, #4b6cb7, #182848);
+            background: linear-gradient(135deg, #4e73df, #2e59d9);
             color: white;
             border: none;
             border-radius: 10px;
@@ -120,67 +117,66 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="register-card">
-
-    <!-- ✅ MESSAGE ALIGNED INSIDE CARD -->
     <c:if test="${not empty message}">
         <div class="message">
             ${message}
         </div>
     </c:if>
-
     <h2>User Registration</h2>
-
-    <form:form action="register" method="post" modelAttribute="userDto">
-
+    <form:form action="register" method="post" modelAttribute="userDto" onsubmit="return validateRoles()">
         <div class="form-group">
             <label>Name</label>
             <form:input path="name"/>
         </div>
-
         <div class="form-group">
             <label>Email</label>
             <form:input path="username" type="email"/>
         </div>
-
         <div class="form-group">
-            <label>Roles</label>
+            <label>Roles <span style="color:red">*</span></label>
             <div class="role-box">
                 <c:forEach items="${roles}" var="role">
                     <label class="role-item">
-                        <input type="checkbox" name="roles" value="${role.identifier}"/>
+                        <input type="checkbox"
+                               name="roles"
+                               value="${role.identifier}" />
                         <span>${role.identifier}</span>
                     </label>
                 </c:forEach>
             </div>
         </div>
-
         <div class="form-group">
             <label>Phone Number <span style="color:red">*</span></label>
             <form:input path="phoneNo"
                         placeholder="Enter 10-digit number"
                         required="required"
+                        inputmode="numeric"
                         pattern="^[6-9][0-9]{9}$"
+                        maxlength="10"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                         title="Enter valid 10-digit Indian mobile number"/>
         </div>
-
         <div class="form-group">
             <label>Password</label>
             <form:password path="password"/>
         </div>
-
         <input type="submit" value="Register" class="btn-submit"/>
-
-        <!-- ✅ CENTERED BACK BUTTON -->
         <div style="text-align:center;">
             <a href="/login" class="back-btn">Back</a>
         </div>
-
     </form:form>
 </div>
-
+<script>
+    function validateRoles() {
+        const checked = document.querySelectorAll('input[name="roles"]:checked').length;
+        if (checked === 0) {
+            alert("Please assign the role to user");
+            return false;
+        }
+        return true;
+    }
+</script>
 </body>
 </html>

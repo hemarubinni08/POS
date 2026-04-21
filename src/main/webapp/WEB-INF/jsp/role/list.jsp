@@ -9,51 +9,51 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+          rel="stylesheet">
+
     <style>
         body {
             background-color: #f4f6fb;
+            background-image:
+                radial-gradient(circle at top right, rgba(78,115,223,0.08), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(111,66,193,0.08), transparent 40%);
             font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
         }
 
-        /* CARD STYLE */
         .card {
-            border-radius: 10px;
+            border-radius: 12px;
             border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-        }
-
-        /* HEADER */
-        .card-header {
-            background: #4e73df !important;
-            color: #fff !important;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            font-weight: 600;
-        }
-
-        /* TABLE */
-        table {
-            border-radius: 8px;
+            background: #ffffff;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
             overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #4e73df, #6f42c1);
+            color: #ffffff;
+            font-weight: 600;
+            padding: 18px;
         }
 
         table th {
             background-color: #4e73df;
             color: white;
-            font-weight: 500;
             font-size: 14px;
+            font-weight: 600;   /* headers bold */
         }
 
         table td {
             font-size: 14px;
             color: #555;
+            font-weight: 400;
         }
 
         .table-hover tbody tr:hover {
-            background-color: #f1f4ff;
+            background-color: #eef3ff;
         }
 
-        /* ✅ UPDATE BUTTON → BLUE */
         .btn-warning {
             background-color: #4e73df;
             border: none;
@@ -64,7 +64,6 @@
             background-color: #2e59d9;
         }
 
-        /* DELETE BUTTON */
         .btn-danger {
             background-color: #e74a3b;
             border: none;
@@ -74,7 +73,6 @@
             background-color: #c0392b;
         }
 
-        /* ADD BUTTON */
         .btn-success {
             background-color: #1cc88a;
             border: none;
@@ -84,101 +82,100 @@
             background-color: #17a673;
         }
 
-        /* HOME BUTTON */
-        .btn-secondary {
-            background-color: #858796;
+        .btn-home {
+            background-color: #4e73df;
+            color: #ffffff;
             border: none;
+            font-size: 15px;
+            padding: 8px 18px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .btn-secondary:hover {
-            background-color: #6c757d;
+        .btn-home i {
+            color: #ffffff;
+            font-size: 16px;
         }
 
-        /* FOOTER */
+        .btn-home:hover {
+            background-color: #2e59d9;
+        }
+
         .card-footer {
             background-color: #f8f9fc;
             border-top: none;
+            padding: 16px;
         }
 
-        /* ALERT */
         .alert-warning {
             background-color: #fff3cd;
             border: none;
             color: #856404;
+            border-radius: 8px;
         }
     </style>
 </head>
-
 <body>
-
-<div class="container mt-5">
+<div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-10">
-
-            <div class="card shadow-lg">
+            <div class="card">
                 <div class="card-header text-center">
                     <h4 class="mb-0">List of Roles</h4>
                 </div>
-
                 <div class="card-body">
-
                     <c:if test="${empty roles}">
                         <div class="alert alert-warning text-center">
                             No roles found
                         </div>
                     </c:if>
-
                     <c:if test="${not empty roles}">
                         <table class="table table-bordered table-hover text-center align-middle">
                             <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Role</th>
-                                <th>Description</th>
-                                <th>Actions</th>
-                            </tr>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Role</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
                             </thead>
                             <tbody>
-
-                            <c:forEach var="role" items="${roles}">
-                                <tr>
-                                    <td>${role.id}</td>
-                                    <td>${role.identifier}</td>
-                                    <td>${role.description}</td>
-                                    <td class="d-flex justify-content-center gap-2">
-                                        <!-- UPDATE (BLUE) -->
-                                        <a href="/role/get?identifier=${role.identifier}"
-                                           class="btn btn-warning btn-sm">
-                                            Update
-                                        </a>
-
-                                        <!-- DELETE (RED) -->
-                                        <a href="/role/delete?identifier=${role.identifier}"
-                                           class="btn btn-danger btn-sm"
-                                           onclick="return confirm('Are you sure you want to delete this role?');">
-                                            Delete
-                                        </a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-
+                                <c:forEach var="role" items="${roles}">
+                                    <tr>
+                                        <td>${role.id}</td>
+                                        <td>${role.identifier}</td>
+                                        <td>${role.description}</td>
+                                        <td class="d-flex justify-content-center gap-2">
+                                            <a href="/role/get?identifier=${role.identifier}"
+                                               class="btn btn-warning btn-sm">
+                                                Update
+                                            </a>
+                                            <a href="/role/delete?identifier=${role.identifier}"
+                                               class="btn btn-danger btn-sm"
+                                               onclick="return confirm('Are you sure you want to delete this role?');">
+                                                Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </c:if>
-
                 </div>
-
                 <div class="card-footer text-center d-flex justify-content-center gap-3">
-                    <a href="/" class="btn btn-secondary">Home</a>
-                    <a href="/role/add" class="btn btn-success">+ Add New Role</a>
+                    <a href="/" class="btn btn-home">
+                        <i class="bi bi-house-fill"></i>
+                        Home
+                    </a>
+                    <a href="/role/add" class="btn btn-success">
+                        + Add New Role
+                    </a>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
-
 </body>
 </html>
-``

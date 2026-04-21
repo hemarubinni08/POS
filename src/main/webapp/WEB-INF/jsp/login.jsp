@@ -3,7 +3,6 @@
 <html>
 <head>
     <title>Login</title>
-
     <style>
         body {
             margin: 0;
@@ -108,22 +107,18 @@
         .btn-register:hover {
             background-color: #dbeafe;
         }
+
     </style>
 </head>
-
 <body>
-
 <div class="container">
     <h2>Login</h2>
-
  <c:if test="${param.error == 'true'}">
      <div id="loginError" class="error-msg">
          Invalid username or password
      </div>
  </c:if>
-
     <form action="${pageContext.request.contextPath}/login" method="post">
-
         <div class="form-group">
             <label>Username</label>
             <input type="text"
@@ -131,7 +126,6 @@
                    placeholder="Enter username"
                    required>
         </div>
-
         <div class="form-group">
             <label>Password</label>
             <input type="password"
@@ -139,20 +133,16 @@
                    placeholder="Enter password"
                    required>
         </div>
-
         <div class="btn-group">
             <button type="submit" class="btn btn-login">
                 Login
             </button>
-
             <a href="${pageContext.request.contextPath}/register"
                class="btn btn-register">
                 Register
             </a>
         </div>
-
     </form>
 </div>
-
 </body>
 </html>

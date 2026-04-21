@@ -5,41 +5,49 @@
 <html>
 <head>
     <title>User Management</title>
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
           rel="stylesheet">
 
     <style>
         body {
             background-color: #f4f6fb;
+            background-image:
+                radial-gradient(circle at top right, rgba(78,115,223,0.12), transparent 45%),
+                radial-gradient(circle at bottom left, rgba(111,66,193,0.12), transparent 45%);
             font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
         }
 
-        /* CARD */
         .card {
-            border-radius: 10px;
+            border-radius: 12px;
             border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            background: #ffffff;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
         }
 
-        /* HEADER TITLE */
         h3 {
             font-weight: 600;
-            color: #333;
+            color: #4e73df;
         }
 
-        /* TABLE */
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
         .table th {
             background-color: #4e73df;
             color: white;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 14px;
         }
 
         .table td {
             font-size: 14px;
             color: #555;
+            font-weight: 400;
         }
 
         .table-hover tbody tr:hover {
@@ -65,49 +73,50 @@
             background-color: #c0392b;
         }
 
-        .btn-secondary {
-            background-color: #858796;
-            border: none;
-        }
+.btn-home {
+    background-color: #4e73df;
+    border: none;
+    font-size: 15px;
+    padding: 9px 20px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+}
 
-        .btn-secondary:hover {
-            background-color: #6c757d;
-        }
+.btn-home i {
+    color: #ffffff;
+}
 
-        /* ALERT */
+.btn-home:hover {
+    background-color: #2e59d9;
+}
+
         .alert-warning {
             background-color: #fff3cd;
             border: none;
             color: #856404;
+            border-radius: 8px;
         }
 
-        /* FOOTER */
         .card-footer {
             background-color: #f8f9fc;
             border-top: none;
-        }
-
-        /* LINKS */
-        a.user-link {
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        a.user-link:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
+<div class="container mt-4">
     <div class="card shadow-lg">
         <div class="card-body">
 
             <h3 class="text-center mb-4">User Management</h3>
             <div class="mb-3 text-start">
-                <a href="/" class="btn btn-secondary btn-sm">
+                <a href="/" class="btn btn-home btn-sm">
+                    <i class="bi bi-house-fill"></i>
                     Home
                 </a>
             </div>
@@ -166,5 +175,6 @@
 
     </div>
 </div>
+
 </body>
 </html>

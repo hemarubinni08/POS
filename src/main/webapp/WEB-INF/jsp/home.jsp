@@ -9,6 +9,7 @@
 
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
@@ -19,7 +20,6 @@
             background-color: #f4f6fb;
         }
 
-        /* SIDEBAR (MATCH IMAGE STYLE) */
         .sidebar {
             position: fixed;
             top: 0;
@@ -41,10 +41,12 @@
 
         .sidebar a {
             display: block;
-            padding: 12px 25px;
-            color: rgba(255,255,255,0.8);
+            padding: 14px 25px;
+            color: rgba(255,255,255,0.9);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
             transition: all 0.3s ease;
         }
 
@@ -54,13 +56,6 @@
             padding-left: 32px;
         }
 
-        .sidebar a.active {
-            background: rgba(255,255,255,0.2);
-            color: #fff;
-            font-weight: 500;
-        }
-
-        /* LOGOUT BUTTON */
         .logout-btn {
             position: absolute;
             bottom: 20px;
@@ -68,54 +63,56 @@
             padding: 0 20px;
         }
 
-     .logout-btn button {
-         width: 100%;
-         border-radius: 8px;
-         font-size: 13px;
-         padding: 8px;
-         background: #ffffff;
-         color: #4e73df;
-         border: none;
-         font-weight: 500;
-         transition: all 0.3s ease;
-     }
+        .logout-btn button {
+            width: 100%;
+            border-radius: 8px;
+            font-size: 13px;
+            padding: 8px;
+            background: #ffffff;
+            color: #4e73df;
+            border: none;
+            font-weight: 500;
+        }
 
-     .logout-btn button:hover {
-         background: #e6ecff;
-         color: #224abe;
-     }
-
-        /* CONTENT AREA */
         .content {
             margin-left: 250px;
             padding: 30px;
         }
 
-        /* CARD STYLE LIKE IMAGE */
+        .header-banner {
+            background: linear-gradient(135deg, #4e73df, #6f42c1);
+            color: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .header-banner h2 {
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .header-banner p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+        }
+
         .welcome-card {
+            margin-top: 25px;
             background: #ffffff;
             border-radius: 10px;
-            padding: 35px;
+            padding: 25px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-        }
-
-        .welcome-card h1 {
-            font-size: 26px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .welcome-card p {
-            color: #777;
-            font-size: 14px;
-            margin-top: 10px;
         }
     </style>
 </head>
 
 <body>
+
 <div class="sidebar">
     <h4>POS System</h4>
+
     <c:if test="${not empty nodes}">
         <c:forEach items="${nodes}" var="nav">
             <a href="${pageContext.request.contextPath}${nav.path}">
@@ -127,18 +124,20 @@
     <c:if test="${empty nodes}">
         <p style="color:#ccc;text-align:center;">No access</p>
     </c:if>
+
     <div class="logout-btn">
         <form action="${pageContext.request.contextPath}/logout" method="post">
-            <button type="submit" class="btn btn-danger btn-sm">
-                Logout
-            </button>
+            <button type="submit">Logout</button>
         </form>
     </div>
 </div>
-
 <div class="content">
+    <div class="header-banner">
+        <h2>Welcome to POS System</h2>
+        <p>Manage users, roles and nodes efficiently</p>
+    </div>
     <div class="welcome-card">
-        <h1>Welcome</h1>
+        <h4>Getting Started</h4>
         <p>
             Select a module from the sidebar to continue managing your application.
         </p>

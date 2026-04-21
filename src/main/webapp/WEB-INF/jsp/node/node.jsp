@@ -4,12 +4,14 @@
 <html>
 <head>
     <title>Update Node</title>
-
     <style>
         body {
             margin: 0;
             font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #eef2ff, #f7f9ff);
+            background-color: #f4f6fb;
+            background-image:
+                radial-gradient(circle at top right, rgba(78,115,223,0.12), transparent 45%),
+                radial-gradient(circle at bottom left, rgba(78,115,223,0.08), transparent 45%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -26,7 +28,7 @@
 
         h3 {
             text-align: center;
-            color: #2c3e50;
+            color: #4e73df;
             font-weight: 700;
             margin-bottom: 26px;
         }
@@ -52,6 +54,13 @@
             background: #f9fafc;
         }
 
+        .form-control:focus {
+            outline: none;
+            border-color: #4e73df;
+            box-shadow: 0 0 0 3px rgba(78,115,223,0.25);
+            background: #ffffff;
+        }
+
         input[readonly] {
             background-color: #e9ecef;
         }
@@ -73,7 +82,7 @@
 
         .role-item input {
             margin-right: 10px;
-            accent-color: #6f42c1;
+            accent-color: #4e73df;
         }
 
         .btn-primary {
@@ -85,9 +94,13 @@
             color: #ffffff;
             border-radius: 30px;
             border: none;
-            background: linear-gradient(135deg, #6f42c1, #9b6bff);
+            background: linear-gradient(135deg, #4e73df, #2e59d9);
             cursor: pointer;
-            box-shadow: 0 12px 25px rgba(111,66,193,0.35);
+            box-shadow: 0 12px 25px rgba(78,115,223,0.35);
+        }
+
+        .btn-primary:hover {
+            background: #2e59d9;
         }
 
         .btn-back {
@@ -97,19 +110,18 @@
             font-size: 14px;
             font-weight: 600;
             border-radius: 30px;
-            border: 1px solid #6f42c1;
+            border: 2px solid #4e73df;
             background: transparent;
-            color: #6f42c1;
+            color: #4e73df;
             cursor: pointer;
         }
 
         .btn-back:hover {
-            background-color: #6f42c1;
+            background-color: #4e73df;
             color: #ffffff;
         }
     </style>
 </head>
-
 <body>
 <div class="card">
     <h3>Update Node</h3>
@@ -124,27 +136,21 @@
             <input type="text" class="form-control"
                    name="identifier" value="${node.identifier}" readonly>
         </div>
-
         <div class="form-group">
             <label>Path</label>
             <input type="text" class="form-control"
                    name="path" value="${node.path}" required>
         </div>
-
-        <!-- ROLE MULTI-SELECT -->
         <div class="form-group">
             <label>Primary Roles</label>
-
             <div class="role-box">
                 <c:forEach items="${roles}" var="role">
-
                     <c:set var="checked" value="false"/>
                     <c:forEach items="${node.roles}" var="nr">
                         <c:if test="${nr == role.identifier}">
                             <c:set var="checked" value="true"/>
                         </c:if>
                     </c:forEach>
-
                     <div class="role-item">
                         <input type="checkbox"
                                name="roles"
@@ -152,7 +158,6 @@
                                <c:if test="${checked}">checked</c:if>>
                         <span>${role.identifier}</span>
                     </div>
-
                 </c:forEach>
             </div>
         </div>

@@ -7,6 +7,10 @@
 <meta charset="UTF-8">
 <title>Display Nodes</title>
 
+<!-- Bootstrap Icons (ONLY for the Home icon) -->
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 <style>
     body {
         font-family: 'Poppins', Arial, sans-serif;
@@ -14,18 +18,17 @@
         padding: 40px;
     }
 
-    /* BUTTON ROW */
     .button-row {
         width: 60%;
-        margin: auto;
+        margin: 20px auto 0;
         display: flex;
         justify-content: space-between;
-        margin-bottom: 20px;
     }
 
-    /* HOME & ADD NODE BUTTON - BLUE */
     .nav-btn {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
         background-color: #4e73df;
         color: #ffffff;
         padding: 10px 18px;
@@ -40,7 +43,11 @@
         background-color: #2e59d9;
     }
 
-    /* TABLE STYLE */
+    .nav-btn i {
+        color: #ffffff;
+        font-size: 16px;
+    }
+
     table {
         width: 60%;
         margin: auto;
@@ -76,7 +83,6 @@
         background-color: #eef3ff;
     }
 
-    /* ACTION BUTTONS */
     .action-btn {
         padding: 6px 12px;
         border-radius: 4px;
@@ -87,7 +93,6 @@
         display: inline-block;
     }
 
-    /* UPDATE - BLUE */
     .update {
         background-color: #4e73df;
         color: #ffffff;
@@ -97,7 +102,6 @@
         background-color: #2e59d9;
     }
 
-    /* DELETE - RED */
     .delete {
         background-color: #e74a3b;
         color: #ffffff;
@@ -110,12 +114,6 @@
 </head>
 
 <body>
-
-<!-- HOME + ADD NODE -->
-<div class="button-row">
-    <a href="/" class="nav-btn">Home</a>
-    <a href="/node/add" class="nav-btn">+ Add Node</a>
-</div>
 
 <table>
     <tr>
@@ -131,19 +129,16 @@
             <td>${node.id}</td>
             <td>${node.identifier}</td>
             <td>${node.path}</td>
-
             <td>
                 <c:forEach items="${node.roles}" var="role" varStatus="s">
                     ${role}<c:if test="${!s.last}">, </c:if>
                 </c:forEach>
             </td>
-
             <td>
                 <a href="/node/get?identifier=${node.identifier}"
                    class="action-btn update">
                     Update
                 </a>
-
                 <a href="/node/delete?identifier=${node.identifier}"
                    class="action-btn delete"
                    onclick="return confirm('Are you sure you want to delete this node?');">
@@ -152,8 +147,15 @@
             </td>
         </tr>
     </c:forEach>
-
 </table>
-
+<div class="button-row">
+    <a href="/" class="nav-btn">
+        <i class="bi bi-house-fill"></i>
+        Home
+    </a>
+    <a href="/node/add" class="nav-btn">
+        + Add Node
+    </a>
+</div>
 </body>
 </html>

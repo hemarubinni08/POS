@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/node")
 public class NodeController {
 
+    public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     @Autowired
     private NodeService nodeService;
     @Autowired
@@ -20,7 +21,7 @@ public class NodeController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("nodes", nodeService.getNodesForRoles());
+        model.addAttribute("nodes", nodeService.findAll());
         return "node/list";
     }
 
@@ -36,7 +37,7 @@ public class NodeController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/get")
@@ -53,12 +54,12 @@ public class NodeController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         nodeService.delete(identifier);
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 }

@@ -30,29 +30,26 @@
 
 <div class="container d-flex justify-content-center align-items-center mt-5">
     <div class="col-md-5">
-
         <div class="card shadow-lg">
             <div class="card-header text-center bg-primary text-white">
                 <h4 class="mb-0">Add New Role</h4>
             </div>
-
             <div class="card-body">
-
-                <c:if test="${not empty role}">
-                    <div class="alert alert-success text-center">
-                        ${role}
-                    </div>
-                </c:if>
-
                 <form:form method="post"
                            action="/role/add"
                            modelAttribute="roleDto">
-
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Role Name</label>
                         <form:input path="identifier"
                                     cssClass="form-control"
-                                    placeholder="Enter role name" />
+                                    placeholder="Enter role name"
+                                    required="required"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <form:input path="description"
+                                    cssClass="form-control"
+                                    placeholder="Enter role description"/>
                     </div>
 
                     <div class="d-grid">
@@ -61,16 +58,24 @@
                         </button>
                     </div>
 
+                    <div class="d-grid mt-3">
+                        <a href="/role/list" class="btn btn-outline-primary">
+                            ← Back to Role List
+                        </a>
+                    </div>
                 </form:form>
 
             </div>
-
             <div class="card-footer text-center text-muted small">
                 POS Management System
             </div>
         </div>
-
     </div>
 </div>
+<c:if test="${not empty message}">
+    <script>
+        alert("${message}");
+    </script>
+</c:if>
 </body>
 </html>
