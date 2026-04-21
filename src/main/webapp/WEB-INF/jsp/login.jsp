@@ -192,7 +192,7 @@
 
 <div class="container">
     <div class="header">
-        <h2>Welcome back</h2>
+        <h2>Welcome</h2>
         <p>Enter your details to access the POS dashboard.</p>
     </div>
 
@@ -215,7 +215,7 @@
     <div class="footer-action">
         Don't have an account?
         <a href="${pageContext.request.contextPath}/register" class="btn-register">
-            Contact admin
+            Register
         </a>
     </div>
 </div>

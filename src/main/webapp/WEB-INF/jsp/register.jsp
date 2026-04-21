@@ -1,227 +1,183 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page isELIgnored="false" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Retail POS | Staff Registration</title>
+<title>User Registration</title>
 
 <style>
-    :root {
-        --primary: #2563eb;
-        --primary-dark: #1d4ed8;
-        --bg-light: #f8fafc;
-        --text-main: #0f172a;
-        --text-muted: #64748b;
-        --border: #e2e8f0;
-        --card-bg: #ffffff;
-    }
-
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: 'Inter', -apple-system, system-ui, sans-serif;
-        background-color: var(--bg-light);
-        background-image: radial-gradient(#cbd5e1 0.5px, transparent 0.5px);
-        background-size: 24px 24px;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: radial-gradient(circle at top left, #f8fafc, #e2e8f0);
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 40px 20px;
+        min-height: 100vh;
+        color: #334155;
+        padding: 20px;
     }
 
-    .container {
-        background: var(--card-bg);
-        padding: 40px;
+    .edit-card {
+        position: relative;
         width: 100%;
         max-width: 460px;
-        border-radius: 12px;
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1),
-                    0 2px 4px -1px rgba(0,0,0,0.06);
-        border-top: 5px solid var(--primary);
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1),
+                    0 10px 10px -5px rgba(0,0,0,0.04);
+        border: 1px solid rgba(255,255,255,0.3);
+        backdrop-filter: blur(10px);
     }
 
-    .header {
-        margin-bottom: 30px;
-    }
-
-    .header h2 {
-        margin: 0;
-        font-size: 24px;
-        color: var(--text-main);
-    }
-
-    .header p {
-        margin-top: 8px;
-        font-size: 14px;
-        color: var(--text-muted);
-    }
-
-    .error-msg {
-        background-color: #fef2f2;
-        color: #dc2626;
-        padding: 12px;
-        border-radius: 6px;
-        margin-bottom: 20px;
+    h2 {
         text-align: center;
+        margin-bottom: 25px;
+        font-weight: 700;
+        color: #1e293b;
     }
 
-    .form-group { margin-bottom: 18px; }
+    /* Back icon */
+    .back-icon {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eef2ff;
+        color: #3730a3;
+        text-decoration: none;
+        font-size: 18px;
+        transition: 0.2s;
+    }
+
+    .back-icon:hover {
+        background: #3730a3;
+        color: #fff;
+        transform: translateX(-3px);
+    }
 
     label {
-        display: block;
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 600;
-        color: var(--text-muted);
+        color: #64748b;
         margin-bottom: 6px;
-        text-transform: uppercase;
+        display: block;
     }
 
-    input {
+    input, select {
         width: 100%;
         padding: 12px 14px;
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        font-size: 15px;
+        margin-bottom: 18px;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        background: #fcfcfd;
+        font-size: 14px;
     }
 
-    input:focus {
+    input:focus, select:focus {
         outline: none;
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+        border-color: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99,102,241,0.1);
+        background: #fff;
     }
 
-    .role-section { margin: 24px 0; }
+    select[multiple] {
+        height: 120px;
+    }
 
-    .role-list {
-        border: 1px solid var(--border);
+    .error {
+        margin-bottom: 15px;
+        text-align: center;
+        color: #e11d48;
+        background: #fff1f2;
+        padding: 10px;
         border-radius: 8px;
-        max-height: 160px;
-        overflow-y: auto;
-        background: #fbfcfe;
+        font-size: 13px;
     }
-
-    .role-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 14px;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .role-item:last-child { border-bottom: none; }
 
     button {
         width: 100%;
         padding: 14px;
-        background-color: #1e293b;
-        color: white;
+        border-radius: 12px;
         border: none;
-        border-radius: 6px;
+        background: #1e293b;
+        color: #fff;
+        font-weight: 600;
         font-size: 15px;
-        font-weight: 600;
         cursor: pointer;
+        transition: 0.2s ease;
     }
 
-    button:hover { background-color: #0f172a; }
-
-    /* Back Button */
-    .back-btn {
-        display: block;
-        margin-top: 12px;
-        text-align: center;
-        padding: 12px;
-        border-radius: 6px;
-        background-color: #e5e7eb;
-        color: #111827;
-        font-weight: 600;
-        text-decoration: none;
-    }
-
-    .back-btn:hover {
-        background-color: #d1d5db;
-    }
-
-    .footer-links {
-        margin-top: 25px;
-        padding-top: 20px;
-        border-top: 1px solid var(--border);
-        text-align: center;
-    }
-
-    .link-btn {
-        color: var(--primary);
-        font-weight: 600;
-        text-decoration: none;
+    button:hover {
+        background: #0f172a;
+        transform: translateY(-1px);
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
     }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <div class="header">
-        <h2>Create Staff Account</h2>
-        <p>Register new personnel for the POS system.</p>
-    </div>
+<div class="edit-card">
 
+    <a href="${pageContext.request.contextPath}/user/list" class="back-icon">←</a>
+
+    <h2>User Registration</h2>
+
+    <!-- Error from controller -->
     <c:if test="${not empty message}">
-        <div class="error-msg">⚠️ ${message}</div>
+        <div class="error">${message}</div>
     </c:if>
 
-    <form action="${pageContext.request.contextPath}/register" method="post">
+    <form:form action="register" method="post" modelAttribute="userDto">
 
-        <div class="form-group">
-            <label>Full Name</label>
-            <input type="text" name="name" value="${userDto.name}" required>
-        </div>
+        <label>Name</label>
+        <form:input path="name" required="true"/>
 
-        <div class="form-group">
-            <label>E-mail Address</label>
-            <input type="email" name="username" value="${userDto.username}" required>
-        </div>
+        <label>Email</label>
+        <form:input path="username"
+                    type="email"
+                    required="true"
+                    pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                    title="Enter a valid Gmail (example@gmail.com)"/>
 
-        <div class="form-group">
-            <label>Secure Password</label>
-            <input type="password" name="password" required>
-        </div>
+        <label>Roles</label>
+        <form:select path="roles" multiple="true" required="true">
+            <form:options items="${roles}"
+                          itemValue="identifier"
+                          itemLabel="identifier"/>
+        </form:select>
 
-        <div class="form-group">
-            <label>Phone Number</label>
-            <input type="text" name="phoneNo" value="${userDto.phoneNo}" required>
-        </div>
+        <label>Mobile Number</label>
+        <form:input path="phoneNo"
+                    type="tel"
+                    maxlength="10"
+                    required="true"
+                    inputmode="numeric"
+                    pattern="[0-9]{10}"
+                    title="Enter a valid 10-digit mobile number"
+                    oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
 
-        <div class="role-section">
-            <label>Access Permissions (Roles)</label>
-            <div class="role-list">
-                <c:forEach var="r" items="${roles}">
-                    <div class="role-item">
-                        <span>${r.identifier}</span>
-                        <input type="checkbox" name="roles" value="${r.identifier}">
-                    </div>
-                </c:forEach>
-            </div>
-        </div>
+        <label>Password</label>
+        <form:password path="password"
+                       required="true"
+                       pattern=".{6,}"
+                       title="minimum contain 6 character"/>
 
-        <!-- Register -->
-        <button type="submit">Complete Registration</button>
+        <button type="submit">Register</button>
 
-        <!-- Back Button -->
-        <a href="${pageContext.request.contextPath}/user/list" class="back-btn">
-            ← Back
-        </a>
+    </form:form>
 
-        <div class="footer-links">
-            <a href="${pageContext.request.contextPath}/user/list" class="link-btn">
-                View Registered Users
-            </a>
-        </div>
-
-    </form>
 </div>
 
 </body>

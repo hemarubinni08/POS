@@ -1,4 +1,5 @@
 package com.ust.pos.node;
+
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.role.service.RoleService;
 import com.ust.pos.node.service.NodeService;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 public class NodeController {
 
+    public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
+    public static final String ROLES = "roles";
     @Autowired
     private NodeService nodeService;
 
@@ -28,7 +31,7 @@ public class NodeController {
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute NodeDto nodeDto) {
 
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         return "node/add";
     }
 
@@ -38,9 +41,10 @@ public class NodeController {
         NodeDto response = nodeService.save(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            model.addAttribute(ROLES, roleService.findAll());
             return "node/add";
         }
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/get")
@@ -48,7 +52,7 @@ public class NodeController {
 
         NodeDto response = nodeService.findByIdentifier(identifier);
         model.addAttribute("node", response);
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         return "node/node";
     }
 
@@ -59,13 +63,13 @@ public class NodeController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
 
         nodeService.delete(identifier);
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 }

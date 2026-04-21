@@ -153,7 +153,8 @@ button:hover {
         <div class="input-group">
             <label>Description</label>
             <form:textarea path="description"
-                           placeholder="Update role description" />
+                           placeholder="Update role description"
+                            required="true"/>
         </div>
 
         <button type="submit">Save Changes</button>

@@ -8,4 +8,3 @@ import lombok.Setter;
 public class RoleDto extends CommonDto {
     private String description;
 }
-

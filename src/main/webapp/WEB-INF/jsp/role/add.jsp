@@ -170,7 +170,8 @@
 
         <label style="margin-top:16px;">Description</label>
         <form:textarea path="description"
-                       placeholder="Describe the role permissions and purpose" />
+                       placeholder="Describe the role permissions and purpose"
+                        required="true" />
 
         <button type="submit">Add Role</button>
 
