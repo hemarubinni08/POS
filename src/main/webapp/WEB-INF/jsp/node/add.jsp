@@ -1,17 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update User</title>
+    <title>Add Node</title>
 
     <style>
         body {
             margin: 0;
             min-height: 100vh;
-            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            font-family: "Segoe UI", Arial, sans-serif;
             background-color: #f6f7f9;
             color: #1f2937;
         }
@@ -27,10 +26,27 @@
             border-bottom: 1px solid #1e293b;
         }
 
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
         .top-title {
             font-size: 16px;
             font-weight: 600;
             color: #e5e7eb;
+        }
+
+        .home-btn {
+            padding: 6px 14px;
+            background-color: #1e293b;
+            color: #e5e7eb;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid #334155;
         }
 
         .logout-btn {
@@ -41,6 +57,7 @@
             border-radius: 6px;
             font-size: 13px;
             font-weight: 600;
+            cursor: pointer;
         }
 
         /* ===== PAGE ===== */
@@ -50,10 +67,10 @@
             margin-top: 60px;
         }
 
-        .container {
+        .card {
             width: 420px;
-            padding: 26px 28px;
             background: #ffffff;
+            padding: 26px;
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
             position: relative;
@@ -70,11 +87,12 @@
             border-radius: 6px;
             font-size: 13px;
             font-weight: 600;
+            border: 1px solid #d1d5db;
         }
 
         h2 {
             text-align: center;
-            margin: 14px 0 24px;
+            margin: 14px 0 18px;
             font-size: 22px;
             font-weight: 600;
         }
@@ -93,6 +111,8 @@
             margin-top: 6px;
             border-radius: 6px;
             border: 1px solid #d1d5db;
+            font-size: 14px;
+            color: #1f2937;
         }
 
         select[multiple] {
@@ -108,15 +128,28 @@
             border: none;
             border-radius: 20px;
             font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .error-message {
+            text-align: center;
+            color: #dc2626;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 14px;
         }
     </style>
 </head>
 
 <body>
 
-<!--  TOP BAR -->
+<!-- POS TOP BAR -->
 <div class="topbar">
-    <div class="top-title">POS Application</div>
+    <div class="topbar-left">
+        <div class="top-title">POS Application</div>
+        <a href="${pageContext.request.contextPath}/" class="home-btn">Home</a>
+    </div>
 
     <form action="${pageContext.request.contextPath}/logout" method="post" style="margin:0;">
         <button type="submit" class="logout-btn">Logout</button>
@@ -124,50 +157,42 @@
 </div>
 
 <div class="page-wrapper">
-    <div class="container">
+    <div class="card">
 
-        <a href="${pageContext.request.contextPath}/user/list" class="back-btn">Back</a>
+        <!-- BACK BUTTON -->
+        <a href="${pageContext.request.contextPath}/node/list" class="back-btn">Back</a>
 
-        <h2>Update User</h2>
+        <h2>Add Node</h2>
 
+        <!-- ERROR MESSAGE -->
         <c:if test="${not empty message}">
-            <div style="text-align:center;color:#2563eb;font-size:13px;margin-bottom:10px;">
+            <div class="error-message">
                 ${message}
             </div>
         </c:if>
 
-        <!--  CORRECT FORM OPEN -->
-        <form:form action="${pageContext.request.contextPath}/user/update"
-                   method="post"
-                   modelAttribute="user">
+        <!-- ADD FORM  -->
+        <form action="${pageContext.request.contextPath}/node/add" method="post">
 
-            <form:input type="hidden" path="id"/>
+            <label>Identifier</label>
+            <input type="text" name="identifier" required />
 
-            <label>Name</label>
-            <form:input path="name" required="true"/>
-
-            <label>Email</label>
-            <form:input path="username" type="email" required="true"/>
-
-            <label>Phone Number</label>
-            <form:input path="phoneNo"
-                        type="tel"
-                        required="true"
-                        pattern="[0-9]{10}"
-                        maxlength="10"/>
+            <label>Path</label>
+            <input type="text" name="path" required />
 
             <label>Roles</label>
-            <form:select path="roles" multiple="true">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-            </form:select>
+            <select name="roles" multiple required>
+                <c:forEach var="role" items="${roles}">
+                    <option value="${role.identifier}">
+                        ${role.identifier}
+                    </option>
+                </c:forEach>
+            </select>
 
-            <button type="submit">Update User</button>
-
-        </form:form>
-        <!-- CORRECT FORM CLOSE -->
+            <button type="submit">Save Node</button>
+        </form>
 
     </div>
 </div>
-
 </body>
 </html>

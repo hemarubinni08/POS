@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Management</title>
+    <title>Node Management</title>
 
     <style>
         body {
@@ -15,6 +15,7 @@
             color: #111827;
         }
 
+        /* ===== TOP BAR ===== */
         .topbar {
             height: 56px;
             background-color: #020617;
@@ -28,7 +29,7 @@
         .topbar-left {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
         }
 
         .top-title {
@@ -51,7 +52,7 @@
         .logout-btn {
             background: #dc2626;
             border: none;
-            color: #ffffff;
+            color: white;
             padding: 7px 16px;
             border-radius: 6px;
             font-size: 14px;
@@ -59,6 +60,7 @@
             cursor: pointer;
         }
 
+        /* ===== PAGE ===== */
         .page-title {
             text-align: center;
             padding: 22px 0 14px;
@@ -77,6 +79,28 @@
             padding: 26px;
         }
 
+        /* ===== ACTION BAR ===== */
+        .list-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 18px;
+        }
+
+        .add-btn {
+            padding: 9px 18px;
+            background-color: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .add-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* ===== TABLE ===== */
         table {
             width: 100%;
             border-collapse: separate;
@@ -111,6 +135,12 @@
             background-color: #f1f5f9;
         }
 
+        .roles {
+            font-size: 14px;
+            color: #020617;
+            line-height: 1.6;
+        }
+
         .action-link {
             padding: 7px 16px;
             border-radius: 6px;
@@ -125,19 +155,35 @@
             background-color: #2563eb;
         }
 
+        .edit:hover {
+            background-color: #1d4ed8;
+        }
+
         .delete {
             background-color: #dc2626;
             margin-left: 8px;
+        }
+
+        .delete:hover {
+            background-color: #b91c1c;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 28px;
+            color: #374151;
+            font-size: 16px;
         }
     </style>
 </head>
 
 <body>
 
+<!-- TOP BAR -->
 <div class="topbar">
     <div class="topbar-left">
         <div class="top-title">POS Application</div>
-        <a href="${pageContext.request.contextPath}/" class="home-btn">Home</a>
+        <a class="home-btn" href="${pageContext.request.contextPath}/">Home</a>
     </div>
 
     <form action="${pageContext.request.contextPath}/logout" method="post" style="margin:0;">
@@ -145,68 +191,63 @@
     </form>
 </div>
 
-<div class="page-title">User Management</div>
-
-
-<c:if test="${not empty message}">
-    <div style="
-        margin: 0 24px 18px;
-        padding: 10px;
-        border-radius: 6px;
-        background-color: #fee2e2;
-        color: #991b1b;
-        text-align: center;
-        font-size: 14px;
-        font-weight: 600;
-    ">
-        ${message}
-    </div>
-</c:if>
+<div class="page-title">Node Management</div>
 
 <div class="container">
 
-    <c:if test="${empty users}">
-        <div style="text-align:center; padding:28px; color:#374151; font-size:16px;">
-            No users found
-        </div>
-    </c:if>
+    <!-- ADD NODE -->
+    <div class="list-actions">
+        <a class="add-btn" href="${pageContext.request.contextPath}/node/add">
+            Add Node
+        </a>
+    </div>
 
-    <c:if test="${not empty users}">
-        <table>
-            <thead>
-                <tr>
-                    <th>Email</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Roles</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+    <c:choose>
+        <c:when test="${empty nodes}">
+            <div class="empty">
+                No nodes available
+            </div>
+        </c:when>
 
-            <tbody>
-                <c:forEach var="user" items="${users}">
+        <c:otherwise>
+            <table>
+                <thead>
                     <tr>
-                        <td>${user.username}</td>
-                        <td>${user.name}</td>
-                        <td>${user.phoneNo}</td>
-                        <td>${user.roles}</td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/user/get?username=${user.username}"
-                               class="action-link edit">
-                                Edit
-                            </a>
-
-                            <a href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
-                               class="action-link delete"
-                               onclick="return confirm('Are you sure you want to delete this user?');">
-                                Delete
-                            </a>
-                        </td>
+                        <th>Identifier</th>
+                        <th>Path</th>
+                        <th>Roles</th>
+                        <th>Action</th>
                     </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
+                </thead>
+
+                <tbody>
+                    <c:forEach var="node" items="${nodes}">
+                        <tr>
+                            <td>${node.identifier}</td>
+                            <td>${node.path}</td>
+                            <td class="roles">
+                                <c:forEach var="role" items="${node.roles}" varStatus="s">
+                                    ${role}<c:if test="${!s.last}">, </c:if>
+                                </c:forEach>
+                            </td>
+                            <td>
+                                <a class="action-link edit"
+                                   href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}">
+                                    Edit
+                                </a>
+
+                                <a class="action-link delete"
+                                   href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
+                                   onclick="return confirm('Are you sure you want to delete this node?');">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
 
 </div>
 

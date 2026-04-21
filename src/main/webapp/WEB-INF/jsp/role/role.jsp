@@ -7,70 +7,123 @@
 <head>
     <title>Edit Role</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
     <style>
         body {
+            margin: 0;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #f6f7f9;
+        }
+
+        .topbar {
+            height: 56px;
+            background-color: #020617;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .top-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .logout-btn {
+            background: #dc2626;
+            border: none;
+            color: white;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
         }
 
         .card {
-            width: 400px;
-            border-radius: 15px;
+            width: 420px;
+            background: #ffffff;
+            margin: 60px auto;
+            padding: 26px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            position: relative;
         }
 
-        h4 {
+        .back-btn {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            padding: 6px 14px;
+            background: #eef0f3;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-top: 14px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 9px 11px;
+            margin-top: 6px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+        }
+
+        input[readonly] {
+            background: #f1f5f9;
+        }
+
+        button {
+            margin-top: 22px;
+            width: 100%;
+            padding: 10px;
+            background: #2563eb;
+            color: white;
+            border-radius: 20px;
+            border: none;
             font-weight: 600;
         }
     </style>
 </head>
 
 <body>
-${message}
-<div class="card shadow-lg">
-    <div class="card-body">
 
-        <h4 class="text-center mb-4 text-primary">Edit Role</h4>
+<div class="topbar">
+    <div class="top-title">POS Application</div>
+    <form action="${pageContext.request.contextPath}/logout" method="post">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
 
-        <c:if test="${empty role}">
-            <div class="alert alert-danger text-center">
-                Role not found
-            </div>
-        </c:if>
+<div class="card">
+    <a href="${pageContext.request.contextPath}/role/list" class="back-btn">Back</a>
+    <h2>Edit Role</h2>
 
-        <c:if test="${not empty role}">
-            <form:form action="/role/update"
-                       method="post"
-                       modelAttribute="roleDto">
+    <form:form action="/role/update" method="post" modelAttribute="role">
+        <form:hidden path="id"/>
 
-                <form:hidden path="id" value="${role.id}/>
+        <label>Role Name</label>
+        <form:input path="identifier" readonly="true"/>
 
-                <div class="mb-4">
-                    <label class="form-label">Role Name</label>
-                    <form:input path="identifier"
-                                cssClass="form-control"
-                                placeholder="Enter role"
-                                required="true"/>
-                </div>
+        <label>Description</label>
+        <form:textarea path="description" rows="3"/>
 
-                <div class="d-flex justify-content-between">
-                    <a href="/role/list" class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
-                    <button type="submit" class="btn btn-primary">
-                        Update
-                    </button>
-                </div>
-
-            </form:form>
-        </c:if>
-
-    </div>
+        <button type="submit">Update Role</button>
+    </form:form>
 </div>
 
 </body>
