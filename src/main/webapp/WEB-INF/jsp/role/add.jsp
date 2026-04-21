@@ -123,6 +123,16 @@
             font-size: 12px;
             color: #777;
         }
+         .error-message {
+                    padding: 10px;
+                    border-radius: 8px;
+                    margin-bottom: 15px;
+                    text-align: center;
+                    font-size: 14px;
+                    background: rgba(220, 53, 69, 0.12);
+                    border: 1px solid #dc3545;
+                    color: #dc3545;
+                }
     </style>
 </head>
 
@@ -139,6 +149,13 @@
             ${role}
         </div>
     </c:if>
+
+     <!-- ✅ Error / Info Message -->
+        <c:if test="${not empty message}">
+            <div class="error-message">
+                ${message}
+            </div>
+        </c:if>
 
     <form:form method="post"
                action="/role/add"

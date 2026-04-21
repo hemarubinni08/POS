@@ -3,7 +3,7 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html >
 <head>
     <title>Update User</title>
 
@@ -37,7 +37,7 @@
             font-weight: 600;
         }
 
-        /* ✅ Back Icon (same everywhere) */
+        /*  Back Icon (same everywhere) */
         .back-icon {
             position: absolute;
             top: 16px;

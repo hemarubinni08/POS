@@ -14,7 +14,7 @@
             margin: 0;
             font-family: 'Poppins', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -96,11 +96,9 @@
 <body>
 
 <div class="register-card">
-
     <a href="/login" class="back-icon">←</a>
     <h2>User Registration</h2>
 
-    <!-- ✅ MESSAGE DISPLAY -->
     <c:if test="${not empty message}">
         <div class="error-message">
             ${message}
