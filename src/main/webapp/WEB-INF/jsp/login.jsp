@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -67,12 +68,46 @@
         button:hover {
             background-color: #5a67d8;
         }
+
+
+        .register-link {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-msg {
+            margin-bottom: 12px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            background: #fee2e2;
+            color: #b91c1c;
+            font-size: 13px;
+        }
     </style>
 </head>
 
 <body>
 
 <form th:action="@{/login}" method="post">
+
+<c:if test="${param.error !=null}">
+    <div class = "error-msg">
+        Invalid username and password
+    </div>
+</c:if>
+
     <h2>Login</h2>
     <div>
         <label>Username:</label>
@@ -85,6 +120,10 @@
     </div>
 
     <button type="submit">Login</button>
+
+    <div class="register-link">
+        New user? <a href="${pageContext.request.contextPath}/register">Register here</a>
+    </div>
 </form>
 
 </body>

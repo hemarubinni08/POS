@@ -6,4 +6,14 @@ import java.util.List;
 
 public interface NodeService {
     List<NodeDto> getNodesForRoles();
+
+    NodeDto save(NodeDto nodeDto);
+
+    NodeDto update(NodeDto nodeDto);
+
+    boolean delete(String identifier);
+
+    List<NodeDto> findAll();
+
+    NodeDto findByIdentifier(String identifier);
 }

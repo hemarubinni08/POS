@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> <!-- IMPORTANT -->
 
 <!DOCTYPE html>
 <html>
@@ -29,9 +31,8 @@
 
         h2 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             color: #4b6cb7;
-            font-weight: 600;
         }
 
         .form-group {
@@ -42,8 +43,8 @@
             font-size: 13px;
             font-weight: 500;
             color: #333;
-            margin-bottom: 6px;
             display: block;
+            margin-bottom: 6px;
         }
 
         input, select {
@@ -55,16 +56,10 @@
         }
 
         select[multiple] {
-            height: 130px; /* ✅ MAKES MULTI-SELECT CLEAR */
-        }
-
-        small {
-            color: #666;
-            font-size: 11px;
+            height: 130px;
         }
 
         .btn-submit {
-            margin-top: 10px;
             width: 100%;
             padding: 13px;
             background: linear-gradient(135deg, #4b6cb7, #182848);
@@ -75,6 +70,42 @@
             font-weight: 600;
             cursor: pointer;
         }
+
+        .error-box {
+            background: #ff4d4d;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .success-box {
+            background: #28a745;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .error-input {
+            border: 2px solid #ff4d4d !important;
+            }
+
+        /* Link */
+        .link-btn {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #4f46e5;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .link-btn:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -83,37 +114,60 @@
 <div class="register-card">
     <h2>User Registration</h2>
 
+    <!-- MESSAGE -->
+    <c:if test="${not empty message}">
+        <div class="${fn:contains(message,'success') ? 'success-box' : 'error-box'}">
+            ${message}
+        </div>
+    </c:if>
+
     <form:form action="register" method="post" modelAttribute="userDto">
 
         <!-- Name -->
         <div class="form-group">
             <label>Name</label>
-            <form:input path="name"/>
+            <form:input path="name" required="required"/>
         </div>
 
+        <!-- Email -->
         <div class="form-group">
             <label>Email</label>
-            <form:input path="username"/>
+            <form:input path="username"
+                        type="email"
+                        required="required"
+                        cssClass="${not empty message ? 'error-input' : ''}"/>
         </div>
 
+        <!-- Roles -->
         <div class="form-group">
             <label>Roles</label>
-            <form:select path="roles" multiple="true">
+            <form:select path="roles" multiple="true" required="required">
                 <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
             </form:select>
         </div>
 
+        <!-- Phone -->
         <div class="form-group">
             <label>Phone Number</label>
-            <form:input path="phoneNo"/>
+            <form:input path="phoneNo"
+                        pattern="[0-9]{10}"
+                        inputmode="numeric"
+                        required="required"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
         </div>
 
+        <!-- Password -->
         <div class="form-group">
             <label>Password</label>
-            <form:password path="password"/>
+            <form:password path="password"
+                           minlength="6"
+                           required="required"/>
         </div>
 
         <input type="submit" value="Register" class="btn-submit"/>
+        <a href="${pageContext.request.contextPath}/user/list" class="link-btn">
+            Back
+        </a>
 
     </form:form>
 

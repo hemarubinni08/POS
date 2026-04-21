@@ -35,8 +35,9 @@ public class SecurityController {
         UserDto response = userService.save(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            model.addAttribute("roles", roleService.findAll());
             return "register";
         }
-        return "home";
+        return "redirect:/login";
     }
 }

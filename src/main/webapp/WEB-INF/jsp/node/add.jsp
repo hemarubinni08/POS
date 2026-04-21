@@ -24,6 +24,16 @@
         .form-control {
             border-radius: 8px;
         }
+
+        .bottom-error {
+            margin-top: 12px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            background: #fee2e2;
+            color: #b91c1c;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
@@ -33,53 +43,57 @@
 
         <div class="card shadow-lg">
             <div class="card-header text-center bg-primary text-white">
-                <h4 class="mb-0">Add New Role</h4>
+                <h4 class="mb-0">Add New Node</h4>
             </div>
 
             <div class="card-body">
 
-                <c:if test="${not empty role}">
-                    <div class="alert alert-success text-center">
-                        ${role}
-                    </div>
-                </c:if>
-
                 <form:form method="post"
-                           action="/role/add"
-                           modelAttribute="roleDto">
+                           action="/node/add"
+                           modelAttribute="node">
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Role Name</label>
+                        <label class="form-label fw-semibold">Node Name</label>
                         <form:input path="identifier"
                                     cssClass="form-control"
-                                    placeholder="Enter role name" />
+                                    placeholder="Enter Node Name" />
                     </div>
 
-                     <div class="mb-3">
-                         <label class="form-label fw-semibold">Role Description</label>
-                         <form:input path="description"
-                                     cssClass="form-control"
-                                     placeholder="Enter description" />
-                     </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Node Path</label>
+                        <form:input path="path"
+                                    cssClass="form-control"
+                                    placeholder="example:(/main/path)" />
+                    </div>
+
+                    <div class="form-group">
+                       <label>Node Roles</label>
+                         <div class="form-group">
+                           <form:select path="roles" multiple="true">
+                           <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+                           </form:select>
+                         </div>
+                    </div>
 
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            Add Role
+                            Add Node
                         </button>
                     </div>
 
                     <div class="d-flex justify-content-between">
-                         <a href="${pageContext.request.contextPath}/role/list"
-                         class="btn btn-outline-secondary">
-                              Back to Role List
+                         <a href="${pageContext.request.contextPath}/node/list"
+                            class="btn btn-outline-secondary">
+                                 Node List
                          </a>
                     </div>
+                </form:form>
 
                 <c:if test="${not empty message}">
-                        <p class="error">${message}</p>
-                    </c:if>
-
-                </form:form>
+                    <div class="bottom-error">
+                        ${message}
+                    </div>
+                </c:if>
 
             </div>
 
