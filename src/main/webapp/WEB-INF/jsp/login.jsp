@@ -1,91 +1,122 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Login</title>
 
     <style>
         body {
             margin: 0;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: 'Segoe UI', sans-serif;
+            background: #f2f4f8;
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
         }
 
-        form {
-            background: #ffffff;
-            padding: 30px 35px;
-            width: 320px;
+        .container {
+            width: 750px;
+            height: 420px;
+            display: flex;
             border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            background: white;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #333;
+        .left {
+            width: 50%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        form div {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
-            color: #555;
+        .left h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #444;
         }
 
         input {
             width: 100%;
             padding: 10px;
-            font-size: 14px;
+            margin-bottom: 12px;
             border: 1px solid #ccc;
-            border-radius: 6px;
+            border-radius: 4px;
+            font-size: 13px;
         }
 
         input:focus {
+            border-color: #007bff;
             outline: none;
-            border-color: #667eea;
         }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #667eea;
+        .btn {
+            background: #007bff;
             color: white;
+            padding: 10px;
             border: none;
-            border-radius: 6px;
-            font-size: 15px;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 13px;
         }
 
-        button:hover {
-            background-color: #5a67d8;
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .link {
+            margin-top: 10px;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .right {
+            width: 50%;
+            background: #007bff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .right h1 {
+            font-size: 26px;
+            line-height: 1.4;
         }
     </style>
 </head>
 
 <body>
 
-<form th:action="@{/login}" method="post">
-    <h2>Login</h2>
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username" required />
+<div class="container">
+
+    <div class="left">
+        <h2>Sign In</h2>
+
+        <form action="/login" method="post">
+            <input type="text" name="username" placeholder="Username" required />
+            <input type="password" name="password" placeholder="Password" required />
+            <button class="btn">Login</button>
+        </form>
+
+        <div class="link">
+            Don't have account? <a href="/register">Register</a>
+        </div>
     </div>
 
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required />
+    <div class="right">
+        <h1>POS<br>Application</h1>
     </div>
 
-    <button type="submit">Login</button>
-</form>
+</div>
 
 </body>
 </html>

@@ -8,11 +8,13 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
+@Transactional
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
@@ -23,7 +25,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto findByIdentifier(String identifier) {
-        return modelMapper.map(roleRepository.findByIdentifier(identifier), RoleDto.class);
+        Role role = roleRepository.findByIdentifier(identifier);
+
+        if (role == null) {
+            return null;
+        }
+        return modelMapper.map(role, RoleDto.class);
     }
 
     @Override
@@ -55,8 +62,9 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean delete(String identifier) {
-        return roleRepository.deleteByIdentifier(identifier);
+    public void delete(String identifier) {
+
+        roleRepository.deleteByIdentifier(identifier);
     }
 
     @Override

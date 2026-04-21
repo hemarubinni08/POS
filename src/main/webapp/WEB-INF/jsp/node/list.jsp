@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Management</title>
+    <title>Node Management</title>
 
     <style>
         body {
@@ -38,7 +38,7 @@
             padding: 20px;
         }
 
-        .user-card {
+        .node-card {
             background: white;
             border-radius: 8px;
             padding: 12px 15px;
@@ -50,18 +50,23 @@
             transition: 0.2s;
         }
 
-        .user-card:hover {
+        .node-card:hover {
             background: #e3f2fd;
         }
 
-        .user-info {
+        .node-info {
             font-size: 13px;
         }
 
-        .user-info strong {
+        .node-info strong {
             display: block;
             font-size: 14px;
             color: #333;
+        }
+
+        .roles {
+            font-size: 12px;
+            color: #555;
         }
 
         .actions {
@@ -124,32 +129,35 @@
 <body>
 
 <div class="header">
-    POS - User Management
+    POS - Node Management
 </div>
 
 <div class="container">
 
     <div class="left">
 
-        <c:if test="${empty users}">
-            <div class="empty">No users found</div>
+        <c:if test="${empty nodes}">
+            <div class="empty">No nodes found</div>
         </c:if>
 
-        <c:forEach var="user" items="${users}">
-            <div class="user-card">
+        <c:forEach var="node" items="${nodes}">
+            <div class="node-card">
 
-                <div class="user-info">
-                    <strong>${user.name}</strong>
-                    ${user.username} | ${user.phoneNo} | ${user.roles}
+                <div class="node-info">
+                    <strong>${node.identifier}</strong>
+                    ${node.path}
+                    <div class="roles">
+                        ${node.roles}
+                    </div>
                 </div>
 
                 <div class="actions">
-                    <a href="/user/get?username=${user.username}" class="btn edit">
+                    <a href="/node/get?identifier=${node.identifier}" class="btn edit">
                         Edit
                     </a>
 
-                    <a href="/user/delete?username=${user.username}"
-                       onclick="return confirm('Delete this user?')"
+                    <a href="/node/delete?identifier=${node.identifier}"
+                       onclick="return confirm('Delete this node?')"
                        class="btn delete">
                         Delete
                     </a>
@@ -164,8 +172,8 @@
 
         <h3>Quick Actions</h3>
 
-        <button class="big-btn add" onclick="window.location.href='/register'">
-            + Add User
+        <button class="big-btn add" onclick="window.location.href='/node/add'">
+            + Add Node
         </button>
 
         <button class="big-btn home" onclick="window.location.href='/'">

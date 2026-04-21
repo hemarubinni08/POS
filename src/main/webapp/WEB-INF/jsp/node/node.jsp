@@ -1,11 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update User</title>
+    <title>Edit Node</title>
 
     <style>
         body {
@@ -29,28 +29,29 @@
         }
 
         .card {
-            width: 380px;
+            width: 400px;
             background: white;
+            padding: 22px;
             border-radius: 10px;
-            padding: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             color: #333;
+            font-size: 18px;
         }
 
-        .message {
+        .error {
             text-align: center;
-            color: green;
-            font-size: 13px;
+            color: #dc3545;
+            font-size: 12px;
             margin-bottom: 10px;
         }
 
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         label {
@@ -61,8 +62,8 @@
 
         input, select {
             width: 100%;
-            padding: 9px;
-            margin-top: 4px;
+            padding: 10px;
+            margin-top: 5px;
             border-radius: 6px;
             border: 1px solid #ddd;
             font-size: 13px;
@@ -78,18 +79,9 @@
             box-shadow: 0 0 0 2px rgba(30,136,229,0.2);
         }
 
-        .badge {
-            display: inline-block;
-            background: #e3f2fd;
-            color: #1e88e5;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            margin: 2px;
-        }
-
-        .roles-box {
-            margin-bottom: 8px;
+        .readonly {
+            background: #f5f5f5;
+            cursor: not-allowed;
         }
 
         .btn {
@@ -98,7 +90,7 @@
             margin-top: 10px;
             border-radius: 6px;
             border: none;
-            background: #1e88e5;
+            background: #28a745;
             color: white;
             font-weight: 600;
             cursor: pointer;
@@ -131,58 +123,58 @@
 <body>
 
 <div class="header">
-    POS - Edit User
+    POS - Edit Node
 </div>
 
 <div class="container">
 
     <div class="card">
 
-        <h2>Edit User</h2>
+        <h2>Update Node</h2>
 
-        <div class="message">${message}</div>
-
-        <form:form action="/user/update" method="post" modelAttribute="userDto">
-
-            <form:input type="hidden" path="id"/>
-
-            <div class="form-group">
-                <label>Name</label>
-                <form:input path="name" required="true"/>
+        <c:if test="${empty node}">
+            <div class="error">
+                Node not found
             </div>
+        </c:if>
 
-            <div class="form-group">
-                <label>Email</label>
-                <form:input path="username" type="email" required="true"/>
-            </div>
+        <c:if test="${not empty node}">
 
-            <div class="form-group">
-                <label>Phone</label>
-                <form:input path="phoneNo" required="true"/>
-            </div>
+            <form:form method="post"
+                       action="/node/update"
+                       modelAttribute="node">
 
-            <div class="form-group">
-                <label>Current Roles</label>
-                <div class="roles-box">
-                    <c:forEach var="r" items="${user.roles}">
-                        <span class="badge">${r}</span>
-                    </c:forEach>
+                <div class="form-group">
+                    <label>Node Identifier</label>
+                    <form:input path="identifier" cssClass="readonly" readonly="true"/>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label>Select Roles</label>
-                <form:select path="roles" multiple="true">
-                    <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-                </form:select>
-                <small>Hold Ctrl/Cmd to select multiple</small>
-            </div>
+                <div class="form-group">
+                    <label>Node Path</label>
+                    <form:input path="path" required="true"/>
+                </div>
 
-            <button type="submit" class="btn">Update User</button>
+                <div class="form-group">
+                    <label>Roles</label>
+                    <form:select path="roles" multiple="true">
+                        <form:options items="${roles}"
+                                      itemValue="identifier"
+                                      itemLabel="identifier"/>
+                    </form:select>
+                    <small>Hold Ctrl/Cmd to select multiple roles</small>
+                </div>
 
-        </form:form>
+                <button type="submit" class="btn">
+                    Update Node
+                </button>
 
-        <a href="/user/list" class="back">← Back to User List</a>
+            </form:form>
+
+            <a href="/node/list" class="back">
+                ← Back to Node List
+            </a>
+
+        </c:if>
 
     </div>
 
