@@ -13,7 +13,7 @@
     <style>
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(to bottom, #ffffff, #e5e5e5, #bbbbbb);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,38 +25,48 @@
         }
 
         h4 {
+            background: #ffffff
             font-weight: 600;
         }
     </style>
 </head>
 
 <body>
-${message}
+
 <div class="card shadow-lg">
     <div class="card-body">
 
-        <h4 class="text-center mb-4 text-primary">Edit Role</h4>
+        <h4 class="text-center">Edit Role</h4>
 
-        <c:if test="${empty role}">
+        <c:if test="${empty roleDto}">
             <div class="alert alert-danger text-center">
                 Role not found
             </div>
         </c:if>
 
-        <c:if test="${not empty role}">
+        <c:if test="${not empty roleDto}">
             <form:form action="/role/update"
                        method="post"
                        modelAttribute="roleDto">
 
-                <form:hidden path="id" value="${role.id}/>
+                <form:hidden path="id"/>
 
                 <div class="mb-4">
                     <label class="form-label">Role Name</label>
                     <form:input path="identifier"
                                 cssClass="form-control"
                                 placeholder="Enter role"
-                                required="true"/>
+                                readonly="true"/>
                 </div>
+
+                <div class="mb-4">
+                                    <label class="form-label">Description</label>
+                                    <form:input path="description"
+                                                cssClass="form-control"
+                                                placeholder="Enter description"
+                                                required="true"/>
+                                </div>
+
 
                 <div class="d-flex justify-content-between">
                     <a href="/role/list" class="btn btn-outline-secondary">
@@ -69,8 +79,23 @@ ${message}
 
             </form:form>
         </c:if>
+        <div class="text-center mt-3">
+                <a href="/role/list">← Back to Role List</a>
+            </div>
 
     </div>
+
+     <c:if test="${not empty message}">
+            <div style="
+                background:#f8d7da;
+                color:#721c24;
+                padding:10px;
+                margin-bottom:15px;
+                border-radius:4px;
+                text-align:center;">
+                ${message}
+            </div>
+        </c:if>
 </div>
 
 </body>

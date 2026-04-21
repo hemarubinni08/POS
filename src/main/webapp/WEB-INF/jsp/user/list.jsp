@@ -6,13 +6,13 @@
 <head>
     <title>User Management</title>
 
-    <!-- Bootstrap CSS -->
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(to bottom, #ffffff, #e5e5e5, #bbbbbb);
             min-height: 100vh;
         }
 
@@ -33,6 +33,32 @@
         a.user-link:hover {
             text-decoration: underline;
         }
+
+        h4{
+            background-color: #ffffff;
+          }
+            .btn-pos-update {
+                              background-color: #4b6cb7;
+                              border-color: #4b6cb7;
+                              color: #fff;
+                          }
+
+                          .btn-pos-update:hover {
+                              background-color: #3f5fa7;
+                              border-color: #3f5fa7;
+                              color: #fff;
+                          }
+
+                          .btn-pos-delete {
+                              background-color: #f5f7fa;
+                              border: 1px solid #dc3545;
+                              color: #dc3545;
+                          }
+
+                          .btn-pos-delete:hover {
+                              background-color: #dc3545;
+                              color: #fff;
+                          }
     </style>
 </head>
 
@@ -42,9 +68,9 @@
     <div class="card shadow-lg">
         <div class="card-body">
 
-            <h3 class="text-center mb-4">User Management</h3>
+            <h3 class="text-center mb-4 text-black">User Management</h3>
 
-            <!-- NO USERS MESSAGE -->
+
             <c:if test="${empty users}">
                 <div class="alert alert-warning text-center">
                     No users found
@@ -60,7 +86,8 @@
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Roles</th>
-                            <th>Action</th>
+                            <th>Delete</th>
+                            <th>Update</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -76,11 +103,18 @@
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
                                 <td>
-                                    <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
+                                    <a class="btn btn-pos-delete btn-sm"
+                                       href="/user/delete?username=${user.username}"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
                                         Delete
                                     </a>
+
+                                    <td>
+                                       <a class="btn btn-pos-update btn-sm"
+                                        href="/user/get?username=${user.username}"
+                                >
+                                         Update
+                               </a>
                                 </td>
                             </tr>
                         </c:forEach>

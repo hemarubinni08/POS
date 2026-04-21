@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update User</title>
+    <title>Update Node</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"/>
@@ -30,7 +30,7 @@
 
         h3 {
             text-align: center;
-            color: #4b6cb7;
+            color: black;
             margin-bottom: 25px;
             font-weight: 600;
         }
@@ -74,42 +74,42 @@
 
 <body>
 <div class="update-card">
-    <h3>Update User</h3>
+    <h3>Update Node</h3>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto" novalidate="novalidate">
+    <form:form action="/node/update" method="post" modelAttribute="nodeDto">
 
         <form:input type="hidden" path="id"/>
 
         <div class="mb-3">
             <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
+            <form:input path="identifier" cssClass="form-control" required="true" pattern="^[A-Za-z)-9_-]+$" readonly="true"/>
         </div>
 
          <div class="mb-3">
-            <label>Email</label>
-            <form:input path="username" type="email" cssClass="form-control" required="true"/>
+            <label>Path</label>
+            <form:input path="path" cssClass="form-control" required="true" pattern="^/.*" title="Path must start with /"/>
         </div>
 
-        <div class="mb-3">
-            <label>Phone Number</label>
-            <form:input path="phoneNo" minlength="10" cssClass="form-control" type="number" required="true"/>
-        </div>
 
         <div class="mb-3">
             <label>Roles</label>
 
             <div class="mb-1 text-muted">
                 Current:
-                <c:forEach var="r" items="${user.roles}">
-                    <span class="badge bg-secondary me-1">${r}</span>
-                </c:forEach>
+
+
+<c:forEach var="r" items="${nodeDto.roles}">
+    <span class="badge bg-secondary me-1">${r}</span>
+</c:forEach>
+
             </div>
 
-          <form:select path="roles" multiple="true" cssClass="form-control">
-              <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-          </form:select>
 
-
+<form:select path="roles" multiple="true" cssClass="form-control">
+    <form:options items="${roles}"
+                  itemValue="identifier"
+                  itemLabel="identifier"/>
+</form:select>
 
             <small>
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
@@ -120,7 +120,11 @@
 
     </form:form>
 
-    <c:if test="${not empty message}">
+    <div class="text-center mt-3">
+        <a href="/node/list">← Back to Node List</a>
+    </div>
+
+ <c:if test="${not empty message}">
         <div style="
             background:#f8d7da;
             color:#721c24;
@@ -131,10 +135,6 @@
             ${message}
         </div>
     </c:if>
-
-    <div class="text-center mt-3">
-        <a href="/user/list">← Back to User List</a>
-    </div>
 
 </div>
 

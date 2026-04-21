@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Role List</title>
+    <title>Node List</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -25,32 +25,32 @@
             background-color: #0d6efd;
             color: white;
         }
-        h4{
-            background-color: #ffffff;
-        }
 
         .btn-pos-update {
-                    background-color: #4b6cb7;
-                    border-color: #4b6cb7;
-                    color: #fff;
-                }
+            background-color: #4b6cb7; /* matches header blue */
+            border-color: #4b6cb7;
+            color: #fff;
+        }
 
-                .btn-pos-update:hover {
-                    background-color: #3f5fa7;
-                    border-color: #3f5fa7;
-                    color: #fff;
-                }
+        .btn-pos-update:hover {
+            background-color: #3f5fa7;
+            border-color: #3f5fa7;
+            color: #fff;
+        }
 
-                .btn-pos-delete {
-                    background-color: #f5f7fa;
-                    border: 1px solid #dc3545;
-                    color: #dc3545;
-                }
+        .btn-pos-delete {
+            background-color: #f5f7fa;
+            border: 1px solid #dc3545;
+            color: #dc3545;
+        }
 
-                .btn-pos-delete:hover {
-                    background-color: #dc3545;
-                    color: #fff;
-                }
+        .btn-pos-delete:hover {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .h4{
+            background-color: #ffffff;
+        }
     </style>
 </head>
 
@@ -61,54 +61,54 @@
         <div class="col-md-8">
 
             <div class="card shadow-lg">
-                <div class="card-header text-black text-center">
-                    <h4 class="mb-0">List of Roles</h4>
+                <div class="card-header text-black text-center ">
+                    <h4 class="mb-0">List of Nodes</h4>
                 </div>
 
                 <div class="card-body">
 
-                    <c:if test="${empty roles}">
+                    <c:if test="${empty nodes}">
                         <div class="alert alert-warning text-center">
                             No roles found
                         </div>
                     </c:if>
 
-                    <c:if test="${not empty roles}">
+                    <c:if test="${not empty nodes}">
                         <table class="table table-bordered table-hover text-center align-middle">
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Role</th>
-                                <th>Description</th>
+                                <th>Node</th>
+                                <th>Path</th>
+                                <th>Roles</th>
                                 <th>Delete</th>
                                 <th>Update</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="role" items="${roles}">
+                            <c:forEach var="node" items="${nodes}">
                                 <tr>
                                     <td>
-                                        <a href="/role/get?identifier=${role.identifier}"
+                                        <a href="/node/get?identifier=${node.identifier}"
                                            class="text-decoration-none fw-semibold">
-                                            ${role.id}
+                                            ${node.id}
                                         </a>
                                     </td>
-                                    <td>${role.identifier}</td>
-                                    <td>${role.description}</td>
+                                    <td>${node.identifier}</td>
+                                    <td>${node.path}</td>
+                                    <td>${node.roles}</td>
                                     <td>
-                                        <a href="/role/delete?identifier=${role.identifier}"
-                                           class="btn btn-pos-delete btn-sm"
-                                           onclick="return confirm('Are you sure you want to delete this role?');">
-                                            Delete
-                                        </a>
+                                      <a href="/node/delete?identifier=${node.identifier}"
+                                         class="btn btn-pos-delete btn-sm"
+                                         onclick="return confirm('Are you sure you want to delete this role?');">
+                                         delete</a>
                                     </td>
-                                    <td>
+                                     <td>
                                           <a class="btn btn-pos-update btn-sm"
-                                     href="/role/get?identifier=${role.identifier}"
-                                                                    >
-                                                                             Update
-                                                                   </a>
-                                                                    </td>
+                                        href="/node/get?identifier=${node.identifier}" >
+                                            Update
+                                          </a>
+                                     </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -122,8 +122,8 @@
                         Home
                     </a>
 
-                    <a href="/role/add" class="btn btn-success">
-                        + Add New Role
+                    <a href="/node/add" class="btn btn-success">
+                        + Add New Node
                     </a>
                 </div>
 
