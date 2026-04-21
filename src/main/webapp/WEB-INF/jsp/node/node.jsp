@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Role List</title>
+    <title>Edit Node</title>
 
     <style>
         * {
@@ -102,9 +103,11 @@
         }
 
         .card {
+            max-width: 420px;
+            margin: auto;
             background: white;
             border-radius: 12px;
-            padding: 20px;
+            padding: 25px;
             box-shadow: 0 0 15px rgba(75,108,183,0.25);
         }
 
@@ -113,55 +116,74 @@
             margin-bottom: 20px;
         }
 
-        table {
+        label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+            color: #444;
+        }
+
+        input, select {
             width: 100%;
-            border-collapse: collapse;
-            text-align: center;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
         }
 
-        th {
-            background: #667eea;
-            color: white;
-            padding: 10px;
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
         }
 
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
+        select[multiple] {
+            height: 100px;
         }
 
-        tr:hover {
-            background: #f0f2ff;
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
         }
 
         .btn {
-            padding: 6px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            color: white;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
             text-decoration: none;
-            margin: 0 3px;
-            display: inline-block;
+            cursor: pointer;
         }
 
-        .btn-danger { background: #e53e3e; }
-        .btn-primary { background: #667eea; }
-        .btn-secondary { background: #718096; }
-        .btn-success { background: #38a169; }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #333;
+        }
 
         .alert {
             text-align: center;
             padding: 10px;
-            background: #fff3cd;
-            border-radius: 5px;
+            background: #fed7d7;
+            color: #742a2a;
+            border-radius: 6px;
             margin-bottom: 15px;
+            font-size: 13px;
         }
 
-        .footer {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
+        .message {
+            text-align: center;
+            font-size: 12px;
+            margin-bottom: 10px;
+            color: green;
         }
     </style>
 </head>
@@ -170,63 +192,53 @@
 
 <div id="sidebar" class="sidebar">
     <div class="close-btn" onclick="toggleSidebar()">✖</div>
-   <c:forEach var="node" items="${nodes}">
-   <a href="${node.path}"> ${node.identifier}</a>
-   </c:forEach>
+    <c:forEach var="node" items="${nodes}">
+    <a href="${node.path}"> ${node.identifier}</a>
+    </c:forEach>
 </div>
 
 <div class="header">
     <span class="hamburger" onclick="toggleSidebar()">☰</span>
-    <h3>Role Management</h3>
+    <h3>Node Management</h3>
     <a href="/logout">Logout</a>
 </div>
 
 <div id="content" class="content">
     <div class="card">
 
-        <h3>List of Roles</h3>
+        <h3>Edit Node</h3>
 
-        <c:if test="${empty roles}">
-            <div class="alert">No roles found</div>
+        <c:if test="${not empty message}">
+            <div class="message">${message}</div>
         </c:if>
 
-        <c:if test="${not empty roles}">
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Role</th>
-                    <th>Description</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="role" items="${roles}">
-                    <tr>
-                        <td>${role.id}</td>
-                        <td>${role.identifier}</td>
-                        <td>${role.description}</td>
-                        <td>
-                            <a class="btn btn-danger"
-                               href="/role/delete?identifier=${role.identifier}"
-                               onclick="return confirm('Are you sure you want to delete this role?');">
-                                Delete
-                            </a>
-                            <a class="btn btn-primary"
-                               href="/role/get?identifier=${role.identifier}">
-                                Update
-                            </a>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+        <c:if test="${empty nodeDto}">
+            <div class="alert">Node not found</div>
         </c:if>
 
-        <div class="footer">
-            <a class="btn btn-secondary" href="/">Home</a>
-            <a class="btn btn-success" href="/role/add">+ Add New Role</a>
-        </div>
+        <c:if test="${not empty nodeDto}">
+            <form:form action="/node/update" method="post" modelAttribute="nodeDto">
+
+                <form:hidden path="id"/>
+
+                <label>Node Name</label>
+                <form:input path="identifier" required="true" readOnly="true"/>
+
+                <label style="margin-top:12px;">Node Path</label>
+                <form:input path="path" required="true"/>
+
+                <label style="margin-top:12px;">Roles</label>
+                <form:select path="roles" multiple="true" required="true">
+                    <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+                </form:select>
+
+                <div class="btn-group">
+                    <a href="/node/list" class="btn btn-secondary">Back</a>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+
+            </form:form>
+        </c:if>
 
     </div>
 </div>

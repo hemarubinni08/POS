@@ -1,21 +1,35 @@
 package com.ust.pos.user;
 
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.node.service.NodeService;
+import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
+    public static final String MESSAGE = "message";
+    public static final String REDIRECT_USER_LIST = "redirect:/user/list";
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private NodeService nodeService;
+
     @GetMapping("/list")
     public String home(Model model) {
+        model.addAttribute("nodes", nodeService.getNodesForRoles());
         model.addAttribute("users", userService.findAll());
         return "user/list";
     }
@@ -24,6 +38,8 @@ public class UserController {
     public String update(Model model, @RequestParam String username) {
         UserDto response = userService.findByUserName(username);
         model.addAttribute("user", response);
+        model.addAttribute("roles",roleService.findAll());
+        model.addAttribute("nodes", nodeService.getNodesForRoles());
         return "user/user";
     }
 
@@ -31,15 +47,26 @@ public class UserController {
     public String updatePost(Model model, @ModelAttribute UserDto userDto) {
         UserDto response = userService.update(userDto);
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute("user", response);
+            model.addAttribute("roles",roleService.findAll());
+            model.addAttribute(MESSAGE, response.getMessage());
             return "user/user";
         }
-        return "redirect:/user/list";
+        return REDIRECT_USER_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
-        userService.delete(username);
-        return "user/user";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null){
+            String loggedInUser = authentication.getName();
+            userService.delete(username);
+            if (loggedInUser.equals(username)) {
+                SecurityContextHolder.clearContext();
+                return "redirect:/logout";
+            }
+            return REDIRECT_USER_LIST;
+        }
+        return null;
     }
 }

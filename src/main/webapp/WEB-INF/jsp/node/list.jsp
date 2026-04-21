@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Role List</title>
+    <title>Node List</title>
 
     <style>
         * {
@@ -170,50 +170,52 @@
 
 <div id="sidebar" class="sidebar">
     <div class="close-btn" onclick="toggleSidebar()">✖</div>
-   <c:forEach var="node" items="${nodes}">
-   <a href="${node.path}"> ${node.identifier}</a>
-   </c:forEach>
+    <c:forEach var="node" items="${nodeslist}">
+    <a href="${node.path}"> ${node.identifier}</a>
+    </c:forEach>
 </div>
 
 <div class="header">
     <span class="hamburger" onclick="toggleSidebar()">☰</span>
-    <h3>Role Management</h3>
+    <h3>Node Management</h3>
     <a href="/logout">Logout</a>
 </div>
 
 <div id="content" class="content">
     <div class="card">
 
-        <h3>List of Roles</h3>
+        <h3>List of Nodes</h3>
 
-        <c:if test="${empty roles}">
-            <div class="alert">No roles found</div>
+        <c:if test="${empty nodes}">
+            <div class="alert">No Nodes found</div>
         </c:if>
 
-        <c:if test="${not empty roles}">
+        <c:if test="${not empty nodes}">
             <table>
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Role</th>
-                    <th>Description</th>
+                    <th>Node</th>
+                    <th>Path</th>
+                    <th>Roles</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="role" items="${roles}">
+                <c:forEach var="node" items="${nodes}">
                     <tr>
-                        <td>${role.id}</td>
-                        <td>${role.identifier}</td>
-                        <td>${role.description}</td>
+                        <td>${node.id}</td>
+                        <td>${node.identifier}</td>
+                        <td>${node.path}</td>
+                        <td>${node.roles}</td>
                         <td>
                             <a class="btn btn-danger"
-                               href="/role/delete?identifier=${role.identifier}"
-                               onclick="return confirm('Are you sure you want to delete this role?');">
+                               href="/node/delete?identifier=${node.identifier}"
+                               onclick="return confirm('Are you sure you want to delete this node?');">
                                 Delete
                             </a>
                             <a class="btn btn-primary"
-                               href="/role/get?identifier=${role.identifier}">
+                               href="/node/get?identifier=${node.identifier}">
                                 Update
                             </a>
                         </td>
@@ -225,7 +227,7 @@
 
         <div class="footer">
             <a class="btn btn-secondary" href="/">Home</a>
-            <a class="btn btn-success" href="/role/add">+ Add New Role</a>
+            <a class="btn btn-success" href="/node/add">+ Add New Node</a>
         </div>
 
     </div>

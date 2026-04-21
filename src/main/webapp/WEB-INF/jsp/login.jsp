@@ -1,32 +1,67 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
 
-    <style>
+ <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html,body{
+            height:100%;
+        }
         body {
             margin: 0;
             height: 100vh;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-color:#edebeb;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
+        #container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height:100%;
+        }
+        #leftDiv{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-wrap: auto;
+            background-color: #5b68a0;
+            color:white;
+            border-right: solid 10px white;
+        }
+        #rightDiv{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #d5dbf3;
+        }
+
         form {
-            background: #ffffff;
+            background: #ffffffc2;
             padding: 30px 35px;
             width: 320px;
             border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
         }
 
         h2 {
             text-align: center;
             margin-bottom: 25px;
-            color: #333;
+            color: #667eea;
         }
 
         form div {
@@ -62,30 +97,64 @@
             border-radius: 6px;
             font-size: 15px;
             cursor: pointer;
+            margin-bottom: 10px;
+
         }
 
         button:hover {
             background-color: #5a67d8;
         }
+
+        form p {
+            padding:5px;
+            color:red;
+        }
+
+        form a {
+            text-decoration: none;
+            color: #667eea;
+            padding: 5px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        form p{
+        color:green;
+        font-size:12px;
+        }
     </style>
 </head>
 
 <body>
-
-<form th:action="@{/login}" method="post">
-    <h2>Login</h2>
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username" required />
+<div id="container">
+    <div id="leftDiv">
+        <h1>Point of Sales Application</h1>
     </div>
+    <div id="rightDiv">
+        <form th:action="@{/login}" method="post">
+            <h2>Login</h2>
+            <div>
+                <label>Username:</label>
+                <input type="email" name="username" required />
+            </div>
 
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required />
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password" required />
+            </div>
+
+            <button type="submit">Login</button>
+            <a href="/register" center>Register</a>
+            <p id="successMsg">${message}</p>
+
+            <c:if test="${param.error == 'true'}">
+                <div style="color:red; margin-bottom:15px; text-align:center; font-size:13px;">
+                    Invalid username or password
+                </div>
+            </c:if>
+
+        </form>
     </div>
-
-    <button type="submit">Login</button>
-</form>
-
+</div>
 </body>
 </html>
