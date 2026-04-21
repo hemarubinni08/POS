@@ -63,27 +63,39 @@
                 <form:hidden path="id"/>
                 <form:hidden path="oldUsername"/>
 
+                <!-- NAME -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Name</label>
                     <form:input path="name"
                                 cssClass="form-control"
-                                placeholder="Enter name"/>
+                                placeholder="Enter name"
+                                required="required"/>
                 </div>
 
+                <!-- EMAIL -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Email</label>
                     <form:input path="username"
                                 cssClass="form-control"
-                                placeholder="Enter email"/>
+                                placeholder="Enter email"
+                                required="required"
+                                type="email"/>
                 </div>
 
+                <!-- PHONE -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Phone</label>
                     <form:input path="phoneNo"
                                 cssClass="form-control"
-                                placeholder="Enter phone number"/>
+                                placeholder="Enter phone number"
+                                required="required"
+                                type="number"
+                                maxlength="10"
+                                pattern="^[0-9]{10}$"/>
+                    <small class="text-muted">Must be exactly 10 digits/numbers</small>
                 </div>
 
+                <!-- ROLES -->
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Roles</label>
 
@@ -106,6 +118,7 @@
                     </div>
                 </div>
 
+                <!-- BUTTONS -->
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary w-100">
                         Update

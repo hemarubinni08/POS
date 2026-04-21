@@ -43,7 +43,7 @@
 
 <div class="card shadow p-4">
 
-    <h3 class="text-center mb-4">Register</h3>
+    <h3 class="text-center mb-4">POS Management Registration</h3>
 
     <!-- ERROR MESSAGE -->
     <c:if test="${not empty message}">

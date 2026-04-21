@@ -31,7 +31,6 @@
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 20px;
-            color: #1e293b;
         }
 
         .left p {
@@ -71,11 +70,6 @@
             border-radius: 6px;
             border: 1px solid #cbd5e1;
             font-size: 14px;
-            background-color: #ffffff;
-        }
-
-        input::placeholder {
-            color: #94a3b8;
         }
 
         input:focus {
@@ -109,7 +103,6 @@
 
         .btn-login:hover {
             background-color: #0f172a;
-            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.35);
         }
 
         .extra-text {
@@ -128,7 +121,6 @@
         .extra-text a:hover {
             text-decoration: underline;
         }
-
     </style>
 </head>
 
@@ -136,25 +128,34 @@
 
 <div class="main">
 
+    <!-- LEFT SIDE -->
     <div class="left">
         <h1>POS MADE SIMPLE</h1>
-
-        <p>
-            Modern retail application
-        </p>
+        <p>Modern retail application</p>
     </div>
 
+    <!-- RIGHT SIDE -->
     <div class="right">
         <div class="form-box">
 
             <h2>Login to your account</h2>
 
-            <c:if test="${param.error == 'true'}">
+            <!-- ERROR MESSAGE (FROM SESSION) -->
+            <c:if test="${not empty sessionScope.errorMessage}">
                 <div class="error-msg">
-                    Invalid username or password
+                    ${sessionScope.errorMessage}
+                </div>
+                <c:remove var="errorMessage" scope="session"/>
+            </c:if>
+
+            <!-- LOGOUT MESSAGE -->
+            <c:if test="${not empty param.logout}">
+                <div class="error-msg" style="background:#dcfce7;color:#166534;border-color:#86efac;">
+                    Logged out successfully
                 </div>
             </c:if>
 
+            <!-- LOGIN FORM -->
             <form action="${pageContext.request.contextPath}/login" method="post">
 
                 <input type="text" name="username" placeholder="Enter username" required>
