@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/role")
 public class RoleController {
-
     @Autowired
     private RoleService roleService;
 
