@@ -76,6 +76,16 @@
             border-color: #4B2E2B;
         }
 
+        .message {
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            text-align: center;
+            font-size: 13px;
+        }
+
         .btn-primary {
             width: 100%;
             border-radius: 10px;
@@ -115,7 +125,11 @@
     <h3>Register User</h3>
 
     <form:form action="register" method="post" modelAttribute="userDto">
-
+        <c:if test="${not empty message}">
+            <div class="message">
+                ${message}
+            </div>
+        </c:if>
         <!-- NAME -->
         <div class="mb-3">
             <label class="form-label">Full Name <span class="text-danger">*</span></label>
@@ -132,9 +146,8 @@
                         cssClass="form-control"
                         placeholder="Enter valid email"
                         type="email"
-                        required="required"
-                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-                        title="Enter valid email like example@gmail.com"/>
+                        pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                        required="required"/>
         </div>
 
         <!-- ROLES -->
@@ -159,21 +172,29 @@
         <div class="mb-3">
             <label class="form-label">Phone Number <span class="text-danger">*</span></label>
             <form:input path="phoneNo"
-                        type="number"
-                        cssClass="form-control"
-                        placeholder="Enter 10-digit number"
-                        required="required"
-                        pattern="^[6-9][0-9]{9}$"/>
+
+                      type="tel"
+                      cssClass="form-control"
+                      placeholder="Enter 10-digit number"
+                      required="required"
+                      maxlength="10"
+                      pattern="^[6-9][0-9]{9}$"
+
+                      title="Enter valid 10-digit mobile number starting with 6-9" />
+
         </div>
 
         <!-- PASSWORD -->
         <div class="mb-4">
             <label class="form-label">Password <span class="text-danger">*</span></label>
             <form:password path="password"
-                           cssClass="form-control"
-                           placeholder="Enter password"
-                           required="required"
-                           minlength="6"/>
+                   cssClass="form-control"
+                   placeholder="Enter password"
+                   required="required"
+                   minlength="8"
+                   pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+                   title="Minimum 8 characters with uppercase, lowercase, number, and special character"
+            />
         </div>
 
         <!-- BUTTONS -->
@@ -181,9 +202,9 @@
             Register
         </button>
 
-        <a href="/" class="btn btn-danger w-100 mb-3 mt-2">
-            Cancel
-        </a>
+        <button type="reset" class="btn btn-danger w-100 mb-3 mt-2">
+            Clear
+        </button>
 
         <div class="text-center">
             <small>

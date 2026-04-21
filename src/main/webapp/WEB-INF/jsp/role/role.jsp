@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html land="en">
 <head>
     <title>Edit Role</title>
 
@@ -93,16 +93,18 @@
                 <form:hidden path="id" value="${role.id}"/>
 
                 <div class="mb-4">
-                    <label class="form-label">Role Name</label>
+                    <label class="form-label"><b>Role Name</b></label>
                     <form:input path="identifier"
                                 cssClass="form-control"
                                 readonly="true"/>
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label">Description</label>
-                    <form:textarea path="description"
+                    <label class="form-label"><b>Description</b></label>
+
+                    <form:input path="description"
                                    cssClass="form-control"
+                                   value="${role.description}"
                                    rows="3"
                                    required="true"/>
                 </div>

@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Add Role</title>
@@ -103,7 +103,7 @@
                    modelAttribute="roleDto">
 
             <div class="mb-3">
-                <label class="form-label">Role Name</label>
+                <label class="form-label"><b>Role Name</b></label>
                 <form:input path="identifier"
                             cssClass="form-control"
                             placeholder="Enter role name"
@@ -111,7 +111,7 @@
             </div>
 
             <div class="mb-4">
-                <label class="form-label">Role Description</label>
+                <label class="form-label"><b>Role Description</b></label>
                 <form:input path="description"
                             cssClass="form-control"
                             placeholder="Enter role description"

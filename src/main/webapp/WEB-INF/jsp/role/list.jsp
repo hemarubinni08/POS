@@ -2,182 +2,215 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Role List</title>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Roles Management</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
+            font-family: "Segoe UI", Tahoma, sans-serif;
             background-color: #FFF8F0;
-            min-height: 100vh;
-            font-family: "Segoe UI", Arial, sans-serif;
-            padding-top: 40px;
+            margin: 0;
+            padding: 40px;
         }
 
-        .card {
-            border-radius: 16px;
+        .container {
+            width: 70%;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 18px;
             box-shadow: 0 18px 35px rgba(75, 46, 43, 0.25);
-            border: none;
         }
 
-        .card-header {
-            background-color: #4B2E2B;
-            color: #FFF8F0;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
-        }
-
-        h4 {
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #4B2E2B;
             font-weight: 600;
         }
 
-        .table th {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        thead {
             background-color: #4B2E2B;
             color: #FFF8F0;
-            border-color: #4B2E2B;
-            font-weight: 600;
+        }
+
+        th, td {
+            padding: 14px;
             text-align: center;
         }
 
-        .table td {
-            vertical-align: middle;
-            text-align: center;
+        th {
+            font-size: 13px;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
         }
 
-        .table-hover tbody tr:hover {
+        tbody tr:nth-child(even) {
             background-color: #fff3eb;
+        }
+
+        tbody tr:hover {
+            background-color: #f1e3dc;
+        }
+
+        .btn {
+            padding: 6px 14px;
+            border-radius: 6px;
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
         }
 
         .btn-edit {
             background-color: #4B2E2B;
             color: #FFF8F0;
-            border-radius: 6px;
-            padding: 4px 12px;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-block;
         }
 
         .btn-edit:hover {
             background-color: #3a2421;
+        }
+
+        .btn-delete {
+            background-color: #8d3c36;
             color: #FFF8F0;
         }
 
-        .btn-danger {
-            background-color: #8d3c36;
-            border: none;
-        }
-
-        .btn-danger:hover {
+        .btn-delete:hover {
             background-color: #702f2a;
         }
 
-        .btn-secondary {
-            background-color: #4B2E2B;
-            border: none;
+        .top-bar {
+            margin-top: 20px;
+            text-align: center;
         }
 
-        .btn-secondary:hover {
+        .home-btn {
+            display: inline-block;
+            background-color: #6b4a46;
+            color: #FFF8F0;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .home-btn:hover {
+            background-color: #4B2E2B;
+        }
+
+        .add-role {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4B2E2B;
+            color: #FFF8F0;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .add-role:hover {
             background-color: #3a2421;
         }
 
-        .btn-success {
-            background-color: #6b4a46;
-            border: none;
-        }
+        @media (max-width: 900px) {
+            .container {
+                width: 95%;
+            }
 
-        .btn-success:hover {
-            background-color: #4B2E2B;
-        }
-
-        .card-footer {
-            background-color: #fff3eb;
-            border-top: none;
+            table {
+                font-size: 12px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="container">
 
-            <div class="card">
-                <div class="card-header text-center">
-                    <h4 class="mb-0">List of Roles</h4>
-                </div>
+    <h2>Roles Management</h2>
 
-                <div class="card-body">
-
-                    <c:if test="${empty roles}">
-                        <div class="alert alert-warning text-center">
-                            No roles found
-                        </div>
-                    </c:if>
-
-                    <c:if test="${not empty roles}">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover align-middle">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Role</th>
-                                    <th>Description</th>
-                                    <th>Edit</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach var="role" items="${roles}">
-                                    <tr>
-                                        <td>${role.id}</td>
-                                        <td>${role.identifier}</td>
-                                        <td>${role.description}</td>
-                                        <td>
-                                            <a href="/role/get?identifier=${role.identifier}"
-                                               class="btn-edit">
-                                                Edit
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="/role/delete?identifier=${role.identifier}"
-                                               class="btn btn-danger btn-sm"
-                                               onclick="return confirm('Are you sure you want to delete this role?');">
-                                                Delete
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
-                    </c:if>
-
-                </div>
-
-                <div class="card-footer text-center d-flex justify-content-center gap-3">
-                    <a href="/" class="btn btn-secondary">
-                        Home
-                    </a>
-
-                    <a href="/role/add" class="btn btn-success">
-                        + Add New Role
-                    </a>
-                </div>
-
-            </div>
-
+    <c:if test="${empty roles}">
+        <div style="text-align:center; color:#8d3c36; font-weight:600;">
+            No roles found
         </div>
+    </c:if>
+
+    <c:if test="${not empty roles}">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Role</th>
+                <th>Description</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <c:forEach var="role" items="${roles}">
+                <tr>
+                    <td>${role.id}</td>
+                    <td>${role.identifier}</td>
+                    <td>${role.description}</td>
+
+
+                    <td>
+                        <a class="btn btn-edit"
+                            href="/role/get?identifier=${role.identifier}"
+                            title="Edit Role">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                    </td>
+
+
+
+                    <td>
+                        <a class="btn btn-delete"
+                            href="/role/delete?identifier=${role.identifier}"
+                            title="Delete Role"
+                            onclick="return confirm('Are you sure you want to delete this role?');">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+
+
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+
+    <div class="top-bar">
+        <a href="/" class="home-btn">Home</a>
     </div>
+
+    <div style="text-align:center;">
+        <a href="/role/add" class="add-role">+ Add New Role</a>
+    </div>
+
 </div>
 
 </body>
 </html>
-``

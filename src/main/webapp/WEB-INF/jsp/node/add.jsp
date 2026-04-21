@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Add Node</title>
@@ -98,7 +98,7 @@
         <form action="/node/add" method="post" modelAttribute="nodeDto">
 
             <div class="form-group">
-                <label>Node Name</label>
+                <label><b>Node Name</b></label>
                 <input type="text"
                        class="form-control"
                        name="identifier"
@@ -107,7 +107,7 @@
             </div>
 
             <div class="form-group">
-                <label>Path Name</label>
+                <label><b>Path Name</b></label>
                 <input type="text"
                        class="form-control"
                        name="path"
@@ -115,7 +115,7 @@
                        required>
             </div>
 
-            <label>Roles</label>
+            <label><b>Roles</b></label>
             <div class="multi-role-box">
                 <c:forEach items="${roles}" var="role">
                     <label class="role-item">

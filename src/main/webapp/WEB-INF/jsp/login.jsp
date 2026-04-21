@@ -15,7 +15,7 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: #FFF8F0;
+            background: linear-gradient(135deg, #fdf6f0, #f3e7e9);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -23,79 +23,101 @@
         }
 
         .card {
-            width: 360px;
-            padding: 28px 30px;
-            border-radius: 18px;
-            background: #ffffff;
-            box-shadow: 0 18px 35px rgba(75, 46, 43, 0.25);
+            width: 380px;
+            padding: 35px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(75, 46, 43, 0.2);
+            border: none;
         }
 
         h3 {
             text-align: center;
-            margin-bottom: 22px;
+            margin-bottom: 5px;
             font-weight: 600;
             color: #4B2E2B;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 25px;
         }
 
         .form-label {
             font-size: 13px;
             font-weight: 500;
             color: #4B2E2B;
+            margin-bottom: 5px;
         }
 
         .form-control {
-            border-radius: 8px;
-            border: 1px solid #ccb7b2;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            transition: all 0.3s ease;
         }
 
         .form-control:focus {
             border-color: #4B2E2B;
-            box-shadow: none;
+            box-shadow: 0 0 0 2px rgba(75, 46, 43, 0.1);
         }
 
         .btn-primary {
-            background-color: #4B2E2B;
+            background: linear-gradient(135deg, #4B2E2B, #6d4c41);
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-weight: 600;
-            padding: 10px;
+            padding: 12px;
             width: 100%;
+            transition: 0.3s;
         }
 
         .btn-primary:hover {
-            background-color: #3a2421;
+            transform: scale(1.03);
+            background: linear-gradient(135deg, #3a2421, #5c3d2e);
+        }
+
+        .register-text {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+            color: #555;
         }
 
         .register-btn {
-            margin-top: 14px;
-            background-color: #fff3eb;
+            margin-top: 10px;
+            background: #f5e6dc;
             color: #4B2E2B;
-            border-radius: 10px;
+            border-radius: 12px;
             text-align: center;
             display: block;
             padding: 10px;
             text-decoration: none;
             font-weight: 500;
+            transition: 0.3s;
         }
 
         .register-btn:hover {
-            background-color: #f1e3dc;
+            background: #ecd6c8;
         }
 
-
         .error {
-            color: red;
+            color: #d32f2f;
             text-align: center;
             margin-bottom: 15px;
             font-size: 14px;
         }
 
         .success {
-            color: green;
+            color: #2e7d32;
             text-align: center;
             margin-bottom: 15px;
             font-size: 14px;
         }
+
 
     </style>
 </head>
@@ -105,29 +127,32 @@
 <div class="card">
 
     <h3>Login</h3>
+    <p class="subtitle">Login to your POS account</p>
 
     <form:form action="/login" method="post">
 
         <c:if test="${param.error != null}">
-                <div class="error">
-                    Invalid username or password
-                </div>
+            <div class="error">
+                Invalid username or password
+            </div>
         </c:if>
+
         <c:if test="${param.logout != null}">
-                <div class="success">
-                    You have been logged out successfully
-                </div>
+            <div class="success">
+                You have been logged out successfully
+            </div>
         </c:if>
+
         <!-- Username -->
         <div class="mb-3">
             <label class="form-label">Username</label>
-            <input type="text" name="username" class="form-control" required />
+            <input type="text" name="username" class="form-control" placeholder="Enter username" required />
         </div>
 
         <!-- Password -->
         <div class="mb-4">
-                    <label class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" required />
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" placeholder="Enter password" required />
         </div>
 
 
@@ -135,6 +160,8 @@
         <button type="submit" class="btn btn-primary">
             Login
         </button>
+
+        <p class="register-text">Don't have an account?</p>
 
         <!-- Register Link -->
         <a href="/register" class="register-btn">

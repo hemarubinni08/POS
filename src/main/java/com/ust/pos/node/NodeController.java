@@ -27,7 +27,7 @@ public class NodeController {
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute NodeDto nodeDto) {
-        model.addAttribute("roles",roleService.findAll());
+        model.addAttribute("roles", roleService.findAll());
         return "node/add";
     }
 
@@ -44,7 +44,7 @@ public class NodeController {
     public String update(Model model, @RequestParam String identifier) {
         NodeDto response = nodeService.findByIdentifier(identifier);
         model.addAttribute("node", response);
-        model.addAttribute("roles",roleService.findAll());
+        model.addAttribute("roles", roleService.findAll());
         return "node/node";
     }
 

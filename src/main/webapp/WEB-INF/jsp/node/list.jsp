@@ -2,8 +2,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta charset="UTF-8">
     <title>Nodes Management</title>
 
@@ -162,8 +164,9 @@
             <th>Name</th>
             <th>Path</th>
             <th>Roles</th>
-            <th>Delete</th>
             <th>Edit</th>
+            <th>Delete</th>
+
         </tr>
         </thead>
         <tbody>
@@ -178,18 +181,21 @@
                 <td>${node.path}</td>
                 <td>${node.roles}</td>
                 <td>
-                    <a class="btn btn-delete"
-                       href="/node/delete?identifier=${node.identifier}"
-                       onclick="return confirm('Are you sure you want to delete this node?');">
-                        Delete
+                    <a class="btn btn-edit"
+                        href="/node/get?identifier=${node.identifier}"
+                        title="Edit Node">
+                        <i class="fa-solid fa-pen"></i>
                     </a>
                 </td>
                 <td>
-                    <a class="btn btn-edit"
-                       href="/node/get?identifier=${node.identifier}">
-                        Edit
+                    <a class="btn btn-delete"
+                       href="/node/delete?identifier=${node.identifier}"
+                       title="Delete Node"
+                       onclick="return confirm('Are you sure you want to delete this node?');">
+                        <i class="fa-solid fa-trash"></i>
                     </a>
                 </td>
+
             </tr>
         </c:forEach>
         </tbody>

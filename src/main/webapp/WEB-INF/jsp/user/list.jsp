@@ -2,13 +2,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>User Management</title>
-
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
+
 
     <style>
         body {
@@ -107,6 +109,17 @@
             color: #FFF8F0;
         }
 
+        /* Icon-only buttons */
+        .btn-icon {
+            width: 36px;
+            height: 30px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+
         .register-btn {
             background-color:  #4B2E2B;
             color: #FFF8F0;
@@ -119,11 +132,27 @@
             display: inline-block;
         }
 
+        .btn-delete {
+            background-color: #8d3c36;
+            color: #FFF8F0;
+        }
+
+        .btn-delete:hover {
+            background-color: #702f2a;
+            color: #FFF8F0;
+        }
+
         .register-btn:hover {
             background-color: #4B2E2B;
             color: #FFF8F0;
         }
         ``
+
+        .btn-icon i {
+            font-size: 13px;
+            color: #FFF8F0;
+        }
+
     </style>
 </head>
 
@@ -163,19 +192,23 @@
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
-                                <td>
-                                    <a class="btn-edit"
-                                       href="/user/get?username=${user.username}">
-                                       Edit
-                                    </a>
-                                </td>
-                                <td>
-                                    <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?username=${user.username}"
-                                       onclick="return confirm('Are you sure you want to delete this user?');">
-                                        Delete
-                                    </a>
-                                </td>
+
+                               <td>
+                                   <a href="/user/get?username=${user.username}"
+                                      class="btn-edit btn-icon"
+                                      title="Edit User">
+                                       <i class="fa-solid fa-pen"></i>
+                                   </a>
+                               </td>
+
+                               <td>
+                                   <a href="/user/delete?username=${user.username}"
+                                      class="btn-delete btn-icon"
+                                      title="Delete User"
+                                      onclick="return confirm('Are you sure you want to delete this user?');">
+                                       <i class="fa-solid fa-trash"></i>
+                                   </a>
+                               </td>
                             </tr>
                         </c:forEach>
                         </tbody>

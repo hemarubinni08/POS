@@ -3,7 +3,7 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Update User</title>
 
@@ -131,8 +131,8 @@
 
             <form:select path="roles" multiple="true" cssClass="form-control">
                 <form:options items="${roles}"
-                              itemValue="identifier"
-                              itemLabel="identifier"/>
+                    itemValue="identifier"
+                    itemLabel="identifier"/>
             </form:select>
 
             <small>
@@ -151,6 +151,5 @@
     </div>
 
 </div>
-
 </body>
 </html>

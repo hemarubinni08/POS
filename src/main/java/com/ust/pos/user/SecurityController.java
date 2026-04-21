@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class SecurityController {
@@ -31,11 +32,11 @@ public class SecurityController {
     }
 
     @PostMapping("/register")
-    public String addPost(Model model, @ModelAttribute UserDto userDto) {
+    public String addPost(RedirectAttributes redirectAttributes, Model model, @ModelAttribute UserDto userDto) {
         UserDto response = userService.save(userDto);
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            return "register";
+            redirectAttributes.addFlashAttribute("message", response.getMessage());
+            return "redirect:/register";
         }
         return "redirect:/login";
     }
