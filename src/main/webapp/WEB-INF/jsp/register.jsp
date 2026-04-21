@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>User Registration</title>
 
@@ -27,7 +27,7 @@
         .left-panel {
             flex: 1;
             background: linear-gradient(135deg, #cee9e9, #8fcfcd);
-            color: white;
+            color: #1f3b3b;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -85,11 +85,21 @@
 
         /* FORM BOX */
         .form-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             width: 360px;
             background: white;
             padding: 40px;
             border-radius: 18px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .form-box input[type="text"],
+        .form-box input[type="number"],
+        .form-box input[type="password"],
+        .form-box input[type="email"] {
+            max-width: 334px;
         }
 
         .form-box h2 {
@@ -100,8 +110,10 @@
             letter-spacing: 1px;
         }
 
-        .form-box input,
-        .form-box select {
+        .form-box input[type="text"],
+        .form-box input[type="number"],
+        .form-box input[type="password"],
+        .form-box input[type="email"] {
             width: 100%;
             padding: 12px;
             margin-bottom: 12px;
@@ -121,9 +133,18 @@
             border: none;
             border-radius: 10px;
             background: linear-gradient(135deg, #cee9e9, #4aa6a3);
+            box-shadow: 0 12px 30px rgba(74, 166, 163, 0.35);
+            transition: all 0.2s ease;
             color: white;
             font-weight: 600;
             cursor: pointer;
+        }
+
+        .form-box button:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                    0 12px 30px rgba(74, 166, 163, 0.35),
+                    0 0 15px rgba(74, 166, 163, 0.2);
         }
 
         .checkbox {
@@ -138,10 +159,130 @@
             margin-bottom: 10px;
         }
 
+        /* ROLES CHECKBOX GROUP */
+        .roles-group {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
+        .roles-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #aaa;
+            margin-bottom: 8px;
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        .checkbox-list {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .checkbox-item:hover {
+            border-color: #4aa6a3;
+            background: #f0fafa;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            min-width: 16px;
+            margin: 0;
+            padding: 0;
+            accent-color: #4aa6a3;
+            cursor: pointer;
+        }
+
+        .checkbox-item span {
+            font-size: 13px;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .checkbox-item:has(input:checked) {
+            border-color: #4aa6a3;
+            background: #eaf6f6;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            min-width: 260px;
+            max-width: 80%;
+            padding: 14px 18px;
+            border-radius: 14px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(31, 59, 59, 0.9);
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            background-image: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.25),
+                rgba(255, 255, 255, 0.08)
+            );
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            z-index: 9999;
+            opacity: 0;
+            animation: toastIn 0.4s ease forwards;
+        }
+
+        .toast::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: radial-gradient(
+                circle at center,
+                rgba(74, 166, 163, 0.25),
+                transparent 70%
+            );
+            z-index: -1;
+            filter: blur(12px);
+        }
+
+        /* entry animation */
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* exit */
+        .toast.hide {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+            transition: all 0.4s ease;
+        }
+
         small {
             color: red;
         }
-
     </style>
 </head>
 
@@ -151,8 +292,8 @@
 
     <!-- LEFT -->
     <div class="left-panel">
-        <h1>Pull Designs.</h1>
-        <p>Hello,<br>I'm so glad to see you again</p>
+        <h1>POS Application</h1>
+        <p>Register to continue</p>
 
         <a href="/login" class="login-btn">LOG IN</a>
 
@@ -171,9 +312,11 @@
 
             <h2>SIGN UP</h2>
 
-            <div id="messageBox">
-                <small>${message}</small>
-            </div>
+            <c:if test="${not empty message}">
+                <div id="toast" class="toast">
+                    ${message}
+                </div>
+            </c:if>
 
             <form:form action="register" method="post" modelAttribute="userDto">
 
@@ -186,9 +329,18 @@
                             pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
                             title="Enter valid email like example@gmail.com"/>
 
-                <form:select path="roles" multiple="true" required="true">
-                    <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-                </form:select>
+                <!-- ROLES CHECKBOXES -->
+                <div class="roles-group">
+                    <span class="roles-label">SELECT ROLE(S)</span>
+                    <div class="checkbox-list">
+                        <c:forEach var="role" items="${roles}">
+                            <label class="checkbox-item">
+                                <form:checkbox path="roles" value="${role.identifier}"/>
+                                <span>${role.identifier}</span>
+                            </label>
+                        </c:forEach>
+                    </div>
+                </div>
 
                 <form:input path="phoneNo" type="number" placeholder="Phone Number" required="true"
                 pattern="^[6-9][0-9]{9}$" title="Enter valid 10-digit Indian mobile number"/>
@@ -205,18 +357,19 @@
 
 </div>
 <script>
-    window.addEventListener("DOMContentLoaded", function () {
-        const messageBox = document.getElementById("messageBox");
+window.addEventListener("DOMContentLoaded", function () {
+    const toast = document.getElementById("toast");
 
-        if (messageBox) {
+    if (toast) {
+        setTimeout(() => {
+            toast.classList.add("hide");
+
             setTimeout(() => {
-                messageBox.style.opacity = "0";
-                messageBox.style.transition = "opacity 0.5s ease";
-
-                setTimeout(() => messageBox.remove(), 500);
-            }, 4000); // disappears after 4 seconds
-        }
-    });
+                toast.remove();
+            }, 400);
+        }, 3500);
+    }
+});
 </script>
 </body>
 </html>

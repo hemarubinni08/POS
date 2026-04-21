@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     @Autowired
     private UserRepository userRepository;
 
@@ -49,25 +48,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(UserDto userDto) {
-        String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
 
         if (userOptional.isEmpty()) {
             userDto.setMessage("Email - " + userDto.getUsername() + " not found");
             userDto.setSuccess(false);
             return userDto;
-        } else {
-            User existingUser = userOptional.get();
-            if (!username.equalsIgnoreCase(existingUser.getUsername())) {
-                if (userRepository.findByUsername(username) != null) {
-                    userDto.setMessage("Email - " + userDto.getUsername() + " already exists");
-                    userDto.setSuccess(false);
-                    return userDto;
-                }
-            }
-            modelMapper.map(userDto, existingUser);
-            userRepository.save(existingUser);
         }
+
+        User existingUser = userOptional.get();
+        String username = userDto.getUsername();
+
+        boolean isUsernameChanged = !username.equalsIgnoreCase(existingUser.getUsername());
+
+        if (isUsernameChanged && userRepository.findByUsername(username) != null) {
+            userDto.setMessage("Email - " + username + " already exists");
+            userDto.setSuccess(false);
+            return userDto;
+        }
+
+        modelMapper.map(userDto, existingUser);
+        userRepository.save(existingUser);
+
         return userDto;
     }
 

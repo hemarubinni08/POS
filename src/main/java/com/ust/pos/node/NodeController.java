@@ -7,10 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/node")
 public class NodeController {
+    private static final String NODE_LIST = "node/list";
+    private static final String NODE_ADD = "node/add";
+    private static final String NODE_VIEW = "node/node";
+    private static final String REDIRECT_NODE_LIST = "redirect:/node/list";
+
     @Autowired
     private NodeService nodeService;
     @Autowired
@@ -19,37 +25,35 @@ public class NodeController {
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("nodes", nodeService.getNodesForRoles());
-        return "node/list";
+        return NODE_LIST;
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute NodeDto nodeDto) {
         model.addAttribute("roles", roleService.findAll());
-        return "node/add";
+        return NODE_ADD;
     }
 
-    @PostMapping("/add")
-    public String add(@ModelAttribute NodeDto nodeDto) {
-        nodeService.save(nodeDto);
-        return "redirect:/node/list";
+    @PostMapping("/save")
+    public String add(RedirectAttributes redirectAttributes, @ModelAttribute NodeDto nodeDto) {
+        boolean response =nodeService.save(nodeDto);
+        if(!response){
+            redirectAttributes.addFlashAttribute("message", "Node with identifier already exists");
+        }
+        return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/get")
     public String update(@RequestParam String identifier, Model model, @ModelAttribute NodeDto nodeDto) {
+        NodeDto response = nodeService.findByIdentifier(identifier);
         model.addAttribute("roles", roleService.findAll());
-        model.addAttribute("node", nodeService.findByIdentifier(identifier));
-        return "node/node";
-    }
-
-    @PostMapping("/update")
-    public String updatePost(@ModelAttribute NodeDto nodeDto) {
-        nodeService.update(nodeDto);
-        return "redirect:/node/list";
+        model.addAttribute("nodeDto", response);
+        return NODE_VIEW;
     }
 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
         nodeService.delete(identifier);
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 }

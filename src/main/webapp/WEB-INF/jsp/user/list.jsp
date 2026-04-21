@@ -2,32 +2,97 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>User Management</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
     <style>
         body {
-            background-color: #EDE9E6;
             min-height: 100vh;
+            background: linear-gradient(135deg, #dbeafe, #93c5fd);
+            font-family: 'Poppins', sans-serif;
         }
 
-        .table thead th {
-            background-color: #C9996B !important;
+        h3 {
             color: white;
+            font-weight: 700;
         }
 
-        a.user-link {
-            text-decoration: none;
-            font-weight: 500;
+        /* TABLE WRAPPER */
+        .table-wrapper {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 20px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
         }
 
-        a.user-link:hover {
-            text-decoration: underline;
+        /* TABLE */
+        .table {
+            margin-bottom: 0;
+            background: transparent;
+        }
+
+        /* HEADER DIVIDER ONLY */
+        .table thead th {
+            background: transparent;
+            border-bottom: 1.5px solid rgb(217 217 217 / 60%) !important;
+            font-weight: 600;
+            color: #111;
+        }
+
+        /* ROW HOVER */
+        .table tbody tr {
+            transition: 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(147, 197, 253, 0.15);
+            transform: scale(1.01);
+        }
+
+        /* REMOVE BORDERS */
+        .table td,
+        .table th {
+            border: none !important;
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            background: #3b82f6;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-secondary {
+            background: #94a3b8;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background: #64748b;
+        }
+
+        .btn-success {
+            background: #3b82f6;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background: #2563eb;
         }
     </style>
 </head>
@@ -36,20 +101,20 @@
 
 <div class="container mt-5">
 
-    <!-- Page Title -->
+    <!-- Title -->
     <h3 class="text-center mb-4">User Management</h3>
 
-    <!-- NO USERS MESSAGE -->
+    <!-- Empty -->
     <c:if test="${empty users}">
         <div class="alert alert-warning text-center">
             No users found
         </div>
     </c:if>
 
-    <!-- USERS TABLE -->
+    <!-- Table -->
     <c:if test="${not empty users}">
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover align-middle">
+        <div class="table-wrapper">
+            <table class="table align-middle">
                 <thead>
                 <tr>
                     <th>Email</th>
@@ -59,6 +124,7 @@
                     <th>Action</th>
                 </tr>
                 </thead>
+
                 <tbody>
                 <c:forEach var="user" items="${users}">
                     <tr>
@@ -78,7 +144,6 @@
                                 Delete
                             </a>
                         </td>
-
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -86,20 +151,10 @@
         </div>
     </c:if>
 
-    <!-- ACTION BUTTONS -->
+    <!-- Actions -->
     <div class="d-flex justify-content-center gap-3 mt-4">
-        <a href="/" class="btn btn-secondary">
-            Home
-        </a>
-
-        <a href="/register" class="btn btn-success">
-            Register
-        </a>
-    </div>
-
-    <!-- FOOTER TEXT -->
-    <div class="text-center text-muted small mt-3">
-        User Management System
+        <a href="/" class="btn btn-secondary">Home</a>
+        <a href="/register" class="btn btn-success">Register</a>
     </div>
 
 </div>

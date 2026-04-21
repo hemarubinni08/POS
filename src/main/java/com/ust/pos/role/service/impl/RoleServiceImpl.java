@@ -31,15 +31,20 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDto save(RoleDto roleDto) {
         String identifier = roleDto.getIdentifier();
+
         Role existingRole = roleRepository.findByIdentifier(identifier);
         if (existingRole != null) {
             roleDto.setMessage("Role with identifier - " + identifier + " already exists");
             roleDto.setSuccess(false);
             return roleDto;
         }
+
         Role role = modelMapper.map(roleDto, Role.class);
-        roleRepository.save(role);
-        return roleDto;
+        Role savedRole = roleRepository.save(role);
+
+        RoleDto response = modelMapper.map(savedRole, RoleDto.class);
+        response.setSuccess(true);
+        return response;
     }
 
     @Override

@@ -8,15 +8,13 @@ import com.ust.pos.model.UserRepository;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,30 +31,22 @@ public class NodeServiceImpl implements NodeService {
     private ModelMapper modelMapper;
 
     @Override
-    public void save(NodeDto nodeDto) {
-        Node node = modelMapper.map(nodeDto, Node.class);
-        nodeRepository.save(node);
-    }
+    public boolean save(NodeDto nodeDto) {
+        String identifier = nodeDto.getIdentifier();
 
-    @Override
-    public void update(NodeDto nodeDto) {
+        if (nodeRepository.findByIdentifier(identifier) != null) {
+            return false;
+        }
+
         Node node = modelMapper.map(nodeDto, Node.class);
         nodeRepository.save(node);
+
+        return true;
     }
 
     @Override
     public void delete(String identifier) {
         nodeRepository.deleteByIdentifier(identifier);
-    }
-
-    @Override
-    public List<NodeDto> findAll() {
-        List<Node> nodeList = nodeRepository.findAll();
-        List<NodeDto> nodeDtoList = new ArrayList<>();
-        for (Node node : nodeList) {
-            nodeDtoList.add(modelMapper.map(node, NodeDto.class));
-        }
-        return nodeDtoList;
     }
 
     @Override
@@ -66,21 +56,40 @@ public class NodeServiceImpl implements NodeService {
 
     public List<NodeDto> getNodesForRoles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-        User currentUser = userRepository.findByUsername(principalObject.getUsername());
-        List<NodeDto> nodeDtos = new ArrayList<>();
-        Set<String> nodesStr = new HashSet<>();
+
+        if (authentication == null || !(authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.User)) {
+            return new ArrayList<>();
+        }
+
+        org.springframework.security.core.userdetails.User principal =
+                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+
+        User currentUser = userRepository.findByUsername(principal.getUsername());
+
+        if (currentUser == null || currentUser.getRoles() == null) {
+            return new ArrayList<>();
+        }
+
         List<Node> nodes = nodeRepository.findAll();
+        Set<String> allowedNodeIds = new LinkedHashSet<>();
+
         for (String role : currentUser.getRoles()) {
             for (Node node : nodes) {
                 if (node.getRoles() != null && node.getRoles().contains(role)) {
-                    nodesStr.add(node.getIdentifier());
+                    allowedNodeIds.add(node.getIdentifier());
                 }
             }
         }
-        for (String nodeStr : nodesStr) {
-            nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
+
+        List<NodeDto> nodeDtos = new ArrayList<>();
+
+        for (String id : allowedNodeIds) {
+            Node node = nodeRepository.findByIdentifier(id);
+            if (node != null) {
+                nodeDtos.add(modelMapper.map(node, NodeDto.class));
+            }
         }
+
         return nodeDtos;
     }
 }

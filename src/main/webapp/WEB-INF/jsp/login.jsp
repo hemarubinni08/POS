@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Login</title>
 
@@ -11,6 +11,7 @@
 
     <style>
         body {
+            position: relative;
             margin: 0;
             font-family: 'Poppins', sans-serif;
             height: 100vh;
@@ -19,6 +20,7 @@
 
         .main-container {
             display: flex;
+            flex-direction: row-reverse;
             height: 100vh;
             position: relative;
         }
@@ -26,12 +28,14 @@
         /* LEFT PANEL */
         .left-panel {
             flex: 1;
-            background: linear-gradient(135deg, #cee9e9, #8fcfcd);
+            background: linear-gradient(135deg, #dbeafe, #93c5fd);
             color: #1f3b3b;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 80px;
+            text-align: center;
+            align-items: flex-end;
+            padding: 70px;
             position: relative;
         }
 
@@ -51,7 +55,7 @@
             margin-top: 30px;
             display: inline-block;
             padding: 10px 18px;
-            background: #4aa6a3;
+            background: #2563eb;
             color: white;
             text-decoration: none;
             border-radius: 8px;
@@ -59,14 +63,15 @@
             width: fit-content;
         }
 
-        /* CURVE (same as register) */
         .curve {
             position: absolute;
             top: 0;
-            right: 0;
+            left: 50%;
+            transform: translateX(-50%);
             height: 100%;
-            width: 120px;
-            z-index: 2;
+            width: 140px;
+            z-index: 5;
+            pointer-events: none;
         }
 
         .curve svg {
@@ -83,19 +88,26 @@
             align-items: center;
         }
 
-        /* FORM BOX */
         .form-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             width: 360px;
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
+                backdrop-filter: blur(10px);
             padding: 40px;
             border-radius: 18px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.15);
         }
 
+        .form-box input {
+            max-width: 334px;
+        }
+
         .form-box h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #4aa6a3;
+            color: #2563eb;
             font-weight: 700;
             letter-spacing: 1px;
         }
@@ -110,7 +122,7 @@
         }
 
         .form-box input:focus {
-            border-color: #4aa6a3;
+            border-color: #3b82f6;
         }
 
         .form-box button {
@@ -118,10 +130,89 @@
             padding: 12px;
             border: none;
             border-radius: 10px;
-            background: linear-gradient(135deg, #cee9e9, #4aa6a3);
+            background: linear-gradient(135deg, #93c5fd, #3b82f6);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+            transition: all 0.2s ease;
             color: white;
             font-weight: 600;
             cursor: pointer;
+        }
+
+        .form-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
+        }
+
+        .toast {
+            position: fixed !important;
+            bottom: 30px;
+            left: 50%;
+
+            transform: translateX(-50%);
+            opacity: 0;
+
+            min-width: 260px;
+            max-width: 80%;
+
+            padding: 14px 18px;
+            border-radius: 14px;
+
+            text-align: center;
+
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(31, 59, 59, 0.9);
+
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+
+            background-image: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.25),
+                rgba(255, 255, 255, 0.08)
+            );
+
+            border: 1px solid rgba(255, 255, 255, 0.35);
+
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+            z-index: 9999;
+
+            animation: toastUp 0.5s ease forwards;
+        }
+
+        .toast::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: radial-gradient(
+                circle at center,
+                rgba(59, 130, 246, 0.25),
+                transparent 70%
+            );
+            z-index: -1;
+            filter: blur(12px);
+        }
+
+        @keyframes toastUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .toast.hide {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+            transition: all 0.4s ease;
         }
 
         small {
@@ -132,21 +223,27 @@
 
 <body>
 
+<c:if test="${not empty message}">
+    <div id="toast" class="toast">
+        ${message}
+    </div>
+    <c:remove var="message" scope="session"/>
+</c:if>
+
 <div class="main-container">
 
     <!-- LEFT -->
     <div class="left-panel">
-        <h1>Welcome Back.</h1>
-        <p>Login to continue your journey with us</p>
+        <h1>POS Application.</h1>
+        <p>Welcome Back</p>
 
         <a href="/register" class="btn">REGISTER</a>
+    </div>
 
-        <!-- SAME CURVE AS REGISTER -->
-        <div class="curve">
-            <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-                <path d="M0,0 H100 V100 H0 C60,80 60,20 0,0 Z" fill="#f7f7fb"></path>
-            </svg>
-        </div>
+    <div class="curve">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M100,0 H0 V100 H100 C40,80 40,20 100,0 Z" fill="#f7f7fb"></path>
+        </svg>
     </div>
 
     <!-- RIGHT -->
@@ -155,10 +252,6 @@
         <div class="form-box">
 
             <h2>LOGIN</h2>
-
-            <div id="messageBox">
-                <small>${message}</small>
-            </div>
 
             <form action="login" method="post">
 
@@ -174,6 +267,22 @@
     </div>
 
 </div>
+
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+    const toast = document.getElementById("toast");
+
+    if (toast) {
+        setTimeout(() => {
+            toast.classList.add("hide");
+
+            setTimeout(() => {
+                toast.remove();
+            }, 400);
+        }, 3500);
+    }
+});
+</script>
 
 </body>
 </html>
