@@ -1,113 +1,190 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Management</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <title>User List</title>
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #F6F7F9;
+            padding: 30px;
         }
 
-        .card {
-            border-radius: 15px;
+        h2 {
+            text-align: center;
+            color: #111827;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
 
-        .table th {
-            background-color: #343a40;
+        .table-card {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            overflow-x: auto;
+            border: 1px solid #E5E7EB;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 900px;
+        }
+
+        th, td {
+            padding: 12px 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background: #2B2B2B;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #F9FAFB;
+        }
+
+        tr:hover {
+            background-color: #F3F4F6;
+        }
+
+        .edit-btn {
+            padding: 6px 12px;
+            margin-right: 6px;
+            background: #2B2B2B;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .edit-btn:hover {
+            background: #111111;
+        }
+
+        .delete-btn {
+            padding: 6px 12px;
+            background: #B91C1C;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background: #7F1D1D;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .top-right-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+        .top-right-actions button {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .add-btn {
+            background: #2B2B2B;
             color: white;
         }
 
-        a.user-link {
-            text-decoration: none;
-            font-weight: 500;
+        .add-btn:hover {
+            background: #111111;
         }
 
-        a.user-link:hover {
-            text-decoration: underline;
+        .back-btn {
+            background: #E5E7EB;
+            color: #111827;
+        }
+
+        .back-btn:hover {
+            background: #D1D5DB;
+        }
+
+        .msg {
+            color: #166534;
+            background: #DCFCE7;
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-align: center;
+            width: fit-content;
+            margin: 0 auto 16px auto;
+            font-size: 14px;
+            font-weight: 500;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="card shadow-lg">
-        <div class="card-body">
+<h2>User List</h2>
 
-            <h3 class="text-center mb-4">User Management</h3>
+<div class="top-right-actions">
+    <a href="/register">
+        <button class="add-btn">Add User</button>
+    </a>
+    <a href="/">
+        <button class="back-btn">Back</button>
+    </a>
+</div>
 
-            <!-- NO USERS MESSAGE -->
-            <c:if test="${empty users}">
-                <div class="alert alert-warning text-center">
-                    No users found
-                </div>
-            </c:if>
+<c:if test="${not empty message}">
+    <div class="msg">${message}</div>
+</c:if>
 
-            <c:if test="${not empty users}">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center">
-                        <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Roles</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="user" items="${users}">
-                            <tr>
-                                <td>
-                                    <a class="user-link"
-                                       href="/user/get?username=${user.username}">
-                                        ${user.username}
-                                    </a>
-                                </td>
-                                <td>${user.name}</td>
-                                <td>${user.phoneNo}</td>
-                                <td>${user.roles}</td>
-                                <td>
-                                    <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
-                                       onclick="return confirm('Are you sure you want to delete this user?');">
-                                        Delete
-                                    </a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </c:if>
+<div class="table-card">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Phone</th>
+            <th>Roles</th>
+            <th>Action</th>
+        </tr>
 
-        </div>
+        <c:forEach items="${users}" var="user">
+            <tr>
+                <td>${user.name}</td>
+                <td>${user.username}</td>
+                <td>${user.phoneNo}</td>
+                <td>${user.roles}</td>
+                <td>
+                    <a href="/user/get?username=${user.username}">
+                        <button class="edit-btn">Edit</button>
+                    </a>
 
-        <div class="card-footer text-center">
-            <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">
-                    Home
-                </a>
+                    <a href="/user/delete?username=${user.username}"
+                       onclick="return confirm('Are you sure you want to delete this user?');">
+                        <button class="delete-btn">Delete</button>
+                    </a>
+                </td>
+            </tr>
+        </c:forEach>
 
-                <a href="/register" class="btn btn-success">
-                    Register
-                </a>
-            </div>
-
-            <div class="text-muted small mt-2">
-                User Management System
-            </div>
-        </div>
-
-    </div>
+    </table>
 </div>
 
 </body>

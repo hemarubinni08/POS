@@ -1,9 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
 <head>
-<title>Edit Role</title>
+<title>Add Node</title>
 
 <style>
 body {
@@ -16,28 +17,28 @@ body {
 }
 
 .card {
-    width: 380px;
+    width: 420px;
     background: #FFFFFF;
     padding: 25px;
     border-radius: 12px;
     border: 1px solid #E5E7EB;
 }
 
-h2 {
-    text-align: center;
-    color: #111827;
-}
-
-input {
+input, select {
     width: 100%;
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #E5E7EB;
+    margin-bottom: 10px;
+}
+
+input:focus, select:focus {
+    border-color: #2B2B2B;
+    outline: none;
 }
 
 button {
     width: 100%;
-    margin-top: 15px;
     padding: 10px;
     background: #2B2B2B;
     color: white;
@@ -55,15 +56,24 @@ button:hover {
 
 <div class="card">
 
-<h2>Edit Role</h2>
+<h2>Add Node</h2>
 
-<form:form method="post" action="/role/update" modelAttribute="roleDto">
+<c:if test="${not empty message}">
+<div style="color:#166534;text-align:center;">${message}</div>
+</c:if>
 
-<form:hidden path="id"/>
+<form:form method="post" action="/node/add" modelAttribute="nodeDto">
 
-<form:input path="identifier"/>
+<form:input path="identifier" placeholder="Identifier"/>
+<form:input path="path" placeholder="Path"/>
 
-<button type="submit">Update</button>
+<form:select path="roles" multiple="true">
+    <c:forEach var="role" items="${roles}">
+        <option value="${role.identifier}">${role.identifier}</option>
+    </c:forEach>
+</form:select>
+
+<button type="submit">Add Node</button>
 
 </form:form>
 

@@ -1,76 +1,76 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Add Role</title>
+<title>Add Role</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+<style>
+body {
+    background: #F6F7F9;
+    font-family: Arial;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
-        }
-        .card {
-            border-radius: 12px;
-        }
-        .form-control {
-            border-radius: 8px;
-        }
-    </style>
+.card {
+    width: 380px;
+    background: #FFFFFF;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #E5E7EB;
+}
+
+h2 {
+    text-align: center;
+    color: #111827;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+    margin-top: 10px;
+}
+
+input:focus {
+    border-color: #2B2B2B;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background: #2B2B2B;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+
+button:hover {
+    background: #111111;
+}
+</style>
 </head>
+
 <body>
 
-<div class="container d-flex justify-content-center align-items-center mt-5">
-    <div class="col-md-5">
+<div class="card">
 
-        <div class="card shadow-lg">
-            <div class="card-header text-center bg-primary text-white">
-                <h4 class="mb-0">Add New Role</h4>
-            </div>
+<h2>Add Role</h2>
 
-            <div class="card-body">
+<form:form method="post" action="/role/add" modelAttribute="roleDto">
 
-                <c:if test="${not empty role}">
-                    <div class="alert alert-success text-center">
-                        ${role}
-                    </div>
-                </c:if>
+<form:input path="identifier" placeholder="Enter role"/>
 
-                <form:form method="post"
-                           action="/role/add"
-                           modelAttribute="roleDto">
+<button type="submit">Add Role</button>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Role Name</label>
-                        <form:input path="identifier"
-                                    cssClass="form-control"
-                                    placeholder="Enter role name" />
-                    </div>
+</form:form>
 
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            Add Role
-                        </button>
-                    </div>
-
-                </form:form>
-
-            </div>
-
-            <div class="card-footer text-center text-muted small">
-                POS Management System
-            </div>
-        </div>
-
-    </div>
 </div>
 
 </body>

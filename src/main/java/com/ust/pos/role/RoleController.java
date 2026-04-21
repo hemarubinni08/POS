@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/role")
 public class RoleController {
 
+    public static final String MESSAGE = "message";
+    public static final String MESSAGE1 = "message";
+    public static final String MESSAGE2 = "message";
     @Autowired
     private RoleService roleService;
 
@@ -29,7 +32,7 @@ public class RoleController {
     public String addPost(Model model, @ModelAttribute RoleDto userDto) {
         RoleDto response = roleService.save(userDto);
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute(MESSAGE, response.getMessage());
         }
         return "redirect:/role/list";
     }
@@ -42,10 +45,10 @@ public class RoleController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RoleDto userDto) {
-        RoleDto response = roleService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute RoleDto roleDto) {
+        RoleDto response = roleService.update(roleDto);
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute(MESSAGE1, response.getMessage());
         }
         return "redirect:/role/list";
     }
@@ -53,6 +56,8 @@ public class RoleController {
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         roleService.delete(identifier);
-        return "role/role";
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute(MESSAGE2, "Role deleted successfully");
+        return "role/list";
     }
 }

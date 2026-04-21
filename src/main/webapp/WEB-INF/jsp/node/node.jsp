@@ -4,7 +4,7 @@
 
 <html>
 <head>
-<title>Edit User</title>
+<title>Edit Node</title>
 
 <style>
 body {
@@ -19,7 +19,7 @@ body {
 
 /* CARD */
 form {
-    width: 420px;
+    width: 450px;
     background: #FFFFFF;
     padding: 25px;
     border-radius: 12px;
@@ -31,7 +31,7 @@ form {
 h4 {
     text-align: center;
     color: #111827;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 /* LABEL */
@@ -42,7 +42,7 @@ label {
     margin-top: 10px;
 }
 
-/* INPUTS */
+/* INPUT + SELECT */
 input, select {
     width: 100%;
     padding: 10px;
@@ -55,6 +55,11 @@ input, select {
 input:focus, select:focus {
     border-color: #2B2B2B;
     outline: none;
+}
+
+/* MULTI SELECT HEIGHT */
+select[multiple] {
+    height: 120px;
 }
 
 /* BUTTONS */
@@ -84,11 +89,10 @@ button {
     background: #D1D5DB;
 }
 
-/* ERROR */
+/* ERROR STYLE (if needed in future) */
 .error {
     color: #B91C1C;
     font-size: 12px;
-    margin-top: 2px;
 }
 </style>
 
@@ -96,54 +100,56 @@ button {
 
 <body>
 
-<c:if test="${empty user}">
-    <div style="color:#B91C1C;">User not found</div>
+<c:if test="${empty node}">
+    <div style="color:#B91C1C;">Node not found</div>
 </c:if>
 
-<c:if test="${not empty user}">
+<c:if test="${not empty node}">
 
-<form:form method="post" action="/user/update" modelAttribute="user">
+<form:form method="post" action="/node/update" modelAttribute="node">
 
-<form:hidden path="id" />
-<form:hidden path="username" />
+<h4>Edit Node</h4>
 
-<h4>Edit User</h4>
+<!-- Path -->
+<label>Path</label>
+<form:input path="path"
+            required="true"
+            pattern="^/.*"
+            title="Path must start with /"/>
 
-<label>Name</label>
-<form:input path="name" required="true"/>
-<form:errors path="name" cssClass="error"/>
+<!-- Identifier -->
+<label>Identifier</label>
+<form:input path="identifier"
+            required="true"
+            pattern="^[A-Za-z0-9_-]+$"
+            title="Only letters, numbers, _ and - allowed"/>
 
-
-<label>Phone Number</label>
-<form:input path="phoneNo"
-    type="text"
-    inputmode="numeric"
-    maxlength="10"
-    pattern="^[0-9]{10}$"
-    oninput="this.value=this.value.replace(/[^0-9]/g,'')"
-    required="true"/>
-<form:errors path="phoneNo" cssClass="error"/>
-
-
+<!-- Roles -->
 <label>Roles</label>
-<form:select path="roles" multiple="true">
+<form:select path="roles" multiple="true" required="true">
+
     <c:forEach var="role" items="${roles}">
         <option value="${role.identifier}">
             ${role.identifier}
         </option>
     </c:forEach>
+
 </form:select>
 
+<!-- Buttons -->
 <div style="display:flex;justify-content:space-between;margin-top:15px;">
-    <a href="/user/list">
+
+    <a href="/node/list">
         <button type="button" class="btn-cancel">Cancel</button>
     </a>
 
     <button type="submit" class="btn-primary">Update</button>
+
 </div>
 
 </form:form>
 
 </c:if>
+
 </body>
 </html>

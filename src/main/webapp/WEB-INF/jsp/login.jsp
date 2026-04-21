@@ -1,91 +1,127 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+<title>Login</title>
 
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background: #F6F7F9;
+    display: flex;
+}
 
-        form {
-            background: #ffffff;
-            padding: 30px 35px;
-            width: 320px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-        }
+.left-panel {
+    width: 55%;
+    background: #2B2B2B;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 70px;
+}
 
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #333;
-        }
+.right-panel {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        form div {
-            margin-bottom: 18px;
-        }
+form {
+    width: 340px;
+    padding: 30px;
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E5E7EB;
+}
 
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
-            color: #555;
-        }
+h2 {
+    text-align: center;
+    color: #111827;
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-        }
+label {
+    font-weight: 600;
+    color: #111827;
+}
 
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+}
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #667eea;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 15px;
-            cursor: pointer;
-        }
+input:focus {
+    border-color: #2B2B2B;
+    outline: none;
+}
 
-        button:hover {
-            background-color: #5a67d8;
-        }
-    </style>
+button {
+    width: 100%;
+    padding: 10px;
+    background: #2B2B2B;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+
+button:hover {
+    background: #111111;
+}
+
+.error-box {
+    background: #FEE2E2;
+    color: #B91C1C;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+a {
+    color: #2B2B2B;
+    text-decoration: none;
+    font-weight: 600;
+}
+</style>
 </head>
 
 <body>
 
-<form th:action="@{/login}" method="post">
-    <h2>Login</h2>
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username" required />
-    </div>
+<div class="left-panel">
+    <h1>POS Management System</h1>
+    <p>Secure, fast and structured enterprise system for managing users, roles and nodes.</p>
+</div>
 
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required />
-    </div>
+<div class="right-panel">
 
-    <button type="submit">Login</button>
+<form method="post">
+
+<h2>Login</h2>
+
+<c:if test="${param.error != null}">
+    <div class="error-box">Invalid username or password</div>
+</c:if>
+
+<label>Username</label>
+<input type="email" name="username" required="true" pattern="^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"/>
+
+<label>Password</label>
+<input type="password" name="password" required="true"/>
+
+<button type="submit">Login</button>
+
+<div style="text-align:center;margin-top:12px;">
+New user? <a href="/register">Register</a>
+</div>
+
 </form>
+
+</div>
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.ust.pos.user;
 
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
     @GetMapping("/list")
     public String home(Model model) {
         model.addAttribute("users", userService.findAll());
@@ -24,6 +28,7 @@ public class UserController {
     public String update(Model model, @RequestParam String username) {
         UserDto response = userService.findByUserName(username);
         model.addAttribute("user", response);
+        model.addAttribute("roles", roleService.findAll());
         return "user/user";
     }
 
@@ -39,7 +44,19 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
+
+        boolean deletingSelf = userService.getCurrentUser(username);
+
         userService.delete(username);
-        return "user/user";
+
+        if (deletingSelf) {
+            return "redirect:/logout";
+        }
+
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("message", "User deleted successfully");
+
+        return "user/list";
     }
+
 }
