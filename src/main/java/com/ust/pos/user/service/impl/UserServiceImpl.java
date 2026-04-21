@@ -21,6 +21,8 @@ import java.util.Optional;
 @Transactional
 public class UserServiceImpl implements UserService {
 
+    public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
+
     @Autowired
     private UserRepository userRepository;
 
@@ -40,7 +42,7 @@ public class UserServiceImpl implements UserService {
         String username = userDto.getUsername();
         User existingUser = userRepository.findByUsername(username);
         if (existingUser != null) {
-            userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
+            userDto.setMessage(USER_WITH_USERNAME_EMAIL+ userDto.getUsername() + " already exists");
             userDto.setSuccess(false);
             return userDto;
         }
@@ -56,13 +58,13 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userRepository.findById(userDto.getId());
 
         if (userOptional.isEmpty()) {
-            userDto.setMessage("User with username/email - " + userDto.getUsername() + " not found");
+            userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " not found");
             userDto.setSuccess(false);
             return userDto;
         } else {
             User existingUser = userOptional.get();
             if (!username.equalsIgnoreCase(existingUser.getUsername()) && (userRepository.findByUsername(username) != null)){
-                    userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
+                    userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
                     userDto.setSuccess(false);
                     return userDto;
             }
