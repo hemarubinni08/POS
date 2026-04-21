@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Role Dashboard</title>
+<title>Node Dashboard</title>
 
 <style>
 
@@ -25,7 +25,7 @@ body {
 /* Container */
 .container {
     width: 95%;
-    max-width: 900px;
+    max-width: 1200px;
     margin: auto;
 }
 
@@ -83,6 +83,17 @@ tbody tr:hover {
     background: #e0e7ff;
     color: #3730a3;
     font-size: 12px;
+}
+
+/* Role tags */
+.role-tag {
+    display: inline-block;
+    padding: 4px 8px;
+    margin: 2px;
+    border-radius: 6px;
+    font-size: 12px;
+    background: #e0e7ff;
+    color: #3730a3;
 }
 
 /* Action buttons */
@@ -157,7 +168,7 @@ tbody tr:hover {
 
 <div class="container">
 
-    <h2>Role Management</h2>
+    <h2>Node Management</h2>
 
     <div class="table-container">
 
@@ -165,8 +176,9 @@ tbody tr:hover {
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Role</th>
-                <th>Description</th>
+                <th>Node Name</th>
+                <th>Roles</th>
+                <th>Path</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -175,30 +187,38 @@ tbody tr:hover {
 
             <c:choose>
 
-                <c:when test="${not empty roles}">
-                    <c:forEach var="role" items="${roles}">
+                <c:when test="${not empty nodes}">
+                    <c:forEach var="n" items="${nodes}">
                         <tr>
 
+                            <td><span class="badge">${n.id}</span></td>
+
+                            <td>${n.identifier}</td>
+
                             <td>
-                                    <span class="badge">${role.id}</span>
+                                <c:choose>
+                                    <c:when test="${not empty n.roles}">
+                                        <c:forEach var="r" items="${n.roles}">
+                                            <span class="role-tag">${r}</span>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span style="color:#94a3b8;">-</span>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
 
-                            <td>${role.identifier}</td>
+                            <td>${n.path}</td>
 
-                            <td>${role.description}</td>
-
-                            <!-- Actions -->
                             <td>
-                                <!-- EDIT -->
-                                <a class="action-btn edit-btn"
-                                   href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}">
-                                    Edit
-                                </a>
+                               <a class="action-btn edit-btn"
+                                  href="${pageContext.request.contextPath}/node/get?identifier=${n.identifier}">
+                                   Edit
+                               </a>
 
-                                <!-- DELETE -->
                                 <a class="action-btn delete-btn"
-                                   href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
-                                   onclick="return confirm('Are you sure you want to delete this role?');">
+                                   href="${pageContext.request.contextPath}/node/delete?identifier=${n.identifier}"
+                                   onclick="return confirm('Are you sure you want to delete this node?');">
                                     Delete
                                 </a>
                             </td>
@@ -209,8 +229,8 @@ tbody tr:hover {
 
                 <c:otherwise>
                     <tr>
-                        <td colspan="3" class="empty">
-                            No roles found
+                        <td colspan="5" class="empty">
+                            No nodes found
                         </td>
                     </tr>
                 </c:otherwise>
@@ -229,8 +249,8 @@ tbody tr:hover {
             Go to Home
         </a>
 
-        <a href="${pageContext.request.contextPath}/role/add" class="btn home-btn">
-            Add New Role
+        <a href="${pageContext.request.contextPath}/node/add" class="btn home-btn">
+            Add New Node
         </a>
 
     </div>

@@ -6,11 +6,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Edit Profile</title>
+<title>Add Node</title>
 
 <style>
-/* ✅ UI unchanged */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
@@ -22,8 +26,9 @@ body {
     color: #1e293b;
 }
 
-.edit-card {
-    width: 420px;
+/* Card */
+.container {
+    width: 400px;
     background: #ffffff;
     padding: 28px;
     border-radius: 12px;
@@ -31,6 +36,7 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
+/* Title */
 h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -38,37 +44,38 @@ h2 {
     color: #0f172a;
 }
 
+/* Labels */
 label {
     font-size: 13px;
-    margin-bottom: 5px;
-    display: block;
     color: #475569;
 }
 
-input, select {
+/* Inputs */
+input {
     width: 100%;
     padding: 10px;
-    margin-bottom: 14px;
+    margin: 6px 0 14px 0;
     border-radius: 8px;
     border: 1px solid #cbd5f5;
-    background-color: #f8fafc;
-    font-size: 14px;
+    background: #f8fafc;
+    color: #1e293b;
 }
 
-input:focus, select:focus {
+input:focus {
     outline: none;
     border-color: #6366f1;
     box-shadow: 0 0 6px rgba(99,102,241,0.25);
-    background-color: #ffffff;
+    background: #ffffff;
 }
 
+/* Role list */
 .role-list {
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     padding: 6px;
-    max-height: 150px;
+    max-height: 140px;
     overflow-y: auto;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     background: #f9fafb;
 }
 
@@ -85,11 +92,18 @@ input:focus, select:focus {
     background-color: #eef2ff;
 }
 
+/* Fix checkbox alignment */
+.role-item input[type="checkbox"] {
+    justify-self: center;
+    width: auto;
+}
+
+/* Button */
 button {
     width: 100%;
     padding: 12px;
-    border: none;
     border-radius: 8px;
+    border: none;
     background: linear-gradient(135deg, #6366f1, #4f46e5);
     color: white;
     font-weight: 600;
@@ -100,23 +114,30 @@ button:hover {
     box-shadow: 0 5px 15px rgba(99,102,241,0.3);
 }
 
-.error {
+/* Error */
+.bottom-error {
+    margin-top: 12px;
+    padding: 10px;
     text-align: center;
-    color: #ef4444;
-    font-weight: 600;
+    border-radius: 6px;
+    background: #fee2e2;
+    color: #b91c1c;
+    font-size: 13px;
 }
 
 /* Link */
-.link-btn {
-    display: block;
+.link {
     text-align: center;
-    margin-top: 15px;
+    margin-top: 14px;
+}
+
+.link a {
     color: #4f46e5;
     text-decoration: none;
     font-size: 13px;
 }
 
-.link-btn:hover {
+.link a:hover {
     text-decoration: underline;
 }
 
@@ -125,34 +146,22 @@ button:hover {
 
 <body>
 
-<div class="edit-card">
+<div class="container">
 
-<h2>Edit Profile</h2>
+<h2>Create Node</h2>
 
-<c:if test="${not empty user}">
+<form:form modelAttribute="nodeDto"
+           action="${pageContext.request.contextPath}/node/add"
+           method="post">
 
-<form:form action="${pageContext.request.contextPath}/user/update"
-           method="post"
-           modelAttribute="user">
+    <label>Node Name</label>
+    <form:input path="identifier" required="true"/>
 
-    <form:hidden path="id"/>
+    <label>Path</label>
+    <form:input path="path" required="true"
+        placeholder="example:(/main/path)" />
 
-    <label>Name</label>
-    <form:input path="name"/>
-
-    <label>Email</label>
-    <form:input path="username"/>
-
-    <label>Phone</label>
-    <form:input path="phoneNo"
-                required="true"
-                pattern="[0-9]{10}"
-                title="Enter a valid 10-digit phone number"
-                oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
-
-    <!-- MULTI ROLES -->
-    <label> Roles </label>
-
+    <label>Roles</label>
     <div class="role-list">
         <c:forEach var="r" items="${roles}">
             <div class="role-item">
@@ -162,19 +171,22 @@ button:hover {
         </c:forEach>
     </div>
 
-    <button type="submit">Save</button>
-
-     <a href="${pageContext.request.contextPath}/user/list" class="link-btn">
-            View Users
-        </a>
+    <button type="submit">Save Node</button>
 
 </form:form>
 
+<!-- Error Message -->
+<c:if test="${not empty message}">
+    <div class="bottom-error">
+        ${message}
+    </div>
 </c:if>
 
-<c:if test="${not empty message}">
-    <p class="error">${message}</p>
-</c:if>
+<div class="link">
+    <a href="${pageContext.request.contextPath}/node/list">
+        View All Nodes
+    </a>
+</div>
 
 </div>
 

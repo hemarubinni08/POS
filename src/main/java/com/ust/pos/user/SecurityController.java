@@ -26,6 +26,7 @@ public class SecurityController {
 
     @GetMapping("/register")
     public String add(Model model, @ModelAttribute UserDto userDto) {
+        model.addAttribute("userDto", new UserDto());
         model.addAttribute("roles", roleService.findAll());
         return "register";
     }
@@ -33,10 +34,13 @@ public class SecurityController {
     @PostMapping("/register")
     public String addPost(Model model, @ModelAttribute UserDto userDto) {
         UserDto response = userService.save(userDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            model.addAttribute("roles", roleService.findAll());
             return "register";
         }
-        return "home";
+
+        return "redirect:/";
     }
 }
