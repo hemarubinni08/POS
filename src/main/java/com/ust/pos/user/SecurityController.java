@@ -31,6 +31,7 @@ public class SecurityController {
         }
 
         return "login";
+
     }
 
     @GetMapping("/register")

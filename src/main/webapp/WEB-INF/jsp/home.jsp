@@ -40,11 +40,11 @@
             margin: 5px 0;
         }
 
-        /* ✅ Logout Button */
+
         .logout-btn {
-            background: #c4b5fd; /* light purple */
+            background: #c4b5fd;
             border: none;
-            color: #4c1d95; /* deep purple text */
+            color: #4c1d95;
             padding: 8px 16px;
             border-radius: 6px;
             font-size: 14px;

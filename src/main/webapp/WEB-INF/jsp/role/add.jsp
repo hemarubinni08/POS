@@ -16,18 +16,18 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe); /* same light purple gradient */
+            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
             min-height: 100vh;
         }
 
         .card {
             border-radius: 12px;
             background-color: #ffffff;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18); /* soft purple shadow */
+            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
         }
 
         .card-header {
-            background-color: #a78bfa !important; /* soft purple */
+            background-color: #a78bfa !important;
             color: #ffffff;
         }
 
@@ -54,6 +54,30 @@
             color: #6b7280;
             background-color: #fafafa;
         }
+
+
+        .error-message {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        /* BACK LINK STYLE */
+        .back-link {
+            color: #7c3aed;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: #6d28d9;
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -69,11 +93,12 @@
 
             <div class="card-body">
 
-                <c:if test="${not empty role}">
-                    <div class="alert alert-success text-center">
-                        ${role}
-                    </div>
-                </c:if>
+
+               <c:if test="${not empty message}">
+                       <div class="error-message">
+                           ${message}
+                       </div>
+                   </c:if>
 
                 <form:form method="post"
                            action="/role/add"
@@ -86,10 +111,24 @@
                                     placeholder="Enter role name" />
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <form:input path="description"
+                                    cssClass="form-control"
+                                    placeholder="Description" />
+                    </div>
+
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
                             Add Role
                         </button>
+                    </div>
+
+                    <!-- BACK LINK -->
+                    <div class="text-center mt-3">
+                        <a href="/role/list" class="back-link">
+                            ← Back to Role List
+                        </a>
                     </div>
 
                 </form:form>

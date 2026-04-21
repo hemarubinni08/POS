@@ -5,232 +5,264 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Update User</title>
+<title>Update User</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --bg: #ede9fe;
-            --card: #ffffff;
+<style>
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #d1d5db;
+}
 
-            --text: #4c1d95;               /* deep purple */
-            --muted: #6b7280;
+/* 🎯 CONTAINER */
+.container {
+    width: 520px;
+    margin: 80px auto;
+    background: #f1f5f9;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
 
-            --primary: #7c3aed;            /* main purple */
-            --primary-hover: #6d28d9;
+/* 🔷 TITLE */
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 22px;
+    color: #0891b2;
+    font-weight: 600;
+}
 
-            --accent: #c4b5fd;
+/* 🏷 LABEL */
+label {
+    margin-top: 16px;
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    color: #334155;
+}
 
-            --danger: #b91c1c;
-            --danger-bg: #fee2e2;
-            --danger-border: #fca5a5;
+/* ✏ INPUT */
+input, select {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px;
+    border: 1px solid #cbd5f5;
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+    transition: 0.2s;
+}
 
-            --success: #15803d;
-            --success-bg: #dcfce7;
-            --success-border: #86efac;
+input:focus, select:focus {
+    border-color: #0891b2;
+    box-shadow: 0 0 0 2px rgba(8,145,178,0.2);
+}
 
-            --border: #ddd6fe;
+select[multiple] {
+    height: 120px;
+}
 
-            --radius: 14px;
-            --shadow: 0 15px 35px rgba(76, 29, 149, 0.18);
-        }
+/* 🔥 UPDATE BUTTON */
+.btn-update {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #0891b2, #0e7490);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+}
 
-        * {
-            font-family: 'Inter', sans-serif;
-            box-sizing: border-box;
-        }
+.btn-update:hover {
+    background: linear-gradient(135deg, #0e7490, #075985);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(8,145,178,0.4);
+}
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-            padding: 20px;
-            position: relative;
-        }
+/* 🔙 BUTTON GROUP */
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
 
-        /* ✅ BACK BUTTON */
-        .back-arrow {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: var(--text);
-            font-size: 18px;
-            box-shadow: var(--shadow);
-            transition: 0.2s;
-        }
+/* 🔙 BACK BUTTON */
+.back-btn {
+    background: #64748b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s;
+}
 
-        .back-arrow:hover {
-            background: var(--accent);
-            color: #4c1d95;
-        }
+.back-btn:hover {
+    background: #475569;
+}
 
-        .container-box {
-            width: 100%;
-            max-width: 800px;
-        }
+/* ⚠ SERVER MESSAGE */
+.server-msg {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 13px;
+}
 
-        .card {
-            background: var(--card);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 26px;
-        }
+.server-msg.success {
+    background: #dcfce7;
+    color: #166534;
+}
 
-        h3 {
-            text-align: center;
-            font-weight: 600;
-            margin-bottom: 18px;
-            color: var(--primary);
-        }
+.server-msg.error {
+    background: #fee2e2;
+    color: #b91c1c;
+}
 
-        label {
-            font-size: 13px;
-            color: var(--text);
-            font-weight: 500;
-        }
+/* FIELD ERROR */
+.invalid-feedback {
+    font-size: 12px;
+    color: #b91c1c;
+    margin-top: 4px;
+}
 
-        .btn-update {
-            width: 100%;
-            padding: 10px;
-            background: var(--primary);
-            color: white;
-            border-radius: 10px;
-            border: none;
-            font-weight: 600;
-        }
+.error-border {
+    border: 1px solid #b91c1c !important;
+}
 
-        .btn-update:hover {
-            background: var(--primary-hover);
-        }
+/* TOAST */
+.toast-message {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #1f2937;
+    color: white;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.3s;
+    font-size: 13px;
+}
 
-        .server-msg {
-            text-align: center;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 13px;
-            margin-bottom: 12px;
-        }
+.toast-message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
 
-        .server-msg.success {
-            background: var(--success-bg);
-            color: var(--success);
-            border: 1px solid var(--success-border);
-        }
+<script>
+function validateForm() {
 
-        .server-msg.error {
-            background: var(--danger-bg);
-            color: var(--danger);
-            border: 1px solid var(--danger-border);
-        }
+    document.getElementById("emailErr").innerText = "";
+    document.getElementById("phoneErr").innerText = "";
 
-        .invalid-feedback {
-            font-size: 12px;
-            color: var(--danger);
-            margin-top: 4px;
-        }
+    let emailInput = document.getElementsByName("username")[0];
+    let phoneInput = document.getElementsByName("phoneNo")[0];
 
-        .error-border {
-            border: 1px solid var(--danger) !important;
-        }
+    emailInput.classList.remove("error-border");
+    phoneInput.classList.remove("error-border");
 
-        .toast-message {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #4c1d95;
-            color: white;
-            padding: 12px 16px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: 0.3s;
-            font-size: 13px;
-            z-index: 999;
-        }
+    let name = document.getElementsByName("name")[0].value.trim();
+    let email = emailInput.value.trim();
+    let phone = phoneInput.value.trim();
 
-        .toast-message.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+    if (!name || !email || !phone) {
+        showToast("All fields are required");
+        return false;
+    }
 
-    <!-- ✅ JS UNCHANGED -->
+    let valid = true;
+
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,}$/;
+    if (!emailPattern.test(email)) {
+        document.getElementById("emailErr").innerText = "Enter a valid email address";
+        emailInput.classList.add("error-border");
+        valid = false;
+    }
+
+    let phonePattern = /^[0-9]{10}$/;
+    if (!phonePattern.test(phone)) {
+        document.getElementById("phoneErr").innerText = "Phone must be exactly 10 digits";
+        phoneInput.classList.add("error-border");
+        valid = false;
+    }
+
+    return valid;
+}
+
+function showToast(msg) {
+    const toast = document.getElementById("toast");
+    toast.innerText = msg;
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2500);
+}
+</script>
+
 </head>
 
 <body>
 
-<a href="${pageContext.request.contextPath}/user/list" class="back-arrow">←</a>
+<div class="container">
 
-<div class="container-box">
+<h2>Update User</h2>
 
-    <c:if test="${not empty message}">
-        <div class="server-msg ${messageType == 'success' ? 'success' : 'error'}">
-            ${message}
-        </div>
-    </c:if>
+<c:if test="${not empty message}">
+    <div class="server-msg ${messageType == 'success' ? 'success' : 'error'}">
+        ${message}
+    </div>
+</c:if>
 
-    <div class="card">
+<form:form action="${pageContext.request.contextPath}/user/update"
+           method="post"
+           modelAttribute="user"
+           onsubmit="return validateForm()">
 
-        <h3>Update User</h3>
+    <form:hidden path="id"/>
 
-        <form:form action="${pageContext.request.contextPath}/user/update"
-                   method="post"
-                   modelAttribute="user"
-                   onsubmit="return validateForm()">
+    <label>Name</label>
+    <form:input path="name"/>
 
-            <form:hidden path="id"/>
+    <label>Email</label>
+    <form:input path="username"/>
+    <div id="emailErr" class="invalid-feedback"></div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label>Name</label>
-                        <form:input path="name" cssClass="form-control"/>
-                    </div>
+    <label>Phone Number</label>
+    <form:input path="phoneNo" maxlength="10"/>
+    <div id="phoneErr" class="invalid-feedback"></div>
 
-                    <div class="mb-3">
-                        <label>Email</label>
-                        <form:input path="username" cssClass="form-control"/>
-                        <div id="emailErr" class="invalid-feedback"></div>
-                    </div>
-                </div>
+    <label>Roles</label>
+    <form:select path="roles" multiple="true">
+        <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+    </form:select>
 
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label>Phone Number</label>
-                        <form:input path="phoneNo"
-                                    cssClass="form-control"
-                                    maxlength="10"
-                                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,10)"/>
-                        <div id="phoneErr" class="invalid-feedback"></div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="mb-3">
-                <label>Roles</label>
-                <form:select path="roles" multiple="true" cssClass="form-control">
-                    <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-                </form:select>
-            </div>
+    <div class="btn-group">
 
-            <button type="submit" class="btn-update">Update User</button>
 
-        </form:form>
+        <a href="${pageContext.request.contextPath}/user/list"
+           class="back-btn">
+            Back to Users
+        </a>
+
+
+        <button type="submit" class="btn-update">
+            Update User
+        </button>
 
     </div>
+
+</form:form>
+
 </div>
 
 <div id="toast" class="toast-message"></div>

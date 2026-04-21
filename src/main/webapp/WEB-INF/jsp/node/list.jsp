@@ -63,6 +63,13 @@
     <div class="card shadow-lg">
         <div class="card-body">
 
+        <div class="card shadow-lg">
+                        <div class="card-header text-center">
+                            <h4 class="mb-0">List of Nodes</h4>
+                        </div>
+
+                        <div class="card-body">
+
             <c:choose>
                 <c:when test="${empty nodes}">
                     <div class="alert alert-warning text-center">

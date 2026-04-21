@@ -98,12 +98,18 @@
 
                     <form:input path="identifier"
                                 cssClass="form-control"
+                                placeholder="Enter role"
+                                required="true"
                                 readonly="true"/>
+                </div>
 
-                    <div class="help-text">
-                        This role name is a system identifier and cannot be edited,
-                        as it is used internally for authorization and access control.
-                    </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Description</label>
+
+                    <form:input path="description"
+                                cssClass="form-control"
+                                placeholder="Enter role"
+                                required="true"/>
                 </div>
 
                 <div class="d-flex justify-content-between">
@@ -121,6 +127,5 @@
 
     </div>
 </div>
-
 </body>
 </html>
