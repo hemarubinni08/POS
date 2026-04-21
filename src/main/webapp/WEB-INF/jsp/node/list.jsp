@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Management</title>
+    <title>Node List</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -21,7 +21,7 @@
 
         .card-container {
             position: relative;
-            width: 1050px;
+            width: 950px;
             background: #ffffff;
             padding: 35px 40px;
             border-radius: 18px;
@@ -61,44 +61,22 @@
             transform: translateX(-3px);
         }
 
-        .home-link {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            text-decoration: none;
-            padding: 8px 14px;
-            border-radius: 8px;
-            background: #f0f0f0;
-            transition: all 0.25s ease;
-        }
-
-        .home-link:hover {
-            background: #333;
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
             border-radius: 12px;
             overflow: hidden;
+            background: #fff;
         }
 
         th {
-            background: #4a90e2;
-            color: white;
+            background: #f1f3f5;
+            color: #333;
             padding: 12px;
             font-size: 14px;
             font-weight: 600;
+            border-bottom: 1px solid #e6e6e6;
         }
 
         td {
@@ -118,13 +96,13 @@
             font-size: 18px;
             margin: 0 6px;
             text-decoration: none;
-            color: #4a90e2;
+            color: #333;
             transition: 0.25s ease;
         }
 
         .action-icon:hover {
-            transform: scale(1.2);
-            color: #1f5fbf;
+            transform: scale(1.3);
+            color: #4a90e2;
         }
 
         .alert {
@@ -140,6 +118,35 @@
             color: #8a5a00;
             border: 1px solid #ffd59e;
         }
+
+        .footer-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            transition: 0.25s ease;
+        }
+
+
+        .btn-add {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: #357bd8;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
 
@@ -149,53 +156,55 @@
 
     <a href="/" class="back-icon">←</a>
 
-    <h2>User Management</h2>
+    <h2>List of Nodes</h2>
 
-    <c:if test="${empty users}">
+    <c:if test="${empty nodes}">
         <div class="alert alert-warning">
-            No users found
+            No nodes found
         </div>
     </c:if>
 
-    <c:if test="${not empty users}">
-        <div class="table-wrapper">
-            <table>
-                <thead>
+    <c:if test="${not empty nodes}">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Node</th>
+                <th>Path</th>
+                <th>Roles</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <c:forEach var="node" items="${nodes}">
                 <tr>
-                    <th>Email</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Roles</th>
-                    <th>Action</th>
+                    <td>${node.id}</td>
+                    <td>${node.identifier}</td>
+                    <td>${node.path}</td>
+                    <td>${node.roles}</td>
+
+                    <td>
+                        <a href="/node/get?identifier=${node.identifier}"
+                           class="action-icon"
+                           title="Edit">✏️</a>
+
+                        <a href="/node/delete?identifier=${node.identifier}"
+                           class="action-icon"
+                           title="Delete"
+                           onclick="return confirm('Are you sure you want to delete this node?');">
+                            🗑
+                        </a>
+                    </td>
                 </tr>
-                </thead>
-
-                <tbody>
-                <c:forEach var="user" items="${users}">
-                    <tr>
-                        <td>${user.username}</td>
-                        <td>${user.name}</td>
-                        <td>${user.phoneNo}</td>
-                        <td>${user.roles}</td>
-
-                        <td>
-                            <a href="/user/get?username=${user.username}"
-                               class="action-icon"
-                               title="Edit">✏️</a>
-
-                            <a href="/user/delete?username=${user.username}"
-                               class="action-icon"
-                               title="Delete"
-                               onclick="return confirm('Are you sure you want to delete this user?');">
-                                🗑
-                            </a>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </div>
+            </c:forEach>
+            </tbody>
+        </table>
     </c:if>
+
+    <div class="footer-actions">
+        <a href="/node/add" class="btn btn-add">+ Add New Node</a>
+    </div>
 
 </div>
 

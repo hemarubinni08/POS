@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -8,13 +8,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Add Role</title>
+    <title>Add Node</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+          rel="stylesheet">
 
     <style>
-        /* 🔥 KEEP YOUR ORIGINAL CSS AS-IS (UNCHANGED) */
-
+        /* ✅ YOUR CSS (UNCHANGED) */
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
@@ -27,13 +27,18 @@
 
         .card-container {
             position: relative;
-            width: 500px;
+            width: 520px;
             background: #ffffff;
-            padding: 35px 40px;
+            padding: 40px 45px;
             border-radius: 18px;
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
             border: 1px solid #e6e6e6;
             color: #333;
+            transition: transform 0.3s ease;
+        }
+
+        .card-container:hover {
+            transform: translateY(-2px);
         }
 
         h2 {
@@ -101,30 +106,19 @@
             box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
         }
 
-        textarea.form-control {
-            resize: none;
-        }
-
-        .alert {
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-size: 13px;
-            background: #e6f4ea;
-            border: 1px solid #b7e4c7;
-            color: #1b4332;
+        select[multiple] {
+            height: 120px;
         }
 
         .error-message {
             padding: 12px;
-            border-radius: 10px;
+            border-radius: 8px;
             margin-bottom: 15px;
             text-align: center;
             font-size: 13px;
-            background: rgba(220, 53, 69, 0.12);
-            border: 1px solid #dc3545;
-            color: #dc3545;
+            background: #ffe5e5;
+            border: 1px solid #ffb3b3;
+            color: #b30000;
         }
 
         .btn-submit {
@@ -153,24 +147,28 @@
             color: #888;
         }
     </style>
+
+    <!-- ✅ POPUP SCRIPT -->
+    <script>
+        window.onload = function () {
+            var message = "${message}";
+            if (message && message.trim() !== "") {
+                alert(message);
+            }
+        };
+    </script>
+
 </head>
 
 <body>
 
 <div class="card-container">
 
-    <a href="/role/list" class="back-icon">←</a>
+    <a href="/node/list" class="back-icon">←</a>
 
-    <h2>Add New Role</h2>
+    <h2>Add New Node</h2>
 
-    <!-- Success message -->
-    <c:if test="${not empty role}">
-        <div class="alert">
-            ${role}
-        </div>
-    </c:if>
-
-    <!-- Error / Info message -->
+    <!-- ✅ Optional inline message (can remove if only popup needed) -->
     <c:if test="${not empty message}">
         <div class="error-message">
             ${message}
@@ -178,26 +176,38 @@
     </c:if>
 
     <form:form method="post"
-               action="/role/add"
-               modelAttribute="roleDto">
+               action="/node/add"
+               modelAttribute="nodeDto">
 
         <div class="form-group">
-            <label>Role Name</label>
+            <label>Node Name</label>
             <form:input path="identifier"
                         cssClass="form-control"
-                        placeholder="Enter role name" />
+                        placeholder="Enter node name"
+                        required="required"/>
         </div>
 
         <div class="form-group">
-            <label>Description</label>
-            <form:textarea path="description"
-                           cssClass="form-control"
-                           rows="3"
-                           placeholder="Enter role description" />
+            <label>Path</label>
+            <form:input path="path"
+                        cssClass="form-control"
+                        placeholder="Enter path"
+                        required="required"/>
+        </div>
+
+        <div class="form-group">
+            <label>Roles</label>
+            <form:select path="roles"
+                         multiple="true"
+                         cssClass="form-control">
+                <form:options items="${roles}"
+                              itemValue="identifier"
+                              itemLabel="identifier"/>
+            </form:select>
         </div>
 
         <button type="submit" class="btn-submit">
-            Add Role
+            Add Node
         </button>
 
     </form:form>

@@ -6,95 +6,203 @@
 <head>
     <title>Role List</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .card {
-            border-radius: 16px;
+
+        .card-container {
+            position: relative;
+            width: 800px;
+            background: #ffffff;
+            padding: 35px 40px;
+            border-radius: 18px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+            border: 1px solid #e6e6e6;
         }
-        .card-header {
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #222;
+            font-weight: 600;
         }
-        table th {
-            background-color: #0d6efd;
+
+        .back-icon {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            background: #f0f0f0;
+            border-radius: 50%;
+            transition: all 0.25s ease;
+        }
+
+        .back-icon:hover {
+            background: #333;
+            color: #fff;
+            transform: translateX(-3px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th {
+            background: #4a90e2;
             color: white;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            color: #444;
+            white-space: nowrap;
+        }
+
+        tr:hover {
+            background: #f9fafc;
+        }
+
+        .action-icon {
+            font-size: 18px;
+            margin: 0 6px;
+            text-decoration: none;
+            color: #4a90e2;
+            transition: 0.25s ease;
+        }
+
+        .action-icon:hover {
+            transform: scale(1.2);
+            color: #1f5fbf;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .alert-warning {
+            background: #fff4e5;
+            color: #8a5a00;
+            border: 1px solid #ffd59e;
+        }
+
+        .footer-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            transition: 0.25s ease;
+        }
+
+
+
+
+
+        .btn-add {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: #357bd8;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
         }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="card-container">
 
-            <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4 class="mb-0">List of Roles</h4>
-                </div>
+    <a href="/" class="back-icon">←</a>
 
-                <div class="card-body">
+    <h2>List of Roles</h2>
 
-                    <c:if test="${empty roles}">
-                        <div class="alert alert-warning text-center">
-                            No roles found
-                        </div>
-                    </c:if>
-
-                    <c:if test="${not empty roles}">
-                        <table class="table table-bordered table-hover text-center align-middle">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Role</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach var="role" items="${roles}">
-                                <tr>
-                                    <td>
-                                        <a href="/role/get?identifier=?${role.identifier}"
-                                           class="text-decoration-none fw-semibold">
-                                            ${role.id}
-                                        </a>
-                                    </td>
-                                    <td>${role.identifier}</td>
-                                    <td>
-                                        <a href="/role/deleteByIdJdbc?id=${r.id}"
-                                           class="btn btn-danger btn-sm"
-                                           onclick="return confirm('Are you sure you want to delete this role?');">
-                                            Delete
-                                        </a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </c:if>
-
-                </div>
-
-                <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
-                    <a href="/" class="btn btn-secondary">
-                        Home
-                    </a>
-
-                    <a href="/role/add" class="btn btn-success">
-                        + Add New Role
-                    </a>
-                </div>
-
-            </div>
-
+    <c:if test="${empty roles}">
+        <div class="alert alert-warning">
+            No roles found
         </div>
+    </c:if>
+
+    <c:if test="${not empty roles}">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Role</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <c:forEach var="role" items="${roles}">
+                <tr>
+                    <td>${role.id}</td>
+                    <td>${role.identifier}</td>
+                    <td>${role.description}</td>
+                    <td>
+                        <a href="/role/get?identifier=${role.identifier}"
+                           class="action-icon"
+                           title="Edit">✏️</a>
+
+                        <a href="/role/delete?identifier=${role.identifier}"
+                           class="action-icon"
+                           title="Delete"
+                           onclick="return confirm('Are you sure you want to delete this role?');">
+                            🗑
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+
+    <div class="footer-actions">
+        <a href="/role/add" class="btn btn-add">+ Add New Role</a>
     </div>
+
 </div>
 
 </body>

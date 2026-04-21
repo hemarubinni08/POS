@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Role</title>
+    <title>Update Node</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
@@ -22,7 +22,8 @@
         }
 
         .card-container {
-            width: 420px;
+            position: relative;
+            width: 480px;
             background: #ffffff;
             padding: 35px 40px;
             border-radius: 18px;
@@ -34,8 +35,8 @@
         h2 {
             text-align: center;
             margin-bottom: 25px;
-            font-weight: 600;
             color: #222;
+            font-weight: 600;
         }
 
         .form-group {
@@ -83,11 +84,17 @@
             color: #b30000;
         }
 
+        .info-text {
+            font-size: 12px;
+            color: #777;
+            margin-top: 6px;
+        }
+
         .btn-group {
             display: flex;
             justify-content: space-between;
-            gap: 10px;
             margin-top: 15px;
+            gap: 10px;
         }
 
         .btn {
@@ -130,34 +137,56 @@
 
 <div class="card-container">
 
-    <h2>Edit Role</h2>
+    <h2>Edit Node</h2>
 
     ${message}
 
-    <c:if test="${empty role}">
+    <c:if test="${empty node}">
         <div class="alert">
-            Role not found
+            Node not found
         </div>
     </c:if>
 
-    <c:if test="${not empty role}">
-        <form:form action="/role/update"
+    <c:if test="${not empty node}">
+        <form:form action="/node/update"
                    method="post"
-                   modelAttribute="role">
+                   modelAttribute="node">
 
             <form:hidden path="id"/>
-            <form:hidden path="identifier"/>
 
             <div class="form-group">
-                <label>Description</label>
-                <form:input path="description"
+                <label>Node Name</label>
+                <form:input path="identifier"
                             cssClass="form-control"
-                            placeholder="Enter Description"
                             required="true"/>
             </div>
 
+            <div class="form-group">
+                <label>Path</label>
+                <form:input path="path"
+                            cssClass="form-control"
+                            required="true"/>
+            </div>
+
+            <div class="form-group">
+                <label>Roles</label>
+                <form:select path="roles"
+                             multiple="true"
+                             cssClass="form-control">
+
+                    <form:options items="${roles}"
+                                  itemValue="identifier"
+                                  itemLabel="identifier"/>
+
+                </form:select>
+
+                <div class="info-text">
+                    Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple roles
+                </div>
+            </div>
+
             <div class="btn-group">
-                <a href="/role/list" class="btn btn-cancel">
+                <a href="/node/list" class="btn btn-cancel">
                     Cancel
                 </a>
 
