@@ -1,130 +1,191 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
+
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Add Role</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         body {
             margin: 0;
+            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
-            font-family: Arial, sans-serif;
             background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .container {
-            width: 380px;
-            background: #ffffff;
-            padding: 30px 35px;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        .card-container {
+            position: relative;
+            width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px 40px;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
         }
 
         h2 {
             text-align: center;
             margin-bottom: 25px;
             color: #4b6cb7;
+            font-weight: 600;
+        }
+
+        .back-icon {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #4b6cb7;
+            text-decoration: none;
+            font-weight: 600;
+            background: rgba(75, 108, 183, 0.08);
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+            transition: all 0.25s ease;
+        }
+
+        .back-icon:hover {
+            background: #4b6cb7;
+            color: #ffffff;
+            transform: translateX(-4px) scale(1.05);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
             margin-bottom: 6px;
-            font-size: 13px;
-            font-weight: 600;
+            font-weight: 500;
             color: #333;
         }
 
-        input {
+        .form-control {
             width: 100%;
             padding: 10px 12px;
-            margin-bottom: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid #ccc;
+            font-family: 'Poppins', sans-serif;
             font-size: 14px;
         }
 
-        input:focus {
+        .form-control:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 5px rgba(102, 126, 234, 0.4);
+            border-color: #4b6cb7;
+            box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.2);
         }
 
-        button {
+        .alert {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 14px;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .btn-submit {
             width: 100%;
-            padding: 11px;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
             background: linear-gradient(135deg, #4b6cb7, #182848);
             color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
+            transition: 0.25s ease;
         }
 
-        button:hover {
-            opacity: 0.9;
+        .btn-submit:hover {
+            transform: scale(1.05);
         }
 
-        /* ✅ Success Message */
-        .success-message {
-            margin-bottom: 15px;
-            padding: 10px;
-            background: rgba(40, 167, 69, 0.12);
-            border: 1px solid #28a745;
-            color: #28a745;
-            border-radius: 8px;
-            font-size: 13px;
+        .footer-text {
             text-align: center;
-            font-weight: 500;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #777;
         }
+         .error-message {
+                    padding: 10px;
+                    border-radius: 8px;
+                    margin-bottom: 15px;
+                    text-align: center;
+                    font-size: 14px;
+                    background: rgba(220, 53, 69, 0.12);
+                    border: 1px solid #dc3545;
+                    color: #dc3545;
+                }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="card-container">
+
+    <a href="/role/list" class="back-icon">←</a>
 
     <h2>Add New Role</h2>
-        <!-- ✅ MESSAGE DISPLAY -->
+
+    <c:if test="${not empty role}">
+        <div class="alert">
+            ${role}
+        </div>
+    </c:if>
+
+     <!-- ✅ Error / Info Message -->
         <c:if test="${not empty message}">
             <div class="error-message">
                 ${message}
             </div>
         </c:if>
 
-    <!-- ✅ Success Message -->
-    <c:if test="${not empty role}">
-        <div class="success-message">
-            ${role}
-        </div>
-    </c:if>
-
-    <!-- ✅ Spring Form -->
     <form:form method="post"
                action="/role/add"
                modelAttribute="roleDto">
 
-        <label>Role Name</label>
-        <form:input path="identifier"/>
+        <div class="form-group">
+            <label>Role Name</label>
+            <form:input path="identifier"
+                        cssClass="form-control"
+                        placeholder="Enter role name" />
+        </div>
 
-        <label>Description</label>
-        <form:input path="description"/>
+        <div class="form-group">
+            <label>Description</label>
+            <form:textarea path="description"
+                           cssClass="form-control"
+                           rows="3"
+                           placeholder="Enter role description" />
+        </div>
 
-        <button type="submit">Add Role</button>
-        <a href="/node/list"
-        class="btn btn-secondary">Cancel
-        </a>
+        <button type="submit" class="btn-submit">
+            Add Role
+        </button>
 
     </form:form>
 
-</div>
+    <div class="footer-text">
+        POS Management System
+    </div>
 
+</div>
 </body>
 </html>
