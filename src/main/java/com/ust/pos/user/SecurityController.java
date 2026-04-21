@@ -6,6 +6,7 @@ import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,10 +32,11 @@ public class SecurityController {
     }
 
     @PostMapping("/register")
-    public String addPost(Model model, @ModelAttribute UserDto userDto) {
+    public String addPost(Model model, @ModelAttribute UserDto userDto, BindingResult result) {
         UserDto response = userService.save(userDto);
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+            result.rejectValue("username", "error.userDto", response.getMessage());
+            model.addAttribute("roles", roleService.findAll());
             return "register";
         }
         return "redirect:/login";

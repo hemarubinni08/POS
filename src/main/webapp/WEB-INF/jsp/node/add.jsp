@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,136 +12,87 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
         :root {
-            --sidebar-bg: #111827;
-            --sidebar-hover: #1f2937;
             --accent-blue: #3b82f6;
             --bg-main: #f9fafb;
             --text-dark: #111827;
             --text-muted: #6b7280;
             --border-color: #e5e7eb;
-            --sidebar-width: 280px;
         }
 
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            display: flex;
-            min-height: 100vh;
             background-color: var(--bg-main);
-            overflow-x: hidden;
-        }
-
-        .sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--sidebar-bg);
-            color: #d1d5db;
+            color: var(--text-dark);
             display: flex;
             flex-direction: column;
-            position: fixed;
-            top: 0;
-            left: calc(-1 * var(--sidebar-width));
-            height: 100vh;
-            border-right: 1px solid var(--border-color);
-            z-index: 1050;
-            transition: left 0.3s ease;
-        }
-
-        .sidebar.active { left: 0; }
-
-        .sidebar-header {
-            padding: 24px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .sidebar-header span.logo-text { color: var(--accent-blue); margin-right: 10px; }
-
-        .nav-menu { flex-grow: 1; padding: 24px 0; }
-        .nav-label { padding: 0 24px 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #4b5563; letter-spacing: 1px; }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 24px;
-            color: #9ca3af;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .nav-item:hover { background: var(--sidebar-hover); color: white; }
-        .nav-item.active { color: white; background: var(--sidebar-hover); border-right: 4px solid var(--accent-blue); }
-
-        .content-wrapper {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
+            min-height: 100vh;
         }
 
         .top-navbar {
             background: white;
-            height: 64px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
+            padding: 0 40px;
             border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
 
-        .menu-toggle {
-            background: none; border: none; cursor: pointer; padding: 0;
-            display: flex; flex-direction: column; justify-content: space-between;
-            width: 24px; height: 18px;
+        .btn-home {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
         }
-        .menu-toggle span { display: block; height: 2px; width: 100%; background-color: var(--text-dark); border-radius: 2px; }
 
         .main-content {
-            padding: 40px;
+            flex-grow: 1;
+            padding: 60px 20px;
             display: flex;
             justify-content: center;
+            align-items: flex-start;
         }
 
         .form-card {
             width: 100%;
             max-width: 500px;
             background: white;
-            padding: 32px;
+            padding: 40px;
             border-radius: 12px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .form-label-custom {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             color: var(--text-muted);
             margin-bottom: 8px;
-            letter-spacing: 0.025em;
+            display: block;
+            letter-spacing: 0.05em;
         }
 
         .form-control-custom {
-            border: 1.5 solid var(--border-color);
+            border: 1.5px solid var(--border-color);
             border-radius: 8px;
-            padding: 12px 14px;
+            padding: 12px 15px;
             font-size: 14px;
-            transition: all 0.2s;
+            width: 100%;
+            transition: border-color 0.2s;
         }
 
         .form-control-custom:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
             outline: none;
+            border-color: var(--accent-blue);
         }
 
         .checkbox-group {
@@ -157,15 +107,14 @@
         .checkbox-group span {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 14px;
         }
 
         .checkbox-group input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
             margin-right: 12px;
-            accent-color: var(--accent-blue);
+            width: 16px;
+            height: 16px;
         }
 
         .btn-submit {
@@ -177,114 +126,65 @@
             border-radius: 8px;
             font-weight: 600;
             margin-top: 20px;
-            transition: background 0.2s;
-        }
-
-        .btn-submit:hover { background: #2563eb; }
-
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.3); display: none; z-index: 1040;
-        }
-        .overlay.active { display: block; }
-
-        .btn-logout {
-            width: 100%; background: transparent; color: #9ca3af; border: 1px solid #374151;
-            padding: 10px; border-radius: 6px; font-size: 14px; cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
-
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div><span class="logo-text">■</span> RETAIL CORE</div>
-            <button onclick="toggleSidebar()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">&times;</button>
+    <header class="top-navbar">
+        <div style="font-weight: 800; letter-spacing: -0.5px;">
+            <span style="color: var(--accent-blue);">■</span> RETAIL CORE
         </div>
+        <a href="list" class="btn-home">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Back to Registry
+        </a>
+    </header>
 
-        <nav class="nav-menu">
-            <div class="nav-label">System Modules</div>
-            <a href="${pageContext.request.contextPath}/" class="nav-item">Home</a>
-            <c:forEach var="n" items="${nodes}">
-                <a href="${n.path}" class="nav-item">
-                    ${n.identifier}
-                </a>
-            </c:forEach>
-        </nav>
+    <main class="main-content">
+        <div class="form-card">
+            <h4 class="mb-4 font-weight-bold">Register New System Node</h4>
 
-        <div class="logout-section" style="padding: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
-            <form action="/logout" method="post">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                <button type="submit" class="btn-logout">Sign Out</button>
-            </form>
-        </div>
-    </aside>
-
-    <main class="content-wrapper">
-        <header class="top-navbar">
-            <button class="menu-toggle" onclick="toggleSidebar()">
-                <span></span><span></span><span></span>
-            </button>
-            <div class="breadcrumb-text small text-muted">Configuration / Register Node</div>
-        </header>
-
-        <section class="main-content">
-            <div class="form-card shadow-sm">
-                <h4 class="mb-4 font-weight-bold" style="color: var(--text-dark);">Register New System Node</h4>
-
-                <c:if test="${not empty node}">
-                    <div class="alert alert-success border-0 small py-2 mb-4 text-center">
-                        Node "<strong>${node}</strong>" has been successfully initialized.
-                    </div>
-                </c:if>
-
-                <form:form method="post" action="/node/add" modelAttribute="nodeDto">
-                    <div class="mb-3">
-                        <label class="form-label-custom">Node Name (Display Label)</label>
-                        <form:input path="identifier"
-                                    cssClass="form-control form-control-custom"
-                                    placeholder="e.g., Staff Management"
-                                    required="true"/>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">Navigation Path (URL)</label>
-                        <form:input path="path"
-                                    cssClass="form-control form-control-custom"
-                                    placeholder="e.g., /staff/list"
-                                    required="true"/>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">Permitted Access Roles</label>
-                        <div class="checkbox-group">
-                            <form:checkboxes path="roles" items="${roles}" itemValue="identifier" itemLabel="identifier" element="span"/>
-                        </div>
-                        <div class="small text-muted mt-2" style="font-size: 11px;">
-                            Select which roles are allowed to see and access this navigation node.
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn-submit">Register Node</button>
-                </form:form>
-
-                <div class="text-center mt-4">
-                    <a href="/node/list" class="text-decoration-none small font-weight-bold" style="color: var(--accent-blue);">
-                        &larr; Return to Node Registry
-                    </a>
+            <c:if test="${param.error eq 'true'}">
+                <div class="alert alert-danger border-0 small py-2 mb-4">
+                    Operation failed: This node already exists in the system.
                 </div>
-            </div>
-        </section>
-    </main>
+            </c:if>
 
-    <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
-        }
-    </script>
+            <c:if test="${not empty node}">
+                <div class="alert alert-success border-0 small py-2 mb-4">
+                    Node "<strong>${node}</strong>" registered successfully.
+                </div>
+            </c:if>
+
+            <form:form method="post" action="add" modelAttribute="nodeDto">
+                <div class="mb-3">
+                    <label class="form-label-custom">Node Name</label>
+                    <form:input path="identifier"
+                                cssClass="form-control-custom"
+                                placeholder="e.g., Inventory Management"
+                                required="true"/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label-custom">Navigation Path</label>
+                    <form:input path="path"
+                                cssClass="form-control-custom"
+                                placeholder="e.g., /inventory/list"
+                                required="true"/>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label-custom">Permitted Access Roles</label>
+                    <div class="checkbox-group">
+                        <form:checkboxes path="roles" items="${roles}" itemValue="identifier" itemLabel="identifier" element="span"/>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Register Node</button>
+            </form:form>
+        </div>
+    </main>
 
 </body>
 </html>

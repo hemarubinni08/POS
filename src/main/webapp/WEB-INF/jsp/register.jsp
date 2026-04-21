@@ -19,7 +19,6 @@
             --text-muted: #64748b;
             --border-color: #e2e8f0;
             --error-red: #ef4444;
-            --error-bg: #fee2e2;
         }
 
         body {
@@ -45,21 +44,9 @@
             border-top: 5px solid var(--retail-blue);
         }
 
-        .header { margin-bottom: 25px; }
+        .header { margin-bottom: 30px; }
         h2 { margin: 0; color: var(--text-main); font-size: 24px; font-weight: 700; }
         .subtitle { color: var(--text-muted); font-size: 14px; margin-top: 5px; }
-
-        /* Backend Error Alert Style */
-        .alert-error {
-            background-color: var(--error-bg);
-            color: var(--error-red);
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #fecaca;
-            font-size: 13px;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
 
         .form-group { margin-bottom: 20px; position: relative; }
 
@@ -90,6 +77,15 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
+        /* Error Message Styling */
+        .error-msg {
+            color: var(--error-red);
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+            font-weight: 500;
+        }
+
         .checkbox-container {
             border: 1.5px solid var(--border-color);
             border-radius: 8px;
@@ -116,7 +112,6 @@
             accent-color: var(--retail-blue);
         }
 
-        /* Hidden validation hook for roles */
         .validation-hook {
             position: absolute; bottom: 0; left: 50%; opacity: 0; width: 0; height: 0; pointer-events: none;
         }
@@ -151,18 +146,17 @@
 
 <body>
 
+<c:if test="${not empty message}">
+    <div style="color: var(--error-red); background: #fee2e2; padding: 10px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; border: 1px solid #fecaca;">
+        ${message}
+    </div>
+</c:if>
+
 <div class="register-card">
     <div class="header">
         <h2>Create Staff Account</h2>
         <p class="subtitle">System Onboarding & Role Assignment</p>
     </div>
-
-    <%-- Displaying the error message from model.addAttribute("message", ...) --%>
-    <c:if test="${not empty message}">
-        <div class="alert-error">
-            ${message}
-        </div>
-    </c:if>
 
     <form:form action="register" method="post" modelAttribute="userDto">
 
@@ -174,6 +168,8 @@
         <div class="form-group">
             <label class="field-label">Email Address</label>
             <form:input path="username" type="email" placeholder="name@retail.com" required="required"/>
+            <%-- Shows backend error if email exists --%>
+            <form:errors path="username" cssClass="error-msg" />
         </div>
 
         <div class="form-group">
@@ -182,13 +178,14 @@
                 <form:checkboxes path="roles" items="${roles}" itemValue="identifier"
                                  itemLabel="identifier" element="span"
                                  onchange="document.getElementById('roleWatcher').required = !Array.from(document.getElementsByName('roles')).some(x => x.checked);"/>
-
                 <input type="checkbox" id="roleWatcher" class="validation-hook" required title="Please select at least one role">
             </div>
+            <form:errors path="roles" cssClass="error-msg" />
         </div>
 
         <div class="form-group">
-            <label class="field-label">Phone Number</label>
+            <label class="field-label">Phone Number (10 Digits)</label>
+            <%-- pattern="[0-9]{10}" forces exactly 10 digits --%>
             <form:input path="phoneNo"
                         type="tel"
                         placeholder="9876543210"
@@ -198,12 +195,14 @@
                         pattern="[0-9]{10}"
                         inputmode="numeric"
                         title="Please enter exactly 10 digits"/>
+            <form:errors path="phoneNo" cssClass="error-msg" />
         </div>
 
         <div class="form-group">
-            <label class="field-label">Secure Password</label>
+            <label class="field-label">Secure Password (Min 6 Characters)</label>
             <form:password path="password" placeholder="••••••••"
                            minlength="6" required="required"/>
+            <form:errors path="password" cssClass="error-msg" />
         </div>
 
         <button type="submit" class="btn-submit">Register User</button>

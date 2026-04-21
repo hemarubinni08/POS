@@ -2,7 +2,6 @@ package com.ust.pos.node;
 
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.RoleDto;
-import com.ust.pos.model.Node;
 import com.ust.pos.node.service.NodeService;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import java.util.List;
 @RequestMapping("/node")
 public class NodeController {
 
+    public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     @Autowired
     private NodeService nodeService;
     @Autowired
@@ -39,8 +39,9 @@ public class NodeController {
         NodeDto response = nodeService.save(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            return "redirect:/node/add?error=true";
         }
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/get")
@@ -55,13 +56,14 @@ public class NodeController {
         NodeDto response = nodeService.update(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            return "redirect:/node/get?error=true";
         }
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         nodeService.delete(identifier);
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 }

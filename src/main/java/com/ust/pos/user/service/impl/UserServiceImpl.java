@@ -53,11 +53,9 @@ public class UserServiceImpl implements UserService {
 
         if(userOptional.isPresent()){
             User user = userOptional.get();
-            if(!user.getUsername().equalsIgnoreCase(userDto.getUsername())) {
-                if (userRepository.existsByUsername(userDto.getUsername())) {
+            if(!user.getUsername().equalsIgnoreCase(userDto.getUsername()) &&userRepository.existsByUsername(userDto.getUsername())) {
                     userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
                     return userDto;
-                }
             }
                 modelMapper.map(userDto, user);
                 userRepository.save(user);

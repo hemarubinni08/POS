@@ -12,122 +12,64 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
         :root {
-            --sidebar-bg: #111827;
-            --sidebar-hover: #1f2937;
             --accent-blue: #3b82f6;
             --bg-main: #f9fafb;
             --text-dark: #111827;
-            --text-muted: #6b7280;
             --border-color: #e5e7eb;
-            --sidebar-width: 280px;
         }
 
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            display: flex;
-            min-height: 100vh;
             background-color: var(--bg-main);
-            overflow-x: hidden;
-        }
-
-        .sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--sidebar-bg);
-            color: #d1d5db;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 0;
-            left: calc(-1 * var(--sidebar-width));
-            height: 100vh;
-            border-right: 1px solid var(--border-color);
-            z-index: 1050;
-            transition: left 0.3s ease;
-        }
-
-        .sidebar.active {
-            left: 0;
-        }
-
-        .sidebar-header {
-            padding: 24px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .sidebar-header span.logo-text { color: var(--accent-blue); margin-right: 10px; }
-
-        .nav-menu { flex-grow: 1; padding: 24px 0; }
-        .nav-label { padding: 0 24px 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #4b5563; letter-spacing: 1px; }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 24px;
-            color: #9ca3af;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .nav-item:hover { background: var(--sidebar-hover); color: white; }
-        .nav-item.active { color: white; background: var(--sidebar-hover); border-right: 4px solid var(--accent-blue); }
-
-        .content-wrapper {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            transition: margin-left 0.3s ease;
-        }
-
-        @media (min-width: 1200px) {
-            .sidebar.active + .content-wrapper {
-                margin-left: var(--sidebar-width);
-            }
+            color: var(--text-dark);
         }
 
         .top-navbar {
             background: white;
-            height: 64px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
+            padding: 0 40px;
             border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
-        .menu-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
+        .logo-section {
+            font-weight: 700;
+            font-size: 1.1rem;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 24px;
-            height: 18px;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-dark);
         }
 
-        .menu-toggle span {
-            display: block;
-            height: 2px;
-            width: 100%;
-            background-color: var(--text-dark);
-            border-radius: 2px;
+        .logo-text { color: var(--accent-blue); margin-right: 10px; }
+
+        .btn-home {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
         }
 
-        .main-content { padding: 40px; }
+        .btn-home:hover {
+            background-color: #f3f4f6;
+            border-color: #d1d5db;
+        }
+
+        .main-content { padding: 40px; max-width: 1200px; margin: 0 auto; }
 
         .data-card {
             background: white;
@@ -138,33 +80,13 @@
         }
 
         .card-header-custom {
-            padding: 20px 24px;
+            padding: 24px;
             background: white;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
-        .table thead th {
-            background-color: #f8fafc;
-            color: var(--text-muted);
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-            padding: 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .table tbody td {
-            padding: 16px;
-            font-size: 14px;
-            color: var(--text-dark);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .role-id-link { color: var(--accent-blue); text-decoration: none; font-weight: 600; }
 
         .role-name-text {
             font-weight: 600;
@@ -177,115 +99,74 @@
 
         .btn-action { font-size: 13px; font-weight: 600; border-radius: 6px; padding: 6px 12px; }
 
-        .overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.3); display: none; z-index: 1040;
-        }
+        .logout-form { margin: 0; }
 
-        .overlay.active { display: block; }
-
-        .btn-logout {
-            width: 100%; background: transparent; color: #9ca3af; border: 1px solid #374151;
-            padding: 10px; border-radius: 6px; font-size: 14px; cursor: pointer;
+        .btn-logout-nav {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 16px;
         }
     </style>
 </head>
 <body>
 
-    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <header class="top-navbar">
 
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div><span class="logo-text">■</span> RETAIL CORE</div>
-            <button onclick="toggleSidebar()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">&times;</button>
-        </div>
+        <div class="d-flex align-items-center gap-3">
+            <a href="${pageContext.request.contextPath}/" class="btn-home">
+                Return to Dashboard
+            </a>
 
-        <nav class="nav-menu">
-            <div class="nav-label">System Modules</div>
-            <a href="${pageContext.request.contextPath}/" class="nav-item">Home</a>
-            <c:forEach var="node" items="${nodes}">
-                <a href="${node.path}" class="nav-item ${fn:contains(pageContext.request.requestURI, node.path) ? 'active' : ''}">
-                    ${node.identifier}
-                </a>
-            </c:forEach>
-        </nav>
-
-        <div class="logout-section" style="padding: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
-            <form action="/logout" method="post">
+            <form action="${pageContext.request.contextPath}/logout" method="post" class="logout-form">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                <button type="submit" class="btn-logout">Sign Out</button>
+                <button type="submit" class="btn-logout-nav">Sign Out</button>
             </form>
         </div>
-    </aside>
+    </header>
 
-    <main class="content-wrapper">
-        <header class="top-navbar">
-            <button class="menu-toggle" onclick="toggleSidebar()">
-                <span></span><span></span><span></span>
-            </button>
-            <div class="breadcrumb-text small text-muted">Configuration / Role Registry</div>
-        </header>
-
-        <section class="main-content">
-            <div class="data-card">
-                <div class="card-header-custom">
-                    <h5 class="m-0 font-weight-bold" style="color: var(--text-dark);">System Roles</h5>
-                    <a href="/role/add" class="btn btn-primary btn-action">
-                        + Define New Role
-                    </a>
-                </div>
-
-                <div class="p-0">
-                    <c:if test="${empty roles}">
-                        <div class="p-5 text-center">
-                            <p class="text-muted">No security roles defined in the system.</p>
-                        </div>
-                    </c:if>
-
-                    <c:if test="${not empty roles}">
-                        <div class="table-responsive">
-                            <table class="table table-hover m-0">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 15%;">Internal ID</th>
-                                        <th>Role Identifier</th>
-                                        <th class="text-end">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach var="role" items="${roles}">
-                                        <tr>
-                                            <td>
-                                                <a class="role-id-link">
-                                                    #${role.id}
-                                                </a>
-                                            </td>
-                                            <td><span class="role-name-text">${role.identifier}</span></td>
-                                            <td class="text-end">
-                                                <a class="btn btn-outline-danger btn-action"
-                                                   href="/role/delete?identifier=${role.identifier}"
-                                                   onclick="return confirm('Deleting this role may affect user permissions. Continue?');">
-                                                    Remove Role
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
-                    </c:if>
-                </div>
+    <main class="main-content">
+        <div class="data-card">
+            <div class="card-header-custom">
+                <h4 class="m-0 font-weight-bold">System Roles</h4>
+                <a href="${pageContext.request.contextPath}/role/add" class="btn btn-primary btn-action">
+                    + Define New Role
+                </a>
             </div>
-        </section>
-    </main>
 
-    <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
-        }
-    </script>
+            <div class="table-responsive">
+                <table class="table table-hover m-0">
+                    <thead>
+                        <tr class="table-light">
+                            <th class="ps-4" style="width: 20%;">Internal ID</th>
+                            <th>Role Identifier</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="role" items="${roles}">
+                            <tr>
+                                <td class="ps-4">#${role.id}</td>
+                                <td><span class="role-name-text">${role.identifier}</span></td>
+                                <td class="text-end pe-4">
+                                    <div class="d-flex justify-content-end">
+                                        <a class="btn btn-outline-danger btn-action"
+                                           href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
+                                           onclick="return confirm('Deleting this role may affect user permissions. Continue?');">
+                                            Remove Role
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
 
 </body>
 </html>

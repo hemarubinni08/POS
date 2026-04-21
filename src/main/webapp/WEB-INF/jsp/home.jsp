@@ -17,7 +17,7 @@
             --bg-main: #f9fafb;
             --text-dark: #111827;
             --text-muted: #6b7280;
-            --border-color: #e5e7eb;
+            --border-color: #e2e8f0;
             --sidebar-width: 280px;
         }
 
@@ -29,6 +29,7 @@
             background-color: var(--bg-main);
             overflow-x: hidden;
         }
+
 
         .sidebar {
             width: var(--sidebar-width);
@@ -53,7 +54,7 @@
             padding: 24px;
             font-size: 1.1rem;
             font-weight: 700;
-            color: white;
+            color: red;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -62,8 +63,18 @@
 
         .sidebar-header span.logo-text { color: var(--accent-blue); margin-right: 10px; }
 
-        .nav-menu { flex-grow: 1; padding: 24px 0; }
-        .nav-label { padding: 0 24px 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #4b5563; letter-spacing: 1px; }
+        .nav-menu { flex-grow: 1; padding: 12px 0; }
+
+        .nav-label {
+            padding: 20px 24px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #4b5563;
+            letter-spacing: 1px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 10px;
+        }
 
         .nav-item {
             display: flex;
@@ -78,6 +89,13 @@
 
         .nav-item:hover { background: var(--sidebar-hover); color: white; }
         .nav-item.active { color: white; background: var(--sidebar-hover); border-right: 4px solid var(--accent-blue); }
+
+        /* Dashboard Top Link Special Styling */
+        .nav-item.dashboard-link {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
 
         .content-wrapper {
             flex-grow: 1;
@@ -126,15 +144,6 @@
             border-radius: 2px;
         }
 
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
         .main-content { padding: 60px 40px; max-width: 900px; margin: 0 auto; }
 
         .empty-state {
@@ -179,15 +188,21 @@
         </div>
 
         <nav class="nav-menu">
+            <a href="${pageContext.request.contextPath}/" class="nav-item dashboard-link active">
+                Dashboard Home
+            </a>
+
             <div class="nav-label">System Modules</div>
-            <a href="${pageContext.request.contextPath}/" class="nav-item active">Home</a>
+
             <c:forEach var="node" items="${nodes}">
-                <a href="${node.path}" class="nav-item">${node.identifier}</a>
+                <c:if test="${node.identifier != 'Home'}">
+                    <a href="${node.path}" class="nav-item">${node.identifier}</a>
+                </c:if>
             </c:forEach>
         </nav>
 
         <div class="logout-section" style="padding: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
-            <form action="/logout" method="post">
+            <form action="${pageContext.request.contextPath}/logout" method="post">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <button type="submit" class="btn-logout">Sign Out</button>
             </form>
@@ -201,6 +216,9 @@
                 <span></span>
                 <span></span>
             </button>
+            <div style="font-size: 13px; font-weight: 600; color: var(--text-muted);">
+                Management Console
+            </div>
         </header>
 
         <section class="main-content">
@@ -210,8 +228,7 @@
                     Your retail management environment is ready. Open the menu to manage system entities.
                 </p>
                 <div style="display: inline-flex; gap: 10px; color: var(--text-muted); font-size: 13px; font-weight: 500;">
-
-                </div>
+                    </div>
             </div>
         </section>
     </main>
