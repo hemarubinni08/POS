@@ -9,6 +9,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
+    public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
     @Autowired
     private UserRepository userRepository;
 
@@ -28,7 +30,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByUserName(String username) {
-        return modelMapper.map(userRepository.findByUsername(username), UserDto.class);
+        User user=userRepository.findByUsername(username);
+        if (user==null){
+            return null;
+        }
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override
@@ -36,7 +42,7 @@ public class UserServiceImpl implements UserService {
         String username = userDto.getUsername();
         User existingUser = userRepository.findByUsername(username);
         if (existingUser != null) {
-            userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
+            userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
             userDto.setSuccess(false);
             return userDto;
         }
@@ -52,17 +58,17 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userRepository.findById(userDto.getId());
 
         if (userOptional.isEmpty()) {
-            userDto.setMessage("User with username/email - " + userDto.getUsername() + " not found");
+            userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " not found");
             userDto.setSuccess(false);
             return userDto;
         } else {
             User existingUser = userOptional.get();
-            if (!username.equalsIgnoreCase(existingUser.getUsername())) {
-                if (userRepository.findByUsername(username) != null) {
-                    userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
+            if (!username.equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(username) != null) {
+
+                    userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
                     userDto.setSuccess(false);
                     return userDto;
-                }
+
             }
             modelMapper.map(userDto, existingUser);
             userRepository.save(existingUser);
@@ -71,8 +77,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delete(String username) {
-        return userRepository.deleteByUsername(username);
+    @Transactional
+    public void delete(String username) {
+        userRepository.deleteByUsername(username);
     }
 
     @Override

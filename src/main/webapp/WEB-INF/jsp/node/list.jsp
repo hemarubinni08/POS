@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Role List</title>
+    <title>Node List</title>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
 
@@ -33,7 +33,7 @@
             border: 1px solid rgba(255,255,255,0.15);
         }
 
-        h4 {
+        h3 {
             text-align: center;
             margin-bottom: 20px;
             color: #fff;
@@ -91,6 +91,11 @@
             transform: scale(1.1);
         }
 
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
         .btn-secondary {
             background: rgba(255,255,255,0.2);
             color: #fff;
@@ -112,11 +117,6 @@
             padding: 20px;
             color: #ddd;
         }
-
-        .footer {
-            margin-top: 20px;
-            text-align: center;
-        }
     </style>
 </head>
 
@@ -125,41 +125,37 @@
 <div class="container">
 
     <div class="card">
+        <h3>Node Management</h3>
 
-        <h4>List of Roles</h4>
-
-        <c:if test="${empty roles}">
-            <div class="empty">
-                No roles found
-            </div>
+        <c:if test="${empty nodes}">
+            <div class="empty">No nodes found</div>
         </c:if>
 
-        <c:if test="${not empty roles}">
+        <c:if test="${not empty nodes}">
             <table>
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Role</th>
-                    <th>Description</th>
+                    <th>Node</th>
                     <th>Action</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <c:forEach var="role" items="${roles}">
+                <c:forEach var="node" items="${nodes}">
                     <tr>
-                        <td>${role.id}</td>
-                        <td>${role.identifier}</td>
-                        <td>${role.description}</td>
+                        <td>${node.id}</td>
+                        <td>${node.identifier}</td>
+
                         <td>
                             <div class="actions">
-                                <a href="/role/get?identifier=${role.identifier}" class="icon-btn edit-icon">
+                                <a href="/node/get?identifier=${node.identifier}" class="icon-btn edit-icon">
                                     <i class="fas fa-pen"></i>
                                 </a>
 
-                                <a href="/role/delete?identifier=${role.identifier}"
+                                <a href="/node/delete?identifier=${node.identifier}"
                                    class="icon-btn delete-icon"
-                                   onclick="return confirm('Delete this role?');">
+                                   onclick="return confirm('Are you sure you want to delete this node?');">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>
@@ -169,15 +165,14 @@
                 </tbody>
             </table>
         </c:if>
-
     </div>
 
     <div class="footer">
         <a href="/" class="btn-secondary">Home</a>
-        <a href="/role/add" class="btn-success">+ Add New Role</a>
+        <a href="/node/add" class="btn-success">+ Add New Node</a>
 
         <div style="margin-top:10px; font-size:12px; color:#ddd;">
-            POS Management System
+            Node Management System
         </div>
     </div>
 

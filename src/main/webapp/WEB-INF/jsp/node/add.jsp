@@ -8,15 +8,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Add Role</title>
+    <title>Add Node</title>
 
     <style>
         body {
             min-height: 100vh;
-            font-family: "Segoe UI", sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: "Segoe UI", sans-serif;
             background: radial-gradient(circle at 20% 30%, rgba(255,122,0,0.15), transparent 40%),
                         radial-gradient(circle at 80% 70%, rgba(255,72,0,0.15), transparent 40%),
                         linear-gradient(135deg, #1f1f1f, #3a2e2a);
@@ -35,62 +35,73 @@
 
         h4 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #fff;
             font-weight: 600;
         }
 
-        .form-label {
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
             font-size: 13px;
             color: #ddd;
             margin-bottom: 6px;
             display: block;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 12px;
             border-radius: 20px;
             border: 1px solid rgba(255,255,255,0.2);
-            font-size: 14px;
             background: rgba(255,255,255,0.1);
             color: #fff;
+            font-size: 14px;
         }
 
         input::placeholder {
             color: #ccc;
         }
 
-        input:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: #ff7a00;
             box-shadow: 0 0 6px rgba(255,122,0,0.3);
         }
 
-        .btn-primary {
+        select[multiple] {
+            height: 110px;
+            border-radius: 12px;
+        }
+
+        .btn-submit {
             width: 100%;
             padding: 12px;
             border-radius: 20px;
             border: none;
             background: linear-gradient(90deg, #ff4800, #ff7a00);
             color: white;
-            font-size: 14px;
             margin-top: 10px;
+            cursor: pointer;
         }
 
-        .btn-primary:hover {
+        .btn-submit:hover {
             opacity: 0.9;
         }
 
         .btn-back {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border-radius: 20px;
             border: none;
             background: rgba(255,255,255,0.2);
             color: #fff;
-            font-size: 14px;
             margin-top: 10px;
+            text-decoration: none;
+            text-align: center;
+            display: block;
         }
 
         .btn-back:hover {
@@ -98,14 +109,14 @@
         }
 
         .message-box {
-            margin-top: 10px;
+            margin-top: 12px;
             font-size: 13px;
             color: #ffb3b3;
             text-align: center;
         }
 
         .footer {
-            margin-top: 10px;
+            margin-top: 12px;
             text-align: center;
             font-size: 12px;
             color: #ddd;
@@ -117,36 +128,36 @@
 
 <div class="card">
 
-    <h4>Add New Role</h4>
+    <h4>Add New Node</h4>
 
-    <c:if test="${not empty role}">
+    <c:if test="${not empty node}">
         <div style="text-align:center; color:#b6ffb6; margin-bottom:10px;">
-            ${role}
+            ${node}
         </div>
     </c:if>
 
-    <form:form method="post" action="/role/add" modelAttribute="roleDto">
+    <form:form method="post" action="/node/add" modelAttribute="nodeDto">
 
-        <div class="mb-3">
-            <label class="form-label">Role Name</label>
-            <form:input path="identifier" placeholder="Enter role name"/>
-
-            <label class="form-label" style="margin-top:12px;">Role Description</label>
-            <form:input path="description" placeholder="Enter description"/>
+        <div class="form-group">
+            <label>Node Name</label>
+            <form:input path="identifier" placeholder="Enter node name"/>
         </div>
 
-        <button type="submit" class="btn-primary">
-            Add Role
-        </button>
+        <div class="form-group">
+            <label>Path Name</label>
+            <form:input path="path" placeholder="Enter path name"/>
+        </div>
 
-        <button type="button" class="btn-back"
-                onclick="window.location.href='/role/list'">
-            Back to Role List
-        </button>
+        <div class="form-group">
+            <label>Roles</label>
+            <form:select path="roles" multiple="true">
+                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+            </form:select>
+        </div>
 
-        <c:if test="${not empty message}">
-            <div class="message-box">${message}</div>
-        </c:if>
+        <button type="submit" class="btn-submit">Add Node</button>
+
+        <a href="/node/list" class="btn-back">Back</a>
 
     </form:form>
 

@@ -1,91 +1,158 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+    <title>POS Login</title>
 
     <style>
-        body {
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
             height: 100vh;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+        }
+
+        .left {
+            width: 50%;
+            background: linear-gradient(135deg, #1f1f1f, #3a2e2a);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px;
+            position: relative;
+        }
+
+        .left small {
+            opacity: 0.7;
+            margin-bottom: 20px;
+        }
+
+        .left h1 {
+            font-size: 56px;
+            line-height: 1.1;
+            font-weight: 600;
+        }
+
+        .circle {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            top: 50%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+        }
+
+        .right {
+            width: 50%;
+            background: #f7f7f7;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 60px;
         }
 
-        form {
-            background: #ffffff;
-            padding: 30px 35px;
-            width: 320px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #333;
-        }
-
-        form div {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        input {
+        .form-container {
+            max-width: 380px;
             width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
         }
 
-        input:focus {
+        .form-container h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #222;
+        }
+
+        .input-box {
+            width: 100%;
+            padding: 14px;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+            font-size: 14px;
+            background: #fff;
+        }
+
+        .input-box:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #ff4800;
         }
 
-        button {
+        .login-btn {
             width: 100%;
-            padding: 10px;
-            background-color: #667eea;
-            color: white;
+            padding: 14px;
+            border-radius: 30px;
             border: none;
-            border-radius: 6px;
+            background: linear-gradient(90deg, #ff4800, #ff7a00);
+            color: white;
             font-size: 15px;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #5a67d8;
+        .register-btn {
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            border-radius: 30px;
+            border: 1px solid #ccc;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .message-box {
+            margin-top: 10px;
+            font-size: 13px;
+            color: red;
+            text-align: center;
         }
     </style>
+
 </head>
 
 <body>
 
-<form th:action="@{/login}" method="post">
-    <h2>Login</h2>
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username" required />
-    </div>
+<div class="left">
+    <small>Smart POS system – manage billing & sales easily</small>
+    <h1>Manage<br>your POS</h1>
+    <div class="circle"></div>
+</div>
 
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required />
-    </div>
+<div class="right">
+    <div class="form-container">
+        <h2>Sign In</h2>
 
-    <button type="submit">Login</button>
-</form>
+        <form action="login" method="post">
+
+            <input class="input-box" type="email" name="username" placeholder="Email" required>
+
+            <input class="input-box" type="password" name="password" placeholder="Password" required="ture">
+
+            <button type="submit" class="login-btn">Sign In</button>
+
+            <button type="button" class="register-btn" onclick="window.location.href='register'">
+                Register
+            </button>
+
+            <c:if test="${not empty message}">
+                <div class="message-box">${message}</div>
+            </c:if>
+            <c:if test="${param.error == 'true'}">
+                <div style="color:red; margin-bottom:15px; text-align:center; font-size:13px;">
+                    Invalid username or password
+                </div>
+            </c:if>
+
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

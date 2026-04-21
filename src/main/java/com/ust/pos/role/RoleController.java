@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/role")
 public class RoleController {
 
+    public static final String REDIRECT_ROLE_LIST = "redirect:/role/list";
+    public static final String ROLE_ADD = "role/add";
     @Autowired
     private RoleService roleService;
 
@@ -22,7 +24,7 @@ public class RoleController {
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute RoleDto userDto) {
-        return "role/add";
+        return ROLE_ADD;
     }
 
     @PostMapping("/add")
@@ -30,14 +32,15 @@ public class RoleController {
         RoleDto response = roleService.save(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            return ROLE_ADD;
         }
-        return "redirect:/role/list";
+        return REDIRECT_ROLE_LIST;
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         RoleDto response = roleService.findByIdentifier(identifier);
-        model.addAttribute("role", response);
+        model.addAttribute("roleDto", response);
         return "role/role";
     }
 
@@ -46,13 +49,14 @@ public class RoleController {
         RoleDto response = roleService.update(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            return ROLE_ADD;
         }
-        return "redirect:/role/list";
+        return REDIRECT_ROLE_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         roleService.delete(identifier);
-        return "role/role";
+        return REDIRECT_ROLE_LIST;
     }
 }
