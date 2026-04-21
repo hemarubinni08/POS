@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/node")
 public class NodeController {
 
+    public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
+    public static final String ROLES = "roles";
     @Autowired
     private NodeService nodeService;
 
@@ -20,13 +22,13 @@ public class NodeController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("nodes", nodeService.getNodesForRoles());
+        model.addAttribute("nodes", nodeService.findAll());
         return "node/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute NodeDto userDto) {
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         return "node/add";
     }
 
@@ -34,28 +36,31 @@ public class NodeController {
     public String addPost(Model model, @ModelAttribute NodeDto userDto) {
         NodeDto response = nodeService.save(userDto);
         if (!response.isSuccess()) {
+            model.addAttribute(ROLES, roleService.findAll());
             model.addAttribute("message", response.getMessage());
+            return "node/add";
         }
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         NodeDto response = nodeService.findByIdentifier(identifier);
         model.addAttribute("node", response);
-        model.addAttribute("roles",roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         return "node/node";
     }
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute NodeDto userDto) {
         nodeService.update(userDto);
-        return "redirect:/node/list";
+
+        return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         nodeService.delete(identifier);
-        return "redirect:/node/list";
+        return REDIRECT_NODE_LIST;
     }
 }

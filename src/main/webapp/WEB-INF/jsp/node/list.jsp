@@ -32,7 +32,6 @@
             border-top: 6px solid #1e293b;
         }
 
-        /* Buttons */
         .btn {
             padding: 6px 11px;
             border-radius: 6px;

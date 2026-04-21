@@ -92,7 +92,7 @@
         }
 
         .back-center a {
-            text-decoration: none;      /* ✅ no underline */
+            text-decoration: none;
             color: #1e293b;
             font-size: 14px;
             font-weight: 600;
@@ -106,6 +106,16 @@
             background-color: #cbd5e1;
             color: #0f172a;
         }
+
+        .message {
+                            margin-bottom: 16px;
+                            padding: 10px;
+                            border-radius: 6px;
+                            background-color: #e0f2fe;
+                            color: #0369a1;
+                            text-align: center;
+                            font-size: 13px;
+        }
     </style>
 </head>
 
@@ -113,6 +123,12 @@
 
 <div class="container">
     <h2>Add Role</h2>
+
+    <c:if test="${not empty message}">
+                        <div class="message">
+                            ${message}
+                        </div>
+                    </c:if>
 
     <form method="post" modelAttribute="roleDto">
 

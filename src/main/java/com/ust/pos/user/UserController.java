@@ -3,7 +3,10 @@ package com.ust.pos.user;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +47,18 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
-        userService.delete(username);
-        return "redirect:/login";
+
+        @Nullable Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            String loggedInUser = authentication.getName();
+
+            userService.delete(username);
+
+            if (loggedInUser.equals(username)) {
+                SecurityContextHolder.clearContext();
+                return "redirect:/login";
+            }
+        }
+        return "redirect:/user/list";
     }
 }

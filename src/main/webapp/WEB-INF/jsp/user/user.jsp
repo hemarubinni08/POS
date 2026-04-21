@@ -104,6 +104,16 @@
             color: #1e293b;
         }
 
+        .message {
+                    margin-bottom: 16px;
+                    padding: 10px;
+                    border-radius: 6px;
+                    background-color: #e0f2fe;
+                    color: #0369a1;
+                    text-align: center;
+                    font-size: 13px;
+                }
+
         .btn-cancel:hover {
             background-color: #cbd5e1;
         }
@@ -114,6 +124,11 @@
 
 <div class="container">
     <h2>Update User</h2>
+     <c:if test="${not empty message}">
+                    <div class="message">
+                        ${message}
+                    </div>
+                </c:if>
 
     <form action="${pageContext.request.contextPath}/user/update" method="post">
 

@@ -17,7 +17,6 @@
             height: 100vh;
         }
 
-        /* LEFT SIDE (SOFT LIGHT PANEL) */
         .left {
             flex: 1;
             padding: 80px;
@@ -41,7 +40,6 @@
             max-width: 520px;
         }
 
-        /* RIGHT SIDE (CARD SAME AS REGISTER) */
         .right {
             width: 460px;
             display: flex;
@@ -97,7 +95,6 @@
             border: 1px solid #fca5a5;
         }
 
-        /* BUTTON */
         .btn-login {
             width: 100%;
             padding: 12px;
@@ -115,7 +112,6 @@
             box-shadow: 0 6px 18px rgba(15, 23, 42, 0.35);
         }
 
-        /* REGISTER TEXT */
         .extra-text {
             text-align: center;
             margin-top: 18px;
@@ -140,7 +136,6 @@
 
 <div class="main">
 
-    <!-- LEFT -->
     <div class="left">
         <h1>POS MADE SIMPLE</h1>
 
@@ -149,7 +144,6 @@
         </p>
     </div>
 
-    <!-- RIGHT -->
     <div class="right">
         <div class="form-box">
 
@@ -173,7 +167,6 @@
 
             </form>
 
-            <!-- REGISTER -->
             <div class="extra-text">
                 Don’t have an account?
                 <a href="${pageContext.request.contextPath}/register">

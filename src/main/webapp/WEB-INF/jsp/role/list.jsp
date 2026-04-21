@@ -91,7 +91,6 @@
             background-color: #f8fafc;
         }
 
-        /* ✅ PERFECT ACTION ALIGNMENT */
         th.action-header,
         td.action-cell {
             text-align: center;
@@ -148,4 +147,3 @@
 
 </body>
 </html>
-``

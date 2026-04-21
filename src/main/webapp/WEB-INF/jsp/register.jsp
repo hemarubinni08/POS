@@ -17,7 +17,6 @@
             height: 100vh;
         }
 
-        /* LEFT PANEL */
         .left {
             flex: 1;
             padding: 80px;
@@ -114,7 +113,6 @@
             min-height: 100px;
         }
 
-        /* BUTTONS */
         .btn-group {
             display: flex;
             gap: 10px;
@@ -150,7 +148,6 @@
             background: #cbd5e1;
         }
 
-        /* FOOTER LINK */
         .back-login {
             text-align: center;
             margin-top: 18px;
@@ -175,7 +172,6 @@
 
 <div class="main">
 
-    <!-- LEFT -->
     <div class="left">
         <h1>Create your POS account</h1>
 
@@ -184,7 +180,6 @@
         </p>
     </div>
 
-    <!-- RIGHT -->
     <div class="right">
 
         <div class="container">
@@ -219,8 +214,12 @@
                 <div class="form-group">
                     <label>Phone Number</label>
                     <input type="tel" name="phoneNo"
+                           class="form-control"
                            placeholder="Enter mobile number"
-                           pattern="[0-9]{10}" required>
+                           maxlength="10"
+                           pattern="^[0-9]{10}$"
+                           oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                           required>
                 </div>
 
                 <div class="form-group">
