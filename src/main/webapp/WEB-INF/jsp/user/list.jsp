@@ -51,12 +51,13 @@
                 </div>
             </c:if>
 
+            <!-- USERS TABLE -->
             <c:if test="${not empty users}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
                         <thead>
                         <tr>
-                            <th>Email</th>
+                            <th>UserName</th>
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Roles</th>
@@ -64,26 +65,42 @@
                         </tr>
                         </thead>
                         <tbody>
+
                         <c:forEach var="user" items="${users}">
                             <tr>
+
+                                <!-- USERNAME LINK (EDIT) -->
                                 <td>
-                                    <a class="user-link"
-                                       href="/user/get?username=${user.username}">
+
                                         ${user.username}
-                                    </a>
+
                                 </td>
+
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
-                                <td>
+
+                                <!-- ACTION BUTTONS -->
+                                <td class="d-flex justify-content-center gap-2">
+
+                                    <!-- EDIT BUTTON -->
+                                    <a class="btn btn-primary btn-sm"
+                                       href="/user/get?username=${user.username}">
+                                        Edit
+                                    </a>
+
+                                    <!-- DELETE BUTTON -->
                                     <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
+                                       href="/user/delete?username=${user.username}"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
                                         Delete
                                     </a>
+
                                 </td>
+
                             </tr>
                         </c:forEach>
+
                         </tbody>
                     </table>
                 </div>
@@ -91,6 +108,7 @@
 
         </div>
 
+        <!-- FOOTER -->
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
                 <a href="/" class="btn btn-secondary">

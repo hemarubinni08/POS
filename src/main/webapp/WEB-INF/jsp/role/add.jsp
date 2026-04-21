@@ -27,6 +27,9 @@
     </style>
 </head>
 <body>
+                 <c:if test="${success==false}">
+                      <div class="alert alert-success">${message}</div>
+                 </c:if>
 
 <div class="container d-flex justify-content-center align-items-center mt-5">
     <div class="col-md-5">
@@ -61,6 +64,12 @@
                         </button>
                     </div>
 
+                    <div class="text-center mt-3">
+                        <a href="/role/list">
+                            Back to Role List
+                        </a>
+                    </div>
+
                 </form:form>
 
             </div>
@@ -72,6 +81,5 @@
 
     </div>
 </div>
-
 </body>
 </html>

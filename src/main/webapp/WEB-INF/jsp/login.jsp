@@ -1,7 +1,8 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Login</title>
 
     <style>
@@ -15,77 +16,91 @@
             align-items: center;
         }
 
-        form {
+        .card {
             background: #ffffff;
             padding: 30px 35px;
-            width: 320px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            width: 350px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
         }
 
         h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #333;
-        }
-
-        form div {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
+            text-align: left;
             margin-bottom: 6px;
-            font-size: 14px;
-            color: #555;
         }
 
         input {
             width: 100%;
             padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
+            margin-bottom: 15px;
             border-radius: 6px;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #667eea;
+            border: 1px solid #ccc;
         }
 
         button {
             width: 100%;
             padding: 10px;
-            background-color: #667eea;
-            color: white;
-            border: none;
             border-radius: 6px;
+            border: none;
             font-size: 15px;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #5a67d8;
+        .login-btn {
+            background: #6f82e9;
+            color: white;
+        }
+
+        .register-btn {
+            margin-top: 10px;
+            background: #6f82e9;
+            color: white;
+        }
+
+        .divider {
+            margin: 15px 0;
+            color: #777;
+            font-size: 14px;
         }
     </style>
 </head>
 
 <body>
 
-<form th:action="@{/login}" method="post">
-    <h2>Login</h2>
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username" required />
-    </div>
+<div class="card">
+       <c:if test="${param.error != null}">
+           <div class="error-message">
+               Invalid username or password
+           </div>
+       </c:if>
 
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required />
-    </div>
+    <!-- LOGIN FORM -->
+    <form action="/login" method="post">
+        <h2>Login</h2>
 
-    <button type="submit">Login</button>
-</form>
+        <label>Username</label>
+        <input type="text" name="username" required>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <div class="divider">or</div>
+
+    <!-- REGISTER FORM -->
+    <form action="/register" method="get">
+        <button type="submit" class="register-btn">Sign-Up</button>
+    </form>
+
+</div>
 
 </body>
 </html>

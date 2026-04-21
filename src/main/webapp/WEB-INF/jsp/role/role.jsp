@@ -31,7 +31,7 @@
 </head>
 
 <body>
-${message}
+
 <div class="card shadow-lg">
     <div class="card-body">
 
@@ -48,14 +48,14 @@ ${message}
                        method="post"
                        modelAttribute="roleDto">
 
-                <form:hidden path="id" value="${role.id}/>
+                <form:hidden path="id" value="${role.id}"/>
 
                 <div class="mb-4">
-                    <label class="form-label">Role Name</label>
+                    <label class="form-label">Role Name(Identifier:should not be editable)</label>
                     <form:input path="identifier"
                                 cssClass="form-control"
                                 placeholder="Enter role"
-                                required="true"/>
+                                readonly="true"/>
                 </div>
 
                 <div class="d-flex justify-content-between">
@@ -69,9 +69,7 @@ ${message}
 
             </form:form>
         </c:if>
-
     </div>
 </div>
-
 </body>
 </html>

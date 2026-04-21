@@ -73,9 +73,14 @@
 </head>
 
 <body>
-${message}
+
 <div class="update-card">
     <h3>Update User</h3>
+
+          <c:if test="${success==false}">
+                <div class="alert alert-success">${message}</div>
+          </c:if>
+
 
     <form:form action="/user/update" method="post" modelAttribute="userDto">
 
@@ -101,14 +106,17 @@ ${message}
 
             <div class="mb-1 text-muted">
                 Current:
-                <c:forEach var="r" items="${user.roles}">
+                <c:forEach var="r" items="${userDto.roles}">
                     <span class="badge bg-secondary me-1">${r}</span>
                 </c:forEach>
             </div>
 
             <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
+                <form:options items="${rolesList}"
+                              itemValue="identifier"
+                              itemLabel="identifier"/>
             </form:select>
+
 
 
             <small>
@@ -123,6 +131,9 @@ ${message}
     <div class="text-center mt-3">
         <a href="/user/list">← Back to User List</a>
     </div>
+
+
+
 
 </div>
 
