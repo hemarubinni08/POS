@@ -246,14 +246,6 @@
 
         </div>
 
-        <div class="card-footer">
-
-            <div class="footer-actions">
-                <a href="${pageContext.request.contextPath}/register" class="btn btn-success">
-                    + Add User
-                </a>
-            </div>
-        </div>
 
     </div>
 

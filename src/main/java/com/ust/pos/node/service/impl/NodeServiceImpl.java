@@ -8,11 +8,14 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class NodeServiceImpl implements NodeService {
@@ -27,33 +30,29 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public List<NodeDto> getNodesForRoles() {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new IllegalStateException("User is not authenticated");
+        List<NodeDto> nodeDtos = new ArrayList<>();
+        if (authentication != null) {
+            org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+            if (principalObject != null) findEligibleNodes(principalObject, nodeDtos);
         }
+        return nodeDtos;
+    }
 
-        Object principal = authentication.getPrincipal();
-
-        if (!(principal instanceof UserDetails)) {
-            throw new IllegalStateException("Invalid principal type");
+    private void findEligibleNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
+        User currentUser = userRepository.findByUsername(principalObject.getUsername());
+        Set<String> nodesStr = new HashSet<>();
+        List<Node> nodes = nodeRepository.findAll();
+        for (String role : currentUser.getRoles()) {
+            for (Node node : nodes) {
+                if (node.getRoles() != null && node.getRoles().contains(role)) {
+                    nodesStr.add(node.getIdentifier());
+                }
+            }
         }
-
-        UserDetails userDetails = (UserDetails) principal;
-
-        User currentUser = userRepository.findByUsername(userDetails.getUsername());
-
-        if (currentUser == null) {
-            throw new IllegalStateException("User not found in database");
+        for (String nodeStr : nodesStr) {
+            nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
         }
-
-        List<Node> nodes = nodeRepository.findByRoles(currentUser.getRoles());
-
-        Type listType = new TypeToken<List<NodeDto>>() {
-        }.getType();
-
-        return modelMapper.map(nodes, listType);
     }
 
     @Override
