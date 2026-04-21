@@ -44,11 +44,7 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
-        boolean delete = userService.delete(username);
-        if (delete) {
-            return "redirect:/user/list";
-        } else {
-            return "redirect:/user/list";
-        }
+        userService.delete(username);
+        return "redirect:/user/list";
     }
 }
