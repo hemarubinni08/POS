@@ -124,8 +124,9 @@
         <div class="error-box">${message}</div>
     </c:if>
 
-    <form:form action="register" method="post" modelAttribute="userDto">
-
+<form:form action="${pageContext.request.contextPath}/register"
+           method="post"
+           modelAttribute="userDto">
 
         <div class="form-group">
             <label>Name *</label>
