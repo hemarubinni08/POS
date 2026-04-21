@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -73,8 +75,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String username) {
+    public boolean delete(String username) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getName().equals(username)) {
+            return false;
+        }
         userRepository.deleteByUsername(username);
+        return true;
     }
 
     @Override

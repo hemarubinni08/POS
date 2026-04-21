@@ -26,7 +26,7 @@ public class UserController {
     @GetMapping("/get")
     public String update(Model model, @RequestParam String username) {
         UserDto response = userService.findByUserName(username);
-        model.addAttribute("roles",roleService.findAll());
+        model.addAttribute("roles", roleService.findAll());
         model.addAttribute("user", response);
         return "user/user";
     }
@@ -36,15 +36,19 @@ public class UserController {
         UserDto response = userService.update(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("user",userDto);
+            model.addAttribute("user", userDto);
             return "user/user";
         }
-        return "redirect:user/list";
+        return "redirect:/user/list";
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
-        userService.delete(username);
-        return "redirect:/user/list";
+        boolean delete = userService.delete(username);
+        if (delete) {
+            return "redirect:/user/list";
+        } else {
+            return "redirect:/user/list";
+        }
     }
 }
