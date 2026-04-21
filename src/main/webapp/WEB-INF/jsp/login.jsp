@@ -1,21 +1,23 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-
     <style>
         body {
             margin: 0;
             height: 100vh;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        form {
+        .card {
             background: #ffffff;
             padding: 30px 35px;
             width: 320px;
@@ -25,11 +27,11 @@
 
         h2 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #333;
         }
 
-        form div {
+        .form-group {
             margin-bottom: 18px;
         }
 
@@ -48,11 +50,6 @@
             border-radius: 6px;
         }
 
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
         button {
             width: 100%;
             padding: 10px;
@@ -67,25 +64,55 @@
         button:hover {
             background-color: #5a67d8;
         }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #842029;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 
 <body>
 
-<form th:action="@{/login}" method="post">
-    <h2>Login</h2>
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username" required />
-    </div>
+<div class="card">
 
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required />
-    </div>
+    <!-- ✅ LOGIN FORM -->
+    <form action="${pageContext.request.contextPath}/login" method="post">
 
-    <button type="submit">Login</button>
-</form>
+        <h2>Login</h2>
+
+        <c:if test="${param.error != null}">
+            <div class="error-message">
+                Invalid username or password
+            </div>
+        </c:if>
+
+        <div class="form-group">
+            <label>Username:</label>
+            <input type="text" name="username" required />
+        </div>
+
+        <div class="form-group">
+            <label>Password:</label>
+            <input type="password" name="password" required />
+        </div>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <!-- ✅ SIGNUP FORM (BELOW LOGIN BUTTON) -->
+    <form action="${pageContext.request.contextPath}/register" method="get">
+        <button type="submit" style="margin-top:10px;">
+            Sign Up
+        </button>
+    </form>
+
+</div>
 
 </body>
 </html>

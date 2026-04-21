@@ -32,50 +32,53 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-9">
 
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white text-center">
-                    <h4 class="mb-0">List of Roles</h4>
+                    <h4 class="mb-0">List of Nodes</h4>
                 </div>
 
                 <div class="card-body">
 
-                    <c:if test="${empty roles}">
+                    <c:if test="${empty nodes}">
                         <div class="alert alert-warning text-center">
-                            No roles found
+                            No nodes found
                         </div>
                     </c:if>
 
-                    <c:if test="${not empty roles}">
+                    <c:if test="${not empty nodes}">
                         <table class="table table-bordered table-hover text-center align-middle">
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Role</th>
+                                <th>Identifier</th>
+                                <th>Path</th>
+                                <th>Roles</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="role" items="${roles}">
+                            <c:forEach var="node" items="${nodes}">
                                 <tr>
-                                    <td>${role.id}</td>
-                                    <td>${role.identifier}</td>
+                                    <td>${node.id}</td>
+                                    <td>${node.identifier}</td>
+                                    <td>${node.path}</td>
+                                    <td>${node.roles}</td>
                                     <td class="d-flex justify-content-center gap-2">
 
                                         <!-- ✅ Edit Button -->
-                                        <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
+                                        <a href="/node/get?identifier=${node.identifier}"
                                            class="btn btn-warning btn-sm">
                                             Edit
                                         </a>
 
                                         <!-- ✅ Delete Button -->
-                                        <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
+                                        <a href="/node/delete?identifier=${node.identifier}"
                                            class="btn btn-danger btn-sm"
-                                           onclick="return confirm('Are you sure you want to delete this role?');">
+                                           onclick="return confirm('Are you sure you want to delete this node?');">
                                             Delete
                                         </a>
-
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -86,12 +89,12 @@
                 </div>
 
                 <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
-                    <a href="${pageContext.request.contextPath}/" class="btn btn-secondary">
+                    <a href="/" class="btn btn-secondary">
                         Home
                     </a>
 
-                    <a href="${pageContext.request.contextPath}/role/add" class="btn btn-success">
-                        + Add New Role
+                    <a href="/node/add" class="btn btn-success">
+                        + Add New Node
                     </a>
                 </div>
 

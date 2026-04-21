@@ -1,19 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>User Registration</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+          rel="stylesheet">
 
     <style>
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -29,7 +31,7 @@
 
         h2 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             color: #4b6cb7;
             font-weight: 600;
         }
@@ -55,12 +57,15 @@
         }
 
         select[multiple] {
-            height: 130px; /* ✅ MAKES MULTI-SELECT CLEAR */
+            height: 130px;
         }
 
-        small {
-            color: #666;
-            font-size: 11px;
+        .error {
+            color: #d9534f;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+            text-align: center;
         }
 
         .btn-submit {
@@ -83,41 +88,77 @@
 <div class="register-card">
     <h2>User Registration</h2>
 
+    <!-- ❌ Duplicate email message from backend -->
+    <c:if test="${not empty message}">
+        <div class="error">${message}</div>
+    </c:if>
+
+    <!-- ✅ FORM -->
     <form:form action="register" method="post" modelAttribute="userDto">
 
         <!-- Name -->
         <div class="form-group">
             <label>Name</label>
-            <form:input path="name"/>
+            <form:input path="name" required="true"/>
         </div>
 
+        <!-- ✅ EMAIL (STRICT VALIDATION) -->
         <div class="form-group">
             <label>Email</label>
-            <form:input path="username"/>
+
+            <!--
+              ✅ THIS BLOCKS `manager@mjbj`
+              ✅ REQUIRES a dot + valid domain
+              ✅ lowercase only
+            -->
+            <form:input
+                path="username"
+                type="text"
+                required="true"
+                pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                title="Enter a valid email like user@gmail.com (lowercase only)" />
+
         </div>
 
+        <!-- Roles -->
         <div class="form-group">
             <label>Roles</label>
-            <form:select path="roles" multiple="true">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+            <form:select path="roles" multiple="true" required="true">
+                <form:options items="${roles}"
+                              itemValue="identifier"
+                              itemLabel="identifier"/>
             </form:select>
         </div>
 
+        <!-- Phone -->
         <div class="form-group">
             <label>Phone Number</label>
-            <form:input path="phoneNo"/>
+            <form:input
+                path="phoneNo"
+                type="text"
+                required="true"
+                pattern="[0-9]{10}"
+                title="Phone number must be exactly 10 digits"/>
         </div>
 
+        <!-- Password -->
         <div class="form-group">
             <label>Password</label>
-            <form:password path="password"/>
+            <form:password path="password" required="true"/>
         </div>
 
         <input type="submit" value="Register" class="btn-submit"/>
 
     </form:form>
-
 </div>
+
+<!-- ✅ FORCE LOWERCASE (JSP‑ONLY, NO BACKEND) -->
+<script>
+    const emailInput = document.querySelector('input[name="username"]');
+    emailInput.addEventListener('input', function () {
+        this.value = this.value.toLowerCase();
+    });
+</script>
 
 </body>
 </html>

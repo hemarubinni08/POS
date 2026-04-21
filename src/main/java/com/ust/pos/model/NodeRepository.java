@@ -9,7 +9,5 @@ import java.util.List;
 public interface NodeRepository extends JpaRepository<Node, Long> {
     Node findByIdentifier(String identifier);
 
-    List<Node> findByRoles(List<String> roles);
-
-    boolean deleteByIdentifier(String identifier);
+    void deleteByIdentifier(String identifier);
 }

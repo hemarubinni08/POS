@@ -6,13 +6,12 @@
 <head>
     <title>User Management</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ffffff;
             min-height: 100vh;
         }
 
@@ -44,13 +43,21 @@
 
             <h3 class="text-center mb-4">User Management</h3>
 
-            <!-- NO USERS MESSAGE -->
+            <!-- ✅ DELETE CURRENT USER ERROR MESSAGE -->
+            <c:if test="${param.error == 'loggedInUser'}">
+                <div class="alert alert-danger text-center">
+                    Cannot delete the currently logged‑in user
+                </div>
+            </c:if>
+
+            <!-- No users -->
             <c:if test="${empty users}">
                 <div class="alert alert-warning text-center">
                     No users found
                 </div>
             </c:if>
 
+            <!-- User table -->
             <c:if test="${not empty users}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
@@ -75,12 +82,21 @@
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
-                                <td>
+                                <td class="d-flex justify-content-center gap-2">
+
+                                    <!-- Edit -->
+                                    <a class="btn btn-primary btn-sm"
+                                       href="/user/get?username=${user.username}">
+                                        Edit
+                                    </a>
+
+                                    <!-- Delete -->
                                     <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
+                                       href="/user/delete?username=${user.username}"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
                                         Delete
                                     </a>
+
                                 </td>
                             </tr>
                         </c:forEach>
@@ -93,13 +109,8 @@
 
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">
-                    Home
-                </a>
-
-                <a href="/register" class="btn btn-success">
-                    Register
-                </a>
+                <a href="/" class="btn btn-secondary">Home</a>
+                <a href="/register" class="btn btn-success">Register</a>
             </div>
 
             <div class="text-muted small mt-2">

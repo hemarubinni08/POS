@@ -8,9 +8,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Add Role</title>
+    <title>Add Node</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -35,41 +34,67 @@
 
         <div class="card shadow-lg">
             <div class="card-header text-center bg-primary text-white">
-                <h4 class="mb-0">Add New Role</h4>
+                <h4 class="mb-0">Add New Node</h4>
             </div>
 
             <div class="card-body">
 
-                <!-- ✅ Duplicate / Error Message -->
+                <!-- ✅ Error / Duplicate Node Message -->
                 <c:if test="${not empty message}">
                     <div class="alert alert-danger text-center">
                         ${message}
                     </div>
                 </c:if>
 
-                <!-- ✅ Success Message (Optional) -->
-                <c:if test="${empty message && not empty success}">
+                <!-- ✅ Success Message (optional) -->
+                <c:if test="${not empty success}">
                     <div class="alert alert-success text-center">
                         ${success}
                     </div>
                 </c:if>
 
-                <!-- ✅ Add Role Form -->
+                <!-- ✅ Add Node Form -->
                 <form:form method="post"
-                           action="${pageContext.request.contextPath}/role/add"
-                           modelAttribute="roleDto">
+                           action="${pageContext.request.contextPath}/node/add"
+                           modelAttribute="nodeDto">
 
+                    <!-- Node Identifier -->
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Role Name</label>
+                        <label class="form-label fw-semibold">Node Name</label>
                         <form:input path="identifier"
                                     cssClass="form-control"
-                                    placeholder="Enter role name"
+                                    placeholder="Enter node identifier"
                                     required="true"/>
                     </div>
 
+                    <!-- Path -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Path</label>
+                        <form:input path="path"
+                                    cssClass="form-control"
+                                    placeholder="/example/path"
+                                    required="true"/>
+                    </div>
+
+                    <!-- Roles -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Roles</label>
+                        <form:select path="roles"
+                                     cssClass="form-control"
+                                     multiple="true"
+                                     required="true">
+                            <c:forEach var="role" items="${roles}">
+                                <form:option value="${role.identifier}">
+                                    ${role.identifier}
+                                </form:option>
+                            </c:forEach>
+                        </form:select>
+                    </div>
+
+                    <!-- Submit -->
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            Add Role
+                            Add Node
                         </button>
                     </div>
 

@@ -4,6 +4,7 @@ import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
 import com.ust.pos.role.service.RoleService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private ModelMapper modelMapper;
+
 
     @Override
     public RoleDto findByIdentifier(String identifier) {
@@ -55,8 +57,9 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean delete(String identifier) {
-        return roleRepository.deleteByIdentifier(identifier);
+    @Transactional
+    public void delete(String identifier) {
+         roleRepository.deleteByIdentifier(identifier);
     }
 
     @Override

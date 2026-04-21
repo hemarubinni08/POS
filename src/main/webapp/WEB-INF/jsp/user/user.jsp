@@ -7,13 +7,14 @@
 <head>
     <title>Update User</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"/>
 
     <style>
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -65,6 +66,13 @@
             background: #182848;
         }
 
+        .error {
+            font-size: 12px;
+            color: #d9534f;
+            margin-top: 4px;
+            display: block;
+        }
+
         small {
             font-size: 11px;
             color: #666;
@@ -73,57 +81,88 @@
 </head>
 
 <body>
-${message}
+
 <div class="update-card">
     <h3>Update User</h3>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto">
+    <!-- ✅ Update User Form -->
+    <form:form action="${pageContext.request.contextPath}/user/update"
+               method="post"
+               modelAttribute="userDto">
 
-        <form:input type="hidden" path="id"/>
+        <!-- ✅ Hidden ID -->
+        <form:hidden path="id"/>
 
+        <!-- ✅ Name -->
         <div class="mb-3">
             <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
+            <form:input path="name"
+                        cssClass="form-control"
+                        required="true"/>
+            <form:errors path="name" cssClass="error"/>
         </div>
 
-         <div class="mb-3">
+        <!-- ✅ Email -->
+        <div class="mb-3">
             <label>Email</label>
-            <form:input path="username" cssClass="form-control" required="true"/>
+            <form:input path="username"
+                        cssClass="form-control"
+                        type="email"
+                        required="true"
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                        title="Email must be lowercase and contain @"/>
+            <form:errors path="username" cssClass="error"/>
         </div>
 
+        <!-- ✅ Phone Number -->
         <div class="mb-3">
             <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" required="true"/>
+            <form:input path="phoneNo"
+                        cssClass="form-control"
+                        pattern="[0-9]{10}"
+                        title="Phone number must be exactly 10 digits"
+                        required="true"/>
+            <form:errors path="phoneNo" cssClass="error"/>
         </div>
 
+        <!-- ✅ Roles -->
         <div class="mb-3">
             <label>Roles</label>
 
             <div class="mb-1 text-muted">
                 Current:
-                <c:forEach var="r" items="${user.roles}">
+                <c:forEach var="r" items="${userDto.roles}">
                     <span class="badge bg-secondary me-1">${r}</span>
                 </c:forEach>
             </div>
 
-            <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="name" itemLabel="name"/>
+            <form:select path="roles"
+                         multiple="true"
+                         cssClass="form-control"
+                         required="true">
+                <form:options items="${roles}"
+                              itemValue="identifier"
+                              itemLabel="identifier"/>
             </form:select>
-
+            <form:errors path="roles" cssClass="error"/>
 
             <small>
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
             </small>
         </div>
 
-        <button type="submit" class="btn-update">Update User</button>
+        <!-- ✅ Submit -->
+        <button type="submit" class="btn-update">
+            Update User
+        </button>
 
     </form:form>
 
     <div class="text-center mt-3">
-        <a href="/user/list">← Back to User List</a>
+        <a href="${pageContext.request.contextPath}/user/list">
+            ← Back to User List
+        </a>
     </div>
-
 </div>
 
 </body>

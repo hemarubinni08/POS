@@ -7,13 +7,14 @@
 <head>
     <title>Edit Role</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
     <style>
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -27,48 +28,65 @@
         h4 {
             font-weight: 600;
         }
+
+        .note-text {
+            font-size: 12px;
+            color: #6c757d;
+        }
     </style>
 </head>
 
 <body>
-${message}
+
 <div class="card shadow-lg">
     <div class="card-body">
 
         <h4 class="text-center mb-4 text-primary">Edit Role</h4>
 
-        <c:if test="${empty role}">
+        <!-- ✅ Error Message -->
+        <c:if test="${not empty error}">
             <div class="alert alert-danger text-center">
-                Role not found
+                ${error}
             </div>
         </c:if>
 
-        <c:if test="${not empty role}">
-            <form:form action="/role/update"
-                       method="post"
-                       modelAttribute="roleDto">
+        <!-- ✅ Edit Role Form -->
+        <form:form method="post"
+                   action="${pageContext.request.contextPath}/role/update"
+                   modelAttribute="roles">
 
-                <form:hidden path="id" value="${role.id}/>
+            <!-- ✅ Hidden Role ID -->
+            <form:hidden path="id"/>
 
-                <div class="mb-4">
-                    <label class="form-label">Role Name</label>
-                    <form:input path="identifier"
-                                cssClass="form-control"
-                                placeholder="Enter role"
-                                required="true"/>
+            <!-- ✅ Role Name -->
+            <div class="mb-4">
+                <label class="form-label" for="identifier">Role Identifier</label>
+                <form:input
+                        id="identifier"
+                        path="identifier"
+                        cssClass="form-control"
+                        required="true"
+                        readOnly="true"/>
+
+                <!-- ✅ Description -->
+                <div class="note-text mt-1">
+                    Note: Role identifier cannot be changed once created.
                 </div>
+            </div>
 
-                <div class="d-flex justify-content-between">
-                    <a href="/role/list" class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
-                    <button type="submit" class="btn btn-primary">
-                        Update
-                    </button>
-                </div>
+            <!-- ✅ Action Buttons -->
+            <div class="d-flex justify-content-between">
+                <a href="${pageContext.request.contextPath}/role/list"
+                   class="btn btn-outline-secondary">
+                    Cancel
+                </a>
 
-            </form:form>
-        </c:if>
+                <button type="submit" class="btn btn-primary">
+                    Update
+                </button>
+            </div>
+
+        </form:form>
 
     </div>
 </div>
