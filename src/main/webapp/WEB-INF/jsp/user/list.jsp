@@ -12,48 +12,104 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #2f2f2f;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .container {
+            max-width: 950px;
         }
 
         .card {
-            border-radius: 15px;
+            border: none;
+            border-radius: 18px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .card h3 {
+            font-weight: 600;
+            color: #333;
         }
 
         .table th {
-            background-color: #343a40;
-            color: white;
+            background-color: #f4f6fb;
+            color: #555;
+            border: none;
+            font-weight: 600;
+            text-align: center;
         }
 
-        a.user-link {
-            text-decoration: none;
-            font-weight: 500;
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+            border-color: #eee;
         }
 
-        a.user-link:hover {
-            text-decoration: underline;
+        /* Edit button (gradient like Register) */
+        .edit-btn {
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            color: #fff;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.85rem;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            transform: translateY(-1px);
+            color: #fff;
+        }
+
+        .btn-danger {
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.85rem;
+        }
+
+        .card-footer {
+            border-top: none;
+            background: transparent;
+        }
+
+        .btn-success {
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            border: none;
+            border-radius: 25px;
+            padding: 8px 24px;
+        }
+
+        .btn-secondary {
+            border-radius: 25px;
+            padding: 8px 24px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="card shadow-lg">
+<div class="container">
+    <div class="card">
         <div class="card-body">
 
             <h3 class="text-center mb-4">User Management</h3>
 
-            <!-- NO USERS MESSAGE -->
+            <!-- No Users -->
             <c:if test="${empty users}">
                 <div class="alert alert-warning text-center">
                     No users found
                 </div>
             </c:if>
 
+            <!-- User Table -->
             <c:if test="${not empty users}">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center">
+                    <table class="table table-bordered table-hover align-middle">
                         <thead>
                         <tr>
                             <th>Email</th>
@@ -63,21 +119,20 @@
                             <th>Action</th>
                         </tr>
                         </thead>
+
                         <tbody>
                         <c:forEach var="user" items="${users}">
                             <tr>
-                                <td>
-                                    <a class="user-link"
-                                       href="/user/get?username=${user.username}">
-                                        ${user.username}
-                                    </a>
-                                </td>
+                                <td>${user.username}</td>
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
                                 <td>
-                                    <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?identifier=${user.username}"
+                                    <a href="/user/get?username=${user.username}"
+                                       class="btn edit-btn me-2">Edit</a>
+
+                                    <a href="/user/delete?username=${user.username}"
+                                       class="btn btn-danger"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
                                         Delete
                                     </a>
@@ -91,15 +146,11 @@
 
         </div>
 
+        <!-- Footer -->
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">
-                    Home
-                </a>
-
-                <a href="/register" class="btn btn-success">
-                    Register
-                </a>
+                <a href="/" class="btn btn-secondary">Home</a>
+                <a href="/register" class="btn btn-success">Create New User</a>
             </div>
 
             <div class="text-muted small mt-2">

@@ -8,8 +8,11 @@
         body {
             margin: 0;
             height: 100vh;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: 'Segoe UI', sans-serif;
+
+            /* DARK BACKGROUND */
+            background: linear-gradient(135deg, #232526, #414345);
+
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,10 +20,24 @@
 
         form {
             background: #ffffff;
-            padding: 30px 35px;
-            width: 320px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            padding: 35px;
+            width: 340px;
+
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h2 {
@@ -34,38 +51,71 @@
         }
 
         label {
-            display: block;
-            margin-bottom: 6px;
             font-size: 14px;
-            color: #555;
+            color: #444;
+            display: block;
+            margin-bottom: 5px;
         }
 
         input {
             width: 100%;
             padding: 10px;
-            font-size: 14px;
+
             border: 1px solid #ccc;
-            border-radius: 6px;
+            border-radius: 8px;
+
+            transition: 0.3s;
         }
 
         input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #4facfe;
+            box-shadow: 0 0 5px #4facfe;
         }
 
+        /* 🔵 UPDATED SIGN IN BUTTON */
         button {
             width: 100%;
-            padding: 10px;
-            background-color: #667eea;
-            color: white;
+            padding: 12px;
+
+            background: linear-gradient(to right, #4facfe, #00f2fe);
             border: none;
-            border-radius: 6px;
+
+            border-radius: 8px;
             font-size: 15px;
+            color: white;
             cursor: pointer;
+
+            transition: 0.3s;
         }
 
         button:hover {
-            background-color: #5a67d8;
+            transform: scale(1.03);
+            opacity: 0.9;
+        }
+
+        /* 🔗 UPDATED LINK COLOR */
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .register-link p {
+            margin-bottom: 5px;
+            color: #aaa;
+            font-size: 13px;
+        }
+
+        .register-link a {
+            text-decoration: none;
+            color: #4facfe;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+            color: #007bff;
         }
     </style>
 </head>
@@ -73,18 +123,25 @@
 <body>
 
 <form th:action="@{/login}" method="post">
-    <h2>Login</h2>
+    <h2>Sign in</h2>
+
     <div>
-        <label>Username:</label>
+        <label>Username</label>
         <input type="text" name="username" required />
     </div>
 
     <div>
-        <label>Password:</label>
+        <label>Password</label>
         <input type="password" name="password" required />
     </div>
 
-    <button type="submit">Login</button>
+    <button type="submit">Sign in</button>
+
+    <div class="register-link">
+        <p>New to the site?</p>
+        <a href="${pageContext.request.contextPath}/register">Create your account</a>
+    </div>
+
 </form>
 
 </body>
