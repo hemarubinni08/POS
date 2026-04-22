@@ -1,65 +1,96 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Role List</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+          rel="stylesheet"/>
+
     <style>
         body {
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
+            background-color: #f1f3f6;
             min-height: 100vh;
+            font-family: "Segoe UI", sans-serif;
         }
+
         .card {
-            border-radius: 16px;
+            border-radius: 12px;
+            border: none;
         }
+
         .card-header {
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
+            background-color: #1e272e;
+            color: #ffffff;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
         }
+
         table th {
-            background-color: #0d6efd;
-            color: white;
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .action-btns a {
+            margin-right: 6px;
         }
     </style>
 </head>
+
 <body>
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4 class="mb-0">List of Roles</h4>
+
+            <div class="card shadow-sm">
+
+                <div class="card-header text-center py-3">
+                    <h5 class="mb-0">List of Roles</h5>
                 </div>
+
                 <div class="card-body">
+
                     <c:if test="${empty roles}">
                         <div class="alert alert-warning text-center">
                             No roles found
                         </div>
                     </c:if>
+
                     <c:if test="${not empty roles}">
                         <table class="table table-bordered table-hover text-center align-middle">
                             <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Role</th>
-                                <th>Action</th>
+                                <th>Description</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
+
                             <tbody>
                             <c:forEach var="role" items="${roles}">
                                 <tr>
-                                    <td>
-                                        <a href="/role/get?identifier=?${role.identifier}"
-                                           class="text-decoration-none fw-semibold">
-                                            ${role.id}
-                                        </a>
+                                    <td>${role.id}</td>
+
+                                    <td class="fw-semibold">
+                                        ${role.identifier}
                                     </td>
-                                    <td>${role.identifier}</td>
-                                    <td>
+
+                                    <td>${role.description}</td>
+
+                                    <td class="action-btns">
+                                        <a href="/role/get?identifier=${role.identifier}"
+                                           class="btn btn-sm btn-warning">
+                                            Update
+                                        </a>
+
                                         <a href="/role/delete?identifier=${role.identifier}"
-                                           class="btn btn-danger btn-sm"
+                                           class="btn btn-sm btn-danger"
                                            onclick="return confirm('Are you sure you want to delete this role?');">
                                             Delete
                                         </a>
@@ -69,18 +100,23 @@
                             </tbody>
                         </table>
                     </c:if>
+
                 </div>
-                <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
+
+                <div class="card-footer bg-light text-center d-flex justify-content-center gap-3">
                     <a href="/" class="btn btn-secondary">
                         Home
                     </a>
-                    <a href="/role/add" class="btn btn-success">
-                        + Add New Role
+                    <a href="/role/add" class="btn btn-primary">
+                        Add New Role
                     </a>
                 </div>
+
             </div>
+
         </div>
     </div>
 </div>
+
 </body>
 </html>

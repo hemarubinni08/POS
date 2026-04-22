@@ -1,37 +1,44 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>User Management</title>
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-color: #f1f3f6;
             min-height: 100vh;
+            font-family: "Segoe UI", sans-serif;
         }
 
         .card {
-            border-radius: 15px;
+            border-radius: 12px;
+            border: none;
         }
 
-        .table th {
-            background-color: #343a40;
-            color: white;
+        .card-header {
+            background-color: #1e272e;
+            color: #ffffff;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
         }
 
-        a.user-link {
-            text-decoration: none;
-            font-weight: 500;
+        table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            font-size: 0.95rem;
         }
 
-        a.user-link:hover {
-            text-decoration: underline;
+        table td {
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -39,74 +46,88 @@
 <body>
 
 <div class="container mt-5">
-    <div class="card shadow-lg">
-        <div class="card-body">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
 
-            <h3 class="text-center mb-4">User Management</h3>
+            <div class="card shadow-sm">
 
-            <!-- NO USERS MESSAGE -->
-            <c:if test="${empty users}">
-                <div class="alert alert-warning text-center">
-                    No users found
+                <div class="card-header text-center py-3">
+                    <h5 class="mb-0">User Management</h5>
                 </div>
-            </c:if>
 
-            <c:if test="${not empty users}">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center">
-                        <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Roles</th>
-                            <th>Action</th>
-                        </tr>
-                        </head>
-                        <body>
-                        <c:forEach var="user" items="${users}">
-                            <tr>
-                                <td>
-                                    <a class="user-link"
-                                       href="/user/get?username=${user.username}">
-                                        ${user.username}
-                                    </a>
-                                </td>
-                                <td>${user.name}</td>
-                                <td>${user.phoneNo}</td>
-                                <td>${user.roles}</td>
-                                <td>
-                                    <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?username=${user.username}"
-                                       onclick="return confirm('Are you sure you want to delete this user?');">
-                                        Delete
-                                    </a>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </body>
-                    </table>
+                <div class="card-body">
+
+                    <!-- NO USERS -->
+                    <c:if test="${empty users}">
+                        <div class="alert alert-warning text-center">
+                            No users found
+                        </div>
+                    </c:if>
+
+                    <!-- USERS TABLE -->
+                    <c:if test="${not empty users}">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover text-center align-middle">
+                                <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Roles</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <c:forEach var="user" items="${users}">
+                                    <tr>
+                                        <td>${user.username}</td>
+                                        <td>${user.name}</td>
+                                        <td>${user.phoneNo}</td>
+                                        <td>${user.roles}</td>
+
+                                        <td>
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <a class="btn btn-sm btn-warning"
+                                                   href="/user/get?username=${user.username}">
+                                                    Edit
+                                                </a>
+
+                                                <a class="btn btn-sm btn-danger"
+                                                   href="/user/delete?username=${user.username}"
+                                                   onclick="return confirm('Are you sure you want to delete this user?');">
+                                                    Delete
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </c:if>
+
                 </div>
-            </c:if>
 
-        </div>
+                <div class="card-footer bg-light text-center">
+                    <div class="d-flex justify-content-center gap-3 mb-2">
+                        <a href="/" class="btn btn-secondary">
+                            Home
+                        </a>
 
-        <div class="card-footer text-center">
-            <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">
-                    Home
-                </a>
+                        <a href="/register" class="btn btn-primary">
+                            Register User
+                        </a>
+                    </div>
 
-                <a href="/register" class="btn btn-success">
-                    Register
-                </a>
+                    <div class="text-muted small">
+                        POS Management System
+                    </div>
+                </div>
+
             </div>
 
-            <div class="text-muted small mt-2">
-                User Management System
-            </div>
         </div>
-
     </div>
 </div>
 

@@ -1,121 +1,183 @@
+
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>User Registration</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 
     <style>
         body {
             margin: 0;
-            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: "Segoe UI", sans-serif;
+
+            background: linear-gradient(135deg, #e0e7ff, #f8fafc);
+
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .register-card {
-            width: 430px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 35px 40px;
+        .card {
+            width: 420px;
             border-radius: 16px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+
+            border: 1px solid rgba(255,255,255,0.4);
+
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #4b6cb7;
+        .card-header {
+            background: transparent;
+            color: #1e293b;
+            border-bottom: 1px solid #e2e8f0;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+
+        h5 {
             font-weight: 600;
+            letter-spacing: 0.3px;
         }
 
-        .form-group {
-            margin-bottom: 16px;
+        .form-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
         }
 
-        label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 6px;
-            display: block;
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            font-size: 0.9rem;
+            transition: 0.25s;
         }
 
-        input, select {
-            width: 100%;
-            padding: 11px 14px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 14px;
+        .form-control:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
         }
 
         select[multiple] {
-            height: 130px; /* ✅ MAKES MULTI-SELECT CLEAR */
+            height: 110px;
         }
 
-        small {
-            color: #666;
-            font-size: 11px;
+        .form-text {
+            font-size: 0.75rem;
+            color: #64748b;
         }
 
-        .btn-submit {
-            margin-top: 10px;
-            width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, #4b6cb7, #182848);
-            color: white;
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
             border: none;
             border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
+            padding: 10px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(79,70,229,0.3);
+        }
+
+        .alert {
+            border-radius: 10px;
+            font-size: 0.85rem;
+        }
+
+        .card-footer {
+            background: transparent;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
         }
     </style>
 </head>
 
 <body>
 
-<div class="register-card">
-    <h2>User Registration</h2>
+<div class="card">
 
-    <form:form action="register" method="post" modelAttribute="userDto">
+    <div class="card-header text-center py-3">
+        <h5 class="mb-0">Create User Account</h5>
+    </div>
 
-        <!-- Name -->
-        <div class="form-group">
-            <label>Name</label>
-            <form:input path="name"/>
-        </div>
+    <div class="card-body p-4">
 
-        <div class="form-group">
-            <label>Email</label>
-            <form:input path="username"/>
-        </div>
+        <form:form action="register" method="post" modelAttribute="userDto">
 
-        <div class="form-group">
-            <label>Roles</label>
-            <form:select path="roles" multiple="true">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-            </form:select>
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <form:input path="name" cssClass="form-control" required="true"/>
+            </div>
 
-        <div class="form-group">
-            <label>Phone Number</label>
-            <form:input path="phoneNo"/>
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <form:input path="username" type="email"
+                            cssClass="form-control" required="true"/>
+            </div>
 
-        <div class="form-group">
-            <label>Password</label>
-            <form:password path="password"/>
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Roles</label>
+                <form:select path="roles" multiple="true" cssClass="form-control">
+                    <form:options items="${roles}"
+                                  itemValue="identifier"
+                                  itemLabel="identifier"/>
+                </form:select>
+                <div class="form-text">
+                    Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple roles
+                </div>
+            </div>
 
-        <input type="submit" value="Register" class="btn-submit"/>
+            <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+                <form:input path="phoneNo"
+                            type="tel"
+                            cssClass="form-control"
+                            pattern="[0-9]{10}"
+                            maxlength="10"
+                            title="Enter a valid 10-digit mobile number"
+                            required="true"/>
+            </div>
 
-    </form:form>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <form:password path="password"
+                               cssClass="form-control"
+                               required="true"/>
+            </div>
+
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-primary">
+                    Register User
+                </button>
+            </div>
+
+            <c:if test="${not empty message}">
+                <div class="alert alert-danger text-center mt-3">
+                    ${message}
+                </div>
+            </c:if>
+
+        </form:form>
+
+    </div>
+
+    <div class="card-footer text-center small">
+        POS Management System
+    </div>
 
 </div>
 

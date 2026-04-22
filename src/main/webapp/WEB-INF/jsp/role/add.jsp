@@ -5,72 +5,103 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Add Role</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+          rel="stylesheet"/>
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-color: #f1f3f6;
             min-height: 100vh;
+            font-family: "Segoe UI", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
         .card {
             border-radius: 12px;
+            border: none;
+            width: 420px;
         }
-        .form-control {
-            border-radius: 8px;
+
+        .card-header {
+            background-color: #1e272e;
+            color: #ffffff;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+            font-weight: 600;
         }
     </style>
 </head>
+
 <body>
 
-<div class="container d-flex justify-content-center align-items-center mt-5">
-    <div class="col-md-5">
+<div class="card shadow-sm">
 
-        <div class="card shadow-lg">
-            <div class="card-header text-center bg-primary text-white">
-                <h4 class="mb-0">Add New Role</h4>
+    <div class="card-header text-center py-3">
+        <h5 class="mb-0">Add New Role</h5>
+    </div>
+
+    <div class="card-body p-4">
+
+        <!-- ✅ Success Message -->
+        <c:if test="${not empty role}">
+            <div class="alert alert-success text-center">
+                ${role}
+            </div>
+        </c:if>
+
+        <!-- ✅ Spring Form -->
+        <form:form method="post"
+                   action="/role/add"
+                   modelAttribute="roleDto">
+
+            <div class="mb-3">
+                <form:label path="identifier" cssClass="form-label">
+                    Role Name
+                </form:label>
+
+                <form:input
+                        path="identifier"
+                        cssClass="form-control"
+                        required="true"/>
             </div>
 
-            <div class="card-body">
+            <div class="mb-3">
+                <form:label path="description" cssClass="form-label">
+                    Description
+                </form:label>
 
-                <c:if test="${not empty role}">
-                    <div class="alert alert-success text-center">
-                        ${role}
-                    </div>
-                </c:if>
-
-                <form:form method="post"
-                           action="/role/add"
-                           modelAttribute="roleDto">
-
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Role Name</label>
-                        <form:input path="identifier"
-                                    cssClass="form-control"
-                                    placeholder="Enter role name" />
-                    </div>
-
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            Add Role
-                        </button>
-                    </div>
-
-                </form:form>
-
+                <form:input
+                        path="description"
+                        cssClass="form-control"
+                        required="true"/>
             </div>
 
-            <div class="card-footer text-center text-muted small">
-                POS Management System
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-primary">
+                    Add Role
+                </button>
             </div>
-        </div>
+
+        </form:form>
 
     </div>
+
+    <div class="card-footer text-muted small text-center">
+        POS Management System
+    </div>
+
 </div>
 
 </body>

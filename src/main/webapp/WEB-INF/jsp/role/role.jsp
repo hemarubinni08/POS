@@ -1,62 +1,116 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Edit Role</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
+
     <style>
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-color: #f1f3f6;
+            font-family: "Segoe UI", sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
         .card {
-            width: 400px;
-            border-radius: 15px;
+            width: 420px;
+            border-radius: 12px;
+            border: none;
         }
-        h4 {
+
+        .card-header {
+            background-color: #1e272e;
+            color: #ffffff;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
             font-weight: 600;
         }
     </style>
 </head>
+
 <body>
-${message}
-<div class="card shadow-lg">
-    <div class="card-body">
-        <h4 class="text-center mb-4 text-primary">Edit Role</h4>
+
+<div class="card shadow-sm">
+
+    <div class="card-header text-center py-3">
+        <h5 class="mb-0">Edit Role</h5>
+    </div>
+
+    <div class="card-body p-4">
+
+        <!-- Optional message -->
+        <c:if test="${not empty message}">
+            <div class="alert alert-info text-center">
+                ${message}
+            </div>
+        </c:if>
+
         <c:if test="${empty role}">
             <div class="alert alert-danger text-center">
                 Role not found
             </div>
         </c:if>
+
         <c:if test="${not empty role}">
+
             <form:form action="/role/update"
                        method="post"
-                       modelAttribute="roleDto">
-                <form:hidden path="id" value="${role.id}"/>
-                <div class="mb-4">
+                       modelAttribute="role">
+
+                <!-- Hidden fields -->
+                <form:hidden path="id"/>
+                <form:hidden path="identifier"/>
+
+                <div class="mb-3">
                     <label class="form-label">Role Name</label>
-                    <form:input path="identifier"
+                    <input type="text"
+                           class="form-control"
+                           value="${role.identifier}"
+                           readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <form:input path="description"
                                 cssClass="form-control"
-                                placeholder="Enter role"
                                 required="true"/>
                 </div>
-                <div class="d-flex justify-content-between">
+
+                <div class="d-flex justify-content-between mt-4">
                     <a href="/role/list" class="btn btn-outline-secondary">
                         Cancel
                     </a>
+
                     <button type="submit" class="btn btn-primary">
-                        Update
+                        Update Role
                     </button>
                 </div>
+
             </form:form>
+
         </c:if>
+
     </div>
+
+    <div class="card-footer text-muted small text-center">
+        POS Management System
+    </div>
+
 </div>
+
 </body>
 </html>

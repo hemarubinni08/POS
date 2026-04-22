@@ -1,58 +1,76 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>POS Home</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"/>
 
+    <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
           rel="stylesheet"/>
 
     <style>
         body {
             min-height: 100vh;
-            background-color: #f4f6f9;
+            background-color: #f1f3f6;
+            font-family: "Segoe UI", sans-serif;
         }
 
+        /* Sidebar */
         .sidebar {
-            width: 250px;
+            width: 260px;
             min-height: 100vh;
-            background: linear-gradient(180deg, #667eea, #764ba2);
-            color: white;
+            background: linear-gradient(180deg, #1e272e, #2f3640);
+            color: #fff;
+        }
+
+        .brand {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .sidebar a {
-            color: white;
+            color: #dcdde1;
             text-decoration: none;
-            padding: 8px 12px;
-            display: block;
-            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 6px;
+            font-size: 0.95rem;
         }
 
         .sidebar a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: #353b48;
+            color: #fff;
         }
 
         .content-area {
-            padding: 30px;
+            padding: 40px;
+        }
+
+        .content-card {
+            border-radius: 12px;
+            border: none;
         }
 
         .logout-btn {
             border: none;
             background: transparent;
-            color: white;
-            font-size: 1.2rem;
+            color: #adb5bd;
+            font-size: 1.1rem;
         }
 
         .logout-btn:hover {
-            color: #ffdddd;
+            color: #fff;
         }
     </style>
 </head>
@@ -61,49 +79,62 @@
 
 <div class="d-flex">
 
-    <div class="sidebar p-3">
+    <!-- Sidebar -->
+    <div class="sidebar p-4">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h5 class="mb-0">POS System</h5>
+            <div class="brand">
+                POS System
+            </div>
 
-           <form action="/logout"
-                  method="post">
-                <button type="submit"
-                        class="logout-btn"
-                        title="Logout">
+            <form action="/logout" method="post">
+                <button type="submit" class="logout-btn" title="Logout">
                     <i class="bi bi-box-arrow-right"></i>
                 </button>
             </form>
         </div>
 
+        <hr class="text-secondary"/>
+
         <c:if test="${empty node}">
-            <div class="alert alert-light text-center small">
-                No nodes found
+            <div class="alert alert-secondary text-center small">
+                No menu items available
             </div>
         </c:if>
 
         <c:if test="${not empty node}">
-            <ul class="nav flex-column gap-2">
+            <ul class="nav flex-column gap-1 mt-3">
                 <c:forEach var="n" items="${node}">
                     <li class="nav-item">
                         <a href="${n.path}">
-                            <i class="bi bi-dot"></i> ${n.identifier}
+                            <i class="bi bi-chevron-right"></i>
+                            ${n.identifier}
                         </a>
                     </li>
                 </c:forEach>
             </ul>
         </c:if>
+
     </div>
 
+    <!-- Content Area -->
     <div class="content-area flex-grow-1">
-        <div class="card shadow-sm">
+
+        <div class="card content-card shadow-sm">
             <div class="card-body">
-                <h4>Welcome</h4>
-                <p class="text-muted">
-                    Select an option from the sidebar to continue.
+
+                <h5 class="fw-semibold mb-2">
+                    Welcome to the POS Management System
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Use the navigation menu on the left to manage users, roles,
+                    configurations, and other system operations.
                 </p>
+
             </div>
         </div>
+
     </div>
 
 </div>

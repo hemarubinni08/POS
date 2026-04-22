@@ -22,33 +22,39 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
+            AuthenticationConfiguration config) {
         return config.getAuthenticationManager();
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
 
-        http
-                .csrf(csrf -> csrf.disable()) // Disable for testing
+        try {
+            http
+                    .csrf(csrf -> csrf.disable()) // disable only for development/testing
 
-                .authorizeHttpRequests(auth -> auth
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                    .authorizeHttpRequests(auth -> auth
+                            .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                            .requestMatchers("/login", "/register").permitAll()
+                            .anyRequest().authenticated()
+                    )
 
-                        .requestMatchers("/login", "/register").permitAll()
-                        .anyRequest().authenticated()
-                )
+                    .formLogin(form -> form
+                            .loginPage("/login")
+                            .defaultSuccessUrl("/", true)
+                            .failureUrl("/login?error=true")
+                            .permitAll()
+                    )
 
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/", true)
-                        .permitAll()
-                )
+                    .logout(logout -> logout
+                            .logoutSuccessUrl("/login?logout")
+                            .permitAll()
+                    );
 
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                );
-        return http.build();
+            return http.build();
+
+        } catch (Exception e) {
+            throw new IllegalStateException("Security configuration failed", e);
+        }
     }
 }

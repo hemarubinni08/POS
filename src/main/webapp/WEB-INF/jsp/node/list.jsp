@@ -9,26 +9,51 @@
     <meta charset="UTF-8">
     <title>All Nodes</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"/>
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-color: #f1f3f6;
             min-height: 100vh;
+            font-family: "Segoe UI", sans-serif;
         }
+
         .card {
-            border-radius: 15px;
+            border-radius: 12px;
+            border: none;
+        }
+
+        .card-header {
+            background-color: #1e272e;
+            color: #ffffff;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .action-btns a {
+            margin-right: 5px;
         }
     </style>
 </head>
+
 <body>
 
 <div class="container mt-5">
-    <div class="card shadow-lg">
-        <div class="card-body">
 
-            <h4 class="text-center mb-4">List of Nodes</h4>
+    <div class="card shadow-sm">
+
+        <div class="card-header text-center py-3">
+            <h5 class="mb-0">List of Nodes</h5>
+        </div>
+
+        <div class="card-body">
 
             <c:if test="${empty node}">
                 <div class="alert alert-warning text-center">
@@ -38,7 +63,7 @@
 
             <c:if test="${not empty node}">
                 <table class="table table-bordered table-hover text-center align-middle">
-                    <head class="table-dark">
+                    <thead>
                     <tr>
                         <th>ID</th>
                         <th>Node Name</th>
@@ -46,15 +71,17 @@
                         <th>Roles</th>
                         <th>Actions</th>
                     </tr>
-                    </head>
-                    <body>
+                    </thead>
+
+                    <tbody>
                     <c:forEach var="node" items="${node}">
                         <tr>
                             <td>${node.id}</td>
-                            <td>${node.identifier}</td>
+                            <td class="fw-semibold">${node.identifier}</td>
                             <td>${node.path}</td>
-\                            <td>${node.roles}</td>
-                            <td>
+                            <td>${node.roles}</td>
+                            <td class="action-btns">
+
                                 <a href="/node/get?identifier=${node.identifier}"
                                    class="btn btn-sm btn-warning">
                                     Update
@@ -65,21 +92,20 @@
                                    onclick="return confirm('Are you sure you want to delete this node?');">
                                     Delete
                                 </a>
+
                             </td>
                         </tr>
                     </c:forEach>
-                    </body>
+                    </tbody>
                 </table>
             </c:if>
 
-            <div class="d-flex justify-content-center gap-3 mt-3">
-                <a href="/"
-                   class="btn btn-secondary">
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="/" class="btn btn-secondary">
                     Home
                 </a>
 
-                <a href="/node/add"
-                   class="btn btn-primary">
+                <a href="/node/add" class="btn btn-primary">
                     Add New Node
                 </a>
             </div>
@@ -89,7 +115,9 @@
         <div class="card-footer text-muted small text-center">
             POS Management System
         </div>
+
     </div>
+
 </div>
 
 </body>

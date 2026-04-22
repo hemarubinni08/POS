@@ -7,17 +7,34 @@
 <head>
     <title>Edit Node</title>
 
+    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
 
     <style>
         body {
-            background: linear-gradient(135deg, #2193b0, #6dd5ed);
+            background-color: #f1f3f6;
             min-height: 100vh;
+            font-family: "Segoe UI", sans-serif;
         }
+
         .card {
-            border-radius: 15px;
+            border-radius: 12px;
+            border: none;
         }
+
+        .card-header {
+            background-color: #1e272e;
+            color: #ffffff;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
         select[multiple] {
             height: 130px;
         }
@@ -30,12 +47,13 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
 
-            <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4>Edit Node</h4>
+            <div class="card shadow-sm">
+
+                <div class="card-header text-center py-3">
+                    <h5 class="mb-0">Edit Node</h5>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body p-4">
 
                     <c:if test="${empty node}">
                         <div class="alert alert-danger text-center">
@@ -72,15 +90,18 @@
                                                   itemValue="identifier"
                                                   itemLabel="identifier"/>
                                 </form:select>
+                                <div class="form-text">
+                                    Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple roles
+                                </div>
                             </div>
 
-                            <div class="d-flex justify-content-between">
+                            <div class="d-flex justify-content-between mt-4">
                                 <a href="${pageContext.request.contextPath}/node/list"
                                    class="btn btn-secondary">
                                     Cancel
                                 </a>
 
-                                <button type="submit" class="btn btn-success">
+                                <button type="submit" class="btn btn-primary">
                                     Update Node
                                 </button>
                             </div>
@@ -90,6 +111,11 @@
                     </c:if>
 
                 </div>
+
+                <div class="card-footer text-muted small text-center">
+                    POS Management System
+                </div>
+
             </div>
 
         </div>

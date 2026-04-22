@@ -16,8 +16,9 @@ import javax.sql.DataSource;
 @SpringBootApplication
 @ComponentScan({"com.ust.pos.web.controller", "com.ust.pos"})
 public class PosApplication {
+
     @Autowired
-    Environment environment;
+    private Environment environment;
 
     public static void main(String[] args) {
         SpringApplication.run(PosApplication.class, args);
@@ -27,9 +28,9 @@ public class PosApplication {
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.STRICT);
-        mapper.getConfiguration().setSkipNullEnabled(true);
-        mapper.getConfiguration().setCollectionsMergeEnabled(false);
+                .setMatchingStrategy(MatchingStrategies.STRICT)
+                .setSkipNullEnabled(true)
+                .setCollectionsMergeEnabled(false);
         return mapper;
     }
 
@@ -39,12 +40,17 @@ public class PosApplication {
     }
 
     @Bean
-    DataSource getDataSource() {
+    public DataSource getDataSource() {
+
         DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setUrl(environment.getProperty("spring.datasource.url"));
-        ds.setUsername(environment.getProperty("spring.datasource.username"));
-        ds.setPassword(environment.getProperty("spring.datasource.password"));
-        ds.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
+
+        ds.setUrl(environment.getRequiredProperty("spring.datasource.url"));
+        ds.setUsername(environment.getRequiredProperty("spring.datasource.username"));
+        ds.setPassword(environment.getRequiredProperty("spring.datasource.password"));
+        ds.setDriverClassName(
+                environment.getRequiredProperty("spring.datasource.driver-class-name")
+        );
+
         return ds;
     }
 }
