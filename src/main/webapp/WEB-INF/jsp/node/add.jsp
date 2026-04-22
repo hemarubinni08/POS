@@ -145,7 +145,7 @@
 
                             <div class="dropdown-btn" onclick="toggleDropdown()">
                                 <span id="selectedRoles">Select Roles</span>
-                                <span>▼</span>
+                                <span>  ▼</span>
                             </div>
 
                             <div class="dropdown-content">
