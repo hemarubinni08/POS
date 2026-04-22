@@ -60,6 +60,25 @@
             transform: translateX(-4px) scale(1.05);
             box-shadow: 0 8px 18px rgba(75, 108, 183, 0.35);
         }
+        .btn {
+                    padding: 10px 16px;
+                    border-radius: 10px;
+                    text-decoration: none;
+                    font-weight: 600;
+                    font-size: 14px;
+                    display: inline-block;
+                    transition: 0.25s ease;
+                    text-align: center;
+                    justify-content: center;
+                }
+        .btn-add {
+                    background: linear-gradient(135deg, #4b6cb7, #182848);
+                    color: white;
+                }
+
+                .btn-add:hover {
+                    transform: scale(1.05);
+                }
 
         table {
             width: 100%;
@@ -192,6 +211,7 @@
                 </c:forEach>
                 </tbody>
             </table>
+            <a href="/register" class="btn btn-add">+ Add New Role</a>
         </div>
     </c:if>
 
