@@ -40,6 +40,7 @@
             position: relative;
         }
 
+        /* ✅ Back button – MATCHES Edit Stock page */
         .back-arrow {
             position: absolute;
             top: 20px;
@@ -56,6 +57,12 @@
             color: var(--text);
             font-size: 18px;
             box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+
+        .back-arrow:hover {
+            background: var(--accent);
+            color: black;
         }
 
         .container {
@@ -220,7 +227,6 @@
                 + Add Stock
             </a>
         </div>
-
     </div>
 </div>
 

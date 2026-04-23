@@ -37,11 +37,11 @@
             padding: 40px 16px;
             background: var(--bg);
             color: var(--text);
-            position: relative;
         }
 
+        /* ✅ Back arrow fixed top-left, never overlaps */
         .back-arrow {
-            position: absolute;
+            position: fixed;
             top: 20px;
             left: 20px;
             background: var(--card);
@@ -56,6 +56,8 @@
             color: var(--text);
             font-size: 18px;
             box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: 0.2s;
         }
 
         .back-arrow:hover {
@@ -63,9 +65,10 @@
             color: black;
         }
 
+        /* ✅ Push content down so it clears back button */
         .container {
             max-width: 1200px;
-            margin: auto;
+            margin: 80px auto 0 auto; /* KEY FIX */
         }
 
         .card {
@@ -126,26 +129,14 @@
             color: white;
         }
 
-        .btn-success:hover {
-            background: var(--primary-hover);
-        }
-
         .btn-secondary {
             background: var(--accent);
             color: black;
         }
 
-        .btn-secondary:hover {
-            background: #e0a800;
-        }
-
         .btn-danger {
             background: var(--danger);
             color: white;
-        }
-
-        .btn-danger:hover {
-            background: var(--danger-hover);
         }
 
         .card-footer {
@@ -219,7 +210,6 @@
                         </tr>
                     </c:forEach>
                     </tbody>
-
                 </table>
             </c:if>
 
