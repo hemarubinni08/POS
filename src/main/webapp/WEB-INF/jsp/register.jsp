@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -22,7 +22,6 @@
 
             --primary: #28a745;
             --primary-hover: #218838;
-
             --accent: #ffc107;
 
             --border: #e5e7eb;
@@ -37,36 +36,32 @@
         }
 
         body {
-            position: relative;
             background: var(--bg);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 40px 16px;
+            color: var(--text);
         }
 
-        /* BACK BUTTON */
         .back-arrow {
-            position: absolute;
+            position: fixed;
             top: 20px;
             left: 20px;
-
             width: 42px;
             height: 42px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
             border-radius: 50%;
             background: var(--card);
             border: 1px solid var(--border);
-
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: var(--text);
             font-size: 18px;
             text-decoration: none;
-
             box-shadow: var(--shadow);
+            z-index: 1000;
             transition: 0.2s;
         }
 
@@ -85,16 +80,15 @@
 
         h2 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             font-weight: 600;
-            color: var(--text);
         }
 
         label {
             font-size: 13px;
             color: var(--muted);
-            margin-bottom: 5px;
             font-weight: 500;
+            margin-bottom: 4px;
         }
 
         .form-control, select {
@@ -114,7 +108,7 @@
         }
 
         .btn-submit {
-            margin-top: 20px;
+            margin-top: 22px;
             background: var(--primary);
             color: white;
             border-radius: 10px;
@@ -125,6 +119,17 @@
 
         .btn-submit:hover {
             background: var(--primary-hover);
+        }
+
+        .server-msg {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #dc2626;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 14px;
         }
     </style>
 
@@ -165,19 +170,22 @@
 
     <h2>Register User</h2>
 
+    <!-- ✅ Server-side error -->
     <c:if test="${not empty errorMsg}">
-        <div class="alert alert-danger text-center">
+        <div class="server-msg">
             ${errorMsg}
         </div>
     </c:if>
 
-    <form:form action="register"
-               method="post"
-               modelAttribute="userDto"
-               onsubmit="return validateForm()">
+    <form:form
+            action="${pageContext.request.contextPath}/user/register"
+            method="post"
+            modelAttribute="userDto"
+            onsubmit="return validateForm()">
 
         <div class="row">
 
+            <!-- LEFT -->
             <div class="col-md-6">
 
                 <div class="mb-3">
@@ -187,14 +195,13 @@
 
                 <div class="mb-3">
                     <label>Email</label>
-                    <form:input path="username" cssClass="form-control" type="email" required="true"/>
+                    <form:input path="username" type="email" cssClass="form-control" required="true"/>
                 </div>
 
                 <div class="mb-3">
                     <label>Phone Number</label>
                     <form:input path="phoneNo"
                                 cssClass="form-control"
-                                type="tel"
                                 pattern="[0-9]{10}"
                                 maxlength="10"
                                 required="true"/>
@@ -202,7 +209,7 @@
 
             </div>
 
-            <!-- RIGHT SIDE -->
+            <!-- RIGHT -->
             <div class="col-md-6">
 
                 <div class="mb-3">
@@ -213,7 +220,9 @@
                 <div class="mb-3">
                     <label>Roles</label>
                     <form:select path="roles" multiple="true" cssClass="form-control" required="true">
-                        <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+                        <form:options items="${roles}"
+                                      itemValue="identifier"
+                                      itemLabel="identifier"/>
                     </form:select>
                 </div>
 
@@ -226,6 +235,7 @@
         </button>
 
     </form:form>
+
 </div>
 
 </body>
