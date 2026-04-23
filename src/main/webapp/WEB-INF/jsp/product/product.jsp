@@ -6,8 +6,7 @@
 <head>
     <title>Edit Product</title>
 
-    <!-- Bootstrap -->
-    https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         :root {
@@ -15,9 +14,15 @@
             --card:#ffffff;
             --text:#1f2937;
             --muted:#6b7280;
+
             --primary:#28a745;
             --primary-hover:#218838;
             --accent:#ffc107;
+
+            --danger:#dc2626;
+            --danger-bg:#fee2e2;
+            --danger-border:#fca5a5;
+
             --border:#e5e7eb;
             --radius:14px;
             --shadow:0 10px 30px rgba(0,0,0,0.08);
@@ -36,6 +41,7 @@
             background: var(--bg);
             padding: 20px;
             position: relative;
+            color: var(--text);
         }
 
         .back-arrow {
@@ -54,6 +60,7 @@
             color: var(--text);
             font-size: 18px;
             box-shadow: var(--shadow);
+            transition: .2s;
         }
 
         .back-arrow:hover {
@@ -86,14 +93,14 @@
             margin-top: 10px;
         }
 
-        .form-control, select {
+        .form-control {
             margin-top: 6px;
             border-radius: 10px;
             padding: 10px;
             border: 1px solid var(--border);
         }
 
-        .form-control:focus, select:focus {
+        .form-control:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(40,167,69,0.15);
         }
@@ -112,6 +119,20 @@
         .btn-update:hover {
             background: var(--primary-hover);
         }
+
+        .server-msg {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .server-msg.error {
+            background: var(--danger-bg);
+            color: var(--danger);
+            border: 1px solid var(--danger-border);
+        }
     </style>
 </head>
 
@@ -126,9 +147,8 @@
 
         <h2>Edit Product</h2>
 
-        <!-- Server Message -->
         <c:if test="${not empty message}">
-            <div class="alert alert-danger text-center small">
+            <div class="server-msg error">
                 ${message}
             </div>
         </c:if>

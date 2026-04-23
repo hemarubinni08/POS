@@ -1,6 +1,7 @@
 package com.ust.pos.product;
 
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.price.service.PriceService;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,12 +17,17 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private PriceService priceService;
+
 
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("prices", priceService.getAllPrices());
         return "product/list";
     }
+
 
 
     @GetMapping("/add")
@@ -31,10 +37,7 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addPost(
-            @ModelAttribute ProductDto productDto,
-            Model model
-    ) {
+    public String addPost(@ModelAttribute ProductDto productDto, Model model) {
         ProductDto response = productService.createProduct(productDto);
 
         if (!response.isSuccess()) {
@@ -48,10 +51,7 @@ public class ProductController {
 
 
     @GetMapping("/get")
-    public String update(
-            @RequestParam Long id,
-            Model model
-    ) {
+    public String update(@RequestParam Long id, Model model) {
         ProductDto response = productService.getProduct(id);
 
         if (!response.isSuccess()) {
@@ -65,10 +65,7 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public String updatePost(
-            @ModelAttribute ProductDto productDto,
-            Model model
-    ) {
+    public String updatePost(@ModelAttribute ProductDto productDto, Model model) {
         ProductDto response = productService.updateProduct(productDto);
 
         if (!response.isSuccess()) {

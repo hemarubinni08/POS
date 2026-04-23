@@ -12,5 +12,7 @@ public interface PriceService {
 
     List<PriceDto> getAllPrices();
 
+    PriceDto getPriceById(Long id);
+
     boolean deletePrice(Long id);
 }

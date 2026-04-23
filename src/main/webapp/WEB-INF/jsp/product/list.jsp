@@ -39,7 +39,7 @@
             color: var(--text);
         }
 
-        /* ✅ Back arrow fixed top-left, never overlaps */
+        /* Back button */
         .back-arrow {
             position: fixed;
             top: 20px;
@@ -57,7 +57,6 @@
             font-size: 18px;
             box-shadow: var(--shadow);
             z-index: 1000;
-            transition: 0.2s;
         }
 
         .back-arrow:hover {
@@ -65,10 +64,9 @@
             color: black;
         }
 
-        /* ✅ Push content down so it clears back button */
         .container {
             max-width: 1200px;
-            margin: 80px auto 0 auto; /* KEY FIX */
+            margin: 80px auto 0 auto; /* prevents overlap */
         }
 
         .card {
@@ -101,6 +99,7 @@
             text-align: center;
             border-bottom: 1px solid var(--border);
             font-size: 13px;
+            vertical-align: top;
         }
 
         th {
@@ -114,14 +113,20 @@
             background: #f9fafb;
         }
 
+        .price-box {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
         .btn {
-            padding: 7px 10px;
+            padding: 6px 10px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             text-decoration: none;
             display: inline-block;
-            transition: 0.2s;
+            margin: 2px;
         }
 
         .btn-success {
@@ -166,7 +171,7 @@
     <div class="card">
 
         <div class="card-header">
-            Product Management
+            Product Management (With Prices)
         </div>
 
         <div class="card-body">
@@ -179,11 +184,11 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Name</th>
                         <th>SKU</th>
                         <th>Description</th>
                         <th>Status</th>
+                        <th>Prices</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -191,17 +196,34 @@
                     <tbody>
                     <c:forEach var="product" items="${products}">
                         <tr>
-                            <td>${product.id}</td>
                             <td>${product.name}</td>
                             <td>${product.sku}</td>
                             <td>${product.description}</td>
                             <td>${product.status}</td>
+
+                            <!-- Prices from Price Management -->
+                            <td>
+                                <c:set var="hasPrice" value="false"/>
+                                <c:forEach var="price" items="${prices}">
+                                    <c:if test="${price.productId == product.id}">
+                                        <c:set var="hasPrice" value="true"/>
+                                        <div class="price-box">
+                                            Sell: ₹${price.sellingPrice} |
+                                            Cost: ₹${price.costPrice}
+                                        </div>
+                                    </c:if>
+                                </c:forEach>
+
+                                <c:if test="${!hasPrice}">
+                                    <div class="price-box">No price configured</div>
+                                </c:if>
+                            </td>
+
                             <td>
                                 <a class="btn btn-secondary"
                                    href="${pageContext.request.contextPath}/product/get?id=${product.id}">
                                     Edit
                                 </a>
-
                                 <a class="btn btn-danger"
                                    href="${pageContext.request.contextPath}/product/delete?id=${product.id}">
                                     Delete
@@ -210,6 +232,7 @@
                         </tr>
                     </c:forEach>
                     </tbody>
+
                 </table>
             </c:if>
 

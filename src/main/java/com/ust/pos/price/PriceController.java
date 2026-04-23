@@ -36,15 +36,14 @@ public class PriceController {
     }
 
     @PostMapping("/add")
-    public String addPost(
-            @ModelAttribute PriceDto priceDto,
-            Model model
-    ) {
-        PriceDto response = priceService.createPrice(priceDto);
+    public String addPost(@ModelAttribute PriceDto priceDto, Model model) {
 
-        if (!response.isSuccess()) {
+        PriceDto response;
+        try {
+            response = priceService.createPrice(priceDto);
+        } catch (RuntimeException ex) {
             model.addAttribute("products", productService.getAllProducts());
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute("message", ex.getMessage());
             model.addAttribute("messageType", "error");
             return "price/add";
         }
@@ -54,33 +53,39 @@ public class PriceController {
 
 
     @GetMapping("/get")
-    public String update(
-            @RequestParam Long id,
-            Model model
-    ) {
-        PriceDto priceDto = new PriceDto();
-        priceDto.setId(id);
+    public String update(@RequestParam Long id, Model model) {
 
+        PriceDto price = priceService.getPriceById(id);
+
+        if (!price.isSuccess()) {
+            model.addAttribute("message", price.getMessage());
+            model.addAttribute("messageType", "error");
+            return REDIRECT_PRICE_LIST;
+        }
+
+        model.addAttribute("price", price);
         model.addAttribute("products", productService.getAllProducts());
-        model.addAttribute("price", priceDto);
-
         return "price/price";
     }
 
-    @PostMapping("/update")
-    public String updatePost(
-            @ModelAttribute PriceDto priceDto,
-            Model model
-    ) {
-        PriceDto response = priceService.updatePrice(priceDto);
 
-        if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+    @PostMapping("/update")
+    public String updatePost(@ModelAttribute PriceDto priceDto, Model model) {
+
+        PriceDto response;
+        try {
+            response = priceService.updatePrice(priceDto);
+        } catch (RuntimeException ex) {
+            model.addAttribute("products", productService.getAllProducts());
+            model.addAttribute("price", priceDto);
+            model.addAttribute("message", ex.getMessage());
             model.addAttribute("messageType", "error");
+            return "price/price";
         }
 
         return REDIRECT_PRICE_LIST;
     }
+
 
     @GetMapping("/delete")
     public String delete(@RequestParam Long id) {

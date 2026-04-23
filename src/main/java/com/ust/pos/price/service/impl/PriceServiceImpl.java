@@ -1,6 +1,7 @@
 package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.model.ProductRepository;
@@ -71,5 +72,21 @@ public class PriceServiceImpl implements PriceService {
         }
         priceRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public PriceDto getPriceById(Long id) {
+
+        PriceDto dto = new PriceDto();
+
+        priceRepository.findById(id).ifPresentOrElse(price -> {
+            modelMapper.map(price, dto);
+            dto.setSuccess(true);
+        }, () -> {
+            dto.setSuccess(false);
+            dto.setMessage("Price not found");
+        });
+
+        return dto;
     }
 }
