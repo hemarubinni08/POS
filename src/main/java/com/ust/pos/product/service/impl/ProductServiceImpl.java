@@ -1,6 +1,8 @@
 package com.ust.pos.product.service.impl;
 
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.model.Category;
+import com.ust.pos.model.CategoryRepository;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -10,10 +12,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
 
     @Autowired
     private ProductRepository productRepository;
@@ -26,21 +31,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto createProduct(ProductDto productDto) {
 
-        if (productRepository.existsBySku(productDto.getSku())) {
+        if (productDto.getCategoryIdentifiers() == null || productDto.getCategoryIdentifiers().isEmpty()) {
+
             productDto.setSuccess(false);
-            productDto.setMessage("Product with SKU already exists");
+            productDto.setMessage("Select at least one category");
             return productDto;
         }
 
-        if (productRepository.existsByName(productDto.getName())) {
-            productDto.setSuccess(false);
-            productDto.setMessage("Product with name already exists");
-            return productDto;
-        }
-
-        // default status
-        if (productDto.getStatus() == null) {
-            productDto.setStatus(ACTIVE);
+        for (String categoryIdentifier : productDto.getCategoryIdentifiers()) {
+            if (!categoryRepository.existsByIdentifier(categoryIdentifier)) {
+                productDto.setSuccess(false);
+                productDto.setMessage("Invalid category selected");
+                return productDto;
+            }
         }
 
         Product product = modelMapper.map(productDto, Product.class);
@@ -52,8 +55,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto updateProduct(ProductDto productDto) {
 
-        Optional<Product> optionalProduct =
-                productRepository.findById(productDto.getId());
+        Optional<Product> optionalProduct = productRepository.findById(productDto.getId());
 
         if (optionalProduct.isEmpty()) {
             productDto.setSuccess(false);
@@ -63,18 +65,14 @@ public class ProductServiceImpl implements ProductService {
 
         Product existingProduct = optionalProduct.get();
 
-        // SKU duplicate check (excluding current product)
-        if (!existingProduct.getSku().equals(productDto.getSku())
-                && productRepository.existsBySku(productDto.getSku())) {
+        if (!existingProduct.getSku().equals(productDto.getSku()) && productRepository.existsByIdentifier(productDto.getIdentifier())) {
 
             productDto.setSuccess(false);
-            productDto.setMessage("Product with SKU already exists");
+            productDto.setMessage("Product with identifier already exists");
             return productDto;
         }
 
-        // NAME duplicate check (excluding current product)
-        if (!existingProduct.getName().equals(productDto.getName())
-                && productRepository.existsByName(productDto.getName())) {
+        if (!existingProduct.getIdentifier().equals(productDto.getIdentifier()) && productRepository.existsByIdentifier(productDto.getIdentifier())) {
 
             productDto.setSuccess(false);
             productDto.setMessage("Product with name already exists");
@@ -105,10 +103,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> getAllProducts() {
 
-        return productRepository.findAll()
-                .stream()
-                .map(product -> modelMapper.map(product, ProductDto.class))
-                .collect(Collectors.toList());
+        return productRepository.findAll().stream().map(product -> {
+
+            ProductDto dto = modelMapper.map(product, ProductDto.class);
+
+            List<String> names = product.getCategoryIdentifiers().stream().map(id -> categoryRepository.findByIdentifier(id).map(Category::getIdentifier).orElse("UNKNOWN")).toList();
+
+            dto.setCategoryNames(names);
+
+            return dto;
+        }).toList();
     }
 
     @Override

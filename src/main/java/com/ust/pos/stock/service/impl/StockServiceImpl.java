@@ -85,7 +85,7 @@ public class StockServiceImpl implements StockService {
                     modelMapper.map(stock, dto);
 
                     productRepository.findById(stock.getProductId())
-                            .ifPresent(p -> dto.setProductName(p.getName()));
+                            .ifPresent(p -> dto.setProductName(p.getIdentifier()));
 
                     warehouseRepository.findById(stock.getWarehouseId())
                             .ifPresent(w -> dto.setWarehouseName(w.getName()));
@@ -106,7 +106,7 @@ public class StockServiceImpl implements StockService {
             StockDto dto = modelMapper.map(stock, StockDto.class);
 
             productRepository.findById(stock.getProductId())
-                    .ifPresent(product -> dto.setProductName(product.getName()));
+                    .ifPresent(product -> dto.setProductName(product.getIdentifier()));
 
             warehouseRepository.findById(stock.getWarehouseId())
                     .ifPresent(warehouse -> dto.setWarehouseName(warehouse.getName()));

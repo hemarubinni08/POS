@@ -14,6 +14,5 @@ public class Price extends CommonFields {
     private Long productId;
     private BigDecimal sellingPrice;
     private BigDecimal costPrice;
-    private String status;
     private String productName;
 }

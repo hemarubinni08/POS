@@ -6,35 +6,23 @@
 <head>
     <title>Product Management</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --primary: #2563eb;
             --primary-hover: #1e40af;
-
             --bg: #f8fafc;
             --glass: rgba(255,255,255,0.75);
-
             --text: #0f172a;
             --muted: #64748b;
-
             --border: #e2e8f0;
-
             --danger: #dc2626;
-
             --radius: 16px;
             --shadow: 0 20px 40px rgba(2,6,23,0.08);
         }
 
-        * {
-            font-family: 'Inter', sans-serif;
-            box-sizing: border-box;
-        }
+        * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
 
         body {
             background: var(--bg);
@@ -42,36 +30,23 @@
             color: var(--text);
         }
 
-        /* BACK BUTTON */
         .back-arrow {
             position: fixed;
             top: 20px;
             left: 20px;
-
             width: 42px;
             height: 42px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
             border-radius: 50%;
             background: var(--glass);
             backdrop-filter: blur(10px);
-
             border: 1px solid var(--border);
-            color: var(--text);
-
-            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 18px;
-
             box-shadow: var(--shadow);
-            transition: 0.2s;
-        }
-
-        .back-arrow:hover {
-            background: #eef2ff;
-            color: var(--primary);
+            text-decoration: none;
+            color: var(--text);
         }
 
         .container-box {
@@ -79,24 +54,19 @@
             margin: 60px auto 0;
         }
 
-        /* CARD */
         .card {
             background: var(--glass);
             backdrop-filter: blur(16px);
-
             border-radius: var(--radius);
             border: 1px solid var(--border);
-
             box-shadow: var(--shadow);
             overflow: hidden;
         }
 
-        /* HEADER */
         .card-header {
             padding: 20px 24px;
             font-size: 18px;
             font-weight: 600;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -110,19 +80,9 @@
             text-decoration: none;
             font-size: 13px;
             font-weight: 600;
-            transition: 0.2s;
         }
 
-        .add-btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-        }
-
-        /* TABLE */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        table { width: 100%; border-collapse: collapse; }
 
         th, td {
             padding: 14px 16px;
@@ -134,28 +94,24 @@
         th {
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             color: var(--muted);
             background: rgba(248,250,252,0.8);
         }
 
-        tr:hover {
-            background: rgba(241,245,249,0.6);
-        }
-
-        /* PRICE */
         .price-box {
             font-size: 12px;
             color: var(--muted);
+            line-height: 1.4;
         }
 
-        /* ACTIONS */
         .actions {
             display: flex;
             gap: 8px;
         }
 
-        .btn {
+        .btn-edit {
+            background: #eef2ff;
+            color: var(--primary);
             padding: 6px 12px;
             border-radius: 8px;
             font-size: 12px;
@@ -163,30 +119,20 @@
             text-decoration: none;
         }
 
-        .btn-edit {
-            background: #eef2ff;
-            color: var(--primary);
-        }
-
-        .btn-edit:hover {
-            background: #e0e7ff;
-        }
-
         .btn-delete {
             background: #fee2e2;
             color: var(--danger);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
         }
 
-        .btn-delete:hover {
-            background: #fecaca;
-        }
-
-        /* EMPTY STATE */
         .empty-state {
-            text-align: center;
             padding: 40px;
+            text-align: center;
             color: var(--muted);
-            font-size: 14px;
         }
     </style>
 </head>
@@ -196,21 +142,17 @@
 <a href="${pageContext.request.contextPath}/" class="back-arrow">←</a>
 
 <div class="container-box">
-
     <div class="card">
 
         <div class="card-header">
             <span>Product Management</span>
-
             <a href="${pageContext.request.contextPath}/product/add" class="add-btn">
                 + Add Product
             </a>
         </div>
 
         <c:if test="${empty products}">
-            <div class="empty-state">
-                No products found
-            </div>
+            <div class="empty-state">No products found</div>
         </c:if>
 
         <c:if test="${not empty products}">
@@ -220,7 +162,7 @@
                     <th>Name</th>
                     <th>SKU</th>
                     <th>Description</th>
-                    <th>Status</th>
+                    <th>Categories</th>
                     <th>Prices</th>
                     <th style="width:160px;">Actions</th>
                 </tr>
@@ -229,39 +171,43 @@
                 <tbody>
                 <c:forEach var="product" items="${products}">
                     <tr>
-                        <td>${product.name}</td>
+                        <td>${product.identifier}</td>
                         <td>${product.sku}</td>
                         <td>${product.description}</td>
-                        <td>${product.status}</td>
 
                         <td>
-                            <c:set var="hasPrice" value="false"/>
+                            <c:forEach var="cat" items="${product.categoryNames}">
+                                <span class="badge bg-secondary me-1">${cat}</span>
+                            </c:forEach>
+                        </td>
+
+                        <!-- ✅ FIXED PRICE LOGIC -->
+                        <td>
+                            <c:set var="hasPrice" value="false" />
                             <c:forEach var="price" items="${prices}">
                                 <c:if test="${price.productId == product.id}">
-                                    <c:set var="hasPrice" value="true"/>
+                                    <c:set var="hasPrice" value="true" />
                                     <div class="price-box">
-                                        Sell: ₹${price.sellingPrice} | Cost: ₹${price.costPrice}
+                                        Selling: ₹${price.sellingPrice}<br/>
+                                        Cost: ₹${price.costPrice}
                                     </div>
                                 </c:if>
                             </c:forEach>
 
                             <c:if test="${!hasPrice}">
-                                <div class="price-box">No price configured</div>
+                                <div class="price-box">Price not assigned</div>
                             </c:if>
                         </td>
 
-                        <td>
-                            <div class="actions">
-                                <a class="btn btn-edit"
-                                   href="${pageContext.request.contextPath}/product/get?id=${product.id}">
-                                    Edit
-                                </a>
-
-                                <a class="btn btn-delete"
-                                   href="${pageContext.request.contextPath}/product/delete?id=${product.id}">
-                                    Delete
-                                </a>
-                            </div>
+                        <td class="actions">
+                            <a class="btn-edit"
+                               href="${pageContext.request.contextPath}/product/get?id=${product.id}">
+                                Edit
+                            </a>
+                            <a class="btn-delete"
+                               href="${pageContext.request.contextPath}/product/delete?id=${product.id}">
+                                Delete
+                            </a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -270,7 +216,6 @@
         </c:if>
 
     </div>
-
 </div>
 
 </body>

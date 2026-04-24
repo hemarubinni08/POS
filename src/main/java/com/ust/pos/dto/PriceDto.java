@@ -12,7 +12,6 @@ public class PriceDto extends CommonDto {
 
     private Long productId;
     private String productName;
-
     private BigDecimal sellingPrice;
     private BigDecimal costPrice;
 }

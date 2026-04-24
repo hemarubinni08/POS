@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Price</title>
+    <title>Edit Category</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -48,7 +48,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px 16px;
+            padding: 20px;
+            position: relative;
             color: var(--text);
         }
 
@@ -59,16 +60,21 @@
             left: 20px;
             width: 42px;
             height: 42px;
-            border-radius: 50%;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
+            border-radius: 50%;
             background: var(--glass);
             backdrop-filter: blur(10px);
+
             border: 1px solid var(--border);
             color: var(--text);
+
             text-decoration: none;
             font-size: 18px;
+
             box-shadow: var(--shadow);
             transition: 0.2s;
         }
@@ -78,33 +84,44 @@
             color: var(--primary);
         }
 
+        .container-box {
+            width: 100%;
+            max-width: 450px;
+        }
+
         /* CARD */
-        .form-card {
-            width: 520px;
+        .card {
             padding: 28px;
+
             border-radius: var(--radius);
-            background: white;
+
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+
+            border: 1px solid var(--border);
             box-shadow: var(--shadow);
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 22px;
+            font-size: 18px;
             font-weight: 600;
+            margin-bottom: 20px;
         }
 
         /* FORM */
         label {
             font-size: 13px;
             color: var(--muted);
-            font-weight: 500;
-            margin-bottom: 4px;
+            margin-top: 12px;
+            display: block;
         }
 
         .form-control {
+            margin-top: 6px;
             border-radius: 10px;
-            border: 1px solid var(--border);
             padding: 10px;
+            border: 1px solid var(--border);
             font-size: 14px;
         }
 
@@ -115,39 +132,44 @@
 
         /* BUTTON */
         .btn-submit {
-            margin-top: 22px;
+            margin-top: 20px;
+            width: 100%;
+
+            padding: 11px;
+            border-radius: 10px;
+
+            border: none;
             background: var(--primary);
             color: white;
-            border-radius: 10px;
-            padding: 10px;
+
             font-weight: 600;
-            border: none;
-            width: 100%;
+            transition: 0.2s;
         }
 
         .btn-submit:hover {
             background: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
         /* SERVER MESSAGE */
         .server-msg {
+            text-align: center;
             padding: 10px;
             border-radius: 10px;
-            font-size: 13px;
-            text-align: center;
             margin-bottom: 14px;
+            font-size: 13px;
         }
 
         .server-msg.error {
             background: var(--danger-bg);
-            border: 1px solid var(--danger-border);
             color: var(--danger);
+            border: 1px solid var(--danger-border);
         }
 
         .server-msg.success {
             background: var(--success-bg);
-            border: 1px solid var(--success-border);
             color: var(--success);
+            border: 1px solid var(--success-border);
         }
     </style>
 </head>
@@ -155,64 +177,45 @@
 <body>
 
 <!-- BACK -->
-<a href="${pageContext.request.contextPath}/price/list" class="back-arrow">←</a>
+<a href="${pageContext.request.contextPath}/category/list" class="back-arrow">
+    ←
+</a>
 
-<div class="form-card">
+<div class="container-box">
+    <div class="card">
 
-    <h2>Add Price</h2>
+        <h2>Add Category</h2>
 
-    <c:if test="${not empty message}">
-        <div class="server-msg ${messageType}">
-            ${message}
-        </div>
-    </c:if>
+        <!-- SERVER MESSAGE -->
+        <c:if test="${not empty message}">
+            <div class="server-msg ${messageType}">
+                ${message}
+            </div>
+        </c:if>
 
-    <form action="${pageContext.request.contextPath}/price/add" method="post">
+        <form action="${pageContext.request.contextPath}/category/add" method="post">
 
-        <!-- PRODUCT -->
-        <div class="mb-3">
-            <label>Product</label>
-            <select name="productId" class="form-control" required>
-                <option value="">-- Select Product --</option>
-                <c:forEach items="${products}" var="product">
-                    <option value="${product.id}"
-                        <c:if test="${priceDto.productId == product.id}">selected</c:if>>
-                        ${product.identifier}
-                    </option>
-                </c:forEach>
-            </select>
-        </div>
+            <input type="hidden" name="id" value="${category.id}" />
 
-        <!-- SELLING PRICE -->
-        <div class="mb-3">
-            <label>Selling Price</label>
-            <input type="number"
-                   step="0.01"
-                   min="0"
-                   name="sellingPrice"
-                   value="${priceDto.sellingPrice}"
+            <label>Category Name</label>
+            <input type="text"
+                   name="identifier"
+                   value="${category.identifier}"
                    class="form-control"
-                   required>
-        </div>
+                   required />
 
-        <!-- COST PRICE -->
-        <div class="mb-3">
-            <label>Cost Price</label>
-            <input type="number"
-                   step="0.01"
-                   min="0"
-                   name="costPrice"
-                   value="${priceDto.costPrice}"
-                   class="form-control"
-                   required>
-        </div>
+            <label>Description</label>
+            <textarea name="description"
+                      class="form-control"
+                      rows="3">${category.description}</textarea>
 
-        <button type="submit" class="btn-submit">
-            Save Price
-        </button>
+            <button type="submit" class="btn-submit">
+                Add Category
+            </button>
 
-    </form>
+        </form>
 
+    </div>
 </div>
 
 </body>

@@ -1,7 +1,6 @@
 package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.model.ProductRepository;
@@ -11,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 public class PriceServiceImpl implements PriceService {
@@ -29,8 +27,7 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDto createPrice(PriceDto priceDto) {
 
-        productRepository.findById(priceDto.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+        productRepository.findById(priceDto.getProductId()).orElseThrow(() -> new RuntimeException("Product not found"));
 
         if (priceRepository.existsByProductId(priceDto.getProductId())) {
             throw new RuntimeException("Price already exists for this product");
@@ -45,8 +42,7 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDto updatePrice(PriceDto priceDto) {
 
-        Price price = priceRepository.findById(priceDto.getId())
-                .orElseThrow(() -> new RuntimeException("Price record not found"));
+        Price price = priceRepository.findById(priceDto.getId()).orElseThrow(() -> new RuntimeException("Price record not found"));
 
         modelMapper.map(priceDto, price);
         priceRepository.save(price);
@@ -61,8 +57,7 @@ public class PriceServiceImpl implements PriceService {
 
             PriceDto dto = modelMapper.map(price, PriceDto.class);
 
-            productRepository.findById(price.getProductId())
-                    .ifPresent(p -> dto.setProductName(p.getName()));
+            productRepository.findById(price.getProductId()).ifPresent(p -> dto.setProductName(p.getIdentifier()));
 
             return dto;
 
