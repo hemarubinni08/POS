@@ -38,10 +38,10 @@ public class PriceController {
     @PostMapping("/add")
     public String addPost(@ModelAttribute PriceDto priceDto, Model model) {
 
-        PriceDto response;
         try {
-            response = priceService.createPrice(priceDto);
+            priceService.createPrice(priceDto);
         } catch (RuntimeException ex) {
+
             model.addAttribute("products", productService.getAllProducts());
             model.addAttribute("message", ex.getMessage());
             model.addAttribute("messageType", "error");

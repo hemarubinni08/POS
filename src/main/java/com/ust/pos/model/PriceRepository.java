@@ -11,4 +11,6 @@ public interface PriceRepository extends JpaRepository<Price, Long> {
     Optional<Price> findByProductIdAndStatus(Long productId, String status);
 
     List<Price> findByProductId(Long productId);
+
+    boolean existsByProductId(Long productId);
 }

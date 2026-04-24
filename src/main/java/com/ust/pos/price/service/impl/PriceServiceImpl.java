@@ -32,6 +32,10 @@ public class PriceServiceImpl implements PriceService {
         productRepository.findById(priceDto.getProductId())
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
+        if (priceRepository.existsByProductId(priceDto.getProductId())) {
+            throw new RuntimeException("Price already exists for this product");
+        }
+
         Price price = modelMapper.map(priceDto, Price.class);
         priceRepository.save(price);
 

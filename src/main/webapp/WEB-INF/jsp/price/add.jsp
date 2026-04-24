@@ -14,28 +14,28 @@
 
     <style>
         :root {
-                          --primary: #2563eb;
-                          --primary-hover: #1e40af;
+            --primary: #2563eb;
+            --primary-hover: #1e40af;
 
-                          --bg: #f8fafc;
-                          --glass: rgba(255,255,255,0.75);
+            --bg: #f8fafc;
+            --glass: rgba(255,255,255,0.75);
 
-                          --text: #0f172a;
-                          --muted: #64748b;
+            --text: #0f172a;
+            --muted: #64748b;
 
-                          --border: #e2e8f0;
+            --border: #e2e8f0;
 
-                          --danger: #dc2626;
-                          --danger-bg: #fee2e2;
-                          --danger-border: #fca5a5;
+            --danger: #dc2626;
+            --danger-bg: #fee2e2;
+            --danger-border: #fca5a5;
 
-                          --success: #16a34a;
-                          --success-bg: #dcfce7;
-                          --success-border: #86efac;
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+            --success-border: #86efac;
 
-                          --radius: 16px;
-                          --shadow: 0 20px 40px rgba(2,6,23,0.08);
-                      }
+            --radius: 16px;
+            --shadow: 0 20px 40px rgba(2,6,23,0.08);
+        }
 
         * {
             font-family: 'Inter', sans-serif;
@@ -54,41 +54,36 @@
 
         /* BACK BUTTON */
         .back-arrow {
-                                position: absolute;
-                                top: 20px;
-                                left: 20px;
-                                width: 42px;
-                                height: 42px;
-                                border-radius: 50%;
-
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-
-                                background: var(--glass);
-                                backdrop-filter: blur(10px);
-
-                                border: 1px solid var(--border);
-                                color: var(--text);
-
-                                text-decoration: none;
-                                font-size: 18px;
-
-                                box-shadow: var(--shadow);
-                                transition: 0.2s;
-                            }
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 18px;
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
 
         .back-arrow:hover {
-                                      background: #eef2ff;
-                                      color: var(--primary);
-                                  }
+            background: #eef2ff;
+            color: var(--primary);
+        }
 
         /* CARD */
         .form-card {
             width: 520px;
-            background: var(--card);
             padding: 28px;
             border-radius: var(--radius);
+            background: white;
             box-shadow: var(--shadow);
         }
 
@@ -115,7 +110,7 @@
 
         .form-control:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(40,167,69,0.15);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
         }
 
         /* BUTTON */
@@ -136,14 +131,23 @@
 
         /* SERVER MESSAGE */
         .server-msg {
-            background: var(--danger-bg);
-            border: 1px solid var(--danger-border);
-            color: var(--danger);
             padding: 10px;
             border-radius: 10px;
             font-size: 13px;
             text-align: center;
             margin-bottom: 14px;
+        }
+
+        .server-msg.error {
+            background: var(--danger-bg);
+            border: 1px solid var(--danger-border);
+            color: var(--danger);
+        }
+
+        .server-msg.success {
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success);
         }
     </style>
 </head>
@@ -157,9 +161,9 @@
 
     <h2>Add Price</h2>
 
-    <!-- SERVER MESSAGE -->
+    <!-- ✅ SERVER MESSAGE (FIXED) -->
     <c:if test="${not empty message}">
-        <div class="server-msg">
+        <div class="server-msg ${messageType}">
             ${message}
         </div>
     </c:if>
