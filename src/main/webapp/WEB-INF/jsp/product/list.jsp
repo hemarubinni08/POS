@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Management</title>
+    <title>Product List</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -35,7 +35,6 @@
             font-weight: 600;
         }
 
-        /* Back Icon */
         .back-icon {
             position: absolute;
             top: 16px;
@@ -59,12 +58,13 @@
             background: #4b6cb7;
             color: #ffffff;
             transform: translateX(-4px) scale(1.05);
+            box-shadow: 0 8px 18px rgba(75, 108, 183, 0.35);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 10px;
         }
 
         th {
@@ -80,7 +80,7 @@
             border-bottom: 1px solid #eee;
             font-size: 14px;
             color: #333;
-            white-space: nowrap;
+            word-break: break-word;
         }
 
         tr:hover {
@@ -92,14 +92,12 @@
             margin: 0 6px;
             text-decoration: none;
             color: #4b6cb7;
-            display: inline-flex;
-            align-items: center;
             transition: 0.2s ease;
         }
 
         .action-icon:hover {
             color: #182848;
-            transform: scale(1.15);
+            transform: scale(1.2);
         }
 
         .alert {
@@ -108,15 +106,46 @@
             margin-bottom: 15px;
             text-align: center;
             font-size: 14px;
+        }
+
+        .alert-warning {
             background: #fff3cd;
             color: #856404;
         }
 
-        .footer-text {
-            text-align: center;
-            margin-top: 18px;
-            font-size: 12px;
-            color: #777;
+        .footer-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            transition: 0.25s ease;
+        }
+
+        .btn-home {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-home:hover {
+            background: #555;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            color: white;
+        }
+
+        .btn-add:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -125,43 +154,45 @@
 
 <div class="card-container">
 
-    <!-- Back to Home -->
     <a href="/" class="back-icon">←</a>
 
-    <h2>User Management</h2>
+    <h2>List of Product</h2>
 
-    <c:if test="${empty users}">
-        <div class="alert">
-            No users found
+    <c:if test="${empty products}">
+        <div class="alert alert-warning">
+            No Products found
         </div>
     </c:if>
 
-    <c:if test="${not empty users}">
+    <c:if test="${not empty products}">
         <table>
             <thead>
             <tr>
-                <th>Email</th>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Roles</th>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Supplier ID</th>
                 <th>Action</th>
             </tr>
             </thead>
 
             <tbody>
-            <c:forEach var="user" items="${users}">
+            <c:forEach var="product" items="${products}">
                 <tr>
-                    <td>${user.username}</td>
-                    <td>${user.name}</td>
-                    <td>${user.phoneNo}</td>
-                    <td>${user.roles}</td>
-                    <td>
-                        <a href="/user/get?username=${user.username}"
-                           class="action-icon" title="Edit">✏️</a>
+                    <td>${product.id}</td>
+                    <td>${product.identifier}</td>
+                    <td>${product.category}</td>
+                    <td>${product.supplierId}</td>
 
-                        <a href="/user/delete?username=${user.username}"
-                           class="action-icon" title="Delete"
-                           onclick="return confirm('Are you sure you want to delete this user?');">
+                    <td>
+                        <a href="/product/get?identifier=${product.identifier}"
+                           class="action-icon"
+                           title="Edit">✏️</a>
+
+                        <a href="/product/delete?identifier=${product.identifier}"
+                           class="action-icon"
+                           title="Delete"
+                           onclick="return confirm('Are you sure you want to delete this product?');">
                             🗑
                         </a>
                     </td>
@@ -171,8 +202,9 @@
         </table>
     </c:if>
 
-    <div class="footer-text">
-        User Management System
+    <div class="footer-actions">
+        <a href="/" class="btn btn-home">Home</a>
+        <a href="/product/add" class="btn btn-add">+ Add New Product</a>
     </div>
 
 </div>
