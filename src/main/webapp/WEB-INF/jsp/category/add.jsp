@@ -197,17 +197,19 @@
 
             <input type="hidden" name="id" value="${category.id}" />
 
-            <label>Category Name</label>
+            <label>Super Category Name</label>
             <input type="text"
                    name="identifier"
                    value="${category.identifier}"
                    class="form-control"
                    required />
 
-            <label>Description</label>
-            <textarea name="description"
-                      class="form-control"
-                      rows="3">${category.description}</textarea>
+            <label>Category Name</label>
+                        <input type="text"
+                               name="category"
+                               value="${category.category}"
+                               class="form-control"
+                               required />
 
             <button type="submit" class="btn-submit">
                 Add Category

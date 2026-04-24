@@ -209,8 +209,8 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>Category Name</th>
-                        <th>Description</th>
+                        <th>Super Category Name</th>
+                        <th>Category</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -219,7 +219,7 @@
                     <c:forEach items="${categories}" var="category">
                         <tr>
                             <td>${category.identifier}</td>
-                            <td>${category.description}</td>
+                            <td>${category.category}</td>
 
                             <td>
                                 <a class="btn-action btn-edit"

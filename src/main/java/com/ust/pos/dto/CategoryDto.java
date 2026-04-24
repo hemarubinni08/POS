@@ -8,5 +8,5 @@ import lombok.Setter;
 
 public class CategoryDto extends CommonDto {
 
-    private String description;
+    private String category;
 }

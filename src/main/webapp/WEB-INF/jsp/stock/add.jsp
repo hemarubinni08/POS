@@ -176,7 +176,7 @@
             <form:option value="" label="-- Select Product --"/>
             <c:forEach items="${products}" var="product">
                 <form:option value="${product.id}">
-                    ${product.name}
+                    ${product.identifier}
                 </form:option>
             </c:forEach>
         </form:select>

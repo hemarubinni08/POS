@@ -62,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         category.setIdentifier(dto.getIdentifier());
-        category.setDescription(dto.getDescription());
+        category.setCategory(dto.getCategory());
 
         categoryRepository.save(category);
 

@@ -184,7 +184,7 @@
 <div class="container-box">
     <div class="card">
 
-        <h2>Add Category</h2>
+        <h2>Edit Category</h2>
 
         <!-- SERVER MESSAGE -->
         <c:if test="${not empty message}">
@@ -197,17 +197,19 @@
 
             <input type="hidden" name="id" value="${category.id}" />
 
-            <label>Category Name</label>
+            <label>Super Category</label>
             <input type="text"
                    name="identifier"
                    value="${category.identifier}"
                    class="form-control"
                    required />
 
-            <label>Description</label>
-            <textarea name="description"
-                      class="form-control"
-                      rows="3">${category.description}</textarea>
+            <label>Category</label>
+                        <input type="text"
+                               name="category"
+                               value="${category.category}"
+                               class="form-control"
+                               required />
 
             <button type="submit" class="btn-submit">
                 Add Category

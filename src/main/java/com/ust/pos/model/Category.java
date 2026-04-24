@@ -9,5 +9,5 @@ import lombok.Setter;
 @Entity
 public class Category extends CommonFields {
 
-    private String description;
+    private String category;
 }
