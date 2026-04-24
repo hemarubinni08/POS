@@ -1,0 +1,14 @@
+package com.ust.pos.product.service;
+
+import com.ust.pos.dto.ProductDto;
+
+import java.util.List;
+
+public interface ProductService {
+    ProductDto save(ProductDto userDto);
+    ProductDto update(ProductDto userDto);
+    void delete(String identifier);
+    List<ProductDto> findAll();
+    ProductDto findByIdentifier(String identifier);
+
+}
