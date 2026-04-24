@@ -6,23 +6,30 @@
 <head>
     <title>Price Management</title>
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg:#f6fff8;
-            --card:#ffffff;
-            --text:#1f2937;
-            --muted:#6b7280;
+            --primary: #2563eb;
+            --primary-hover: #1e40af;
 
-            --primary:#28a745;
-            --primary-hover:#218838;
-            --accent:#ffc107;
+            --bg: #f8fafc;
+            --glass: rgba(255,255,255,0.75);
 
-            --danger:#dc3545;
-            --danger-hover:#c82333;
+            --text: #0f172a;
+            --muted: #64748b;
 
-            --border:#e5e7eb;
-            --radius:14px;
-            --shadow:0 10px 30px rgba(0,0,0,0.08);
+            --border: #e2e8f0;
+
+            --danger: #dc2626;
+            --danger-hover: #b91c1c;
+
+            --radius: 16px;
+            --shadow: 0 20px 40px rgba(2,6,23,0.08);
         }
 
         * {
@@ -33,135 +40,152 @@
         }
 
         body {
-            min-height:100vh;
-            background:var(--bg);
-            padding:40px 16px;
-            position:relative;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 40px 20px;
             color: var(--text);
         }
 
+        /* BACK BUTTON */
         .back-arrow {
-            position:absolute;
-            top:20px;
-            left:20px;
-            width:42px;
-            height:42px;
-            border-radius:50%;
-            background:var(--card);
-            border:1px solid var(--border);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            color:var(--text);
-            font-size:18px;
-            box-shadow:var(--shadow);
-            text-decoration:none;
-            transition:.2s;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+
+            border: 1px solid var(--border);
+            color: var(--text);
+
+            text-decoration: none;
+            font-size: 18px;
+
+            box-shadow: var(--shadow);
+            transition: 0.2s;
         }
 
         .back-arrow:hover {
-            background:var(--accent);
-            color:black;
+            background: #eef2ff;
+            color: var(--primary);
         }
 
-        .container {
-            max-width:1100px;
-            margin:auto;
+        .container-box {
+            max-width: 1100px;
+            margin: 60px auto 0;
         }
 
+        /* CARD */
         .card {
-            background:var(--card);
-            border-radius:var(--radius);
-            box-shadow:var(--shadow);
-            overflow:hidden;
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+
+            box-shadow: var(--shadow);
+            overflow: hidden;
         }
 
+        /* HEADER */
         .card-header {
-            background:var(--primary);
-            color:#fff;
-            padding:18px;
-            text-align:center;
-            font-size:18px;
-            font-weight:600;
+            padding: 20px 24px;
+            font-size: 18px;
+            font-weight: 600;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .card-body {
-            padding:18px;
+        .add-btn {
+            padding: 8px 14px;
+            border-radius: 10px;
+            background: var(--primary);
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
         }
 
+        .add-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        /* TABLE */
         table {
-            width:100%;
-            border-collapse:collapse;
+            width: 100%;
+            border-collapse: collapse;
         }
 
         th, td {
-            padding:12px;
-            border-bottom:1px solid var(--border);
-            text-align:center;
-            font-size:13px;
+            padding: 14px 16px;
+            font-size: 13px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
         }
 
         th {
-            background:#f9fafb;
-            color:var(--muted);
-            text-transform:uppercase;
-            font-size:12px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--muted);
+            background: rgba(248,250,252,0.8);
         }
 
         tr:hover {
-            background:#f9fafb;
+            background: rgba(241,245,249,0.6);
+        }
+
+        /* ACTIONS */
+        .actions {
+            display: flex;
+            gap: 8px;
         }
 
         .btn {
-            padding:7px 12px;
-            border-radius:8px;
-            font-size:13px;
-            font-weight:600;
-            text-decoration:none;
-            display:inline-block;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
         }
 
-        .btn-secondary {
-            background:var(--accent);
-            color:black;
+        .btn-edit {
+            background: #eef2ff;
+            color: var(--primary);
         }
 
-        .btn-secondary:hover {
-            background:#e0a800;
+        .btn-edit:hover {
+            background: #e0e7ff;
         }
 
-        .btn-danger {
-            background:var(--danger);
-            color:white;
+        .btn-delete {
+            background: #fee2e2;
+            color: var(--danger);
         }
 
-        .btn-danger:hover {
-            background:var(--danger-hover);
+        .btn-delete:hover {
+            background: #fecaca;
         }
 
-        .btn-success {
-            background:var(--primary);
-            color:white;
-        }
-
-        .btn-success:hover {
-            background:var(--primary-hover);
-        }
-
-        .card-footer {
-            background:#f9fafb;
-            padding:16px;
-            text-align:center;
-            border-top:1px solid var(--border);
-        }
-
-        .alert {
-            background:#fff3cd;
-            color:#856404;
-            padding:12px;
-            border-radius:8px;
-            text-align:center;
-            font-size:13px;
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--muted);
+            font-size: 14px;
         }
     </style>
 </head>
@@ -170,65 +194,67 @@
 
 <a href="${pageContext.request.contextPath}/" class="back-arrow">←</a>
 
-<div class="container">
+<div class="container-box">
+
     <div class="card">
 
         <div class="card-header">
-            Price Management
-        </div>
+            <span>Price Management</span>
 
-        <div class="card-body">
-
-            <c:if test="${empty prices}">
-                <div class="alert">No price records found</div>
-            </c:if>
-
-            <c:if test="${not empty prices}">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Product</th>
-                        <th>Selling Price</th>
-                        <th>Cost Price</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <c:forEach var="price" items="${prices}">
-                        <tr>
-                            <td>${price.id}</td>
-                            <td>${price.productName}</td>
-                            <td>${price.sellingPrice}</td>
-                            <td>${price.costPrice}</td>
-                            <td>
-                                <a class="btn btn-secondary"
-                                   href="${pageContext.request.contextPath}/price/get?id=${price.id}">
-                                    Edit
-                                </a>
-
-                                <a class="btn btn-danger"
-                                   href="${pageContext.request.contextPath}/price/delete?id=${price.id}">
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </c:if>
-
-        </div>
-
-        <div class="card-footer">
-            <a href="${pageContext.request.contextPath}/price/add"
-               class="btn btn-success">
+            <a href="${pageContext.request.contextPath}/price/add" class="add-btn">
                 + Add Price
             </a>
         </div>
 
+        <c:if test="${empty prices}">
+            <div class="empty-state">
+                No price records found
+            </div>
+        </c:if>
+
+        <c:if test="${not empty prices}">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Selling Price</th>
+                    <th>Cost Price</th>
+                    <th style="width:160px;">Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <c:forEach var="price" items="${prices}">
+                    <tr>
+                        <td>${price.id}</td>
+                        <td>${price.productName}</td>
+                        <td>₹ ${price.sellingPrice}</td>
+                        <td>₹ ${price.costPrice}</td>
+
+                        <td>
+                            <div class="actions">
+
+                                <a class="btn btn-edit"
+                                   href="${pageContext.request.contextPath}/price/get?id=${price.id}">
+                                    Edit
+                                </a>
+
+                                <a class="btn btn-delete"
+                                   href="${pageContext.request.contextPath}/price/delete?id=${price.id}">
+                                    Delete
+                                </a>
+
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+
     </div>
+
 </div>
 
 </body>

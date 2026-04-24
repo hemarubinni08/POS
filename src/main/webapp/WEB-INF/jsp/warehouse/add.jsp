@@ -6,117 +6,167 @@
 <head>
     <title>Add Warehouse</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg:#f6fff8;
-            --card:#ffffff;
-            --text:#1f2937;
-            --muted:#6b7280;
-            --primary:#28a745;
-            --accent:#ffc107;
-            --danger:#dc2626;
-            --danger-bg:#fee2e2;
-            --danger-border:#fca5a5;
-            --success:#16a34a;
-            --success-bg:#dcfce7;
-            --success-border:#86efac;
-            --border:#e5e7eb;
-            --radius:14px;
-            --shadow:0 10px 30px rgba(0,0,0,.08);
+            --primary: #2563eb;
+            --primary-hover: #1e40af;
+
+            --bg: #f8fafc;
+            --glass: rgba(255,255,255,0.75);
+
+            --text: #0f172a;
+            --muted: #64748b;
+
+            --border: #e2e8f0;
+
+            --danger: #dc2626;
+            --success: #16a34a;
+
+            --radius: 16px;
+            --shadow: 0 20px 40px rgba(2,6,23,0.08);
+        }
+
+        * {
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
         }
 
         body {
-            background:var(--bg);
-            min-height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            padding:20px;
-            position:relative;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
+        /* BACK BUTTON */
         .back-arrow {
-            position:absolute;
-            top:20px;
-            left:20px;
-            width:42px;
-            height:42px;
-            border-radius:50%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background:var(--card);
-            border:1px solid var(--border);
-            text-decoration:none;
-            color:var(--text);
-            font-size:18px;
-            box-shadow:var(--shadow);
-            transition:.2s;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+
+            border: 1px solid var(--border);
+            color: var(--text);
+
+            text-decoration: none;
+            font-size: 18px;
+
+            box-shadow: var(--shadow);
+            transition: 0.2s;
         }
+
         .back-arrow:hover {
-            background:var(--accent);
-            color:black;
+            background: #eef2ff;
+            color: var(--primary);
         }
 
-        .card {
-            width:480px;
-            padding:24px;
-            border-radius:var(--radius);
-            box-shadow:var(--shadow);
+        /* CARD */
+        .form-card {
+            width: 460px;
+            padding: 32px;
+
+            border-radius: var(--radius);
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
         }
 
-        h5 {
-            color:var(--text);
+        h2 {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
 
         label {
-            font-size:13px;
-            color:var(--muted);
-            margin-top:10px;
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 12px;
         }
 
-        .btn-save {
-            margin-top:18px;
-            width:100%;
-            background:var(--primary);
-            color:#fff;
-            border:none;
-            border-radius:10px;
-            padding:10px;
+        .form-control {
+            margin-top: 6px;
+            border-radius: 12px;
+            padding: 11px;
+            font-size: 14px;
+
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.9);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+            background: #fff;
+        }
+
+        .btn-submit {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+
+            border-radius: 12px;
+            border: none;
+
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
         .server-msg {
-            text-align:center;
-            padding:10px;
-            margin-bottom:12px;
-            border-radius:10px;
-            font-size:13px;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 14px;
+            border-radius: 10px;
+            font-size: 13px;
         }
+
         .server-msg.error {
-            background:var(--danger-bg);
-            color:var(--danger);
-            border:1px solid var(--danger-border);
+            background: #fee2e2;
+            color: var(--danger);
         }
+
         .server-msg.success {
-            background:var(--success-bg);
-            color:var(--success);
-            border:1px solid var(--success-border);
+            background: #dcfce7;
+            color: var(--success);
         }
     </style>
 </head>
 
 <body>
 
-<!-- Back arrow -->
 <a href="${pageContext.request.contextPath}/warehouse/list" class="back-arrow">←</a>
 
-<div class="card">
+<div class="form-card">
 
-    <h5 class="text-center mb-3">Add Warehouse</h5>
+    <h2>Add Warehouse</h2>
 
-    <!-- Server Message -->
     <c:if test="${not empty message}">
         <div class="server-msg ${messageType}">
             ${message}
@@ -125,31 +175,37 @@
 
     <form action="${pageContext.request.contextPath}/warehouse/add" method="post">
 
-        <label>Identifier</label>
-        <input
-                type="text"
-                name="identifier"
-                value="${warehouseDto.identifier}"
-                class="form-control"
-                required>
+        <div class="mb-3">
+            <label>Identifier</label>
+            <input type="text"
+                   name="identifier"
+                   value="${warehouseDto.identifier}"
+                   class="form-control"
+                   required>
+        </div>
 
-        <label>Warehouse Name</label>
-        <input
-                type="text"
-                name="name"
-                value="${warehouseDto.name}"
-                class="form-control"
-                required>
+        <div class="mb-3">
+            <label>Warehouse Name</label>
+            <input type="text"
+                   name="name"
+                   value="${warehouseDto.name}"
+                   class="form-control"
+                   required>
+        </div>
 
-        <label>Location</label>
-        <input
-                type="text"
-                name="location"
-                value="${warehouseDto.location}"
-                class="form-control"
-                required>
+        <div class="mb-3">
+            <label>Location</label>
+            <input type="text"
+                   name="location"
+                   value="${warehouseDto.location}"
+                   class="form-control"
+                   required>
+        </div>
 
-        <button type="submit" class="btn-save">Save Warehouse</button>
+        <button type="submit" class="btn-submit">
+            Save Warehouse
+        </button>
+
     </form>
 
 </div>

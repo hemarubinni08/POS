@@ -6,26 +6,31 @@
 <head>
     <title>Edit Product</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg:#f6fff8;
-            --card:#ffffff;
-            --text:#1f2937;
-            --muted:#6b7280;
+            --primary: #2563eb;
+            --primary-hover: #1e40af;
 
-            --primary:#28a745;
-            --primary-hover:#218838;
-            --accent:#ffc107;
+            --bg: #f8fafc;
+            --glass: rgba(255,255,255,0.75);
 
-            --danger:#dc2626;
-            --danger-bg:#fee2e2;
-            --danger-border:#fca5a5;
+            --text: #0f172a;
+            --muted: #64748b;
 
-            --border:#e5e7eb;
-            --radius:14px;
-            --shadow:0 10px 30px rgba(0,0,0,0.08);
+            --border: #e2e8f0;
+
+            --danger: #dc2626;
+            --danger-bg: #fee2e2;
+            --danger-border: #fca5a5;
+
+            --radius: 16px;
+            --shadow: 0 20px 40px rgba(2,6,23,0.08);
         }
 
         * {
@@ -34,63 +39,78 @@
         }
 
         body {
+            background: var(--bg);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: var(--bg);
             padding: 20px;
             position: relative;
             color: var(--text);
         }
 
+        /* BACK BUTTON */
         .back-arrow {
             position: absolute;
             top: 20px;
             left: 20px;
             width: 42px;
             height: 42px;
-            border-radius: 50%;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--card);
+
+            border-radius: 50%;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+
             border: 1px solid var(--border);
-            text-decoration: none;
             color: var(--text);
+
+            text-decoration: none;
             font-size: 18px;
+
             box-shadow: var(--shadow);
-            transition: .2s;
+            transition: 0.2s;
         }
 
         .back-arrow:hover {
-            background: var(--accent);
-            color: black;
+            background: #eef2ff;
+            color: var(--primary);
         }
 
         .container-box {
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
         }
 
+        /* CARD */
         .card {
-            background: var(--card);
+            padding: 28px;
+
             border-radius: var(--radius);
+
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+
+            border: 1px solid var(--border);
             box-shadow: var(--shadow);
-            padding: 24px;
         }
 
         h2 {
             text-align: center;
             font-size: 18px;
             font-weight: 600;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
+        /* FORM */
         label {
             font-size: 13px;
             color: var(--muted);
-            margin-top: 10px;
+            margin-top: 12px;
+            display: block;
         }
 
         .form-control {
@@ -98,33 +118,41 @@
             border-radius: 10px;
             padding: 10px;
             border: 1px solid var(--border);
+            font-size: 14px;
         }
 
         .form-control:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(40,167,69,0.15);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
         }
 
+        /* BUTTON */
         .btn-update {
-            margin-top: 18px;
+            margin-top: 20px;
             width: 100%;
-            padding: 10px;
+
+            padding: 11px;
             border-radius: 10px;
+
             border: none;
             background: var(--primary);
             color: white;
+
             font-weight: 600;
+            transition: 0.2s;
         }
 
         .btn-update:hover {
             background: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
+        /* SERVER MESSAGE */
         .server-msg {
             text-align: center;
             padding: 10px;
             border-radius: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             font-size: 13px;
         }
 
@@ -156,7 +184,6 @@
         <form action="${pageContext.request.contextPath}/product/update"
               method="post">
 
-            <!-- REQUIRED -->
             <input type="hidden" name="id" value="${product.id}" />
 
             <label>Product Name</label>

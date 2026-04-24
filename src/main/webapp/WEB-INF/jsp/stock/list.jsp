@@ -6,23 +6,29 @@
 <head>
     <title>Stock Management</title>
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg: #f6fff8;
-            --card: #ffffff;
-            --text: #1f2937;
-            --muted: #6b7280;
+            --primary: #2563eb;
+            --primary-hover: #1e40af;
 
-            --primary: #28a745;
-            --primary-hover: #218838;
-            --accent: #ffc107;
+            --bg: #f8fafc;
+            --glass: rgba(255,255,255,0.75);
 
-            --danger: #dc3545;
-            --danger-hover: #c82333;
+            --text: #0f172a;
+            --muted: #64748b;
 
-            --border: #e5e7eb;
-            --radius: 14px;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --border: #e2e8f0;
+
+            --danger: #dc2626;
+
+            --radius: 16px;
+            --shadow: 0 20px 40px rgba(2,6,23,0.08);
         }
 
         * {
@@ -33,134 +39,151 @@
         }
 
         body {
-            min-height: 100vh;
-            padding: 40px 16px;
             background: var(--bg);
+            min-height: 100vh;
+            padding: 40px 20px;
             color: var(--text);
-            position: relative;
         }
 
-        /* ✅ Back button – MATCHES Edit Stock page */
+        /* BACK BUTTON */
         .back-arrow {
-            position: absolute;
+            position: fixed;
             top: 20px;
             left: 20px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 50%;
+
             width: 42px;
             height: 42px;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            text-decoration: none;
+
+            border-radius: 50%;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+
+            border: 1px solid var(--border);
             color: var(--text);
+
+            text-decoration: none;
             font-size: 18px;
+
             box-shadow: var(--shadow);
             transition: 0.2s;
         }
 
         .back-arrow:hover {
-            background: var(--accent);
-            color: black;
+            background: #eef2ff;
+            color: var(--primary);
         }
 
-        .container {
+        .container-box {
             max-width: 1100px;
-            margin: auto;
+            margin: 60px auto 0;
         }
 
+        /* CARD */
         .card {
-            background: var(--card);
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+
             border-radius: var(--radius);
+            border: 1px solid var(--border);
+
             box-shadow: var(--shadow);
             overflow: hidden;
         }
 
+        /* HEADER */
         .card-header {
-            padding: 18px;
-            text-align: center;
+            padding: 20px 24px;
             font-size: 18px;
             font-weight: 600;
-            color: #fff;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add-btn {
+            padding: 8px 14px;
+            border-radius: 10px;
             background: var(--primary);
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
         }
 
-        .card-body {
-            padding: 18px;
+        .add-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
+        /* TABLE */
         table {
             width: 100%;
             border-collapse: collapse;
         }
 
         th, td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
+            padding: 14px 16px;
             font-size: 13px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
         }
 
         th {
+            font-size: 11px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
             color: var(--muted);
-            background: #f9fafb;
+            background: rgba(248,250,252,0.8);
         }
 
         tr:hover {
-            background: #f9fafb;
+            background: rgba(241,245,249,0.6);
+        }
+
+        /* ACTIONS */
+        .actions {
+            display: flex;
+            gap: 8px;
         }
 
         .btn {
-            padding: 7px 10px;
+            padding: 6px 12px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             text-decoration: none;
-            display: inline-block;
         }
 
-        .btn-success {
-            background: var(--primary);
-            color: white;
+        .btn-edit {
+            background: #eef2ff;
+            color: var(--primary);
         }
 
-        .btn-success:hover {
-            background: var(--primary-hover);
+        .btn-edit:hover {
+            background: #e0e7ff;
         }
 
-        .btn-secondary {
-            background: var(--accent);
-            color: black;
+        .btn-delete {
+            background: #fee2e2;
+            color: var(--danger);
         }
 
-        .btn-secondary:hover {
-            background: #e0a800;
+        .btn-delete:hover {
+            background: #fecaca;
         }
 
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: var(--danger-hover);
-        }
-
-        .card-footer {
-            padding: 16px;
-            background: #f9fafb;
-            border-top: 1px solid var(--border);
+        /* EMPTY STATE */
+        .empty-state {
             text-align: center;
-        }
-
-        .alert {
-            background: #fff3cd;
-            padding: 12px;
-            border-radius: 8px;
-            color: #856404;
-            text-align: center;
+            padding: 40px;
+            color: var(--muted);
+            font-size: 14px;
         }
     </style>
 </head>
@@ -169,65 +192,67 @@
 
 <a href="${pageContext.request.contextPath}/" class="back-arrow">←</a>
 
-<div class="container">
+<div class="container-box">
+
     <div class="card">
 
         <div class="card-header">
-            Stock Management
+            <span>Stock Management</span>
+
+            <a href="${pageContext.request.contextPath}/stock/add" class="add-btn">
+                + Add Stock
+            </a>
         </div>
 
-        <div class="card-body">
+        <c:if test="${empty stocks}">
+            <div class="empty-state">
+                No stock records found
+            </div>
+        </c:if>
 
-            <c:if test="${empty stocks}">
-                <div class="alert">No stock records found</div>
-            </c:if>
+        <c:if test="${not empty stocks}">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Warehouse</th>
+                    <th>Quantity</th>
+                    <th style="width:160px;">Actions</th>
+                </tr>
+                </thead>
 
-            <c:if test="${not empty stocks}">
-                <table>
-                    <thead>
+                <tbody>
+                <c:forEach var="stock" items="${stocks}">
                     <tr>
-                        <th>ID</th>
-                        <th>Product</th>
-                        <th>Warehouse</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
+                        <td>${stock.id}</td>
+                        <td>${stock.productName}</td>
+                        <td>${stock.warehouseName}</td>
+                        <td>${stock.quantity}</td>
 
-                    <tbody>
-                    <c:forEach var="stock" items="${stocks}">
-                        <tr>
-                            <td>${stock.id}</td>
-                            <td>${stock.productName}</td>
-                            <td>${stock.warehouseName}</td>
-                            <td>${stock.quantity}</td>
-                            <td>
+                        <td>
+                            <div class="actions">
 
-                                <a class="btn btn-secondary"
+                                <a class="btn btn-edit"
                                    href="${pageContext.request.contextPath}/stock/get?productId=${stock.productId}&warehouseId=${stock.warehouseId}">
                                     Edit
                                 </a>
 
-                                <a class="btn btn-danger"
+                                <a class="btn btn-delete"
                                    href="${pageContext.request.contextPath}/stock/delete?id=${stock.id}">
                                     Delete
                                 </a>
 
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </c:if>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
 
-        </div>
-
-        <div class="card-footer">
-            <a href="${pageContext.request.contextPath}/stock/add" class="btn btn-success">
-                + Add Stock
-            </a>
-        </div>
     </div>
+
 </div>
 
 </body>

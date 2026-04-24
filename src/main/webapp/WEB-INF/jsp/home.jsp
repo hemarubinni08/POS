@@ -11,32 +11,31 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
     <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg: #f6fff8;
-            --panel: #ffffff;
+            --primary: #2563eb;
+            --primary-hover: #1e40af;
 
-            --text: #1f2937;
-            --muted: #6b7280;
+            --bg: #f8fafc;
+            --glass: rgba(255,255,255,0.75);
 
-            --primary: #28a745;
-            --primary-hover: #218838;
+            --text: #0f172a;
+            --muted: #64748b;
 
-            --accent: #ffc107;
+            --border: #e2e8f0;
 
-            --danger: #dc3545;
+            --radius: 16px;
 
-            --border: #e5e7eb;
-
-            --radius: 14px;
-
-            --topbar-h: 64px;
             --sidebar-w: 260px;
+            --topbar-h: 64px;
 
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow: 0 20px 40px rgba(2,6,23,0.08);
         }
 
         * {
@@ -48,13 +47,9 @@
 
         body {
             background: var(--bg);
-            color: var(--text);
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+        a { text-decoration: none; }
 
         /* TOPBAR */
         .topbar {
@@ -70,9 +65,10 @@
 
             padding: 0 20px;
 
-            background: white;
-            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(10px);
 
+            border-bottom: 1px solid var(--border);
             z-index: 1000;
         }
 
@@ -82,38 +78,31 @@
             gap: 14px;
         }
 
-        .title {
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        /* MENU */
         .menu {
-            width: 40px;
-            height: 36px;
+            width: 36px;
+            height: 30px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             gap: 5px;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 10px;
-        }
-
-        .menu:hover {
-            background: #f1f5f9;
         }
 
         .menu div {
             height: 2px;
-            background: #333;
+            background: var(--text);
         }
 
-        /* BUTTON */
-        .btn-danger {
-            background: var(--danger);
-            border-radius: 10px;
+        .title {
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            background: #ef4444;
+            border: none;
+            color: white;
             padding: 8px 14px;
+            border-radius: 10px;
         }
 
         /* SIDEBAR */
@@ -125,13 +114,13 @@
             width: var(--sidebar-w);
             height: calc(100vh - var(--topbar-h));
 
-            background: #ffffff;
-            border-right: 1px solid var(--border);
+            background: linear-gradient(180deg, #0f172a, #1e293b);
+            color: white;
 
             transform: translateX(-100%);
-            transition: 0.3s;
+            transition: 0.3s ease;
 
-            padding: 16px 10px;
+            padding: 20px;
             z-index: 999;
         }
 
@@ -139,50 +128,66 @@
             transform: translateX(0);
         }
 
-        .sidebar a {
-            display: block;
-            padding: 12px 14px;
-            margin: 6px 8px;
+        .logo {
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 12px;
             border-radius: 10px;
 
+            color: #cbd5f5;
             font-size: 14px;
-            color: var(--muted);
+
+            margin-bottom: 6px;
             transition: 0.2s;
         }
 
-        .sidebar a:hover {
-            background: #f1f5f9;
-            color: var(--primary);
-            transform: translateX(4px);
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(37,99,235,0.3);
+            color: white;
         }
 
         /* CONTENT */
         .content {
             margin-top: var(--topbar-h);
             padding: 30px;
-            transition: margin-left 0.3s;
+            transition: margin-left 0.3s ease;
         }
 
-        .sidebar.active ~ .content {
+        .content.shift {
             margin-left: var(--sidebar-w);
         }
 
         /* CARD */
-        .card {
+        .card-custom {
             max-width: 800px;
-            padding: 24px;
+
+            padding: 28px;
 
             border-radius: var(--radius);
-            background: var(--panel);
-            border: 1px solid var(--border);
 
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+
+            border: 1px solid var(--border);
             box-shadow: var(--shadow);
         }
 
         .h1 {
             font-size: 22px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .sub {
@@ -194,11 +199,32 @@
             color: var(--primary);
             font-weight: 600;
         }
+
+        /* OVERLAY */
+        .overlay {
+            position: fixed;
+            top: var(--topbar-h);
+            left: 0;
+            width: 100%;
+            height: calc(100% - var(--topbar-h));
+            background: rgba(0,0,0,0.2);
+
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
     </style>
 
     <script>
         function toggleMenu() {
             document.getElementById("sidebar").classList.toggle("active");
+            document.getElementById("content").classList.toggle("shift");
+            document.getElementById("overlay").classList.toggle("active");
         }
     </script>
 </head>
@@ -213,31 +239,41 @@
             <div></div>
             <div></div>
         </div>
-        <div class="title">POS</div>
+        <div class="title">Dashboard</div>
     </div>
 
     <form action="logout" method="post" style="margin:0;">
-        <button type="submit" class="btn btn-danger">Logout</button>
+        <button type="submit" class="btn-logout">Logout</button>
     </form>
 </div>
 
 <!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
-    <c:forEach var="node" items="${nodes}">
-        <a href="${node.path}">
+
+    <div class="logo">POS System</div>
+
+    <c:forEach var="node" items="${nodes}" varStatus="loop">
+        <a href="${node.path}" class="nav-item">
+            <i class="bi bi-grid"></i>
             ${node.identifier}
         </a>
     </c:forEach>
+
 </div>
 
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
 <!-- CONTENT -->
-<div class="content">
-    <div class="card">
+<div class="content" id="content">
+
+    <div class="card-custom">
         <div class="h1">Welcome</div>
         <div class="sub">
             Select a <span class="highlight">module</span> from the sidebar to manage roles and permissions.
         </div>
     </div>
+
 </div>
 
 </body>
