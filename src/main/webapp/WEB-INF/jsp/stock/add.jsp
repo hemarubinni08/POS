@@ -75,9 +75,9 @@
                             }
 
         .back-arrow:hover {
-            background:var(--accent);
-            transform:scale(1.05);
-        }
+                                      background: #eef2ff;
+                                      color: var(--primary);
+                                  }
 
         .card {
             width:460px;

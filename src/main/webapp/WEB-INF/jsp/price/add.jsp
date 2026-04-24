@@ -14,25 +14,28 @@
 
     <style>
         :root {
-            --bg: #f6fff8;
-            --card: #ffffff;
+                          --primary: #2563eb;
+                          --primary-hover: #1e40af;
 
-            --text: #1f2937;
-            --muted: #6b7280;
+                          --bg: #f8fafc;
+                          --glass: rgba(255,255,255,0.75);
 
-            --primary: #28a745;
-            --primary-hover: #218838;
-            --accent: #ffc107;
+                          --text: #0f172a;
+                          --muted: #64748b;
 
-            --danger: #dc2626;
-            --danger-bg: #fee2e2;
-            --danger-border: #fca5a5;
+                          --border: #e2e8f0;
 
-            --border: #e5e7eb;
+                          --danger: #dc2626;
+                          --danger-bg: #fee2e2;
+                          --danger-border: #fca5a5;
 
-            --radius: 14px;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
-        }
+                          --success: #16a34a;
+                          --success-bg: #dcfce7;
+                          --success-border: #86efac;
+
+                          --radius: 16px;
+                          --shadow: 0 20px 40px rgba(2,6,23,0.08);
+                      }
 
         * {
             font-family: 'Inter', sans-serif;
@@ -51,28 +54,34 @@
 
         /* BACK BUTTON */
         .back-arrow {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: var(--card);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text);
-            font-size: 18px;
-            text-decoration: none;
-            box-shadow: var(--shadow);
-            transition: 0.2s;
-        }
+                                position: absolute;
+                                top: 20px;
+                                left: 20px;
+                                width: 42px;
+                                height: 42px;
+                                border-radius: 50%;
+
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+
+                                background: var(--glass);
+                                backdrop-filter: blur(10px);
+
+                                border: 1px solid var(--border);
+                                color: var(--text);
+
+                                text-decoration: none;
+                                font-size: 18px;
+
+                                box-shadow: var(--shadow);
+                                transition: 0.2s;
+                            }
 
         .back-arrow:hover {
-            background: var(--accent);
-            color: #000;
-        }
+                                      background: #eef2ff;
+                                      color: var(--primary);
+                                  }
 
         /* CARD */
         .form-card {
