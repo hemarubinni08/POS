@@ -54,13 +54,23 @@
         <textarea name="description" rows="3" class="form-control">${productDto.description}</textarea>
 
         <label>Categories</label>
-        <select name="categoryIdentifiers" class="form-control" multiple required>
-            <c:forEach items="${categories}" var="category">
-                <option value="${category.identifier}">
-                    ${category.identifier}
+        <select name="categoryIdentifiers"
+                class="form-control"
+                multiple
+                required>
+
+            <c:forEach items="${categories}" var="cat">
+                <option value="${cat.identifier}|${cat.category}"
+                    <c:if test="${product.categoryIdentifiers != null
+                                 && product.categoryIdentifiers.contains(cat.identifier.concat('|').concat(cat.category))}">
+                        selected
+                    </c:if>>
+                    ${cat.identifier} (${cat.category})
                 </option>
             </c:forEach>
+
         </select>
+
 
         <button type="submit" class="btn-save">Save Product</button>
     </form>

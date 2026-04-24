@@ -24,13 +24,22 @@ public class CategoryServiceImpl implements CategoryService {
 
         if (dto.getIdentifier() == null || dto.getIdentifier().trim().isEmpty()) {
             dto.setSuccess(false);
-            dto.setMessage("Category name is required");
+            dto.setMessage("Super Category name is required");
             return dto;
         }
 
-        if (categoryRepository.existsByIdentifier(dto.getIdentifier())) {
+        if (dto.getCategory() == null || dto.getCategory().trim().isEmpty()) {
             dto.setSuccess(false);
-            dto.setMessage("Category already exists");
+            dto.setMessage("Category is required");
+            return dto;
+        }
+
+        if (categoryRepository.existsByIdentifierAndCategory(
+                dto.getIdentifier().trim(),
+                dto.getCategory().trim())) {
+
+            dto.setSuccess(false);
+            dto.setMessage("Category already exists under this group");
             return dto;
         }
 
@@ -40,43 +49,45 @@ public class CategoryServiceImpl implements CategoryService {
         return dto;
     }
 
-
     @Override
     public CategoryDto updateCategory(CategoryDto dto) {
 
-        Category category = categoryRepository.findById(dto.getId())
+        Category existing = categoryRepository.findById(dto.getId())
                 .orElse(null);
 
-        if (category == null) {
+        if (existing == null) {
             dto.setSuccess(false);
             dto.setMessage("Category not found");
             return dto;
         }
 
-        if (!category.getIdentifier().equals(dto.getIdentifier())
-                && categoryRepository.existsByIdentifier(dto.getIdentifier())) {
+        if (!existing.getIdentifier().equals(dto.getIdentifier())
+                || !existing.getCategory().equals(dto.getCategory())) {
 
-            dto.setSuccess(false);
-            dto.setMessage("Category identifier already exists");
-            return dto;
+            if (categoryRepository.existsByIdentifierAndCategory(
+                    dto.getIdentifier(), dto.getCategory())) {
+
+                dto.setSuccess(false);
+                dto.setMessage("Category already exists under this group");
+                return dto;
+            }
         }
 
-        category.setIdentifier(dto.getIdentifier());
-        category.setCategory(dto.getCategory());
+        existing.setIdentifier(dto.getIdentifier());
+        existing.setCategory(dto.getCategory());
 
-        categoryRepository.save(category);
+        categoryRepository.save(existing);
 
         return dto;
     }
-
 
     @Override
     public CategoryDto getCategory(Long id) {
 
         CategoryDto dto = new CategoryDto();
 
-        categoryRepository.findById(id).ifPresentOrElse(category -> {
-            modelMapper.map(category, dto);
+        categoryRepository.findById(id).ifPresentOrElse(cat -> {
+            modelMapper.map(cat, dto);
             dto.setSuccess(true);
         }, () -> {
             dto.setSuccess(false);

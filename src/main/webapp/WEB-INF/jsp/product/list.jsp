@@ -181,7 +181,6 @@
                             </c:forEach>
                         </td>
 
-                        <!-- ✅ FIXED PRICE LOGIC -->
                         <td>
                             <c:set var="hasPrice" value="false" />
                             <c:forEach var="price" items="${prices}">

@@ -15,4 +15,7 @@ public interface ProductService {
     List<ProductDto> getAllProducts();
 
     boolean deleteProduct(Long id);
+
+    List<String> buildCategoryDisplayNames(List<String> categoryIdentifiers);
+
 }
