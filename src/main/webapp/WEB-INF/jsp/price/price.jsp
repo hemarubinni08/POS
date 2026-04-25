@@ -184,7 +184,7 @@
                 <c:forEach items="${products}" var="product">
                     <option value="${product.id}"
                         <c:if test="${product.id == price.productId}">selected</c:if>>
-                        ${product.name}
+                        ${product.identifier}
                     </option>
                 </c:forEach>
             </select>

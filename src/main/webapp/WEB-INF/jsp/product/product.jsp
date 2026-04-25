@@ -176,7 +176,7 @@
             <input type="hidden" name="id" value="${product.id}" />
 
             <label>Product Name</label>
-            <input type="text" name="name" value="${product.identifier}" class="form-control" required />
+            <input type="text" name="identifier" value="${product.identifier}" class="form-control" required />
 
             <label>Categories</label>
             <select name="categoryIdentifiers" class="form-control" multiple required>
