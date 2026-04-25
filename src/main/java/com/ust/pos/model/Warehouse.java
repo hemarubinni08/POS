@@ -7,5 +7,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Role extends CommonFields {
+public class Warehouse extends CommonFields {
+
+    private String location;
+    private String manager;
 }

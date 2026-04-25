@@ -10,4 +10,6 @@ public class CommonDto {
     private String identifier;
     private String message;
     private boolean success = true;
+    private String description;
+    private String status;
 }
