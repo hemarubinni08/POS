@@ -83,10 +83,20 @@
                 <form:input path="brand" cssClass="form-control"/>
             </div>
 
+
             <!-- CATEGORY -->
-            <div class="mb-3">
+            <div class="mb-4">
                 <label class="form-label fw-semibold">Category</label>
-                <form:input path="category" cssClass="form-control"/>
+
+                <select name="category" class="form-control" required>
+                    <option value="">-- Select Category --</option>
+
+                    <c:forEach items="${categories}" var="c">
+                        <option value="${c.identifier}">
+                            ${c.name} (${c.identifier})
+                        </option>
+                    </c:forEach>
+                </select>
             </div>
 
             <!-- UNIT -->

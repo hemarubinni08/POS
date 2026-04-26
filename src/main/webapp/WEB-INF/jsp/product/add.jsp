@@ -30,7 +30,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Product Management</span>
@@ -39,13 +38,11 @@
     </div>
 </nav>
 
-<!-- MAIN -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="card shadow p-4" style="width: 450px;">
 
         <h3 class="text-center mb-4 fw-bold">Add Product</h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
@@ -56,7 +53,7 @@
                    action="${pageContext.request.contextPath}/product/add"
                    modelAttribute="productDto">
 
-            <!-- IDENTIFIER (IMPORTANT since user provides it) -->
+            <!-- IDENTIFIER -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Identifier</label>
                 <form:input path="identifier"
@@ -81,11 +78,18 @@
             </div>
 
             <!-- CATEGORY -->
-            <div class="mb-3">
+            <div class="mb-4">
                 <label class="form-label fw-semibold">Category</label>
-                <form:input path="category"
-                            cssClass="form-control"
-                            placeholder="Enter category"/>
+
+                <select name="category" class="form-control" required>
+                    <option value="">-- Select Category --</option>
+
+                    <c:forEach items="${categories}" var="c">
+                        <option value="${c.identifier}">
+                            ${c.name} (${c.identifier})
+                        </option>
+                    </c:forEach>
+                </select>
             </div>
 
             <!-- UNIT -->

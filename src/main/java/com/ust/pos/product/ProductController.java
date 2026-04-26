@@ -1,5 +1,6 @@
 package com.ust.pos.product;
 
+import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("products", productService.findAll());
@@ -25,6 +29,9 @@ public class ProductController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("productDto", new ProductDto());
+        // Correct attribute name
+        model.addAttribute("categories", categoryService.findLeafCategories());
+
         return "product/add";
     }
 
@@ -35,6 +42,8 @@ public class ProductController {
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            // Important: reload categories on error
+            model.addAttribute("categories", categoryService.findLeafCategories());
             model.addAttribute("productDto", productDto);
             return "product/add";
         }
@@ -52,8 +61,10 @@ public class ProductController {
             model.addAttribute("products", productService.findAll());
             return "product/list";
         }
-
         model.addAttribute("productDto", response);
+        // Needed for dropdown in update page
+        model.addAttribute("categories", categoryService.findLeafCategories());
+
         return "product/product";
     }
 
@@ -65,6 +76,8 @@ public class ProductController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("productDto", productDto);
+            // reload categories
+            model.addAttribute("categories", categoryService.findLeafCategories());
             return "product/product";
         }
 
