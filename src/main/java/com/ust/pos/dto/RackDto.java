@@ -10,6 +10,5 @@ import java.util.List;
 public class RackDto extends CommonDto {
 
     private boolean active;
-
     private List<String> shelfIdentifiers;
 }
