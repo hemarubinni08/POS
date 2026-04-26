@@ -31,7 +31,6 @@
             --border: #e2e8f0;
 
             --radius: 16px;
-
             --sidebar-w: 260px;
             --topbar-h: 64px;
 
@@ -122,10 +121,38 @@
 
             padding: 20px;
             z-index: 999;
+
+            /* ✅ SCROLL ENABLED */
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .sidebar.active {
             transform: translateX(0);
+        }
+
+        /* ✅ SIDEBAR SCROLLBAR (WebKit) */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ✅ FIREFOX */
+        .sidebar {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.3) transparent;
         }
 
         .logo {
@@ -153,11 +180,6 @@
             color: white;
         }
 
-        .nav-item.active {
-            background: rgba(37,99,235,0.3);
-            color: white;
-        }
-
         /* CONTENT */
         .content {
             margin-top: var(--topbar-h);
@@ -172,11 +194,9 @@
         /* CARD */
         .card-custom {
             max-width: 800px;
-
             padding: 28px;
 
             border-radius: var(--radius);
-
             background: var(--glass);
             backdrop-filter: blur(12px);
 
@@ -249,16 +269,14 @@
 
 <!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
-
     <div class="logo">POS System</div>
 
-    <c:forEach var="node" items="${nodes}" varStatus="loop">
+    <c:forEach var="node" items="${nodes}">
         <a href="${node.path}" class="nav-item">
             <i class="bi bi-grid"></i>
             ${node.identifier}
         </a>
     </c:forEach>
-
 </div>
 
 <!-- OVERLAY -->
@@ -266,14 +284,12 @@
 
 <!-- CONTENT -->
 <div class="content" id="content">
-
     <div class="card-custom">
         <div class="h1">Welcome</div>
         <div class="sub">
             Select a <span class="highlight">module</span> from the sidebar to manage roles and permissions.
         </div>
     </div>
-
 </div>
 
 </body>
