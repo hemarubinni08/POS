@@ -6,92 +6,91 @@
 <head>
     <title>Edit Unit</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-            margin: 0;
-            min-height: 100vh;
+        :root {
+            --primary:#2563eb; --primary-hover:#1e40af;
+            --bg:#f8fafc; --glass:rgba(255,255,255,0.85);
+            --text:#0f172a; --muted:#64748b;
+            --border:#e2e8f0;
+            --danger:#dc2626;
+            --radius:16px; --shadow:0 20px 40px rgba(2,6,23,0.08);
         }
 
-        .container {
-            width: 420px;
-            margin: 80px auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
+        *{font-family:'Inter',sans-serif;box-sizing:border-box}
+        body{
+            background:var(--bg);
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            position:relative;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 24px;
-            color: #6d28d9;
-            font-weight: 600;
+        .back-arrow{
+            position:absolute;top:20px;left:20px;
+            width:42px;height:42px;
+            border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            background:var(--glass);
+            border:1px solid var(--border);
+            box-shadow:var(--shadow);
+            color:var(--text);
+            text-decoration:none;font-size:18px;
         }
 
-        label {
-            margin-top: 16px;
-            display: block;
-            font-weight: 600;
-            font-size: 13px;
-            color: #4c1d95;
+        .container-box{width:100%;max-width:480px}
+
+        .card{
+            padding:28px;
+            background:var(--glass);
+            border-radius:var(--radius);
+            box-shadow:var(--shadow);
         }
 
-        input, select {
-            width: 100%;
-            margin-top: 6px;
-            padding: 9px;
-            border: 1px solid #c4b5fd;
-            border-radius: 6px;
-            font-size: 13px;
-        }
+        h2{text-align:center;margin-bottom:20px;font-weight:600}
 
-        button {
-            margin-top: 26px;
-            width: 100%;
-            padding: 11px;
-            background: #7c3aed;
-            color: #ffffff;
-            border: none;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+        label{font-size:13px;color:var(--muted);margin-top:12px}
+        .form-control{border-radius:10px;padding:10px;margin-top:6px}
 
-        button:hover {
-            background: #6d28d9;
+        .btn-update{
+            margin-top:20px;width:100%;
+            background:var(--primary);
+            color:white;border:none;
+            border-radius:10px;
+            padding:10px;font-weight:600;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+<a href="${pageContext.request.contextPath}/unit/list" class="back-arrow">←</a>
 
-    <h2>Edit Unit</h2>
+<div class="container-box">
+    <div class="card">
+        <h2>Edit Unit</h2>
 
-    <form action="${pageContext.request.contextPath}/unit/update" method="post">
+        <form action="${pageContext.request.contextPath}/unit/update" method="post">
 
-        <input type="hidden" name="id" value="${unit.id}" />
-        <input type="hidden" name="identifier" value="${unit.identifier}" />
+            <input type="hidden" name="id" value="${unit.id}">
+            <input type="hidden" name="identifier" value="${unit.identifier}">
 
-        <label>Unit Name</label>
-        <input type="text" value="${unit.identifier}" readonly />
+            <label>Unit Name</label>
+            <input type="text" class="form-control" value="${unit.identifier}" readonly>
 
-        <label>Status</label>
-        <select name="status" required>
-            <option value="true" <c:if test="${unit.status}">selected</c:if>>Active</option>
-            <option value="false" <c:if test="${!unit.status}">selected</c:if>>Inactive</option>
-        </select>
+            <label>Status</label>
+            <select name="status" class="form-control">
+                <option value="true" <c:if test="${unit.status}">selected</c:if>>Active</option>
+                <option value="false" <c:if test="${!unit.status}">selected</c:if>>Inactive</option>
+            </select>
 
-        <button type="submit">Update</button>
-    </form>
+            <button class="btn-update" type="submit">Update Unit</button>
+        </form>
 
-    <a href="${pageContext.request.contextPath}/unit/list">
-        ← Back to Unit List
-    </a>
-
+    </div>
 </div>
 
 </body>

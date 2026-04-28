@@ -6,134 +6,105 @@
 <head>
     <title>Add Unit</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-            margin: 0;
-            min-height: 100vh;
+        :root {
+            --primary:#2563eb; --primary-hover:#1e40af;
+            --bg:#f8fafc; --glass:rgba(255,255,255,0.85);
+            --text:#0f172a; --muted:#64748b;
+            --border:#e2e8f0;
+            --danger:#dc2626; --danger-bg:#fee2e2; --danger-border:#fca5a5;
+            --radius:16px; --shadow:0 20px 40px rgba(2,6,23,0.08);
         }
 
-        .container {
-            width: 420px;
-            margin: 80px auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
+        *{font-family:'Inter',sans-serif;box-sizing:border-box}
+        body{
+            background:var(--bg);
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:40px 16px;
+            position:relative;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 24px;
-            font-size: 20px;
-            color: #6d28d9;
-            font-weight: 600;
+        .back-arrow{
+            position:absolute;top:20px;left:20px;
+            width:42px;height:42px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            background:var(--glass);
+            border:1px solid var(--border);
+            box-shadow:var(--shadow);
+            color:var(--text);
+            text-decoration:none;font-size:18px;
         }
 
-        label {
-            margin-top: 16px;
-            display: block;
-            font-weight: 600;
-            font-size: 13px;
-            color: #4c1d95;
+        .form-card{
+            width:520px;
+            padding:28px;
+            background:white;
+            border-radius:var(--radius);
+            box-shadow:var(--shadow);
         }
 
-        input,
-        select {
-            width: 100%;
-            margin-top: 6px;
-            padding: 9px;
-            border: 1px solid #c4b5fd;
-            border-radius: 6px;
-            font-size: 13px;
+        h2{text-align:center;margin-bottom:22px;font-weight:600}
+
+        label{font-size:13px;color:var(--muted)}
+        .form-control{border-radius:10px;padding:10px}
+
+        .btn-submit{
+            margin-top:22px;width:100%;
+            background:var(--primary);
+            color:white;border:none;
+            border-radius:10px;
+            padding:10px;font-weight:600;
         }
 
-        input:focus,
-        select:focus {
-            outline: none;
-            border-color: #a78bfa;
-            box-shadow: 0 0 0 0.15rem rgba(167, 139, 250, 0.35);
-        }
-
-        button {
-            margin-top: 26px;
-            width: 100%;
-            padding: 11px;
-            background: #7c3aed;
-            color: #ffffff;
-            border: none;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #6d28d9;
-        }
-
-        .error-message {
-            background: #fee2e2;
-            color: #b91c1c;
-            border: 1px solid #fca5a5;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 13px;
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 18px;
-            color: #6d28d9;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 13px;
-        }
-
-        a:hover {
-            text-decoration: underline;
-            color: #5b21b6;
+        .server-msg{
+            margin-bottom:14px;
+            padding:10px;
+            border-radius:10px;
+            font-size:13px;
+            background:var(--danger-bg);
+            border:1px solid var(--danger-border);
+            color:var(--danger);
+            text-align:center;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+<a href="${pageContext.request.contextPath}/unit/list" class="back-arrow">←</a>
 
+<div class="form-card">
     <h2>Add Unit</h2>
 
     <c:if test="${not empty message}">
-        <div class="error-message">
-            ${message}
-        </div>
+        <div class="server-msg">${message}</div>
     </c:if>
 
     <form action="${pageContext.request.contextPath}/unit/add" method="post">
 
-        <label>Unit Name</label>
-        <input type="text"
-               name="identifier"
-               placeholder="kg, litre, piece"
-               required />
+        <div class="mb-3">
+            <label>Unit Name</label>
+            <input type="text" name="identifier" class="form-control" required>
+        </div>
 
-        <label>Status</label>
-        <select name="status" required>
-            <option value="true">Active</option>
-            <option value="false">Inactive</option>
-        </select>
+        <div class="mb-3">
+            <label>Status</label>
+            <select name="status" class="form-control">
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+            </select>
+        </div>
 
-        <button type="submit">Save</button>
+        <button class="btn-submit" type="submit">Save Unit</button>
     </form>
-
-    <a href="${pageContext.request.contextPath}/unit/list">
-        ← Back to Unit List
-    </a>
-
 </div>
 
 </body>
 </html>
+``

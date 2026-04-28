@@ -1,146 +1,130 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Unit List</title>
+    <title>Unit Management</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-            min-height: 100vh;
-            font-family: "Segoe UI", Arial, sans-serif;
+        :root {
+            --primary:#2563eb; --primary-hover:#1e40af;
+            --bg:#f8fafc; --glass:rgba(255,255,255,0.85);
+            --text:#0f172a; --muted:#64748b;
+            --border:#e2e8f0;
+            --danger:#dc2626;
+            --radius:16px; --shadow:0 20px 40px rgba(2,6,23,0.08);
         }
 
-        .card {
-            border-radius: 16px;
-            background-color: #ffffff;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
+        *{font-family:'Inter',sans-serif;box-sizing:border-box}
+        body{background:var(--bg);padding:40px 20px}
+
+        .back-arrow{
+            position:fixed;top:20px;left:20px;
+            width:42px;height:42px;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            background:var(--glass);
+            border:1px solid var(--border);
+            box-shadow:var(--shadow);
+            color:var(--text);
+            text-decoration:none;font-size:18px;
         }
 
-        .card-header {
-            background-color: #a78bfa;
-            color: #ffffff;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
+        .container-box{max-width:1100px;margin:60px auto 0}
+
+        .card{
+            background:var(--glass);
+            border-radius:var(--radius);
+            border:1px solid var(--border);
+            box-shadow:var(--shadow);
         }
 
-        table th {
-            background-color: #a78bfa;
-            color: white;
+        .card-header{
+            padding:20px 24px;
+            display:flex;justify-content:space-between;align-items:center;
+            font-weight:600;
         }
 
-        table.table-hover tbody tr:hover {
-            background-color: #f5f3ff;
+        .add-btn{
+            padding:8px 14px;
+            background:var(--primary);
+            color:white;
+            border-radius:10px;
+            text-decoration:none;
+            font-size:13px;font-weight:600;
         }
 
-        .btn-secondary {
-            background-color: #b197fc;
-            border: none;
-            color: #ffffff;
-        }
+        table{width:100%;border-collapse:collapse}
+        th,td{padding:14px 16px;border-bottom:1px solid var(--border);font-size:13px}
+        th{text-transform:uppercase;font-size:11px;color:var(--muted)}
+        tr:hover{background:rgba(241,245,249,0.6)}
 
-        .btn-secondary:hover {
-            background-color: #b197fc;
-            color: #ffffff;
-        }
-
-        .btn-success {
-            background-color: #7c3aed;
-            border: none;
-        }
-
-        .btn-success:hover {
-            background-color: #6d28d9;
-        }
+        .actions{display:flex;gap:8px}
+        .btn-edit{background:#eef2ff;color:var(--primary);padding:6px 12px;border-radius:8px;text-decoration:none}
+        .btn-delete{background:#fee2e2;color:var(--danger);padding:6px 12px;border-radius:8px;text-decoration:none}
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<a href="${pageContext.request.contextPath}/" class="back-arrow">←</a>
 
-            <div class="card shadow-lg">
-                <div class="card-header text-center">
-                    <h4 class="mb-0">List of Units</h4>
-                </div>
+<div class="container-box">
+    <div class="card">
 
-                <div class="card-body">
-
-                    <c:if test="${empty units}">
-                        <div class="alert alert-warning text-center">
-                            No units found
-                        </div>
-                    </c:if>
-
-                    <c:if test="${not empty units}">
-                        <table class="table table-bordered table-hover text-center align-middle">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Unit Name</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            <c:forEach var="unit" items="${units}">
-                                <tr>
-                                    <td class="fw-semibold">${unit.id}</td>
-                                    <td>${unit.identifier}</td>
-
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${unit.status}">
-                                                <span class="badge bg-success">Active</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <span class="badge bg-danger">Inactive</span>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
-
-                                    <td class="d-flex justify-content-center gap-2">
-                                        <a href="${pageContext.request.contextPath}/unit/get?identifier=${unit.identifier}"
-                                           class="btn btn-primary btn-sm">
-                                            Edit
-                                        </a>
-
-                                        <a href="${pageContext.request.contextPath}/unit/delete?identifier=${unit.identifier}"
-                                           class="btn btn-danger btn-sm"
-                                           onclick="return confirm('Are you sure you want to delete this unit?');">
-                                            Delete
-                                        </a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </c:if>
-
-                </div>
-
-                <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
-                    <a href="/" class="btn btn-secondary">
-                        Home
-                    </a>
-
-                    <a href="${pageContext.request.contextPath}/unit/add" class="btn btn-success">
-                        + Add New Unit
-                    </a>
-                </div>
-
-            </div>
-
+        <div class="card-header">
+            <span>Unit Management</span>
+            <a href="${pageContext.request.contextPath}/unit/add" class="add-btn">+ Add Unit</a>
         </div>
+
+        <c:if test="${empty units}">
+            <div class="p-4 text-center text-muted">No units found</div>
+        </c:if>
+
+        <c:if test="${not empty units}">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Unit Name</th>
+                    <th>Status</th>
+                    <th style="width:160px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${units}" var="unit">
+                    <tr>
+                        <td>${unit.id}</td>
+                        <td>${unit.identifier}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${unit.status}">
+                                    <span class="badge bg-success">Active</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="badge bg-danger">Inactive</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <a href="${pageContext.request.contextPath}/unit/get?identifier=${unit.identifier}" class="btn-edit">Edit</a>
+                                <a href="${pageContext.request.contextPath}/unit/delete?identifier=${unit.identifier}"
+                                   class="btn-delete"
+                                   onclick="return confirm('Delete this unit?');">
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+
     </div>
 </div>
 
