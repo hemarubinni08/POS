@@ -13,21 +13,29 @@
             margin: 0;
             font-family: 'Inter', sans-serif;
             background: #d1d5db;
+
+            min-height: 100vh;
+
+            /* ✅ SAME AS NODE PAGE */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
         }
 
+        /* ✅ SAME WIDTH AS NODE */
         .container {
             width: 90%;
-            max-width: 1000px;
-            margin: 80px auto;
+            max-width: 900px;
             background: #f1f5f9;
-            padding: 35px;
+            padding: 30px;
             border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-size: 22px;
             color: #0891b2;
             font-weight: 600;
@@ -65,12 +73,10 @@
             font-weight: 600;
             color: white;
             transition: 0.25s;
+            display: inline-block;
         }
 
-        .action-btn {
-            margin-right: 8px;
-        }
-
+        /* ✅ SAME AS NODE */
         .edit-btn {
             background: linear-gradient(135deg, #0891b2, #0e7490);
         }
@@ -94,15 +100,25 @@
             text-align: center;
             padding: 30px;
             color: #475569;
+            font-size: 14px;
         }
 
         .footer {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-top: 25px;
+            margin-top: 20px;
         }
 
+        .home-btn {
+            background: #64748b;
+        }
+
+        .home-btn:hover {
+            background: #475569;
+        }
+
+        /* ✅ ADD BUTTON LIKE NODE PAGE */
         .add-btn {
             background: linear-gradient(135deg, #0891b2, #0e7490);
         }
@@ -110,15 +126,7 @@
         .add-btn:hover {
             background: linear-gradient(135deg, #0e7490, #075985);
             transform: translateY(-2px);
-        }
-
-        /* HOME BUTTON */
-        .home-btn {
-            background: #64748b;
-        }
-
-        .home-btn:hover {
-            background: #475569;
+            box-shadow: 0 6px 15px rgba(8,145,178,0.4);
         }
     </style>
 </head>
@@ -142,7 +150,7 @@
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Roles</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
 
@@ -155,13 +163,11 @@
                         <td>${user.roles}</td>
 
                         <td>
-                            <a class="btn edit-btn action-btn"
-                               href="${pageContext.request.contextPath}/user/get?username=${user.username}">
-                                Edit
-                            </a>
+                            <a href="${pageContext.request.contextPath}/user/get?username=${user.username}"
+                               class="btn edit-btn">Edit</a>
 
-                            <a class="btn delete-btn"
-                               href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
+                            <a href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
+                               class="btn delete-btn"
                                onclick="return confirm('Are you sure you want to delete this user?');">
                                 Delete
                             </a>
@@ -174,12 +180,12 @@
     </c:choose>
 
     <div class="footer">
-
-        <!-- HOME BUTTON -->
         <a href="${pageContext.request.contextPath}/"
-           class="btn home-btn">
-            Home
-        </a>
+           class="btn home-btn">Home</a>
+
+        <!-- ✅ NEW BUTTON -->
+        <a href="${pageContext.request.contextPath}/user/add"
+           class="btn add-btn">Add User</a>
     </div>
 
 </div>

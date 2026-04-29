@@ -1,0 +1,20 @@
+package com.ust.pos.shelfs.service;
+
+import com.ust.pos.dto.ShelfsDto;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Transactional
+public interface ShelfsService {
+
+    ShelfsDto save(ShelfsDto shelfsDto);
+
+    ShelfsDto update(ShelfsDto shelfsDto);
+
+    boolean delete(String identifier);
+
+    List<ShelfsDto> findAll();
+
+    ShelfsDto findByIdentifier(String identifier);
+}

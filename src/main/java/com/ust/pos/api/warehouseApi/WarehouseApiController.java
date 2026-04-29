@@ -1,0 +1,49 @@
+package com.ust.pos.api.warehouseApi;
+
+import com.ust.pos.dto.WarehouseDto;
+import com.ust.pos.warehouse.service.WarehouseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/warehouse")
+public class WarehouseApiController {
+
+    @Autowired
+    private WarehouseService warehouseService;
+
+    @GetMapping("/list")
+    public List<WarehouseDto> list() {
+        return warehouseService.findAll();
+    }
+
+
+    @PostMapping("/add")
+    public WarehouseDto add(@RequestBody WarehouseDto warehouseDto) {
+        return warehouseService.save(warehouseDto);
+    }
+
+
+    @GetMapping("/get")
+    public WarehouseDto get(@RequestParam String identifier) {
+        return warehouseService.findByIdentifier(identifier);
+    }
+
+    @PostMapping("/update")
+    public WarehouseDto update(@RequestBody WarehouseDto warehouseDto) {
+        return warehouseService.update(warehouseDto);
+    }
+
+
+    @GetMapping("/delete")
+    public boolean delete(@RequestParam String identifier) {
+        try {
+            warehouseService.delete(identifier);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}

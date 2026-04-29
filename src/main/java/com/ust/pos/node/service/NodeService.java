@@ -1,8 +1,6 @@
 package com.ust.pos.node.service;
 
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.dto.NodeDto;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

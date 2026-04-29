@@ -14,22 +14,29 @@ body {
     margin: 0;
     font-family: 'Inter', sans-serif;
     background: #d1d5db;
+
+    /* ✅ CENTER FIX */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* CONTAINER */
 .container {
     width: 520px;
-    margin: 80px auto;
     background: #f1f5f9;
-    padding: 35px;
+    padding: 30px;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+    /* ❌ REMOVED margin */
 }
 
 /* TITLE */
 h2 {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     font-size: 22px;
     color: #0891b2;
     font-weight: 600;
@@ -37,7 +44,7 @@ h2 {
 
 /* LABEL */
 label {
-    margin-top: 16px;
+    margin-top: 14px;
     display: block;
     font-weight: 600;
     font-size: 13px;
@@ -87,7 +94,7 @@ select[multiple] {
 .btn-group {
     display: flex;
     justify-content: space-between;
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
 /* BACK BUTTON */
@@ -107,7 +114,7 @@ select[multiple] {
 
 /* SERVER MESSAGE */
 .server-msg {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     padding: 10px;
     border-radius: 8px;
     text-align: center;
@@ -157,6 +164,7 @@ select[multiple] {
 }
 </style>
 
+<!-- JS SAME (NO CHANGE) -->
 <script>
 function validateForm() {
 
@@ -245,20 +253,14 @@ function showToast(msg) {
         <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
     </form:select>
 
-    <!-- BUTTON GROUP -->
     <div class="btn-group">
-
-        <!-- BACK -->
-        <a href="${pageContext.request.contextPath}/user/list"
-           class="back-btn">
+        <a href="${pageContext.request.contextPath}/user/list" class="back-btn">
             Back to Users
         </a>
 
-        <!-- UPDATE -->
         <button type="submit" class="btn-update">
             Update User
         </button>
-
     </div>
 
 </form:form>

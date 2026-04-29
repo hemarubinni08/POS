@@ -13,14 +13,22 @@
             margin: 0;
             font-family: 'Inter', sans-serif;
             background: #d1d5db;
+
+            /* ✅ FIX: CENTER + NO SCROLL */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            /* small spacing */
+            padding: 10px 0;
         }
 
         /* CONTAINER */
         .container {
             width: 420px;
-            margin: 100px auto;
             background: #f1f5f9;
-            padding: 35px;
+            padding: 30px;
             border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
@@ -28,7 +36,7 @@
         /* TITLE */
         h2 {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 18px;
             font-size: 22px;
             color: #0891b2;
             font-weight: 600;
@@ -36,7 +44,7 @@
 
         /* LABEL */
         label {
-            margin-top: 16px;
+            margin-top: 12px;
             display: block;
             font-weight: 600;
             font-size: 13px;
@@ -46,8 +54,8 @@
         /* INPUT + SELECT */
         input, select {
             width: 100%;
-            margin-top: 6px;
-            padding: 10px;
+            margin-top: 5px;
+            padding: 9px;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
             font-size: 13px;
@@ -61,14 +69,14 @@
         }
 
         select[multiple] {
-            height: 120px;
+            height: 100px;
         }
 
         /* BUTTON */
         button {
-            margin-top: 28px;
+            margin-top: 20px;
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: linear-gradient(135deg, #0891b2, #0e7490);
             color: #ffffff;
             border: none;
@@ -84,21 +92,15 @@
             box-shadow: 0 6px 15px rgba(8,145,178,0.4);
         }
 
-        button:active {
-            transform: translateY(0);
-            box-shadow: none;
-        }
-
         /* BACK LINK */
         a {
             display: block;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 12px;
             color: #0891b2;
             font-weight: 600;
             text-decoration: none;
             font-size: 13px;
-            transition: 0.2s;
         }
 
         a:hover {

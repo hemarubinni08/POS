@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/node")
 public class NodeController {
+
+    public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     public static final String ROLES = "roles";
     @Autowired
     RoleService roleService;
 
     @Autowired
     private NodeService nodeService;
-
-    private static final String REDIRECT_NODE_LIST = "redirect:/node/list";
 
     @GetMapping("/list")
     public String home(Model model) {
@@ -42,6 +42,7 @@ public class NodeController {
         }
         return REDIRECT_NODE_LIST;
     }
+
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {

@@ -18,7 +18,7 @@
         /* TOPBAR */
         .topbar {
             height: 60px;
-            background: #cbd5e1;
+            background: #f1f5f9; /* MATCHED NODE PAGE */
             display: flex;
             align-items: center;
             padding: 0 20px;
@@ -81,8 +81,16 @@
             left: -240px;
             width: 240px;
             height: calc(100vh - 60px);
-            background: #94a3b8;
-            transition: 0.3s;
+            background: #f1f5f9; /* MATCHED NODE PAGE */
+            transition: left 0.3s ease;
+
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none;
         }
 
         .sidebar.active {
@@ -100,7 +108,7 @@
         }
 
         .sidebar a:hover {
-            background: linear-gradient(135deg, #0e7490, #0891b2);
+            background: linear-gradient(135deg, #0891b2, #0e7490);
             color: white;
             transform: translateX(6px);
         }
@@ -112,20 +120,21 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding-top: 80px;
+            padding-top: 100px;
         }
 
-        /* CARD */
+        /* CARD (MATCHED NODE CONTAINER STYLE) */
         .welcome-box {
             background: #f1f5f9;
-            padding: 40px 50px;
+            padding: 35px;
             border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 420px;
             text-align: center;
         }
 
         .welcome {
-            font-size: 26px;
+            font-size: 22px;
             font-weight: 600;
             color: #0891b2;
         }
@@ -133,14 +142,30 @@
         .welcome-sub {
             margin-top: 10px;
             color: #475569;
-            font-size: 15px;
+            font-size: 14px;
         }
     </style>
 
     <script>
         function toggleMenu() {
-            document.getElementById("sidebar").classList.toggle("active");
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+
+            if (sidebar.classList.contains("active")) {
+                localStorage.setItem("sidebarState", "open");
+            } else {
+                localStorage.setItem("sidebarState", "closed");
+            }
         }
+
+        window.onload = function () {
+            const sidebar = document.getElementById("sidebar");
+            const state = localStorage.getItem("sidebarState");
+
+            if (state === "open") {
+                sidebar.classList.add("active");
+            }
+        };
     </script>
 </head>
 

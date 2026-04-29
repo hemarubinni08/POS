@@ -34,15 +34,7 @@
             color: #4c1d95;
         }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            border: 1px solid #c4b5fd;
-            border-radius: 8px;
-        }
-
-        select {
+        input, select {
             width: 100%;
             padding: 10px;
             margin-top: 6px;
@@ -74,51 +66,49 @@
 </head>
 
 <body>
-
 <div class="container">
 
     <h2>Edit Stock</h2>
 
     <form action="${pageContext.request.contextPath}/stock/update" method="post">
-    <!--  Warehouse Dropdown like Product -->
-            <label>Warehouse</label>
-            <select name="warehouse" required>
-                <option value="">-- Select Warehouse --</option>
-                <c:forEach var="warehouse" items="${warehouses}">
-                    <option value="${warehouse.identifier}">
-                        ${warehouse.location}
-                    </option>
-                </c:forEach>
-            </select>
 
         <input type="hidden" name="id" value="${stock.id}">
         <input type="hidden" name="identifier" value="${stock.identifier}">
 
+        <!-- Warehouse -->
+
+<label>Warehouse</label>
+<select name="warehouse" required>
+    <option value="">-- Select Warehouse --</option>
+
+    <c:forEach var="wh" items="${warehouses}">
+        <option value="${wh.identifier}"
+            ${wh.identifier == stock.warehouse ? 'selected' : ''}>
+            ${wh.location}
+        </option>
+    </c:forEach>
+
+</select>
+
+
         <label>Available Quantity</label>
-        <input type="number" name="availableQuantity" value="${stock.availableQuantity}">
+        <input type="number" name="availableQuantity" value="${stock.availableQuantity}" required>
 
         <label>Outgoing Quantity</label>
-        <input type="number" name="outgoingQuantity" value="${stock.outgoingQuantity}">
+        <input type="number" name="outgoingQuantity" value="${stock.outgoingQuantity}" required>
 
-        <label>Status</label>
-        <select name="status">
+        <!-- STATUS -->
 
-            <option value="AVAILABLE"
-                <c:if test="${stock.status == 'AVAILABLE'}">selected</c:if>>
-                Available
-            </option>
+<label>Status</label>
+<select name="status" required>
+    <option value="true" ${stock.status == true ? 'selected' : ''}>
+        Available
+    </option>
+    <option value="false" ${stock.status == false ? 'selected' : ''}>
+        Out of Stock
+    </option>
+</select>
 
-            <option value="LOW_STOCK"
-                <c:if test="${stock.status == 'LOW_STOCK'}">selected</c:if>>
-                Low Stock
-            </option>
-
-            <option value="OUT_OF_STOCK"
-                <c:if test="${stock.status == 'OUT_OF_STOCK'}">selected</c:if>>
-                Out of Stock
-            </option>
-
-        </select>
 
         <button type="submit">Update</button>
     </form>
@@ -126,6 +116,5 @@
     <a href="${pageContext.request.contextPath}/stock/list">Back</a>
 
 </div>
-
 </body>
 </html>

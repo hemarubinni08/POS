@@ -6,10 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommonDto {
+
     private Long id;
     private String identifier;
+    private String description;
+    private boolean status = true;
     private String message;
     private boolean success = true;
-    private String description;
-    private String status;
 }

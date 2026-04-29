@@ -4,138 +4,187 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Stock List</title>
+    <title>Stock Management</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #d1d5db;
+
             min-height: 100vh;
+
+            /* ✅ SAME AS USER PAGE */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
         }
 
-        .card {
+        /* ✅ SAME WIDTH */
+        .container {
+            width: 90%;
+            max-width: 900px;
+            background: #f1f5f9;
+            padding: 30px;
             border-radius: 16px;
-            background-color: #ffffff;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        .card-header {
-            background-color: #a78bfa;
-            color: #ffffff;
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: #0891b2;
+            font-weight: 600;
         }
 
-        table th {
-            background-color: #a78bfa;
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #0891b2;
             color: white;
+            padding: 12px;
+            font-size: 13px;
+            text-align: center;
         }
 
-        table.table-hover tbody tr:hover {
-            background-color: #f5f3ff;
+        td {
+            padding: 14px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 13px;
+            text-align: center;
         }
 
-        .btn-secondary {
-            background-color: #b197fc;
-            border: none;
-            color: #ffffff;
+        tr:hover {
+            background: rgba(8,145,178,0.05);
         }
 
-        .btn-secondary:hover {
-            background-color: #a78bfa;
+        /* BUTTON */
+        .btn {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            color: white;
+            transition: 0.25s;
+            display: inline-block;
         }
 
-        .btn-success {
-            background-color: #7c3aed;
-            border: none;
+        .edit-btn {
+            background: linear-gradient(135deg, #0891b2, #0e7490);
         }
 
-        .btn-success:hover {
-            background-color: #6d28d9;
+        .edit-btn:hover {
+            background: linear-gradient(135deg, #0e7490, #075985);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(8,145,178,0.4);
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .delete-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(239,68,68,0.4);
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .home-btn {
+            background: #64748b;
+        }
+
+        .home-btn:hover {
+            background: #475569;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #0891b2, #0e7490);
+        }
+
+        .add-btn:hover {
+            background: linear-gradient(135deg, #0e7490, #075985);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(8,145,178,0.4);
         }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
+<div class="container">
 
-    <div class="card shadow-lg">
+    <h2>Stock Management</h2>
 
-        <div class="card-header text-center">
-            <h4 class="mb-0">List of Stock</h4>
-        </div>
+    <c:choose>
+        <c:when test="${empty stocks}">
+            <div class="empty">No stock available</div>
+        </c:when>
 
-        <div class="card-body">
+        <c:otherwise>
+            <table>
+                <thead>
+                <tr>
+                    <th>Identifier</th>
+                    <th>Warehouse</th>
+                    <th>Available Qty</th>
+                    <th>Outgoing Qty</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
 
-            <c:if test="${empty stocks}">
-                <div class="alert alert-warning text-center">
-                    No stock available
-                </div>
-            </c:if>
-
-            <c:if test="${not empty stocks}">
-                <table class="table table-bordered table-hover text-center align-middle">
-
-                    <thead>
+                <tbody>
+                <c:forEach var="stock" items="${stocks}">
                     <tr>
-                        <th>Identifier</th>
-                        <th>Warehouse</th>   <!--  NEW -->
-                        <th>Available Qty</th>
-                        <th>Outgoing Qty</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <td>${stock.identifier}</td>
+                        <td>${stock.warehouse}</td>
+                        <td>${stock.availableQuantity}</td>
+                        <td>${stock.outgoingQuantity}</td>
+
+                        <td>
+                            <a href="${pageContext.request.contextPath}/stock/get?identifier=${stock.identifier}"
+                               class="btn edit-btn">Edit</a>
+
+                            <a href="${pageContext.request.contextPath}/stock/delete?identifier=${stock.identifier}"
+                               class="btn delete-btn"
+                               onclick="return confirm('Are you sure you want to delete this stock?');">
+                                Delete
+                            </a>
+                        </td>
                     </tr>
-                    </thead>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:otherwise>
+    </c:choose>
 
-                    <tbody>
-                    <c:forEach var="stock" items="${stocks}">
-                        <tr>
-                            <td>${stock.identifier}</td>
+    <div class="footer">
+        <a href="${pageContext.request.contextPath}/"
+           class="btn home-btn">Home</a>
 
-                            <!--  NEW COLUMN -->
-                            <td>${stock.warehouse}</td>
-
-                            <td>${stock.availableQuantity}</td>
-                            <td>${stock.outgoingQuantity}</td>
-                            <td>${stock.status}</td>
-
-                            <td class="d-flex justify-content-center gap-2">
-                                <a href="${pageContext.request.contextPath}/stock/get?identifier=${stock.identifier}"
-                                   class="btn btn-primary btn-sm">
-                                    Edit
-                                </a>
-
-                                <a href="${pageContext.request.contextPath}/stock/delete?identifier=${stock.identifier}"
-                                   class="btn btn-danger btn-sm">
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-
-                </table>
-            </c:if>
-
-        </div>
-
-        <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
-
-            <!-- HOME BUTTON -->
-            <a href="${pageContext.request.contextPath}/"
-               class="btn btn-secondary">
-                Home
-            </a>
-
-            <!-- ADD STOCK -->
-            <a href="${pageContext.request.contextPath}/stock/add"
-               class="btn btn-success">
-                + Add Stock
-            </a>
-
-        </div>
-
+        <a href="${pageContext.request.contextPath}/stock/add"
+           class="btn add-btn">Add Stock</a>
     </div>
 
 </div>
