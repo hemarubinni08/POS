@@ -1,6 +1,8 @@
 package com.ust.pos.stock.service.impl;
 
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.model.Brand;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.StockService;
@@ -66,5 +68,13 @@ public class StockServiceImpl implements StockService {
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
         return modelMapper.map(stockRepository.findAll(), listType);
+    }
+
+    @Override
+    public BrandDto toggleStatus(String identifier) {
+        Stock stock = stockRepository.findByIdentifier(identifier);
+        stock.setStatus(!stock.isStatus());
+        stockRepository.save(stock);
+        return null;
     }
 }

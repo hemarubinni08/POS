@@ -1,5 +1,6 @@
 package com.ust.pos.stock.service;
 
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.StockDto;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface StockService {
     void delete(String identifier);
     List<StockDto> findAll();
     StockDto findByIdentifier(String identifier);
+    BrandDto toggleStatus(String identifier);
 }
