@@ -16,4 +16,5 @@ public interface RoleService {
     List<RoleDto> findAll();
 
     RoleDto findByIdentifier(String identifier);
+
 }

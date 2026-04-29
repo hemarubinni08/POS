@@ -4,89 +4,90 @@ import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Type;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class WarehouseServiceImpl implements WarehouseService {
 
-    private final WarehouseRepository warehouseRepository;
+    @Autowired
+    private WarehouseRepository warehouseRepository;
 
-    public WarehouseServiceImpl(WarehouseRepository warehouseRepository) {
-        this.warehouseRepository = warehouseRepository;
-    }
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
-    public WarehouseDto createWarehouse(WarehouseDto warehouseDto) {
+    public WarehouseDto save(WarehouseDto dto) {
 
-        if (warehouseRepository.existsByName(warehouseDto.getName())) {
-            throw new RuntimeException("Warehouse with this name already exists");
+        String identifier = dto.getIdentifier().trim();
+
+        if (warehouseRepository.findByIdentifier(identifier) != null) {
+            dto.setSuccess(false);
+            dto.setMessage("Warehouse with identifier " + identifier + " already exists");
+            return dto;
         }
 
-        Warehouse warehouse = new Warehouse();
-        warehouse.setIdentifier(warehouseDto.getIdentifier());
-        warehouse.setName(warehouseDto.getName());
-        warehouse.setLocation(warehouseDto.getLocation());
-        warehouse.setStatus("ACTIVE");
+        Warehouse warehouse = modelMapper.map(dto, Warehouse.class);
+        warehouse.setStatus(true);
+        warehouseRepository.save(warehouse);
 
-        Warehouse saved = warehouseRepository.save(warehouse);
-        return mapToDto(saved);
+        return modelMapper.map(warehouse, WarehouseDto.class);
     }
 
     @Override
-    public WarehouseDto updateWarehouse(Long id, WarehouseDto warehouseDto) {
+    public WarehouseDto update(WarehouseDto dto) {
 
-        Warehouse warehouse = warehouseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Warehouse not found"));
+        Warehouse warehouse = warehouseRepository.findByIdentifier(dto.getIdentifier());
+        if (warehouse == null) {
+            dto.setSuccess(false);
+            dto.setMessage("Warehouse not found");
+            return dto;
+        }
 
-        warehouse.setName(warehouseDto.getName());
-        warehouse.setLocation(warehouseDto.getLocation());
-        warehouse.setStatus(warehouseDto.getStatus());
+        modelMapper.map(dto, warehouse);
+        warehouseRepository.save(warehouse);
 
-        return mapToDto(warehouse);
+        return modelMapper.map(warehouse, WarehouseDto.class);
     }
 
     @Override
-    public WarehouseDto getWarehouseById(Long id) {
-
-        Warehouse warehouse = warehouseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Warehouse not found"));
-
-        return mapToDto(warehouse);
+    public WarehouseDto findByIdentifier(String identifier) {
+        Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
+        return warehouse == null ? null : modelMapper.map(warehouse, WarehouseDto.class);
     }
 
     @Override
-    public List<WarehouseDto> getAllWarehouses() {
-
-        return warehouseRepository.findAll()
-                .stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+    public List<WarehouseDto> findAll() {
+        Type listType = new TypeToken<List<WarehouseDto>>() {}.getType();
+        return modelMapper.map(warehouseRepository.findAll(), listType);
     }
 
     @Override
-    public void deactivateWarehouse(Long id) {
-
-        Warehouse warehouse = warehouseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Warehouse not found"));
-
-        warehouse.setStatus("INACTIVE");
+    public List<WarehouseDto> findAllActive() {
+        Type listType = new TypeToken<List<WarehouseDto>>() {}.getType();
+        return modelMapper.map(warehouseRepository.findAllByStatus(true), listType);
     }
 
+    @Override
+    @Transactional
+    public boolean delete(String identifier) {
+        warehouseRepository.deleteByIdentifier(identifier);
+        return true;
+    }
 
-    private WarehouseDto mapToDto(Warehouse warehouse) {
-
-        WarehouseDto dto = new WarehouseDto();
-        dto.setId(warehouse.getId());
-        dto.setIdentifier(warehouse.getIdentifier());
-        dto.setName(warehouse.getName());
-        dto.setLocation(warehouse.getLocation());
-        dto.setStatus(warehouse.getStatus());
-
-        return dto;
+    @Override
+    @Transactional
+    public void toggleStatus(String identifier) {
+        Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
+        if (warehouse != null) {
+            warehouse.setStatus(!warehouse.isStatus());
+            warehouseRepository.save(warehouse);
+        }
     }
 }

@@ -1,13 +1,18 @@
 package com.ust.pos.model;
 
-import com.ust.pos.model.Warehouse;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
 
-    Optional<Warehouse> findByName(String name);
+    Warehouse findByIdentifier(String identifier);
 
-    boolean existsByName(String name);
+    @Modifying
+    @Transactional
+    void deleteByIdentifier(String identifier);
+
+    List<Warehouse> findAllByStatus(boolean status);
 }

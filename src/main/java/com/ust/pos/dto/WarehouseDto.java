@@ -11,5 +11,5 @@ public class WarehouseDto extends CommonDto {
 
     private String name;
     private String location;
-    private String status;
+    private boolean status;
 }

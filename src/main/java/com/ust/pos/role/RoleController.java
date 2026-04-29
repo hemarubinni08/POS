@@ -62,4 +62,5 @@ public class RoleController {
         roleService.delete(identifier);
         return REDIRECT_ROLE_LIST;
     }
+
 }

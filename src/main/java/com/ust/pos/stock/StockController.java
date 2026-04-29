@@ -24,7 +24,6 @@ public class StockController {
     @Autowired
     private WarehouseService warehouseService;
 
-
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("stocks", stockService.getAllStocks());
@@ -34,19 +33,34 @@ public class StockController {
 
     @GetMapping("/add")
     public String add(Model model) {
+
         model.addAttribute("stockDto", new StockDto());
-        model.addAttribute("products", productService.getAllProducts());
-        model.addAttribute("warehouses", warehouseService.getAllWarehouses());
+
+        model.addAttribute("products",
+                productService.getAllProducts()
+        );
+
+        model.addAttribute("warehouses",
+                warehouseService.findAllActive()
+        );
+
         return "stock/add";
     }
 
     @PostMapping("/add")
     public String addPost(@ModelAttribute StockDto stockDto, Model model) {
+
         StockDto response = stockService.createStock(stockDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("products", productService.getAllProducts());
-            model.addAttribute("warehouses", warehouseService.getAllWarehouses());
+            model.addAttribute("products",
+                    productService.getAllProducts()
+            );
+
+            model.addAttribute("warehouses",
+                    warehouseService.findAllActive()
+            );
+
             model.addAttribute("message", response.getMessage());
             model.addAttribute("messageType", "error");
             return "stock/add";
@@ -55,9 +69,11 @@ public class StockController {
         return REDIRECT_STOCK_LIST;
     }
 
-
     @GetMapping("/get")
-    public String update(@RequestParam Long productId, @RequestParam Long warehouseId, Model model) {
+    public String update(@RequestParam Long productId,
+                         @RequestParam Long warehouseId,
+                         Model model) {
+
         StockDto response = stockService.getStock(productId, warehouseId);
 
         if (!response.isSuccess()) {
@@ -71,7 +87,10 @@ public class StockController {
     }
 
     @PostMapping("/update")
-    public String updatePost(@RequestParam Long stockId, @RequestParam Integer quantity, Model model) {
+    public String updatePost(@RequestParam Long stockId,
+                             @RequestParam Integer quantity,
+                             Model model) {
+
         StockDto response = stockService.updateStockQuantity(stockId, quantity);
 
         if (!response.isSuccess()) {

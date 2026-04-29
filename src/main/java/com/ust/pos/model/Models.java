@@ -4,11 +4,9 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
-@Entity
-public class Warehouse extends CommonFields {
+public class Models extends CommonFields {
 
-    private String name;
-    private String location;
 }

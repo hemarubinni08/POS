@@ -15,5 +15,7 @@ public class CommonFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String identifier;
-    private boolean status = true;
+    private boolean success = true;
+    private boolean status;
+
 }

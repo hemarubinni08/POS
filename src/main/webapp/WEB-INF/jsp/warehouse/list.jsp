@@ -5,11 +5,7 @@
 <html>
 <head>
     <title>Warehouse Management</title>
-
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
@@ -181,7 +177,7 @@
             color: var(--muted);
             font-size: 14px;
         }
-    </style>
+            </style>
 </head>
 
 <body>
@@ -189,21 +185,17 @@
 <a href="${pageContext.request.contextPath}/" class="back-arrow">←</a>
 
 <div class="container-box">
-
     <div class="card">
 
         <div class="card-header">
             <span>Warehouse Management</span>
-
             <a href="${pageContext.request.contextPath}/warehouse/add" class="add-btn">
                 + Add Warehouse
             </a>
         </div>
 
         <c:if test="${empty warehouses}">
-            <div class="empty-state">
-                No warehouses found
-            </div>
+            <div class="empty-state">No warehouses found</div>
         </c:if>
 
         <c:if test="${not empty warehouses}">
@@ -228,28 +220,24 @@
 
                         <td>
                             <div class="actions">
-
                                 <a class="btn btn-edit"
-                                   href="${pageContext.request.contextPath}/warehouse/get?id=${warehouse.id}">
+                                   href="${pageContext.request.contextPath}/warehouse/get?identifier=${warehouse.identifier}">
                                     Edit
                                 </a>
 
                                 <a class="btn btn-delete"
-                                   href="${pageContext.request.contextPath}/warehouse/delete?id=${warehouse.id}">
-                                    Deactivate
+                                   href="${pageContext.request.contextPath}/warehouse/delete?identifier=${warehouse.identifier}">
+                                    Delete
                                 </a>
-
                             </div>
                         </td>
                     </tr>
                 </c:forEach>
                 </tbody>
-
             </table>
         </c:if>
 
     </div>
-
 </div>
 
 </body>

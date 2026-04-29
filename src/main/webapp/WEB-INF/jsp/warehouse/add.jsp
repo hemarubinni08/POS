@@ -175,39 +175,26 @@
 
     <form action="${pageContext.request.contextPath}/warehouse/add" method="post">
 
-        <div class="mb-3">
-            <label>Identifier</label>
-            <input type="text"
-                   name="identifier"
-                   value="${warehouseDto.identifier}"
-                   class="form-control"
-                   required>
-        </div>
+        <label>Identifier</label>
+        <input type="text" name="identifier"
+               value="${warehouseDto.identifier}"
+               class="form-control" required>
 
-        <div class="mb-3">
-            <label>Warehouse Name</label>
-            <input type="text"
-                   name="name"
-                   value="${warehouseDto.name}"
-                   class="form-control"
-                   required>
-        </div>
+        <label>Warehouse Name</label>
+        <input type="text" name="name"
+               value="${warehouseDto.name}"
+               class="form-control" required>
 
-        <div class="mb-3">
-            <label>Location</label>
-            <input type="text"
-                   name="location"
-                   value="${warehouseDto.location}"
-                   class="form-control"
-                   required>
-        </div>
+        <label>Location</label>
+        <input type="text" name="location"
+               value="${warehouseDto.location}"
+               class="form-control" required>
 
         <button type="submit" class="btn-submit">
             Save Warehouse
         </button>
 
     </form>
-
 </div>
 
 </body>

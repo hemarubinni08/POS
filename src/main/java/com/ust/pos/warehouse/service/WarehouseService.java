@@ -6,13 +6,17 @@ import java.util.List;
 
 public interface WarehouseService {
 
-    WarehouseDto createWarehouse(WarehouseDto warehouseDto);
+    WarehouseDto save(WarehouseDto warehouseDto);
 
-    WarehouseDto updateWarehouse(Long id, WarehouseDto warehouseDto);
+    WarehouseDto update(WarehouseDto warehouseDto);
 
-    WarehouseDto getWarehouseById(Long id);
+    WarehouseDto findByIdentifier(String identifier);
 
-    List<WarehouseDto> getAllWarehouses();
+    List<WarehouseDto> findAll();
 
-    void deactivateWarehouse(Long id);
+    List<WarehouseDto> findAllActive();
+
+    boolean delete(String identifier);
+
+    void toggleStatus(String identifier);
 }

@@ -6,10 +6,7 @@
 <head>
     <title>Edit Warehouse</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
@@ -139,51 +136,41 @@
             transform: translateY(-1px);
             box-shadow: 0 10px 25px rgba(37,99,235,0.3);
         }
-    </style>
+            </style>
 </head>
 
 <body>
 
-<!-- Back -->
 <a href="${pageContext.request.contextPath}/warehouse/list" class="back-arrow">←</a>
 
 <div class="container-box">
-
     <div class="card">
 
         <h2>Edit Warehouse</h2>
 
-        <form action="${pageContext.request.contextPath}/warehouse/update"
-              method="post">
+        <form action="${pageContext.request.contextPath}/warehouse/update" method="post">
 
-            <!-- Hidden identifiers -->
-            <input type="hidden" name="id" value="${warehouse.id}" />
-            <input type="hidden" name="identifier" value="${warehouse.identifier}" />
+            <!-- Identifier (immutable key) -->
+            <input type="hidden" name="identifier" value="${warehouseDto.identifier}" />
 
             <label>Warehouse Name</label>
             <input type="text"
                    name="name"
-                   value="${warehouse.name}"
+                   value="${warehouseDto.name}"
                    class="form-control"
                    required />
 
             <label>Location</label>
             <input type="text"
                    name="location"
-                   value="${warehouse.location}"
+                   value="${warehouseDto.location}"
                    class="form-control"
                    required />
 
             <label>Status</label>
             <select name="status" class="form-control">
-                <option value="ACTIVE"
-                    <c:if test="${warehouse.status == 'ACTIVE'}">selected</c:if>>
-                    ACTIVE
-                </option>
-                <option value="INACTIVE"
-                    <c:if test="${warehouse.status == 'INACTIVE'}">selected</c:if>>
-                    INACTIVE
-                </option>
+                <option value="true"  ${warehouseDto.status ? 'selected' : ''}>ACTIVE</option>
+                <option value="false" ${!warehouseDto.status ? 'selected' : ''}>INACTIVE</option>
             </select>
 
             <button type="submit" class="btn-update">
@@ -193,8 +180,8 @@
         </form>
 
     </div>
-
 </div>
 
 </body>
 </html>
+``
