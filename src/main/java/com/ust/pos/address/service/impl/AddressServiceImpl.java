@@ -14,11 +14,24 @@ import java.util.List;
 
 @Service
 public class AddressServiceImpl implements AddressService {
+
     @Autowired
     private AddressRepository addressRepository;
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Override
+    public AddressDto findByIdentifier(String identifier) {
+        return modelMapper.map(addressRepository.findByIdentifier(identifier), AddressDto.class);
+    }
+
+    @Override
+    public List<AddressDto> findAllByPhoneNo(String phoneNo) {
+        Type listType = new TypeToken<List<AddressDto>>() {
+        }.getType();
+        return modelMapper.map(addressRepository.findAllByPhoneNo(phoneNo), listType);
+    }
 
     @Override
     public AddressDto save(AddressDto addressDto) {
@@ -37,7 +50,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressDto update(AddressDto addressDto) {
         String identifier = addressDto.getIdentifier();
-        Address existingAddress = addressRepository.findByIdentifier(addressDto.getIdentifier());
+        Address existingAddress = addressRepository.findByIdentifier(identifier);
         if (existingAddress == null) {
             addressDto.setMessage("Address with identifier - " + identifier + " not found");
             addressDto.setSuccess(false);
@@ -50,8 +63,8 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public boolean delete(String phoneNo) {
-        List<Address> addresses = addressRepository.findAllByPhoneNo(phoneNo);
-        addressRepository.deleteAll(addresses);
+        List<Address>  address = addressRepository.findAllByPhoneNo(phoneNo);
+        addressRepository.deleteAll(address);
         return true;
     }
 
@@ -62,15 +75,4 @@ public class AddressServiceImpl implements AddressService {
         return modelMapper.map(addressRepository.findAll(), listType);
     }
 
-    @Override
-    public AddressDto findByIdentifier(String identifier) {
-        return modelMapper.map(addressRepository.findByIdentifier(identifier), AddressDto.class);
-    }
-
-    @Override
-    public List<AddressDto> findByPhoneNumber(String phoneNo) {
-        Type listType = new TypeToken<List<AddressDto>>() {
-        }.getType();
-        return modelMapper.map(addressRepository.findAllByPhoneNo(phoneNo), listType);
-    }
 }

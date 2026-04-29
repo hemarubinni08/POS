@@ -4,16 +4,15 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
-public class Address extends CommonFields{
-    private String addressType;
+@Entity
+public class Address extends CommonFields {
     private String phoneNo;
-    private String addressLine;
+    private String addressType;
     private String city;
-    private String state;
+    private String zipCode;
     private String country;
-    private String zipcode;
-    private String customerName;
+    private String state;
+    private String addressLine;
 }

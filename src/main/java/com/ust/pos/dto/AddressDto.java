@@ -6,12 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AddressDto extends CommonDto{
-    private String addressType;
     private String phoneNo;
-    private String addressLine;
+    private String addressType;
     private String city;
-    private String state;
+    private String zipCode;
     private String country;
-    private String zipcode;
-    private String customerName;
+    private String state;
+    private String addressLine;
 }

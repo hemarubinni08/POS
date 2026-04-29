@@ -1,12 +1,11 @@
 package com.ust.pos.customer;
 
-import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.customer.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/customer")
@@ -17,42 +16,39 @@ public class CustomerController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("categories", customerService.findAll());
+        model.addAttribute("customers", customerService.findAll());
         return "customer/list";
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute CustomerDto userDto) {
-        model.addAttribute("categories", customerService.findAll());
+    public String add(Model model, @ModelAttribute CustomerDto customerDto) {
         return "customer/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute CustomerDto userDto, RedirectAttributes redirectAttributes) {
-        CustomerDto response = customerService.save(userDto);
+    public String addPost(Model model, @ModelAttribute CustomerDto customerDto) {
+        CustomerDto response = customerService.save(customerDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            redirectAttributes.addFlashAttribute("error", response.getMessage());
-            return "redirect:/customer/add";
+            return "customer/add";
         }
-
-        redirectAttributes.addFlashAttribute("success","Customer added successfully");
         return REDIRECT_CUSTOMER_LIST;
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-        CustomerDto response = customerService.findByIdentifier(identifier);
+        CustomerDto response = customerService.findByIdentifierWithAddressDto(identifier);
         model.addAttribute("customer", response);
-        model.addAttribute("categories", customerService.findAll());
         return "customer/customer";
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute CustomerDto userDto) {
-        CustomerDto response = customerService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute CustomerDto customerDto) {
+        CustomerDto response = customerService.update(customerDto);
         if (!response.isSuccess()) {
+            model.addAttribute("customer", response);
             model.addAttribute("message", response.getMessage());
+            return "customer/customer";
         }
         return REDIRECT_CUSTOMER_LIST;
     }
@@ -61,5 +57,11 @@ public class CustomerController {
     public String delete(Model model, @RequestParam String identifier) {
         customerService.delete(identifier);
         return REDIRECT_CUSTOMER_LIST;
+    }
+
+    @PostMapping("/toggle-status")
+    @ResponseBody
+    public CustomerDto toggle(Model model,@RequestParam String identifier){
+        return  customerService.toggleStatus(identifier);
     }
 }
