@@ -35,10 +35,29 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto findByIdentifierWithAddressDto(String identifier) {
         Customer customer = customerRepository.findByIdentifier(identifier);
+
+        if (customer == null) {
+            throw new RuntimeException("Customer not found: " + identifier);
+        }
+
         CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
+
         List<AddressDto> addressDtoList = addressService.findAllByPhoneNo(identifier);
-        customerDto.setBillingAddress(addressDtoList.get(0));
-        customerDto.setShippingAddress(addressDtoList.get(1));
+
+        AddressDto billing = null;
+        AddressDto shipping = null;
+
+        for (AddressDto address : addressDtoList) {
+            if ("Billing".equalsIgnoreCase(address.getAddressType())) {
+                billing = address;
+            } else if ("Shipping".equalsIgnoreCase(address.getAddressType())) {
+                shipping = address;
+            }
+        }
+
+        customerDto.setBillingAddress(billing != null ? billing : new AddressDto());
+        customerDto.setShippingAddress(shipping != null ? shipping : new AddressDto());
+
         return customerDto;
     }
 
@@ -72,21 +91,32 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto update(CustomerDto customerDto) {
         String identifier = customerDto.getIdentifier();
         Customer existingCustomer = customerRepository.findByIdentifier(identifier);
+
         if (existingCustomer == null) {
             customerDto.setMessage("Customer with identifier - " + identifier + " not found");
             customerDto.setSuccess(false);
             return customerDto;
         }
+
         modelMapper.map(customerDto, existingCustomer);
         customerRepository.save(existingCustomer);
-        List<AddressDto> addresses = addressService.findAllByPhoneNo(customerDto.getIdentifier());
-        AddressDto billingAddress = customerDto.getBillingAddress();
-        billingAddress.setIdentifier(addresses.get(0).getIdentifier());
-        addressService.update(billingAddress);
 
-        AddressDto shippingAddress = customerDto.getShippingAddress();
-        shippingAddress.setIdentifier(addresses.get(1).getIdentifier());
-        addressService.update(shippingAddress);
+        List<AddressDto> existingAddresses =
+                addressService.findAllByPhoneNo(identifier);
+
+        for (AddressDto existing : existingAddresses) {
+            if ("Billing".equalsIgnoreCase(existing.getAddressType())) {
+                AddressDto billing = customerDto.getBillingAddress();
+                billing.setIdentifier(existing.getIdentifier());
+                addressService.update(billing);
+            }
+
+            if ("Shipping".equalsIgnoreCase(existing.getAddressType())) {
+                AddressDto shipping = customerDto.getShippingAddress();
+                shipping.setIdentifier(existing.getIdentifier());
+                addressService.update(shipping);
+            }
+        }
 
         return customerDto;
     }

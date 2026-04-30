@@ -7,97 +7,108 @@
 <head>
     <title>Add Customer</title>
 
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
-        body {
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1e40af;
+
+            --bg: #f8fafc;
+            --glass: rgba(255,255,255,0.75);
+
+            --text: #0f172a;
+            --muted: #64748b;
+
+            --border: #e2e8f0;
+
+            --radius: 16px;
+            --shadow: 0 20px 40px rgba(2,6,23,0.08);
+        }
+
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--bg);
             min-height: 100vh;
-            font-family: "Segoe UI", Roboto, Arial, sans-serif;
-            background-color: #f6f7f9;
+            padding: 40px 20px;
+            color: var(--text);
         }
 
-        /* ===== POS TOP BAR ===== */
-        .topbar {
-            height: 56px;
-            background-color: #020617;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .top-title {
-            color: #e5e7eb;
-            font-weight: 600;
-        }
-
-        .home-btn {
-            padding: 7px 16px;
-            background-color: #1e293b;
-            color: #e5e7eb;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            border: 1px solid #334155;
-        }
-
-        .logout-btn {
-            background: #dc2626;
-            color: white;
-            border: none;
-            padding: 7px 16px;
-            border-radius: 6px;
-            font-weight: 600;
-        }
-
-        /* ===== CARD ===== */
-        .card {
-            max-width: 1200px;
-            background: #ffffff;
-            margin: 40px auto;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            position: relative;
-        }
-
-        .back-btn {
-            position: absolute;
+        /* BACK BUTTON (SAME ACROSS APP) */
+        .back-arrow {
+            position: fixed;
             top: 20px;
             left: 20px;
-            padding: 6px 14px;
-            background: #eef0f3;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #374151;
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+
+            border: 1px solid var(--border);
+            color: var(--text);
+
             text-decoration: none;
+            font-size: 18px;
+
+            box-shadow: var(--shadow);
+            transition: 0.2s;
+        }
+
+        .back-arrow:hover {
+            background: #eef2ff;
+            color: var(--primary);
+        }
+
+        /* MAIN CARD */
+        .container-box {
+            max-width: 1200px;
+            margin: 60px auto 0;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+
+            box-shadow: var(--shadow);
+            padding: 32px;
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 28px;
-            color: #020617;
+            margin-bottom: 32px;
+            font-size: 22px;
+            font-weight: 600;
         }
 
-        /* ===== SECTIONS ===== */
+        /* SECTIONS */
         .section {
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
             padding: 22px;
             margin-bottom: 26px;
+            background: rgba(248,250,252,0.6);
         }
 
         .section-title {
-            font-size: 18px;
-            font-weight: 700;
+            font-size: 16px;
+            font-weight: 600;
             margin-bottom: 14px;
-            color: #020617;
         }
 
         .grid {
@@ -116,148 +127,144 @@
             display: block;
             font-size: 12px;
             font-weight: 600;
-            color: #475569;
+            color: var(--muted);
             margin-bottom: 6px;
         }
 
         input, select {
             width: 100%;
-            padding: 9px 11px;
-            border-radius: 6px;
-            border: 1px solid #d1d5db;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
             font-size: 14px;
         }
 
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+        }
+
         .submit-btn {
-            margin-top: 10px;
+            margin-top: 26px;
             width: 100%;
-            padding: 12px;
-            background: #2563eb;
+            padding: 14px;
+            background: var(--primary);
             color: white;
             border: none;
-            border-radius: 20px;
-            font-weight: 700;
+            border-radius: 999px;
+            font-weight: 600;
             font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
         }
     </style>
 </head>
 
 <body>
 
-<!-- ===== POS TOP BAR ===== -->
-<div class="topbar">
-    <div class="topbar-left">
-        <div class="top-title">POS Application</div>
-        <a class="home-btn" href="${pageContext.request.contextPath}/">Home</a>
+<!-- BACK BUTTON -->
+<a href="${pageContext.request.contextPath}/customer/list" class="back-arrow">←</a>
+
+<div class="container-box">
+    <div class="card">
+
+        <h2>Add Customer</h2>
+
+        <!-- FORM LOGIC UNCHANGED -->
+        <form:form method="post"
+                   action="${pageContext.request.contextPath}/customer/add"
+                   modelAttribute="customerDto">
+
+            <!-- CUSTOMER DETAILS -->
+            <div class="section">
+                <div class="section-title">Customer Details</div>
+                <div class="grid">
+
+                    <div>
+                        <label>Phone Number</label>
+                        <form:input path="identifier"/>
+                    </div>
+
+                    <div>
+                        <label>Customer Name</label>
+                        <form:input path="customerName"/>
+                    </div>
+
+                    <div>
+                        <label>Email</label>
+                        <form:input path="email"/>
+                    </div>
+
+                    <div>
+                        <label>Party Type</label>
+                        <form:select path="partyType">
+                            <form:option value="">-- Select --</form:option>
+                            <form:option value="Customer">Customer</form:option>
+                            <form:option value="Dealer">Dealer</form:option>
+                            <form:option value="Retailer">Retailer</form:option>
+                            <form:option value="Distributor">Distributor</form:option>
+                        </form:select>
+                    </div>
+
+                    <div>
+                        <label>Credit</label>
+                        <form:input path="credit"/>
+                    </div>
+
+                    <div>
+                        <label>Credit Type</label>
+                        <form:select path="creditType">
+                            <form:option value="">-- Select --</form:option>
+                            <form:option value="ADVANCE">Advance</form:option>
+                            <form:option value="DUE">Due</form:option>
+                        </form:select>
+                    </div>
+
+                    <div>
+                        <label>Credit Limit</label>
+                        <form:input path="creditLimit"/>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- BILLING ADDRESS -->
+            <div class="section">
+                <div class="section-title">Billing Address</div>
+                <div class="grid-2">
+                    <form:input path="billingAddress.addressLine" placeholder="Address Line"/>
+                    <form:input path="billingAddress.phoneNo" placeholder="Phone No"/>
+                    <form:input path="billingAddress.city" placeholder="City"/>
+                    <form:input path="billingAddress.state" placeholder="State"/>
+                    <form:input path="billingAddress.zipCode" placeholder="Zip Code"/>
+                    <form:input path="billingAddress.country" placeholder="Country"/>
+                </div>
+            </div>
+
+            <!-- SHIPPING ADDRESS -->
+            <div class="section">
+                <div class="section-title">Shipping Address</div>
+                <div class="grid-2">
+                    <form:input path="shippingAddress.addressLine" placeholder="Address Line"/>
+                    <form:input path="shippingAddress.phoneNo" placeholder="Phone No"/>
+                    <form:input path="shippingAddress.city" placeholder="City"/>
+                    <form:input path="shippingAddress.state" placeholder="State"/>
+                    <form:input path="shippingAddress.zipCode" placeholder="Zip Code"/>
+                    <form:input path="shippingAddress.country" placeholder="Country"/>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Add Customer</button>
+
+        </form:form>
+
     </div>
-
-    <form action="${pageContext.request.contextPath}/logout" method="post">
-        <button class="logout-btn">Logout</button>
-    </form>
-</div>
-
-<div class="card">
-
-    <a href="${pageContext.request.contextPath}/customer/list" class="back-btn">Back</a>
-
-    <h2>Add Customer</h2>
-
-    <!-- ===== SPRING FORM ===== -->
-    <form:form method="post"
-               action="${pageContext.request.contextPath}/customer/add"
-               modelAttribute="customerDto">
-
-        <!-- ===== CUSTOMER DETAILS ===== -->
-        <div class="section">
-            <div class="section-title">Customer Details</div>
-
-            <div class="grid">
-
-                <div>
-                    <label>Phone Number</label>
-                    <form:input path="identifier"/>
-                </div>
-
-                <div>
-                    <label>Customer Name</label>
-                    <form:input path="customerName"/>
-                </div>
-
-                <div>
-                    <label>Email</label>
-                    <form:input path="email"/>
-                </div>
-
-                <div>
-                    <label>Party Type</label>
-                  <form:select path="partyType">
-                      <form:option value="">-- Select --</form:option>
-                      <form:option value="Customer">Customer</form:option>
-                      <form:option value="Dealer">Dealer</form:option>
-                      <form:option value="Retailer">Retailer</form:option>
-                      <form:option value="Distributor">Distributor</form:option>
-                  </form:select>
-
-                </div>
-
-                <div>
-                    <label>Credit</label>
-                    <form:input path="credit"/>
-                </div>
-
-                <div>
-                    <label>Credit Type</label>
-                   <form:select path="creditType">
-                       <form:option value="">-- Select --</form:option>
-                       <form:option value="ADVANCE">Advance</form:option>
-                       <form:option value="DUE">Due</form:option>
-                   </form:select>
-                </div>
-
-                <div>
-                    <label>Credit Limit</label>
-                    <form:input path="creditLimit"/>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- ===== BILLING ADDRESS ===== -->
-        <div class="section">
-            <div class="section-title">Billing Address</div>
-
-            <div class="grid-2">
-                <form:input path="billingAddress.addressLine" placeholder="Address Line"/>
-                <form:input path="billingAddress.phoneNo" placeholder="Phone No"/>
-
-                <form:input path="billingAddress.city" placeholder="City"/>
-                <form:input path="billingAddress.state" placeholder="State"/>
-
-                <form:input path="billingAddress.zipCode" placeholder="Zip Code"/>
-                <form:input path="billingAddress.country" placeholder="Country"/>
-            </div>
-        </div>
-
-        <!-- ===== SHIPPING ADDRESS ===== -->
-        <div class="section">
-            <div class="section-title">Shipping Address</div>
-
-            <div class="grid-2">
-                <form:input path="shippingAddress.addressLine" placeholder="Address Line"/>
-                <form:input path="shippingAddress.phoneNo" placeholder="Phone No"/>
-
-                <form:input path="shippingAddress.city" placeholder="City"/>
-                <form:input path="shippingAddress.state" placeholder="State"/>
-
-                <form:input path="shippingAddress.zipCode" placeholder="Zip Code"/>
-                <form:input path="shippingAddress.country" placeholder="Country"/>
-            </div>
-        </div>
-
-        <button type="submit" class="submit-btn">Add Customer</button>
-
-    </form:form>
-
 </div>
 
 </body>
