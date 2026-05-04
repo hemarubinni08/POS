@@ -1,10 +1,12 @@
 package com.ust.pos.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
+@NoArgsConstructor
 @Getter
 @Setter
 public class UserDto extends CommonDto {
@@ -13,4 +15,9 @@ public class UserDto extends CommonDto {
     private String phoneNo;
     private List<String> roles;
     private String password;
+    private String token;
+
+    public UserDto(String token) {
+        this. token = token;
+    }
 }

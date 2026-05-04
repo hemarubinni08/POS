@@ -20,7 +20,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
+    //@Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
         try {
             return config.getAuthenticationManager();
@@ -29,7 +29,7 @@ public class SecurityConfig {
         }
     }
 
-    @Bean
+    //@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
         http
                 .csrf(csrf -> csrf.disable())
