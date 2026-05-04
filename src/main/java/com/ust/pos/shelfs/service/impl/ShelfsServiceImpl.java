@@ -1,6 +1,8 @@
 package com.ust.pos.shelfs.service.impl;
 
+import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.ShelfsDto;
+import com.ust.pos.model.Models;
 import com.ust.pos.model.Shelfs;
 import com.ust.pos.model.ShelfsRepository;
 import com.ust.pos.shelfs.service.ShelfsService;
@@ -77,5 +79,13 @@ public class ShelfsServiceImpl implements ShelfsService {
                 shelfsRepository.findByIdentifier(identifier),
                 ShelfsDto.class
         );
+    }
+
+    @Override
+    public ShelfsDto toggleStatus(String identifier) {
+        Shelfs shelfs=shelfsRepository.findByIdentifier(identifier);
+        shelfs.setStatus(!shelfs.isStatus());
+        Shelfs updated=shelfsRepository.save(shelfs);
+        return modelMapper.map(updated, ShelfsDto.class);
     }
 }

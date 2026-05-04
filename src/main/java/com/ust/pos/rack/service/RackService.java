@@ -15,4 +15,5 @@ public interface RackService {
     List<RackDto> findAll();
 
     boolean delete(String identifier);
+
 }

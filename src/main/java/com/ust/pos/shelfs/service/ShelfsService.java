@@ -17,4 +17,5 @@ public interface ShelfsService {
     List<ShelfsDto> findAll();
 
     ShelfsDto findByIdentifier(String identifier);
+    ShelfsDto toggleStatus(String identifier);
 }

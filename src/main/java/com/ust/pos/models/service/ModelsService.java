@@ -17,5 +17,6 @@ public interface ModelsService {
     List<ModelsDto> findAll();
 
     ModelsDto findByIdentifier(String identifier);
-    void toggleStatus(String identifier);
+
+    ModelsDto toggleStatus(String identifier);
 }

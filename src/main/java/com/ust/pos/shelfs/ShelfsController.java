@@ -68,4 +68,10 @@ public class ShelfsController {
         shelfsService.delete(identifier);
         return REDIRECT_LIST;
     }
+
+    @PostMapping("/toggle-status")
+    @ResponseBody
+    public void toggle(Model model,@RequestParam String identifier){
+        shelfsService.toggleStatus(identifier);
+    }
 }

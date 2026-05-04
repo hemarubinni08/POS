@@ -78,9 +78,10 @@ public class ModelsController {
         modelsService.delete(identifier);
         return REDIRECT_MODEL_LIST;
     }
+
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
-        modelsService.toggleStatus(identifier);
+    public ModelsDto toggle(@RequestParam String identifier){
+        return  modelsService.toggleStatus(identifier);
     }
 }
