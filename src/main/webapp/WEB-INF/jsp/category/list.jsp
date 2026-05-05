@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -6,249 +6,102 @@
 <head>
     <title>Category Management</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
     <style>
-        :root {
-            --primary: #2563eb;
-            --primary-hover: #1e40af;
+        body { margin:0; font-family:"Segoe UI", Roboto, Arial, sans-serif; background:#f6f7f9; }
 
-            --bg: #f8fafc;
-            --glass: rgba(255,255,255,0.75);
-
-            --text: #0f172a;
-            --muted: #64748b;
-
-            --border: #e2e8f0;
-
-            --danger: #ef4444;
-            --danger-hover: #dc2626;
-
-            --radius: 16px;
-            --shadow: 0 20px 40px rgba(2,6,23,0.08);
+        .topbar {
+            height:56px; background:#020617; display:flex;
+            justify-content:space-between; align-items:center;
+            padding:0 20px; border-bottom:1px solid #1e293b;
         }
-
-        * {
-            font-family: 'Inter', sans-serif;
-            box-sizing: border-box;
+        .topbar-left { display:flex; align-items:center; gap:14px; }
+        .top-title { color:#e5e7eb; font-weight:600; }
+        .home-btn {
+            padding:6px 14px; background:#1e293b; color:#e5e7eb;
+            text-decoration:none; border-radius:6px; font-weight:600;
         }
-
-        body {
-            background: var(--bg);
-            padding: 40px 20px;
-        }
-
-        /* BACK */
-        .back-arrow {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 42px;
-            height: 42px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 50%;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-
-            border: 1px solid var(--border);
-            color: var(--text);
-
-            text-decoration: none;
-            font-size: 18px;
-
-            box-shadow: var(--shadow);
-        }
-
-        .back-arrow:hover {
-            background: #eef2ff;
-            color: var(--primary);
+        .logout-btn {
+            background:#dc2626; color:white; border:none;
+            padding:7px 16px; border-radius:6px; font-weight:600;
         }
 
         .container {
-            max-width: 1100px;
-            margin: 60px auto 0;
+            width:95%; max-width:1100px; margin:32px auto;
+            background:#fff; padding:26px; border-radius:12px;
+            box-shadow:0 6px 18px rgba(0,0,0,0.08);
         }
 
-        /* CARD */
-        .card {
-            border-radius: var(--radius);
-
-            background: var(--glass);
-            backdrop-filter: blur(16px);
-
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+        .actions { text-align:right; margin-bottom:14px; }
+        .add-btn {
+            background:#2563eb; color:white; text-decoration:none;
+            padding:7px 16px; border-radius:6px; font-weight:600;
         }
 
-        .card-header {
-            padding: 20px;
-            font-weight: 600;
-            font-size: 16px;
-            color: var(--text);
+        table { width:100%; border-collapse:collapse; }
+        th, td { padding:14px; border-bottom:1px solid #e5e7eb; text-align:center; }
+        th { background:#e5e7eb; }
 
-            border-bottom: 1px solid var(--border);
+        .action-link {
+            padding:6px 14px; border-radius:6px;
+            color:white; text-decoration:none; font-weight:600;
         }
-
-        .card-body {
-            padding: 0;
-        }
-
-        /* TABLE */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            text-align: left;
-            font-size: 12px;
-            color: var(--muted);
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--border);
-            background: rgba(248,250,252,0.6);
-        }
-
-        td {
-            padding: 16px 18px;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-        }
-
-        tr:hover {
-            background: rgba(248,250,252,0.6);
-        }
-
-        /* ACTION BUTTONS */
-        .btn-action {
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            margin-right: 6px;
-        }
-
-        .btn-edit {
-            background: #eef2ff;
-            color: var(--primary);
-        }
-
-        .btn-edit:hover {
-            background: #e0e7ff;
-        }
-
-        .btn-delete {
-            background: #fee2e2;
-            color: var(--danger);
-        }
-
-        .btn-delete:hover {
-            background: #fecaca;
-        }
-
-        /* FOOTER */
-        .card-footer {
-            padding: 18px;
-            text-align: right;
-            border-top: 1px solid var(--border);
-        }
-
-        .btn-add {
-            background: var(--primary);
-            color: white;
-            padding: 10px 16px;
-            border-radius: 10px;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .btn-add:hover {
-            background: var(--primary-hover);
-        }
-
-        /* EMPTY STATE */
-        .empty {
-            padding: 30px;
-            text-align: center;
-            color: var(--muted);
-        }
+        .edit { background:#2563eb; }
+        .delete { background:#dc2626; margin-left:8px; }
     </style>
 </head>
 
 <body>
 
-<!-- BACK -->
-<a href="${pageContext.request.contextPath}/" class="back-arrow">←</a>
+<!-- ✅ TOP BAR -->
+<div class="topbar">
+    <div class="topbar-left">
+        <div class="top-title">POS Application</div>
+        <a href="${pageContext.request.contextPath}/" class="home-btn">Home</a>
+    </div>
+    <form action="${pageContext.request.contextPath}/logout" method="post" style="margin:0;">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
 
 <div class="container">
+    <h2 style="text-align:center;">Category Management</h2>
 
-    <div class="card">
-
-        <div class="card-header">
-            Category Management
-        </div>
-
-        <div class="card-body">
-
-            <c:if test="${empty categories}">
-                <div class="empty">
-                    No categories found
-                </div>
-            </c:if>
-
-            <c:if test="${not empty categories}">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Super Category Name</th>
-                        <th>Category</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <c:forEach items="${categories}" var="category">
-                        <tr>
-                            <td>${category.identifier}</td>
-                            <td>${category.category}</td>
-
-                            <td>
-                                <a class="btn-action btn-edit"
-                                   href="${pageContext.request.contextPath}/category/get?id=${category.id}">
-                                    Edit
-                                </a>
-
-                                <a class="btn-action btn-delete"
-                                   href="${pageContext.request.contextPath}/category/delete?id=${category.id}">
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </c:if>
-
-        </div>
-
-        <div class="card-footer">
-            <a href="${pageContext.request.contextPath}/category/add"
-               class="btn-add">
-                + Add Category
-            </a>
-        </div>
-
+    <div class="actions">
+        <a href="${pageContext.request.contextPath}/category/add" class="add-btn">
+            Add Category
+        </a>
     </div>
 
+    <c:if test="${empty categorys}">
+        <div style="text-align:center;">No categories found</div>
+    </c:if>
+
+    <c:if test="${not empty categorys}">
+        <table>
+            <tr>
+                <th>Category Name</th>
+                <th>Super Category</th>
+                <th>Action</th>
+            </tr>
+
+            <c:forEach var="cat" items="${categorys}">
+                <tr>
+                    <td>${cat.identifier}</td>
+                    <td>${cat.superCategory}</td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/category/get?identifier=${cat.identifier}"
+                           class="action-link edit">Edit</a>
+
+                        <a href="${pageContext.request.contextPath}/category/delete?identifier=${cat.identifier}"
+                           class="action-link delete"
+                           onclick="return confirm('Are you sure you want to delete this category?');">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
 </div>
 
 </body>

@@ -6,14 +6,13 @@ import lombok.Setter;
 
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
-@Entity
-public class Product extends CommonFields {
-
-    private String sku;
-    private String description;
-    private List<String> categoryNames;
-    private List<String> categoryIdentifiers;
-
+public class Product extends CommonFields{
+    private List<String> category;
+    private Long skuCode;
+    private List<String> brand;
+    private List<String> unit;
+    private List<String> model;
 }

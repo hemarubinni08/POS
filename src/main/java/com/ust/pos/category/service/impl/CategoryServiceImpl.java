@@ -2,14 +2,18 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.ModelsDto;
+import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
+import com.ust.pos.model.Models;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.List;
-
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -20,100 +24,70 @@ public class CategoryServiceImpl implements CategoryService {
     private ModelMapper modelMapper;
 
     @Override
-    public CategoryDto createCategory(CategoryDto dto) {
+    public CategoryDto findByIdentifier(String identifier) {
+        return modelMapper.map(categoryRepository.findByIdentifier(identifier), CategoryDto.class);
+    }
 
-        if (dto.getIdentifier() == null || dto.getIdentifier().trim().isEmpty()) {
-            dto.setSuccess(false);
-            dto.setMessage("Super Category name is required");
-            return dto;
+    @Override
+    public CategoryDto save(CategoryDto categoryDto) {
+        String identifier = categoryDto.getIdentifier();
+        Category existingCategory = categoryRepository.findByIdentifier(identifier);
+        if (existingCategory != null) {
+            categoryDto.setMessage("Category with identifier - " + identifier + " already exists");
+            categoryDto.setSuccess(false);
+            return categoryDto;
         }
-
-        if (dto.getCategory() == null || dto.getCategory().trim().isEmpty()) {
-            dto.setSuccess(false);
-            dto.setMessage("Category is required");
-            return dto;
-        }
-
-        if (categoryRepository.existsByIdentifierAndCategory(
-                dto.getIdentifier().trim(),
-                dto.getCategory().trim())) {
-
-            dto.setSuccess(false);
-            dto.setMessage("Category already exists under this group");
-            return dto;
-        }
-
-        Category category = modelMapper.map(dto, Category.class);
+        Category category = modelMapper.map(categoryDto, Category.class);
         categoryRepository.save(category);
-
-        return dto;
+        return categoryDto;
     }
 
     @Override
-    public CategoryDto updateCategory(CategoryDto dto) {
-
-        Category existing = categoryRepository.findById(dto.getId())
-                .orElse(null);
-
-        if (existing == null) {
-            dto.setSuccess(false);
-            dto.setMessage("Category not found");
-            return dto;
+    public CategoryDto update(CategoryDto categoryDto) {
+        String identifier = categoryDto.getIdentifier();
+        Category existingCategory = categoryRepository.findByIdentifier(identifier);
+        if (existingCategory == null) {
+            categoryDto.setMessage("Category with identifier - " + identifier + " not found");
+            categoryDto.setSuccess(false);
+            return categoryDto;
         }
-
-        if (!existing.getIdentifier().equals(dto.getIdentifier())
-                || !existing.getCategory().equals(dto.getCategory())) {
-
-            if (categoryRepository.existsByIdentifierAndCategory(
-                    dto.getIdentifier(), dto.getCategory())) {
-
-                dto.setSuccess(false);
-                dto.setMessage("Category already exists under this group");
-                return dto;
-            }
-        }
-
-        existing.setIdentifier(dto.getIdentifier());
-        existing.setCategory(dto.getCategory());
-
-        categoryRepository.save(existing);
-
-        return dto;
+        modelMapper.map(categoryDto, existingCategory);
+        categoryRepository.save(existingCategory);
+        return categoryDto;
     }
 
     @Override
-    public CategoryDto getCategory(Long id) {
-
-        CategoryDto dto = new CategoryDto();
-
-        categoryRepository.findById(id).ifPresentOrElse(cat -> {
-            modelMapper.map(cat, dto);
-            dto.setSuccess(true);
-        }, () -> {
-            dto.setSuccess(false);
-            dto.setMessage("Category not found");
-        });
-
-        return dto;
-    }
-
-    @Override
-    public List<CategoryDto> getAllCategories() {
-
-        return categoryRepository.findAll()
-                .stream()
-                .map(cat -> modelMapper.map(cat, CategoryDto.class))
-                .toList();
-    }
-
-    @Override
-    public boolean deleteCategory(Long id) {
-
-        if (!categoryRepository.existsById(id)) {
-            return false;
-        }
-
-        categoryRepository.deleteById(id);
+    public boolean delete(String identifier) {
+        categoryRepository.deleteByIdentifier(identifier);
         return true;
+    }
+
+    @Override
+    public List<CategoryDto> findAll() {
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
+        return modelMapper.map(categoryRepository.findAll(), listType);
+    }
+
+    @Override
+    public List<CategoryDto> findBySuperCategoryNotNull() {
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
+        return modelMapper.map(categoryRepository.findBySuperCategoryIsNot(""), listType);
+    }
+
+    @Override
+    public CategoryDto toggleStatus(String identifier) {
+        Category category=categoryRepository.findByIdentifier(identifier);
+        category.setStatus(!category.isStatus());
+        categoryRepository.save(category);
+        return modelMapper.map(category,CategoryDto.class);
+    }
+
+    @Override
+    public List<CategoryDto> findIfTrue() {
+        Type listType = new TypeToken<List<ShelfDto>>(){
+        }.getType();
+        return modelMapper.map(categoryRepository.findByStatusIsTrue(), listType);
     }
 }

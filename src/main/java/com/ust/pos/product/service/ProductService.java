@@ -1,21 +1,23 @@
 package com.ust.pos.product.service;
 
 import com.ust.pos.dto.ProductDto;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 public interface ProductService {
+    ProductDto save(ProductDto productDto);
 
-    ProductDto createProduct(ProductDto productDto);
+    ProductDto update(ProductDto productDto);
 
-    ProductDto updateProduct(ProductDto productDto);
+    boolean delete(String identifier);
 
-    ProductDto getProduct(Long id);
+    List<ProductDto> findAll();
 
-    List<ProductDto> getAllProducts();
+    ProductDto findByIdentifier(String identifier);
 
-    boolean deleteProduct(Long id);
+    List<ProductDto> findIfTrue();
 
-    List<String> buildCategoryDisplayNames(List<String> categoryIdentifiers);
-
+    ProductDto toggleStatus(String identifier);
 }

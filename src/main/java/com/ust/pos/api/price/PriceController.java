@@ -51,6 +51,6 @@ public class PriceController {
 
     @GetMapping("/products")
     public List<ProductDto> products() {
-        return productService.getAllProducts();
+        return productService.findAll();
     }
 }

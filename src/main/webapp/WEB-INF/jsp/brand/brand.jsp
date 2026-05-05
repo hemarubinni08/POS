@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -6,104 +7,142 @@
 <head>
     <title>Edit Brand</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
     <style>
-        :root {
-            --primary:#2563eb; --primary-hover:#1e40af;
-            --bg:#f8fafc; --glass:rgba(255,255,255,0.85);
-            --text:#0f172a; --muted:#64748b;
-            --border:#e2e8f0;
-            --danger:#dc2626; --danger-bg:#fee2e2; --danger-border:#fca5a5;
-            --radius:16px; --shadow:0 20px 40px rgba(2,6,23,0.08);
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #f6f7f9;
         }
 
-        *{font-family:'Inter',sans-serif;box-sizing:border-box}
-        body{
-            background:var(--bg);
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            min-height:100vh;
-            position:relative;
+        .topbar {
+            height: 56px;
+            background-color: #020617;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid #1e293b;
         }
 
-        .back-arrow{
-            position:absolute;
-            top:20px;left:20px;
-            width:42px;height:42px;
-            border-radius:50%;
-            display:flex;align-items:center;justify-content:center;
-            background:var(--glass);
-            border:1px solid var(--border);
-            box-shadow:var(--shadow);
-            text-decoration:none;font-size:18px;color:var(--text);
+        .top-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e5e7eb;
         }
 
-        .container-box{width:100%;max-width:480px}
-
-        .card{
-            padding:28px;
-            background:var(--glass);
-            border-radius:var(--radius);
-            box-shadow:var(--shadow);
+        .logout-btn {
+            background: #dc2626;
+            border: none;
+            color: white;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
         }
 
-        h2{text-align:center;margin-bottom:20px;font-weight:600}
-
-        label{font-size:13px;color:var(--muted);margin-top:12px}
-        .form-control{border-radius:10px;padding:10px;margin-top:6px}
-
-        .btn-update{
-            margin-top:20px;width:100%;
-            background:var(--primary);
-            color:white;border:none;
-            border-radius:10px;
-            padding:10px;font-weight:600;
+        .card {
+            width: 420px;
+            background: #ffffff;
+            margin: 60px auto;
+            padding: 26px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            position: relative;
         }
 
-        .server-msg{
-            margin-bottom:14px;
-            background:var(--danger-bg);
-            color:var(--danger);
-            border:1px solid var(--danger-border);
-            padding:10px;
-            border-radius:10px;
-            font-size:13px;
-            text-align:center;
+        .back-btn {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            padding: 6px 14px;
+            background: #eef0f3;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin-top: 14px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 9px 11px;
+            margin-top: 6px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+        }
+
+        input[readonly] {
+            background: #f1f5f9;
+        }
+
+        button {
+            margin-top: 22px;
+            width: 100%;
+            padding: 10px;
+            background: #2563eb;
+            color: white;
+            border-radius: 20px;
+            border: none;
+            font-weight: 600;
+        }
+
+        .error-message {
+            text-align: center;
+            color: #dc2626;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 14px;
         }
     </style>
 </head>
 
 <body>
 
-<a href="${pageContext.request.contextPath}/brand/list" class="back-arrow">←</a>
+<!-- ✅ TOP BAR -->
+<div class="topbar">
+    <div class="top-title">POS Application</div>
+    <form action="${pageContext.request.contextPath}/logout" method="post">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
 
-<div class="container-box">
-    <div class="card">
+<div class="card">
+    <a href="${pageContext.request.contextPath}/brand/list" class="back-btn">Back</a>
 
-        <h2>Edit Brand</h2>
+    <h2>Edit Brand</h2>
 
-        <c:if test="${not empty message}">
-            <div class="server-msg">${message}</div>
-        </c:if>
+    <c:if test="${not empty message}">
+        <div class="error-message">${message}</div>
+    </c:if>
 
-        <form action="${pageContext.request.contextPath}/brand/update" method="post">
+    <form:form
+        action="${pageContext.request.contextPath}/brand/update"
+        method="post"
+        modelAttribute="brand">
 
-            <input type="hidden" name="id" value="${brand.id}">
-            <input type="hidden" name="identifier" value="${brand.identifier}">
+        <form:hidden path="id"/>
 
-            <label>Brand Identifier</label>
-            <input type="text" class="form-control" value="${brand.identifier}" readonly>
+        <label>Brand Name</label>
+        <form:input path="identifier" readonly="true"/>
 
-            <label>Description</label>
-            <textarea name="description" rows="3" class="form-control">${brand.description}</textarea>
+        <label>Description</label>
+        <form:textarea path="description" rows="3"/>
 
-            <button class="btn-update" type="submit">Update Brand</button>
-        </form>
-
-    </div>
+        <button type="submit">Update Brand</button>
+    </form:form>
 </div>
 
 </body>

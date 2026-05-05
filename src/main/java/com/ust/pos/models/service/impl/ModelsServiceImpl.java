@@ -23,49 +23,43 @@ public class ModelsServiceImpl implements ModelsService {
 
     @Override
     public ModelsDto findByIdentifier(String identifier) {
-        return modelMapper.map(
-                modelsRepository.findByIdentifier(identifier),
-                ModelsDto.class
-        );
+        return modelMapper.map(modelsRepository.findByIdentifier(identifier), ModelsDto.class);
+    }
+
+    @Override
+    public ModelsDto toggleStatus(String identifier) {
+        Models models=modelsRepository.findByIdentifier(identifier);
+        models.setStatus(!models.isStatus());
+        modelsRepository.save(models);
+        return modelMapper.map(models,ModelsDto.class);
     }
 
     @Override
     public ModelsDto save(ModelsDto modelsDto) {
-
+        modelsDto.setIdentifier(modelsDto.getIdentifier().trim());
         String identifier = modelsDto.getIdentifier();
-        Models existingModel = modelsRepository.findByIdentifier(identifier);
-
-        if (existingModel != null) {
-            modelsDto.setMessage("Model with identifier - " + identifier + " already exists");
+        Models existingModels = modelsRepository.findByIdentifier(identifier);
+        if (existingModels != null) {
+            modelsDto.setMessage("Models with identifier - " + identifier + " already exists");
             modelsDto.setSuccess(false);
             return modelsDto;
         }
-
-        Models model = modelMapper.map(modelsDto, Models.class);
-        modelsRepository.save(model);
-
-        modelsDto.setMessage("Model created successfully");
-        modelsDto.setSuccess(true);
+        Models models = modelMapper.map(modelsDto, Models.class);
+        modelsRepository.save(models);
         return modelsDto;
     }
 
     @Override
     public ModelsDto update(ModelsDto modelsDto) {
-
         String identifier = modelsDto.getIdentifier();
-        Models existingModel = modelsRepository.findByIdentifier(identifier);
-
-        if (existingModel == null) {
-            modelsDto.setMessage("Model with identifier - " + identifier + " not found");
+        Models existingModels = modelsRepository.findByIdentifier(identifier);
+        if (existingModels == null) {
+            modelsDto.setMessage("Models with identifier - " + identifier + " not found");
             modelsDto.setSuccess(false);
             return modelsDto;
         }
-
-        modelMapper.map(modelsDto, existingModel);
-        modelsRepository.save(existingModel);
-
-        modelsDto.setMessage("Model updated successfully");
-        modelsDto.setSuccess(true);
+        modelMapper.map(modelsDto, existingModels);
+        modelsRepository.save(existingModels);
         return modelsDto;
     }
 
@@ -77,13 +71,16 @@ public class ModelsServiceImpl implements ModelsService {
 
     @Override
     public List<ModelsDto> findAll() {
-
         Type listType = new TypeToken<List<ModelsDto>>() {
         }.getType();
-
-        return modelMapper.map(
-                modelsRepository.findAll(),
-                listType
-        );
+        return modelMapper.map(modelsRepository.findAll(), listType);
     }
+
+    @Override
+    public List<ModelsDto> findIfTrue() {
+        Type listType = new TypeToken<List<ModelsDto>>(){
+        }.getType();
+        return modelMapper.map(modelsRepository.findByStatusIsTrue(), listType);
+    }
+
 }

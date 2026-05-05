@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -8,124 +9,133 @@
 
     <style>
         body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
             margin: 0;
             min-height: 100vh;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #f6f7f9;
         }
 
-        .container {
+        .topbar {
+            height: 56px;
+            background-color: #020617;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .top-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .logout-btn {
+            background: #dc2626;
+            border: none;
+            color: white;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .card {
             width: 420px;
-            margin: 80px auto;
             background: #ffffff;
-            padding: 30px;
+            margin: 60px auto;
+            padding: 26px;
             border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            padding: 6px 14px;
+            background: #eef0f3;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 24px;
-            font-size: 20px;
-            color: #6d28d9;
-            font-weight: 600;
+            margin-bottom: 16px;
         }
 
         label {
-            margin-top: 16px;
             display: block;
+            margin-top: 14px;
+            font-size: 12px;
             font-weight: 600;
-            font-size: 13px;
-            color: #4c1d95;
+            color: #475569;
         }
 
-        input, select {
+        input {
             width: 100%;
+            padding: 9px 11px;
             margin-top: 6px;
-            padding: 9px;
-            border: 1px solid #c4b5fd;
+            border: 1px solid #d1d5db;
             border-radius: 6px;
-            font-size: 13px;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #a78bfa;
-            box-shadow: 0 0 0 0.15rem rgba(167, 139, 250, 0.35);
+            font-size: 14px;
         }
 
         button {
-            margin-top: 26px;
+            margin-top: 22px;
             width: 100%;
-            padding: 11px;
-            background: #7c3aed;
-            color: #ffffff;
+            padding: 10px;
+            background: #2563eb;
+            color: white;
+            border-radius: 20px;
             border: none;
             font-weight: 600;
-            border-radius: 6px;
+            font-size: 14px;
             cursor: pointer;
         }
 
-        button:hover {
-            background: #6d28d9;
-        }
-
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 18px;
-            color: #6d28d9;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 13px;
-        }
-
-        a:hover {
-            text-decoration: underline;
-            color: #5b21b6;
-        }
-
-        /* Error Message */
         .error-message {
-            background: #fee2e2;
-            color: #b91c1c;
-            border: 1px solid #fca5a5;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 13px;
             text-align: center;
-            margin-bottom: 16px;
+            color: #dc2626;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 14px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="topbar">
+    <div class="top-title">POS Application</div>
+    <form action="${pageContext.request.contextPath}/logout" method="post">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
+
+<div class="card">
+    <a href="${pageContext.request.contextPath}/models/list" class="back-btn">Back</a>
 
     <h2>Add Model</h2>
 
-    <!-- ✅ Error Message -->
     <c:if test="${not empty message}">
-        <div class="error-message">
-            ${message}
-        </div>
+        <div class="error-message">${message}</div>
     </c:if>
 
-    <!-- ✅ Form -->
-    <form action="${pageContext.request.contextPath}/models/add" method="post">
+    <form:form action="${pageContext.request.contextPath}/models/add"
+               method="post"
+               modelAttribute="modelsDto">
 
-        <!-- Model Name -->
         <label>Model Name</label>
-        <input type="text" name="identifier" required />
+        <form:input path="identifier" required="true"/>
 
-        <button type="submit">Save</button>
-    </form>
-
-    <a href="${pageContext.request.contextPath}/models/list">
-        ← Back to Model List
-    </a>
-
+        <button type="submit">Add Model</button>
+    </form:form>
 </div>
 
 </body>

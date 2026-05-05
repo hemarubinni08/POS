@@ -37,7 +37,7 @@ public class StockController {
         model.addAttribute("stockDto", new StockDto());
 
         model.addAttribute("products",
-                productService.getAllProducts()
+                productService.findAll()
         );
 
         model.addAttribute("warehouses",
@@ -54,7 +54,7 @@ public class StockController {
 
         if (!response.isSuccess()) {
             model.addAttribute("products",
-                    productService.getAllProducts()
+                    productService.findAll()
             );
 
             model.addAttribute("warehouses",

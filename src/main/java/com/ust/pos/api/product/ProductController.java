@@ -24,43 +24,57 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
+    // Get all products
     @GetMapping("/list")
     public List<ProductDto> list() {
-        return productService.getAllProducts();
+        return productService.findAll();
     }
 
+    // Get product by identifier
     @GetMapping("/get")
-    public ProductDto get(@RequestParam Long id) {
-        return productService.getProduct(id);
+    public ProductDto get(@RequestParam String identifier) {
+        return productService.findByIdentifier(identifier);
     }
 
+    // Add a new product
     @PostMapping("/add")
     public ProductDto add(@RequestBody ProductDto productDto) {
-        return productService.createProduct(productDto);
+        return productService.save(productDto);
     }
 
+    // Update product
     @PostMapping("/update")
     public ProductDto update(@RequestBody ProductDto productDto) {
-        return productService.updateProduct(productDto);
+        return productService.update(productDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam Long id) {
-        try {
-            productService.deleteProduct(id);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    // Delete product by identifier
+    @DeleteMapping("/delete")
+    public boolean delete(@RequestParam String identifier) {
+        return productService.delete(identifier);
     }
 
+    // Toggle active/inactive status
+    @PostMapping("/toggle-status")
+    public ProductDto toggleStatus(@RequestParam String identifier) {
+        return productService.toggleStatus(identifier);
+    }
+
+    // Get only active products
+    @GetMapping("/active")
+    public List<ProductDto> activeProducts() {
+        return productService.findIfTrue();
+    }
+
+    // List all prices
     @GetMapping("/prices")
     public List<PriceDto> prices() {
         return priceService.getAllPrices();
     }
 
+    // List all categories
     @GetMapping("/categories")
     public List<CategoryDto> categories() {
-        return categoryService.getAllCategories();
+        return categoryService.findAll();
     }
 }

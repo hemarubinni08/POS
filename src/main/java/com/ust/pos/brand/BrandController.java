@@ -59,4 +59,8 @@ public class BrandController {
         return REDIRECT_BRAND_LIST;
     }
 
+    @PostMapping("/toggle-status")
+    @ResponseBody
+    public void toggle(Model model,@RequestParam String identifier){
+        brandService.toggleStatus(identifier);}
 }

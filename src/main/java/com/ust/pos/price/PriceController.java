@@ -31,7 +31,7 @@ public class PriceController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("priceDto", new PriceDto());
-        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("products", productService.findAll());
         return "price/add";
     }
 
@@ -42,7 +42,7 @@ public class PriceController {
             priceService.createPrice(priceDto);
         } catch (RuntimeException ex) {
 
-            model.addAttribute("products", productService.getAllProducts());
+            model.addAttribute("products", productService.findAll());
             model.addAttribute("message", ex.getMessage());
             model.addAttribute("messageType", "error");
             return "price/add";
@@ -64,7 +64,7 @@ public class PriceController {
         }
 
         model.addAttribute("price", price);
-        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("products", productService.findAll());
         return "price/price";
     }
 
@@ -76,7 +76,7 @@ public class PriceController {
         try {
             response = priceService.updatePrice(priceDto);
         } catch (RuntimeException ex) {
-            model.addAttribute("products", productService.getAllProducts());
+            model.addAttribute("products", productService.findAll());
             model.addAttribute("price", priceDto);
             model.addAttribute("message", ex.getMessage());
             model.addAttribute("messageType", "error");

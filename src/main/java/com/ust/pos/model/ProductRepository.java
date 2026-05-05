@@ -1,13 +1,17 @@
 package com.ust.pos.model;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+@Repository
+public interface ProductRepository extends JpaRepository<Product,Long> {
+    Product findByIdentifier(String identifier);
 
-    Optional<Product> findByIdentifier(String identifier);
+    void deleteByIdentifier(String identifier);
 
-    boolean existsByIdentifier(String identifier);
+    Product findBySkuCode(Long skuCode);
 
+    List<Product> findByStatusIsTrue();
 }

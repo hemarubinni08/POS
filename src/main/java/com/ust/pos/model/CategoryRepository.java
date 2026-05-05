@@ -1,15 +1,17 @@
 package com.ust.pos.model;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+@Repository
+public interface CategoryRepository extends JpaRepository<Category,Long> {
+    Category findByIdentifier(String identifier);
 
-    boolean existsByIdentifierAndCategory(String identifier, String category);
+    void deleteByIdentifier(String identifier);
 
-    Optional<Category> findByIdentifier(String identifier);
+    List<Category> findBySuperCategoryIsNot(String category);
 
-    List<Category> findAll();
+    List<Shelf> findByStatusIsTrue();
 }

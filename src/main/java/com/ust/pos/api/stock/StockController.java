@@ -32,10 +32,7 @@ public class StockController {
     }
 
     @GetMapping("/get")
-    public StockDto get(
-            @RequestParam Long productId,
-            @RequestParam Long warehouseId
-    ) {
+    public StockDto get(@RequestParam Long productId, @RequestParam Long warehouseId) {
         return stockService.getStock(productId, warehouseId);
     }
 
@@ -45,10 +42,7 @@ public class StockController {
     }
 
     @PostMapping("/update-quantity")
-    public StockDto updateQuantity(
-            @RequestParam Long stockId,
-            @RequestParam Integer quantity
-    ) {
+    public StockDto updateQuantity(@RequestParam Long stockId, @RequestParam Integer quantity) {
         return stockService.updateStockQuantity(stockId, quantity);
     }
 
@@ -64,7 +58,7 @@ public class StockController {
 
     @GetMapping("/products")
     public List<ProductDto> products() {
-        return productService.getAllProducts();
+        return productService.findAll();
     }
 
     @GetMapping("/warehouses")

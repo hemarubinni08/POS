@@ -1,6 +1,7 @@
 package com.ust.pos.brand.service;
 
 import com.ust.pos.dto.BrandDto;
+import com.ust.pos.dto.ShelfDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,4 +17,8 @@ public interface BrandService {
     List<BrandDto> findAll();
 
     BrandDto findByIdentifier(String identifier);
+
+    BrandDto toggleStatus(String identifier);
+
+    List<BrandDto> findIfTrue();
 }

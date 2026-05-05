@@ -1,18 +1,28 @@
 package com.ust.pos.category.service;
 
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.ModelsDto;
+import com.ust.pos.dto.ShelfDto;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 public interface CategoryService {
+    CategoryDto save(CategoryDto categoryDto);
 
-    CategoryDto createCategory(CategoryDto dto);
+    CategoryDto update(CategoryDto categoryDto);
 
-    CategoryDto updateCategory(CategoryDto dto);
+    boolean delete(String identifier);
 
-    CategoryDto getCategory(Long id);
+    List<CategoryDto> findAll();
 
-    List<CategoryDto> getAllCategories();
+    CategoryDto findByIdentifier(String identifier);
 
-    boolean deleteCategory(Long id);
+    List<CategoryDto> findBySuperCategoryNotNull();
+
+    CategoryDto toggleStatus(String identifier);
+
+    List<CategoryDto> findIfTrue();
+
 }

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -6,216 +6,231 @@
 <head>
     <title>Product Management</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
-        :root {
-            --primary: #2563eb;
-            --primary-hover: #1e40af;
-            --bg: #f8fafc;
-            --glass: rgba(255,255,255,0.75);
-            --text: #0f172a;
-            --muted: #64748b;
-            --border: #e2e8f0;
-            --danger: #dc2626;
-            --radius: 16px;
-            --shadow: 0 20px 40px rgba(2,6,23,0.08);
-        }
-
-        * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
-
         body {
-            background: var(--bg);
-            padding: 40px 20px;
-            color: var(--text);
+            margin: 0;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f6f7f9;
         }
 
-        .back-arrow {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border);
+        .topbar {
+            height: 56px;
+            background: #020617;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            box-shadow: var(--shadow);
-            text-decoration: none;
-            color: var(--text);
-        }
-
-        .container-box {
-            max-width: 1200px;
-            margin: 60px auto 0;
-        }
-
-        .card {
-            background: var(--glass);
-            backdrop-filter: blur(16px);
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-
-        .card-header {
-            padding: 20px 24px;
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
             justify-content: space-between;
-            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid #1e293b;
         }
 
-        .add-btn {
-            padding: 8px 14px;
-            border-radius: 10px;
-            background: var(--primary);
-            color: #fff;
-            text-decoration: none;
-            font-size: 13px;
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .top-title {
+            color: #e5e7eb;
             font-weight: 600;
         }
 
-        table { width: 100%; border-collapse: collapse; }
-
-        th, td {
-            padding: 14px 16px;
-            font-size: 13px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
+        .home-btn {
+            padding: 6px 14px;
+            background: #1e293b;
+            color: #e5e7eb;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
         }
 
-        th {
-            font-size: 11px;
-            text-transform: uppercase;
-            color: var(--muted);
-            background: rgba(248,250,252,0.8);
+        .logout-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
         }
 
-        .price-box {
-            font-size: 12px;
-            color: var(--muted);
-            line-height: 1.4;
+        .container {
+            width: 95%;
+            max-width: 1100px;
+            margin: 32px auto;
+            background: #fff;
+            padding: 26px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
         }
 
         .actions {
-            display: flex;
-            gap: 8px;
+            text-align: right;
+            margin-bottom: 14px;
         }
 
-        .btn-edit {
-            background: #eef2ff;
-            color: var(--primary);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
+        .add-btn {
+            background: #2563eb;
+            color: white;
             text-decoration: none;
-        }
-
-        .btn-delete {
-            background: #fee2e2;
-            color: var(--danger);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
+            padding: 7px 16px;
+            border-radius: 6px;
             font-weight: 600;
-            text-decoration: none;
         }
 
-        .empty-state {
-            padding: 40px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
             text-align: center;
-            color: var(--muted);
+        }
+
+        th {
+            background: #e5e7eb;
+        }
+
+        .action-link {
+            padding: 6px 14px;
+            border-radius: 6px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .edit {
+            background: #2563eb;
+        }
+
+        .delete {
+            background: #dc2626;
+            margin-left: 8px;
+        }
+
+        /* ===== STATUS TOGGLE ===== */
+        .status-btn {
+            border: none;
+            padding: 6px 16px;
+            border-radius: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .status-btn.active {
+            background: #16a34a;
+            color: white;
+        }
+
+        .status-btn.inactive {
+            background: #dc2626;
+            color: white;
         }
     </style>
 </head>
 
 <body>
 
-<a href="${pageContext.request.contextPath}/" class="back-arrow">←</a>
-
-<div class="container-box">
-    <div class="card">
-
-        <div class="card-header">
-            <span>Product Management</span>
-            <a href="${pageContext.request.contextPath}/product/add" class="add-btn">
-                + Add Product
-            </a>
-        </div>
-
-        <c:if test="${empty products}">
-            <div class="empty-state">No products found</div>
-        </c:if>
-
-        <c:if test="${not empty products}">
-            <table>
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>SKU</th>
-                    <th>Description</th>
-                    <th>Categories</th>
-                    <th>Prices</th>
-                    <th style="width:160px;">Actions</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <c:forEach var="product" items="${products}">
-                    <tr>
-                        <td>${product.identifier}</td>
-                        <td>${product.sku}</td>
-                        <td>${product.description}</td>
-
-                        <td>
-                            <c:forEach var="cat" items="${product.categoryNames}">
-                                <span class="badge bg-secondary me-1">${cat}</span>
-                            </c:forEach>
-                        </td>
-
-                        <td>
-                            <c:set var="hasPrice" value="false" />
-                            <c:forEach var="price" items="${prices}">
-                                <c:if test="${price.productId == product.id}">
-                                    <c:set var="hasPrice" value="true" />
-                                    <div class="price-box">
-                                        Selling: ₹${price.sellingPrice}<br/>
-                                        Cost: ₹${price.costPrice}
-                                    </div>
-                                </c:if>
-                            </c:forEach>
-
-                            <c:if test="${!hasPrice}">
-                                <div class="price-box">Price not assigned</div>
-                            </c:if>
-                        </td>
-
-                        <td class="actions">
-                            <a class="btn-edit"
-                               href="${pageContext.request.contextPath}/product/get?id=${product.id}">
-                                Edit
-                            </a>
-                            <a class="btn-delete"
-                               href="${pageContext.request.contextPath}/product/delete?id=${product.id}">
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-        </c:if>
-
+<!-- TOP BAR -->
+<div class="topbar">
+    <div class="topbar-left">
+        <div class="top-title">POS Application</div>
+        <a href="${pageContext.request.contextPath}/" class="home-btn">Home</a>
     </div>
+
+    <form action="${pageContext.request.contextPath}/logout" method="post">
+        <button class="logout-btn" type="submit">Logout</button>
+    </form>
 </div>
+
+<div class="container">
+    <h2 style="text-align:center;">Product Management</h2>
+
+    <div class="actions">
+        <a href="${pageContext.request.contextPath}/product/add" class="add-btn">
+            Add Product
+        </a>
+    </div>
+
+    <c:if test="${empty products}">
+        <div style="text-align:center;">No products found</div>
+    </c:if>
+
+    <c:if test="${not empty products}">
+        <table>
+            <tr>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>SKU Code</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Unit</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            <c:forEach var="product" items="${products}">
+                <tr>
+                    <td>${product.identifier}</td>
+                    <td>${product.category}</td>
+                    <td>${product.skuCode}</td>
+                    <td>${product.brand}</td>
+                    <td>${product.model}</td>
+                    <td>${product.unit}</td>
+
+                    <!-- STATUS TOGGLE -->
+                    <td>
+                        <button
+                            class="status-btn ${product.status ? 'active' : 'inactive'}"
+                            onclick="toggleStatus('${product.identifier}', this)">
+                            ${product.status ? 'Active' : 'Inactive'}
+                        </button>
+                    </td>
+
+                    <!-- ACTIONS -->
+                    <td>
+                        <a class="action-link edit"
+                           href="${pageContext.request.contextPath}/product/get/${product.identifier}">
+                            Edit
+                        </a>
+                        <a class="action-link delete"
+                           href="${pageContext.request.contextPath}/product/delete/${product.identifier}"
+                           onclick="return confirm('Delete this product?');">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
+</div>
+
+<script>
+    function toggleStatus(identifier, button) {
+        fetch('${pageContext.request.contextPath}/product/toggle-status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'identifier=' + encodeURIComponent(identifier)
+        })
+        .then(() => {
+            if (button.classList.contains('active')) {
+                button.classList.remove('active');
+                button.classList.add('inactive');
+                button.innerText = 'Inactive';
+            } else {
+                button.classList.remove('inactive');
+                button.classList.add('active');
+                button.innerText = 'Active';
+            }
+        })
+        .catch(() => {
+            alert('Failed to update status');
+        });
+    }
+</script>
 
 </body>
 </html>
