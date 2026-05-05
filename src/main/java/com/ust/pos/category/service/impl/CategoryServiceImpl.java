@@ -78,16 +78,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto toggleStatus(String identifier) {
-        Category category=categoryRepository.findByIdentifier(identifier);
+        Category category = categoryRepository.findByIdentifier(identifier);
         category.setStatus(!category.isStatus());
         categoryRepository.save(category);
-        return modelMapper.map(category,CategoryDto.class);
+        System.out.println("CATEGORY STATUS UPDATED: " + category.getIdentifier() + " → " + category.isStatus());
+        return modelMapper.map(category, CategoryDto.class);
     }
-
     @Override
     public List<CategoryDto> findIfTrue() {
-        Type listType = new TypeToken<List<ShelfDto>>(){
-        }.getType();
+        Type listType = new TypeToken<List<CategoryDto>>(){}.getType();
         return modelMapper.map(categoryRepository.findByStatusIsTrue(), listType);
     }
 }

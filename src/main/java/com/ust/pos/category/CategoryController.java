@@ -62,4 +62,11 @@ public class CategoryController {
         categoryService.delete(identifier);
         return REDIRECT_CATEGORY_LIST;
     }
+
+
+    @PostMapping("/toggle-status")
+    @ResponseBody
+    public void toggleStatus(@RequestParam String identifier) {
+        categoryService.toggleStatus(identifier);
+    }
 }

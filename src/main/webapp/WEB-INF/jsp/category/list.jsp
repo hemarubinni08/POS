@@ -6,103 +6,228 @@
 <head>
     <title>Category Management</title>
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <meta name="_csrf" content="${_csrf.token}">
+
     <style>
-        body { margin:0; font-family:"Segoe UI", Roboto, Arial, sans-serif; background:#f6f7f9; }
-
-        .topbar {
-            height:56px; background:#020617; display:flex;
-            justify-content:space-between; align-items:center;
-            padding:0 20px; border-bottom:1px solid #1e293b;
-        }
-        .topbar-left { display:flex; align-items:center; gap:14px; }
-        .top-title { color:#e5e7eb; font-weight:600; }
-        .home-btn {
-            padding:6px 14px; background:#1e293b; color:#e5e7eb;
-            text-decoration:none; border-radius:6px; font-weight:600;
-        }
-        .logout-btn {
-            background:#dc2626; color:white; border:none;
-            padding:7px 16px; border-radius:6px; font-weight:600;
+        :root {
+            --primary:#2563eb;
+            --bg:#f8fafc;
+            --glass:rgba(255,255,255,.75);
+            --text:#0f172a;
+            --muted:#64748b;
+            --border:#e2e8f0;
+            --danger:#dc2626;
+            --success:#16a34a;
+            --radius:16px;
+            --shadow:0 20px 40px rgba(2,6,23,.08);
         }
 
-        .container {
-            width:95%; max-width:1100px; margin:32px auto;
-            background:#fff; padding:26px; border-radius:12px;
-            box-shadow:0 6px 18px rgba(0,0,0,0.08);
+        * { box-sizing:border-box; font-family:'Inter',sans-serif; }
+
+        body {
+            background:var(--bg);
+            min-height:100vh;
+            padding:40px 20px;
+            color:var(--text);
         }
 
-        .actions { text-align:right; margin-bottom:14px; }
-        .add-btn {
-            background:#2563eb; color:white; text-decoration:none;
-            padding:7px 16px; border-radius:6px; font-weight:600;
+        .back-arrow{
+            position:fixed; top:20px; left:20px;
+            width:42px; height:42px;
+            display:flex; align-items:center; justify-content:center;
+            border-radius:50%;
+            background:var(--glass);
+            backdrop-filter:blur(10px);
+            border:1px solid var(--border);
+            color:var(--text);
+            text-decoration:none;
+            font-size:18px;
+            box-shadow:var(--shadow);
+            transition:.2s;
+        }
+        .back-arrow:hover{
+            background:#eef2ff;
+            color:var(--primary);
+            transform:translate(-2px,-2px);
         }
 
-        table { width:100%; border-collapse:collapse; }
-        th, td { padding:14px; border-bottom:1px solid #e5e7eb; text-align:center; }
-        th { background:#e5e7eb; }
-
-        .action-link {
-            padding:6px 14px; border-radius:6px;
-            color:white; text-decoration:none; font-weight:600;
+        .container-box{
+            max-width:1100px;
+            margin:60px auto 0;
         }
-        .edit { background:#2563eb; }
-        .delete { background:#dc2626; margin-left:8px; }
+
+        .card{
+            background:var(--glass);
+            backdrop-filter:blur(16px);
+            border-radius:var(--radius);
+            border:1px solid var(--border);
+            box-shadow:var(--shadow);
+            overflow:hidden;
+        }
+
+        .card-header{
+            padding:20px 24px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            font-weight:600;
+            font-size:18px;
+        }
+
+        .add-btn{
+            background:var(--primary);
+            color:white;
+            text-decoration:none;
+            padding:8px 14px;
+            border-radius:10px;
+            font-size:13px;
+            font-weight:600;
+        }
+
+        table{ width:100%; border-collapse:collapse; }
+
+        th,td{
+            padding:14px 16px;
+            border-bottom:1px solid var(--border);
+            font-size:13px;
+        }
+
+        th{
+            font-size:11px;
+            text-transform:uppercase;
+            color:var(--muted);
+            background:rgba(248,250,252,.9);
+        }
+
+        tr:hover{ background:rgba(241,245,249,.6); }
+
+        .toggle-switch{
+            width:46px; height:24px;
+            border-radius:999px;
+            background:#cbd5f5;
+            position:relative;
+            cursor:pointer;
+            transition:.25s;
+        }
+        .toggle-switch::after{
+            content:"";
+            position:absolute;
+            top:3px; left:4px;
+            width:18px; height:18px;
+            background:white;
+            border-radius:50%;
+            box-shadow:0 2px 6px rgba(0,0,0,.15);
+            transition:.25s;
+        }
+        .toggle-switch.active{ background:var(--success); }
+        .toggle-switch.active::after{
+            transform:translateX(20px);
+        }
+
+        .actions{ display:flex; gap:8px; }
+
+        .btn-action{
+            padding:6px 12px;
+            border-radius:8px;
+            font-size:12px;
+            font-weight:600;
+            text-decoration:none;
+        }
+
+        .btn-edit{ background:#eef2ff; color:var(--primary); }
+        .btn-delete{ background:#fee2e2; color:var(--danger); }
+
+        .empty-state{
+            padding:40px;
+            text-align:center;
+            color:var(--muted);
+        }
     </style>
 </head>
 
 <body>
 
-<!-- ✅ TOP BAR -->
-<div class="topbar">
-    <div class="topbar-left">
-        <div class="top-title">POS Application</div>
-        <a href="${pageContext.request.contextPath}/" class="home-btn">Home</a>
-    </div>
-    <form action="${pageContext.request.contextPath}/logout" method="post" style="margin:0;">
-        <button type="submit" class="logout-btn">Logout</button>
-    </form>
-</div>
+<a href="${pageContext.request.contextPath}/" class="back-arrow">←</a>
 
-<div class="container">
-    <h2 style="text-align:center;">Category Management</h2>
+<div class="container-box">
+    <div class="card">
 
-    <div class="actions">
-        <a href="${pageContext.request.contextPath}/category/add" class="add-btn">
-            Add Category
-        </a>
-    </div>
+        <div class="card-header">
+            <span>Category Management</span>
+            <a class="add-btn" href="${pageContext.request.contextPath}/category/add">
+                + Add Category
+            </a>
+        </div>
 
-    <c:if test="${empty categorys}">
-        <div style="text-align:center;">No categories found</div>
-    </c:if>
+        <c:if test="${empty categorys}">
+            <div class="empty-state">No categories found</div>
+        </c:if>
 
-    <c:if test="${not empty categorys}">
-        <table>
-            <tr>
-                <th>Category Name</th>
-                <th>Super Category</th>
-                <th>Action</th>
-            </tr>
-
-            <c:forEach var="cat" items="${categorys}">
+        <c:if test="${not empty categorys}">
+            <table>
+                <thead>
                 <tr>
-                    <td>${cat.identifier}</td>
-                    <td>${cat.superCategory}</td>
-                    <td>
-                        <a href="${pageContext.request.contextPath}/category/get?identifier=${cat.identifier}"
-                           class="action-link edit">Edit</a>
-
-                        <a href="${pageContext.request.contextPath}/category/delete?identifier=${cat.identifier}"
-                           class="action-link delete"
-                           onclick="return confirm('Are you sure you want to delete this category?');">
-                            Delete
-                        </a>
-                    </td>
+                    <th>Category</th>
+                    <th>Super Category</th>
+                    <th>Status</th>
+                    <th style="width:180px;">Actions</th>
                 </tr>
-            </c:forEach>
-        </table>
-    </c:if>
+                </thead>
+                <tbody>
+                <c:forEach var="cat" items="${categorys}">
+                    <tr>
+                        <td><strong>${cat.identifier}</strong></td>
+                        <td class="text-muted">${cat.superCategory}</td>
+                        <td>
+                            <div class="toggle-switch ${cat.status ? 'active' : ''}"
+                                 onclick="toggleCategoryStatus('${cat.identifier}', this)">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <a class="btn-action btn-edit"
+                                   href="${pageContext.request.contextPath}/category/get?identifier=${cat.identifier}">
+                                    Edit
+                                </a>
+                                <a class="btn-action btn-delete"
+                                   href="${pageContext.request.contextPath}/category/delete?identifier=${cat.identifier}"
+                                   onclick="return confirm('Delete this category?')">
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+
+    </div>
 </div>
+
+<script>
+    function toggleCategoryStatus(identifier, el) {
+        el.classList.toggle("active");
+
+        const token = document.querySelector('meta[name="_csrf"]').content;
+
+        fetch('${pageContext.request.contextPath}/category/toggle-status?identifier=' + identifier, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': token
+            }
+        }).catch(err => {
+            console.error(err);
+            el.classList.toggle("active"); // rollback UI on failure
+        });
+    }
+</script>
 
 </body>
 </html>
