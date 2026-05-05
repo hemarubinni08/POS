@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Role</title>
+    <title>Edit Brand</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
     <style>
@@ -28,17 +28,17 @@
 ${message}
 <div class="card shadow-lg">
     <div class="card-body">
-        <h4 class="text-center mb-4 text-primary">Edit Role</h4>
-        <c:if test="${empty role}">
+        <h4 class="text-center mb-4 text-primary">Edit Brand</h4>
+        <c:if test="${empty Brand}">
             <div class="alert alert-danger text-center">
-                Role not found
+                Brand not found
             </div>
         </c:if>
-        <c:if test="${not empty role}">
-            <form:form action="/role/update"
+        <c:if test="${not empty Brand}">
+            <form:form action="/brand/update"
                        method="post"
-                       modelAttribute="role">
-                <form:hidden path="id" value="${role.id}"/>
+                       modelAttribute="brand">
+                <form:hidden path="id" value="${brand.id}"/>
                 <div class="mb-4">
                 <label class="form-label"></label>
                 <form:input path="identifier" type="hidden"
@@ -54,7 +54,7 @@ ${message}
                                 required="true"/>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <a href="/role/list" class="btn btn-outline-secondary">
+                    <a href="/brand/list" class="btn btn-outline-secondary">
                         Cancel
                     </a>
                     <button type="submit" class="btn btn-primary">
