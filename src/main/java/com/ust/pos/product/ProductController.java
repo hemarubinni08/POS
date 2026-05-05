@@ -86,8 +86,10 @@ public class ProductController {
         productService.delete(identifier);
         return REDIRECT_PRODUCT_LIST;
     }
+
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
-        productService.toggleStatus(identifier);}
+    public void toggleStatus(@RequestParam String identifier) {
+        productService.toggleStatus(identifier);
+    }
 }

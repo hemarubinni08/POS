@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -6,228 +6,242 @@
 <head>
     <title>Product Management</title>
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --glass: rgba(255,255,255,0.75);
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --radius: 16px;
+            --shadow: 0 20px 40px rgba(2,6,23,0.08);
+        }
+
+        * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+
         body {
-            margin: 0;
-            font-family: "Segoe UI", Roboto, Arial, sans-serif;
-            background: #f6f7f9;
+            background: var(--bg);
+            min-height: 100vh;
+            padding: 40px 20px;
         }
 
-        .topbar {
-            height: 56px;
-            background: #020617;
+        .back-arrow {
+                    position: fixed;
+                    top: 20px;
+                    left: 20px;
+
+                    width: 42px;
+                    height: 42px;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    border-radius: 50%;
+                    background: var(--glass);
+                    backdrop-filter: blur(10px);
+
+                    border: 1px solid var(--border);
+                    color: var(--text);
+
+                    text-decoration: none;
+                    font-size: 18px;
+
+                    box-shadow: var(--shadow);
+                    transition:
+                        transform 0.2s ease,
+                        box-shadow 0.2s ease,
+                        background 0.2s ease,
+                        color 0.2s ease;
+                }
+
+                .back-arrow:hover {
+                    background: #eef2ff;
+                    color: var(--primary);
+                    transform: translateY(-2px) translateX(-2px);
+                    box-shadow: 0 12px 28px rgba(37,99,235,0.25);
+                }
+
+        .container-box {
+            max-width: 1200px;
+            margin: 60px auto 0;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px 24px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
-            border-bottom: 1px solid #1e293b;
-        }
-
-        .topbar-left {
-            display: flex;
             align-items: center;
-            gap: 14px;
-        }
-
-        .top-title {
-            color: #e5e7eb;
             font-weight: 600;
-        }
-
-        .home-btn {
-            padding: 6px 14px;
-            background: #1e293b;
-            color: #e5e7eb;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-        }
-
-        .logout-btn {
-            background: #dc2626;
-            color: white;
-            border: none;
-            padding: 7px 16px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .container {
-            width: 95%;
-            max-width: 1100px;
-            margin: 32px auto;
-            background: #fff;
-            padding: 26px;
-            border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-        }
-
-        .actions {
-            text-align: right;
-            margin-bottom: 14px;
+            font-size: 18px;
         }
 
         .add-btn {
-            background: #2563eb;
+            padding: 8px 14px;
+            border-radius: 10px;
+            background: var(--primary);
             color: white;
             text-decoration: none;
-            padding: 7px 16px;
-            border-radius: 6px;
+            font-size: 13px;
             font-weight: 600;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        table { width: 100%; border-collapse: collapse; }
 
         th, td {
-            padding: 14px;
-            border-bottom: 1px solid #e5e7eb;
-            text-align: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
         }
 
         th {
-            background: #e5e7eb;
+            text-transform: uppercase;
+            font-size: 11px;
+            color: var(--muted);
+            background: rgba(248,250,252,.9);
         }
 
-        .action-link {
-            padding: 6px 14px;
-            border-radius: 6px;
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .edit {
-            background: #2563eb;
-        }
-
-        .delete {
-            background: #dc2626;
-            margin-left: 8px;
-        }
-
-        /* ===== STATUS TOGGLE ===== */
-        .status-btn {
-            border: none;
-            padding: 6px 16px;
-            border-radius: 16px;
-            font-weight: 600;
+        .toggle-switch {
+            width: 46px;
+            height: 24px;
+            border-radius: 999px;
+            background: #cbd5f5;
+            position: relative;
             cursor: pointer;
         }
 
-        .status-btn.active {
-            background: #16a34a;
-            color: white;
+        .toggle-switch::after {
+            content: "";
+            position: absolute;
+            top: 3px;
+            left: 4px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.25s;
         }
 
-        .status-btn.inactive {
-            background: #dc2626;
-            color: white;
+        .toggle-switch.active {
+            background: var(--success);
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(20px);
+        }
+
+        .actions { display: flex; gap: 8px; }
+
+        .btn-action {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .btn-edit { background: #eef2ff; color: var(--primary); }
+        .btn-delete { background: #fee2e2; color: var(--danger); }
+
+        .empty-state {
+            padding: 40px;
+            text-align: center;
+            color: var(--muted);
         }
     </style>
 </head>
 
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-    <div class="topbar-left">
-        <div class="top-title">POS Application</div>
-        <a href="${pageContext.request.contextPath}/" class="home-btn">Home</a>
-    </div>
+<a href="${pageContext.request.contextPath}/" class="back-arrow">←</a>
 
-    <form action="${pageContext.request.contextPath}/logout" method="post">
-        <button class="logout-btn" type="submit">Logout</button>
-    </form>
-</div>
+<div class="container-box">
+    <div class="card">
 
-<div class="container">
-    <h2 style="text-align:center;">Product Management</h2>
+        <div class="card-header">
+            <span>Product Management</span>
+            <a href="${pageContext.request.contextPath}/product/add" class="add-btn">+ Add Product</a>
+        </div>
 
-    <div class="actions">
-        <a href="${pageContext.request.contextPath}/product/add" class="add-btn">
-            Add Product
-        </a>
-    </div>
+        <c:if test="${empty products}">
+            <div class="empty-state">No products found</div>
+        </c:if>
 
-    <c:if test="${empty products}">
-        <div style="text-align:center;">No products found</div>
-    </c:if>
-
-    <c:if test="${not empty products}">
-        <table>
-            <tr>
-                <th>Product Name</th>
-                <th>Category</th>
-                <th>SKU Code</th>
-                <th>Brand</th>
-                <th>Model</th>
-                <th>Unit</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-
-            <c:forEach var="product" items="${products}">
+        <c:if test="${not empty products}">
+            <table>
+                <thead>
                 <tr>
-                    <td>${product.identifier}</td>
-                    <td>${product.category}</td>
-                    <td>${product.skuCode}</td>
-                    <td>${product.brand}</td>
-                    <td>${product.model}</td>
-                    <td>${product.unit}</td>
-
-                    <!-- STATUS TOGGLE -->
-                    <td>
-                        <button
-                            class="status-btn ${product.status ? 'active' : 'inactive'}"
-                            onclick="toggleStatus('${product.identifier}', this)">
-                            ${product.status ? 'Active' : 'Inactive'}
-                        </button>
-                    </td>
-
-                    <!-- ACTIONS -->
-                    <td>
-                        <a class="action-link edit"
-                           href="${pageContext.request.contextPath}/product/get/${product.identifier}">
-                            Edit
-                        </a>
-                        <a class="action-link delete"
-                           href="${pageContext.request.contextPath}/product/delete/${product.identifier}"
-                           onclick="return confirm('Delete this product?');">
-                            Delete
-                        </a>
-                    </td>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Unit</th>
+                    <th>SKU</th>
+                    <th>Status</th>
+                    <th style="width:180px;">Actions</th>
                 </tr>
-            </c:forEach>
-        </table>
-    </c:if>
+                </thead>
+                <tbody>
+                <c:forEach var="product" items="${products}">
+                    <tr>
+                        <td><strong>${product.identifier}</strong></td>
+                        <td>${product.category}</td>
+                        <td>${product.brand}</td>
+                        <td>${product.model}</td>
+                        <td>${product.unit}</td>
+                        <td>${product.skuCode}</td>
+                        <td>
+                            <div class="toggle-switch ${product.status ? 'active' : ''}"
+                                 onclick="toggleProductStatus('${product.identifier}', this)">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <a class="btn-action btn-edit"
+                                   href="${pageContext.request.contextPath}/product/get/${product.identifier}">
+                                    Edit
+                                </a>
+                                <a class="btn-action btn-delete"
+                                   href="${pageContext.request.contextPath}/product/delete/${product.identifier}"
+                                   onclick="return confirm('Delete this product?')">
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
+
+    </div>
 </div>
 
 <script>
-    function toggleStatus(identifier, button) {
+    function toggleProductStatus(identifier, el) {
+        el.classList.toggle("active");
         fetch('${pageContext.request.contextPath}/product/toggle-status', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: 'identifier=' + encodeURIComponent(identifier)
-        })
-        .then(() => {
-            if (button.classList.contains('active')) {
-                button.classList.remove('active');
-                button.classList.add('inactive');
-                button.innerText = 'Inactive';
-            } else {
-                button.classList.remove('inactive');
-                button.classList.add('active');
-                button.innerText = 'Active';
-            }
-        })
-        .catch(() => {
-            alert('Failed to update status');
         });
     }
 </script>
