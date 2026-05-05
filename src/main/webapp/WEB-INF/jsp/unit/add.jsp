@@ -7,121 +7,181 @@
 <head>
     <title>Add Unit</title>
 
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1e40af;
+
+            --bg: #f8fafc;
+            --glass: rgba(255,255,255,0.75);
+
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+
+            --danger: #dc2626;
+            --danger-bg: #fee2e2;
+            --danger-border: #fecaca;
+
+            --radius: 16px;
+            --shadow: 0 20px 40px rgba(2,6,23,0.08);
+        }
+
+        * {
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+        }
+
         body {
-            margin: 0;
+            background: var(--bg);
             min-height: 100vh;
-            font-family: "Segoe UI", Roboto, Arial, sans-serif;
-            background-color: #f6f7f9;
-        }
-
-        .topbar {
-            height: 56px;
-            background-color: #020617;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 0 20px;
-            border-bottom: 1px solid #1e293b;
+            padding: 40px 20px;
+            color: var(--text);
         }
 
-        .top-title { color: #e5e7eb; font-weight: 600; }
-
-        .logout-btn {
-            background: #dc2626;
-            border: none;
-            color: white;
-            padding: 7px 16px;
-            border-radius: 6px;
-            font-weight: 600;
-        }
-
-        .card {
-            width: 420px;
-            margin: 60px auto;
-            background: white;
-            padding: 26px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            position: relative;
-        }
-
-        .back-btn {
-            position: absolute;
-            top: 18px;
-            left: 18px;
-            padding: 6px 14px;
-            background: #eef0f3;
-            border-radius: 6px;
-            color: #374151;
-            font-weight: 600;
+        /* BACK BUTTON */
+        .back-arrow {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            color: var(--text);
             text-decoration: none;
+            font-size: 18px;
+            box-shadow: var(--shadow);
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease,
+                color 0.2s ease;
         }
 
-        h2 { text-align: center; margin-bottom: 16px; }
+        .back-arrow:hover {
+            background: #eef2ff;
+            color: var(--primary);
+            transform: translateY(-2px) translateX(-2px);
+            box-shadow: 0 12px 28px rgba(37,99,235,0.25);
+        }
+
+        /* CARD */
+        .form-card {
+            width: 420px;
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            padding: 30px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 22px;
+            font-weight: 600;
+        }
 
         label {
-            display: block;
-            margin-top: 14px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #475569;
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 500;
+            margin-bottom: 4px;
         }
 
-        input {
-            width: 100%;
-            padding: 9px 11px;
-            margin-top: 6px;
-            border-radius: 6px;
-            border: 1px solid #d1d5db;
-        }
-
-        button {
-            margin-top: 22px;
-            width: 100%;
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid var(--border);
             padding: 10px;
-            background: #2563eb;
-            color: white;
-            border-radius: 20px;
-            border: none;
-            font-weight: 600;
+            font-size: 14px;
         }
 
-        .error-message {
-            text-align: center;
-            color: #dc2626;
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+        }
+
+        .btn-submit {
+            margin-top: 22px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            border-radius: 10px;
+            padding: 11px;
             font-weight: 600;
+            border: none;
+            width: 100%;
+            transition: 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(37,99,235,0.3);
+        }
+
+        .server-msg {
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .server-msg.error {
+            background: var(--danger-bg);
+            border: 1px solid var(--danger-border);
+            color: var(--danger);
         }
     </style>
 </head>
 
 <body>
 
-<div class="topbar">
-    <div class="top-title">POS Application</div>
-    <form action="${pageContext.request.contextPath}/logout" method="post">
-        <button class="logout-btn">Logout</button>
-    </form>
-</div>
+<!-- BACK -->
+<a href="${pageContext.request.contextPath}/unit/list" class="back-arrow">←</a>
 
-<div class="card">
-    <a href="${pageContext.request.contextPath}/unit/list" class="back-btn">Back</a>
+<div class="form-card">
 
     <h2>Add Unit</h2>
 
     <c:if test="${not empty message}">
-        <div class="error-message">${message}</div>
+        <div class="server-msg error">
+            ${message}
+        </div>
     </c:if>
 
-    <form:form action="${pageContext.request.contextPath}/unit/add"
-               method="post"
-               modelAttribute="unitDto">
+    <form:form
+        action="${pageContext.request.contextPath}/unit/add"
+        method="post"
+        modelAttribute="unitDto">
 
-        <label>Unit Name</label>
-        <form:input path="identifier" required="true"/>
+        <div class="mb-3">
+            <label>Unit Name</label>
+            <form:input path="identifier"
+                        cssClass="form-control"
+                        required="true"/>
+        </div>
 
-        <button type="submit">Add Unit</button>
+        <button type="submit" class="btn-submit">
+            Add Unit
+        </button>
+
     </form:form>
+
 </div>
 
 </body>

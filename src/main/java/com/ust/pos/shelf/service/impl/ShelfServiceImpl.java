@@ -35,9 +35,20 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public ShelfDto updateShelf(ShelfDto shelfDto) {
-        Shelf shelf = modelMapper.map(shelfDto, Shelf.class);
-        shelfRepository.save(shelf);
-        return shelfDto;
+        ShelfDto dto = new ShelfDto();
+
+        shelfRepository.findById(shelfDto.getId()).ifPresentOrElse(existing -> {
+            existing.setIdentifier(shelfDto.getIdentifier());
+            shelfRepository.save(existing);
+
+            modelMapper.map(existing, dto);
+            dto.setSuccess(true);
+        }, () -> {
+            dto.setSuccess(false);
+            dto.setMessage("Shelf not found");
+        });
+
+        return dto;
     }
 
     @Override
@@ -59,15 +70,30 @@ public class ShelfServiceImpl implements ShelfService {
     @Override
     public List<ShelfDto> getAllShelves() {
 
-        return shelfRepository.findAll()
-                .stream()
-                .map(shelf -> modelMapper.map(shelf, ShelfDto.class))
-                .toList();
+        return shelfRepository.findAll().stream().map(shelf -> modelMapper.map(shelf, ShelfDto.class)).toList();
     }
 
     @Override
     public boolean deleteShelf(Long id) {
         shelfRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public ShelfDto toggleStatus(Long id) {
+        ShelfDto dto = new ShelfDto();
+
+        shelfRepository.findById(id).ifPresentOrElse(shelf -> {
+            shelf.setActive(!shelf.isActive());
+            shelfRepository.save(shelf);
+
+            modelMapper.map(shelf, dto);
+            dto.setSuccess(true);
+        }, () -> {
+            dto.setSuccess(false);
+            dto.setMessage("Shelf not found");
+        });
+
+        return dto;
     }
 }

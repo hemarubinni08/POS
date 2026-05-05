@@ -66,4 +66,10 @@ public class ShelfController {
         shelfService.deleteShelf(id);
         return REDIRECT_SHELF_LIST;
     }
+
+    @PostMapping("/toggle-status")
+    @ResponseBody
+    public ShelfDto toggleStatus(@RequestParam Long id) {
+        return shelfService.toggleStatus(id);
+    }
 }
