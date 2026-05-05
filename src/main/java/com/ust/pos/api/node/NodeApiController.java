@@ -1,0 +1,56 @@
+package com.ust.pos.api.node;
+
+import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.RoleDto;
+import com.ust.pos.node.service.NodeService;
+import com.ust.pos.role.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/node")
+public class NodeApiController {
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private NodeService nodeService;
+
+    @GetMapping("/list")
+    public List<NodeDto> home(Model model) {
+        return nodeService.findAll();
+    }
+
+    @GetMapping("/add")
+    public List<RoleDto> add(@RequestBody NodeDto nodeDto) {
+        return roleService.findAll();
+    }
+
+    @PostMapping("/add")
+    public NodeDto addPost(@RequestBody NodeDto nodeDto) {
+        return nodeService.save(nodeDto);
+    }
+
+    @GetMapping("/get")
+    public NodeDto update(@RequestParam String identifier) {
+        return nodeService.findByIdentifier(identifier);
+    }
+
+    @PostMapping("/update")
+    public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
+        return nodeService.update(nodeDto);
+    }
+
+    @GetMapping("/delete")
+    public boolean delete(@RequestParam String identifier) {
+        try {
+            nodeService.delete(identifier);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+}

@@ -6,8 +6,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommonDto {
+
     private Long id;
+
     private String identifier;
+
+    private Boolean status = true;
+
+    private String description;
+
     private String message;
+
     private boolean success = true;
+
 }

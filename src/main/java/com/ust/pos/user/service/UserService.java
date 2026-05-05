@@ -14,4 +14,5 @@ public interface UserService {
     boolean delete(String username);
 
     List<UserDto> findAll();
+
 }

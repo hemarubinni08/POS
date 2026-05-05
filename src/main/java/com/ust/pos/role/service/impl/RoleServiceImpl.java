@@ -51,6 +51,7 @@ public class RoleServiceImpl implements RoleService {
             roleDto.setSuccess(false);
             return roleDto;
         }
+        roleDto.setSuccess(true);
         modelMapper.map(roleDto, existingRole);
         roleRepository.save(existingRole);
         return roleDto;

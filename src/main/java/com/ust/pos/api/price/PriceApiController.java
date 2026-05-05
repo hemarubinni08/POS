@@ -1,0 +1,55 @@
+package com.ust.pos.api.price;
+
+import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.ProductDto;
+import com.ust.pos.price.service.PriceService;
+import com.ust.pos.product.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/price")
+public class PriceApiController {
+    private static final String LIST_PRICE = "redirect:/price/list";
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private PriceService priceService;
+
+    @GetMapping("/list")
+    public List<PriceDto> home() {
+        return priceService.findAll();
+    }
+
+    @GetMapping("/add")
+    public List<ProductDto> add(@RequestBody PriceDto priceDto) {
+        return productService.findAll();
+    }
+
+    @PostMapping("/add")
+    public PriceDto addPost(@RequestBody PriceDto priceDto) {
+        return priceService.save(priceDto);
+    }
+
+    @GetMapping("/get")
+    public PriceDto update(@RequestParam String identifier) {
+        return priceService.findByIdentifier(identifier);
+    }
+
+    @PostMapping("/update")
+    public PriceDto doupdate(@RequestBody PriceDto priceDto) {
+        return priceService.update(priceDto);
+    }
+
+    @GetMapping("/delete")
+    public boolean delete(@RequestParam String identifier) {
+        try {
+            priceService.delete(identifier);
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+}
