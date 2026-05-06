@@ -3,9 +3,12 @@ package com.ust.pos.customer.service.impl;
 import com.ust.pos.address.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.AddressDto;
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.dto.ShelfsDto;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
+import com.ust.pos.model.Racks;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +45,6 @@ public class CustomerServiceImpl implements CustomerService {
         return customerDto;
     }
 
-
     @Override
     public CustomerDto save(CustomerDto customerDto) {
         String identifier = customerDto.getIdentifier();
@@ -58,11 +60,13 @@ public class CustomerServiceImpl implements CustomerService {
         AddressDto billingAddress = modelMapper.map(customerDto.getBillingAddress(), AddressDto.class);
         billingAddress.setIdentifier(customerDto.getIdentifier() + "_" + "Billing");
         billingAddress.setAddressType("Billing");
+        billingAddress.setPhoneNo(customerDto.getIdentifier());
         addressService.save(billingAddress);
 
         AddressDto shippingAddress = modelMapper.map(customerDto.getShippingAddress(), AddressDto.class);
         shippingAddress.setIdentifier(customerDto.getIdentifier() + "_" + "Shipping");
         shippingAddress.setAddressType("Shipping");
+        shippingAddress.setPhoneNo(customerDto.getIdentifier());
         addressService.save(shippingAddress);
 
         return customerDto;
@@ -106,9 +110,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void toggleStatus(String identifier) {
+    public CustomerDto toggleStatus(String identifier) {
         Customer customer=customerRepository.findByIdentifier(identifier);
         customer.setStatus(!customer.isStatus());
         customerRepository.save(customer);
+        return  modelMapper.map(customer,CustomerDto.class);}
+
+    @Override
+    public List<CustomerDto> findIfTrue() {
+        Type listType = new TypeToken<List<ShelfsDto>>(){
+        }.getType();
+        return modelMapper.map(customerRepository.findByStatusIsTrue(), listType);
     }
 }

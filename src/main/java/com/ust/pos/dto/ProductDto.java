@@ -5,13 +5,12 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Setter
 @Getter
-public class ProductDto extends  CommonDto{
-
-    private List<String> categories;
-    private String description;
+@Setter
+public class ProductDto extends CommonDto{
+    private List<String> category;
+    private Long skuCode;
     private String brand;
-    private String sku;
-
+    private String unit;
+    private String model;
 }

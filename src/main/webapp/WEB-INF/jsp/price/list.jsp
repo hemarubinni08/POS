@@ -4,133 +4,283 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Price List</title>
+    <title>Price Management</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
-    <!-- ✅ SAME CSS STYLE AS STOCK / PRODUCT LIST -->
     <style>
+
+        /* ===== BODY ===== */
+
         body {
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background-color: #3f3f3f;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .card {
-            border-radius: 16px;
-            background-color: #ffffff;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
+        /* ===== PAGE WRAPPER ===== */
+
+        .page-wrapper {
+            width: 1100px;
+            background: #f3efe9;
+            padding: 34px 42px;
+            box-sizing: border-box;
         }
 
-        .card-header {
-            background-color: #a78bfa;
+        /* ===== HEADER ===== */
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #2f2f2f;
+            margin: 0;
+        }
+
+        /* ===== BUTTONS ===== */
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .top-btn,
+        .back-btn {
+            height: 48px;
+            min-width: 120px;
+            padding: 0 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: 2px solid #3f3f3f;
+            transition: 0.3s;
+        }
+
+        .top-btn {
+            background: #3f3f3f;
             color: #ffffff;
         }
 
-        table th {
-            background-color: #a78bfa;
-            color: white;
+        .top-btn:hover {
+            background: transparent;
+            color: #3f3f3f;
         }
 
-        table.table-hover tbody tr:hover {
-            background-color: #f5f3ff;
+        .back-btn {
+            background: transparent;
+            color: #3f3f3f;
         }
 
-        .btn-secondary {
-            background-color: #b197fc;
-            border: none;
+        .back-btn:hover {
+            background: #3f3f3f;
             color: #ffffff;
         }
 
-        .btn-secondary:hover {
-            background-color: #a78bfa;
+        /* ===== TABLE ===== */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
 
-        .btn-success {
-            background-color: #7c3aed;
-            border: none;
+        th {
+            text-align: left;
+            padding: 14px 12px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #8a8a8a;
+            border-bottom: 3px solid #d6d1cb;
         }
 
-        .btn-success:hover {
-            background-color: #6d28d9;
+        td {
+            padding: 20px 12px;
+            border-bottom: 2px solid #dedad5;
+            color: #2f2f2f;
+            font-size: 14px;
+            vertical-align: middle;
         }
+
+        /* ===== ACTION BUTTONS ===== */
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-link {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+            border: 2px solid #3f3f3f;
+            transition: 0.3s;
+        }
+
+        .edit {
+            background: #3f3f3f;
+            color: #ffffff;
+        }
+
+        .edit:hover {
+            background: transparent;
+            color: #3f3f3f;
+        }
+
+        .delete {
+            background: transparent;
+            color: #3f3f3f;
+        }
+
+        .delete:hover {
+            background: #3f3f3f;
+            color: #ffffff;
+        }
+
+        /* ===== EMPTY ===== */
+
+        .empty {
+            text-align: center;
+            padding: 28px;
+            color: #2f2f2f;
+            font-size: 15px;
+        }
+
     </style>
+
 </head>
 
 <body>
 
-<div class="container mt-5">
+<div class="page-wrapper">
 
-    <div class="card shadow-lg">
+    <!-- ===== HEADER ===== -->
 
-        <div class="card-header text-center">
-            <h4 class="mb-0">List of Prices</h4>
-        </div>
+    <div class="top-section">
 
-        <div class="card-body">
+        <h2 class="page-title">
+            Price Management
+        </h2>
 
-            <c:if test="${empty prices}">
-                <div class="alert alert-warning text-center">
-                    No price information available
-                </div>
-            </c:if>
-
-            <c:if test="${not empty prices}">
-                <table class="table table-bordered table-hover text-center align-middle">
-
-                    <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>MRP</th>
-                        <th>Selling Price</th>
-                        <th>Effective From</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <c:forEach var="price" items="${prices}">
-                        <tr>
-                            <td>${price.identifier}</td>
-                            <td>${price.mrp}</td>
-                            <td>${price.sellingPrice}</td>
-                            <td>${price.effectiveFrom}</td>
-
-                            <td class="d-flex justify-content-center gap-2">
-                                <a href="${pageContext.request.contextPath}/price/get?identifier=${price.identifier}"
-                                   class="btn btn-primary btn-sm">
-                                    Edit
-                                </a>
-
-                                <a href="${pageContext.request.contextPath}/price/delete?identifier=${price.identifier}"
-                                   class="btn btn-danger btn-sm">
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-
-                </table>
-            </c:if>
-
-        </div>
-
-        <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
+        <div class="top-actions">
 
             <a href="${pageContext.request.contextPath}/"
-               class="btn btn-secondary">
-                Home
+               class="back-btn">
+
+                ᐸ BACK
+
             </a>
 
             <a href="${pageContext.request.contextPath}/price/add"
-               class="btn btn-success">
-                + Add Price
+               class="top-btn">
+
+                ADD PRICE
+
             </a>
 
         </div>
 
     </div>
+
+    <!-- ===== TABLE ===== -->
+
+    <c:if test="${empty prices}">
+
+        <div class="empty">
+
+            No price records found
+
+        </div>
+
+    </c:if>
+
+    <c:if test="${not empty prices}">
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>PRODUCT</th>
+                <th>MRP</th>
+                <th>SELLING PRICE</th>
+                <th>EFFECTIVE FROM</th>
+                <th>ACTION</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <c:forEach var="price" items="${prices}">
+
+                <tr>
+
+                    <td>${price.identifier}</td>
+
+                    <td>${price.mrp}</td>
+
+                    <td>${price.sellingPrice}</td>
+
+                    <td>${price.effectiveFrom}</td>
+
+                    <!-- ===== ACTIONS ===== -->
+
+                    <td>
+
+                        <div class="action-buttons">
+
+                            <a href="${pageContext.request.contextPath}/price/get?identifier=${price.identifier}"
+                               class="action-link edit"
+                               title="Edit">
+
+                                ✎
+
+                            </a>
+
+                            <a href="${pageContext.request.contextPath}/price/delete?identifier=${price.identifier}"
+                               class="action-link delete"
+                               title="Delete"
+                               onclick="return confirm('Delete this price?')">
+
+                                🗑
+
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            </c:forEach>
+
+            </tbody>
+
+        </table>
+
+    </c:if>
 
 </div>
 

@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -7,124 +8,189 @@
     <title>Add Shelf</title>
 
     <style>
+
+        /* ===== BODY ===== */
+
         body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
             margin: 0;
-            min-height: 100vh;
+            font-family: "Inter", sans-serif;
+            background-color: #3f3f3f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        .container {
-            width: 420px;
-            margin: 80px auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
+        /* ===== CARD ===== */
+
+        .brand-card {
+            background: #f3efe9;
+            width: 470px;
+            padding: 42px;
+            box-sizing: border-box;
         }
+
+        /* ===== BACK BUTTON ===== */
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 22px;
+            text-decoration: none;
+            color: #2f2f2f;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .back-btn:hover {
+            opacity: 0.7;
+        }
+
+        /* ===== TITLE ===== */
 
         h2 {
-            text-align: center;
-            margin-bottom: 24px;
-            font-size: 20px;
-            color: #6d28d9;
-            font-weight: 600;
+            margin: 0 0 34px;
+            font-size: 26px;
+            font-weight: 700;
+            color: #2f2f2f;
+        }
+
+        /* ===== FORM ===== */
+
+        .form-group {
+            margin-bottom: 28px;
         }
 
         label {
-            margin-top: 16px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #8a8a8a;
             display: block;
-            font-weight: 600;
-            font-size: 13px;
-            color: #4c1d95;
+            margin-bottom: 10px;
         }
 
-        input, select {
+        input {
             width: 100%;
-            margin-top: 6px;
-            padding: 9px;
-            border: 1px solid #c4b5fd;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #a78bfa;
-            box-shadow: 0 0 0 0.15rem rgba(167, 139, 250, 0.35);
-        }
-
-        button {
-            margin-top: 26px;
-            width: 100%;
-            padding: 11px;
-            background: #7c3aed;
-            color: #ffffff;
+            box-sizing: border-box;
+            padding: 10px 0;
             border: none;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
+            border-bottom: 3px solid #cfcfcf;
+            background: transparent;
+            font-size: 16px;
+            outline: none;
+            color: #2f2f2f;
+            font-family: "Inter", sans-serif;
         }
 
-        button:hover {
-            background: #6d28d9;
+        input:focus {
+            border-bottom: 3px solid #3f3f3f;
         }
+
+        /* ===== AUTOFILL FIX ===== */
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus {
+
+            -webkit-box-shadow: 0 0 0px 1000px #f3efe9 inset !important;
+            -webkit-text-fill-color: #2f2f2f !important;
+            transition: background-color 5000s ease-in-out 0s;
+
+        }
+
+        /* ===== BUTTON ===== */
+
+        .add-btn {
+            width: 100%;
+            padding: 16px;
+            margin-top: 8px;
+            background: #3f3f3f;
+            color: #ffffff;
+            border: 2px solid #3f3f3f;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .add-btn:hover {
+            background: transparent;
+            color: #3f3f3f;
+        }
+
+        /* ===== ERROR ===== */
 
         .error-message {
-            background: #fee2e2;
+            margin-top: 16px;
+            padding: 12px;
+            background: #ffe5e0;
             color: #b91c1c;
-            border: 1px solid #fca5a5;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 13px;
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 18px;
-            color: #6d28d9;
-            font-weight: 600;
-            text-decoration: none;
             font-size: 13px;
         }
 
-        a:hover {
-            text-decoration: underline;
-            color: #5b21b6;
-        }
     </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<div class="brand-card">
+
+    <!-- ===== BACK ===== -->
+
+    <a href="${pageContext.request.contextPath}/shelfs/list"
+       class="back-btn">
+
+        ᐸ BACK
+
+    </a>
+
+    <!-- ===== TITLE ===== -->
 
     <h2>Add Shelf</h2>
 
+    <!-- ===== ERROR ===== -->
+
     <c:if test="${not empty message}">
-        <div class="error-message">${message}</div>
+
+        <div class="error-message">
+
+            ${message}
+
+        </div>
+
     </c:if>
 
-    <form action="${pageContext.request.contextPath}/shelfs/add" method="post">
+    <!-- ===== FORM ===== -->
 
-        <label>Shelf Name</label>
-        <input type="text" name="identifier" required />
+    <form:form
+            action="${pageContext.request.contextPath}/shelfs/add"
+            method="post"
+            modelAttribute="shelfsDto">
 
-        <label>Status</label>
-        <select name="status" required>
-            <option value="true">Active</option>
-            <option value="false">Inactive</option>
-        </select>
+        <!-- ===== SHELF NAME ===== -->
 
-        <button type="submit">Save</button>
-    </form>
+        <div class="form-group">
 
-    <a href="${pageContext.request.contextPath}/shelfs/list">
-        ← Back to Shelf List
-    </a>
+            <label>SHELF NAME</label>
+
+            <form:input
+                    path="identifier"
+                    required="true"/>
+
+        </div>
+
+        <!-- ===== BUTTON ===== -->
+
+        <button type="submit"
+                class="add-btn">
+
+            ADD SHELF
+
+        </button>
+
+    </form:form>
 
 </div>
 

@@ -4,11 +4,9 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
-@Getter
 @Entity
+@Getter
+@Setter
 public class Category extends CommonFields{
-
     private String superCategory;
-
 }

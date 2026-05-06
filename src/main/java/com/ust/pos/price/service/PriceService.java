@@ -7,7 +7,6 @@ import java.util.List;
 
 @Transactional
 public interface PriceService {
-
     PriceDto save(PriceDto priceDto);
 
     PriceDto update(PriceDto priceDto);
@@ -17,4 +16,8 @@ public interface PriceService {
     List<PriceDto> findAll();
 
     PriceDto findByIdentifier(String identifier);
+
+    List<PriceDto> findIfTrue();
+
+    PriceDto toggleStatus(String identifier);
 }

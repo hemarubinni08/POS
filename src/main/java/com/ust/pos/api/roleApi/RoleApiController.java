@@ -1,5 +1,6 @@
 package com.ust.pos.api.roleApi;
 
+import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,39 +12,52 @@ import java.util.List;
 @RequestMapping("/api/role")
 public class RoleApiController {
 
-
-    public static final String REDIRECT_ROLE_LIST = "redirect:/role/list";
     @Autowired
     private RoleService roleService;
 
     @GetMapping("/list")
     public List<RoleDto> home() {
+
         return roleService.findAll();
     }
 
     @PostMapping("/add")
     public RoleDto addPost(@RequestBody RoleDto roleDto) {
         return roleService.save(roleDto);
+
     }
 
     @GetMapping("/get")
     public RoleDto update(@RequestParam String identifier) {
-        return  roleService.findByIdentifier(identifier);
+        return roleService.findByIdentifier(identifier);
+
     }
 
     @PostMapping("/update")
-    public RoleDto updatePost( @RequestBody RoleDto roleDto) {
-        return roleService.update(roleDto);
+    public RoleDto updatePost(@RequestBody RoleDto roleDto) {
+        return  roleService.update(roleDto);
+
     }
 
     @GetMapping("/delete")
-    public boolean delete( @RequestParam String identifier) {
-        try{
-            roleService.delete(identifier);
-        }
-        catch (Exception e){
+    public boolean delete(@RequestParam String identifier) {
+        try{  roleService.delete(identifier);}
+        catch(Exception e){
             return false;
         }
         return true;
+    }
+
+    @PostMapping("/toggle-status")
+    public RoleDto toggle(@RequestParam String identifier){
+
+        return roleService.toggleStatus(identifier);
+    }
+
+
+    @GetMapping("/findByStatus")
+    public List<RoleDto> findByStatus() {
+
+        return roleService.findIfTrue();
     }
 }

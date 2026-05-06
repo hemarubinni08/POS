@@ -1,7 +1,7 @@
 package com.ust.pos.api.categoryApi;
 
-import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.category.service.CategoryService;
+import com.ust.pos.dto.CategoryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,35 +15,44 @@ public class CategoryApiController {
     private CategoryService categoryService;
 
     @GetMapping("/list")
-    public List<CategoryDto> list() {
-
+    public List<CategoryDto> home() {
         return categoryService.findAll();
     }
 
     @PostMapping("/add")
-    public CategoryDto add(@RequestBody CategoryDto categoryDto) {
+    public CategoryDto addPost(@RequestBody CategoryDto categoryDto) {
         return categoryService.save(categoryDto);
     }
 
-
     @GetMapping("/get")
-    public CategoryDto get(@RequestParam String identifier) {
-        return categoryService.findByIdentifier(identifier);
-    }
+    public CategoryDto update(@RequestParam String identifier) {
+        return  categoryService.findByIdentifier(identifier); }
+
 
     @PostMapping("/update")
-    public CategoryDto update(@RequestBody CategoryDto categoryDto) {
+    public CategoryDto updatePost(@RequestBody CategoryDto categoryDto) {
         return categoryService.update(categoryDto);
     }
 
-
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try {
-            categoryService.delete(identifier);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        try{ categoryService.delete(identifier);}
+        catch(Exception e){
+            return false;}
+        return true;}
+
+    @GetMapping("/getBySuperCategoryNotNull")
+    public List<CategoryDto> superCategoryNotNull() {
+        return categoryService.findBySuperCategoryNotNull();
     }
+    @PostMapping("/toggle-status")
+    public CategoryDto toggle(@RequestParam String identifier){
+        return  categoryService.toggleStatus(identifier);}
+
+    @GetMapping("/findByStatus")
+    public List<CategoryDto> findByStatus() {
+
+        return categoryService.findIfTrue();
+    }
+
 }

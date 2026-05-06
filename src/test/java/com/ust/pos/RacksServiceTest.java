@@ -1,0 +1,201 @@
+package com.ust.pos;
+
+import com.ust.pos.dto.RacksDto;
+import com.ust.pos.model.Racks;
+import com.ust.pos.model.RacksRepository;
+import com.ust.pos.racks.service.impl.RacksServiceImpl;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+
+import java.util.List;
+
+@ExtendWith(MockitoExtension.class)
+class RacksServiceTest {
+    @Mock
+    private RacksRepository racksRepository;
+
+    @Mock
+    private ModelMapper modelMapper;
+
+    @InjectMocks
+    private RacksServiceImpl racksService;
+
+    /* ===================== SAVE ===================== */
+
+    @Test
+    void saveTest() {
+        RacksDto racksDto = new RacksDto();
+        racksDto.setIdentifier("Admin");
+
+
+        Mockito.when(racksRepository.findByIdentifier("Admin")).thenReturn(null);
+        Racks racks=new Racks();
+        Mockito.when(modelMapper.map(racksDto, Racks.class)).thenReturn(racks);
+        Mockito.when(racksRepository.save(racks)).thenReturn(racks);
+
+        RacksDto response = racksService.save(racksDto);
+
+        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertTrue(response.isSuccess());
+    }
+
+    @Test
+    void saveTestFailure() {
+        RacksDto racksDto = new RacksDto();
+        racksDto.setIdentifier("Admin");
+
+
+        Racks existingRacks = new Racks();
+        existingRacks.setIdentifier("Admin");
+
+
+        Mockito.when(racksRepository.findByIdentifier("Admin"))
+                .thenReturn(existingRacks);
+
+        RacksDto response = racksService.save(racksDto);
+
+        Assertions.assertFalse(response.isSuccess());
+    }
+
+    /* ===================== FIND BY IDENTIFIER ===================== */
+
+    @Test
+    void findByIdentifierTest() {
+        Racks racks = new Racks();
+        racks.setIdentifier("Admin");
+
+        RacksDto racksDto = new RacksDto();
+        racksDto.setIdentifier("Admin");
+
+        Mockito.when(racksRepository.findByIdentifier("Admin")).thenReturn(racks);
+        Mockito.when(modelMapper.map(racks, RacksDto.class)).thenReturn(racksDto);
+
+        RacksDto response = racksService.findByIdentifier("Admin");
+
+        Assertions.assertEquals("Admin", response.getIdentifier());
+    }
+
+    /* ===================== UPDATE ===================== */
+
+    @Test
+    void updateTest() {
+        RacksDto racksDto = new RacksDto();
+        racksDto.setIdentifier("Admin");
+
+        Racks existingRacks = new Racks();
+        existingRacks.setIdentifier("Admin");
+
+        Mockito.when(racksRepository.findByIdentifier("Admin"))
+                .thenReturn(existingRacks);
+        Mockito.when(racksRepository.save(existingRacks))
+                .thenReturn(existingRacks);
+
+        RacksDto response = racksService.update(racksDto);
+
+        Assertions.assertTrue(response.isSuccess());
+    }
+
+    @Test
+    void updateTestFailure() {
+        RacksDto racksDto = new RacksDto();
+        racksDto.setIdentifier("Admin");
+
+        Mockito.when(racksRepository.findByIdentifier("Admin"))
+                .thenReturn(null);
+
+        RacksDto response = racksService.update(racksDto);
+
+        Assertions.assertFalse(response.isSuccess());
+    }
+
+    /* ===================== DELETE ===================== */
+
+    @Test
+    void deleteTest() {
+        Mockito.doNothing().when(racksRepository)
+                .deleteByIdentifier("Admin");
+
+        racksService.delete("Admin");
+
+
+    }
+
+    /* ===================== FIND ALL ===================== */
+
+    @Test
+    void findAllTest() {
+        Racks racks = new Racks();
+        racks.setIdentifier("Admin");
+
+        RacksDto racksDto = new RacksDto();
+        racksDto.setIdentifier("Admin");
+
+        List<Racks> rackss = List.of(racks);
+        List<RacksDto> racksDtos = List.of(racksDto);
+
+        Mockito.when(racksRepository.findAll()).thenReturn(rackss);
+        Mockito.when(modelMapper.map(
+                Mockito.eq(rackss),
+                Mockito.any(java.lang.reflect.Type.class)
+        )).thenReturn(racksDtos);
+
+        List<RacksDto> response = racksService.findAll();
+
+        Assertions.assertEquals(1, response.size());
+    }
+
+    @Test
+    void findByStatusTest(){
+        Racks racks = new Racks();
+        racks.setIdentifier("Admin");
+        RacksDto racksDto = new RacksDto();
+        racksDto.setIdentifier("Admin");
+
+        List<Racks> rackss = List.of(racks);
+        List<RacksDto> racksDtos = List.of(racksDto);
+
+        Mockito.when(racksRepository.findByStatusIsTrue()).thenReturn(rackss);
+        Mockito.when(modelMapper.map(
+                Mockito.eq(rackss),
+                Mockito.any(java.lang.reflect.Type.class)
+        )).thenReturn(racksDtos);
+
+        List<RacksDto> response = racksService.findIfTrue();
+
+        Assertions.assertEquals(1, response.size());
+    }
+
+    @Test
+    void toggleTestActive(){
+
+        Racks racks = new Racks();
+        racks.setStatus(false);
+        RacksDto racksDto = new RacksDto();
+        racksDto.setStatus(true);
+        Mockito.when(racksRepository.findByIdentifier("Admin")).thenReturn(racks);
+        Mockito.when(modelMapper.map(racks,RacksDto.class)).thenReturn(racksDto);
+        RacksDto response = racksService.toggleStatus("Admin");
+        Assertions.assertTrue(response.isStatus());
+
+    }
+
+    @Test
+    void toggleTestInactive(){
+
+        Racks racks = new Racks();
+        racks.setStatus(true);
+        RacksDto racksDto = new RacksDto();
+        racksDto.setStatus(false);
+        Mockito.when(racksRepository.findByIdentifier("Admin")).thenReturn(racks);
+        Mockito.when(modelMapper.map(racks,RacksDto.class)).thenReturn(racksDto);
+        RacksDto response = racksService.toggleStatus("Admin");
+        Assertions.assertFalse(response.isStatus());
+
+    }
+}

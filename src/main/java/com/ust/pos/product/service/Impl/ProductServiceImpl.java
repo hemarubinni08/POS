@@ -14,7 +14,6 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-
     @Autowired
     private ProductRepository productRepository;
 
@@ -23,49 +22,44 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto findByIdentifier(String identifier) {
-        return modelMapper.map(
-                productRepository.findByIdentifier(identifier),
-                ProductDto.class
-        );
+        Product product = productRepository.findByIdentifier(identifier);
+        return modelMapper.map(product,ProductDto.class);
     }
 
     @Override
     public ProductDto save(ProductDto productDto) {
-
+        productDto.setIdentifier(productDto.getIdentifier().trim());
         String identifier = productDto.getIdentifier();
+        Long skuCode = productDto.getSkuCode();
         Product existingProduct = productRepository.findByIdentifier(identifier);
-
+        Product existingSku= productRepository.findBySkuCode(skuCode);
         if (existingProduct != null) {
             productDto.setMessage("Product with identifier - " + identifier + " already exists");
+            productDto.setSuccess(false);
+            return productDto;
+        }
+        if (existingSku != null) {
+            productDto.setMessage("Product with skuCode - " + skuCode + " already exists");
             productDto.setSuccess(false);
             return productDto;
         }
 
         Product product = modelMapper.map(productDto, Product.class);
         productRepository.save(product);
-
-        productDto.setMessage("Product created successfully");
-        productDto.setSuccess(true);
         return productDto;
     }
 
     @Override
     public ProductDto update(ProductDto productDto) {
-
         String identifier = productDto.getIdentifier();
         Product existingProduct = productRepository.findByIdentifier(identifier);
-
         if (existingProduct == null) {
             productDto.setMessage("Product with identifier - " + identifier + " not found");
             productDto.setSuccess(false);
             return productDto;
         }
-
         modelMapper.map(productDto, existingProduct);
         productRepository.save(existingProduct);
-
-        productDto.setMessage("Product updated successfully");
-        productDto.setSuccess(true);
         return productDto;
     }
 
@@ -77,12 +71,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAll() {
+        Type listType = new TypeToken<List<ProductDto>>() {
+        }.getType();
+        return modelMapper.map(productRepository.findAll(), listType);
+    }
+    @Override
+    public ProductDto toggleStatus(String identifier) {
+        Product product = productRepository.findByIdentifier(identifier);
+        product.setStatus(!product.isStatus());
+        productRepository.save(product);
+        return modelMapper.map(product, ProductDto.class);
+    }
 
-        Type listType = new TypeToken<List<ProductDto>>() {}.getType();
-
-        return modelMapper.map(
-                productRepository.findAll(),
-                listType
-        );
+    @Override
+    public List<ProductDto> findIfTrue() {
+        Type listType = new TypeToken<List<ProductDto>>(){
+        }.getType();
+        return modelMapper.map(productRepository.findByStatusIsTrue(), listType);
     }
 }

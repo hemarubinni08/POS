@@ -18,6 +18,6 @@ public class UserDto extends CommonDto {
     private String token;
 
     public UserDto(String token) {
-        this. token = token;
+        this.token = token;
     }
 }

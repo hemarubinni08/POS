@@ -4,6 +4,7 @@ import com.ust.pos.dto.UserDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Transactional
 public interface UserService {
     UserDto findByUserName(String username);
@@ -12,7 +13,12 @@ public interface UserService {
 
     UserDto update(UserDto userDto);
 
-    boolean delete(String username);
+    UserDto delete(String username);
 
     List<UserDto> findAll();
+
+    List<UserDto> findIfTrue();
+
+    UserDto toggleStatus(String identifier);
+
 }

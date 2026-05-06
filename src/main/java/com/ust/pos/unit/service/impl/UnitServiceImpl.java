@@ -14,7 +14,6 @@ import java.util.List;
 
 @Service
 public class UnitServiceImpl implements UnitService {
-
     @Autowired
     private UnitRepository unitRepository;
 
@@ -23,46 +22,42 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public UnitDto findByIdentifier(String identifier) {
-        return modelMapper.map(
-                unitRepository.findByIdentifier(identifier),
-                UnitDto.class
-        );
+        return modelMapper.map(unitRepository.findByIdentifier(identifier), UnitDto.class);
+    }
+
+    @Override
+    public UnitDto toggleStatus(String identifier) {
+        Unit unit=unitRepository.findByIdentifier(identifier);
+        unit.setStatus(!unit.isStatus());
+        unitRepository.save(unit);
+        return modelMapper.map(unit, UnitDto.class);
     }
 
     @Override
     public UnitDto save(UnitDto unitDto) {
         String identifier = unitDto.getIdentifier();
-        Unit existing = unitRepository.findByIdentifier(identifier);
-
-        if (existing != null) {
-            unitDto.setMessage("Unit already exists");
+        Unit existingUnit = unitRepository.findByIdentifier(identifier);
+        if (existingUnit != null) {
+            unitDto.setMessage("Unit with identifier - " + identifier + " already exists");
             unitDto.setSuccess(false);
             return unitDto;
         }
-
         Unit unit = modelMapper.map(unitDto, Unit.class);
         unitRepository.save(unit);
-
-        unitDto.setMessage("Unit created successfully");
-        unitDto.setSuccess(true);
         return unitDto;
     }
 
     @Override
     public UnitDto update(UnitDto unitDto) {
-        Unit existing = unitRepository.findByIdentifier(unitDto.getIdentifier());
-
-        if (existing == null) {
-            unitDto.setMessage("Unit not found");
+        String identifier = unitDto.getIdentifier();
+        Unit existingUnit = unitRepository.findByIdentifier(identifier);
+        if (existingUnit == null) {
+            unitDto.setMessage("Unit with identifier - " + identifier + " not found");
             unitDto.setSuccess(false);
             return unitDto;
         }
-
-        modelMapper.map(unitDto, existing);
-        unitRepository.save(existing);
-
-        unitDto.setMessage("Unit updated successfully");
-        unitDto.setSuccess(true);
+        modelMapper.map(unitDto, existingUnit);
+        unitRepository.save(existingUnit);
         return unitDto;
     }
 
@@ -74,7 +69,15 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public List<UnitDto> findAll() {
-        Type listType = new TypeToken<List<UnitDto>>() {}.getType();
+        Type listType = new TypeToken<List<UnitDto>>() {
+        }.getType();
         return modelMapper.map(unitRepository.findAll(), listType);
+    }
+
+    @Override
+    public List<UnitDto> findIfTrue() {
+        Type listType = new TypeToken<List<UnitDto>>(){
+        }.getType();
+        return modelMapper.map(unitRepository.findByStatusIsTrue(), listType);
     }
 }

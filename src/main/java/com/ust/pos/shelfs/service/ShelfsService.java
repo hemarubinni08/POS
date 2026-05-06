@@ -7,7 +7,6 @@ import java.util.List;
 
 @Transactional
 public interface ShelfsService {
-
     ShelfsDto save(ShelfsDto shelfsDto);
 
     ShelfsDto update(ShelfsDto shelfsDto);
@@ -17,5 +16,8 @@ public interface ShelfsService {
     List<ShelfsDto> findAll();
 
     ShelfsDto findByIdentifier(String identifier);
+
     ShelfsDto toggleStatus(String identifier);
+
+    List<ShelfsDto> findIfTrue();
 }

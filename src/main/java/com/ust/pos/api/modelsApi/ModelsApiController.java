@@ -10,49 +10,48 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/models")
 public class ModelsApiController {
-
     @Autowired
     private ModelsService modelsService;
 
-
     @GetMapping("/list")
-    public List<ModelsDto> list() {
-
+    public List<ModelsDto> home() {
         return modelsService.findAll();
     }
 
-
     @PostMapping("/add")
-    public ModelsDto add(@RequestBody ModelsDto modelsDto) {
-
+    public ModelsDto addPost(@RequestBody ModelsDto modelsDto) {
         return modelsService.save(modelsDto);
     }
 
     @GetMapping("/get")
-    public ModelsDto get(@RequestParam String identifier) {
-
+    public ModelsDto update(@RequestParam String identifier) {
         return modelsService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
-    public ModelsDto update(@RequestBody ModelsDto modelsDto) {
-
+    public ModelsDto updatePost( @RequestBody ModelsDto modelsDto) {
         return modelsService.update(modelsDto);
     }
 
-
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try {
-            modelsService.delete(identifier);
-            return true;
-        } catch (Exception e) {
+        try { modelsService.delete(identifier);}
+        catch(Exception e){
             return false;
         }
+        return true;
     }
 
     @PostMapping("/toggle-status")
-    public void toggle(@RequestParam String identifier) {
-        modelsService.toggleStatus(identifier);
+    public ModelsDto toggle(@RequestParam String identifier){
+
+        return modelsService.toggleStatus(identifier);
+    }
+
+
+    @GetMapping("/findByStatus")
+    public List<ModelsDto> findByStatus() {
+
+        return modelsService.findIfTrue();
     }
 }

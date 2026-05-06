@@ -1,57 +1,204 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.RoleDto;
-import com.ust.pos.role.service.RoleService;
+import com.ust.pos.model.Role;
+import com.ust.pos.model.RoleRepository;
+import com.ust.pos.role.service.impl.RoleServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.modelmapper.ModelMapper;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class RoleServiceTest {
+class
+RoleServiceTest {
+
     @Mock
-    private RoleService roleService;
+    private RoleRepository roleRepository;
+
+    @Mock
+    private ModelMapper modelMapper;
+
+    @InjectMocks
+    private RoleServiceImpl roleService;
+
+    /* ===================== SAVE ===================== */
 
     @Test
-    void saveTest()
-    {
-        //Assume its DB data
-        RoleDto responseDto = new RoleDto();
-        responseDto.setIdentifier("Admin");
-        responseDto.setSuccess(true);
-
-        //request data
-        RoleDto roleDto = new RoleDto();
-        roleDto.setIdentifier("Admin");
-
-        Mockito.when(roleService.save(roleDto)).thenReturn(responseDto);
-        RoleDto response = roleService.save(roleDto);
-        Assertions.assertEquals("Admin", response.getIdentifier());
-        Assertions.assertEquals(true, response.isSuccess());
-
-    }
-
-    @Test
-    void saveTestFailure()
-    {
-        //Assume its DB data
-        RoleDto responseDto = new RoleDto();
-        responseDto.setIdentifier("Admin");
-        responseDto.setSuccess(true);
-
-
-        //request data
+    void saveTest() {
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
 
 
-        Mockito.when(roleService.save(roleDto)).thenReturn(responseDto);
+        Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(null);
+        Role role=new Role();
+        Mockito.when(modelMapper.map(roleDto, Role.class)).thenReturn(role);
+        Mockito.when(roleRepository.save(role)).thenReturn(role);
+
         RoleDto response = roleService.save(roleDto);
+
         Assertions.assertEquals("Admin", response.getIdentifier());
-        Assertions.assertEquals(false, response.isSuccess());
+        Assertions.assertTrue(response.isSuccess());
+    }
+
+    @Test
+    void saveTestFailure() {
+        RoleDto roleDto = new RoleDto();
+        roleDto.setIdentifier("Admin");
+
+
+        Role existingRole = new Role();
+        existingRole.setIdentifier("Admin");
+
+
+        Mockito.when(roleRepository.findByIdentifier("Admin"))
+                .thenReturn(existingRole);
+
+        RoleDto response = roleService.save(roleDto);
+
+        Assertions.assertFalse(response.isSuccess());
+    }
+
+    /* ===================== FIND BY IDENTIFIER ===================== */
+
+    @Test
+    void findByIdentifierTest() {
+        Role role = new Role();
+        role.setIdentifier("Admin");
+
+        RoleDto roleDto = new RoleDto();
+        roleDto.setIdentifier("Admin");
+
+        Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(role);
+        Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(roleDto);
+
+        RoleDto response = roleService.findByIdentifier("Admin");
+
+        Assertions.assertEquals("Admin", response.getIdentifier());
+    }
+
+    /* ===================== UPDATE ===================== */
+
+    @Test
+    void updateTest() {
+        RoleDto roleDto = new RoleDto();
+        roleDto.setIdentifier("Admin");
+
+        Role existingRole = new Role();
+        existingRole.setIdentifier("Admin");
+
+        Mockito.when(roleRepository.findByIdentifier("Admin"))
+                .thenReturn(existingRole);
+        Mockito.when(roleRepository.save(existingRole))
+                .thenReturn(existingRole);
+
+        RoleDto response = roleService.update(roleDto);
+
+        Assertions.assertTrue(response.isSuccess());
+    }
+
+    @Test
+    void updateTestFailure() {
+        RoleDto roleDto = new RoleDto();
+        roleDto.setIdentifier("Admin");
+
+        Mockito.when(roleRepository.findByIdentifier("Admin"))
+                .thenReturn(null);
+
+        RoleDto response = roleService.update(roleDto);
+
+        Assertions.assertFalse(response.isSuccess());
+    }
+
+    /* ===================== DELETE ===================== */
+
+    @Test
+    void deleteTest() {
+        Mockito.doNothing().when(roleRepository)
+                .deleteByIdentifier("Admin");
+
+        roleService.delete("Admin");
+
 
     }
+
+    /* ===================== FIND ALL ===================== */
+
+    @Test
+    void findAllTest() {
+        Role role = new Role();
+        role.setIdentifier("Admin");
+
+        RoleDto roleDto = new RoleDto();
+        roleDto.setIdentifier("Admin");
+
+        List<Role> roles = List.of(role);
+        List<RoleDto> roleDtos = List.of(roleDto);
+
+        Mockito.when(roleRepository.findAll()).thenReturn(roles);
+        Mockito.when(modelMapper.map(
+                Mockito.eq(roles),
+                Mockito.any(java.lang.reflect.Type.class)
+        )).thenReturn(roleDtos);
+
+        List<RoleDto> response = roleService.findAll();
+
+        Assertions.assertEquals(1, response.size());
+    }
+
+    @Test
+    void findByStatusTest(){
+        Role role = new Role();
+        role.setIdentifier("Admin");
+        RoleDto roleDto = new RoleDto();
+        roleDto.setIdentifier("Admin");
+
+        List<Role> roles = List.of(role);
+        List<RoleDto> roleDtos = List.of(roleDto);
+
+        Mockito.when(roleRepository.findByStatusIsTrue()).thenReturn(roles);
+        Mockito.when(modelMapper.map(
+                Mockito.eq(roles),
+                Mockito.any(java.lang.reflect.Type.class)
+        )).thenReturn(roleDtos);
+
+        List<RoleDto> response = roleService.findIfTrue();
+
+        Assertions.assertEquals(1, response.size());
+    }
+
+    @Test
+    void toggleTestActive(){
+
+        Role role = new Role();
+        role.setStatus(false);
+        RoleDto roleDto = new RoleDto();
+        roleDto.setStatus(true);
+        Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(role);
+        Mockito.when(modelMapper.map(role,RoleDto.class)).thenReturn(roleDto);
+        RoleDto response = roleService.toggleStatus("Admin");
+        Assertions.assertTrue(response.isStatus());
+
+    }
+
+    @Test
+    void toggleTestInactive(){
+
+        Role role = new Role();
+        role.setStatus(true);
+        RoleDto roleDto = new RoleDto();
+        roleDto.setStatus(false);
+        Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(role);
+        Mockito.when(modelMapper.map(role,RoleDto.class)).thenReturn(roleDto);
+        RoleDto response = roleService.toggleStatus("Admin");
+        Assertions.assertFalse(response.isStatus());
+
+    }
+
 }

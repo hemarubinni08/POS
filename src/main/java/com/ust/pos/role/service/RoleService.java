@@ -4,6 +4,7 @@ import com.ust.pos.dto.RoleDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Transactional
 public interface RoleService {
     RoleDto save(RoleDto roleDto);
@@ -15,4 +16,8 @@ public interface RoleService {
     List<RoleDto> findAll();
 
     RoleDto findByIdentifier(String identifier);
+
+    List<RoleDto> findIfTrue();
+
+    RoleDto toggleStatus(String identifier);
 }

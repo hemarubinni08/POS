@@ -1,7 +1,5 @@
 package com.ust.pos;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.servers.Server;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,22 +10,22 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
 @SpringBootApplication
-@OpenAPIDefinition(
-        servers = {
-                @Server(url = "/", description = "Default Server URL")
-        }
-)
-@ComponentScan({"com.ust.pos.api", "com.ust.pos.web.controller", "com.ust.pos"})
 @ComponentScan({"com.ust.pos.web.controller", "com.ust.pos"})
 public class PosApplication {
     @Autowired
     Environment environment;
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(PosApplication.class, args);
@@ -54,15 +52,11 @@ public class PosApplication {
         ds.setUrl(environment.getProperty("spring.datasource.url"));
         ds.setUsername(environment.getProperty("spring.datasource.username"));
         ds.setPassword(environment.getProperty("spring.datasource.password"));
-        ds.setDriverClassName(
-                environment.getRequiredProperty("spring.datasource.driver-class-name")
-        );
+        String property = environment.getProperty("spring.datasource.driver-class-name");
+        if(property!=null){
+            ds.setDriverClassName(property);
+        }
         return ds;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-
-        return new BCryptPasswordEncoder();
-    }
 }

@@ -4,10 +4,8 @@ import com.ust.pos.dto.ModelsDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 @Transactional
 public interface ModelsService {
-
     ModelsDto save(ModelsDto modelsDto);
 
     ModelsDto update(ModelsDto modelsDto);
@@ -19,4 +17,6 @@ public interface ModelsService {
     ModelsDto findByIdentifier(String identifier);
 
     ModelsDto toggleStatus(String identifier);
+
+    List<ModelsDto> findIfTrue();
 }

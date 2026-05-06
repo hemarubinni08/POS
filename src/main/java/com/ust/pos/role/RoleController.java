@@ -47,7 +47,9 @@ public class RoleController {
     public String updatePost(Model model, @ModelAttribute RoleDto roleDto) {
         RoleDto response = roleService.update(roleDto);
         if (!response.isSuccess()) {
+            model.addAttribute("role", response);
             model.addAttribute("message", response.getMessage());
+            return "role/role";
         }
         return REDIRECT_ROLE_LIST;
     }
@@ -57,4 +59,10 @@ public class RoleController {
         roleService.delete(identifier);
         return REDIRECT_ROLE_LIST;
     }
+
+
+    @PostMapping("/toggle-status")
+    @ResponseBody
+    public void toggle(Model model,@RequestParam String identifier){
+        roleService.toggleStatus(identifier);}
 }

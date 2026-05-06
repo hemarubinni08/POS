@@ -4,129 +4,280 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Warehouse List</title>
-
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
+    <title>Warehouse Management</title>
 
     <style>
+
+        /* ===== BODY ===== */
+
         body {
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background-color: #3f3f3f;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .card {
-            border-radius: 16px;
-            background-color: #ffffff;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
+        /* ===== PAGE WRAPPER ===== */
+
+        .page-wrapper {
+            width: 980px;
+            background: #f3efe9;
+            padding: 34px 42px;
+            box-sizing: border-box;
         }
 
-        .card-header {
-            background-color: #a78bfa;
+        /* ===== HEADER ===== */
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #2f2f2f;
+            margin: 0;
+        }
+
+        /* ===== BUTTONS ===== */
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .top-btn,
+        .back-btn {
+            height: 48px;
+            min-width: 140px;
+            padding: 0 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: 2px solid #3f3f3f;
+            transition: 0.3s;
+        }
+
+        .top-btn {
+            background: #3f3f3f;
             color: #ffffff;
         }
 
-        table th {
-            background-color: #a78bfa;
-            color: white;
+        .top-btn:hover {
+            background: transparent;
+            color: #3f3f3f;
         }
 
-        table.table-hover tbody tr:hover {
-            background-color: #f5f3ff;
+        .back-btn {
+            background: transparent;
+            color: #3f3f3f;
         }
 
-        .btn-success {
-            background-color: #7c3aed;
-            border: none;
+        .back-btn:hover {
+            background: #3f3f3f;
+            color: #ffffff;
         }
 
-        .btn-success:hover {
-            background-color: #6d28d9;
+        /* ===== TABLE ===== */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
 
-        .btn-primary {
-            background-color: #7c3aed;
-            border: none;
+        th {
+            text-align: left;
+            padding: 14px 12px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #8a8a8a;
+            border-bottom: 3px solid #d6d1cb;
         }
 
-        .btn-primary:hover {
-            background-color: #6d28d9;
+        td {
+            padding: 20px 12px;
+            border-bottom: 2px solid #dedad5;
+            color: #2f2f2f;
+            font-size: 14px;
+            vertical-align: middle;
         }
 
-        .btn-danger {
-            border: none;
+        /* ===== ACTION BUTTONS ===== */
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
+
+        .action-link {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+            border: 2px solid #3f3f3f;
+            transition: 0.3s;
+        }
+
+        .edit {
+            background: #3f3f3f;
+            color: #ffffff;
+        }
+
+        .edit:hover {
+            background: transparent;
+            color: #3f3f3f;
+        }
+
+        .delete {
+            background: transparent;
+            color: #3f3f3f;
+        }
+
+        .delete:hover {
+            background: #3f3f3f;
+            color: #ffffff;
+        }
+
+        /* ===== EMPTY ===== */
+
+        .empty-message {
+            text-align: center;
+            padding: 30px 0;
+            color: #8a8a8a;
+            font-size: 14px;
+        }
+
     </style>
+
 </head>
 
 <body>
 
-<div class="container mt-5">
+<div class="page-wrapper">
 
-    <div class="card">
+    <!-- ===== HEADER ===== -->
 
-        <div class="card-header text-center">
-            <h4 class="mb-0">List of Warehouses</h4>
-        </div>
+    <div class="top-section">
 
-        <div class="card-body">
+        <h2 class="page-title">
+            Warehouse Management
+        </h2>
 
-            <c:if test="${empty warehouses}">
-                <div class="alert alert-warning text-center">
-                    No warehouses available
-                </div>
-            </c:if>
-
-            <c:if test="${not empty warehouses}">
-                <table class="table table-bordered table-hover text-center align-middle">
-                    <thead>
-                    <tr>
-                        <th>Identifier</th>
-                        <th>Location</th>
-                        <th>Manager</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <c:forEach var="warehouse" items="${warehouses}">
-                        <tr>
-                            <td>${warehouse.identifier}</td>
-                            <td>${warehouse.location}</td>
-                            <td>${warehouse.manager}</td>
-                            <td class="d-flex justify-content-center gap-2">
-                                <a href="${pageContext.request.contextPath}/warehouse/get?identifier=${warehouse.identifier}"
-                                   class="btn btn-sm btn-primary">Edit</a>
-
-                                <a href="${pageContext.request.contextPath}/warehouse/delete?identifier=${warehouse.identifier}"
-                                   class="btn btn-sm btn-danger">Delete</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </c:if>
-
-        </div>
-
-
-        <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
+        <div class="top-actions">
 
             <a href="${pageContext.request.contextPath}/"
-               class="btn btn-secondary">
-                Home
+               class="back-btn">
+
+                ᐸ BACK
+
             </a>
 
-            <a href="${pageContext.request.contextPath}/warehouse/add"
-               class="btn btn-success">
-                + Add Warehouse
+            <a href="${pageContext.request.contextPath}/wareHouse/add"
+               class="top-btn">
+
+                ADD WAREHOUSE
+
             </a>
 
         </div>
 
     </div>
+
+    <!-- ===== EMPTY MESSAGE ===== -->
+
+    <c:if test="${empty wareHouses}">
+
+        <div class="empty-message">
+
+            No warehouses found
+
+        </div>
+
+    </c:if>
+
+    <!-- ===== TABLE ===== -->
+
+    <c:if test="${not empty wareHouses}">
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>WAREHOUSE</th>
+                <th>LOCATION</th>
+                <th>MANAGER</th>
+                <th>ACTION</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <c:forEach var="wh" items="${wareHouses}">
+
+                <tr>
+
+                    <td>${wh.identifier}</td>
+
+                    <td>${wh.location}</td>
+
+                    <td>${wh.manager}</td>
+
+                    <td>
+
+                        <div class="action-buttons">
+
+                            <a href="${pageContext.request.contextPath}/wareHouse/get?identifier=${wh.identifier}"
+                               class="action-link edit"
+                               title="Edit">
+
+                                ✎
+
+                            </a>
+
+                            <a href="${pageContext.request.contextPath}/wareHouse/delete?identifier=${wh.identifier}"
+                               class="action-link delete"
+                               title="Delete"
+                               onclick="return confirm('Delete this warehouse?')">
+
+                                🗑
+
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            </c:forEach>
+
+            </tbody>
+
+        </table>
+
+    </c:if>
 
 </div>
 

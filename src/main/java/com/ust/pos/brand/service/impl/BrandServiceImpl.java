@@ -14,7 +14,6 @@ import java.util.List;
 
 @Service
 public class BrandServiceImpl implements BrandService {
-
     @Autowired
     private BrandRepository brandRepository;
 
@@ -23,49 +22,43 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto findByIdentifier(String identifier) {
-        return modelMapper.map(
-                brandRepository.findByIdentifier(identifier),
-                BrandDto.class
-        );
+        return modelMapper.map(brandRepository.findByIdentifier(identifier), BrandDto.class);
+    }
+
+    @Override
+    public BrandDto toggleStatus(String identifier) {
+        Brand brand = brandRepository.findByIdentifier(identifier);
+        brand.setStatus(!brand.isStatus());
+        brandRepository.save(brand);
+        return modelMapper.map(brand, BrandDto.class);
     }
 
     @Override
     public BrandDto save(BrandDto brandDto) {
-
+        brandDto.setIdentifier(brandDto.getIdentifier().trim());
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
-
         if (existingBrand != null) {
             brandDto.setMessage("Brand with identifier - " + identifier + " already exists");
             brandDto.setSuccess(false);
             return brandDto;
         }
-
         Brand brand = modelMapper.map(brandDto, Brand.class);
         brandRepository.save(brand);
-
-        brandDto.setMessage("Brand created successfully");
-        brandDto.setSuccess(true);
         return brandDto;
     }
 
     @Override
     public BrandDto update(BrandDto brandDto) {
-
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
-
         if (existingBrand == null) {
             brandDto.setMessage("Brand with identifier - " + identifier + " not found");
             brandDto.setSuccess(false);
             return brandDto;
         }
-
         modelMapper.map(brandDto, existingBrand);
         brandRepository.save(existingBrand);
-
-        brandDto.setMessage("Brand updated successfully");
-        brandDto.setSuccess(true);
         return brandDto;
     }
 
@@ -77,12 +70,15 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public List<BrandDto> findAll() {
+        Type listType = new TypeToken<List<BrandDto>>() {
+        }.getType();
+        return modelMapper.map(brandRepository.findAll(), listType);
+    }
 
-        Type listType = new TypeToken<List<BrandDto>>() {}.getType();
-
-        return modelMapper.map(
-                brandRepository.findAll(),
-                listType
-        );
+    @Override
+    public List<BrandDto> findIfTrue() {
+        Type listType = new TypeToken<List<BrandDto>>(){
+        }.getType();
+        return modelMapper.map(brandRepository.findByStatusIsTrue(), listType);
     }
 }

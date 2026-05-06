@@ -7,7 +7,6 @@ import java.util.List;
 
 @Transactional
 public interface ProductService {
-
     ProductDto save(ProductDto productDto);
 
     ProductDto update(ProductDto productDto);
@@ -17,4 +16,8 @@ public interface ProductService {
     List<ProductDto> findAll();
 
     ProductDto findByIdentifier(String identifier);
+
+    List<ProductDto> findIfTrue();
+
+    ProductDto toggleStatus(String identifier);
 }

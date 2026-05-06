@@ -9,11 +9,10 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Product extends CommonFields {
-
-    private List<String> categories;
-    private String description;
+public class Product extends CommonFields{
+    private List<String> category;
+    private Long skuCode;
     private String brand;
-    private String sku;
-
+    private String unit;
+    private String model;
 }

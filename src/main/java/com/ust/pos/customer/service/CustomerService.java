@@ -20,5 +20,7 @@ public interface CustomerService {
 
     CustomerDto findByIdentifierWithAddressDto(String identifier);
 
-    void toggleStatus(String identifier);
+    CustomerDto toggleStatus(String identifier);
+
+    List<CustomerDto> findIfTrue();
 }

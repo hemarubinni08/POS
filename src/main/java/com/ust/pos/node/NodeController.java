@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/node")
 public class NodeController {
-
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     public static final String ROLES = "roles";
     @Autowired
@@ -28,7 +27,7 @@ public class NodeController {
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute NodeDto nodeDto) {
-        model.addAttribute(ROLES, roleService.findAll());
+        model.addAttribute(ROLES, roleService.findIfTrue());
         return "node/add";
     }
 
@@ -42,7 +41,6 @@ public class NodeController {
         }
         return REDIRECT_NODE_LIST;
     }
-
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
@@ -66,4 +64,9 @@ public class NodeController {
         nodeService.delete(identifier);
         return REDIRECT_NODE_LIST;
     }
+
+    @PostMapping("/toggle-status")
+    @ResponseBody
+    public void toggle(Model model,@RequestParam String identifier){
+        nodeService.toggleStatus(identifier);}
 }

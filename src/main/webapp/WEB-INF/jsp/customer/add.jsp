@@ -8,253 +8,442 @@
     <title>Add Customer</title>
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* ===== BODY ===== */
+
         body {
             margin: 0;
-            min-height: 100vh;
-            font-family: "Segoe UI", Roboto, Arial, sans-serif;
-            background-color: #f6f7f9;
-        }
-
-        /* ===== POS TOP BAR ===== */
-        .topbar {
-            height: 56px;
-            background-color: #020617;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .top-title {
-            color: #e5e7eb;
-            font-weight: 600;
-        }
-
-        .home-btn {
-            padding: 7px 16px;
-            background-color: #1e293b;
-            color: #e5e7eb;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            border: 1px solid #334155;
-        }
-
-        .logout-btn {
-            background: #dc2626;
-            color: white;
-            border: none;
-            padding: 7px 16px;
-            border-radius: 6px;
-            font-weight: 600;
+            font-family: "Inter", sans-serif;
+            background-color: #3f3f3f;
+            padding: 40px 0;
         }
 
         /* ===== CARD ===== */
-        .card {
-            max-width: 1200px;
-            background: #ffffff;
-            margin: 40px auto;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            position: relative;
+
+        .customer-card {
+            width: 1100px;
+            margin: auto;
+            background: #f3efe9;
+            padding: 42px;
         }
+
+        /* ===== BACK BUTTON ===== */
 
         .back-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 6px 14px;
-            background: #eef0f3;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #374151;
+            display: inline-block;
+            margin-bottom: 22px;
             text-decoration: none;
+            color: #2f2f2f;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
+
+        .back-btn:hover {
+            opacity: 0.7;
+        }
+
+        /* ===== TITLE ===== */
 
         h2 {
-            text-align: center;
-            margin-bottom: 28px;
-            color: #020617;
+            margin: 0 0 34px;
+            font-size: 26px;
+            font-weight: 700;
+            color: #2f2f2f;
         }
 
-        /* ===== SECTIONS ===== */
+        /* ===== SECTION ===== */
+
         .section {
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 22px;
-            margin-bottom: 26px;
+            margin-bottom: 36px;
         }
 
         .section-title {
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 700;
-            margin-bottom: 14px;
-            color: #020617;
+            color: #2f2f2f;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
         }
+
+        /* ===== GRID ===== */
 
         .grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
+            gap: 26px;
         }
 
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
+            gap: 26px;
+        }
+
+        /* ===== FORM ===== */
+
+        .form-group {
+            margin-bottom: 10px;
         }
 
         label {
-            display: block;
             font-size: 12px;
-            font-weight: 600;
-            color: #475569;
-            margin-bottom: 6px;
+            letter-spacing: 2px;
+            color: #8a8a8a;
+            display: block;
+            margin-bottom: 10px;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
-            padding: 9px 11px;
-            border-radius: 6px;
-            border: 1px solid #d1d5db;
-            font-size: 14px;
+            box-sizing: border-box;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 3px solid #cfcfcf;
+            background: transparent;
+            font-size: 15px;
+            outline: none;
+            color: #2f2f2f;
+            font-family: "Inter", sans-serif;
+            appearance: none;
         }
+
+        input:focus,
+        select:focus {
+            border-bottom: 3px solid #3f3f3f;
+        }
+
+        option {
+            background: #f3efe9;
+            color: #2f2f2f;
+        }
+
+        /* ===== AUTOFILL FIX ===== */
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus {
+
+            -webkit-box-shadow: 0 0 0px 1000px #f3efe9 inset !important;
+            -webkit-text-fill-color: #2f2f2f !important;
+            transition: background-color 5000s ease-in-out 0s;
+
+        }
+
+        /* ===== BUTTON ===== */
 
         .submit-btn {
-            margin-top: 10px;
             width: 100%;
-            padding: 12px;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            font-weight: 700;
+            padding: 16px;
+            margin-top: 10px;
+            background: #3f3f3f;
+            color: #ffffff;
+            border: 2px solid #3f3f3f;
             font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
         }
+
+        .submit-btn:hover {
+            background: transparent;
+            color: #3f3f3f;
+        }
+
+        /* ===== RESPONSIVE ===== */
+
+        @media (max-width: 1150px) {
+
+            .customer-card {
+                width: 95%;
+            }
+
+        }
+
     </style>
+
 </head>
 
 <body>
 
-<!-- ===== POS TOP BAR ===== -->
-<div class="topbar">
-    <div class="topbar-left">
-        <div class="top-title">POS Application</div>
-        <a class="home-btn" href="${pageContext.request.contextPath}/">Home</a>
-    </div>
+<div class="customer-card">
 
-    <form action="${pageContext.request.contextPath}/logout" method="post">
-        <button class="logout-btn">Logout</button>
-    </form>
-</div>
+    <!-- ===== BACK ===== -->
 
-<div class="card">
+    <a href="${pageContext.request.contextPath}/customer/list"
+       class="back-btn">
 
-    <a href="${pageContext.request.contextPath}/customer/list" class="back-btn">Back</a>
+        ᐸ BACK
+
+    </a>
+
+    <!-- ===== TITLE ===== -->
 
     <h2>Add Customer</h2>
 
-    <!-- ===== SPRING FORM ===== -->
+    <!-- ===== FORM ===== -->
+
     <form:form method="post"
                action="${pageContext.request.contextPath}/customer/add"
                modelAttribute="customerDto">
 
         <!-- ===== CUSTOMER DETAILS ===== -->
+
         <div class="section">
-            <div class="section-title">Customer Details</div>
+
+            <div class="section-title">
+                CUSTOMER DETAILS
+            </div>
 
             <div class="grid">
 
-                <div>
-                    <label>Phone Number</label>
-                    <form:input path="identifier"/>
-                </div>
+                <div class="form-group">
 
-                <div>
-                    <label>Customer Name</label>
-                    <form:input path="customerName"/>
-                </div>
+                    <label>PHONE NUMBER</label>
 
-                <div>
-                    <label>Email</label>
-                    <form:input path="email"/>
-                </div>
-
-                <div>
-                    <label>Party Type</label>
-                  <form:select path="partyType">
-                      <form:option value="">-- Select --</form:option>
-                      <form:option value="Customer">Customer</form:option>
-                      <form:option value="Dealer">Dealer</form:option>
-                      <form:option value="Retailer">Retailer</form:option>
-                      <form:option value="Distributor">Distributor</form:option>
-                  </form:select>
+                    <form:input path="identifier"
+                                maxlength="13"
+                                inputmode="tel"
+                                pattern="[0-9+-]+"
+                                oninput="this.value=this.value.replace(/[^0-9+-]/g,'')"/>
 
                 </div>
 
-                <div>
-                    <label>Credit</label>
-                    <form:input path="credit"/>
+                <div class="form-group">
+
+                    <label>CUSTOMER NAME</label>
+
+                    <form:input path="customerName"
+                                required="true"/>
+
                 </div>
 
-                <div>
-                    <label>Credit Type</label>
-                   <form:select path="creditType">
-                       <form:option value="">-- Select --</form:option>
-                       <form:option value="ADVANCE">Advance</form:option>
-                       <form:option value="DUE">Due</form:option>
-                   </form:select>
+                <div class="form-group">
+
+                    <label>EMAIL</label>
+
+                    <form:input path="email"
+                                type="email"
+                                required="true"/>
+
                 </div>
 
-                <div>
-                    <label>Credit Limit</label>
-                    <form:input path="creditLimit"/>
+                <div class="form-group">
+
+                    <label>PARTY TYPE</label>
+
+                    <form:select path="partyType"
+                                 required="true">
+
+                        <form:option value="">
+                            -- Select --
+                        </form:option>
+
+                        <form:option value="Customer">
+                            Customer
+                        </form:option>
+
+                        <form:option value="Dealer">
+                            Dealer
+                        </form:option>
+
+                        <form:option value="Retailer">
+                            Retailer
+                        </form:option>
+
+                        <form:option value="Distributor">
+                            Distributor
+                        </form:option>
+
+                    </form:select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>CREDIT</label>
+
+                    <form:input path="credit"
+                                type="number"
+                                min="0"
+                                required="true"/>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>CREDIT TYPE</label>
+
+                    <form:select path="creditType"
+                                 required="true">
+
+                        <form:option value="">
+                            -- Select --
+                        </form:option>
+
+                        <form:option value="NA">
+                            NA
+                        </form:option>
+
+                        <form:option value="ADVANCE">
+                            Advance
+                        </form:option>
+
+                        <form:option value="DUE">
+                            Due
+                        </form:option>
+
+                    </form:select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>CREDIT LIMIT</label>
+
+                    <form:input path="creditLimit"
+                                type="number"
+                                min="0"
+                                required="true"/>
+
                 </div>
 
             </div>
+
         </div>
 
         <!-- ===== BILLING ADDRESS ===== -->
+
         <div class="section">
-            <div class="section-title">Billing Address</div>
+
+            <div class="section-title">
+                BILLING ADDRESS
+            </div>
 
             <div class="grid-2">
-                <form:input path="billingAddress.addressLine" placeholder="Address Line"/>
-                <form:input path="billingAddress.phoneNo" placeholder="Phone No"/>
 
-                <form:input path="billingAddress.city" placeholder="City"/>
-                <form:input path="billingAddress.state" placeholder="State"/>
+                <div class="form-group">
 
-                <form:input path="billingAddress.zipCode" placeholder="Zip Code"/>
-                <form:input path="billingAddress.country" placeholder="Country"/>
+                    <label>ADDRESS LINE</label>
+
+                    <form:input path="billingAddress.addressLine"
+                                required="true"/>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>CITY</label>
+
+                    <form:input path="billingAddress.city"
+                                required="true"/>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>STATE</label>
+
+                    <form:input path="billingAddress.state"
+                                required="true"/>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>ZIP CODE</label>
+
+                    <form:input path="billingAddress.zipCode"
+                                required="true"/>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>COUNTRY</label>
+
+                    <form:input path="billingAddress.country"
+                                required="true"/>
+
+                </div>
+
             </div>
+
         </div>
 
         <!-- ===== SHIPPING ADDRESS ===== -->
+
         <div class="section">
-            <div class="section-title">Shipping Address</div>
+
+            <div class="section-title">
+                SHIPPING ADDRESS
+            </div>
 
             <div class="grid-2">
-                <form:input path="shippingAddress.addressLine" placeholder="Address Line"/>
-                <form:input path="shippingAddress.phoneNo" placeholder="Phone No"/>
 
-                <form:input path="shippingAddress.city" placeholder="City"/>
-                <form:input path="shippingAddress.state" placeholder="State"/>
+                <div class="form-group">
 
-                <form:input path="shippingAddress.zipCode" placeholder="Zip Code"/>
-                <form:input path="shippingAddress.country" placeholder="Country"/>
+                    <label>ADDRESS LINE</label>
+
+                    <form:input path="shippingAddress.addressLine"
+                                required="true"/>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>CITY</label>
+
+                    <form:input path="shippingAddress.city"
+                                required="true"/>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>STATE</label>
+
+                    <form:input path="shippingAddress.state"
+                                required="true"/>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>ZIP CODE</label>
+
+                    <form:input path="shippingAddress.zipCode"
+                                required="true"/>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>COUNTRY</label>
+
+                    <form:input path="shippingAddress.country"
+                                required="true"/>
+
+                </div>
+
             </div>
+
         </div>
 
-        <button type="submit" class="submit-btn">Add Customer</button>
+        <!-- ===== BUTTON ===== -->
+
+        <button type="submit"
+                class="submit-btn">
+
+            ADD CUSTOMER
+
+        </button>
 
     </form:form>
 

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -6,135 +6,343 @@
 <head>
     <title>Brand Management</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
     <style>
+
+        /* ===== BODY ===== */
+
         body {
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            background-color: #3f3f3f;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .card {
-            border-radius: 15px;
-            background-color: #ffffff;
+        /* ===== PAGE WRAPPER ===== */
+
+        .page-wrapper {
+            width: 980px;
+            background: #f3efe9;
+            padding: 34px 42px;
+            box-sizing: border-box;
         }
 
-        .table th {
-            background-color: #a78bfa;
+        /* ===== HEADER ===== */
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .page-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #2f2f2f;
+            margin: 0;
+        }
+
+        /* ===== BUTTONS ===== */
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .top-btn,
+        .back-btn {
+            height: 48px;
+            min-width: 120px;
+            padding: 0 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: 2px solid #3f3f3f;
+            transition: 0.3s;
+        }
+
+        .top-btn {
+            background: #3f3f3f;
             color: #ffffff;
         }
 
-        .table-hover tbody tr:hover {
-            background-color: #f5f3ff;
+        .top-btn:hover {
+            background: transparent;
+            color: #3f3f3f;
         }
 
-        .btn-secondary {
-            background-color: #c4b5fd;
-            border: none;
-            color: #4c1d95;
+        .back-btn {
+            background: transparent;
+            color: #3f3f3f;
         }
 
-        .btn-secondary:hover {
-            background-color: #b197fc;
+        .back-btn:hover {
+            background: #3f3f3f;
             color: #ffffff;
         }
 
-        .btn-success {
-            background-color: #7c3aed;
-            border: none;
+        /* ===== TABLE ===== */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
 
-        .btn-success:hover {
-            background-color: #6d28d9;
+        th {
+            text-align: left;
+            padding: 14px 12px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #8a8a8a;
+            border-bottom: 3px solid #d6d1cb;
         }
+
+        td {
+            padding: 20px 12px;
+            border-bottom: 2px solid #dedad5;
+            color: #2f2f2f;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        /* ===== TOGGLE ===== */
+
+        .switch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+        }
+
+        .slider {
+            background-color: #ffffff2b;
+            border-radius: 100px;
+            cursor: pointer;
+            position: relative;
+            display: block;
+            width: 46px;
+            height: 26px;
+            transition: 0.3s;
+            box-shadow:
+                rgba(0, 0, 0, 0.62) 0px 0px 5px inset,
+                rgba(0, 0, 0, 0.21) 0px 0px 0px 24px inset,
+                #22cc3f 0px 0px 0px 0px inset,
+                rgba(224, 224, 224, 0.45) 0px 1px 0px 0px;
+        }
+
+        .slider::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            background-color: #e3e3e3;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow:
+                rgba(0, 0, 0, 0.3) 0px 4px 5px;
+        }
+
+        .switch input[type="checkbox"]:checked + .slider {
+
+            box-shadow:
+                rgba(0, 0, 0, 0.62) 0px 0px 5px inset,
+                #22cc3f 0px 0px 0px 2px inset,
+                #22cc3f 0px 0px 0px 24px inset,
+                rgba(224, 224, 224, 0.45) 0px 1px 0px 0px;
+
+        }
+
+        .switch input[type="checkbox"]:checked + .slider::after {
+            left: 22px;
+        }
+
+        .switch input[type="checkbox"] {
+            display: none;
+        }
+
+        /* ===== ACTION BUTTONS ===== */
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-link {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+            border: 2px solid #3f3f3f;
+            transition: 0.3s;
+        }
+
+        .edit {
+            background: #3f3f3f;
+            color: #ffffff;
+        }
+
+        .edit:hover {
+            background: transparent;
+            color: #3f3f3f;
+        }
+
+        .delete {
+            background: transparent;
+            color: #3f3f3f;
+        }
+
+        .delete:hover {
+            background: #3f3f3f;
+            color: #ffffff;
+        }
+
     </style>
+
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="card shadow-lg">
+<div class="page-wrapper">
 
-        <div class="card-header text-center">
-            <h4 class="mb-0">List of Brands</h4>
-        </div>
+    <!-- ===== HEADER ===== -->
 
-        <div class="card-body">
+    <div class="top-section">
 
-            <c:choose>
-                <c:when test="${empty brands}">
-                    <div class="alert alert-warning text-center">
-                        No brands available
-                    </div>
-                </c:when>
+        <h2 class="page-title">
+            Brand Management
+        </h2>
 
-                <c:otherwise>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle text-center">
-                            <thead>
-                            <tr>
-                                <th>Brand Name</th>
-                                <th>Description</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
+        <div class="top-actions">
 
-                            <tbody>
-                            <c:forEach var="brand" items="${brands}">
-                                <tr>
-                                    <td>${brand.identifier}</td>
-                                    <td>${brand.description}</td>
+            <a href="${pageContext.request.contextPath}/"
+               class="back-btn">
 
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${brand.status}">
-                                                <span class="badge bg-success">Active</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <span class="badge bg-danger">Inactive</span>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
+                ᐸ BACK
 
-                                    <td class="d-flex justify-content-center gap-2">
-                                        <a href="${pageContext.request.contextPath}/brand/get?identifier=${brand.identifier}"
-                                           class="btn btn-sm btn-primary">
-                                            Edit
-                                        </a>
+            </a>
 
-                                        <a href="${pageContext.request.contextPath}/brand/delete?identifier=${brand.identifier}"
-                                           class="btn btn-sm btn-danger">
-                                            Delete
-                                        </a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                </c:otherwise>
-            </c:choose>
+            <a href="${pageContext.request.contextPath}/brand/add"
+               class="top-btn">
 
-        </div>
+                ADD BRAND
 
-        <div class="card-footer text-center">
-            <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">Home</a>
+            </a>
 
-                <a href="${pageContext.request.contextPath}/brand/add"
-                   class="btn btn-success">Add Brand</a>
-            </div>
-
-            <div class="text-muted small mt-2">
-                Brand Management System
-            </div>
         </div>
 
     </div>
+
+    <!-- ===== TABLE ===== -->
+
+    <table>
+
+        <thead>
+
+        <tr>
+
+            <th>ID</th>
+            <th>BRAND</th>
+            <th>DESCRIPTION</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <c:forEach var="brand" items="${brands}">
+
+            <tr>
+
+                <td>${brand.id}</td>
+
+                <td>${brand.identifier}</td>
+
+                <td>${brand.description}</td>
+
+                <!-- ===== STATUS ===== -->
+
+                <td>
+
+                    <label class="switch">
+
+                        <input type="checkbox"
+                               ${brand.status ? 'checked' : ''}
+                               onchange="toggleStatus('${brand.identifier}')">
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </td>
+
+                <!-- ===== ACTIONS ===== -->
+
+                <td>
+
+                    <div class="action-buttons">
+
+                        <a href="${pageContext.request.contextPath}/brand/get?identifier=${brand.identifier}"
+                           class="action-link edit"
+                           title="Edit">
+
+                            ✎
+
+                        </a>
+
+                        <a href="${pageContext.request.contextPath}/brand/delete?identifier=${brand.identifier}"
+                           class="action-link delete"
+                           title="Delete"
+                           onclick="return confirm('Delete this brand?')">
+
+                            🗑
+
+                        </a>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        </c:forEach>
+
+        </tbody>
+
+    </table>
+
 </div>
+
+<script>
+
+    function toggleStatus(identifier) {
+
+        fetch('${pageContext.request.contextPath}/brand/toggle-status?identifier=' + identifier, {
+            method: 'POST'
+        }).then(() => location.reload());
+
+    }
+
+</script>
 
 </body>
 </html>

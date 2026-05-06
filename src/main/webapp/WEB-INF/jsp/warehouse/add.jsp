@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -6,115 +7,214 @@
 <head>
     <title>Add Warehouse</title>
 
-    <!-- ✅ SAME CSS AS OTHER ADD PAGES -->
     <style>
+
+        /* ===== BODY ===== */
+
         body {
             margin: 0;
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            font-family: "Inter", sans-serif;
+            background-color: #3f3f3f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        .container {
-            width: 400px;
-            margin: 80px auto;
-            background: #fff;
-            padding: 25px;
-            border-radius: 14px;
-            box-shadow: 0 15px 35px rgba(76, 29, 149, 0.18);
+        /* ===== CARD ===== */
+
+        .brand-card {
+            background: #f3efe9;
+            width: 470px;
+            padding: 42px;
+            box-sizing: border-box;
         }
+
+        /* ===== BACK BUTTON ===== */
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 22px;
+            text-decoration: none;
+            color: #2f2f2f;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .back-btn:hover {
+            opacity: 0.7;
+        }
+
+        /* ===== TITLE ===== */
 
         h2 {
-            text-align: center;
-            color: #6d28d9;
+            margin: 0 0 34px;
+            font-size: 26px;
+            font-weight: 700;
+            color: #2f2f2f;
+        }
+
+        /* ===== FORM ===== */
+
+        .form-group {
+            margin-bottom: 28px;
         }
 
         label {
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #8a8a8a;
             display: block;
-            margin-top: 12px;
-            font-weight: 600;
-            color: #4c1d95;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            border: 1px solid #c4b5fd;
-            border-radius: 8px;
-        }
-
-        button {
-            width: 100%;
-            margin-top: 20px;
-            padding: 10px;
-            background: #7c3aed;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #6d28d9;
-        }
-
-        .error {
-            color: red;
-            text-align: center;
             margin-bottom: 10px;
         }
 
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 12px;
-            color: #6d28d9;
-            font-weight: 600;
-            text-decoration: none;
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 3px solid #cfcfcf;
+            background: transparent;
+            font-size: 16px;
+            outline: none;
+            color: #2f2f2f;
+            font-family: "Inter", sans-serif;
         }
 
-        a:hover {
-            text-decoration: underline;
+        input:focus {
+            border-bottom: 3px solid #3f3f3f;
         }
+
+        /* ===== AUTOFILL FIX ===== */
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus {
+
+            -webkit-box-shadow: 0 0 0px 1000px #f3efe9 inset !important;
+            -webkit-text-fill-color: #2f2f2f !important;
+            transition: background-color 5000s ease-in-out 0s;
+
+        }
+
+        /* ===== BUTTON ===== */
+
+        .add-btn {
+            width: 100%;
+            padding: 16px;
+            margin-top: 8px;
+            background: #3f3f3f;
+            color: #ffffff;
+            border: 2px solid #3f3f3f;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .add-btn:hover {
+            background: transparent;
+            color: #3f3f3f;
+        }
+
+        /* ===== ERROR ===== */
+
+        .error-message {
+            margin-top: 16px;
+            padding: 12px;
+            background: #ffe5e0;
+            color: #b91c1c;
+            font-size: 13px;
+        }
+
     </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<div class="brand-card">
+
+    <!-- ===== BACK ===== -->
+
+    <a href="${pageContext.request.contextPath}/wareHouse/list"
+       class="back-btn">
+
+        ᐸ BACK
+
+    </a>
+
+    <!-- ===== TITLE ===== -->
 
     <h2>Add Warehouse</h2>
 
+    <!-- ===== ERROR ===== -->
+
     <c:if test="${not empty message}">
-        <div class="error">${message}</div>
+
+        <div class="error-message">
+
+            ${message}
+
+        </div>
+
     </c:if>
 
-    <form action="${pageContext.request.contextPath}/warehouse/add" method="post">
+    <!-- ===== FORM ===== -->
 
-        <!-- ✅ Product Dropdown as Identifier -->
-        <label>Product</label>
-        <select name="identifier" required>
-            <option value="">-- Select Product --</option>
-            <c:forEach var="product" items="${products}">
-                <option value="${product.identifier}">
-                    ${product.identifier}
-                </option>
-            </c:forEach>
-        </select>
+    <form:form
+            action="${pageContext.request.contextPath}/wareHouse/add"
+            method="post"
+            modelAttribute="wareHouseDto">
 
-        <label>Location</label>
-        <input type="text" name="location" required />
+        <!-- ===== WAREHOUSE NAME ===== -->
 
-        <label>Manager</label>
-        <input type="text" name="manager" required />
+        <div class="form-group">
 
-        <button type="submit">Save</button>
-    </form>
+            <label>WAREHOUSE NAME</label>
 
-    <a href="${pageContext.request.contextPath}/warehouse/list">
-        ← Back to Warehouse List
-    </a>
+            <form:input
+                    path="identifier"
+                    required="true"/>
+
+        </div>
+
+        <!-- ===== LOCATION ===== -->
+
+        <div class="form-group">
+
+            <label>LOCATION</label>
+
+            <form:input
+                    path="location"
+                    required="true"/>
+
+        </div>
+
+        <!-- ===== MANAGER ===== -->
+
+        <div class="form-group">
+
+            <label>MANAGER</label>
+
+            <form:input
+                    path="manager"
+                    required="true"/>
+
+        </div>
+
+        <!-- ===== BUTTON ===== -->
+
+        <button type="submit"
+                class="add-btn">
+
+            ADD WAREHOUSE
+
+        </button>
+
+    </form:form>
 
 </div>
 

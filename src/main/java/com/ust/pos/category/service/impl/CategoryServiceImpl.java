@@ -2,6 +2,7 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.ShelfsDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import org.modelmapper.ModelMapper;
@@ -10,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
-
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -23,56 +24,34 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto findByIdentifier(String identifier) {
-        return modelMapper.map(
-                categoryRepository.findByIdentifier(identifier),
-                CategoryDto.class
-        );
-    }
-
-    @Override
-    public List<CategoryDto> findBySuperCategoryNotNull() {
-        Type listType = new TypeToken<List<CategoryDto>>() {
-        }.getType();
-        return modelMapper.map(categoryRepository.findBySuperCategoryIsNot(""), listType);
+        return modelMapper.map(categoryRepository.findByIdentifier(identifier), CategoryDto.class);
     }
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
-
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
-
         if (existingCategory != null) {
             categoryDto.setMessage("Category with identifier - " + identifier + " already exists");
             categoryDto.setSuccess(false);
             return categoryDto;
         }
-
         Category category = modelMapper.map(categoryDto, Category.class);
         categoryRepository.save(category);
-
-        categoryDto.setMessage("Category created successfully");
-        categoryDto.setSuccess(true);
         return categoryDto;
     }
 
     @Override
     public CategoryDto update(CategoryDto categoryDto) {
-
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
-
         if (existingCategory == null) {
             categoryDto.setMessage("Category with identifier - " + identifier + " not found");
             categoryDto.setSuccess(false);
             return categoryDto;
         }
-
         modelMapper.map(categoryDto, existingCategory);
         categoryRepository.save(existingCategory);
-
-        categoryDto.setMessage("Category updated successfully");
-        categoryDto.setSuccess(true);
         return categoryDto;
     }
 
@@ -84,14 +63,48 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAll() {
-
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
-
-        return modelMapper.map(
-                categoryRepository.findAll(),
-                listType
-        );
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
+        return modelMapper.map(categoryRepository.findAll(), listType);
     }
 
+    @Override
+    public List<CategoryDto> findBySuperCategoryNotNull() {
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
+        return modelMapper.map(categoryRepository.findBySuperCategoryIsNot(""), listType);
+    }
 
+    @Override
+    public CategoryDto toggleStatus(String identifier) {
+        Category category=categoryRepository.findByIdentifier(identifier);
+        category.setStatus(!category.isStatus());
+        categoryRepository.save(category);
+        return modelMapper.map(category,CategoryDto.class);
+    }
+
+    @Override
+    public List<CategoryDto> findIfTrue() {
+        Type listType = new TypeToken<List<ShelfsDto>>(){
+        }.getType();
+        return modelMapper.map(categoryRepository.findByStatusIsTrue(), listType);
+    }
+    @Override
+    public List<CategoryDto> findAllActive() {
+        List<Category> categories = categoryRepository.findAll();
+        List<CategoryDto> activeAssignableCategories = new ArrayList<>();
+        for (Category category : categories) {
+            String superCategory = category.getSuperCategory();
+            if (superCategory == null || superCategory.trim().isEmpty()) {
+                continue;
+            }
+            if (!category.isStatus()) {
+                continue;
+            }
+            activeAssignableCategories.add(
+                    modelMapper.map(category, CategoryDto.class)
+            );
+        }
+        return activeAssignableCategories;
+    }
 }

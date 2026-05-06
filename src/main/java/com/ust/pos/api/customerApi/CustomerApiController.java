@@ -2,7 +2,9 @@ package com.ust.pos.api.customerApi;
 
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.shelfs.service.ShelfsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,46 +12,55 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerApiController {
-
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private ShelfsService shelfsService;
 
     @GetMapping("/list")
-    public List<CustomerDto> list() {
-
+    public List<CustomerDto> home() {
         return customerService.findAll();
     }
 
     @PostMapping("/add")
-    public CustomerDto add(@RequestBody CustomerDto customerDto) {
-
+    public CustomerDto addPost(@RequestBody CustomerDto customerDto) {
         return customerService.save(customerDto);
     }
 
     @GetMapping("/get")
-    public CustomerDto get(@RequestParam String identifier) {
+    public CustomerDto update(@RequestParam String identifier) {
         return customerService.findByIdentifierWithAddressDto(identifier);
     }
 
     @PostMapping("/update")
-    public CustomerDto update(@RequestBody CustomerDto customerDto) {
+    public CustomerDto updatePost(Model model, @RequestBody CustomerDto customerDto) {
+        return  customerService.update(customerDto);
 
-        return customerService.update(customerDto);
     }
 
     @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
-        try {
-            customerService.delete(identifier);
-            return true;
-        } catch (Exception e) {
+    public boolean delete(Model model, @RequestParam String identifier) {
+        try{ customerService.delete(identifier);}
+        catch (Exception e){
             return false;
         }
+        return true;
     }
 
     @PostMapping("/toggle-status")
-    public void toggle(@RequestParam String identifier) {
+    public CustomerDto toggle(@RequestParam String identifier){
 
-        customerService.toggleStatus(identifier);
+        return customerService.toggleStatus(identifier);
     }
+
+    @GetMapping("/findByStatus")
+    public List<CustomerDto> findByStatus() {
+
+        return customerService.findIfTrue();
+    }
+    @GetMapping("/findByIdentifier")
+    public CustomerDto findByIdentifier(@RequestParam String identifier) {
+        return customerService.findByIdentifier(identifier);
+    }
+
 }
