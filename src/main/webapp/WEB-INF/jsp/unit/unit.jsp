@@ -7,11 +7,9 @@
 <head>
     <title>Edit Unit</title>
 
-    <!-- Bootstrap -->
-    https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Font -->
-    https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -39,7 +37,7 @@
         }
 
         body {
-            background: var(--bg);
+            background: linear-gradient(135deg, #f8fafc, #eef2ff);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -66,11 +64,7 @@
             text-decoration: none;
             font-size: 18px;
             box-shadow: var(--shadow);
-            transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease,
-                background 0.2s ease,
-                color 0.2s ease;
+            transition: all 0.25s ease;
         }
 
         .back-arrow:hover {
@@ -82,10 +76,11 @@
 
         /* CARD */
         .form-card {
-            width: 420px;
+            width: 100%;
+            max-width: 420px;
             background: var(--glass);
             backdrop-filter: blur(16px);
-            padding: 30px;
+            padding: 32px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
@@ -93,7 +88,7 @@
 
         h2 {
             text-align: center;
-            margin-bottom: 22px;
+            margin-bottom: 24px;
             font-weight: 600;
         }
 
@@ -101,15 +96,16 @@
             font-size: 13px;
             color: var(--muted);
             font-weight: 500;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .form-control {
             border-radius: 10px;
             border: 1px solid var(--border);
-            padding: 10px;
+            padding: 10px 12px;
             font-size: 14px;
             background: rgba(255,255,255,0.9);
+            transition: all 0.2s ease;
         }
 
         .form-control:focus {
@@ -124,7 +120,7 @@
         }
 
         .btn-submit {
-            margin-top: 22px;
+            margin-top: 24px;
             background: linear-gradient(135deg, var(--primary), var(--primary-hover));
             color: white;
             border-radius: 10px;
@@ -132,7 +128,7 @@
             font-weight: 600;
             border: none;
             width: 100%;
-            transition: 0.2s;
+            transition: all 0.25s ease;
         }
 
         .btn-submit:hover {
@@ -140,12 +136,13 @@
             box-shadow: 0 10px 25px rgba(37,99,235,0.3);
         }
 
+        /* ERROR MESSAGE */
         .server-msg {
             padding: 10px;
             border-radius: 10px;
             font-size: 13px;
             text-align: center;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
 
         .server-msg.error {
