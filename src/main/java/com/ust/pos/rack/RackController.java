@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class RackController {
 
     public static final String REDIRECT_RACK_LIST = "redirect:/rack/list";
+    public static final String SHELVES = "shelves";
 
     @Autowired
     private RackService rackService;
@@ -29,7 +30,7 @@ public class RackController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("rackDto", new RackDto());
-        model.addAttribute("shelves", shelfService.getAllShelves());
+        model.addAttribute(SHELVES, shelfService.getAllShelves());
         return "rack/add";
     }
 
@@ -41,7 +42,7 @@ public class RackController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("messageType", "error");
-            model.addAttribute("shelves", shelfService.getAllShelves());
+            model.addAttribute(SHELVES, shelfService.getAllShelves());
             return "rack/add";
         }
 
@@ -58,7 +59,7 @@ public class RackController {
         }
 
         model.addAttribute("rack", response);
-        model.addAttribute("shelves", shelfService.getAllShelves());
+        model.addAttribute(SHELVES, shelfService.getAllShelves());
         return "rack/rack";
     }
 

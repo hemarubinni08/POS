@@ -2,8 +2,6 @@ package com.ust.pos.brand.service.impl;
 
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
-import com.ust.pos.dto.CategoryDto;
-import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
 import org.modelmapper.ModelMapper;

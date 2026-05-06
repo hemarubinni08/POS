@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/category")
 public class CategoryController {
     public static final String REDIRECT_CATEGORY_LIST = "redirect:/category/list";
+    public static final String CATEGORIES = "categories";
     @Autowired
     private CategoryService categoryService;
 
@@ -22,7 +23,7 @@ public class CategoryController {
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute CategoryDto categoryDto) {
-        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute(CATEGORIES, categoryService.findAll());
         return "category/add";
     }
 
@@ -31,7 +32,7 @@ public class CategoryController {
         CategoryDto response = categoryService.save(categoryDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("categories", categoryService.findAll());
+            model.addAttribute(CATEGORIES, categoryService.findAll());
             return "category/add";
         }
         return REDIRECT_CATEGORY_LIST;
@@ -41,7 +42,7 @@ public class CategoryController {
     public String update(Model model, @RequestParam String identifier) {
         CategoryDto response = categoryService.findByIdentifier(identifier);
         model.addAttribute("category", response);
-        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute(CATEGORIES, categoryService.findAll());
         return "category/category";
     }
 
@@ -50,7 +51,7 @@ public class CategoryController {
         CategoryDto response = categoryService.update(categoryDto);
         if (!response.isSuccess()) {
             model.addAttribute("category", response);
-            model.addAttribute("categories", categoryService.findAll());
+            model.addAttribute(CATEGORIES, categoryService.findAll());
             model.addAttribute("message", response.getMessage());
             return "category/category";
         }

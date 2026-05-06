@@ -9,7 +9,9 @@ import com.ust.pos.model.CustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -18,6 +20,8 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
 
+    public static final String SHIPPING = "Shipping";
+    public static final String BILLING = "Billing";
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -37,7 +41,10 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findByIdentifier(identifier);
 
         if (customer == null) {
-            throw new RuntimeException("Customer not found: " + identifier);
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Customer not found: " + identifier
+            );
         }
 
         CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
@@ -48,9 +55,9 @@ public class CustomerServiceImpl implements CustomerService {
         AddressDto shipping = null;
 
         for (AddressDto address : addressDtoList) {
-            if ("Billing".equalsIgnoreCase(address.getAddressType())) {
+            if (BILLING.equalsIgnoreCase(address.getAddressType())) {
                 billing = address;
-            } else if ("Shipping".equalsIgnoreCase(address.getAddressType())) {
+            } else if (SHIPPING.equalsIgnoreCase(address.getAddressType())) {
                 shipping = address;
             }
         }
@@ -75,13 +82,13 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
 
         AddressDto billingAddress = modelMapper.map(customerDto.getBillingAddress(), AddressDto.class);
-        billingAddress.setIdentifier(customerDto.getIdentifier() + "_" + "Billing");
-        billingAddress.setAddressType("Billing");
+        billingAddress.setIdentifier(customerDto.getIdentifier() + "_" + BILLING);
+        billingAddress.setAddressType(BILLING);
         addressService.save(billingAddress);
 
         AddressDto shippingAddress = modelMapper.map(customerDto.getShippingAddress(), AddressDto.class);
-        shippingAddress.setIdentifier(customerDto.getIdentifier() + "_" + "Shipping");
-        shippingAddress.setAddressType("Shipping");
+        shippingAddress.setIdentifier(customerDto.getIdentifier() + "_" + SHIPPING);
+        shippingAddress.setAddressType(SHIPPING);
         addressService.save(shippingAddress);
 
         return customerDto;
@@ -105,13 +112,13 @@ public class CustomerServiceImpl implements CustomerService {
                 addressService.findAllByPhoneNo(identifier);
 
         for (AddressDto existing : existingAddresses) {
-            if ("Billing".equalsIgnoreCase(existing.getAddressType())) {
+            if (BILLING.equalsIgnoreCase(existing.getAddressType())) {
                 AddressDto billing = customerDto.getBillingAddress();
                 billing.setIdentifier(existing.getIdentifier());
                 addressService.update(billing);
             }
 
-            if ("Shipping".equalsIgnoreCase(existing.getAddressType())) {
+            if (SHIPPING.equalsIgnoreCase(existing.getAddressType())) {
                 AddressDto shipping = customerDto.getShippingAddress();
                 shipping.setIdentifier(existing.getIdentifier());
                 addressService.update(shipping);

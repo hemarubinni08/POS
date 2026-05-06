@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class StockController {
 
     public static final String REDIRECT_STOCK_LIST = "redirect:/stock/list";
+    public static final String MESSAGE = "message";
 
     @Autowired
     private StockService stockService;
@@ -61,7 +62,7 @@ public class StockController {
                     warehouseService.findAllActive()
             );
 
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute("messageType", "error");
             return "stock/add";
         }
@@ -77,7 +78,7 @@ public class StockController {
         StockDto response = stockService.getStock(productId, warehouseId);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute("messageType", "error");
             return REDIRECT_STOCK_LIST;
         }
@@ -94,7 +95,7 @@ public class StockController {
         StockDto response = stockService.updateStockQuantity(stockId, quantity);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute("messageType", "error");
         }
 
@@ -107,7 +108,7 @@ public class StockController {
         boolean deleted = stockService.deleteStock(id);
 
         if (!deleted) {
-            model.addAttribute("message", "Stock not found");
+            model.addAttribute(MESSAGE, "Stock not found");
             model.addAttribute("messageType", "error");
         }
 

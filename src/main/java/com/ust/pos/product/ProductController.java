@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/product")
 public class ProductController {
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
+    public static final String MODEL = "model";
     @Autowired
     private ProductService productService;
     @Autowired
@@ -37,7 +38,7 @@ public class ProductController {
         model.addAttribute("categories",categoryService.findBySuperCategoryNotNull());
         model.addAttribute("brand",brandService.findIfTrue());
         model.addAttribute("unit",unitService.findIfTrue());
-        model.addAttribute("model",modelsService.findIfTrue());
+        model.addAttribute(MODEL,modelsService.findIfTrue());
         return "product/add";
     }
 
@@ -48,7 +49,7 @@ public class ProductController {
             model.addAttribute("categories",categoryService.findBySuperCategoryNotNull());
             model.addAttribute("brand",brandService.findIfTrue());
             model.addAttribute("unit",unitService.findIfTrue());
-            model.addAttribute("model",modelsService.findIfTrue());
+            model.addAttribute(MODEL,modelsService.findIfTrue());
             model.addAttribute("message", response.getMessage());
             return "product/add";
         }
@@ -62,7 +63,7 @@ public class ProductController {
         model.addAttribute("product", response);
         model.addAttribute("brand",brandService.findIfTrue());
         model.addAttribute("unit",unitService.findIfTrue());
-        model.addAttribute("model",modelsService.findIfTrue());
+        model.addAttribute(MODEL,modelsService.findIfTrue());
         return "product/product";
     }
 
@@ -75,7 +76,7 @@ public class ProductController {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("brand",brandService.findIfTrue());
             model.addAttribute("unit",unitService.findIfTrue());
-            model.addAttribute("model",modelsService.findIfTrue());
+            model.addAttribute(MODEL,modelsService.findIfTrue());
             return "product/product";
         }
         return REDIRECT_PRODUCT_LIST;

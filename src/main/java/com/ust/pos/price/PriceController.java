@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class PriceController {
 
     public static final String REDIRECT_PRICE_LIST = "redirect:/price/list";
+    public static final String ERROR = "error";
+    public static final String MESSAGE = "message";
 
     @Autowired
     private PriceService priceService;
@@ -43,8 +45,8 @@ public class PriceController {
         } catch (RuntimeException ex) {
 
             model.addAttribute("products", productService.findAll());
-            model.addAttribute("message", ex.getMessage());
-            model.addAttribute("messageType", "error");
+            model.addAttribute(MESSAGE, ex.getMessage());
+            model.addAttribute("messageType", ERROR);
             return "price/add";
         }
 
@@ -58,8 +60,8 @@ public class PriceController {
         PriceDto price = priceService.getPriceById(id);
 
         if (!price.isSuccess()) {
-            model.addAttribute("message", price.getMessage());
-            model.addAttribute("messageType", "error");
+            model.addAttribute(MESSAGE, price.getMessage());
+            model.addAttribute("messageType", ERROR);
             return REDIRECT_PRICE_LIST;
         }
 
@@ -72,14 +74,13 @@ public class PriceController {
     @PostMapping("/update")
     public String updatePost(@ModelAttribute PriceDto priceDto, Model model) {
 
-        PriceDto response;
         try {
-            response = priceService.updatePrice(priceDto);
+            priceService.updatePrice(priceDto);
         } catch (RuntimeException ex) {
             model.addAttribute("products", productService.findAll());
             model.addAttribute("price", priceDto);
-            model.addAttribute("message", ex.getMessage());
-            model.addAttribute("messageType", "error");
+            model.addAttribute(MESSAGE, ex.getMessage());
+            model.addAttribute("messageType", ERROR);
             return "price/price";
         }
 

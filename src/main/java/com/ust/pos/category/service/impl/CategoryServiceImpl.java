@@ -2,11 +2,8 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
-import com.ust.pos.dto.ModelsDto;
-import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
-import com.ust.pos.model.Models;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +78,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.findByIdentifier(identifier);
         category.setStatus(!category.isStatus());
         categoryRepository.save(category);
-        System.out.println("CATEGORY STATUS UPDATED: " + category.getIdentifier() + " → " + category.isStatus());
         return modelMapper.map(category, CategoryDto.class);
     }
     @Override

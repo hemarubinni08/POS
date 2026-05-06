@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 public class ShelfServiceImpl implements ShelfService {
 
+    public static final String SHELF_NOT_FOUND = "Shelf not found";
     @Autowired
     private ShelfRepository shelfRepository;
 
@@ -45,7 +46,7 @@ public class ShelfServiceImpl implements ShelfService {
             dto.setSuccess(true);
         }, () -> {
             dto.setSuccess(false);
-            dto.setMessage("Shelf not found");
+            dto.setMessage(SHELF_NOT_FOUND);
         });
 
         return dto;
@@ -61,7 +62,7 @@ public class ShelfServiceImpl implements ShelfService {
             dto.setSuccess(true);
         }, () -> {
             dto.setSuccess(false);
-            dto.setMessage("Shelf not found");
+            dto.setMessage(SHELF_NOT_FOUND);
         });
 
         return dto;
@@ -91,7 +92,7 @@ public class ShelfServiceImpl implements ShelfService {
             dto.setSuccess(true);
         }, () -> {
             dto.setSuccess(false);
-            dto.setMessage("Shelf not found");
+            dto.setMessage(SHELF_NOT_FOUND);
         });
 
         return dto;

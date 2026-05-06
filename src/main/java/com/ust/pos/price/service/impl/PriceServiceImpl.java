@@ -7,7 +7,9 @@ import com.ust.pos.model.ProductRepository;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -27,10 +29,17 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDto createPrice(PriceDto priceDto) {
 
-        productRepository.findById(priceDto.getProductId()).orElseThrow(() -> new RuntimeException("Product not found"));
+        productRepository.findById(priceDto.getProductId())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Product not found"
+                ));
 
         if (priceRepository.existsByProductId(priceDto.getProductId())) {
-            throw new RuntimeException("Price already exists for this product");
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Price already exists for this product"
+            );
         }
 
         Price price = modelMapper.map(priceDto, Price.class);
