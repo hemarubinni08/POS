@@ -1,5 +1,6 @@
 package com.ust.pos.warehouse.service.impl;
 
+import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
@@ -69,12 +70,6 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public List<WarehouseDto> findAllActive() {
-        Type listType = new TypeToken<List<WarehouseDto>>() {}.getType();
-        return modelMapper.map(warehouseRepository.findAllByStatus(true), listType);
-    }
-
-    @Override
     @Transactional
     public boolean delete(String identifier) {
         warehouseRepository.deleteByIdentifier(identifier);
@@ -89,5 +84,12 @@ public class WarehouseServiceImpl implements WarehouseService {
             warehouse.setStatus(!warehouse.isStatus());
             warehouseRepository.save(warehouse);
         }
+    }
+
+    @Override
+    public List<WarehouseDto> findIfTrue() {
+        Type listType = new TypeToken<List<WarehouseDto>>(){
+        }.getType();
+        return modelMapper.map(warehouseRepository.findByStatusIsTrue(), listType);
     }
 }

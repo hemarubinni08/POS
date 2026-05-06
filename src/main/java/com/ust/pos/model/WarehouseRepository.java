@@ -14,5 +14,5 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
     @Transactional
     void deleteByIdentifier(String identifier);
 
-    List<Warehouse> findAllByStatus(boolean status);
+    List<Warehouse> findByStatusIsTrue();
 }

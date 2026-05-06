@@ -36,6 +36,7 @@ public class ProductController {
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute ProductDto productDto) {
         model.addAttribute("categories",categoryService.findBySuperCategoryNotNull());
+        model.addAttribute("categories",categoryService.findIfTrue());
         model.addAttribute("brand",brandService.findIfTrue());
         model.addAttribute("unit",unitService.findIfTrue());
         model.addAttribute(MODEL,modelsService.findIfTrue());
@@ -47,6 +48,7 @@ public class ProductController {
         ProductDto response = productService.save(productDto);
         if (!response.isSuccess()) {
             model.addAttribute("categories",categoryService.findBySuperCategoryNotNull());
+            model.addAttribute("categories",categoryService.findIfTrue());
             model.addAttribute("brand",brandService.findIfTrue());
             model.addAttribute("unit",unitService.findIfTrue());
             model.addAttribute(MODEL,modelsService.findIfTrue());
@@ -60,6 +62,7 @@ public class ProductController {
     public String update(Model model, @PathVariable String identifier) {
         ProductDto response = productService.findByIdentifier(identifier);
         model.addAttribute("categories",categoryService.findBySuperCategoryNotNull());
+        model.addAttribute("categories",categoryService.findIfTrue());
         model.addAttribute("product", response);
         model.addAttribute("brand",brandService.findIfTrue());
         model.addAttribute("unit",unitService.findIfTrue());
@@ -72,6 +75,7 @@ public class ProductController {
         ProductDto response = productService.update(productDto);
         if (!response.isSuccess()) {
             model.addAttribute("product", response);
+            model.addAttribute("categories",categoryService.findIfTrue());
             model.addAttribute("categories",categoryService.findBySuperCategoryNotNull());
             model.addAttribute("message", response.getMessage());
             model.addAttribute("brand",brandService.findIfTrue());

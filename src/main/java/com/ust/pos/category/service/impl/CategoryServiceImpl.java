@@ -80,6 +80,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.save(category);
         return modelMapper.map(category, CategoryDto.class);
     }
+
     @Override
     public List<CategoryDto> findIfTrue() {
         Type listType = new TypeToken<List<CategoryDto>>(){}.getType();

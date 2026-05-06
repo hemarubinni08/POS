@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/warehouse")
 public class WarehouseController {
 
-    private static final String REDIRECT_LIST = "redirect:/warehouse/list";
+    public static final String REDIRECT_WAREHOUSE_LIST = "redirect:/warehouse/list";
 
     @Autowired
     private WarehouseService warehouseService;
@@ -23,51 +23,65 @@ public class WarehouseController {
     }
 
     @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute("warehouseDto", new WarehouseDto());
+    public String add(Model model, @ModelAttribute WarehouseDto warehouseDto) {
+        model.addAttribute("warehouseDto", warehouseDto);
         return "warehouse/add";
     }
 
     @PostMapping("/add")
-    public String addPost(@ModelAttribute WarehouseDto dto, Model model) {
+    public String addPost(Model model, @ModelAttribute WarehouseDto warehouseDto) {
 
-        WarehouseDto result = warehouseService.save(dto);
-        if (!result.isSuccess()) {
-            model.addAttribute("message", result.getMessage());
+        WarehouseDto response = warehouseService.save(warehouseDto);
+
+        if (!response.isSuccess()) {
+            model.addAttribute("warehouseDto", warehouseDto);
+            model.addAttribute("message", response.getMessage());
             model.addAttribute("messageType", "error");
             return "warehouse/add";
         }
-        return REDIRECT_LIST;
+
+        return REDIRECT_WAREHOUSE_LIST;
     }
 
     @GetMapping("/get")
-    public String get(@RequestParam String identifier, Model model) {
-        model.addAttribute("warehouseDto", warehouseService.findByIdentifier(identifier));
-        return "warehouse/warehouse";
+    public String update(Model model, @RequestParam String identifier) {
+
+        WarehouseDto response = warehouseService.findByIdentifier(identifier);
+
+        if (response == null) {
+            model.addAttribute("message", "Warehouse not found");
+            model.addAttribute("messageType", "error");
+            return REDIRECT_WAREHOUSE_LIST;
+        }
+
+        model.addAttribute("warehouseDto", response);
+        return "warehouse/edit";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute WarehouseDto dto, Model model) {
+    public String updatePost(Model model, @ModelAttribute WarehouseDto warehouseDto) {
 
-        WarehouseDto result = warehouseService.update(dto);
-        if (!result.isSuccess()) {
-            model.addAttribute("message", result.getMessage());
+        WarehouseDto response = warehouseService.update(warehouseDto);
+
+        if (!response.isSuccess()) {
+            model.addAttribute("warehouseDto", warehouseDto);
+            model.addAttribute("message", response.getMessage());
             model.addAttribute("messageType", "error");
-            return "warehouse/warehouse";
+            return "warehouse/edit";
         }
 
-        return REDIRECT_LIST;
+        return REDIRECT_WAREHOUSE_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
         warehouseService.delete(identifier);
-        return REDIRECT_LIST;
+        return REDIRECT_WAREHOUSE_LIST;
     }
 
-    @GetMapping("/toggle-status")
-    public String toggleStatus(@RequestParam String identifier) {
+    @PostMapping("/toggle-status")
+    @ResponseBody
+    public void toggleStatus(@RequestParam String identifier) {
         warehouseService.toggleStatus(identifier);
-        return REDIRECT_LIST;
     }
 }

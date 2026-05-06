@@ -14,9 +14,9 @@ public interface WarehouseService {
 
     List<WarehouseDto> findAll();
 
-    List<WarehouseDto> findAllActive();
-
     boolean delete(String identifier);
 
     void toggleStatus(String identifier);
+
+    List<WarehouseDto> findIfTrue();
 }
