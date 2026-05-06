@@ -59,6 +59,6 @@ public class CategoryController {
     // Get categories having super category
     @GetMapping("/sub-categories")
     public List<CategoryDto> subCategories() {
-        return categoryService.findBySuperCategoryNotNull();
+        return categoryService.findSuperCategories();
     }
 }

@@ -12,6 +12,7 @@
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
+    <!-- CSRF -->
     <meta name="_csrf" content="${_csrf.token}">
 
     <style>
@@ -37,25 +38,31 @@
             color:var(--text);
         }
 
-        .back-arrow{
-            position:fixed; top:20px; left:20px;
-            width:42px; height:42px;
-            display:flex; align-items:center; justify-content:center;
-            border-radius:50%;
-            background:var(--glass);
-            backdrop-filter:blur(10px);
-            border:1px solid var(--border);
-            color:var(--text);
-            text-decoration:none;
-            font-size:18px;
-            box-shadow:var(--shadow);
-            transition:.2s;
-        }
-        .back-arrow:hover{
-            background:#eef2ff;
-            color:var(--primary);
-            transform:translate(-2px,-2px);
-        }
+        .back-arrow {
+                    position: fixed;
+                    top: 20px;
+                    left: 20px;
+                    width: 42px;
+                    height: 42px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    background: var(--glass);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid var(--border);
+                    color: var(--text);
+                    text-decoration: none;
+                    font-size: 18px;
+                    box-shadow: var(--shadow);
+                    transition: all 0.25s ease;
+                }
+
+                .back-arrow:hover {
+                    background: #eef2ff;
+                    color: var(--primary);
+                    transform: translateX(-2px);
+                }
 
         .container-box{
             max-width:1100px;
@@ -107,14 +114,15 @@
 
         tr:hover{ background:rgba(241,245,249,.6); }
 
+        /* Toggle */
         .toggle-switch{
             width:46px; height:24px;
             border-radius:999px;
             background:#cbd5f5;
             position:relative;
             cursor:pointer;
-            transition:.25s;
         }
+
         .toggle-switch::after{
             content:"";
             position:absolute;
@@ -125,7 +133,9 @@
             box-shadow:0 2px 6px rgba(0,0,0,.15);
             transition:.25s;
         }
+
         .toggle-switch.active{ background:var(--success); }
+
         .toggle-switch.active::after{
             transform:translateX(20px);
         }
@@ -179,16 +189,26 @@
                     <th style="width:180px;">Actions</th>
                 </tr>
                 </thead>
+
                 <tbody>
                 <c:forEach var="cat" items="${categorys}">
                     <tr>
                         <td><strong>${cat.identifier}</strong></td>
                         <td class="text-muted">${cat.superCategory}</td>
+
                         <td>
-                            <div class="toggle-switch ${cat.status ? 'active' : ''}"
-                                 onclick="toggleCategoryStatus('${cat.identifier}', this)">
-                            </div>
+                            <c:choose>
+                                <c:when test="${not empty cat.superCategory}">
+                                    <div class="toggle-switch ${cat.status ? 'active' : ''}"
+                                         onclick="toggleCategoryStatus('${cat.identifier}', this)">
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="text-muted">—</span>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
+
                         <td>
                             <div class="actions">
                                 <a class="btn-action btn-edit"
@@ -213,8 +233,8 @@
 
 <script>
     function toggleCategoryStatus(identifier, el) {
-        el.classList.toggle("active");
 
+        el.classList.toggle("active");
         const token = document.querySelector('meta[name="_csrf"]').content;
 
         fetch('${pageContext.request.contextPath}/category/toggle-status?identifier=' + identifier, {
@@ -222,9 +242,8 @@
             headers: {
                 'X-CSRF-TOKEN': token
             }
-        }).catch(err => {
-            console.error(err);
-            el.classList.toggle("active"); // rollback UI on failure
+        }).catch(() => {
+            el.classList.toggle("active"); // rollback on error
         });
     }
 </script>

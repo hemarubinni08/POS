@@ -14,18 +14,26 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
     public static final String MODEL = "model";
+
     @Autowired
     private ProductService productService;
+
     @Autowired
     private CategoryService categoryService;
+
     @Autowired
     private BrandService brandService;
+
     @Autowired
     private UnitService unitService;
+
     @Autowired
     private ModelsService modelsService;
+
+    /* ===================== LIST ===================== */
 
     @GetMapping("/list")
     public String home(Model model) {
@@ -33,64 +41,81 @@ public class ProductController {
         return "product/list";
     }
 
+    /* ===================== ADD ===================== */
+
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute ProductDto productDto) {
-        model.addAttribute("categories",categoryService.findBySuperCategoryNotNull());
-        model.addAttribute("categories",categoryService.findIfTrue());
-        model.addAttribute("brand",brandService.findIfTrue());
-        model.addAttribute("unit",unitService.findIfTrue());
-        model.addAttribute(MODEL,modelsService.findIfTrue());
+
+        model.addAttribute("productDto", productDto);
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("brand", brandService.findIfTrue());
+        model.addAttribute("unit", unitService.findIfTrue());
+        model.addAttribute(MODEL, modelsService.findIfTrue());
+
         return "product/add";
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute ProductDto productDto) {
+
         ProductDto response = productService.save(productDto);
+
         if (!response.isSuccess()) {
-            model.addAttribute("categories",categoryService.findBySuperCategoryNotNull());
-            model.addAttribute("categories",categoryService.findIfTrue());
-            model.addAttribute("brand",brandService.findIfTrue());
-            model.addAttribute("unit",unitService.findIfTrue());
-            model.addAttribute(MODEL,modelsService.findIfTrue());
             model.addAttribute("message", response.getMessage());
+            model.addAttribute("productDto", productDto);
+            model.addAttribute("categories", categoryService.findAll());
+            model.addAttribute("brand", brandService.findIfTrue());
+            model.addAttribute("unit", unitService.findIfTrue());
+            model.addAttribute(MODEL, modelsService.findIfTrue());
             return "product/add";
         }
+
         return REDIRECT_PRODUCT_LIST;
     }
 
+    /* ===================== EDIT ===================== */
+
     @GetMapping("/get/{identifier}")
     public String update(Model model, @PathVariable String identifier) {
+
         ProductDto response = productService.findByIdentifier(identifier);
-        model.addAttribute("categories",categoryService.findBySuperCategoryNotNull());
-        model.addAttribute("categories",categoryService.findIfTrue());
+
         model.addAttribute("product", response);
-        model.addAttribute("brand",brandService.findIfTrue());
-        model.addAttribute("unit",unitService.findIfTrue());
-        model.addAttribute(MODEL,modelsService.findIfTrue());
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("brand", brandService.findIfTrue());
+        model.addAttribute("unit", unitService.findIfTrue());
+        model.addAttribute(MODEL, modelsService.findIfTrue());
+
         return "product/product";
     }
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute ProductDto productDto) {
+
         ProductDto response = productService.update(productDto);
+
         if (!response.isSuccess()) {
-            model.addAttribute("product", response);
-            model.addAttribute("categories",categoryService.findIfTrue());
-            model.addAttribute("categories",categoryService.findBySuperCategoryNotNull());
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("brand",brandService.findIfTrue());
-            model.addAttribute("unit",unitService.findIfTrue());
-            model.addAttribute(MODEL,modelsService.findIfTrue());
+            model.addAttribute("product", response);
+            model.addAttribute("categories", categoryService.findAll());
+            model.addAttribute("brand", brandService.findIfTrue());
+            model.addAttribute("unit", unitService.findIfTrue());
+            model.addAttribute(MODEL, modelsService.findIfTrue());
             return "product/product";
         }
+
         return REDIRECT_PRODUCT_LIST;
     }
 
+    /* ===================== DELETE ===================== */
+
     @GetMapping("/delete/{identifier}")
-    public String delete(Model model, @PathVariable String identifier) {
+    public String delete(@PathVariable String identifier) {
         productService.delete(identifier);
         return REDIRECT_PRODUCT_LIST;
     }
+
+    /* ===================== STATUS ===================== */
 
     @PostMapping("/toggle-status")
     @ResponseBody

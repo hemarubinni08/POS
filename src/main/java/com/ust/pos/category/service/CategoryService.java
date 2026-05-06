@@ -7,20 +7,20 @@ import java.util.List;
 
 @Transactional
 public interface CategoryService {
-    CategoryDto save(CategoryDto categoryDto);
 
-    CategoryDto update(CategoryDto categoryDto);
+    CategoryDto findByIdentifier(String identifier);
+
+    CategoryDto save(CategoryDto dto);
+
+    CategoryDto update(CategoryDto dto);
 
     boolean delete(String identifier);
 
     List<CategoryDto> findAll();
 
-    CategoryDto findByIdentifier(String identifier);
-
-    List<CategoryDto> findBySuperCategoryNotNull();
+    List<CategoryDto> findSuperCategories();
 
     CategoryDto toggleStatus(String identifier);
 
     List<CategoryDto> findIfTrue();
-
 }

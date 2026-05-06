@@ -6,12 +6,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category,Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+
     Category findByIdentifier(String identifier);
 
     void deleteByIdentifier(String identifier);
 
-    List<Category> findBySuperCategoryIsNot(String category);
+    List<Category> findBySuperCategoryIsNull();
+
+    List<Category> findBySuperCategoryIsNotNull();
 
     List<Category> findByStatusIsTrue();
 }

@@ -1,6 +1,5 @@
 package com.ust.pos.warehouse.service.impl;
 
-import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
@@ -38,7 +37,9 @@ public class WarehouseServiceImpl implements WarehouseService {
         warehouse.setStatus(true);
         warehouseRepository.save(warehouse);
 
-        return modelMapper.map(warehouse, WarehouseDto.class);
+        WarehouseDto response = modelMapper.map(warehouse, WarehouseDto.class);
+        response.setSuccess(true);
+        return response;
     }
 
     @Override
@@ -51,10 +52,15 @@ public class WarehouseServiceImpl implements WarehouseService {
             return dto;
         }
 
+        boolean currentStatus = warehouse.isStatus();
+
         modelMapper.map(dto, warehouse);
+        warehouse.setStatus(currentStatus);
         warehouseRepository.save(warehouse);
 
-        return modelMapper.map(warehouse, WarehouseDto.class);
+        WarehouseDto response = modelMapper.map(warehouse, WarehouseDto.class);
+        response.setSuccess(true);
+        return response;
     }
 
     @Override

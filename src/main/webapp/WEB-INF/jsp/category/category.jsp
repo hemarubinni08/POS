@@ -23,7 +23,6 @@
 
             --text: #0f172a;
             --muted: #64748b;
-
             --border: #e2e8f0;
 
             --danger: #dc2626;
@@ -67,12 +66,13 @@
             text-decoration: none;
             font-size: 18px;
             box-shadow: var(--shadow);
-            transition: 0.2s;
+            transition: all 0.25s ease;
         }
 
         .back-arrow:hover {
             background: #eef2ff;
             color: var(--primary);
+            transform: translateX(-2px);
         }
 
         /* CARD */
@@ -80,15 +80,21 @@
             width: 500px;
             background: var(--glass);
             backdrop-filter: blur(16px);
+            padding: 32px;
             border-radius: var(--radius);
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
-            padding: 28px;
+            animation: fadeUp 0.4s ease;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 22px;
+            margin-bottom: 24px;
             font-weight: 600;
         }
 
@@ -96,32 +102,30 @@
             font-size: 13px;
             color: var(--muted);
             font-weight: 500;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
         }
 
         .form-control,
-        select {
+        .form-select {
             border-radius: 10px;
             border: 1px solid var(--border);
             padding: 10px;
             font-size: 14px;
-            background: rgba(255,255,255,0.9);
         }
 
         .form-control:focus,
-        select:focus {
+        .form-select:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
-            background: #fff;
         }
 
         .form-control[readonly] {
             background: #f1f5f9;
-            cursor: not-allowed;
+            color: #475569;
         }
 
         .btn-submit {
-            margin-top: 22px;
+            margin-top: 24px;
             background: linear-gradient(135deg, var(--primary), var(--primary-hover));
             color: white;
             border-radius: 10px;
@@ -134,7 +138,7 @@
 
         .btn-submit:hover {
             transform: translateY(-1px);
-            box-shadow: 0 10px 25px rgba(37,99,235,0.3);
+            box-shadow: 0 12px 30px rgba(37,99,235,0.35);
         }
 
         .server-msg {
@@ -142,7 +146,7 @@
             border-radius: 10px;
             font-size: 13px;
             text-align: center;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
 
         .server-msg.error {
@@ -155,7 +159,6 @@
 
 <body>
 
-<!-- BACK -->
 <a href="${pageContext.request.contextPath}/category/list" class="back-arrow">←</a>
 
 <div class="form-card">
@@ -168,26 +171,31 @@
         </div>
     </c:if>
 
-    <form:form action="${pageContext.request.contextPath}/category/update"
-               method="post"
-               modelAttribute="category">
+    <form:form
+        method="post"
+        action="${pageContext.request.contextPath}/category/update"
+        modelAttribute="category">
 
         <form:hidden path="id"/>
 
+        <!-- CATEGORY NAME (READ ONLY) -->
         <div class="mb-3">
             <label>Category Name</label>
-            <form:input path="identifier"
-                        cssClass="form-control"
-                        readonly="true"/>
+            <form:input
+                path="identifier"
+                cssClass="form-control"
+                readonly="true"/>
         </div>
 
+        <!-- SUPER CATEGORY -->
         <div class="mb-3">
             <label>Super Category</label>
-            <form:select path="superCategory" cssClass="form-control">
-                <form:option value="">-- Select Super Category --</form:option>
-                <c:forEach var="cat" items="${categories}">
-                    <form:option value="${cat.identifier}">
-                        ${cat.identifier}
+            <form:select path="superCategory" cssClass="form-select">
+                <form:option value="">-- No Super Category --</form:option>
+
+                <c:forEach var="sc" items="${superCategories}">
+                    <form:option value="${sc.identifier}">
+                        ${sc.identifier}
                     </form:option>
                 </c:forEach>
             </form:select>

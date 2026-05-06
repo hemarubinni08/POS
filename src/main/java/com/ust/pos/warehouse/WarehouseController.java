@@ -55,7 +55,7 @@ public class WarehouseController {
         }
 
         model.addAttribute("warehouseDto", response);
-        return "warehouse/edit";
+        return "warehouse/warehouse";
     }
 
     @PostMapping("/update")
@@ -67,7 +67,7 @@ public class WarehouseController {
             model.addAttribute("warehouseDto", warehouseDto);
             model.addAttribute("message", response.getMessage());
             model.addAttribute("messageType", "error");
-            return "warehouse/edit";
+            return "warehouse/warehouse";
         }
 
         return REDIRECT_WAREHOUSE_LIST;
