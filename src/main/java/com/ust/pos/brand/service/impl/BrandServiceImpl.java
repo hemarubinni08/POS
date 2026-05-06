@@ -39,8 +39,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public BrandDto update(BrandDto brandDto) {
 
-        Brand existingBrand =
-                brandRepository.findByIdentifier(brandDto.getIdentifier());
+        Brand existingBrand = brandRepository.findByIdentifier(brandDto.getIdentifier());
 
         if (existingBrand == null) {
             brandDto.setSuccess(false);
@@ -50,9 +49,7 @@ public class BrandServiceImpl implements BrandService {
 
         existingBrand.setDescription(brandDto.getDescription());
         existingBrand.setStatus(brandDto.getStatus());
-
         brandRepository.save(existingBrand);
-
         return brandDto;
     }
 

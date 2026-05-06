@@ -24,11 +24,6 @@ public class NodeApiController {
         return nodeService.findAll();
     }
 
-    @GetMapping("/add")
-    public List<RoleDto> add(@RequestBody NodeDto nodeDto) {
-        return roleService.findAll();
-    }
-
     @PostMapping("/add")
     public NodeDto addPost(@RequestBody NodeDto nodeDto) {
         return nodeService.save(nodeDto);

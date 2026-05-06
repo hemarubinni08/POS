@@ -12,7 +12,6 @@ import java.util.List;
 @RequestMapping("/api/customer")
 public class CustomerApiController {
 
-    public static final String Redirect = "redirect:/customer/list";
 
     @Autowired
     private AddressService addressService;

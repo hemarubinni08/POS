@@ -1,4 +1,4 @@
-package com.ust.pos.modelProduct.service;
+package com.ust.pos.modelproduct.service;
 
 import com.ust.pos.dto.ModelProductDto;
 

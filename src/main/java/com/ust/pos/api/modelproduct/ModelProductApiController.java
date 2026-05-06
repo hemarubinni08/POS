@@ -1,7 +1,7 @@
-package com.ust.pos.api.modelProduct;
+package com.ust.pos.api.modelproduct;
 
 import com.ust.pos.dto.ModelProductDto;
-import com.ust.pos.modelProduct.service.ModelProductService;
+import com.ust.pos.modelproduct.service.ModelProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

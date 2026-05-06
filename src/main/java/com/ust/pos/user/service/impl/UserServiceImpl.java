@@ -74,13 +74,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delete(String username) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getName().equals(username)) {
-            return false;
-        }
+    public void delete(String username) {
         userRepository.deleteByUsername(username);
-        return true;
     }
 
     @Override

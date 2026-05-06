@@ -124,7 +124,7 @@ ${message}
                                 </div>
 
                     <div class="mb-4">
-                            <label class="form-label">Warehouse ID</label>
+                            <label class="form-label">Category</label>
                             <form:select path="category"
                                          cssClass="form-control"
                                          required="true">

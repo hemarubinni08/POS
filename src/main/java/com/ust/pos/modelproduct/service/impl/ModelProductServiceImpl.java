@@ -1,9 +1,9 @@
-package com.ust.pos.modelProduct.service.impl;
+package com.ust.pos.modelproduct.service.impl;
 
 import com.ust.pos.dto.ModelProductDto;
 import com.ust.pos.model.ModelProduct;
 import com.ust.pos.model.ModelProductRepository;
-import com.ust.pos.modelProduct.service.ModelProductService;
+import com.ust.pos.modelproduct.service.ModelProductService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;

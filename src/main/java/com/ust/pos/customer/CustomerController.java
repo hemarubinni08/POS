@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/customer")
 public class CustomerController {
 
-    public static final String Redirect = "redirect:/customer/list";
+    public static final String REDIRECT_CUSTOMER_LIST = "redirect:/customer/list";
 
     @Autowired
     private AddressService addressService;
@@ -39,7 +39,7 @@ public class CustomerController {
             model.addAttribute("message", response.getMessage());
             return "customer/add";
         }
-        return "redirect:/customer/list";
+        return REDIRECT_CUSTOMER_LIST;
     }
 
     @GetMapping("/get")
@@ -57,13 +57,13 @@ public class CustomerController {
             model.addAttribute("customerDto", customerDto);
             return "customer/customer";
         }
-        return Redirect;
+        return REDIRECT_CUSTOMER_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         customerService.deleteByIdentifier(identifier);
         addressService.delete(identifier);
-        return Redirect;
+        return REDIRECT_CUSTOMER_LIST;
     }
 }

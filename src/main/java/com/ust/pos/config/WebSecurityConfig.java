@@ -29,10 +29,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
-@Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
+//@Configuration
+//@EnableWebSecurity
+//@EnableMethodSecurity
 public class WebSecurityConfig {
+    private static final String JavaInUseSecurityScheme = "JavaInUseSecurityScheme";
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -86,9 +87,9 @@ public class WebSecurityConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("JavaInUse Authentication Service"))
-                .addSecurityItem(new SecurityRequirement().addList("JavaInUseSecurityScheme"))
-                .components(new Components().addSecuritySchemes("JavaInUseSecurityScheme", new SecurityScheme()
-                        .name("JavaInUseSecurityScheme").type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
+                .addSecurityItem(new SecurityRequirement().addList(JavaInUseSecurityScheme))
+                .components(new Components().addSecuritySchemes(JavaInUseSecurityScheme, new SecurityScheme()
+                        .name(JavaInUseSecurityScheme).type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
 
     }
 

@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/price")
 public class PriceApiController {
-    private static final String LIST_PRICE = "redirect:/price/list";
     @Autowired
     private ProductService productService;
     @Autowired
@@ -21,11 +20,6 @@ public class PriceApiController {
     @GetMapping("/list")
     public List<PriceDto> home() {
         return priceService.findAll();
-    }
-
-    @GetMapping("/add")
-    public List<ProductDto> add(@RequestBody PriceDto priceDto) {
-        return productService.findAll();
     }
 
     @PostMapping("/add")
@@ -50,6 +44,6 @@ public class PriceApiController {
         } catch (Exception e) {
             return false;
         }
-        return false;
+        return true;
     }
 }

@@ -64,7 +64,7 @@ public class BrandController {
             @RequestParam Boolean status) {
 
         brandService.updateStatusOnly(identifier, status);
-        return "redirect:/brand/list";
+        return REDIRECT_BRAND_LIST;
     }
 
 

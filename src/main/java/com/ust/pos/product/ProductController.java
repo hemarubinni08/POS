@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+    private static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
     @Autowired
     private ProductService productService;
 
@@ -45,7 +46,7 @@ public class ProductController {
         if (!productDto1.isSuccess()) {
             model.addAttribute("message", productDto1.getMessage());
         }
-        return "redirect:/product/list";
+        return REDIRECT_PRODUCT_LIST;
     }
 
     @GetMapping("/get")
@@ -64,12 +65,12 @@ public class ProductController {
             model.addAttribute("message", productDto1.getMessage());
             return "product/update";
         }
-        return "redirect:/product/list";
+        return REDIRECT_PRODUCT_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         productService.delete(identifier);
-        return "redirect:/product/list";
+        return REDIRECT_PRODUCT_LIST;
     }
 }

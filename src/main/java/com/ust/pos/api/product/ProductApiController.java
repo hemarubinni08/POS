@@ -33,11 +33,6 @@ public class ProductApiController {
         return productService.findAll();
     }
 
-    @GetMapping("/add")
-    public List<CategoryDto> add(@RequestBody ProductDto productDto) {
-        return categoryService.findAllWithoutNull();
-    }
-
     @PostMapping("/add")
     public ProductDto addPost(@RequestBody ProductDto productDto) {
         return productService.save(productDto);
@@ -45,15 +40,9 @@ public class ProductApiController {
 
 
     @GetMapping("/get")
-    public Map<String, Object> update(@RequestParam String identifier) {
-        ProductDto productDto = productService.findByIdentifier(identifier);
-        Map<String, Object> response = new HashMap<>();
-        response.put("product", productDto);
-        response.put("warehouse", warehouseService.findAll());
-        response.put("categories", categoryService.findAllWithoutNull());
-        return response;
+    public ProductDto update(@RequestParam String identifier) {
+        return productService.findByIdentifier(identifier);
     }
-
 
     @PostMapping("/update")
     public ProductDto doupdate(@RequestBody ProductDto productDto) {

@@ -29,23 +29,14 @@ public class RacksApiController {
         return racksService.findAll();
     }
 
-    @GetMapping("/add")
-    public List<ShelfDto> add(@RequestBody RacksDto racksDto) {
-        return shelfService.findAllByStatus();
-    }
-
     @PostMapping("/add")
     public RacksDto addPost(@RequestBody RacksDto racksDto) {
         return racksService.save(racksDto);
     }
 
     @GetMapping("/get")
-    public Map<String, Object> update(@RequestParam String identifier) {
-        RacksDto racksDto = racksService.findByIdentifier(identifier);
-        Map<String, Object> response = new HashMap<>();
-        response.put("racksDto", racksDto);
-        response.put("shelf", shelfService.findAllByStatus());
-        return response;
+    public RacksDto update(@RequestParam String identifier) {
+        return racksService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")

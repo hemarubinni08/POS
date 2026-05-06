@@ -10,19 +10,21 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/unit")
 public class UnitController {
+    private static final String UNITS = "units";
+    private static final String REDIRECT = "redirect:/unit/list";
 
     @Autowired
     private UnitService unitService;
 
     @GetMapping("/list")
     public String home(Model unit) {
-        unit.addAttribute("units", unitService.findAll());
+        unit.addAttribute(UNITS, unitService.findAll());
         return "unit/list";
     }
 
     @GetMapping("/add")
     public String add(Model unit, @ModelAttribute UnitDto unitDto) {
-        unit.addAttribute("units", unitService.findAll());
+        unit.addAttribute(UNITS, unitService.findAll());
         return "unit/add";
     }
 
@@ -31,17 +33,17 @@ public class UnitController {
         UnitDto unitDto1 = unitService.save(unitDto);
         if (!unitDto.isSuccess()) {
             unit.addAttribute("message", unitDto1.getMessage());
-            unit.addAttribute("units", unitService.findAll());
+            unit.addAttribute(UNITS, unitService.findAll());
             return "unit/add";
         }
-        return "redirect:/unit/list";
+        return REDIRECT;
     }
 
     @GetMapping("/get")
     public String update(Model unit, @RequestParam String identifier) {
         UnitDto unitDto = unitService.findByIdentifier(identifier);
         unit.addAttribute("unit", unitDto);
-        unit.addAttribute("units", unitService.findAll());
+        unit.addAttribute(UNITS, unitService.findAll());
         return "unit/unit";
     }
 
@@ -50,16 +52,16 @@ public class UnitController {
         UnitDto unitDto1 = unitService.update(unitDto);
         if (!unitDto1.isSuccess()) {
             unit.addAttribute("message", unitDto1.getMessage());
-            unit.addAttribute("units", unitService.findAll());
+            unit.addAttribute(UNITS, unitService.findAll());
             return "unit/update";
         }
-        return "redirect:/unit/list";
+        return REDIRECT;
     }
 
     @GetMapping("/delete")
     public String delete(Model unit, @RequestParam String identifier) {
         unitService.delete(identifier);
-        return "redirect:/unit/list";
+        return REDIRECT;
     }
 
     @PostMapping("status")

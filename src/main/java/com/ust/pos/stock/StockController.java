@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/stock")
 public class StockController {
+    public static final String REDIRECT = "redirect:/stock/list";
     public static final String ADD_STOCK = "stock/add";
     @Autowired
     StockService stockService;
@@ -52,15 +53,15 @@ public class StockController {
         StockDto response = stockService.update(stockDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            return ("redirect:/stock/list");
+            return REDIRECT;
         }
-        return ("redirect:/stock/list");
+        return REDIRECT;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         stockService.delete(identifier);
-        return ("redirect:/stock/list");
+        return REDIRECT;
     }
 
     @GetMapping("/list")
