@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-public class WarehouseServiceTest {
+class WarehouseServiceTest {
 
     @InjectMocks
     private WarehouseServiceImpl warehouseService;

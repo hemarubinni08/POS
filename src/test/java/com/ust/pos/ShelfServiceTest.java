@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class ShelfServiceTest {
+class ShelfServiceTest {
 
     @InjectMocks
     private ShelfServiceImpl shelfService;

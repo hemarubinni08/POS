@@ -17,6 +17,8 @@ public class ProductController {
 
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
     public static final String MODEL = "model";
+    public static final String BRAND = "brand";
+    public static final String CATEGORIES = "categories";
 
     @Autowired
     private ProductService productService;
@@ -47,8 +49,8 @@ public class ProductController {
     public String add(Model model, @ModelAttribute ProductDto productDto) {
 
         model.addAttribute("productDto", productDto);
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("brand", brandService.findIfTrue());
+        model.addAttribute(CATEGORIES, categoryService.findAll());
+        model.addAttribute(BRAND, brandService.findIfTrue());
         model.addAttribute("unit", unitService.findIfTrue());
         model.addAttribute(MODEL, modelsService.findIfTrue());
 
@@ -63,8 +65,8 @@ public class ProductController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("productDto", productDto);
-            model.addAttribute("categories", categoryService.findAll());
-            model.addAttribute("brand", brandService.findIfTrue());
+            model.addAttribute(CATEGORIES, categoryService.findAll());
+            model.addAttribute(BRAND, brandService.findIfTrue());
             model.addAttribute("unit", unitService.findIfTrue());
             model.addAttribute(MODEL, modelsService.findIfTrue());
             return "product/add";
@@ -81,8 +83,8 @@ public class ProductController {
         ProductDto response = productService.findByIdentifier(identifier);
 
         model.addAttribute("product", response);
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("brand", brandService.findIfTrue());
+        model.addAttribute(CATEGORIES, categoryService.findAll());
+        model.addAttribute(BRAND, brandService.findIfTrue());
         model.addAttribute("unit", unitService.findIfTrue());
         model.addAttribute(MODEL, modelsService.findIfTrue());
 
@@ -97,8 +99,8 @@ public class ProductController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("product", response);
-            model.addAttribute("categories", categoryService.findAll());
-            model.addAttribute("brand", brandService.findIfTrue());
+            model.addAttribute(CATEGORIES, categoryService.findAll());
+            model.addAttribute(BRAND, brandService.findIfTrue());
             model.addAttribute("unit", unitService.findIfTrue());
             model.addAttribute(MODEL, modelsService.findIfTrue());
             return "product/product";

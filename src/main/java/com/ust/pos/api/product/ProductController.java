@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController("productApiController")
-@RequestMapping("/api/product")
+@RequestMapping("/api/products")
 public class ProductController {
 
     @Autowired
@@ -24,57 +24,63 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
-    // Get all products
-    @GetMapping("/list")
-    public List<ProductDto> list() {
+    // GET ALL PRODUCTS
+    @GetMapping
+    public List<ProductDto> getAll() {
         return productService.findAll();
     }
 
-    // Get product by identifier
-    @GetMapping("/get")
-    public ProductDto get(@RequestParam String identifier) {
+    // GET PRODUCT BY IDENTIFIER
+    @GetMapping("/{identifier}")
+    public ProductDto getByIdentifier(@PathVariable String identifier) {
         return productService.findByIdentifier(identifier);
     }
 
-    // Add a new product
-    @PostMapping("/add")
-    public ProductDto add(@RequestBody ProductDto productDto) {
+    // CREATE PRODUCT
+    @PostMapping
+    public ProductDto create(@RequestBody ProductDto productDto) {
         return productService.save(productDto);
     }
 
-    // Update product
-    @PostMapping("/update")
-    public ProductDto update(@RequestBody ProductDto productDto) {
+    // UPDATE PRODUCT
+    @PutMapping("/{identifier}")
+    public ProductDto update(@PathVariable String identifier,
+                             @RequestBody ProductDto productDto) {
+        productDto.setIdentifier(identifier);
         return productService.update(productDto);
     }
 
-    // Delete product by identifier
-    @DeleteMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
-        return productService.delete(identifier);
+    // DELETE PRODUCT
+    @DeleteMapping("/{identifier}")
+    public boolean delete(@PathVariable String identifier) {
+        try {
+            return productService.delete(identifier);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    // Toggle active/inactive status
-    @PostMapping("/toggle-status")
-    public ProductDto toggleStatus(@RequestParam String identifier) {
+    // TOGGLE STATUS
+    @PatchMapping("/{identifier}/toggle")
+    public ProductDto toggleStatus(@PathVariable String identifier) {
         return productService.toggleStatus(identifier);
     }
 
-    // Get only active products
+    // GET ACTIVE PRODUCTS
     @GetMapping("/active")
     public List<ProductDto> activeProducts() {
         return productService.findIfTrue();
     }
 
-    // List all prices
+    // GET ALL PRICES (REFERENCE DATA)
     @GetMapping("/prices")
-    public List<PriceDto> prices() {
+    public List<PriceDto> getPrices() {
         return priceService.getAllPrices();
     }
 
-    // List all categories
+    // GET ALL CATEGORIES (REFERENCE DATA)
     @GetMapping("/categories")
-    public List<CategoryDto> categories() {
+    public List<CategoryDto> getCategories() {
         return categoryService.findAll();
     }
 }

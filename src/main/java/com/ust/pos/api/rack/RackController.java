@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController("rackApiController")
-@RequestMapping("/api/rack")
+@RequestMapping("/api/racks")
 public class RackController {
 
     @Autowired
@@ -19,28 +19,35 @@ public class RackController {
     @Autowired
     private ShelfService shelfService;
 
-    @GetMapping("/list")
-    public List<RackDto> list() {
+    // GET ALL RACKS
+    @GetMapping
+    public List<RackDto> getAll() {
         return rackService.getAllRacks();
     }
 
-    @GetMapping("/get")
-    public RackDto get(@RequestParam Long id) {
+    // GET RACK BY ID
+    @GetMapping("/{id}")
+    public RackDto getById(@PathVariable Long id) {
         return rackService.getRack(id);
     }
 
-    @PostMapping("/add")
-    public RackDto add(@RequestBody RackDto rackDto) {
+    // CREATE RACK
+    @PostMapping
+    public RackDto create(@RequestBody RackDto rackDto) {
         return rackService.createRack(rackDto);
     }
 
-    @PostMapping("/update")
-    public RackDto update(@RequestBody RackDto rackDto) {
+    // UPDATE RACK
+    @PutMapping("/{id}")
+    public RackDto update(@PathVariable Long id,
+                          @RequestBody RackDto rackDto) {
+        rackDto.setId(id);
         return rackService.updateRack(rackDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam Long id) {
+    // DELETE RACK
+    @DeleteMapping("/{id}")
+    public boolean delete(@PathVariable Long id) {
         try {
             rackService.deleteRack(id);
             return true;
@@ -49,8 +56,9 @@ public class RackController {
         }
     }
 
+    // GET ALL SHELVES (REFERENCE DATA)
     @GetMapping("/shelves")
-    public List<ShelfDto> shelves() {
+    public List<ShelfDto> getShelves() {
         return shelfService.getAllShelves();
     }
 }

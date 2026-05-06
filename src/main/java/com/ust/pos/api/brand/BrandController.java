@@ -8,39 +8,58 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController("brandApiController")
-@RequestMapping("/api/brand")
+@RequestMapping("/api/brands")
 public class BrandController {
 
     @Autowired
     private BrandService brandService;
 
-    @GetMapping("/list")
-    public List<BrandDto> list() {
+    // GET all brands
+    @GetMapping
+    public List<BrandDto> getAll() {
         return brandService.findAll();
     }
 
-    @GetMapping("/get")
-    public BrandDto get(@RequestParam String identifier) {
+    // GET by identifier
+    @GetMapping("/{identifier}")
+    public BrandDto getByIdentifier(@PathVariable String identifier) {
         return brandService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/add")
-    public BrandDto add(@RequestBody BrandDto brandDto) {
+    // CREATE
+    @PostMapping
+    public BrandDto create(@RequestBody BrandDto brandDto) {
         return brandService.save(brandDto);
     }
 
-    @PostMapping("/update")
-    public BrandDto update(@RequestBody BrandDto brandDto) {
+    // UPDATE
+    @PutMapping("/{identifier}")
+    public BrandDto update(@PathVariable String identifier,
+                           @RequestBody BrandDto brandDto) {
+        brandDto.setIdentifier(identifier);
         return brandService.update(brandDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    // DELETE
+    @DeleteMapping("/{identifier}")
+    public boolean delete(@PathVariable String identifier) {
         try {
             brandService.delete(identifier);
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    // TOGGLE STATUS
+    @PatchMapping("/{identifier}/toggle")
+    public BrandDto toggleStatus(@PathVariable String identifier) {
+        return brandService.toggleStatus(identifier);
+    }
+
+    // GET ACTIVE BRANDS
+    @GetMapping("/active")
+    public List<BrandDto> getActiveBrands() {
+        return brandService.findIfTrue();
     }
 }

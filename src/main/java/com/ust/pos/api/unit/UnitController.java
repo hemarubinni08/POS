@@ -8,39 +8,52 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController("unitApiController")
-@RequestMapping("/api/unit")
+@RequestMapping("/api/units")
 public class UnitController {
 
     @Autowired
     private UnitService unitService;
 
-    @GetMapping("/list")
-    public List<UnitDto> list() {
+    // GET ALL UNITS
+    @GetMapping
+    public List<UnitDto> getAll() {
         return unitService.findAll();
     }
 
-    @GetMapping("/get")
-    public UnitDto get(@RequestParam String identifier) {
+    // GET UNIT BY IDENTIFIER
+    @GetMapping("/{identifier}")
+    public UnitDto getByIdentifier(@PathVariable String identifier) {
         return unitService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/add")
-    public UnitDto add(@RequestBody UnitDto unitDto) {
+    // CREATE UNIT
+    @PostMapping
+    public UnitDto create(@RequestBody UnitDto unitDto) {
         return unitService.save(unitDto);
     }
 
-    @PostMapping("/update")
-    public UnitDto update(@RequestBody UnitDto unitDto) {
+    // UPDATE UNIT
+    @PutMapping("/{identifier}")
+    public UnitDto update(@PathVariable String identifier,
+                          @RequestBody UnitDto unitDto) {
+        unitDto.setIdentifier(identifier);
         return unitService.update(unitDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    // DELETE UNIT
+    @DeleteMapping("/{identifier}")
+    public boolean delete(@PathVariable String identifier) {
         try {
             unitService.delete(identifier);
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    // TOGGLE STATUS
+    @PatchMapping("/{identifier}/toggle")
+    public UnitDto toggleStatus(@PathVariable String identifier) {
+        return unitService.toggleStatus(identifier);
     }
 }

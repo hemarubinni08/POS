@@ -20,7 +20,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class CustomerServiceTest {
+class CustomerServiceTest {
 
     @InjectMocks
     private CustomerServiceImpl customerService;

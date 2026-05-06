@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class RackServiceTest {
+class RackServiceTest {
 
     @InjectMocks
     private RackServiceImpl rackService;

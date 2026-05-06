@@ -8,39 +8,52 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController("shelfApiController")
-@RequestMapping("/api/shelf")
+@RequestMapping("/api/shelves")
 public class ShelfController {
 
     @Autowired
     private ShelfService shelfService;
 
-    @GetMapping("/list")
-    public List<ShelfDto> list() {
+    // GET ALL SHELVES
+    @GetMapping
+    public List<ShelfDto> getAll() {
         return shelfService.getAllShelves();
     }
 
-    @GetMapping("/get")
-    public ShelfDto get(@RequestParam Long id) {
+    // GET SHELF BY ID
+    @GetMapping("/{id}")
+    public ShelfDto getById(@PathVariable Long id) {
         return shelfService.getShelf(id);
     }
 
-    @PostMapping("/add")
-    public ShelfDto add(@RequestBody ShelfDto shelfDto) {
+    // CREATE SHELF
+    @PostMapping
+    public ShelfDto create(@RequestBody ShelfDto shelfDto) {
         return shelfService.createShelf(shelfDto);
     }
 
-    @PostMapping("/update")
-    public ShelfDto update(@RequestBody ShelfDto shelfDto) {
+    // UPDATE SHELF
+    @PutMapping("/{id}")
+    public ShelfDto update(@PathVariable Long id,
+                           @RequestBody ShelfDto shelfDto) {
+        shelfDto.setId(id);
         return shelfService.updateShelf(shelfDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam Long id) {
+    // DELETE SHELF
+    @DeleteMapping("/{id}")
+    public boolean delete(@PathVariable Long id) {
         try {
             shelfService.deleteShelf(id);
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    // TOGGLE STATUS
+    @PatchMapping("/{id}/toggle")
+    public ShelfDto toggleStatus(@PathVariable Long id) {
+        return shelfService.toggleStatus(id);
     }
 }

@@ -8,55 +8,61 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController("categoryApiController")
-@RequestMapping("/api/category")
+@RequestMapping("/api/categories")
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
 
-    // Get all categories
-    @GetMapping("/list")
-    public List<CategoryDto> list() {
+    // GET ALL
+    @GetMapping
+    public List<CategoryDto> getAll() {
         return categoryService.findAll();
     }
 
-    // Get category by identifier
-    @GetMapping("/get")
-    public CategoryDto get(@RequestParam String identifier) {
+    // GET BY IDENTIFIER
+    @GetMapping("/{identifier}")
+    public CategoryDto getByIdentifier(@PathVariable String identifier) {
         return categoryService.findByIdentifier(identifier);
     }
 
-    // Add new category
-    @PostMapping("/add")
-    public CategoryDto add(@RequestBody CategoryDto dto) {
+    // CREATE
+    @PostMapping
+    public CategoryDto create(@RequestBody CategoryDto dto) {
         return categoryService.save(dto);
     }
 
-    // Update category
-    @PostMapping("/update")
-    public CategoryDto update(@RequestBody CategoryDto dto) {
+    // UPDATE
+    @PutMapping("/{identifier}")
+    public CategoryDto update(@PathVariable String identifier,
+                              @RequestBody CategoryDto dto) {
+        dto.setIdentifier(identifier);
         return categoryService.update(dto);
     }
 
-    // Delete category by identifier
-    @DeleteMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
-        return categoryService.delete(identifier);
+    // DELETE
+    @DeleteMapping("/{identifier}")
+    public boolean delete(@PathVariable String identifier) {
+        try {
+            return categoryService.delete(identifier);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    // Toggle active / inactive status
-    @PostMapping("/toggle-status")
-    public CategoryDto toggleStatus(@RequestParam String identifier) {
+    // TOGGLE STATUS
+    @PatchMapping("/{identifier}/toggle")
+    public CategoryDto toggleStatus(@PathVariable String identifier) {
         return categoryService.toggleStatus(identifier);
     }
 
-    // Get only active categories
+    // GET ACTIVE CATEGORIES
     @GetMapping("/active")
     public List<CategoryDto> activeCategories() {
         return categoryService.findIfTrue();
     }
 
-    // Get categories having super category
+    // GET SUB-CATEGORIES (with parent)
     @GetMapping("/sub-categories")
     public List<CategoryDto> subCategories() {
         return categoryService.findSuperCategories();

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class StockServiceTest {
+class StockServiceTest {
 
     @InjectMocks
     private StockServiceImpl stockService;

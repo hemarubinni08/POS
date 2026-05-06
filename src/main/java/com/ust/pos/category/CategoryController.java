@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
     public static final String REDIRECT_CATEGORY_LIST = "redirect:/category/list";
+    private static final String SUPERCATEGORY = "superCategories";
+    private static final String MESSAGE = "message";
 
     @Autowired
     private CategoryService categoryService;
@@ -24,7 +26,7 @@ public class CategoryController {
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute CategoryDto categoryDto) {
-        model.addAttribute("superCategories", categoryService.findSuperCategories());
+        model.addAttribute(SUPERCATEGORY, categoryService.findSuperCategories());
         model.addAttribute("categoryDto", categoryDto);
         return "category/add";
     }
@@ -35,8 +37,8 @@ public class CategoryController {
         CategoryDto response = categoryService.save(categoryDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("superCategories", categoryService.findSuperCategories());
+            model.addAttribute(MESSAGE, response.getMessage());
+            model.addAttribute(SUPERCATEGORY, categoryService.findSuperCategories());
             return "category/add";
         }
 
@@ -49,13 +51,13 @@ public class CategoryController {
         CategoryDto response = categoryService.findByIdentifier(identifier);
 
         if (response == null) {
-            model.addAttribute("message", "Category not found");
+            model.addAttribute(MESSAGE, "Category not found");
             return REDIRECT_CATEGORY_LIST;
         }
 
         model.addAttribute("category", response);
 
-        model.addAttribute("superCategories", categoryService.findSuperCategories().stream().filter(sc -> !sc.getIdentifier().equals(response.getIdentifier())).toList());
+        model.addAttribute(SUPERCATEGORY, categoryService.findSuperCategories().stream().filter(sc -> !sc.getIdentifier().equals(response.getIdentifier())).toList());
 
         return "category/category";
     }
@@ -67,8 +69,8 @@ public class CategoryController {
 
         if (!response.isSuccess()) {
             model.addAttribute("category", response);
-            model.addAttribute("superCategories", categoryService.findSuperCategories());
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute(SUPERCATEGORY, categoryService.findSuperCategories());
+            model.addAttribute(MESSAGE, response.getMessage());
             return "category/category";
         }
 

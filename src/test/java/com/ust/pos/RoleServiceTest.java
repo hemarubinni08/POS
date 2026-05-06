@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @ExtendWith(MockitoExtension.class)
-public class RoleServiceTest {
+class RoleServiceTest {
     @InjectMocks
     private RoleServiceImpl roleService;
     @Mock

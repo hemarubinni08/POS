@@ -8,40 +8,51 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController("customerApiController")
-@RequestMapping("/api/customer")
+@RequestMapping("/api/customers")
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping("/list")
-    public List<CustomerDto> list() {
+    // GET ALL CUSTOMERS
+    @GetMapping
+    public List<CustomerDto> getAll() {
         return customerService.findAll();
     }
 
-    @GetMapping("/get")
-    public CustomerDto get(@RequestParam String identifier) {
-        return customerService.findByIdentifier(identifier);
+    // GET CUSTOMER BY IDENTIFIER (WITH ADDRESS)
+    @GetMapping("/{identifier}")
+    public CustomerDto getByIdentifier(@PathVariable String identifier) {
+        return customerService.findByIdentifierWithAddressDto(identifier);
     }
 
-    @PostMapping("/add")
-    public CustomerDto add(@RequestBody CustomerDto customerDto) {
+    // CREATE CUSTOMER
+    @PostMapping
+    public CustomerDto create(@RequestBody CustomerDto customerDto) {
         return customerService.save(customerDto);
     }
 
-    @PostMapping("/update")
-    public CustomerDto update(@RequestBody CustomerDto customerDto) {
+    // UPDATE CUSTOMER
+    @PutMapping("/{identifier}")
+    public CustomerDto update(@PathVariable String identifier,
+                              @RequestBody CustomerDto customerDto) {
+        customerDto.setIdentifier(identifier);
         return customerService.update(customerDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    // DELETE CUSTOMER
+    @DeleteMapping("/{identifier}")
+    public boolean delete(@PathVariable String identifier) {
         try {
-            customerService.delete(identifier);
-            return true;
+            return customerService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
     }
 
+    // TOGGLE STATUS (ACTIVE / INACTIVE)
+    @PatchMapping("/{identifier}/toggle")
+    public CustomerDto toggleStatus(@PathVariable String identifier) {
+        return customerService.toggleStatus(identifier);
+    }
 }

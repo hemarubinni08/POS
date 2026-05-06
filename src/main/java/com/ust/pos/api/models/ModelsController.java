@@ -14,33 +14,45 @@ public class ModelsController {
     @Autowired
     private ModelsService modelsService;
 
-    @GetMapping("/list")
-    public List<ModelsDto> list() {
+    // GET ALL MODELS
+    @GetMapping
+    public List<ModelsDto> getAll() {
         return modelsService.findAll();
     }
 
-    @GetMapping("/get")
-    public ModelsDto get(@RequestParam String identifier) {
+    // GET BY IDENTIFIER
+    @GetMapping("/{identifier}")
+    public ModelsDto getByIdentifier(@PathVariable String identifier) {
         return modelsService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/add")
-    public ModelsDto add(@RequestBody ModelsDto modelsDto) {
+    // CREATE MODEL
+    @PostMapping
+    public ModelsDto create(@RequestBody ModelsDto modelsDto) {
         return modelsService.save(modelsDto);
     }
 
-    @PostMapping("/update")
-    public ModelsDto update(@RequestBody ModelsDto modelsDto) {
+    // UPDATE MODEL
+    @PutMapping("/{identifier}")
+    public ModelsDto update(@PathVariable String identifier,
+                            @RequestBody ModelsDto modelsDto) {
+        modelsDto.setIdentifier(identifier);
         return modelsService.update(modelsDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    // DELETE MODEL
+    @DeleteMapping("/{identifier}")
+    public boolean delete(@PathVariable String identifier) {
         try {
-            modelsService.delete(identifier);
-            return true;
+            return modelsService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
+    }
+
+    // TOGGLE STATUS
+    @PatchMapping("/{identifier}/toggle")
+    public ModelsDto toggleStatus(@PathVariable String identifier) {
+        return modelsService.toggleStatus(identifier);
     }
 }

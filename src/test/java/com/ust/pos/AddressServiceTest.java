@@ -16,7 +16,7 @@ import org.modelmapper.ModelMapper;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class AddressServiceTest {
+class AddressServiceTest {
 
     @InjectMocks
     private AddressServiceImpl addressService;

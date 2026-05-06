@@ -1,5 +1,4 @@
 package com.ust.pos.stock;
-
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
@@ -13,7 +12,26 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/stock")
 public class StockController {
 
-    public static final String REDIRECT_STOCK_LIST = "redirect:/stock/list";
+    // -------- View names --------
+    private static final String VIEW_STOCK_LIST = "stock/list";
+    private static final String VIEW_STOCK_ADD = "stock/add";
+    private static final String VIEW_STOCK_EDIT = "stock/stock";
+    private static final String REDIRECT_STOCK_LIST = "redirect:/stock/list";
+
+    // -------- Model attribute names --------
+    private static final String ATTR_STOCK = "stock";
+    private static final String ATTR_STOCK_DTO = "stockDto";
+    private static final String ATTR_STOCKS = "stocks";
+    private static final String ATTR_PRODUCTS = "products";
+    private static final String ATTR_WAREHOUSES = "warehouses";
+    private static final String ATTR_MESSAGE = "message";
+    private static final String ATTR_MESSAGE_TYPE = "messageType";
+
+    // -------- Message types --------
+    private static final String MESSAGE_TYPE_ERROR = "error";
+
+    // -------- Messages --------
+    private static final String MSG_STOCK_NOT_FOUND = "Stock not found";
 
     @Autowired
     private StockService stockService;
@@ -26,32 +44,29 @@ public class StockController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        model.addAttribute("stocks", stockService.getAllStocks());
-        return "stock/list";
+        model.addAttribute(ATTR_STOCKS, stockService.getAllStocks());
+        return VIEW_STOCK_LIST;
     }
 
     @GetMapping("/add")
     public String add(Model model) {
-
-        model.addAttribute("stockDto", new StockDto());
-        model.addAttribute("warehouses", warehouseService.findIfTrue());
-        model.addAttribute("products", productService.findIfTrue());
-
-        return "stock/add";
+        model.addAttribute(ATTR_STOCK_DTO, new StockDto());
+        model.addAttribute(ATTR_WAREHOUSES, warehouseService.findIfTrue());
+        model.addAttribute(ATTR_PRODUCTS, productService.findIfTrue());
+        return VIEW_STOCK_ADD;
     }
 
     @PostMapping("/add")
     public String addPost(@ModelAttribute StockDto stockDto, Model model) {
-
         StockDto response = stockService.createStock(stockDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("stockDto", stockDto);
-            model.addAttribute("warehouses", warehouseService.findIfTrue());
-            model.addAttribute("products", productService.findIfTrue());
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("messageType", "error");
-            return "stock/add";
+            model.addAttribute(ATTR_STOCK_DTO, stockDto);
+            model.addAttribute(ATTR_WAREHOUSES, warehouseService.findIfTrue());
+            model.addAttribute(ATTR_PRODUCTS, productService.findIfTrue());
+            model.addAttribute(ATTR_MESSAGE, response.getMessage());
+            model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);
+            return VIEW_STOCK_ADD;
         }
 
         return REDIRECT_STOCK_LIST;
@@ -65,16 +80,15 @@ public class StockController {
         StockDto response = stockService.getStock(productId, warehouseId);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("messageType", "error");
+            model.addAttribute(ATTR_MESSAGE, response.getMessage());
+            model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);
             return REDIRECT_STOCK_LIST;
         }
 
-        model.addAttribute("stock", response);
-        model.addAttribute("warehouses", warehouseService.findIfTrue());
-        model.addAttribute("products", productService.findIfTrue());
-
-        return "stock/stock";
+        model.addAttribute(ATTR_STOCK, response);
+        model.addAttribute(ATTR_WAREHOUSES, warehouseService.findIfTrue());
+        model.addAttribute(ATTR_PRODUCTS, productService.findIfTrue());
+        return VIEW_STOCK_EDIT;
     }
 
     @PostMapping("/update")
@@ -85,8 +99,8 @@ public class StockController {
         StockDto response = stockService.updateStockQuantity(stockId, quantity);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("messageType", "error");
+            model.addAttribute(ATTR_MESSAGE, response.getMessage());
+            model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);
         }
 
         return REDIRECT_STOCK_LIST;
@@ -94,14 +108,15 @@ public class StockController {
 
     @GetMapping("/delete")
     public String delete(@RequestParam Long id, Model model) {
-
         boolean deleted = stockService.deleteStock(id);
 
         if (!deleted) {
-            model.addAttribute("message", "Stock not found");
-            model.addAttribute("messageType", "error");
+            model.addAttribute(ATTR_MESSAGE, MSG_STOCK_NOT_FOUND);
+            model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);
         }
 
         return REDIRECT_STOCK_LIST;
     }
 }
+
+

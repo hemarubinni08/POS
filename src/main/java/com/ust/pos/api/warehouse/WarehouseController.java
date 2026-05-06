@@ -3,66 +3,61 @@ package com.ust.pos.api.warehouse;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController("warehouseApiController")
-@RequestMapping("/api/warehouse")
+@RequestMapping("/api/warehouses")
 public class WarehouseController {
 
     @Autowired
     private WarehouseService warehouseService;
 
-    /* ================= LIST ================= */
+    /* ================= GET ALL ================= */
 
-    @GetMapping("/list")
-    public List<WarehouseDto> list() {
-        return warehouseService.findAll();
+    @GetMapping
+    public ResponseEntity<List<WarehouseDto>> getAll() {
+        return ResponseEntity.ok(warehouseService.findAll());
     }
 
-    /* ================= GET ================= */
+    /* ================= GET BY IDENTIFIER ================= */
 
-    @GetMapping("/get")
-    public WarehouseDto get(@RequestParam String identifier) {
-        return warehouseService.findByIdentifier(identifier);
+    @GetMapping("/{identifier}")
+    public ResponseEntity<WarehouseDto> getByIdentifier(@PathVariable String identifier) {
+        return ResponseEntity.ok(warehouseService.findByIdentifier(identifier));
     }
 
-    /* ================= ADD ================= */
+    /* ================= CREATE ================= */
 
-    @PostMapping("/add")
-    public WarehouseDto add(@RequestBody WarehouseDto warehouseDto) {
-        return warehouseService.save(warehouseDto);
+    @PostMapping
+    public ResponseEntity<WarehouseDto> create(@RequestBody WarehouseDto warehouseDto) {
+        return ResponseEntity.ok(warehouseService.save(warehouseDto));
     }
 
     /* ================= UPDATE ================= */
 
-    @PostMapping("/update")
-    public WarehouseDto update(@RequestBody WarehouseDto warehouseDto) {
-        return warehouseService.update(warehouseDto);
+    @PutMapping("/{identifier}")
+    public ResponseEntity<WarehouseDto> update(@PathVariable String identifier,
+                                               @RequestBody WarehouseDto warehouseDto) {
+        warehouseDto.setIdentifier(identifier);
+        return ResponseEntity.ok(warehouseService.update(warehouseDto));
     }
 
     /* ================= DELETE ================= */
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
-        try {
-            warehouseService.delete(identifier);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    @DeleteMapping("/{identifier}")
+    public ResponseEntity<Void> delete(@PathVariable String identifier) {
+        warehouseService.delete(identifier);
+        return ResponseEntity.noContent().build(); // 204
     }
 
     /* ================= TOGGLE STATUS ================= */
 
-    @GetMapping("/toggle-status")
-    public boolean toggleStatus(@RequestParam String identifier) {
-        try {
-            warehouseService.toggleStatus(identifier);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    @PatchMapping("/{identifier}/toggle")
+    public ResponseEntity<Void> toggleStatus(@PathVariable String identifier) {
+        warehouseService.toggleStatus(identifier);
+        return ResponseEntity.ok().build();
     }
 }

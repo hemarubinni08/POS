@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController("priceApiController")
-@RequestMapping("/api/price")
+@RequestMapping("/api/prices")
 public class PriceController {
 
     @Autowired
@@ -19,28 +19,35 @@ public class PriceController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/list")
-    public List<PriceDto> list() {
+    // GET ALL PRICES
+    @GetMapping
+    public List<PriceDto> getAll() {
         return priceService.getAllPrices();
     }
 
-    @GetMapping("/get")
-    public PriceDto get(@RequestParam Long id) {
+    // GET PRICE BY ID
+    @GetMapping("/{id}")
+    public PriceDto getById(@PathVariable Long id) {
         return priceService.getPriceById(id);
     }
 
-    @PostMapping("/add")
-    public PriceDto add(@RequestBody PriceDto priceDto) {
+    // CREATE PRICE
+    @PostMapping
+    public PriceDto create(@RequestBody PriceDto priceDto) {
         return priceService.createPrice(priceDto);
     }
 
-    @PostMapping("/update")
-    public PriceDto update(@RequestBody PriceDto priceDto) {
+    // UPDATE PRICE
+    @PutMapping("/{id}")
+    public PriceDto update(@PathVariable Long id,
+                           @RequestBody PriceDto priceDto) {
+        priceDto.setId(id);
         return priceService.updatePrice(priceDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam Long id) {
+    // DELETE PRICE
+    @DeleteMapping("/{id}")
+    public boolean delete(@PathVariable Long id) {
         try {
             priceService.deletePrice(id);
             return true;
@@ -49,8 +56,9 @@ public class PriceController {
         }
     }
 
+    // GET ALL PRODUCTS (for dropdown / reference)
     @GetMapping("/products")
-    public List<ProductDto> products() {
+    public List<ProductDto> getAllProducts() {
         return productService.findAll();
     }
 }

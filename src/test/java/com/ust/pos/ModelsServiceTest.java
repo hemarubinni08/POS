@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class ModelsServiceTest {
+class ModelsServiceTest {
 
     @InjectMocks
     private ModelsServiceImpl modelsService;

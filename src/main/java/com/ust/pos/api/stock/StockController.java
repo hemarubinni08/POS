@@ -24,30 +24,40 @@ public class StockController {
     @Autowired
     private WarehouseService warehouseService;
 
-    /* ================= LIST ================= */
+    /* ================= GET ALL ================= */
 
-    @GetMapping("/list")
-    public List<StockDto> list() {
+    @GetMapping
+    public List<StockDto> getAll() {
         return stockService.getAllStocks();
     }
 
-    @GetMapping("/get")
-    public StockDto get(@RequestParam Long productId, @RequestParam Long warehouseId) {
+    /* ================= GET BY PRODUCT + WAREHOUSE ================= */
+
+    @GetMapping("/search")
+    public StockDto get(@RequestParam Long productId,
+                        @RequestParam Long warehouseId) {
         return stockService.getStock(productId, warehouseId);
     }
 
-    @PostMapping("/add")
-    public StockDto add(@RequestBody StockDto stockDto) {
+    /* ================= CREATE ================= */
+
+    @PostMapping
+    public StockDto create(@RequestBody StockDto stockDto) {
         return stockService.createStock(stockDto);
     }
 
-    @PostMapping("/update-quantity")
-    public StockDto updateQuantity(@RequestParam Long stockId, @RequestParam Integer quantity) {
+    /* ================= UPDATE QUANTITY ================= */
+
+    @PatchMapping("/{stockId}/quantity")
+    public StockDto updateQuantity(@PathVariable Long stockId,
+                                   @RequestParam Integer quantity) {
         return stockService.updateStockQuantity(stockId, quantity);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam Long id) {
+    /* ================= DELETE ================= */
+
+    @DeleteMapping("/{id}")
+    public boolean delete(@PathVariable Long id) {
         try {
             stockService.deleteStock(id);
             return true;
@@ -56,13 +66,15 @@ public class StockController {
         }
     }
 
+    /* ================= REFERENCE DATA ================= */
+
     @GetMapping("/products")
-    public List<ProductDto> products() {
+    public List<ProductDto> getProducts() {
         return productService.findAll();
     }
 
     @GetMapping("/warehouses")
-    public List<WarehouseDto> warehouses() {
+    public List<WarehouseDto> getWarehouses() {
         return warehouseService.findAll();
     }
 }

@@ -11,21 +11,33 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/warehouse")
 public class WarehouseController {
 
-    public static final String REDIRECT_WAREHOUSE_LIST = "redirect:/warehouse/list";
+    private static final String VIEW_WAREHOUSE_LIST = "warehouse/list";
+    private static final String VIEW_WAREHOUSE_ADD = "warehouse/add";
+    private static final String VIEW_WAREHOUSE_EDIT = "warehouse/warehouse";
+    private static final String REDIRECT_WAREHOUSE_LIST = "redirect:/warehouse/list";
+
+    private static final String ATTR_WAREHOUSE_DTO = "warehouseDto";
+    private static final String ATTR_WAREHOUSES = "warehouses";
+    private static final String ATTR_MESSAGE = "message";
+    private static final String ATTR_MESSAGE_TYPE = "messageType";
+
+    private static final String MESSAGE_TYPE_ERROR = "error";
+
+    private static final String MSG_WAREHOUSE_NOT_FOUND = "Warehouse not found";
 
     @Autowired
     private WarehouseService warehouseService;
 
     @GetMapping("/list")
     public String list(Model model) {
-        model.addAttribute("warehouses", warehouseService.findAll());
-        return "warehouse/list";
+        model.addAttribute(ATTR_WAREHOUSES, warehouseService.findAll());
+        return VIEW_WAREHOUSE_LIST;
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute WarehouseDto warehouseDto) {
-        model.addAttribute("warehouseDto", warehouseDto);
-        return "warehouse/add";
+        model.addAttribute(ATTR_WAREHOUSE_DTO, warehouseDto);
+        return VIEW_WAREHOUSE_ADD;
     }
 
     @PostMapping("/add")
@@ -34,10 +46,10 @@ public class WarehouseController {
         WarehouseDto response = warehouseService.save(warehouseDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("warehouseDto", warehouseDto);
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("messageType", "error");
-            return "warehouse/add";
+            model.addAttribute(ATTR_WAREHOUSE_DTO, warehouseDto);
+            model.addAttribute(ATTR_MESSAGE, response.getMessage());
+            model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);
+            return VIEW_WAREHOUSE_ADD;
         }
 
         return REDIRECT_WAREHOUSE_LIST;
@@ -49,13 +61,13 @@ public class WarehouseController {
         WarehouseDto response = warehouseService.findByIdentifier(identifier);
 
         if (response == null) {
-            model.addAttribute("message", "Warehouse not found");
-            model.addAttribute("messageType", "error");
+            model.addAttribute(ATTR_MESSAGE, MSG_WAREHOUSE_NOT_FOUND);
+            model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);
             return REDIRECT_WAREHOUSE_LIST;
         }
 
-        model.addAttribute("warehouseDto", response);
-        return "warehouse/warehouse";
+        model.addAttribute(ATTR_WAREHOUSE_DTO, response);
+        return VIEW_WAREHOUSE_EDIT;
     }
 
     @PostMapping("/update")
@@ -64,10 +76,10 @@ public class WarehouseController {
         WarehouseDto response = warehouseService.update(warehouseDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("warehouseDto", warehouseDto);
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("messageType", "error");
-            return "warehouse/warehouse";
+            model.addAttribute(ATTR_WAREHOUSE_DTO, warehouseDto);
+            model.addAttribute(ATTR_MESSAGE, response.getMessage());
+            model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);
+            return VIEW_WAREHOUSE_EDIT;
         }
 
         return REDIRECT_WAREHOUSE_LIST;

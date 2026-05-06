@@ -20,7 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class NodeServiceTest {
+class NodeServiceTest {
 
     @InjectMocks
     private NodeServiceImpl nodeService;

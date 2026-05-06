@@ -1,8 +1,8 @@
 package com.ust.pos.price;
 
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.product.service.ProductService;
 import com.ust.pos.price.service.PriceService;
+import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +12,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/price")
 public class PriceController {
 
-    public static final String REDIRECT_PRICE_LIST = "redirect:/price/list";
-    public static final String ERROR = "error";
+    // -------- View names --------
+    private static final String VIEW_PRICE_LIST = "price/list";
+    private static final String VIEW_PRICE_ADD = "price/add";
+    private static final String VIEW_PRICE_EDIT = "price/price";
+    private static final String REDIRECT_PRICE_LIST = "redirect:/price/list";
+
+    // -------- Model attribute names --------
+    private static final String ATTR_PRICE = "price";
+    private static final String ATTR_PRICE_DTO = "priceDto";
+    private static final String ATTR_PRICES = "prices";
+    private static final String ATTR_PRODUCTS = "products";
+    private static final String ATTR_MESSAGE = "message";
+    private static final String ATTR_MESSAGE_TYPE = "messageType";
+
+    // -------- Message types --------
+    private static final String MESSAGE_TYPE_ERROR = "error";
 
     @Autowired
     private PriceService priceService;
@@ -21,71 +35,60 @@ public class PriceController {
     @Autowired
     private ProductService productService;
 
-
     @GetMapping("/list")
     public String list(Model model) {
-        model.addAttribute("prices", priceService.getAllPrices());
-        return "price/list";
+        model.addAttribute(ATTR_PRICES, priceService.getAllPrices());
+        return VIEW_PRICE_LIST;
     }
-
 
     @GetMapping("/add")
     public String add(Model model) {
-        model.addAttribute("priceDto", new PriceDto());
-        model.addAttribute("products", productService.findAll());
-        return "price/add";
+        model.addAttribute(ATTR_PRICE_DTO, new PriceDto());
+        model.addAttribute(ATTR_PRODUCTS, productService.findAll());
+        return VIEW_PRICE_ADD;
     }
 
     @PostMapping("/add")
     public String addPost(@ModelAttribute PriceDto priceDto, Model model) {
-
         try {
             priceService.createPrice(priceDto);
         } catch (RuntimeException ex) {
-
-            model.addAttribute("products", productService.findAll());
-            model.addAttribute("message", ex.getMessage());
-            model.addAttribute("messageType", ERROR);
-            return "price/add";
+            model.addAttribute(ATTR_PRODUCTS, productService.findAll());
+            model.addAttribute(ATTR_MESSAGE, ex.getMessage());
+            model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);
+            return VIEW_PRICE_ADD;
         }
-
         return REDIRECT_PRICE_LIST;
     }
-
 
     @GetMapping("/get")
     public String update(@RequestParam Long id, Model model) {
-
         PriceDto price = priceService.getPriceById(id);
 
         if (!price.isSuccess()) {
-            model.addAttribute("message", price.getMessage());
-            model.addAttribute("messageType", ERROR);
+            model.addAttribute(ATTR_MESSAGE, price.getMessage());
+            model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);
             return REDIRECT_PRICE_LIST;
         }
 
-        model.addAttribute("price", price);
-        model.addAttribute("products", productService.findAll());
-        return "price/price";
+        model.addAttribute(ATTR_PRICE, price);
+        model.addAttribute(ATTR_PRODUCTS, productService.findAll());
+        return VIEW_PRICE_EDIT;
     }
-
 
     @PostMapping("/update")
     public String updatePost(@ModelAttribute PriceDto priceDto, Model model) {
-
         try {
             priceService.updatePrice(priceDto);
         } catch (RuntimeException ex) {
-            model.addAttribute("products", productService.findAll());
-            model.addAttribute("price", priceDto);
-            model.addAttribute("message", ex.getMessage());
-            model.addAttribute("messageType", ERROR);
-            return "price/price";
+            model.addAttribute(ATTR_PRODUCTS, productService.findAll());
+            model.addAttribute(ATTR_PRICE, priceDto);
+            model.addAttribute(ATTR_MESSAGE, ex.getMessage());
+            model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);
+            return VIEW_PRICE_EDIT;
         }
-
         return REDIRECT_PRICE_LIST;
     }
-
 
     @GetMapping("/delete")
     public String delete(@RequestParam Long id) {
