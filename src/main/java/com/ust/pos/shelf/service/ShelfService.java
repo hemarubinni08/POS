@@ -17,4 +17,6 @@ public interface ShelfService {
     boolean deleteShelf(Long id);
 
     ShelfDto toggleStatus(Long id);
+
+    List<ShelfDto> getActiveShelves();
 }

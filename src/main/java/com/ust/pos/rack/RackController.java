@@ -30,7 +30,7 @@ public class RackController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("rackDto", new RackDto());
-        model.addAttribute(SHELVES, shelfService.getAllShelves());
+        model.addAttribute(SHELVES, shelfService.getActiveShelves());
         return "rack/add";
     }
 
@@ -42,7 +42,7 @@ public class RackController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("messageType", "error");
-            model.addAttribute(SHELVES, shelfService.getAllShelves());
+            model.addAttribute(SHELVES, shelfService.getActiveShelves());
             return "rack/add";
         }
 
@@ -59,7 +59,7 @@ public class RackController {
         }
 
         model.addAttribute("rack", response);
-        model.addAttribute(SHELVES, shelfService.getAllShelves());
+        model.addAttribute(SHELVES, shelfService.getActiveShelves());
         return "rack/rack";
     }
 

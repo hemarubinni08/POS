@@ -174,14 +174,6 @@
                    required>
         </div>
 
-        <div class="mb-3">
-            <label>Status</label>
-            <select name="active" class="form-control">
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-            </select>
-        </div>
-
         <button type="submit" class="btn-submit">
             Save Shelf
         </button>

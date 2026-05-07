@@ -97,4 +97,12 @@ public class ShelfServiceImpl implements ShelfService {
 
         return dto;
     }
+
+    @Override
+    public List<ShelfDto> getActiveShelves() {
+        return shelfRepository.findByActiveTrue()
+                .stream()
+                .map(shelf -> modelMapper.map(shelf, ShelfDto.class))
+                .toList();
+    }
 }

@@ -177,7 +177,6 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Status</th>
                     <th>Shelves</th>
                     <th style="width:160px;">Actions</th>
                 </tr>
@@ -187,12 +186,6 @@
                 <c:forEach items="${racks}" var="rack">
                     <tr>
                         <td>${rack.identifier}</td>
-
-                        <td>
-                            <span class="${rack.active ? 'badge-active' : 'badge-inactive'}">
-                                ${rack.active ? 'Active' : 'Inactive'}
-                            </span>
-                        </td>
 
                         <td>
                             <c:forEach items="${rack.shelfIdentifiers}" var="s">
