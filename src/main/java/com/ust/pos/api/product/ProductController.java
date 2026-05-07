@@ -24,34 +24,29 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
-    // GET ALL PRODUCTS
     @GetMapping
     public List<ProductDto> getAll() {
         return productService.findAll();
     }
 
-    // GET PRODUCT BY IDENTIFIER
     @GetMapping("/{identifier}")
     public ProductDto getByIdentifier(@PathVariable String identifier) {
         return productService.findByIdentifier(identifier);
     }
 
-    // CREATE PRODUCT
-    @PostMapping
-    public ProductDto create(@RequestBody ProductDto productDto) {
+    @PostMapping("/save")
+    public ProductDto save(@RequestBody ProductDto productDto) {
         return productService.save(productDto);
     }
 
-    // UPDATE PRODUCT
-    @PutMapping("/{identifier}")
+    @PostMapping("/update/{identifier}")
     public ProductDto update(@PathVariable String identifier,
                              @RequestBody ProductDto productDto) {
         productDto.setIdentifier(identifier);
         return productService.update(productDto);
     }
 
-    // DELETE PRODUCT
-    @DeleteMapping("/{identifier}")
+    @PostMapping("/delete/{identifier}")
     public boolean delete(@PathVariable String identifier) {
         try {
             return productService.delete(identifier);
@@ -60,25 +55,21 @@ public class ProductController {
         }
     }
 
-    // TOGGLE STATUS
-    @PatchMapping("/{identifier}/toggle")
+    @PostMapping("/toggle/{identifier}")
     public ProductDto toggleStatus(@PathVariable String identifier) {
         return productService.toggleStatus(identifier);
     }
 
-    // GET ACTIVE PRODUCTS
     @GetMapping("/active")
     public List<ProductDto> activeProducts() {
         return productService.findIfTrue();
     }
 
-    // GET ALL PRICES (REFERENCE DATA)
     @GetMapping("/prices")
     public List<PriceDto> getPrices() {
         return priceService.getAllPrices();
     }
 
-    // GET ALL CATEGORIES (REFERENCE DATA)
     @GetMapping("/categories")
     public List<CategoryDto> getCategories() {
         return categoryService.findAll();

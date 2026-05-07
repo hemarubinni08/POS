@@ -14,34 +14,29 @@ public class ShelfController {
     @Autowired
     private ShelfService shelfService;
 
-    // GET ALL SHELVES
     @GetMapping
     public List<ShelfDto> getAll() {
         return shelfService.getAllShelves();
     }
 
-    // GET SHELF BY ID
     @GetMapping("/{id}")
     public ShelfDto getById(@PathVariable Long id) {
         return shelfService.getShelf(id);
     }
 
-    // CREATE SHELF
-    @PostMapping
-    public ShelfDto create(@RequestBody ShelfDto shelfDto) {
+    @PostMapping("/save")
+    public ShelfDto save(@RequestBody ShelfDto shelfDto) {
         return shelfService.createShelf(shelfDto);
     }
 
-    // UPDATE SHELF
-    @PutMapping("/{id}")
+    @PostMapping("/update/{id}")
     public ShelfDto update(@PathVariable Long id,
                            @RequestBody ShelfDto shelfDto) {
         shelfDto.setId(id);
         return shelfService.updateShelf(shelfDto);
     }
 
-    // DELETE SHELF
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public boolean delete(@PathVariable Long id) {
         try {
             shelfService.deleteShelf(id);
@@ -51,8 +46,7 @@ public class ShelfController {
         }
     }
 
-    // TOGGLE STATUS
-    @PatchMapping("/{id}/toggle")
+    @PostMapping("/toggle/{id}")
     public ShelfDto toggleStatus(@PathVariable Long id) {
         return shelfService.toggleStatus(id);
     }

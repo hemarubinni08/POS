@@ -14,34 +14,29 @@ public class ModelsController {
     @Autowired
     private ModelsService modelsService;
 
-    // GET ALL MODELS
     @GetMapping
     public List<ModelsDto> getAll() {
         return modelsService.findAll();
     }
 
-    // GET BY IDENTIFIER
     @GetMapping("/{identifier}")
     public ModelsDto getByIdentifier(@PathVariable String identifier) {
         return modelsService.findByIdentifier(identifier);
     }
 
-    // CREATE MODEL
-    @PostMapping
-    public ModelsDto create(@RequestBody ModelsDto modelsDto) {
+    @PostMapping("/save")
+    public ModelsDto save(@RequestBody ModelsDto modelsDto) {
         return modelsService.save(modelsDto);
     }
 
-    // UPDATE MODEL
-    @PutMapping("/{identifier}")
+    @PostMapping("/update/{identifier}")
     public ModelsDto update(@PathVariable String identifier,
                             @RequestBody ModelsDto modelsDto) {
         modelsDto.setIdentifier(identifier);
         return modelsService.update(modelsDto);
     }
 
-    // DELETE MODEL
-    @DeleteMapping("/{identifier}")
+    @PostMapping("/delete/{identifier}")
     public boolean delete(@PathVariable String identifier) {
         try {
             return modelsService.delete(identifier);
@@ -50,8 +45,7 @@ public class ModelsController {
         }
     }
 
-    // TOGGLE STATUS
-    @PatchMapping("/{identifier}/toggle")
+    @PostMapping("/toggle/{identifier}")
     public ModelsDto toggleStatus(@PathVariable String identifier) {
         return modelsService.toggleStatus(identifier);
     }

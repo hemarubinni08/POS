@@ -15,28 +15,20 @@ public class WarehouseController {
     @Autowired
     private WarehouseService warehouseService;
 
-    /* ================= GET ALL ================= */
-
     @GetMapping
     public ResponseEntity<List<WarehouseDto>> getAll() {
         return ResponseEntity.ok(warehouseService.findAll());
     }
-
-    /* ================= GET BY IDENTIFIER ================= */
 
     @GetMapping("/{identifier}")
     public ResponseEntity<WarehouseDto> getByIdentifier(@PathVariable String identifier) {
         return ResponseEntity.ok(warehouseService.findByIdentifier(identifier));
     }
 
-    /* ================= CREATE ================= */
-
     @PostMapping
     public ResponseEntity<WarehouseDto> create(@RequestBody WarehouseDto warehouseDto) {
         return ResponseEntity.ok(warehouseService.save(warehouseDto));
     }
-
-    /* ================= UPDATE ================= */
 
     @PutMapping("/{identifier}")
     public ResponseEntity<WarehouseDto> update(@PathVariable String identifier,
@@ -45,15 +37,11 @@ public class WarehouseController {
         return ResponseEntity.ok(warehouseService.update(warehouseDto));
     }
 
-    /* ================= DELETE ================= */
-
     @DeleteMapping("/{identifier}")
     public ResponseEntity<Void> delete(@PathVariable String identifier) {
         warehouseService.delete(identifier);
         return ResponseEntity.noContent().build(); // 204
     }
-
-    /* ================= TOGGLE STATUS ================= */
 
     @PatchMapping("/{identifier}/toggle")
     public ResponseEntity<Void> toggleStatus(@PathVariable String identifier) {

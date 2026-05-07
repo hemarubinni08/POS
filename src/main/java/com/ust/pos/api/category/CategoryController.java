@@ -14,34 +14,29 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    // GET ALL
     @GetMapping
     public List<CategoryDto> getAll() {
         return categoryService.findAll();
     }
 
-    // GET BY IDENTIFIER
     @GetMapping("/{identifier}")
     public CategoryDto getByIdentifier(@PathVariable String identifier) {
         return categoryService.findByIdentifier(identifier);
     }
 
-    // CREATE
-    @PostMapping
-    public CategoryDto create(@RequestBody CategoryDto dto) {
+    @PostMapping("/save")
+    public CategoryDto save(@RequestBody CategoryDto dto) {
         return categoryService.save(dto);
     }
 
-    // UPDATE
-    @PutMapping("/{identifier}")
+    @PostMapping("/update/{identifier}")
     public CategoryDto update(@PathVariable String identifier,
                               @RequestBody CategoryDto dto) {
         dto.setIdentifier(identifier);
         return categoryService.update(dto);
     }
 
-    // DELETE
-    @DeleteMapping("/{identifier}")
+    @PostMapping("/delete/{identifier}")
     public boolean delete(@PathVariable String identifier) {
         try {
             return categoryService.delete(identifier);
@@ -50,19 +45,16 @@ public class CategoryController {
         }
     }
 
-    // TOGGLE STATUS
-    @PatchMapping("/{identifier}/toggle")
+    @PostMapping("/toggle/{identifier}")
     public CategoryDto toggleStatus(@PathVariable String identifier) {
         return categoryService.toggleStatus(identifier);
     }
 
-    // GET ACTIVE CATEGORIES
     @GetMapping("/active")
     public List<CategoryDto> activeCategories() {
         return categoryService.findIfTrue();
     }
 
-    // GET SUB-CATEGORIES (with parent)
     @GetMapping("/sub-categories")
     public List<CategoryDto> subCategories() {
         return categoryService.findSuperCategories();

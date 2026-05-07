@@ -19,34 +19,29 @@ public class PriceController {
     @Autowired
     private ProductService productService;
 
-    // GET ALL PRICES
     @GetMapping
     public List<PriceDto> getAll() {
         return priceService.getAllPrices();
     }
 
-    // GET PRICE BY ID
     @GetMapping("/{id}")
     public PriceDto getById(@PathVariable Long id) {
         return priceService.getPriceById(id);
     }
 
-    // CREATE PRICE
-    @PostMapping
-    public PriceDto create(@RequestBody PriceDto priceDto) {
+    @PostMapping("/save")
+    public PriceDto save(@RequestBody PriceDto priceDto) {
         return priceService.createPrice(priceDto);
     }
 
-    // UPDATE PRICE
-    @PutMapping("/{id}")
+    @PostMapping("/update/{id}")
     public PriceDto update(@PathVariable Long id,
                            @RequestBody PriceDto priceDto) {
         priceDto.setId(id);
         return priceService.updatePrice(priceDto);
     }
 
-    // DELETE PRICE
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public boolean delete(@PathVariable Long id) {
         try {
             priceService.deletePrice(id);
@@ -56,7 +51,6 @@ public class PriceController {
         }
     }
 
-    // GET ALL PRODUCTS (for dropdown / reference)
     @GetMapping("/products")
     public List<ProductDto> getAllProducts() {
         return productService.findAll();

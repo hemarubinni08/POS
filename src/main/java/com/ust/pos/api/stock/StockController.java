@@ -24,14 +24,10 @@ public class StockController {
     @Autowired
     private WarehouseService warehouseService;
 
-    /* ================= GET ALL ================= */
-
     @GetMapping
     public List<StockDto> getAll() {
         return stockService.getAllStocks();
     }
-
-    /* ================= GET BY PRODUCT + WAREHOUSE ================= */
 
     @GetMapping("/search")
     public StockDto get(@RequestParam Long productId,
@@ -39,24 +35,18 @@ public class StockController {
         return stockService.getStock(productId, warehouseId);
     }
 
-    /* ================= CREATE ================= */
-
-    @PostMapping
-    public StockDto create(@RequestBody StockDto stockDto) {
+    @PostMapping("/save")
+    public StockDto save(@RequestBody StockDto stockDto) {
         return stockService.createStock(stockDto);
     }
 
-    /* ================= UPDATE QUANTITY ================= */
-
-    @PatchMapping("/{stockId}/quantity")
+    @PostMapping("/update-quantity/{stockId}")
     public StockDto updateQuantity(@PathVariable Long stockId,
                                    @RequestParam Integer quantity) {
         return stockService.updateStockQuantity(stockId, quantity);
     }
 
-    /* ================= DELETE ================= */
-
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public boolean delete(@PathVariable Long id) {
         try {
             stockService.deleteStock(id);
@@ -65,8 +55,6 @@ public class StockController {
             return false;
         }
     }
-
-    /* ================= REFERENCE DATA ================= */
 
     @GetMapping("/products")
     public List<ProductDto> getProducts() {

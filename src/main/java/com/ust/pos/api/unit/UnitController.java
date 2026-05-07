@@ -14,34 +14,29 @@ public class UnitController {
     @Autowired
     private UnitService unitService;
 
-    // GET ALL UNITS
     @GetMapping
     public List<UnitDto> getAll() {
         return unitService.findAll();
     }
 
-    // GET UNIT BY IDENTIFIER
     @GetMapping("/{identifier}")
     public UnitDto getByIdentifier(@PathVariable String identifier) {
         return unitService.findByIdentifier(identifier);
     }
 
-    // CREATE UNIT
-    @PostMapping
-    public UnitDto create(@RequestBody UnitDto unitDto) {
+    @PostMapping("/save")
+    public UnitDto save(@RequestBody UnitDto unitDto) {
         return unitService.save(unitDto);
     }
 
-    // UPDATE UNIT
-    @PutMapping("/{identifier}")
+    @PostMapping("/update/{identifier}")
     public UnitDto update(@PathVariable String identifier,
                           @RequestBody UnitDto unitDto) {
         unitDto.setIdentifier(identifier);
         return unitService.update(unitDto);
     }
 
-    // DELETE UNIT
-    @DeleteMapping("/{identifier}")
+    @PostMapping("/delete/{identifier}")
     public boolean delete(@PathVariable String identifier) {
         try {
             unitService.delete(identifier);
@@ -51,8 +46,7 @@ public class UnitController {
         }
     }
 
-    // TOGGLE STATUS
-    @PatchMapping("/{identifier}/toggle")
+    @PostMapping("/toggle/{identifier}")
     public UnitDto toggleStatus(@PathVariable String identifier) {
         return unitService.toggleStatus(identifier);
     }

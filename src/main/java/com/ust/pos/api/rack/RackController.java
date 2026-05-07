@@ -19,34 +19,29 @@ public class RackController {
     @Autowired
     private ShelfService shelfService;
 
-    // GET ALL RACKS
     @GetMapping
     public List<RackDto> getAll() {
         return rackService.getAllRacks();
     }
 
-    // GET RACK BY ID
     @GetMapping("/{id}")
     public RackDto getById(@PathVariable Long id) {
         return rackService.getRack(id);
     }
 
-    // CREATE RACK
-    @PostMapping
-    public RackDto create(@RequestBody RackDto rackDto) {
+    @PostMapping("/save")
+    public RackDto save(@RequestBody RackDto rackDto) {
         return rackService.createRack(rackDto);
     }
 
-    // UPDATE RACK
-    @PutMapping("/{id}")
+    @PostMapping("/update/{id}")
     public RackDto update(@PathVariable Long id,
                           @RequestBody RackDto rackDto) {
         rackDto.setId(id);
         return rackService.updateRack(rackDto);
     }
 
-    // DELETE RACK
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public boolean delete(@PathVariable Long id) {
         try {
             rackService.deleteRack(id);
@@ -56,7 +51,6 @@ public class RackController {
         }
     }
 
-    // GET ALL SHELVES (REFERENCE DATA)
     @GetMapping("/shelves")
     public List<ShelfDto> getShelves() {
         return shelfService.getAllShelves();
