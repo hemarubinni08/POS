@@ -178,4 +178,25 @@ class ShelfServiceTest {
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertEquals(ShelfServiceImpl.SHELF_NOT_FOUND, response.getMessage());
     }
+
+    @Test
+    void getActiveShelvesTest() {
+
+        Shelf shelf = new Shelf();
+        shelf.setIdentifier("S1");
+        shelf.setActive(true);
+
+        ShelfDto dto = new ShelfDto();
+        dto.setIdentifier("S1");
+        dto.setActive(true);
+
+        Mockito.when(shelfRepository.findByActiveTrue()).thenReturn(List.of(shelf));
+        Mockito.when(modelMapper.map(shelf, ShelfDto.class)).thenReturn(dto);
+
+        List<ShelfDto> response = shelfService.getActiveShelves();
+
+        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals("S1", response.get(0).getIdentifier());
+        Assertions.assertTrue(response.get(0).isActive());
+    }
 }
