@@ -4,51 +4,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>POS</title>
+    <title>POS Control Center</title>
 
     <base href="${pageContext.request.contextPath}/">
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-hover: #1e40af;
+            /* SOFT ENTERPRISE PALETTE */
+            --bg: #f1f4f9;
+            --panel: #ffffff;
+            --panel-soft: #f6f8fb;
 
-            --bg: #f8fafc;
-            --glass: rgba(255,255,255,0.75);
+            --primary: #4f46e5;
+            --primary-soft: rgba(79,70,229,0.10);
 
-            --text: #0f172a;
-            --muted: #64748b;
+            --text: #111827;
+            --muted: #6b7280;
 
-            --border: #e2e8f0;
+            --border: #e6eaf0;
+
+            --sidebar-w: 290px;
+            --topbar-h: 68px;
 
             --radius: 16px;
-            --sidebar-w: 260px;
-            --topbar-h: 64px;
 
-            --shadow: 0 20px 40px rgba(2,6,23,0.08);
+            --shadow: 0 6px 18px rgba(15,23,42,0.06);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: "Inter", sans-serif;
         }
 
         body {
             background: var(--bg);
+            color: var(--text);
         }
 
-        a { text-decoration: none; }
+        a { text-decoration: none; color: inherit; }
 
         /* TOPBAR */
         .topbar {
@@ -62,231 +61,254 @@
             justify-content: space-between;
             align-items: center;
 
-            padding: 0 20px;
+            padding: 0 22px;
 
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(10px);
-
+            background: var(--panel);
             border-bottom: 1px solid var(--border);
+
             z-index: 1000;
         }
 
-        .topbar-left {
+        .brand {
             display: flex;
             align-items: center;
-            gap: 14px;
-        }
+            gap: 10px;
 
-        .menu {
-            width: 36px;
-            height: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 5px;
-            cursor: pointer;
-        }
-
-        .menu div {
-            height: 2px;
-            background: var(--text);
-        }
-
-        .title {
             font-weight: 600;
         }
 
-        .btn-logout {
-            background: #ef4444;
-            border: none;
-            color: white;
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .logout {
+            background: var(--panel-soft);
+            border: 1px solid var(--border);
+            color: var(--text);
+
             padding: 8px 14px;
-            border-radius: 10px;
+            border-radius: 12px;
+
+            transition: 0.2s;
+        }
+
+        .logout:hover {
+            background: var(--primary-soft);
+            transform: translateY(-1px);
+        }
+
+        /* LAYOUT */
+        .layout {
+            display: flex;
+            margin-top: var(--topbar-h);
         }
 
         /* SIDEBAR */
         .sidebar {
-            position: fixed;
-            top: var(--topbar-h);
-            left: 0;
-
             width: var(--sidebar-w);
             height: calc(100vh - var(--topbar-h));
 
-            background: linear-gradient(180deg, #0f172a, #1e293b);
-            color: white;
+            background: var(--panel);
+            border-right: 1px solid var(--border);
 
-            transform: translateX(-100%);
-            transition: 0.3s ease;
-
-            padding: 20px;
-            z-index: 999;
+            padding: 18px;
 
             overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-        .sidebar.active {
-            transform: translateX(0);
         }
 
         .sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: transparent;
+            width: 5px;
         }
 
         .sidebar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
+            background: #d1d5db;
             border-radius: 10px;
         }
 
-        .sidebar::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.5);
-        }
+        .section-title {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
 
-        .sidebar {
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,0.3) transparent;
-        }
-
-        .logo {
-            font-weight: 700;
-            margin-bottom: 24px;
+            margin: 16px 10px 8px;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
 
-            padding: 12px;
-            border-radius: 10px;
-
-            color: #cbd5f5;
-            font-size: 14px;
-
+            padding: 12px 14px;
             margin-bottom: 6px;
+
+            border-radius: 12px;
+
+            color: var(--muted);
+
             transition: 0.2s;
         }
 
         .nav-item:hover {
-            background: rgba(255,255,255,0.1);
-            color: white;
+            background: var(--panel-soft);
+            color: var(--text);
+            transform: translateX(4px);
+        }
+
+        .nav-item i {
+            color: var(--primary);
+            font-size: 18px;
         }
 
         /* CONTENT */
         .content {
-            margin-top: var(--topbar-h);
-            padding: 30px;
-            transition: margin-left 0.3s ease;
-        }
-
-        .content.shift {
-            margin-left: var(--sidebar-w);
-        }
-
-        /* CARD */
-        .card-custom {
-            max-width: 800px;
+            flex: 1;
             padding: 28px;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(180deg, var(--panel), var(--panel-soft));
+            border: 1px solid var(--border);
 
             border-radius: var(--radius);
-            background: var(--glass);
-            backdrop-filter: blur(12px);
 
-            border: 1px solid var(--border);
+            padding: 24px;
+
             box-shadow: var(--shadow);
+
+            margin-bottom: 18px;
         }
 
-        .h1 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .sub {
-            font-size: 14px;
-            color: var(--muted);
-        }
-
-        .highlight {
-            color: var(--primary);
+        .hero h1 {
+            font-size: 20px;
             font-weight: 600;
         }
 
-        /* OVERLAY */
-        .overlay {
-            position: fixed;
-            top: var(--topbar-h);
-            left: 0;
-            width: 100%;
-            height: calc(100% - var(--topbar-h));
-            background: rgba(0,0,0,0.2);
-
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.3s;
+        .hero p {
+            color: var(--muted);
+            margin-top: 6px;
+            font-size: 14px;
         }
 
-        .overlay.active {
-            opacity: 1;
-            pointer-events: all;
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .cardx {
+            background: var(--panel);
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius);
+            padding: 16px;
+
+            box-shadow: 0 4px 14px rgba(15,23,42,0.04);
+
+            transition: 0.2s;
+        }
+
+        .cardx:hover {
+            transform: translateY(-3px);
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: var(--primary-soft);
+            color: var(--primary);
+
+            margin-bottom: 10px;
+        }
+
+        .cardx h3 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .cardx p {
+            font-size: 13px;
+            color: var(--muted);
         }
     </style>
-
-    <script>
-        function toggleMenu() {
-            document.getElementById("sidebar").classList.toggle("active");
-            document.getElementById("content").classList.toggle("shift");
-            document.getElementById("overlay").classList.toggle("active");
-        }
-    </script>
 </head>
 
 <body>
 
 <!-- TOPBAR -->
 <div class="topbar">
-    <div class="topbar-left">
-        <div class="menu" onclick="toggleMenu()">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <div class="title">Dashboard</div>
+    <div class="brand">
+        <div class="dot"></div>
+        POS Control Center
     </div>
 
-    <form action="logout" method="post" style="margin:0;">
-        <button type="submit" class="btn-logout">Logout</button>
+    <form action="logout" method="post">
+        <button class="logout">
+            <i class="bi bi-box-arrow-right"></i> Logout
+        </button>
     </form>
 </div>
 
-<!-- SIDEBAR -->
-<div class="sidebar" id="sidebar">
-    <div class="logo">POS System</div>
+<div class="layout">
 
-    <c:forEach var="node" items="${nodes}">
-        <a href="${node.path}" class="nav-item">
-            <i class="bi bi-grid"></i>
-            ${node.identifier}
-        </a>
-    </c:forEach>
-</div>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
 
-<!-- OVERLAY -->
-<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+        <div class="section-title">Modules</div>
 
-<!-- CONTENT -->
-<div class="content" id="content">
-    <div class="card-custom">
-        <div class="h1">Welcome</div>
-        <div class="sub">
-            Select a <span class="highlight">module</span> from the sidebar to manage roles and permissions.
-        </div>
+        <c:forEach var="node" items="${nodes}">
+            <a href="${node.path}" class="nav-item">
+                <i class="bi bi-grid-1x2-fill"></i>
+                ${node.identifier}
+            </a>
+        </c:forEach>
+
     </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="hero">
+            <h1>Welcome Back</h1>
+            <p>Manage POS operations with a structured and lightweight control center.</p>
+        </div>
+
+        <div class="grid">
+
+            <div class="cardx">
+                <div class="icon"><i class="bi bi-box-seam"></i></div>
+                <h3>Inventory</h3>
+                <p>Track stock and product lifecycle.</p>
+            </div>
+
+            <div class="cardx">
+                <div class="icon"><i class="bi bi-building"></i></div>
+                <h3>Warehouses</h3>
+                <p>Organize storage and logistics.</p>
+            </div>
+
+            <div class="cardx">
+                <div class="icon"><i class="bi bi-diagram-3"></i></div>
+                <h3>Stock Flow</h3>
+                <p>Monitor internal stock movement.</p>
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
 </body>
