@@ -7,6 +7,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Category extends CommonFields{
+public class Category extends CommonFields {
+
     private String superCategory;
 }

@@ -41,10 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findByIdentifier(identifier);
 
         if (customer == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Customer not found: " + identifier
-            );
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found: " + identifier);
         }
 
         CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
@@ -108,8 +105,7 @@ public class CustomerServiceImpl implements CustomerService {
         modelMapper.map(customerDto, existingCustomer);
         customerRepository.save(existingCustomer);
 
-        List<AddressDto> existingAddresses =
-                addressService.findAllByPhoneNo(identifier);
+        List<AddressDto> existingAddresses = addressService.findAllByPhoneNo(identifier);
 
         for (AddressDto existing : existingAddresses) {
             if (BILLING.equalsIgnoreCase(existing.getAddressType())) {
@@ -144,9 +140,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto toggleStatus(String identifier) {
-        Customer customer=customerRepository.findByIdentifier(identifier);
+        Customer customer = customerRepository.findByIdentifier(identifier);
         customer.setStatus(!customer.isStatus());
-        Customer updated=customerRepository.save(customer);
-        return modelMapper.map(updated,CustomerDto.class);
+        Customer updated = customerRepository.save(customer);
+        return modelMapper.map(updated, CustomerDto.class);
     }
 }

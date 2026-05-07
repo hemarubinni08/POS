@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class UserDto extends CommonDto {
+
     private String name;
     private String username;
     private String phoneNo;
@@ -18,6 +19,6 @@ public class UserDto extends CommonDto {
     private String token;
 
     public UserDto(String token) {
-        this. token = token;
+        this.token = token;
     }
 }

@@ -89,23 +89,19 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAll() {
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
 
-        return modelMapper.map(
-                categoryRepository.findBySuperCategoryIsNotNull(),
-                listType
-        );
+        return modelMapper.map(categoryRepository.findBySuperCategoryIsNotNull(), listType);
     }
 
 
     @Override
     public List<CategoryDto> findSuperCategories() {
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
 
-        return modelMapper.map(
-                categoryRepository.findBySuperCategoryIsNull(),
-                listType
-        );
+        return modelMapper.map(categoryRepository.findBySuperCategoryIsNull(), listType);
     }
 
 

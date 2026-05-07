@@ -9,7 +9,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Product extends CommonFields{
+public class Product extends CommonFields {
+
     private List<String> category;
     private Long skuCode;
     private List<String> brand;

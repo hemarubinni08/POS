@@ -61,7 +61,7 @@ public class CustomerController {
 
     @PostMapping("/toggle-status")
     @ResponseBody
-    public CustomerDto toggle(Model model,@RequestParam String identifier){
-        return  customerService.toggleStatus(identifier);
+    public CustomerDto toggle(Model model, @RequestParam String identifier) {
+        return customerService.toggleStatus(identifier);
     }
 }
