@@ -176,7 +176,9 @@ class NodeServiceTest {
         Mockito.doNothing().when(nodeRepository)
                 .deleteByIdentifier("Admin");
 
-        nodeService.delete("Admin");
+        boolean response = nodeService.delete("Admin");
+
+        Assertions.assertEquals(true, response);
 
 
     }

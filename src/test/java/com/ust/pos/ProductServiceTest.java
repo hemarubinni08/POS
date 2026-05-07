@@ -143,7 +143,9 @@ class ProductServiceTest {
         Mockito.doNothing().when(productRepository)
                 .deleteByIdentifier("Admin");
 
-        productService.delete("Admin");
+        boolean response = productService.delete("Admin");
+
+        Assertions.assertEquals(true, response);
 
 
     }

@@ -3,11 +3,9 @@ package com.ust.pos;
 import com.ust.pos.address.service.impl.AddressServiceImpl;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.model.AddressRepository;
 import com.ust.pos.model.CustomerRepository;
 import com.ust.pos.customer.service.impl.CustomerServiceImpl;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Customer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -66,29 +64,52 @@ class CustomerServiceTest {
         addressDtoList.add(addressDto);
         Mockito.when(customerRepository.findByIdentifier("Admin")).thenReturn(customer);
         Mockito.when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
-
         Mockito.when(addressService.findAllByPhoneNo("Admin")).thenReturn(addressDtoList);
         CustomerDto response = customerService.findByIdentifierWithAddressDto("Admin");
         Assertions.assertEquals("Admin", response.getIdentifier());}
     @Test
-    void saveTest(){
+    void saveTest() {
+
         CustomerDto customerDto = new CustomerDto();
         customerDto.setIdentifier("Admin");
+
         Customer customer = new Customer();
+
         AddressDto addressDto1 = new AddressDto();
         AddressDto addressDto2 = new AddressDto();
+
         customerDto.setBillingAddress(addressDto1);
         customerDto.setShippingAddress(addressDto2);
-        Mockito.when(customerRepository.findByIdentifier("Admin")).thenReturn(null);
-        Mockito.when(modelMapper.map(customerDto, Customer.class)).thenReturn(customer);
-        Mockito.when(customerRepository.save(customer)).thenReturn(customer);
 
-        addressService.save(addressDto1);
+        // ✅ Repository mocks
+        Mockito.when(customerRepository.findByIdentifier("Admin"))
+                .thenReturn(null);
 
-        addressService.save(addressDto2);
+        Mockito.when(modelMapper.map(customerDto, Customer.class))
+                .thenReturn(customer);
+
+        Mockito.when(customerRepository.save(customer))
+                .thenReturn(customer);
+
+        // ✅ IMPORTANT FIX: Address mapping (this solves NPE)
+        Mockito.when(modelMapper.map(addressDto1, AddressDto.class))
+                .thenReturn(addressDto1);
+
+        Mockito.when(modelMapper.map(addressDto2, AddressDto.class))
+                .thenReturn(addressDto2);
+
+        // ✅ Optional: mock addressService behavior
+        Mockito.when(addressService.save(Mockito.any(AddressDto.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
+
         CustomerDto response = customerService.save(customerDto);
+
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertTrue(response.isSuccess());
+
+        // ✅ Verify interactions
+        Mockito.verify(addressService).save(addressDto1);
+        Mockito.verify(addressService).save(addressDto2);
     }
     @Test
     void SaveTestFailure(){
@@ -148,8 +169,10 @@ class CustomerServiceTest {
                 .deleteByIdentifier("Admin");
         addressService.delete("Admin");
 
-        customerService.delete("Admin");
 
+        boolean response = customerService.delete("Admin");
+
+        Assertions.assertEquals(true, response);
 
     }
 
@@ -225,6 +248,5 @@ class CustomerServiceTest {
         Assertions.assertFalse(response.isStatus());
 
     }
-
 
 }

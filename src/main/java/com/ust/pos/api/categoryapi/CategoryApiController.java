@@ -1,4 +1,4 @@
-package com.ust.pos.api.categoryApi;
+package com.ust.pos.api.categoryapi;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;

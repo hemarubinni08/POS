@@ -1,6 +1,5 @@
-package com.ust.pos.api.stocksApi;
+package com.ust.pos.api.stocksapi;
 
-import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.StocksDto;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stocks.service.StocksService;

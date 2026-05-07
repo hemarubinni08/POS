@@ -121,7 +121,9 @@ class ShelfsServiceTest {
         Mockito.doNothing().when(shelfsRepository)
                 .deleteByIdentifier("Admin");
 
-        shelfsService.delete("Admin");
+        boolean response = shelfsService.delete("Admin");
+
+        Assertions.assertEquals(true, response);
 
 
     }

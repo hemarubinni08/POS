@@ -1,7 +1,6 @@
-package com.ust.pos.api.productApi;
+package com.ust.pos.api.productapi;
 
 import com.ust.pos.category.service.CategoryService;
-import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

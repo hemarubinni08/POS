@@ -128,8 +128,9 @@ class StocksServiceTest {
         Mockito.doNothing().when(stocksRepository)
                 .deleteByIdentifier("Admin");
 
-        stocksService.delete("Admin");
+        boolean response = stocksService.delete("Admin");
 
+        Assertions.assertEquals(true, response);
 
     }
 

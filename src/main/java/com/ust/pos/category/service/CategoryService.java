@@ -1,10 +1,7 @@
 package com.ust.pos.category.service;
 
 import com.ust.pos.dto.CategoryDto;
-import com.ust.pos.dto.ModelsDto;
-import com.ust.pos.dto.ShelfsDto;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Transactional

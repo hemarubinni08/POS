@@ -1,4 +1,4 @@
-package com.ust.pos.api.warehouseApi;
+package com.ust.pos.api.warehouseapi;
 import com.ust.pos.dto.WareHouseDto;
 import com.ust.pos.warehouse.service.WareHouseService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -120,7 +120,9 @@ class ModelsServiceTest {
         Mockito.doNothing().when(modelsRepository)
                 .deleteByIdentifier("Admin");
 
-        modelsService.delete("Admin");
+        boolean response = modelsService.delete("Admin");
+
+        Assertions.assertEquals(true, response);
 
 
     }

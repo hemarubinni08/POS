@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.bind.annotation.RestController;
 
 //@RestController
 public class TokenGenerationController {
@@ -35,7 +35,6 @@ public class TokenGenerationController {
             authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
             UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
             final String token = jwtUtility.generateToken(userDetails);
-            //boolean passwordExpired = userService.verifyIfUserPasswordExpired(userService.findByUsername(userDto.getUsername()));
             return new UserDto(token);
         } catch (Exception e) {
             return new UserDto("Error");

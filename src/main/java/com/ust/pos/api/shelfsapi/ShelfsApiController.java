@@ -1,9 +1,8 @@
-package com.ust.pos.api.shelfsApi;
+package com.ust.pos.api.shelfsapi;
 
 import com.ust.pos.dto.ShelfsDto;
 import com.ust.pos.shelfs.service.ShelfsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

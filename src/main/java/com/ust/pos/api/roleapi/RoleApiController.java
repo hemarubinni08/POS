@@ -1,6 +1,5 @@
-package com.ust.pos.api.roleApi;
+package com.ust.pos.api.roleapi;
 
-import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;

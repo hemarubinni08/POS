@@ -1,5 +1,4 @@
 package com.ust.pos;
-
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.model.Address;
 import com.ust.pos.model.AddressRepository;
@@ -123,9 +122,9 @@ class AddressServiceTest {
         Mockito.doNothing().when(addressRepository)
                 .deleteAll(addressList);
 
-        addressService.delete("8919");
+        boolean response = addressService.delete("8919");
 
-
+        Assertions.assertEquals(true, response);
     }
 
     /* ===================== FIND ALL ===================== */

@@ -1,6 +1,5 @@
-package com.ust.pos.api.priceApi;
+package com.ust.pos.api.priceapi;
 
-import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.price.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;

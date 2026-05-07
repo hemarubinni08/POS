@@ -1,4 +1,4 @@
-package com.ust.pos.api.brandApi;
+package com.ust.pos.api.brandapi;
 
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;

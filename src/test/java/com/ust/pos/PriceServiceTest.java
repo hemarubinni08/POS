@@ -121,7 +121,9 @@ class PriceServiceTest {
         Mockito.doNothing().when(priceRepository)
                 .deleteByIdentifier("Admin");
 
-        priceService.delete("Admin");
+        boolean response = priceService.delete("Admin");
+
+        Assertions.assertEquals(true, response);
 
 
     }

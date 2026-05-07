@@ -1,4 +1,4 @@
-package com.ust.pos.api.customerApi;
+package com.ust.pos.api.customerapi;
 
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;

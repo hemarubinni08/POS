@@ -121,7 +121,9 @@ class WarehouseServiceTest {
         Mockito.doNothing().when(wareHouseRepository)
                 .deleteByIdentifier("Admin");
 
-        wareHouseService.delete("Admin");
+        boolean response = wareHouseService.delete("Admin");
+
+        Assertions.assertEquals(true, response);
 
 
     }

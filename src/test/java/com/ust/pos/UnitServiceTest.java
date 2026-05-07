@@ -121,7 +121,9 @@ class UnitServiceTest {
         Mockito.doNothing().when(unitRepository)
                 .deleteByIdentifier("Admin");
 
-        unitService.delete("Admin");
+        boolean response = unitService.delete("Admin");
+
+        Assertions.assertEquals(true, response);
 
 
     }

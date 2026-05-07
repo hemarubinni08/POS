@@ -34,6 +34,7 @@ import java.util.List;
 //@EnableMethodSecurity
 public class WebSecurityConfig {
 
+    public static final String JAVA_IN_USE_SECURITY_SCHEME = "JavaInUseSecurityScheme";
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -41,8 +42,9 @@ public class WebSecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
 
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) {
 
         http
                 .csrf(csrf -> csrf.disable())
@@ -54,20 +56,23 @@ public class WebSecurityConfig {
                         .requestMatchers("/login", "/register","/api/authenticate","/api/validateToken").permitAll()
                         .anyRequest().authenticated()
                 )
-                .logout((logout) -> logout.permitAll());
+                .logout(org.springframework.security.config.annotation.web.configurers.LogoutConfigurer::permitAll);
+
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
+
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
+            AuthenticationConfiguration config) {
         return config.getAuthenticationManager();
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean
@@ -86,9 +91,9 @@ public class WebSecurityConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("JavaInUse Authentication Service"))
-                .addSecurityItem(new SecurityRequirement().addList("JavaInUseSecurityScheme"))
-                .components(new Components().addSecuritySchemes("JavaInUseSecurityScheme", new SecurityScheme()
-                        .name("JavaInUseSecurityScheme").type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
+                .addSecurityItem(new SecurityRequirement().addList(JAVA_IN_USE_SECURITY_SCHEME))
+                .components(new Components().addSecuritySchemes(JAVA_IN_USE_SECURITY_SCHEME, new SecurityScheme()
+                        .name(JAVA_IN_USE_SECURITY_SCHEME).type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
 
     }
     @Bean

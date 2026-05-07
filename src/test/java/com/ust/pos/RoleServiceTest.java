@@ -123,7 +123,9 @@ RoleServiceTest {
         Mockito.doNothing().when(roleRepository)
                 .deleteByIdentifier("Admin");
 
-        roleService.delete("Admin");
+        boolean response = roleService.delete("Admin");
+
+        Assertions.assertEquals(true, response);
 
 
     }

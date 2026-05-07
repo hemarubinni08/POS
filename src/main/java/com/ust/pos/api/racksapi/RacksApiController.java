@@ -1,4 +1,4 @@
-package com.ust.pos.api.racksApi;
+package com.ust.pos.api.racksapi;
 
 import com.ust.pos.dto.RacksDto;
 import com.ust.pos.racks.service.RacksService;

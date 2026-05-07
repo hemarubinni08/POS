@@ -72,7 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> findBySuperCategoryNotNull() {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-        return modelMapper.map(categoryRepository.findBySuperCategoryIsNot(""), listType);
+        return modelMapper.map(categoryRepository.findByStatusTrueAndSuperCategoryIsNot(""), listType);
     }
 
     @Override
@@ -93,18 +93,19 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> findAllActive() {
         List<Category> categories = categoryRepository.findAll();
         List<CategoryDto> activeAssignableCategories = new ArrayList<>();
+
         for (Category category : categories) {
             String superCategory = category.getSuperCategory();
-            if (superCategory == null || superCategory.trim().isEmpty()) {
-                continue;
+
+            if (superCategory != null && !superCategory.trim().isEmpty()
+                    && category.isStatus()) {
+
+                activeAssignableCategories.add(
+                        modelMapper.map(category, CategoryDto.class)
+                );
             }
-            if (!category.isStatus()) {
-                continue;
-            }
-            activeAssignableCategories.add(
-                    modelMapper.map(category, CategoryDto.class)
-            );
         }
+
         return activeAssignableCategories;
     }
 }

@@ -121,7 +121,9 @@ class RacksServiceTest {
         Mockito.doNothing().when(racksRepository)
                 .deleteByIdentifier("Admin");
 
-        racksService.delete("Admin");
+        boolean response = racksService.delete("Admin");
+
+        Assertions.assertEquals(true, response);
 
 
     }

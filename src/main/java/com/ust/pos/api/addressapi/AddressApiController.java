@@ -1,4 +1,4 @@
-package com.ust.pos.api.addressApi;
+package com.ust.pos.api.addressapi;
 
 import com.ust.pos.address.service.AddressService;
 import com.ust.pos.dto.AddressDto;

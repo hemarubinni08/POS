@@ -11,7 +11,7 @@ public interface CategoryRepository extends JpaRepository<Category,Long> {
 
     void deleteByIdentifier(String identifier);
 
-    List<Category> findBySuperCategoryIsNot(String category);
+    List<Category> findByStatusTrueAndSuperCategoryIsNot(String category);
 
-    List<Shelfs> findByStatusIsTrue();
+    List<Category> findByStatusIsTrue();
 }

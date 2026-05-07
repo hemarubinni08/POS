@@ -1,4 +1,4 @@
-package com.ust.pos.api.modelsApi;
+package com.ust.pos.api.modelsapi;
 
 import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.models.service.ModelsService;

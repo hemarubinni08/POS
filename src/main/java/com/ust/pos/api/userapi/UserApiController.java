@@ -1,4 +1,4 @@
-package com.ust.pos.api.userApi;
+package com.ust.pos.api.userapi;
 
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.role.service.RoleService;

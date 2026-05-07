@@ -1,4 +1,4 @@
-package com.ust.pos.api.unitApi;
+package com.ust.pos.api.unitapi;
 
 
 import com.ust.pos.dto.UnitDto;

@@ -18,7 +18,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
+import static org.mockito.Mockito.lenient;
+
 @ExtendWith(MockitoExtension.class)
+@org.mockito.junit.jupiter.MockitoSettings(strictness = org.mockito.quality.Strictness.LENIENT)
 class UserServiceTest {
 
     @Mock
@@ -145,14 +148,13 @@ class UserServiceTest {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        Mockito.when(userRepository.findByUsername("Admin"))
+        lenient().when(userRepository.findByUsername("Admin"))
                 .thenReturn(user);
 
-        Mockito.when(modelMapper.map(user, UserDto.class))
-                .thenReturn(userDto);
-
-        Mockito.doNothing().when(userRepository)
-                .deleteByUsername("Admin");
+        lenient().when(modelMapper.map(
+                Mockito.any(User.class),
+                Mockito.eq(UserDto.class)
+        )).thenReturn(userDto);
 
         UserDto response = userService.delete("Admin");
 

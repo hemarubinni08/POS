@@ -1,6 +1,5 @@
-package com.ust.pos.api.nodeApi;
+package com.ust.pos.api.nodeapi;
 
-import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.node.service.NodeService;
 import com.ust.pos.role.service.RoleService;
