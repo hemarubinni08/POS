@@ -1,8 +1,11 @@
 package com.ust.pos.product;
 
+import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.models.service.ModelsService;
 import com.ust.pos.product.service.ProductService;
+import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,12 +16,27 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
 
     private static final String REDIRECT = "redirect:/product/list";
+    public static final String MODELS = "models";
+    public static final String BRANDS = "brands";
+    public static final String UNITS = "units";
+    public static final String CATEGORIES = "categories";
+    public static final String PRODUCT_DTO = "productDto";
+    public static final String MESSAGE = "message";
 
     @Autowired
     private ProductService productService;
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private BrandService brandService;
+
+    @Autowired
+    private ModelsService modelService;
+
+    @Autowired
+    private UnitService unitService;
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -28,9 +46,11 @@ public class ProductController {
 
     @GetMapping("/add")
     public String add(Model model) {
-        model.addAttribute("productDto", new ProductDto());
-        // Correct attribute name
-        model.addAttribute("categories", categoryService.findLeafCategories());
+        model.addAttribute(PRODUCT_DTO, new ProductDto());
+        model.addAttribute(CATEGORIES, categoryService.findChildCategories());
+        model.addAttribute(BRANDS, brandService.findActiveBrands());
+        model.addAttribute(MODELS, modelService.findActiveModels());
+        model.addAttribute(UNITS, unitService.findActiveUnits());
 
         return "product/add";
     }
@@ -41,10 +61,12 @@ public class ProductController {
         ProductDto response = productService.save(productDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            // Important: reload categories on error
-            model.addAttribute("categories", categoryService.findLeafCategories());
-            model.addAttribute("productDto", productDto);
+            model.addAttribute(MESSAGE, response.getMessage());
+            model.addAttribute(CATEGORIES, categoryService.findLeafCategories());
+            model.addAttribute(BRANDS, brandService.findActiveBrands());
+            model.addAttribute(MODELS, modelService.findActiveModels());
+            model.addAttribute(UNITS, unitService.findActiveUnits());
+            model.addAttribute(PRODUCT_DTO, productDto);
             return "product/add";
         }
 
@@ -57,13 +79,17 @@ public class ProductController {
         ProductDto response = productService.findByIdentifier(identifier);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute("products", productService.findAll());
             return "product/list";
         }
-        model.addAttribute("productDto", response);
-        // Needed for dropdown in update page
-        model.addAttribute("categories", categoryService.findLeafCategories());
+
+        model.addAttribute(PRODUCT_DTO, response);
+        model.addAttribute(CATEGORIES, categoryService.findLeafCategories());
+        model.addAttribute(BRANDS, brandService.findActiveBrands());
+        model.addAttribute(MODELS, modelService.findActiveModels());
+        model.addAttribute(UNITS, unitService.findActiveUnits());
+
 
         return "product/product";
     }
@@ -74,10 +100,12 @@ public class ProductController {
         ProductDto response = productService.update(productDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("productDto", productDto);
-            // reload categories
-            model.addAttribute("categories", categoryService.findLeafCategories());
+            model.addAttribute(MESSAGE, response.getMessage());
+            model.addAttribute(CATEGORIES, categoryService.findLeafCategories());
+            model.addAttribute(BRANDS, brandService.findActiveBrands());
+            model.addAttribute(MODELS, modelService.findActiveModels());
+            model.addAttribute(UNITS, unitService.findActiveUnits());
+            model.addAttribute(PRODUCT_DTO, productDto);
             return "product/product";
         }
 
@@ -87,6 +115,12 @@ public class ProductController {
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
         productService.delete(identifier);
+        return REDIRECT;
+    }
+
+    @GetMapping("/toggle")
+    public String toggle(@RequestParam String identifier) {
+        productService.toggleStatus(identifier);
         return REDIRECT;
     }
 }

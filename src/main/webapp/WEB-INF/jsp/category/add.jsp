@@ -11,25 +11,15 @@
           rel="stylesheet">
 
     <style>
-        body {
-            background-color: #E9EEF5;
-            min-height: 100vh;
-        }
-        .card {
-            border-radius: 16px;
-        }
-        .form-control {
-            border-radius: 10px;
-        }
-        .btn {
-            border-radius: 10px;
-        }
+        body { background-color: #E9EEF5; min-height: 100vh; }
+        .card { border-radius: 16px; }
+        .form-control { border-radius: 10px; }
+        .btn { border-radius: 10px; }
     </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Category Management</span>
@@ -37,13 +27,12 @@
     </div>
 </nav>
 
-<!-- MAIN -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="card shadow p-4" style="width: 500px;">
 
         <h3 class="text-center mb-4 fw-bold">Add Category</h3>
 
-        <!-- MESSAGE -->
+        <!-- ERROR MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
@@ -58,6 +47,7 @@
                 <input type="text"
                        name="identifier"
                        class="form-control"
+                       value="${category.identifier}"
                        placeholder="Enter identifier (e.g. PHONE)"
                        required>
             </div>
@@ -68,6 +58,7 @@
                 <input type="text"
                        name="name"
                        class="form-control"
+                       value="${category.name}"
                        placeholder="Enter category name"
                        required>
             </div>
@@ -80,7 +71,8 @@
                     <option value="">-- None (Top Level) --</option>
 
                     <c:forEach items="${categories}" var="c">
-                        <option value="${c.identifier}">
+                        <option value="${c.identifier}"
+                            ${c.identifier == category.superCategoryIdentifier ? 'selected' : ''}>
                             ${c.name} (${c.identifier})
                         </option>
                     </c:forEach>

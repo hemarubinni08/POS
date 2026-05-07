@@ -25,6 +25,14 @@
         .btn {
             border-radius: 10px;
         }
+        .category-box {
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            padding: 10px;
+            background: #fff;
+        }
     </style>
 </head>
 
@@ -39,7 +47,7 @@
 </nav>
 
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    <div class="card shadow p-4" style="width: 450px;">
+    <div class="card shadow p-4" style="width: 500px;">
 
         <h3 class="text-center mb-4 fw-bold">Add Product</h3>
 
@@ -70,34 +78,88 @@
             </div>
 
             <!-- BRAND -->
-            <div class="mb-3">
+            <div class="mb-4">
                 <label class="form-label fw-semibold">Brand</label>
-                <form:input path="brand"
-                            cssClass="form-control"
-                            placeholder="Enter brand name"/>
+
+                <div class="category-box">
+                    <c:forEach items="${brands}" var="b">
+                        <div class="form-check">
+
+                            <form:radiobutton path="brand"
+                                              value="${b.identifier}"
+                                              cssClass="form-check-input"/>
+
+                            <label class="form-check-label">
+                                ${b.brandName}
+                            </label>
+
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
+            <!-- MODEL -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Model</label>
+
+                <div class="category-box">
+                    <c:forEach items="${models}" var="m">
+                        <div class="form-check">
+
+                            <form:radiobutton path="model"
+                                              value="${m.identifier}"
+                                              cssClass="form-check-input"/>
+
+                            <label class="form-check-label">
+                                ${m.modelName}
+                            </label>
+
+                        </div>
+                    </c:forEach>
+                </div>
             </div>
 
             <!-- CATEGORY -->
             <div class="mb-4">
                 <label class="form-label fw-semibold">Category</label>
 
-                <select name="category" class="form-control" required>
-                    <option value="">-- Select Category --</option>
-
+                <div class="category-box">
                     <c:forEach items="${categories}" var="c">
-                        <option value="${c.identifier}">
-                            ${c.name} (${c.identifier})
-                        </option>
+                        <div class="form-check">
+
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="categories"
+                                   value="${c.identifier}"
+                                   <c:if test="${productDto.categories != null && productDto.categories.contains(c.identifier)}">
+                                       checked
+                                   </c:if> />
+
+                            <label class="form-check-label">
+                                ${c.name} (${c.identifier})
+                            </label>
+
+                        </div>
                     </c:forEach>
-                </select>
+                </div>
             </div>
 
-            <!-- UNIT -->
+            <!-- UNIT (FIXED: SINGLE SELECT DROPDOWN - ACTIVE ONLY) -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Unit</label>
-                <form:input path="unit"
-                            cssClass="form-control"
-                            placeholder="e.g. kg, pcs"/>
+
+                <form:select path="unit" cssClass="form-control">
+                    <form:option value="">-- Select Unit --</form:option>
+
+                    <c:forEach items="${units}" var="u">
+                        <c:if test="${u.status}">
+                            <form:option value="${u.identifier}">
+                                ${u.unitName}
+                            </form:option>
+                        </c:if>
+                    </c:forEach>
+
+                </form:select>
             </div>
 
             <!-- STATUS -->

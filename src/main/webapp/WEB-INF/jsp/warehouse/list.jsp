@@ -25,6 +25,7 @@
         <span class="navbar-brand fw-bold">Warehouse Management</span>
 
         <div>
+            <a href="/" class="btn btn-outline-light btn-sm">Home</a>
             <a href="${pageContext.request.contextPath}/warehouse/add"
                class="btn btn-light btn-sm fw-semibold">+ Add Warehouse</a>
         </div>

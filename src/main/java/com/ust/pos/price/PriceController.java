@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class PriceController {
 
     private static final String REDIRECT = "redirect:/price/list";
+    public static final String PRICE_DTO = "priceDto";
+    public static final String MESSAGE = "message";
 
     @Autowired
     private PriceService priceService;
@@ -28,8 +30,8 @@ public class PriceController {
 
     @GetMapping("/add")
     public String add(Model model) {
-        model.addAttribute("priceDto", new PriceDto());
-        model.addAttribute("products",productService.findAll());
+        model.addAttribute(PRICE_DTO, new PriceDto());
+        model.addAttribute("products", productService.findAll());
         return "price/add";
     }
 
@@ -40,9 +42,9 @@ public class PriceController {
         PriceDto response = priceService.save(priceDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("priceDto", priceDto);
-            model.addAttribute("products",productService.findAll());
+            model.addAttribute(MESSAGE, response.getMessage());
+            model.addAttribute(PRICE_DTO, priceDto);
+            model.addAttribute("products", productService.findAll());
             return "price/add";
         }
 
@@ -55,12 +57,12 @@ public class PriceController {
         PriceDto response = priceService.findByIdentifier(identifier);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute("prices", priceService.findAll());
             return "price/list";
         }
 
-        model.addAttribute("priceDto", response);
+        model.addAttribute(PRICE_DTO, response);
         return "price/price";
     }
 
@@ -70,8 +72,8 @@ public class PriceController {
         PriceDto response = priceService.update(priceDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("priceDto", priceDto);
+            model.addAttribute(MESSAGE, response.getMessage());
+            model.addAttribute(PRICE_DTO, priceDto);
             return "price/price";
         }
 

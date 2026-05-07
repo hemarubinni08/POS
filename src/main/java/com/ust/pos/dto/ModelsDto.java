@@ -1,0 +1,12 @@
+package com.ust.pos.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class ModelsDto extends CommonDto {
+    private String modelName;
+    private Boolean status;
+
+}

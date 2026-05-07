@@ -7,7 +7,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Brand extends CommonFields{
-    private String Description;
-    private Boolean Status;
+public class Brand extends CommonFields {
+    private String brandName;
+    private String description;
+    private Boolean status;
 }

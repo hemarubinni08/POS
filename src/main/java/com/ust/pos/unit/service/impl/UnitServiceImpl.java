@@ -1,0 +1,158 @@
+package com.ust.pos.unit.service.impl;
+
+import com.ust.pos.dto.UnitDto;
+import com.ust.pos.model.Unit;
+import com.ust.pos.model.UnitRepository;
+import com.ust.pos.unit.service.UnitService;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+@Service
+@Transactional
+public class UnitServiceImpl implements UnitService {
+
+    public static final String UNIT_NOT_FOUND = "Unit not found";
+    @Autowired
+    private UnitRepository unitRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    //  SAVE 
+    @Override
+    public UnitDto save(UnitDto unitDto) {
+
+        String unitName = unitDto.getUnitName();
+
+        if (unitName == null || unitName.trim().isEmpty()) {
+            unitDto.setSuccess(false);
+            unitDto.setMessage("Unit name is required");
+            return unitDto;
+        }
+
+        Unit existing = unitRepository.findByIdentifier(unitName);
+
+        if (existing != null) {
+            unitDto.setSuccess(false);
+            unitDto.setMessage("Unit already exists");
+            return unitDto;
+        }
+
+        Unit unit = new Unit();
+        unit.setIdentifier(unitName);
+        unit.setUnitName(unitName);
+        unit.setStatus(Boolean.TRUE.equals(unitDto.getStatus()));
+
+        unitRepository.save(unit);
+
+        unitDto.setIdentifier(unitName);
+        unitDto.setSuccess(true);
+        unitDto.setMessage("Unit added successfully");
+
+        return unitDto;
+    }
+
+    //  UPDATE 
+    @Override
+    public UnitDto update(UnitDto unitDto) {
+
+        String identifier = unitDto.getIdentifier();
+
+        if (identifier == null || identifier.trim().isEmpty()) {
+            unitDto.setSuccess(false);
+            unitDto.setMessage("Invalid identifier");
+            return unitDto;
+        }
+
+        Unit unit = unitRepository.findByIdentifier(identifier);
+
+        if (unit == null) {
+            unitDto.setSuccess(false);
+            unitDto.setMessage(UNIT_NOT_FOUND);
+            return unitDto;
+        }
+
+        // ONLY STATUS UPDATE
+        unit.setStatus(Boolean.TRUE.equals(unitDto.getStatus()));
+
+        unitRepository.save(unit);
+
+        unitDto.setSuccess(true);
+        unitDto.setMessage("Unit updated successfully");
+
+        return unitDto;
+    }
+
+    //  DELETE 
+    @Override
+    public void delete(String identifier) {
+        unitRepository.deleteByIdentifier(identifier);
+    }
+
+    //  FIND ALL 
+    @Override
+    public List<UnitDto> findAll() {
+
+        Type listType = new TypeToken<List<UnitDto>>() {
+        }.getType();
+
+        return modelMapper.map(unitRepository.findAll(), listType);
+    }
+
+    //  FIND BY IDENTIFIER 
+    @Override
+    public UnitDto findByIdentifier(String identifier) {
+
+        Unit unit = unitRepository.findByIdentifier(identifier);
+
+        if (unit == null) {
+            UnitDto dto = new UnitDto();
+            dto.setSuccess(false);
+            dto.setMessage(UNIT_NOT_FOUND);
+            return dto;
+        }
+
+        return modelMapper.map(unit, UnitDto.class);
+    }
+
+    //  TOGGLE STATUS 
+    @Override
+    public UnitDto toggleStatus(String identifier) {
+
+        UnitDto response = new UnitDto();
+
+        Unit unit = unitRepository.findByIdentifier(identifier);
+
+        if (unit == null) {
+            response.setSuccess(false);
+            response.setMessage(UNIT_NOT_FOUND);
+            return response;
+        }
+
+        unit.setStatus(!Boolean.TRUE.equals(unit.getStatus()));
+        unitRepository.save(unit);
+
+        response = modelMapper.map(unit, UnitDto.class);
+        response.setSuccess(true);
+        response.setMessage("Status updated successfully");
+
+        return response;
+    }
+
+    //  ACTIVE UNITS 
+    @Override
+    public List<UnitDto> findActiveUnits() {
+
+        return unitRepository.findAll()
+                .stream()
+                .filter(u -> Boolean.TRUE.equals(u.getStatus()))
+                .map(u -> modelMapper.map(u, UnitDto.class))
+                .toList();
+    }
+}

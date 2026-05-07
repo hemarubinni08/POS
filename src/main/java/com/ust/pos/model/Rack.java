@@ -1,0 +1,15 @@
+package com.ust.pos.model;
+
+import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+
+public class Rack extends CommonFields {
+    private String name;
+    private Boolean status = true;
+    private String shelfIdentifiers;
+}

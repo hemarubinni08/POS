@@ -76,7 +76,8 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public List<NodeDto> findAll() {
-        Type listType = new TypeToken<List<NodeDto>>() {}.getType();
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
         return modelMapper.map(nodeRepository.findAll(), listType);
     }
 

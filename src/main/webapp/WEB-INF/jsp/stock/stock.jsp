@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Edit Stock</title>
@@ -12,37 +13,29 @@
           rel="stylesheet">
 
     <style>
-        body {
-            background-color: #E9EEF5;
-            min-height: 100vh;
-        }
-        .card {
-            border-radius: 16px;
-        }
-        .form-control {
-            border-radius: 10px;
-        }
-        .btn {
-            border-radius: 10px;
-        }
+        body { background-color: #E9EEF5; min-height: 100vh; }
+        .card { border-radius: 16px; }
+        .form-control, .form-select { border-radius: 10px; }
+        .btn { border-radius: 10px; }
     </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Stock Management</span>
+
         <a href="${pageContext.request.contextPath}/stock/list"
-           class="btn btn-outline-light btn-sm">Back</a>
+           class="btn btn-outline-light btn-sm">
+            Back
+        </a>
     </div>
 </nav>
 
-<!-- MAIN -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
 
-    <div class="card shadow p-4" style="width: 500px;">
+    <div class="card shadow p-4" style="width: 520px;">
 
         <h3 class="text-center mb-4 fw-bold">Edit Stock</h3>
 
@@ -53,77 +46,83 @@
             </div>
         </c:if>
 
-        <c:if test="${not empty stockDto}">
+        <form action="${pageContext.request.contextPath}/stock/update" method="post">
 
-            <form:form method="post"
-                       action="${pageContext.request.contextPath}/stock/update"
-                       modelAttribute="stockDto">
+            <!-- IDENTIFIER -->
+            <input type="hidden" name="identifier" value="${stockDto.identifier}" />
 
-                <!-- HIDDEN IDENTIFIER -->
-                <form:hidden path="identifier"/>
+            <!-- PRODUCT -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Product</label>
+                <select name="productIdentifier" class="form-select" required>
+                    <c:forEach var="p" items="${product}">
+                        <option value="${p.identifier}"
+                            <c:if test="${p.identifier == stockDto.productIdentifier}">selected</c:if>>
+                            ${p.productName}
+                        </option>
+                    </c:forEach>
+                </select>
+            </div>
 
-                <!-- DISPLAY IDENTIFIER -->
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Stock ID</label>
-                    <input type="text"
-                           class="form-control"
-                           value="${stockDto.identifier}"
-                           readonly>
-                </div>
+            <!-- WAREHOUSE -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Warehouse</label>
+                <select name="warehouseIdentifier" class="form-select" required>
+                    <c:forEach var="w" items="${warehouse}">
+                        <option value="${w.identifier}"
+                            <c:if test="${w.identifier == stockDto.warehouseIdentifier}">selected</c:if>>
+                            ${w.warehouseName}
+                        </option>
+                    </c:forEach>
+                </select>
+            </div>
 
-                <!-- PRODUCT DROPDOWN -->
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Product</label>
-                    <form:select path="productIdentifier" cssClass="form-control">
+            <!-- QUANTITY -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Available Quantity</label>
+                <input type="number"
+                       name="availableQuantity"
+                       value="${stockDto.availableQuantity}"
+                       class="form-control"
+                       min="0"
+                       required />
+            </div>
 
-                        <c:forEach var="p" items="${products}">
-                            <form:option value="${p.identifier}"
-                                         label="${p.productName} (${p.identifier})"/>
-                        </c:forEach>
+            <!-- REORDER LEVEL -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Reorder Level</label>
+                <input type="number"
+                       name="reorderLevel"
+                       value="${stockDto.reorderLevel}"
+                       class="form-control"
+                       min="0"
+                       required />
+            </div>
 
-                    </form:select>
-                </div>
+            <!-- STATUS -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Status</label>
+                <select name="status" class="form-select">
+                    <option value="true" ${stockDto.status ? 'selected' : ''}>ACTIVE</option>
+                    <option value="false" ${!stockDto.status ? 'selected' : ''}>INACTIVE</option>
+                </select>
+            </div>
 
-                <!-- WAREHOUSE DROPDOWN -->
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Warehouse</label>
-                    <form:select path="warehouseIdentifier" cssClass="form-control">
-
-                        <c:forEach var="w" items="${warehouses}">
-                            <form:option value="${w.identifier}"
-                                         label="${w.warehouseName} (${w.identifier})"/>
-                        </c:forEach>
-
-                    </form:select>
-                </div>
-
-                <!-- QUANTITY -->
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Available Quantity</label>
-                    <form:input path="availableQuantity"
-                                type="number"
-                                cssClass="form-control"/>
-                </div>
-
-                <!-- REORDER LEVEL -->
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Reorder Level</label>
-                    <form:input path="reorderLevel"
-                                type="number"
-                                cssClass="form-control"/>
-                </div>
-
-                <!-- BUTTON -->
+            <!-- BUTTONS -->
+            <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary w-100">
                     Update Stock
                 </button>
 
-            </form:form>
+                <a href="${pageContext.request.contextPath}/stock/list"
+                   class="btn btn-secondary w-100">
+                    Cancel
+                </a>
+            </div>
 
-        </c:if>
+        </form>
 
     </div>
-
 </div>
 
 </body>

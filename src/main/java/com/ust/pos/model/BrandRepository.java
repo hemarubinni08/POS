@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BrandRepository extends JpaRepository<Brand, Long> {
+
     Brand findByIdentifier(String identifier);
-    Brand deleteByIdentifier(String identifier);
+    void deleteByIdentifier(String identifier);
 }

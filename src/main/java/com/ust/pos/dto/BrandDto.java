@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BrandDto extends CommonDto {
-        private String Description;
-        private Boolean Status;
+    private String brandName;
+    private String description;
+    private Boolean status;
 }

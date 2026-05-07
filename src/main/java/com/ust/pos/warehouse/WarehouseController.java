@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 public class WarehouseController {
 
     private static final String REDIRECT = "redirect:/warehouse/list";
+    public static final String WAREHOUSE_DTO = "warehouseDto";
+    public static final String MESSAGE = "message";
 
     @Autowired
     private WarehouseService warehouseService;
@@ -24,7 +26,7 @@ public class WarehouseController {
 
     @GetMapping("/add")
     public String add(Model model) {
-        model.addAttribute("warehouseDto", new WarehouseDto());
+        model.addAttribute(WAREHOUSE_DTO, new WarehouseDto());
         return "warehouse/add";
     }
 
@@ -34,8 +36,8 @@ public class WarehouseController {
         WarehouseDto response = warehouseService.save(warehouseDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("warehouseDto", warehouseDto);
+            model.addAttribute(MESSAGE, response.getMessage());
+            model.addAttribute(WAREHOUSE_DTO, warehouseDto);
             return "warehouse/add";
         }
 
@@ -48,12 +50,12 @@ public class WarehouseController {
         WarehouseDto response = warehouseService.findByIdentifier(identifier);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute("warehouses", warehouseService.findAll());
             return "warehouse/list";
         }
 
-        model.addAttribute("warehouseDto", response);
+        model.addAttribute(WAREHOUSE_DTO, response);
         return "warehouse/warehouse";
     }
 
@@ -63,8 +65,8 @@ public class WarehouseController {
         WarehouseDto response = warehouseService.update(warehouseDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("warehouseDto", warehouseDto);
+            model.addAttribute(MESSAGE, response.getMessage());
+            model.addAttribute(WAREHOUSE_DTO, warehouseDto);
             return "warehouse/warehouse";
         }
 

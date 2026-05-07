@@ -1,83 +1,95 @@
 package com.ust.pos.category;
 
-import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.category.service.CategoryService;
+import com.ust.pos.dto.CategoryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
 
-    private static final String REDIRECT = "redirect:/category/list";
+    public static final String REDIRECT_CATEGORY_LIST = "redirect:/category/list";
+    public static final String CATEGORY = "category";
+    public static final String CATEGORIES = "categories";
 
     @Autowired
     private CategoryService categoryService;
 
+    //  LIST 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("categories", categoryService.findAll());
+    public String home(Model model) {
+        model.addAttribute(CATEGORIES, categoryService.findAll());
         return "category/list";
     }
 
+    //  ADD PAGE 
     @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute("categoryDto", new CategoryDto());
-        model.addAttribute("categories", categoryService.findSuperCategories());
+    public String add(Model model, @ModelAttribute CategoryDto categoryDto) {
+        model.addAttribute(CATEGORY, categoryDto);
+        model.addAttribute(CATEGORIES, categoryService.findAll());
         return "category/add";
     }
 
+    //  SAVE 
     @PostMapping("/add")
-    public String save(@ModelAttribute CategoryDto categoryDto, Model model) {
+    public String addPost(Model model, @ModelAttribute CategoryDto categoryDto) {
 
         CategoryDto response = categoryService.save(categoryDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("categoryDto", categoryDto);
-            model.addAttribute("categories", categoryService.findSuperCategories());
+            model.addAttribute(CATEGORY, categoryDto);
+            model.addAttribute(CATEGORIES, categoryService.findAll());
             return "category/add";
         }
 
-        return REDIRECT;
+        return REDIRECT_CATEGORY_LIST;
     }
 
+    //  EDIT 
     @GetMapping("/get")
-    public String edit(@RequestParam String identifier, Model model) {
+    public String update(Model model, @RequestParam String identifier) {
 
         CategoryDto response = categoryService.findByIdentifier(identifier);
 
-        if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("categories", categoryService.findSuperCategories());
-            return "category/list";
-        }
+        model.addAttribute(CATEGORY, response);
 
-        model.addAttribute("categoryDto", response);
-        model.addAttribute("categories", categoryService.findSuperCategories());
+        List<CategoryDto> cd = categoryService.findAll();
+
+        // exclude current category from dropdown
+        model.addAttribute(CATEGORIES,
+                cd.stream()
+                        .filter(c -> !c.getIdentifier().equals(identifier))
+                        .toList());
+
         return "category/category";
     }
 
+    //  UPDATE 
     @PostMapping("/update")
-    public String update(@ModelAttribute CategoryDto categoryDto, Model model) {
+    public String updatePost(Model model, @ModelAttribute CategoryDto categoryDto) {
 
         CategoryDto response = categoryService.update(categoryDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("categoryDto", categoryDto);
-            model.addAttribute("categories", categoryService.findSuperCategories());
+            model.addAttribute(CATEGORY, categoryDto);
+            model.addAttribute(CATEGORIES, categoryService.findAll());
             return "category/category";
         }
 
-        return REDIRECT;
+        return REDIRECT_CATEGORY_LIST;
     }
 
+    //  DELETE 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
         categoryService.delete(identifier);
-        return REDIRECT;
+        return REDIRECT_CATEGORY_LIST;
     }
 }

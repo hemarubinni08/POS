@@ -5,13 +5,12 @@ import com.ust.pos.dto.BrandDto;
 import java.util.List;
 
 public interface BrandService {
-    BrandDto save(BrandDto userDto);
 
-    BrandDto update(BrandDto userDto);
-
-    void delete(String username);
-
+    BrandDto save(BrandDto brandDto);
+    BrandDto update(BrandDto brandDto);
+    void delete(String identifier);
     List<BrandDto> findAll();
-
     BrandDto findByIdentifier(String identifier);
+    BrandDto toggleStatus(String identifier);
+    List<BrandDto> findActiveBrands();
 }

@@ -1,19 +1,19 @@
 package com.ust.pos.brand.service.impl;
 
+import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
-import com.ust.pos.brand.service.BrandService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class BrandServiceImpl implements BrandService {
 
     @Autowired
@@ -23,48 +23,130 @@ public class BrandServiceImpl implements BrandService {
     private ModelMapper modelMapper;
 
     @Override
-    public BrandDto findByIdentifier(String identifier) {
-        return modelMapper.map(brandRepository.findByIdentifier(identifier), BrandDto.class);
-    }
-
-    @Override
     public BrandDto save(BrandDto brandDto) {
-        String identifier = brandDto.getIdentifier();
-        Brand existingBrand = brandRepository.findByIdentifier(identifier);
-        if (existingBrand != null) {
-            brandDto.setMessage("Brand with identifier - " + identifier + " already exists");
+
+        if (brandDto.getBrandName() == null || brandDto.getBrandName().trim().isEmpty()) {
             brandDto.setSuccess(false);
+            brandDto.setMessage("Brand name is required");
             return brandDto;
         }
-        Brand brand = modelMapper.map(brandDto, Brand.class);
-        brandRepository.save(brand);
-        return brandDto;
+
+        if (brandRepository.findByIdentifier(brandDto.getBrandName()) != null) {
+            brandDto.setSuccess(false);
+            brandDto.setMessage("Brand already exists");
+            return brandDto;
+        }
+
+        Brand brand = new Brand();
+        brand.setIdentifier(brandDto.getBrandName());
+        brand.setBrandName(brandDto.getBrandName());
+        brand.setDescription(brandDto.getDescription());
+        brand.setStatus(brandDto.getStatus());
+
+        Brand saved = brandRepository.save(brand);
+
+        BrandDto dto = modelMapper.map(saved, BrandDto.class);
+        dto.setSuccess(true);
+        dto.setMessage("Brand added successfully");
+
+        return dto;
     }
 
     @Override
     public BrandDto update(BrandDto brandDto) {
-        String identifier = brandDto.getIdentifier();
-        Brand existingBrand = brandRepository.findByIdentifier(identifier);
-        if (existingBrand == null) {
-            brandDto.setMessage("Brand with identifier - " + identifier + " not found");
+
+        Brand brand = brandRepository.findByIdentifier(brandDto.getIdentifier());
+
+        if (brand == null) {
             brandDto.setSuccess(false);
+            brandDto.setMessage("Brand not found");
             return brandDto;
         }
-        modelMapper.map(brandDto, existingBrand);
-        brandRepository.save(existingBrand);
-        return brandDto;
+
+        modelMapper.map(brandDto, brand);
+
+        // protect immutable fields
+        brand.setIdentifier(brand.getIdentifier());
+        brand.setBrandName(brand.getBrandName());
+
+        Brand updated = brandRepository.save(brand);
+
+        BrandDto dto = modelMapper.map(updated, BrandDto.class);
+        dto.setSuccess(true);
+        dto.setMessage("Brand updated successfully");
+
+        return dto;
     }
 
     @Override
-    @Transactional
     public void delete(String identifier) {
         brandRepository.deleteByIdentifier(identifier);
     }
 
     @Override
     public List<BrandDto> findAll() {
-        Type listType = new TypeToken<List<BrandDto>>() {
-        }.getType();
-        return modelMapper.map(brandRepository.findAll(), listType);
+
+        List<Brand> brands = brandRepository.findAll();
+        List<BrandDto> list = new ArrayList<>();
+
+        for (Brand brand : brands) {
+            list.add(modelMapper.map(brand, BrandDto.class));
+        }
+
+        return list;
+    }
+
+    @Override
+    public BrandDto findByIdentifier(String identifier) {
+
+        Brand brand = brandRepository.findByIdentifier(identifier);
+
+        if (brand == null) {
+            return null;
+        }
+
+        return modelMapper.map(brand, BrandDto.class);
+    }
+
+    @Override
+    public List<BrandDto> findActiveBrands() {
+
+        List<Brand> brands = brandRepository.findAll();
+        List<BrandDto> result = new ArrayList<>();
+
+        for (Brand b : brands) {
+            if (Boolean.TRUE.equals(b.getStatus())) {
+                result.add(modelMapper.map(b, BrandDto.class));
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public BrandDto toggleStatus(String identifier) {
+
+        Brand brand = brandRepository.findByIdentifier(identifier);
+
+        BrandDto dto = new BrandDto();
+
+        if (brand == null) {
+            dto.setSuccess(false);
+            dto.setMessage("Brand not found");
+            return dto;
+        }
+
+        brand.setStatus(!Boolean.TRUE.equals(brand.getStatus()));
+        brandRepository.save(brand);
+
+        dto.setIdentifier(brand.getIdentifier());
+        dto.setBrandName(brand.getBrandName());
+        dto.setDescription(brand.getDescription());
+        dto.setStatus(brand.getStatus());
+
+        dto.setSuccess(true);
+        dto.setMessage("Status updated successfully");
+
+        return dto;
     }
 }

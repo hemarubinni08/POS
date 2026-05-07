@@ -1,38 +1,103 @@
 package com.ust.pos.stock.service.impl;
 
 import com.ust.pos.dto.StockDto;
-import com.ust.pos.model.Product;
-import com.ust.pos.model.ProductRepository;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
-import com.ust.pos.model.Warehouse;
-import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.stock.service.StockService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@Transactional
 public class StockServiceImpl implements StockService {
 
     @Autowired
     private StockRepository stockRepository;
 
     @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private WarehouseRepository warehouseRepository;
-
-    @Autowired
     private ModelMapper modelMapper;
 
+    public static final String STOCK_NOT_FOUND = "Stock not found";
+
+    // STATE
+    private String calculateState(Stock stock) {
+
+        if (Boolean.FALSE.equals(stock.getStatus())) {
+            return "DISCONTINUED";
+        }
+
+        if (stock.getAvailableQuantity() == null || stock.getAvailableQuantity() <= 0) {
+            return "OUT_OF_STOCK";
+        }
+
+        if (stock.getReorderLevel() != null &&
+                stock.getAvailableQuantity() <= stock.getReorderLevel()) {
+            return "LOW_STOCK";
+        }
+
+        return "AVAILABLE";
+    }
+
+    // SAVE
+    @Override
+    public StockDto save(StockDto dto) {
+
+        dto.setIdentifier(dto.getProductIdentifier() + "_" + dto.getWarehouseIdentifier());
+
+        if (stockRepository.findByIdentifier(dto.getIdentifier()) != null) {
+            dto.setSuccess(false);
+            dto.setMessage("Product already exists in this warehouse");
+            return dto;
+        }
+
+        Stock stock = modelMapper.map(dto, Stock.class);
+
+        if (stock.getStatus() == null) {
+            stock.setStatus(true);
+        }
+
+        stockRepository.save(stock);
+
+        dto.setSuccess(true);
+        dto.setMessage("Stock saved successfully");
+        dto.setStockState(calculateState(stock));
+
+        return dto;
+    }
+
+    // UPDATE
+    @Override
+    public StockDto update(StockDto dto) {
+
+        dto.setIdentifier(dto.getProductIdentifier() + "_" + dto.getWarehouseIdentifier());
+
+        Stock existing = stockRepository.findByIdentifier(dto.getIdentifier());
+
+        if (existing == null) {
+            dto.setSuccess(false);
+            dto.setMessage(STOCK_NOT_FOUND);
+            return dto;
+        }
+
+        existing.setAvailableQuantity(dto.getAvailableQuantity());
+        existing.setReorderLevel(dto.getReorderLevel());
+        existing.setStatus(dto.getStatus());
+
+        stockRepository.save(existing);
+
+        dto.setSuccess(true);
+        dto.setMessage("Stock updated successfully");
+        dto.setStockState(calculateState(existing));
+
+        return dto;
+    }
+
+    // FIND BY ID
     @Override
     public StockDto findByIdentifier(String identifier) {
 
@@ -40,76 +105,62 @@ public class StockServiceImpl implements StockService {
 
         if (stock == null) {
             StockDto dto = new StockDto();
-            dto.setMessage("Stock not found - " + identifier);
             dto.setSuccess(false);
+            dto.setMessage(STOCK_NOT_FOUND);
             return dto;
         }
 
-        return modelMapper.map(stock, StockDto.class);
+        StockDto dto = modelMapper.map(stock, StockDto.class);
+        dto.setStockState(calculateState(stock));
+
+        return dto;
     }
 
+    // FIND ALL
     @Override
-    public StockDto save(StockDto stockDto) {
+    public List<StockDto> findAll() {
 
-        String productId = stockDto.getProductIdentifier();
-        String warehouseId = stockDto.getWarehouseIdentifier();
+        List<Stock> list = stockRepository.findAll();
+        List<StockDto> result = new ArrayList<>();
 
-        Optional<Product> product = productRepository.findByIdentifier(productId);
-        if (product.isEmpty()) {
-            stockDto.setMessage("Invalid Product: " + productId);
-            stockDto.setSuccess(false);
-            return stockDto;
+        for (Stock s : list) {
+
+            StockDto dto = modelMapper.map(s, StockDto.class);
+            dto.setStockState(calculateState(s));
+
+            result.add(dto);
         }
 
-        Optional<Warehouse> warehouse = warehouseRepository.findByIdentifier(warehouseId);
-        if (warehouse.isEmpty()) {
-            stockDto.setMessage("Invalid Warehouse: " + warehouseId);
-            stockDto.setSuccess(false);
-            return stockDto;
-        }
-
-        Stock existing = stockRepository.findByProductIdentifierAndWarehouseIdentifier(productId, warehouseId);
-
-        if (existing != null) {
-            stockDto.setMessage("Stock already exists for this Product and Warehouse");
-            stockDto.setSuccess(false);
-            return stockDto;
-        }
-
-        Stock stock = modelMapper.map(stockDto, Stock.class);
-        stockRepository.save(stock);
-
-        return stockDto;
+        return result;
     }
 
+    // DELETE
     @Override
-    public StockDto update(StockDto stockDto) {
-
-        String identifier = stockDto.getIdentifier();
-
-        Stock existing = stockRepository.findByIdentifier(identifier);
-
-        if (existing == null) {
-            stockDto.setMessage("Stock not found - " + identifier);
-            stockDto.setSuccess(false);
-            return stockDto;
-        }
-
-        modelMapper.map(stockDto, existing);
-        stockRepository.save(existing);
-
-        return stockDto;
-    }
-
-    @Override
-    @Transactional
     public void delete(String identifier) {
         stockRepository.deleteByIdentifier(identifier);
     }
 
+    // TOGGLE
     @Override
-    public List<StockDto> findAll() {
-        Type listType = new TypeToken<List<StockDto>>() {}.getType();
-        return modelMapper.map(stockRepository.findAll(), listType);
+    public StockDto toggleStatus(String identifier) {
+
+        Stock stock = stockRepository.findByIdentifier(identifier);
+
+        if (stock == null) {
+            StockDto dto = new StockDto();
+            dto.setSuccess(false);
+            dto.setMessage(STOCK_NOT_FOUND);
+            return dto;
+        }
+
+        stock.setStatus(!Boolean.TRUE.equals(stock.getStatus()));
+        stockRepository.save(stock);
+
+        StockDto dto = modelMapper.map(stock, StockDto.class);
+        dto.setStockState(calculateState(stock));
+        dto.setSuccess(true);
+        dto.setMessage("Stock status updated successfully");
+
+        return dto;
     }
 }

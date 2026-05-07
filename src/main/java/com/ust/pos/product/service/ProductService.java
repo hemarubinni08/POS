@@ -1,6 +1,7 @@
 package com.ust.pos.product.service;
 
 import com.ust.pos.dto.ProductDto;
+
 import java.util.List;
 
 public interface ProductService {
@@ -14,4 +15,8 @@ public interface ProductService {
     List<ProductDto> findAll();
 
     void delete(String identifier);
+
+    ProductDto toggleStatus(String identifier);
+
+    List<ProductDto> findActiveProducts();
 }

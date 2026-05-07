@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
-    /* ================= LIST ================= */
+    /*  LIST  */
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -30,7 +30,7 @@ public class UserController {
         return "user/list";
     }
 
-    /* ================= GET USER ================= */
+    /*  GET USER  */
 
     @GetMapping("/get")
     public String getUser(Model model, @RequestParam String username) {
@@ -39,19 +39,17 @@ public class UserController {
 
         if (userDto == null) {
             model.addAttribute("message", "User not found");
-            return USER_USER;
+        }else {
+            //  store old username BEFORE edit
+            userDto.setOldUsername(userDto.getUsername());
+
+            model.addAttribute("userDto", userDto);
+            model.addAttribute("roles", roleService.findAll());
         }
-
-        //  store old username BEFORE edit
-        userDto.setOldUsername(userDto.getUsername());
-
-        model.addAttribute("userDto", userDto);
-        model.addAttribute("roles", roleService.findAll());
-
         return USER_USER;
     }
 
-    /* ================= UPDATE ================= */
+    /*  UPDATE  */
 
     @PostMapping("/update")
     public String updateUser(Model model,
@@ -79,7 +77,7 @@ public class UserController {
         return "redirect:/user/list";
     }
 
-    /* ================= DELETE ================= */
+    /*  DELETE  */
 
     @GetMapping("/delete")
     public String delete(@RequestParam String username) {

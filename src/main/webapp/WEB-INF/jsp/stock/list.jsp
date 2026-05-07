@@ -1,4 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -11,25 +13,27 @@
           rel="stylesheet">
 
     <style>
-        body {
-            background-color: #E9EEF5;
-            min-height: 100vh;
+        body { background-color: #E9EEF5; min-height: 100vh; }
+
+        .card { border-radius: 16px; }
+        .btn { border-radius: 10px; }
+
+        .table th, .table td { vertical-align: middle; }
+
+        .form-switch .form-check-input {
+            width: 45px;
+            height: 22px;
+            cursor: pointer;
         }
-        .card {
-            border-radius: 16px;
-        }
-        .btn {
-            border-radius: 10px;
-        }
-        .table th, .table td {
-            vertical-align: middle;
-        }
+
+        .low-stock { background-color: #fff3cd !important; }
+        .out-stock { background-color: #f8d7da !important; }
+        .discontinued { background-color: #e2e3e5 !important; }
     </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Stock Management</span>
@@ -39,94 +43,139 @@
                class="btn btn-outline-light btn-sm">Home</a>
 
             <a href="${pageContext.request.contextPath}/stock/add"
-               class="btn btn-light btn-sm fw-semibold">
-                + Add Stock
-            </a>
+               class="btn btn-light btn-sm fw-semibold">+ Add Stock</a>
         </div>
     </div>
 </nav>
 
-<!-- MAIN -->
 <div class="container mt-5">
 
     <div class="card shadow p-3">
 
-        <h3 class="fw-bold text-center mb-3">Stock List</h3>
+        <h3 class="fw-bold mb-3 text-center">Stock List</h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
-            <div class="alert alert-info text-center">
-                ${message}
-            </div>
+            <div class="alert alert-info text-center">${message}</div>
         </c:if>
 
-        <!-- TABLE -->
         <div class="table-responsive">
-            <table class="table table-hover table-striped">
+
+            <table class="table table-hover table-striped mb-0">
 
                 <thead class="table-dark">
                 <tr>
                     <th>Identifier</th>
                     <th>Product</th>
                     <th>Warehouse</th>
-                    <th>Quantity</th>
-                    <th>Reorder Level</th>
+                    <th>Qty</th>
+                    <th>Reorder</th>
+                    <th>Status</th>
+                    <th class="text-center">Active</th>
                     <th class="text-center">Actions</th>
                 </tr>
                 </thead>
 
                 <tbody>
 
-                <c:choose>
-                    <c:when test="${empty stocks}">
-                        <tr>
-                            <td colspan="6" class="text-center py-4 text-muted">
-                                No stock available
-                            </td>
-                        </tr>
-                    </c:when>
+                <c:if test="${empty stocks}">
+                    <tr>
+                        <td colspan="8" class="text-center py-4 text-muted">
+                            No stock data found.
+                        </td>
+                    </tr>
+                </c:if>
 
-                    <c:otherwise>
-                        <c:forEach var="s" items="${stocks}">
-                            <tr>
+                <c:forEach items="${stocks}" var="s">
 
-                                <!-- IDENTIFIER -->
-                                <td>
-                                    <a href="${pageContext.request.contextPath}/stock/get?identifier=${s.identifier}"
-                                       class="fw-semibold text-decoration-none">
-                                        ${s.identifier}
-                                    </a>
-                                </td>
+                    <c:set var="rowClass" value=""/>
 
-                                <td>${s.productIdentifier}</td>
-                                <td>${s.warehouseIdentifier}</td>
-                                <td>${s.availableQuantity}</td>
-                                <td>${s.reorderLevel}</td>
+                    <c:choose>
+                        <c:when test="${s.stockState == 'LOW_STOCK'}">
+                            <c:set var="rowClass" value="low-stock"/>
+                        </c:when>
+                        <c:when test="${s.stockState == 'OUT_OF_STOCK'}">
+                            <c:set var="rowClass" value="out-stock"/>
+                        </c:when>
+                        <c:when test="${s.stockState == 'DISCONTINUED'}">
+                            <c:set var="rowClass" value="discontinued"/>
+                        </c:when>
+                    </c:choose>
 
-                                <!-- ACTIONS -->
-                                <td class="text-center">
+                    <tr class="${rowClass}">
 
-                                    <a href="${pageContext.request.contextPath}/stock/get?identifier=${s.identifier}"
-                                       class="btn btn-sm btn-outline-primary me-2">
-                                        Update
-                                    </a>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/stock/get?identifier=${s.identifier}"
+                               class="fw-semibold text-decoration-none">
+                                ${s.identifier}
+                            </a>
+                        </td>
 
-                                    <a href="${pageContext.request.contextPath}/stock/delete?identifier=${s.identifier}"
-                                       class="btn btn-sm btn-outline-danger"
-                                       onclick="return confirm('Delete this stock?');">
-                                        Delete
-                                    </a>
+                        <td>${s.productIdentifier}</td>
+                        <td>${s.warehouseIdentifier}</td>
 
-                                </td>
+                        <td>
+                            <span class="badge bg-primary">
+                                ${s.availableQuantity}
+                            </span>
+                        </td>
 
-                            </tr>
-                        </c:forEach>
-                    </c:otherwise>
-                </c:choose>
+                        <td>
+                            <span class="badge bg-warning text-dark">
+                                ${s.reorderLevel}
+                            </span>
+                        </td>
+
+                        <td>
+                            <c:choose>
+                                <c:when test="${s.stockState == 'AVAILABLE'}">
+                                    <span class="badge bg-success">Available</span>
+                                </c:when>
+                                <c:when test="${s.stockState == 'LOW_STOCK'}">
+                                    <span class="badge bg-warning text-dark">Low</span>
+                                </c:when>
+                                <c:when test="${s.stockState == 'OUT_OF_STOCK'}">
+                                    <span class="badge bg-danger">Out</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="badge bg-secondary">Discontinued</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+
+                        <!-- TOGGLE -->
+                        <td class="text-center">
+                            <div class="form-check form-switch d-flex justify-content-center">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       <c:if test="${s.status}">checked</c:if>
+                                       onclick="window.location.href='${pageContext.request.contextPath}/stock/toggle?identifier=${s.identifier}'"/>
+                            </div>
+                        </td>
+
+                        <!-- ACTIONS -->
+                        <td class="text-center">
+
+                            <a href="${pageContext.request.contextPath}/stock/get?identifier=${s.identifier}"
+                               class="btn btn-sm btn-outline-primary me-2">
+                                Update
+                            </a>
+
+                            <a href="${pageContext.request.contextPath}/stock/delete?identifier=${s.identifier}"
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Delete this stock?');">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                </c:forEach>
 
                 </tbody>
 
             </table>
+
         </div>
 
     </div>

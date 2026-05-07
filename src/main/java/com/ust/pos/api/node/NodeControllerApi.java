@@ -1,0 +1,53 @@
+package com.ust.pos.api.node;
+
+import com.ust.pos.dto.NodeDto;
+import com.ust.pos.node.service.NodeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/node")
+public class NodeControllerApi {
+
+    public static final String REDIRECT_ROLE_LIST = "redirect:/node/list";
+    @Autowired
+    private NodeService nodeService;
+
+    @GetMapping("/list")
+    public List<NodeDto> list() {
+        return nodeService.findAll();
+    }
+
+    @PostMapping("/add")
+    public NodeDto addPost(@RequestBody NodeDto nodeDto) {
+        return nodeService.save(nodeDto);
+    }
+
+    @GetMapping("/get")
+    public NodeDto updatePage(@RequestParam String identifier) {
+        return nodeService.findByIdentifier(identifier);
+    }
+
+    @PostMapping("/update")
+    public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
+        return nodeService.update(nodeDto);
+    }
+
+    @GetMapping("/delete")
+    public Boolean delete(@RequestParam String identifier) {
+
+        try {
+            nodeService.delete(identifier);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @GetMapping("/NodesForRoles")
+    public List<NodeDto> getNodesForRoles() {
+        return nodeService.getNodesForRoles();
+    }
+}

@@ -1,8 +1,6 @@
 package com.ust.pos.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,4 +12,5 @@ public class Stock extends CommonFields {
     private String warehouseIdentifier;
     private Integer availableQuantity;
     private Integer reorderLevel;
+    private Boolean status = true;
 }

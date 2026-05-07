@@ -6,13 +6,11 @@ import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
@@ -23,81 +21,92 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Override
-    public WarehouseDto findByIdentifier(String identifier) {
-
-        Optional<Warehouse> warehouse = warehouseRepository.findByIdentifier(identifier);
-
-        if (warehouse.isEmpty()) {
-            WarehouseDto dto = new WarehouseDto();
-            dto.setMessage("Warehouse not found for identifier - " + identifier);
-            dto.setSuccess(false);
-            return dto;
-        }
-
-        return modelMapper.map(warehouse.get(), WarehouseDto.class);
-    }
-
+    //  SAVE 
     @Override
     public WarehouseDto save(WarehouseDto warehouseDto) {
 
-        String identifier = warehouseDto.getIdentifier();
-
-        if (identifier == null || identifier.isEmpty()) {
-            warehouseDto.setMessage("Identifier is required");
+        if (warehouseDto.getIdentifier() == null || warehouseDto.getIdentifier().isEmpty()) {
             warehouseDto.setSuccess(false);
+            warehouseDto.setMessage("Identifier required");
             return warehouseDto;
         }
 
-        Optional<Warehouse> existing = warehouseRepository.findByIdentifier(identifier);
+        Warehouse existing = warehouseRepository.findByIdentifier(warehouseDto.getIdentifier());
 
-        if (existing.isPresent()) {
-            warehouseDto.setMessage("Warehouse already exists for identifier - " + identifier);
+        if (existing != null) {
             warehouseDto.setSuccess(false);
+            warehouseDto.setMessage("Warehouse already exists");
             return warehouseDto;
         }
 
         Warehouse warehouse = modelMapper.map(warehouseDto, Warehouse.class);
+
         warehouseRepository.save(warehouse);
 
+        warehouseDto.setSuccess(true);
         return warehouseDto;
     }
 
+    //  UPDATE 
     @Override
     public WarehouseDto update(WarehouseDto warehouseDto) {
 
-        String identifier = warehouseDto.getIdentifier();
+        Warehouse existing = warehouseRepository.findByIdentifier(warehouseDto.getIdentifier());
 
-        if (identifier == null || identifier.isEmpty()) {
-            warehouseDto.setMessage("Invalid identifier");
+        if (existing == null) {
             warehouseDto.setSuccess(false);
+            warehouseDto.setMessage("Warehouse not found");
             return warehouseDto;
         }
 
-        Optional<Warehouse> existing = warehouseRepository.findByIdentifier(identifier);
+        modelMapper.map(warehouseDto, existing);
 
-        if (existing.isEmpty()) {
-            warehouseDto.setMessage("Warehouse not found for identifier - " + identifier);
-            warehouseDto.setSuccess(false);
-            return warehouseDto;
-        }
+        warehouseRepository.save(existing);
 
-        Warehouse warehouse = existing.get();
-        modelMapper.map(warehouseDto, warehouse);
-        warehouseRepository.save(warehouse);
-
+        warehouseDto.setSuccess(true);
         return warehouseDto;
     }
 
+    //  FIND BY ID 
+    @Override
+    public WarehouseDto findByIdentifier(String identifier) {
+
+        Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
+
+        if (warehouse == null) {
+            WarehouseDto dto = new WarehouseDto();
+            dto.setSuccess(false);
+            dto.setMessage("Warehouse not found");
+            return dto;
+        }
+
+        WarehouseDto dto = modelMapper.map(warehouse, WarehouseDto.class);
+
+        dto.setSuccess(true);
+        return dto;
+    }
+
+    //  FIND ALL 
+    @Override
+    public List<WarehouseDto> findAll() {
+
+        List<Warehouse> warehouses = warehouseRepository.findAll();
+        List<WarehouseDto> result = new ArrayList<>();
+
+        for (Warehouse warehouse : warehouses) {
+
+            WarehouseDto dto = modelMapper.map(warehouse, WarehouseDto.class);
+
+            result.add(dto);
+        }
+
+        return result;
+    }
+
+    //  DELETE 
     @Override
     @Transactional
     public void delete(String identifier) {
         warehouseRepository.deleteByIdentifier(identifier);
-    }
-
-    @Override
-    public List<WarehouseDto> findAll() {
-        Type listType = new TypeToken<List<WarehouseDto>>() {}.getType();
-        return modelMapper.map(warehouseRepository.findAll(), listType);
     }
 }

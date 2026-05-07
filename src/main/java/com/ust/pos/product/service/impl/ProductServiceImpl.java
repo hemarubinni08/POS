@@ -6,98 +6,159 @@ import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    public static final String PRODUCT_NOT_FOUND = "Product not found";
+    public static final String ACTIVE = "ACTIVE";
     @Autowired
     private ProductRepository productRepository;
 
     @Autowired
     private ModelMapper modelMapper;
 
-    @Override
-    public ProductDto findByIdentifier(String identifier) {
-
-        Optional<Product> product = productRepository.findByIdentifier(identifier);
-
-        if (product.isEmpty()) {
-            ProductDto dto = new ProductDto();
-            dto.setMessage("Product with identifier - " + identifier + " not found");
-            dto.setSuccess(false);
-            return dto;
-        }
-
-        return modelMapper.map(product.get(), ProductDto.class);
-    }
-
+    // ===== SAVE =====
     @Override
     public ProductDto save(ProductDto productDto) {
 
-        String identifier = productDto.getIdentifier();
-
-        if (identifier == null || identifier.isEmpty()) {
-            productDto.setMessage("Identifier is required");
+        if (productDto.getIdentifier() == null || productDto.getIdentifier().isEmpty()) {
             productDto.setSuccess(false);
+            productDto.setMessage("Identifier required");
             return productDto;
         }
 
-        Optional<Product> existingProduct = productRepository.findByIdentifier(identifier);
+        Product existing = productRepository.findByIdentifier(productDto.getIdentifier());
 
-        if (existingProduct.isPresent()) {
-            productDto.setMessage("Product with identifier - " + identifier + " already exists");
+
+        if (existing != null) {
             productDto.setSuccess(false);
+            productDto.setMessage("Product already exists");
             return productDto;
         }
 
         Product product = modelMapper.map(productDto, Product.class);
+
         productRepository.save(product);
 
+        productDto.setSuccess(true);
         return productDto;
     }
 
+    // ===== UPDATE =====
     @Override
     public ProductDto update(ProductDto productDto) {
 
-        String identifier = productDto.getIdentifier();
+        Product existing = productRepository.findByIdentifier(productDto.getIdentifier());
 
-        if (identifier == null || identifier.isEmpty()) {
-            productDto.setMessage("Invalid identifier");
+        if (existing == null) {
             productDto.setSuccess(false);
+            productDto.setMessage(PRODUCT_NOT_FOUND);
             return productDto;
         }
 
-        Optional<Product> existingProduct = productRepository.findByIdentifier(identifier);
+        modelMapper.map(productDto, existing);
 
-        if (existingProduct.isEmpty()) {
-            productDto.setMessage("Product with identifier - " + identifier + " not found");
-            productDto.setSuccess(false);
-            return productDto;
-        }
+        productRepository.save(existing);
 
-        Product product = existingProduct.get();
-        modelMapper.map(productDto, product);
-        productRepository.save(product);
-
+        productDto.setSuccess(true);
         return productDto;
     }
 
+    // ===== FIND BY ID =====
+    @Override
+    public ProductDto findByIdentifier(String identifier) {
+
+        Product product = productRepository.findByIdentifier(identifier);
+
+        if (product == null) {
+            ProductDto dto = new ProductDto();
+            dto.setSuccess(false);
+            dto.setMessage(PRODUCT_NOT_FOUND);
+            return dto;
+        }
+
+        ProductDto dto = modelMapper.map(product, ProductDto.class);
+
+        dto.setSuccess(true);
+        return dto;
+    }
+
+    // ===== FIND ALL =====
+    @Override
+    public List<ProductDto> findAll() {
+
+        List<Product> products = productRepository.findAll();
+        List<ProductDto> result = new ArrayList<>();
+
+        for (Product product : products) {
+
+            ProductDto dto = modelMapper.map(product, ProductDto.class);
+
+
+            result.add(dto);
+        }
+
+        return result;
+    }
+
+    // ===== DELETE =====
     @Override
     @Transactional
     public void delete(String identifier) {
         productRepository.deleteByIdentifier(identifier);
     }
 
+    // ===== TOGGLE =====
     @Override
-    public List<ProductDto> findAll() {
-        Type listType = new TypeToken<List<ProductDto>>() {}.getType();
-        return modelMapper.map(productRepository.findAll(), listType);
+    public ProductDto toggleStatus(String identifier) {
+
+        ProductDto response = new ProductDto();
+
+        Product product = productRepository.findByIdentifier(identifier);
+
+        if (product == null) {
+            response.setSuccess(false);
+            response.setMessage(PRODUCT_NOT_FOUND);
+            return response;
+        }
+
+        product.setStatus(
+                ACTIVE.equals(product.getStatus()) ? "INACTIVE" : ACTIVE
+        );
+
+        Product saved = productRepository.save(product);
+
+        response.setIdentifier(saved.getIdentifier());
+        response.setStatus(saved.getStatus());
+
+        response.setSuccess(true);
+        response.setMessage("Status updated successfully");
+
+        return response;
+    }
+
+    // ===== ACTIVE PRODUCTS =====
+    @Override
+    public List<ProductDto> findActiveProducts() {
+
+        List<Product> products = productRepository.findAll();
+        List<ProductDto> result = new ArrayList<>();
+
+        for (Product product : products) {
+
+            if (!ACTIVE.equals(product.getStatus())) continue;
+
+            ProductDto dto = modelMapper.map(product, ProductDto.class);
+
+            result.add(dto);
+        }
+
+        return result;
     }
 }

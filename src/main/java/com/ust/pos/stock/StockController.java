@@ -1,9 +1,11 @@
 package com.ust.pos.stock;
 
 import com.ust.pos.dto.StockDto;
-import com.ust.pos.model.ProductRepository;
-import com.ust.pos.model.WarehouseRepository;
+import com.ust.pos.product.service.ProductService;
+import com.ust.pos.rack.service.RackService;
+import com.ust.pos.shelf.service.ShelfService;
 import com.ust.pos.stock.service.StockService;
+import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,96 +16,86 @@ import org.springframework.web.bind.annotation.*;
 public class StockController {
 
     private static final String REDIRECT = "redirect:/stock/list";
+    public static final String STOCK_DTO = "stockDto";
+    public static final String MESSAGE = "message";
 
-    @Autowired
-    private StockService stockService;
+    @Autowired private StockService stockService;
+    @Autowired private WarehouseService warehouseService;
+    @Autowired private ProductService productService;
 
-    @Autowired
-    private ProductRepository productRepository;
 
-    @Autowired
-    private WarehouseRepository warehouseRepository;
-
-    // LIST
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("stocks", stockService.findAll());
         return "stock/list";
     }
 
-    // ADD PAGE
     @GetMapping("/add")
     public String add(Model model) {
-
-        model.addAttribute("stockDto", new StockDto());
-
-        model.addAttribute("products", productRepository.findAll());
-        model.addAttribute("warehouses", warehouseRepository.findAll());
-
+        model.addAttribute(STOCK_DTO, new StockDto());
+        load(model);
         return "stock/add";
     }
 
-    // SAVE
     @PostMapping("/add")
-    public String save(@ModelAttribute StockDto stockDto, Model model) {
-        stockDto.setIdentifier(stockDto.getProductIdentifier()+"_"+stockDto.getWarehouseIdentifier());
-        StockDto response = stockService.save(stockDto);
+    public String save(@ModelAttribute StockDto dto, Model model) {
 
-        if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("stockDto", stockDto);
+        StockDto res = stockService.save(dto);
 
-            model.addAttribute("products", productRepository.findAll());
-            model.addAttribute("warehouses", warehouseRepository.findAll());
-
-            return "stock/list";
+        if (!res.isSuccess()) {
+            model.addAttribute(MESSAGE, res.getMessage());
+            model.addAttribute(STOCK_DTO, dto);
+            load(model);
+            return "stock/add";
         }
 
         return REDIRECT;
     }
 
-    // EDIT PAGE
     @GetMapping("/get")
     public String edit(@RequestParam String identifier, Model model) {
 
-        StockDto dto = stockService.findByIdentifier(identifier);
+        StockDto res = stockService.findByIdentifier(identifier);
 
-        if (!dto.isSuccess()) {
-            model.addAttribute("message", dto.getMessage());
+        if (!res.isSuccess()) {
+            model.addAttribute(MESSAGE, res.getMessage());
             return REDIRECT;
         }
 
-        model.addAttribute("stockDto", dto);
-
-        model.addAttribute("products", productRepository.findAll());
-        model.addAttribute("warehouses", warehouseRepository.findAll());
-
+        model.addAttribute(STOCK_DTO, res);
+        load(model);
         return "stock/stock";
     }
 
-    // UPDATE
     @PostMapping("/update")
-    public String update(@ModelAttribute StockDto stockDto, Model model) {
+    public String update(@ModelAttribute StockDto dto, Model model) {
 
-        StockDto response = stockService.update(stockDto);
+        StockDto res = stockService.update(dto);
 
-        if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
-            model.addAttribute("stockDto", stockDto);
-
-            model.addAttribute("products", productRepository.findAll());
-            model.addAttribute("warehouses", warehouseRepository.findAll());
-
+        if (!res.isSuccess()) {
+            model.addAttribute(MESSAGE, res.getMessage());
+            model.addAttribute(STOCK_DTO, dto);
+            load(model);
             return "stock/stock";
         }
 
         return REDIRECT;
     }
 
-    // DELETE
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
         stockService.delete(identifier);
         return REDIRECT;
+    }
+
+    @GetMapping("/toggle")
+    public String toggle(@RequestParam String identifier) {
+        stockService.toggleStatus(identifier);
+        return REDIRECT;
+    }
+
+    private void load(Model model) {
+        model.addAttribute("warehouse", warehouseService.findAll());
+        model.addAttribute("product", productService.findActiveProducts());
     }
 }

@@ -7,12 +7,8 @@ import java.util.List;
 public interface WarehouseService {
 
     WarehouseDto save(WarehouseDto warehouseDto);
-
     WarehouseDto update(WarehouseDto warehouseDto);
-
     WarehouseDto findByIdentifier(String identifier);
-
     List<WarehouseDto> findAll();
-
     void delete(String identifier);
 }

@@ -60,7 +60,7 @@
             <form:input path="name" cssClass="form-control" required="required"/>
         </div>
 
-        <!-- EMAIL (SAFE + VALIDATED) -->
+        <!-- EMAIL -->
         <div class="mb-3">
             <label class="form-label">Email</label>
 
@@ -68,15 +68,15 @@
                    name="username"
                    class="form-control"
                    required
-                   pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+                   pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                    title="Enter a valid email like example@gmail.com" />
         </div>
 
-        <!-- ROLES (REQUIRED) -->
+        <!-- ROLES -->
         <div class="mb-3">
             <label class="form-label">Roles</label>
 
-            <div class="role-box" id="roleBox">
+            <div class="role-box">
 
                 <c:forEach items="${roles}" var="role">
                     <div class="form-check">
@@ -113,10 +113,15 @@
                         required="required"/>
         </div>
 
-        <!-- PASSWORD -->
+        <!-- PASSWORD (UPDATED) -->
         <div class="mb-3">
             <label class="form-label">Password</label>
-            <form:password path="password" cssClass="form-control" required="required"/>
+
+            <form:password path="password"
+                           cssClass="form-control"
+                           minlength="6"
+                           required="required"
+                           title="Password must be at least 6 characters long"/>
         </div>
 
         <!-- BUTTON -->

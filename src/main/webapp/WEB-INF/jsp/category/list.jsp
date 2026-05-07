@@ -67,7 +67,7 @@
 
                 <tbody>
 
-                <!-- EMPTY -->
+                <!-- EMPTY STATE -->
                 <c:if test="${empty categories}">
                     <tr>
                         <td colspan="5" class="text-center py-4 text-muted">
@@ -82,17 +82,17 @@
 
                         <td>${cat.id}</td>
 
-                        <td>
-                            <a href="/category/get?identifier=${cat.identifier}"
-                               class="fw-semibold text-decoration-none">
-                                ${cat.identifier}
-                            </a>
+                        <!-- IDENTIFIER -->
+                        <td class="fw-semibold">
+                            ${cat.identifier}
                         </td>
 
-                        <td class="text-muted">
+                        <!-- NAME -->
+                        <td>
                             ${cat.name}
                         </td>
 
+                        <!-- SUPER CATEGORY -->
                         <td>
                             <c:choose>
                                 <c:when test="${empty cat.superCategoryIdentifier}">
@@ -104,6 +104,7 @@
                             </c:choose>
                         </td>
 
+                        <!-- ACTIONS -->
                         <td class="text-center">
                             <a href="/category/get?identifier=${cat.identifier}"
                                class="btn btn-sm btn-outline-primary me-2">

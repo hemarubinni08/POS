@@ -81,8 +81,6 @@
                     <c:forEach var="user" items="${users}">
                         <tr>
                             <td>
-                                <a class="user-link"
-                                   href="/user/get?username=${user.username}">
                                     ${user.username}
                                 </a>
                             </td>

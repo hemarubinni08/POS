@@ -1,30 +1,30 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Update Category</title>
+<meta charset="UTF-8">
+<title>Update Category</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet">
 
-    <style>
-        body {
-            background-color: #E9EEF5;
-            min-height: 100vh;
-        }
-        .card {
-            border-radius: 16px;
-        }
-        .form-control {
-            border-radius: 10px;
-        }
-        .btn {
-            border-radius: 10px;
-        }
-    </style>
+<style>
+    body {
+        background-color: #E9EEF5;
+        min-height: 100vh;
+    }
+    .card {
+        border-radius: 16px;
+    }
+    .form-control {
+        border-radius: 10px;
+    }
+    .btn {
+        border-radius: 10px;
+    }
+</style>
 </head>
 
 <body>
@@ -44,13 +44,14 @@
 
         <h3 class="text-center mb-4 fw-bold">Update Category</h3>
 
-        <!-- MESSAGE -->
+        <!-- ERROR MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
+        <!-- FORM -->
         <form action="/category/update" method="post">
 
             <!-- IDENTIFIER (READONLY) -->
@@ -59,7 +60,7 @@
                 <input type="text"
                        name="identifier"
                        class="form-control"
-                       value="${categoryDto.identifier}"
+                       value="${category.identifier}"
                        readonly>
             </div>
 
@@ -69,7 +70,7 @@
                 <input type="text"
                        name="name"
                        class="form-control"
-                       value="${categoryDto.name}"
+                       value="${category.name}"
                        required>
             </div>
 
@@ -82,10 +83,7 @@
 
                     <c:forEach items="${categories}" var="c">
                         <option value="${c.identifier}"
-                            <c:if test="${c.identifier eq categoryDto.superCategoryIdentifier}">
-                                selected
-                            </c:if>
-                        >
+                            ${c.identifier == category.superCategoryIdentifier ? 'selected' : ''}>
                             ${c.name} (${c.identifier})
                         </option>
                     </c:forEach>

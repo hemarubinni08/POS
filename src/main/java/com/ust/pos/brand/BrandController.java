@@ -1,75 +1,94 @@
 package com.ust.pos.brand;
 
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.brand.service.BrandService;
+import com.ust.pos.dto.BrandDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/brand")
 public class BrandController {
 
-    public static final String REDIRECT_ROLE_LIST = "redirect:/brand/list";
+    private static final String REDIRECT_LIST = "redirect:/brand/list";
+    public static final String MESSAGE = "message";
+
     @Autowired
     private BrandService brandService;
 
+    // LIST PAGE
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("brands", brandService.findAll());
         return "brand/list";
     }
 
+    // ADD PAGE
     @GetMapping("/add")
     public String addPage(Model model) {
         model.addAttribute("brandDto", new BrandDto());
         return "brand/add";
     }
 
+    // SAVE
     @PostMapping("/add")
-    public String addPost(Model model,
-                          @ModelAttribute("brandDto") BrandDto brandDto) {
+    public String save(@ModelAttribute("brandDto") BrandDto brandDto,
+                       Model model) {
 
         BrandDto response = brandService.save(brandDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute(MESSAGE, response.getMessage());
             return "brand/add";
         }
 
-        return REDIRECT_ROLE_LIST;
+        return REDIRECT_LIST;
     }
 
-
+    // EDIT PAGE
     @GetMapping("/get")
-    public String updatePage(Model model,
-                             @RequestParam String identifier) {
+    public String edit(@RequestParam String identifier, Model model) {
 
         BrandDto brandDto = brandService.findByIdentifier(identifier);
+
+        if (brandDto == null) {
+            model.addAttribute(MESSAGE, "Brand not found");
+            return REDIRECT_LIST;
+        }
+
         model.addAttribute("brandDto", brandDto);
         return "brand/brand";
     }
 
+    // UPDATE
     @PostMapping("/update")
-    public String updatePost(Model model,
-                             @ModelAttribute("brandDto") BrandDto brandDto) {
+    public String update(@ModelAttribute("brandDto") BrandDto brandDto,
+                         Model model) {
 
         BrandDto response = brandService.update(brandDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute("message", response.getMessage());
+            model.addAttribute(MESSAGE, response.getMessage());
             return "brand/brand";
         }
 
-        return REDIRECT_ROLE_LIST;
+        return REDIRECT_LIST;
     }
 
+    // DELETE
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
+
         brandService.delete(identifier);
-        return REDIRECT_ROLE_LIST;
+        return REDIRECT_LIST;
+    }
+
+    //  TOGGLE STATUS
+    @GetMapping("/toggleStatus")
+    public String toggleStatus(@RequestParam String identifier) {
+
+        brandService.toggleStatus(identifier);
+        return REDIRECT_LIST;
     }
 }

@@ -3,6 +3,8 @@ package com.ust.pos.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class ProductDto extends CommonDto {
@@ -10,5 +12,6 @@ public class ProductDto extends CommonDto {
     private String unit;
     private String status;
     private String brand;
-    private String category;
+    private String model;
+    private List<String> categories;
 }

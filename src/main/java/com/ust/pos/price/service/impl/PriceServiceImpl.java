@@ -6,13 +6,11 @@ import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PriceServiceImpl implements PriceService {
@@ -24,80 +22,86 @@ public class PriceServiceImpl implements PriceService {
     private ModelMapper modelMapper;
 
     @Override
-    public PriceDto findByIdentifier(String identifier) {
-
-        Optional<Price> price = Optional.ofNullable(priceRepository.findByIdentifier(identifier));
-
-        if (price.isEmpty()) {
-            PriceDto dto = new PriceDto();
-            dto.setMessage("Price not found for identifier - " + identifier);
-            dto.setSuccess(false);
-            return dto;
-        }
-
-        return modelMapper.map(price.get(), PriceDto.class);
-    }
-
-    @Override
     public PriceDto save(PriceDto priceDto) {
 
-        String identifier = priceDto.getIdentifier();
-
-        if (identifier == null || identifier.isEmpty()) {
-            priceDto.setMessage("Identifier is required");
+        if (priceDto.getIdentifier() == null || priceDto.getIdentifier().isEmpty()) {
             priceDto.setSuccess(false);
+            priceDto.setMessage("Identifier required");
             return priceDto;
         }
 
-        Optional<Price> existing = Optional.ofNullable(priceRepository.findByIdentifier(identifier));
+        Price existing = priceRepository.findByIdentifier(priceDto.getIdentifier());
 
-        if (existing.isPresent()) {
-            priceDto.setMessage("Price already exists for identifier - " + identifier);
+        if (existing != null) {
             priceDto.setSuccess(false);
+            priceDto.setMessage("Price already exists");
             return priceDto;
         }
 
         Price price = modelMapper.map(priceDto, Price.class);
+
         priceRepository.save(price);
 
+        priceDto.setSuccess(true);
         return priceDto;
     }
 
     @Override
     public PriceDto update(PriceDto priceDto) {
 
-        String identifier = priceDto.getIdentifier();
+        Price existing = priceRepository.findByIdentifier(priceDto.getIdentifier());
 
-        if (identifier == null || identifier.isEmpty()) {
-            priceDto.setMessage("Invalid identifier");
+        if (existing == null) {
             priceDto.setSuccess(false);
+            priceDto.setMessage("Price not found");
             return priceDto;
         }
 
-        Optional<Price> existing = Optional.ofNullable(priceRepository.findByIdentifier(identifier));
+        modelMapper.map(priceDto, existing);
 
-        if (existing.isEmpty()) {
-            priceDto.setMessage("Price not found for identifier - " + identifier);
-            priceDto.setSuccess(false);
-            return priceDto;
-        }
+        priceRepository.save(existing);
 
-        Price price = existing.get();
-        modelMapper.map(priceDto, price);
-        priceRepository.save(price);
-
+        priceDto.setSuccess(true);
         return priceDto;
+    }
+
+    @Override
+    public PriceDto findByIdentifier(String identifier) {
+
+        Price price = priceRepository.findByIdentifier(identifier);
+
+        if (price == null) {
+            PriceDto dto = new PriceDto();
+            dto.setSuccess(false);
+            dto.setMessage("Price not found");
+            return dto;
+        }
+
+        PriceDto dto = modelMapper.map(price, PriceDto.class);
+        dto.setSuccess(true);
+
+        return dto;
+    }
+
+    @Override
+    public List<PriceDto> findAll() {
+
+        List<Price> prices = priceRepository.findAll();
+        List<PriceDto> result = new ArrayList<>();
+
+        for (Price price : prices) {
+
+            PriceDto dto = modelMapper.map(price, PriceDto.class);
+
+            result.add(dto);
+        }
+
+        return result;
     }
 
     @Override
     @Transactional
     public void delete(String identifier) {
         priceRepository.deleteByIdentifier(identifier);
-    }
-
-    @Override
-    public List<PriceDto> findAll() {
-        Type listType = new TypeToken<List<PriceDto>>() {}.getType();
-        return modelMapper.map(priceRepository.findAll(), listType);
     }
 }
