@@ -16,4 +16,8 @@ public interface NodeService {
     List<NodeDto> findAll();
 
     NodeDto findByIdentifier(String identifier);
+
+    List<NodeDto> findAllActive();
+
+    NodeDto updateStatus(String identifier, boolean status);
 }

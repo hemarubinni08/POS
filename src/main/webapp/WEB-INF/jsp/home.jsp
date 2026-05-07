@@ -1,199 +1,143 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Retail Core | Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <title>Retail POS | Management</title>
     <style>
         :root {
-            --sidebar-bg: #111827;
-            --sidebar-hover: #1f2937;
+            --primary-navy: #0f172a;
             --accent-blue: #3b82f6;
-            --bg-main: #f9fafb;
-            --text-dark: #111827;
-            --text-muted: #6b7280;
-            --border-color: #e2e8f0;
-            --sidebar-width: 280px;
+            --sidebar-bg: #1e293b;
+            --text-gray: #94a3b8;
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            --sidebar-width: 260px;
         }
 
         body {
             margin: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: #f8fafc;
             display: flex;
-            min-height: 100vh;
-            background-color: var(--bg-main);
-            overflow-x: hidden;
         }
 
-
+        /* --- Persistent Sidebar --- */
         .sidebar {
             width: var(--sidebar-width);
             background-color: var(--sidebar-bg);
-            color: #d1d5db;
+            color: #f1f5f9;
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Stack header, menu, footer vertically */
             position: fixed;
-            top: 0;
-            left: calc(-1 * var(--sidebar-width));
             height: 100vh;
-            border-right: 1px solid var(--border-color);
-            z-index: 1050;
-            transition: left 0.3s ease;
-        }
-
-        .sidebar.active {
-            left: 0;
+            overflow: hidden; /* Prevent the whole sidebar from scrolling */
         }
 
         .sidebar-header {
             padding: 24px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: red;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 1.2rem;
+            font-weight: 800;
+            border-bottom: 1px solid var(--border-subtle);
+            color: white;
+            flex-shrink: 0; /* Keep header size fixed */
         }
 
-        .sidebar-header span.logo-text { color: var(--accent-blue); margin-right: 10px; }
-
-        .nav-menu { flex-grow: 1; padding: 12px 0; }
-
-        .nav-label {
-            padding: 20px 24px 10px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #4b5563;
-            letter-spacing: 1px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            margin-top: 10px;
+        /* --- Updated Scrollable Menu --- */
+        .nav-menu {
+            flex-grow: 1;
+            padding: 20px 0;
+            overflow-y: auto; /* Enable scrolling for middle section only */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: rgba(255,255,255,0.2) transparent;
         }
+
+        /* Custom Scrollbar for Chrome/Safari */
+        .nav-menu::-webkit-scrollbar { width: 5px; }
+        .nav-menu::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
 
         .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 24px;
-            color: #9ca3af;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            display: flex; align-items: center; padding: 12px 24px;
+            color: #cbd5e1; text-decoration: none; font-size: 14px; font-weight: 500;
+        }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: white; }
+        .nav-item.active { background: var(--accent-blue); color: white; }
+
+        /* --- Fixed Sidebar Footer --- */
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border-subtle);
+            background: rgba(0, 0, 0, 0.3);
+            flex-shrink: 0; /* Keep footer size fixed at bottom */
         }
 
-        .nav-item:hover { background: var(--sidebar-hover); color: white; }
-        .nav-item.active { color: white; background: var(--sidebar-hover); border-right: 4px solid var(--accent-blue); }
+        .user-profile-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding: 5px;
+        }
 
-        /* Dashboard Top Link Special Styling */
-        .nav-item.dashboard-link {
+        .avatar-circle {
+            width: 38px; height: 38px;
+            background: var(--accent-blue);
             color: white;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .content-wrapper {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            transition: margin-left 0.3s ease;
-        }
-
-        @media (min-width: 1200px) {
-            .sidebar.active + .content-wrapper {
-                margin-left: var(--sidebar-width);
-            }
-        }
-
-        .top-navbar {
-            background: white;
-            height: 64px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: uppercase;
         }
 
-        .menu-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
+        .user-info {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            width: 24px;
-            height: 18px;
+            overflow: hidden;
         }
 
-        .menu-toggle span {
-            display: block;
-            height: 2px;
-            width: 100%;
-            background-color: var(--text-dark);
-            border-radius: 2px;
+        .user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .main-content { padding: 60px 40px; max-width: 900px; margin: 0 auto; }
-
-        .empty-state {
-            background: white;
-            border: 2px dashed var(--border-color);
-            border-radius: 12px;
-            padding: 60px;
-            text-align: center;
-        }
-
-        .welcome-title { font-size: 2rem; font-weight: 800; color: var(--text-dark); margin-bottom: 12px; }
-        .welcome-desc { color: var(--text-muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto 30px; }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.3);
-            display: none;
-            z-index: 1040;
-        }
-
-        .overlay.active { display: block; }
+        .user-label { font-size: 10px; color: var(--text-gray); text-transform: uppercase; }
 
         .btn-logout {
-            width: 100%; background: transparent; color: #9ca3af; border: 1px solid #374151;
-            padding: 10px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer;
+            width: 100%;
+            background: transparent;
+            color: #fca5a5;
+            border: 1px solid rgba(252, 165, 165, 0.2);
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .btn-logout:hover { background-color: #ef4444; color: white; border-color: #ef4444; }
+        .btn-logout:hover { background: #ef4444; color: white; border-color: #ef4444; }
+
+        /* --- Main Content --- */
+        .content-wrapper { margin-left: var(--sidebar-width); flex-grow: 1; }
+        .main-content { padding: 40px; }
     </style>
 </head>
 <body>
 
-    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
-
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div><span class="logo-text">■</span> RETAIL CORE</div>
-            <button onclick="toggleSidebar()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer; line-height: 1;">&times;</button>
-        </div>
+    <aside class="sidebar">
+        <div class="sidebar-header">RETAIL CORE</div>
 
         <nav class="nav-menu">
-            <a href="${pageContext.request.contextPath}/" class="nav-item dashboard-link active">
-                Dashboard Home
-            </a>
-
-            <div class="nav-label">System Modules</div>
-
+            <a href="${pageContext.request.contextPath}/" class="nav-item">Dashboard Home</a>
             <c:forEach var="node" items="${nodes}">
                 <c:if test="${node.identifier != 'Home'}">
                     <a href="${node.path}" class="nav-item">${node.identifier}</a>
@@ -201,7 +145,19 @@
             </c:forEach>
         </nav>
 
-        <div class="logout-section" style="padding: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+        <div class="sidebar-footer">
+            <div class="user-profile-box">
+                <div class="avatar-circle" id="userInitial">
+                    <sec:authentication property="principal.username" />
+                </div>
+                <div class="user-info">
+                    <span class="user-label">Logged in as</span>
+                    <span class="user-name">
+                        <sec:authentication property="principal.username" />
+                    </span>
+                </div>
+            </div>
+
             <form action="${pageContext.request.contextPath}/logout" method="post">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <button type="submit" class="btn-logout">Sign Out</button>
@@ -209,35 +165,23 @@
         </div>
     </aside>
 
-    <main class="content-wrapper">
-        <header class="top-navbar">
-            <button class="menu-toggle" onclick="toggleSidebar()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div style="font-size: 13px; font-weight: 600; color: var(--text-muted);">
-                Management Console
+    <div class="content-wrapper">
+        <main class="main-content">
+            <div style="background: white; padding: 40px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                <h2 style="margin-top:0;">System Overview</h2>
+                <p style="color: #64748b;">Welcome back to the management interface.</p>
             </div>
-        </header>
-
-        <section class="main-content">
-            <div class="empty-state">
-                <h1 class="welcome-title">Welcome back.</h1>
-                <p class="welcome-desc">
-                    Your retail management environment is ready. Open the menu to manage system entities.
-                </p>
-                <div style="display: inline-flex; gap: 10px; color: var(--text-muted); font-size: 13px; font-weight: 500;">
-                    </div>
-            </div>
-        </section>
-    </main>
+        </main>
+    </div>
 
     <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
-        }
+        window.onload = function() {
+            const badge = document.getElementById('userInitial');
+            if (badge) {
+                const text = badge.innerText.trim();
+                badge.innerText = text.charAt(0);
+            }
+        };
     </script>
 
 </body>

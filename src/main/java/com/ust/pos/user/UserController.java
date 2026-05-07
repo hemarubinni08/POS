@@ -28,6 +28,7 @@ public class UserController {
     @GetMapping("/list")
     public String home(Model model) {
         model.addAttribute("users", userService.findAll());
+        model.addAttribute("roles", roleService.findAll());
         model.addAttribute("nodes", nodeService.getNodesForRoles());
         return "user/list";
     }
@@ -54,7 +55,7 @@ public class UserController {
     @GetMapping("/delete")
     public String delete(@RequestParam String username, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth!=null) {
+        if (auth != null) {
             String currentUsername = auth.getName();
             userService.delete(username);
 

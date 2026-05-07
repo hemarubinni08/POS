@@ -1,206 +1,255 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Retail POS | Secure Login</title>
+    <title>Retail POS | Secure Access</title>
     <style>
         :root {
-            --retail-navy: #1e293b;
-            --retail-blue: #2563eb;
-            --retail-hover: #1d4ed8;
-            --error-red: #dc2626;
-            --bg-light: #f8fafc;
-            --text-dark: #0f172a;
+            --primary-navy: #1e293b;
+            --accent-blue: #2563eb;
+            --success-green: #10b981;
+            --error-red: #ef4444;
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
             --text-muted: #64748b;
+            --border-color: #e2e8f0;
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--bg-light);
-            /* Subtle retail-grid pattern */
-            background-image: radial-gradient(#cbd5e1 0.5px, transparent 0.5px);
-            background-size: 24px 24px;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-body);
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            color: var(--text-main);
         }
 
-        /* --- Professional Toast Error --- */
-        .error-toast {
+        #toast {
+            visibility: hidden;
+            min-width: 280px;
+            background-color: var(--primary-navy);
+            color: #fff;
+            text-align: center;
+            border-radius: 12px;
+            padding: 16px;
             position: fixed;
-            top: 24px;
-            right: 24px;
-            background-color: var(--error-red);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 8px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            right: 20px;
+            top: 20px;
             font-size: 14px;
             font-weight: 600;
-            z-index: 1000;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--error-red);
             display: flex;
             align-items: center;
-            animation: slideIn 0.4s ease-out;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #toast.show {
+            visibility: visible;
+            animation: slideIn 0.5s forwards, fadeOut 0.5s 2.5s forwards;
         }
 
         @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            from { transform: translateX(120%); }
+            to { transform: translateX(0); }
         }
 
-        .container {
-            width: 100%;
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(120%); }
+        }
+
+        .login-card {
+            width: 90%;
             max-width: 420px;
-            background: #ffffff;
+            background: var(--card-bg);
             padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border-top: 5px solid var(--retail-blue); /* Retail accent border */
+            border-radius: 20px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            box-sizing: border-box;
         }
 
-        .header {
-            text-align: left; /* Modern alignment */
-            margin-bottom: 32px;
+        .brand-header {
+            margin-bottom: 35px;
+            text-align: center;
         }
 
-        .header h2 {
+        .brand-header h2 {
             margin: 0;
-            color: var(--text-dark);
-            font-size: 24px;
-            letter-spacing: -0.5px;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--primary-navy);
         }
 
-        .header p {
+        .brand-header p {
+            margin: 10px 0 0 0;
+            font-size: 15px;
             color: var(--text-muted);
-            font-size: 14px;
-            margin: 8px 0 0 0;
+            font-weight: 500;
         }
 
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 25px;
         }
 
         .form-group label {
             display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
             font-size: 12px;
-            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-main);
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
-        .input-field {
+        .input-control {
             width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            box-sizing: border-box;
+            padding: 14px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
             font-size: 15px;
-            transition: all 0.2s;
             background-color: #fcfcfc;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
         }
 
-        .input-field:focus {
+        .input-control:hover {
+            border-color: #cbd5e1;
+        }
+
+        .input-control:focus {
             outline: none;
-            border-color: var(--retail-blue);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            border-color: var(--accent-blue);
             background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
         }
 
-        .btn-login {
+        .btn-signin {
             width: 100%;
-            padding: 13px;
-            background-color: var(--retail-navy);
+            padding: 15px;
+            background-color: var(--primary-navy);
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: 600;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.2s;
-            margin-bottom: 16px;
-        }
-
-        .btn-login:hover {
-            background-color: var(--text-dark);
-        }
-
-        /* --- New Register Section --- */
-        .footer-action {
-            text-align: center;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 20px;
+            transition: all 0.2s ease;
             margin-top: 10px;
         }
 
-        .footer-action span {
-            color: var(--text-muted);
-            font-size: 14px;
+        .btn-signin:hover {
+            background-color: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .btn-register {
-            color: var(--retail-blue);
-            text-decoration: none;
+        .btn-signin:active {
+            transform: translateY(0);
+        }
+
+        .card-footer {
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .card-footer span {
             font-size: 14px;
-            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .link-register {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-decoration: none;
             margin-left: 5px;
         }
 
-        .btn-register:hover {
+        .link-register:hover {
             text-decoration: underline;
         }
 
-        .system-tag {
+        /* Responsive Design Breakpoint */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            .brand-header h2 {
+                font-size: 24px;
+            }
+        }
+
+        .version-tag {
             position: absolute;
             bottom: 20px;
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 500;
+            font-size: 11px;
+            font-weight: 600;
+            color: #94a3b8;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
-<c:if test="${param.error != null}">
-    <div class="error-toast">
-        <span style="margin-right:10px;">⚠️</span>
-        Invalid E-mail or Password
-    </div>
-</c:if>
+<div id="toast" role="alert">
+    <span>✕</span> Invalid E-mail or Password
+</div>
 
-<div class="container">
-    <div class="header">
+<main class="login-card">
+    <header class="brand-header">
         <h2>System Login</h2>
-        <p>Retail Management & POS Inventory</p>
-    </div>
+        <p>Retail Management & POS Interface</p>
+    </header>
 
     <form action="${pageContext.request.contextPath}/login" method="post">
         <div class="form-group">
-            <label>E-mail Address</label>
-            <input type="email" name="username" class="input-field" placeholder="admin@retail.com" required autofocus>
+            <label for="username">E-mail Address</label>
+            <input type="email" id="username" name="username" class="input-control"
+                   placeholder="e.g. admin@retail.com" required autofocus
+                   autocomplete="username">
         </div>
 
         <div class="form-group">
-            <label>Password</label>
-            <input type="password" name="password" class="input-field" placeholder="••••••••" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="input-control"
+                   placeholder="••••••••" required autocomplete="current-password">
         </div>
 
-        <button type="submit" class="btn-login">Sign In to Dashboard</button>
+        <button type="submit" class="btn-signin">Sign In to Dashboard</button>
     </form>
 
-    <div class="footer-action">
+    <footer class="card-footer">
         <span>New staff member?</span>
-        <a href="${pageContext.request.contextPath}/register" class="btn-register">Register Account</a>
-    </div>
-</div>
+        <a href="${pageContext.request.contextPath}/register" class="link-register">Create Account</a>
+    </footer>
+</main>
 
-<div class="system-tag">Retail Management System v2.0</div>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('error')) {
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(() => {
+                toast.className = toast.className.replace("show", "");
+            }, 4000);
+        }
+    });
+</script>
 
 </body>
 </html>

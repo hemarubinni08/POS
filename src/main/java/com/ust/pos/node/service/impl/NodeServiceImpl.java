@@ -74,10 +74,6 @@ public class NodeServiceImpl implements NodeService {
 
         if (nodeOptional.isPresent()) {
             Node node = nodeOptional.get();
-            if (!node.getIdentifier().equalsIgnoreCase(nodeDto.getIdentifier()) && nodeRepository.existsByIdentifier(nodeDto.getIdentifier())) {
-                    nodeDto.setMessage("User with username/email - " + nodeDto.getIdentifier() + " already exists");
-                    return nodeDto;
-            }
             modelMapper.map(nodeDto, node);
             nodeRepository.save(node);
         }
@@ -101,5 +97,20 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public NodeDto findByIdentifier(String identifier) {
         return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);
+    }
+
+    @Override
+    public List<NodeDto> findAllActive() {
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
+        return modelMapper.map(nodeRepository.findByStatus(true), listType);
+    }
+
+    @Override
+    public NodeDto updateStatus(String identifier, boolean status) {
+        Node node = nodeRepository.findByIdentifier(identifier);
+        node.setStatus(status);
+        nodeRepository.save(node);
+        return modelMapper.map(node, NodeDto.class);
     }
 }

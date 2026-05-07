@@ -7,141 +7,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Role | Retail Core</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Retail POS | Add Role</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
         :root {
-            --accent-blue: #3b82f6;
-            --bg-main: #f9fafb;
-            --text-dark: #111827;
-            --text-muted: #6b7280;
-            --border-color: #e5e7eb;
+            --primary-navy: #1e293b;
+            --accent-blue: #2563eb;
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
         }
 
         body {
             margin: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-dark);
-            display: flex;
-            flex-direction: column;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             min-height: 100vh;
         }
 
+        /* --- Top Navbar with Back Redirect --- */
         .top-navbar {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
             height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 40px;
             border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .btn-home {
+        .btn-back {
             display: flex;
             align-items: center;
             gap: 8px;
+            text-decoration: none;
+            color: var(--primary-navy);
+            font-weight: 700;
+            font-size: 14px;
             padding: 8px 16px;
             border-radius: 8px;
-            background-color: white;
-            border: 1px solid var(--border-color);
-            color: var(--text-dark);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 13px;
+            background: #f1f5f9;
+            transition: all 0.2s;
         }
+        .btn-back:hover { background: #e2e8f0; transform: translateY(-1px); }
 
+        /* --- Content Layout --- */
         .main-content {
-            flex-grow: 1;
-            padding: 60px 20px;
+            padding: 60px 40px;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            width: 100%;
+            box-sizing: border-box;
         }
 
+        /* --- Form Card --- */
         .form-card {
             width: 100%;
-            max-width: 450px;
-            background: white;
+            max-width: 480px;
+            background: var(--card-bg);
             padding: 40px;
-            border-radius: 12px;
+            border-radius: 20px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
         }
 
-        .form-label-custom {
+        .form-group { margin-bottom: 24px; }
+        .form-group label {
+            display: block;
             font-size: 11px;
             font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-muted);
             margin-bottom: 8px;
-            display: block;
+            color: var(--text-muted);
+            text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
-        .form-control-custom {
-            border: 1.5px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px 15px;
-            font-size: 14px;
+        .input-control {
             width: 100%;
-            transition: border-color 0.2s;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
         }
-
-        .form-control-custom:focus {
+        .input-control:focus {
             outline: none;
             border-color: var(--accent-blue);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
         }
 
         .btn-submit {
             width: 100%;
-            padding: 12px;
-            background: var(--accent-blue);
+            padding: 14px;
+            background-color: var(--primary-navy);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-weight: 600;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
             margin-top: 10px;
-            transition: opacity 0.2s;
+        }
+        .btn-submit:hover {
+            background-color: #0f172a;
+            transform: translateY(-2px);
         }
 
-        .btn-submit:hover {
-            opacity: 0.9;
+        .alert-error {
+            background-color: #fee2e2;
+            color: #ef4444;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid #fecaca;
         }
     </style>
 </head>
 <body>
 
     <header class="top-navbar">
-        <div style="font-weight: 800; letter-spacing: -0.5px;">
-            <span style="color: var(--accent-blue);">■</span> RETAIL CORE
-        </div>
-        <a href="list" class="btn-home">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-            Back to List
+        <a href="${pageContext.request.contextPath}/role/list" class="btn-back">
+            <span>&larr;</span> Back to Roles
         </a>
+        <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">
+            Security / Define New Role
+        </div>
     </header>
 
     <main class="main-content">
         <div class="form-card">
-            <h4 class="mb-4 font-weight-bold">Add New Role</h4>
+            <div class="mb-4">
+                <h2 style="font-weight: 800; color: var(--primary-navy); margin: 0;">Add Role</h2>
+                <p style="color: var(--text-muted); font-size: 14px;">Define a new security permission level.</p>
+            </div>
 
             <c:if test="${param.error eq 'true'}">
-                <div class="alert alert-danger border-0 small py-2 mb-4">
-                    Operation failed: This role already exists.
+                <div class="alert-error">
+                    This role identifier already exists in the system.
                 </div>
             </c:if>
 
-            <form:form method="post" action="add" modelAttribute="roleDto">
-                <div class="mb-4">
-                    <label class="form-label-custom">Role Identifier</label>
-                    <form:input path="identifier"
-                                cssClass="form-control-custom"
-                                placeholder="e.g. ROLE_ADMIN"
-                                required="true"
-                                autofocus="true"/>
+            <form:form method="POST" action="add" modelAttribute="roleDto">
+                <div class="form-group">
+                    <label>Role Identifier</label>
+                    <form:input path="identifier" class="input-control" placeholder="e.g. ROLE_MANAGER" required="true" autofocus="true"/>
                 </div>
 
                 <button type="submit" class="btn-submit">Create Role</button>

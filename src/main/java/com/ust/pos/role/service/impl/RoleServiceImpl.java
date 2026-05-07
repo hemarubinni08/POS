@@ -68,4 +68,19 @@ public class RoleServiceImpl implements RoleService {
         }.getType();
         return modelMapper.map(roleRepository.findAll(), listType);
     }
+
+    @Override
+    public List<RoleDto> findAllActive() {
+        Type listType = new TypeToken<List<RoleDto>>() {
+        }.getType();
+        return modelMapper.map(roleRepository.findByStatus(true), listType);
+    }
+
+    @Override
+    public RoleDto changeStatus(String identifier, boolean status) {
+        Role role = roleRepository.findByIdentifier(identifier);
+        role.setStatus(status);
+        roleRepository.save(role);
+        return modelMapper.map(role, RoleDto.class);
+    }
 }

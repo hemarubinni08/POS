@@ -8,283 +8,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Staff | Retail Core</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Retail POS | Edit Staff</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
         :root {
-            --sidebar-bg: #111827;
-            --sidebar-hover: #1f2937;
-            --accent-blue: #3b82f6;
-            --bg-main: #f9fafb;
-            --text-dark: #111827;
-            --text-muted: #6b7280;
-            --border-color: #e5e7eb;
-            --sidebar-width: 280px;
+            --primary-navy: #1e293b;
+            --accent-blue: #2563eb;
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
         }
 
         body {
             margin: 0;
-            font-family: 'Inter', sans-serif;
-            display: flex;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             min-height: 100vh;
-            background-color: var(--bg-main);
-            overflow-x: hidden;
         }
 
-        .sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--sidebar-bg);
-            color: #d1d5db;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 0;
-            left: calc(-1 * var(--sidebar-width));
-            height: 100vh;
-            border-right: 1px solid var(--border-color);
-            z-index: 1050;
-            transition: left 0.3s ease;
-        }
-
-        .sidebar.active { left: 0; }
-
-        .sidebar-header {
-            padding: 24px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .sidebar-header span.logo-text { color: var(--accent-blue); margin-right: 10px; }
-
-        .nav-menu { flex-grow: 1; padding: 24px 0; }
-        .nav-label { padding: 0 24px 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #4b5563; letter-spacing: 1px; }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 24px;
-            color: #9ca3af;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .nav-item:hover { background: var(--sidebar-hover); color: white; }
-        .nav-item.active { color: white; background: var(--sidebar-hover); border-right: 4px solid var(--accent-blue); }
-
-        .content-wrapper {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            transition: margin-left 0.3s ease;
-        }
-
+        /* --- Top Navbar (Back Action Only) --- */
         .top-navbar {
-            background: white;
-            height: 64px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 24px;
+            padding: 0 40px;
             border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
-        .menu-toggle {
-            background: none; border: none; cursor: pointer; padding: 0;
-            display: flex; flex-direction: column; justify-content: space-between;
-            width: 24px; height: 18px;
-        }
-
-        .menu-toggle span { display: block; height: 2px; width: 100%; background-color: var(--text-dark); border-radius: 2px; }
-
-        .main-content {
-            padding: 40px;
+        .btn-back {
             display: flex;
-            justify-content: center;
-        }
-
-        .update-card {
-            width: 100%;
-            max-width: 500px;
-            background: white;
-            padding: 32px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .form-label-custom {
-            font-size: 12px;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--primary-navy);
             font-weight: 700;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            letter-spacing: 0.025em;
-        }
-
-        .form-control-custom {
-            border: 1.5px solid var(--border-color);
-            border-radius: 8px;
-            padding: 10px 14px;
             font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: #f1f5f9;
             transition: all 0.2s;
         }
+        .btn-back:hover { background: #e2e8f0; transform: translateY(-1px); }
 
-        .form-control-custom:focus {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-            outline: none;
+        /* --- Content Layout --- */
+        .main-content {
+            padding: 60px 40px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            box-sizing: border-box;
         }
 
+        /* --- Form Card --- */
+        .form-card {
+            width: 100%;
+            max-width: 520px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group { margin-bottom: 24px; }
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .input-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .input-control:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        /* --- Role Selection --- */
         .checkbox-group {
             border: 1.5px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 15px;
-            max-height: 160px;
+            background-color: #fcfcfc;
+            max-height: 150px;
             overflow-y: auto;
-            background: #fcfcfc;
         }
-
         .checkbox-group span {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
             font-size: 14px;
-            cursor: pointer;
+            font-weight: 500;
         }
-
         .checkbox-group input[type="checkbox"] {
             width: 18px;
             height: 18px;
             margin-right: 12px;
-            accent-color: var(--accent-blue);
+            cursor: pointer;
         }
 
-        .btn-update {
-            width: 100%;
-            padding: 12px;
-            background: var(--sidebar-bg);
+        .btn-submit {
+            padding: 12px 24px;
+            background-color: var(--primary-navy);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            margin-top: 20px;
-            transition: opacity 0.2s;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-submit:hover {
+            background-color: #0f172a;
+            transform: translateY(-2px);
         }
 
-        .btn-update:hover { opacity: 0.9; }
-
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.3); display: none; z-index: 1040;
+        .btn-cancel {
+            padding: 12px 24px;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
         }
-        .overlay.active { display: block; }
+        .btn-cancel:hover { background: #f1f5f9; color: var(--text-main); }
 
-        .btn-logout {
-            width: 100%; background: transparent; color: #9ca3af; border: 1px solid #374151;
-            padding: 10px; border-radius: 6px; font-size: 14px; cursor: pointer;
-        }
+        .v-hook { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
     </style>
 </head>
 <body>
 
-    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
-
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div><span class="logo-text">■</span> RETAIL CORE</div>
-            <button onclick="toggleSidebar()" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">&times;</button>
+    <header class="top-navbar">
+        <a href="${pageContext.request.contextPath}/user/list" class="btn-back">
+            <span>&larr;</span> Back to Staff List
+        </a>
+        <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">
+            Identity / Modify Staff Profile
         </div>
+    </header>
 
-        <nav class="nav-menu">
-            <div class="nav-label">System Modules</div>
-            <a href="${pageContext.request.contextPath}/" class="nav-item">Home</a>
-            <c:forEach var="node" items="${nodes}">
-                <a href="${node.path}" class="nav-item">
-                    ${node.identifier}
-                </a>
-            </c:forEach>
-        </nav>
-
-        <div class="logout-section" style="padding: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
-            <form action="/logout" method="post">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                <button type="submit" class="btn-logout">Sign Out</button>
-            </form>
-        </div>
-    </aside>
-
-    <main class="content-wrapper">
-        <header class="top-navbar">
-            <button class="menu-toggle" onclick="toggleSidebar()">
-                <span></span><span></span><span></span>
-            </button>
-            <div class="breadcrumb-text small text-muted">Management / Update User</div>
-        </header>
-
-        <section class="main-content">
-            <div class="update-card">
-                <h4 class="mb-4 font-weight-bold" style="color: var(--text-dark);">Update Staff Member</h4>
-
-                <form:form action="/user/update" method="post" modelAttribute="userDto">
-                    <%-- Path points to userDto.id --%>
-                    <form:hidden path="id" />
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">Full Name</label>
-                        <form:input path="name" cssClass="form-control form-control-custom" required="true"/>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">Email Address</label>
-                        <form:input path="username" cssClass="form-control form-control-custom" required="true"/>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">Phone Number</label>
-                        <form:input path="phoneNo" cssClass="form-control form-control-custom" required="true"/>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label-custom">System Roles</label>
-                        <div class="checkbox-group">
-                            <%-- Path 'roles' inside userDto must be a List<String> or List<Role> --%>
-                            <form:checkboxes path="roles"
-                                             items="${roles}"
-                                             itemValue="identifier"
-                                             itemLabel="identifier"
-                                             element="span"/>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn-update">Save Changes</button>
-                </form:form>
-
-                <div class="text-center mt-4">
-                    <a href="/user/list" class="text-decoration-none small font-weight-bold" style="color: var(--accent-blue);">
-                        &larr; Return to User List
-                    </a>
-                </div>
+    <main class="main-content">
+        <div class="form-card">
+            <div class="mb-4">
+                <h2 style="font-weight: 800; color: var(--primary-navy); margin: 0;">Edit Staff</h2>
+                <p style="color: var(--text-muted); font-size: 14px;">Update system access and personal contact details.</p>
             </div>
-        </section>
+
+            <form:form action="${pageContext.request.contextPath}/user/update" method="post" modelAttribute="userDto">
+                <form:hidden path="id" />
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <form:input path="name" class="input-control" required="true"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <form:input path="username" type="email" class="input-control" required="true"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <form:input path="phoneNo" class="input-control" required="true" maxlength="10"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+                </div>
+
+                <div class="form-group">
+                    <label>Assigned Roles</label>
+                    <div class="checkbox-group">
+                        <form:checkboxes path="roles" items="${roles}" itemValue="identifier"
+                                         itemLabel="identifier" element="span" onchange="validateRoles()"/>
+                        <input type="checkbox" id="roleWatcher" class="v-hook" required>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <a href="${pageContext.request.contextPath}/user/list" class="btn-cancel">Cancel</a>
+                    <button type="submit" class="btn-submit">Save Changes</button>
+                </div>
+            </form:form>
+        </div>
     </main>
 
     <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-            document.getElementById('overlay').classList.toggle('active');
+        function validateRoles() {
+            const checkboxes = document.getElementsByName('roles');
+            const watcher = document.getElementById('roleWatcher');
+            if(watcher && checkboxes.length > 0) {
+                watcher.required = !Array.from(checkboxes).some(c => c.checked);
+            }
         }
+
+        window.onload = function() {
+            validateRoles();
+        };
     </script>
 
 </body>

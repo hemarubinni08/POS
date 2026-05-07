@@ -51,14 +51,14 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
         Optional<User> userOptional = userRepository.findById(userDto.getId());
 
-        if(userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if(!user.getUsername().equalsIgnoreCase(userDto.getUsername()) &&userRepository.existsByUsername(userDto.getUsername())) {
-                    userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
-                    return userDto;
+            if (!user.getUsername().equalsIgnoreCase(userDto.getUsername()) && userRepository.existsByUsername(userDto.getUsername())) {
+                userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
+                return userDto;
             }
-                modelMapper.map(userDto, user);
-                userRepository.save(user);
+            modelMapper.map(userDto, user);
+            userRepository.save(user);
         }
         return userDto;
     }
@@ -75,5 +75,20 @@ public class UserServiceImpl implements UserService {
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
         return modelMapper.map(userRepository.findAll(), listType);
+    }
+
+    @Override
+    public UserDto updateStatus(String username, boolean status) {
+        User user = userRepository.findByUsername(username);
+        user.setStatus(status);
+        userRepository.save(user);
+        return modelMapper.map(user, UserDto.class);
+    }
+
+    @Override
+    public List<UserDto> findAllActive() {
+        Type listType = new TypeToken<List<UserDto>>() {
+        }.getType();
+        return modelMapper.map(userRepository.findByStatus(true), listType);
     }
 }

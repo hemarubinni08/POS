@@ -1,0 +1,56 @@
+package com.ust.pos.api.shelfs;
+
+import com.ust.pos.dto.ShelfsDto;
+import com.ust.pos.shelfs.service.ShelfsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/shelfs")
+public class ShelfsControllerApi {
+
+    @Autowired
+    private ShelfsService shelfsService;
+
+    @GetMapping("/list")
+    public List<ShelfsDto> home() {
+        return shelfsService.findAll();
+    }
+
+    @PostMapping("/add")
+    public ShelfsDto addPost(@RequestBody ShelfsDto shelfsDto) {
+        return shelfsService.save(shelfsDto);
+    }
+
+    @GetMapping("/get")
+    public ShelfsDto update(@RequestParam String identifier) {
+        return shelfsService.findByIdentifier(identifier);
+    }
+
+    @PostMapping("/update")
+    public ShelfsDto updatePost(@RequestBody ShelfsDto shelfsDto) {
+        return shelfsService.update(shelfsDto);
+    }
+
+    @GetMapping("/delete")
+    public boolean delete(@RequestParam String identifier) {
+        try {
+            shelfsService.delete(identifier);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    @GetMapping("/active")
+    public List<ShelfsDto> findAllActive() {
+        return shelfsService.findAllActive();
+    }
+
+    @PostMapping("/changestatus")
+    public ShelfsDto changeStatus(@RequestBody ShelfsDto shelfsDto) {
+        return shelfsService.statusUpdate(shelfsDto.getIdentifier(), shelfsDto.isStatus());
+    }
+}

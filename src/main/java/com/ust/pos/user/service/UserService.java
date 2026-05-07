@@ -14,4 +14,8 @@ public interface UserService {
     boolean delete(String username);
 
     List<UserDto> findAll();
+
+    UserDto updateStatus(String username, boolean status);
+
+    List<UserDto> findAllActive();
 }

@@ -14,4 +14,8 @@ public interface RoleService {
     List<RoleDto> findAll();
 
     RoleDto findByIdentifier(String identifier);
+
+    List<RoleDto> findAllActive();
+
+    RoleDto changeStatus(String identifier, boolean status);
 }
