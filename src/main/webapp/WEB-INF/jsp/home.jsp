@@ -122,7 +122,6 @@
             padding: 20px;
             z-index: 999;
 
-            /* ✅ SCROLL ENABLED */
             overflow-y: auto;
             overflow-x: hidden;
         }
@@ -131,7 +130,6 @@
             transform: translateX(0);
         }
 
-        /* ✅ SIDEBAR SCROLLBAR (WebKit) */
         .sidebar::-webkit-scrollbar {
             width: 6px;
         }
@@ -149,7 +147,6 @@
             background: rgba(255, 255, 255, 0.5);
         }
 
-        /* ✅ FIREFOX */
         .sidebar {
             scrollbar-width: thin;
             scrollbar-color: rgba(255,255,255,0.3) transparent;

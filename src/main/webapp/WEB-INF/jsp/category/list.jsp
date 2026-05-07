@@ -243,7 +243,7 @@
                 'X-CSRF-TOKEN': token
             }
         }).catch(() => {
-            el.classList.toggle("active"); // rollback on error
+            el.classList.toggle("active");
         });
     }
 </script>
