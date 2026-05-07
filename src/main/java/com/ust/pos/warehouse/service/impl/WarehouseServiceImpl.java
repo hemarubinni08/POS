@@ -71,7 +71,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<WarehouseDto> findAll() {
-        Type listType = new TypeToken<List<WarehouseDto>>() {}.getType();
+        Type listType = new TypeToken<List<WarehouseDto>>() {
+        }.getType();
         return modelMapper.map(warehouseRepository.findAll(), listType);
     }
 
@@ -94,7 +95,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<WarehouseDto> findIfTrue() {
-        Type listType = new TypeToken<List<WarehouseDto>>(){
+        Type listType = new TypeToken<List<WarehouseDto>>() {
         }.getType();
         return modelMapper.map(warehouseRepository.findByStatusIsTrue(), listType);
     }

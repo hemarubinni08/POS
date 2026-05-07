@@ -61,7 +61,7 @@ public class ModelsController {
 
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
+    public void toggle(Model model, @RequestParam String identifier) {
         modelsService.toggleStatus(identifier);
     }
 

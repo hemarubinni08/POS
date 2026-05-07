@@ -28,10 +28,10 @@ public class ModelsServiceImpl implements ModelsService {
 
     @Override
     public ModelsDto toggleStatus(String identifier) {
-        Models models=modelsRepository.findByIdentifier(identifier);
+        Models models = modelsRepository.findByIdentifier(identifier);
         models.setStatus(!models.isStatus());
         modelsRepository.save(models);
-        return modelMapper.map(models,ModelsDto.class);
+        return modelMapper.map(models, ModelsDto.class);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ModelsServiceImpl implements ModelsService {
 
     @Override
     public List<ModelsDto> findIfTrue() {
-        Type listType = new TypeToken<List<ModelsDto>>(){
+        Type listType = new TypeToken<List<ModelsDto>>() {
         }.getType();
         return modelMapper.map(modelsRepository.findByStatusIsTrue(), listType);
     }

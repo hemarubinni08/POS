@@ -1,4 +1,5 @@
 package com.ust.pos.stock;
+
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
@@ -12,13 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/stock")
 public class StockController {
 
-    // -------- View names --------
     private static final String VIEW_STOCK_LIST = "stock/list";
     private static final String VIEW_STOCK_ADD = "stock/add";
     private static final String VIEW_STOCK_EDIT = "stock/stock";
     private static final String REDIRECT_STOCK_LIST = "redirect:/stock/list";
 
-    // -------- Model attribute names --------
     private static final String ATTR_STOCK = "stock";
     private static final String ATTR_STOCK_DTO = "stockDto";
     private static final String ATTR_STOCKS = "stocks";
@@ -27,10 +26,8 @@ public class StockController {
     private static final String ATTR_MESSAGE = "message";
     private static final String ATTR_MESSAGE_TYPE = "messageType";
 
-    // -------- Message types --------
     private static final String MESSAGE_TYPE_ERROR = "error";
 
-    // -------- Messages --------
     private static final String MSG_STOCK_NOT_FOUND = "Stock not found";
 
     @Autowired
@@ -73,9 +70,7 @@ public class StockController {
     }
 
     @GetMapping("/get")
-    public String update(@RequestParam Long productId,
-                         @RequestParam Long warehouseId,
-                         Model model) {
+    public String update(@RequestParam Long productId, @RequestParam Long warehouseId, Model model) {
 
         StockDto response = stockService.getStock(productId, warehouseId);
 
@@ -92,9 +87,7 @@ public class StockController {
     }
 
     @PostMapping("/update")
-    public String updatePost(@RequestParam Long stockId,
-                             @RequestParam Integer quantity,
-                             Model model) {
+    public String updatePost(@RequestParam Long stockId, @RequestParam Integer quantity, Model model) {
 
         StockDto response = stockService.updateStockQuantity(stockId, quantity);
 

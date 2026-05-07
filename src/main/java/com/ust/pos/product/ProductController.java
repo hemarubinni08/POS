@@ -35,15 +35,11 @@ public class ProductController {
     @Autowired
     private ModelsService modelsService;
 
-    /* ===================== LIST ===================== */
-
     @GetMapping("/list")
     public String home(Model model) {
         model.addAttribute("products", productService.findAll());
         return "product/list";
     }
-
-    /* ===================== ADD ===================== */
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute ProductDto productDto) {
@@ -74,8 +70,6 @@ public class ProductController {
 
         return REDIRECT_PRODUCT_LIST;
     }
-
-    /* ===================== EDIT ===================== */
 
     @GetMapping("/get/{identifier}")
     public String update(Model model, @PathVariable String identifier) {
@@ -109,15 +103,11 @@ public class ProductController {
         return REDIRECT_PRODUCT_LIST;
     }
 
-    /* ===================== DELETE ===================== */
-
     @GetMapping("/delete/{identifier}")
     public String delete(@PathVariable String identifier) {
         productService.delete(identifier);
         return REDIRECT_PRODUCT_LIST;
     }
-
-    /* ===================== STATUS ===================== */
 
     @PostMapping("/toggle-status")
     @ResponseBody

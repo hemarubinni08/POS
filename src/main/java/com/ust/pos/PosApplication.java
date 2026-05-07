@@ -16,11 +16,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @SpringBootApplication
-@OpenAPIDefinition(
-        servers = {
-                @Server(url = "/", description = "Default Server URL")
-        }
-)
+@OpenAPIDefinition(servers = {@Server(url = "/", description = "Default Server URL")})
 @ComponentScan({"com.ust.pos.web.controller", "com.ust.pos"})
 public class PosApplication {
     @Autowired

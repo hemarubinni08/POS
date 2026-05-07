@@ -4,8 +4,10 @@ import com.ust.pos.dto.UnitDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Transactional
 public interface UnitService {
+
     UnitDto save(UnitDto unitDto);
 
     UnitDto update(UnitDto unitDto);

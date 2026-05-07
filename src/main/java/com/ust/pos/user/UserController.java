@@ -52,8 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam String username,
-                         HttpServletRequest request) {
+    public String delete(@RequestParam String username, HttpServletRequest request) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 

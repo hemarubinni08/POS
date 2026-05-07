@@ -23,7 +23,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto findByIdentifier(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
-        return modelMapper.map(product,ProductDto.class);
+        return modelMapper.map(product, ProductDto.class);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
         String identifier = productDto.getIdentifier();
         Long skuCode = productDto.getSkuCode();
         Product existingProduct = productRepository.findByIdentifier(identifier);
-        Product existingSku= productRepository.findBySkuCode(skuCode);
+        Product existingSku = productRepository.findBySkuCode(skuCode);
         if (existingProduct != null) {
             productDto.setMessage("Product with identifier - " + identifier + " already exists");
             productDto.setSuccess(false);
@@ -75,6 +75,7 @@ public class ProductServiceImpl implements ProductService {
         }.getType();
         return modelMapper.map(productRepository.findAll(), listType);
     }
+
     @Override
     public ProductDto toggleStatus(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
@@ -85,7 +86,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findIfTrue() {
-        Type listType = new TypeToken<List<ProductDto>>(){
+        Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         return modelMapper.map(productRepository.findByStatusIsTrue(), listType);
     }

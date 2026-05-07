@@ -27,7 +27,7 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public UnitDto toggleStatus(String identifier) {
-        Unit unit=unitRepository.findByIdentifier(identifier);
+        Unit unit = unitRepository.findByIdentifier(identifier);
         unit.setStatus(!unit.isStatus());
         unitRepository.save(unit);
         return modelMapper.map(unit, UnitDto.class);
@@ -76,7 +76,7 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public List<UnitDto> findIfTrue() {
-        Type listType = new TypeToken<List<UnitDto>>(){
+        Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
         return modelMapper.map(unitRepository.findByStatusIsTrue(), listType);
     }

@@ -58,9 +58,10 @@ public class UnitController {
         unitService.delete(identifier);
         return REDIRECT_UNIT_LIST;
     }
+
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
+    public void toggle(Model model, @RequestParam String identifier) {
         unitService.toggleStatus(identifier);
     }
 }

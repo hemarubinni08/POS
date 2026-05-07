@@ -7,6 +7,7 @@ import java.util.List;
 
 @Transactional
 public interface RoleService {
+
     RoleDto save(RoleDto roleDto);
 
     RoleDto update(RoleDto roleDto);

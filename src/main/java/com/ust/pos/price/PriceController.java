@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/price")
 public class PriceController {
 
-    // -------- View names --------
     private static final String VIEW_PRICE_LIST = "price/list";
     private static final String VIEW_PRICE_ADD = "price/add";
     private static final String VIEW_PRICE_EDIT = "price/price";
     private static final String REDIRECT_PRICE_LIST = "redirect:/price/list";
 
-    // -------- Model attribute names --------
     private static final String ATTR_PRICE = "price";
     private static final String ATTR_PRICE_DTO = "priceDto";
     private static final String ATTR_PRICES = "prices";
@@ -26,7 +24,6 @@ public class PriceController {
     private static final String ATTR_MESSAGE = "message";
     private static final String ATTR_MESSAGE_TYPE = "messageType";
 
-    // -------- Message types --------
     private static final String MESSAGE_TYPE_ERROR = "error";
 
     @Autowired

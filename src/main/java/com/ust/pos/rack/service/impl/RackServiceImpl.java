@@ -59,10 +59,7 @@ public class RackServiceImpl implements RackService {
     @Override
     public List<RackDto> getAllRacks() {
 
-        return rackRepository.findAll()
-                .stream()
-                .map(rack -> modelMapper.map(rack, RackDto.class))
-                .toList();
+        return rackRepository.findAll().stream().map(rack -> modelMapper.map(rack, RackDto.class)).toList();
     }
 
     @Override

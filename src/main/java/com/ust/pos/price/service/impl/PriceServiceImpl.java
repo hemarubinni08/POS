@@ -29,17 +29,10 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDto createPrice(PriceDto priceDto) {
 
-        productRepository.findById(priceDto.getProductId())
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Product not found"
-                ));
+        productRepository.findById(priceDto.getProductId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
         if (priceRepository.existsByProductId(priceDto.getProductId())) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Price already exists for this product"
-            );
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Price already exists for this product");
         }
 
         Price price = modelMapper.map(priceDto, Price.class);
