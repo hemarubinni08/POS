@@ -180,7 +180,7 @@ class CustomerServiceTest {
         Mockito.when(customerRepository.findAll()).thenReturn(customers);
         Mockito.when(modelMapper.map(Mockito.eq(customers), Mockito.any(Type.class))).thenReturn(dtos);
 
-        List<CustomerDto> response = customerService.findAll(pageable);
+        List<CustomerDto> response = customerService.findAll(null);
 
         Assertions.assertEquals(1, response.size());
     }
