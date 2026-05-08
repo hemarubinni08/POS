@@ -1,24 +1,29 @@
 package com.ust.pos.api.category;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.category.service.CategoryService;
+import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/category")
-public class CategoryApiController {
+public class CategoryApiController extends BaseController {
 
     @Autowired
     private CategoryService categoryService;
 
     @GetMapping("/list")
-    public List<CategoryDto> home() {
+    public List<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable=getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(), paginationDto.getSortField());
         return categoryService.findAll();
     }
-
     @PostMapping("/add")
     public CategoryDto addPost(@RequestBody CategoryDto categoryDto) {
         return categoryService.save(categoryDto);

@@ -1,12 +1,16 @@
 package com.ust.pos.price.service.impl;
 
+import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.model.Customer;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,5 +73,13 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDto findByIdentifier(String identifier) {
         return modelMapper.map(priceRepository.findByIdentifier(identifier), PriceDto.class);
+    }
+
+    @Override
+    public List<PriceDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<PriceDto>>() {
+        }.getType();
+        Page<Price> customerPage = priceRepository.findAll(pageable);
+        return modelMapper.map(customerPage.getContent(), listType);
     }
 }

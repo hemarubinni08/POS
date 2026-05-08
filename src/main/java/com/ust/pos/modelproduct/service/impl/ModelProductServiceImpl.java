@@ -1,14 +1,16 @@
-package com.ust.pos.modelProduct.service.impl;
+package com.ust.pos.modelproduct.service.impl;
 
+import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.ModelProductDto;
-import com.ust.pos.dto.PriceDto;
+import com.ust.pos.model.Customer;
 import com.ust.pos.model.ModelProduct;
 import com.ust.pos.model.ModelProductRepository;
-import com.ust.pos.model.Shelf;
-import com.ust.pos.modelProduct.service.ModelProductService;
+import com.ust.pos.modelproduct.service.ModelProductService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,5 +78,13 @@ public class ModelProductServiceImpl implements ModelProductService {
         ModelProduct modelProduct = modelProductRepository.findByIdentifier(identifier);
         modelProduct.setStatus(!modelProduct.isStatus());
         modelProductRepository.save(modelProduct);
+    }
+
+    @Override
+    public List<ModelProductDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<ModelProductDto>>() {
+        }.getType();
+        Page<ModelProduct> modelProductPage = modelProductRepository.findAll(pageable);
+        return modelMapper.map(modelProductPage.getContent(), listType);
     }
 }

@@ -9,6 +9,8 @@ import com.ust.pos.model.CustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     AddressService addressService;
+
+    @Override
+    public List<CustomerDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<CustomerDto>>() {
+        }.getType();
+        Page<Customer> customerPage = customerRepository.findAll(pageable);
+        return modelMapper.map(customerPage.getContent(), listType);
+    }
 
     @Override
     public CustomerDto save(CustomerDto customerDto) {
@@ -69,7 +79,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto findByIdentifier(String identifier) {
-        return modelMapper.map(customerRepository.findByIdentifier(identifier), CustomerDto.class);
+        Customer customer = customerRepository.findByIdentifier(identifier);
+        CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
+        customerDto.setBilling(addressService.findByIdentifierAndBilling(identifier));
+        customerDto.setShipping(addressService.findByIdentifierAndShipping(identifier));
+        return customerDto;
     }
 
     @Override

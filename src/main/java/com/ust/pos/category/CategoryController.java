@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
     public static final String REDIRECT_CATEGORY_LIST = "redirect:/category/list";
+    public static final String CATEGORIES = "categories";
 
     @Autowired
     private CategoryService categoryService;
@@ -24,7 +25,7 @@ public class CategoryController {
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute CategoryDto userDto) {
-        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute(CATEGORIES, categoryService.findAll());
         return "category/add";
     }
 
@@ -33,7 +34,7 @@ public class CategoryController {
         CategoryDto response = categoryService.save(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("categories", categoryService.findAll());
+            model.addAttribute(CATEGORIES, categoryService.findAll());
             return "category/add";
         }
         return REDIRECT_CATEGORY_LIST;
@@ -42,7 +43,7 @@ public class CategoryController {
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         CategoryDto categoryDto = categoryService.findByIdentifier(identifier);
-        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute(CATEGORIES, categoryService.findAll());
         model.addAttribute("categoryDto", categoryDto);
         return "category/category";
     }

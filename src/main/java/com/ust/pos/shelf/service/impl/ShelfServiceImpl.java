@@ -1,5 +1,7 @@
 package com.ust.pos.shelf.service.impl;
 
+import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.model.Customer;
 import com.ust.pos.shelf.service.ShelfService;
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.model.Shelf;
@@ -7,11 +9,14 @@ import com.ust.pos.model.ShelfRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,9 +31,8 @@ public class ShelfServiceImpl implements ShelfService {
     public ShelfDto save(ShelfDto shelfDto) {
         String identifier = shelfDto.getIdentifier();
         Shelf existingShelf = shelfRepository.findByIdentifier(identifier);
-        if(existingShelf != null)
-        {
-            shelfDto.setMessage("Shelf with identifier - "+ identifier + " already exists");
+        if (existingShelf != null) {
+            shelfDto.setMessage("Shelf with identifier - " + identifier + " already exists");
             shelfDto.setSuccess(false);
             return shelfDto;
         }
@@ -39,23 +43,24 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public ShelfDto update(ShelfDto shelfDto) {
-
-        Shelf existingShelf =
-                shelfRepository.findByIdentifier(shelfDto.getIdentifier());
-
-        if (existingShelf == null) {
+        String identifier = shelfDto.getIdentifier();
+        Optional<Shelf> optionalShelf = shelfRepository.findById(shelfDto.getId());
+        if (optionalShelf.isEmpty()) {
             shelfDto.setSuccess(false);
-            shelfDto.setMessage("Shelf not found");
+            return shelfDto;
+        } else {
+            Shelf existingshelf = optionalShelf.get();
+            if (!identifier.equalsIgnoreCase(existingshelf.getIdentifier()) && shelfRepository.findByIdentifier(identifier) != null) {
+                shelfDto.setSuccess(false);
+                shelfDto.setMessage("Shelf already exists");
+                return shelfDto;
+            } else {
+                modelMapper.map(shelfDto, existingshelf);
+                shelfRepository.save(existingshelf);
+                shelfDto.setSuccess(true);
+            }
             return shelfDto;
         }
-
-        // ✅ update existing row
-        existingShelf.setDescription(shelfDto.getDescription());
-        existingShelf.setStatus(shelfDto.isStatus());
-
-        shelfRepository.save(existingShelf); // ✅ UPDATE
-
-        return shelfDto;
     }
 
     @Override
@@ -65,7 +70,8 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public List<ShelfDto> findAll() {
-        Type listOfType = new TypeToken<List<ShelfDto>>(){}.getType();
+        Type listOfType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
         return modelMapper.map(shelfRepository.findAll(), listOfType);
     }
 
@@ -73,10 +79,13 @@ public class ShelfServiceImpl implements ShelfService {
     public ShelfDto findByIdentifier(String identifier) {
         return modelMapper.map(shelfRepository.findByIdentifier(identifier), ShelfDto.class);
     }
+
+    @Override
     public List<ShelfDto> findAllByStatus() {
-        Type listType = new TypeToken<List<ShelfDto>>() {}.getType();
+        Type listType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
         List<ShelfDto> shelfDtos = modelMapper.map(shelfRepository.findAll(), listType);
-        return shelfDtos.stream().filter(s->s.isStatus()).toList();
+        return shelfDtos.stream().filter(s -> s.isStatus()).toList();
     }
 
     @Override
@@ -85,4 +94,13 @@ public class ShelfServiceImpl implements ShelfService {
         shelf.setStatus(!shelf.isStatus());
         shelfRepository.save(shelf);
     }
+
+    @Override
+    public List<ShelfDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
+        Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
+        return modelMapper.map(shelfPage.getContent(), listType);
+    }
+
 }

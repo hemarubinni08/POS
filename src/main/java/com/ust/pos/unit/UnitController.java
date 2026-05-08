@@ -11,20 +11,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/unit")
 public class UnitController {
 
+    public static final String UNITS = "units";
+    public static final String REDIRECT_UNIT_LIST = "redirect:/unit/list";
     @Autowired
     private UnitService unitService;
 
     @GetMapping("/list")
     public String home(Model unit)
     {
-        unit.addAttribute("units", unitService.findAll());
+        unit.addAttribute(UNITS, unitService.findAll());
         return "unit/list";
     }
 
     @GetMapping("/add")
     public String add(Model unit, @ModelAttribute UnitDto unitDto)
     {
-        unit.addAttribute("units", unitService.findAll());
+        unit.addAttribute(UNITS, unitService.findAll());
         return "unit/add";
     }
 
@@ -35,10 +37,10 @@ public class UnitController {
         if(!unitDto.isSuccess())
         {
             unit.addAttribute("message", unitDto1.getMessage());
-            unit.addAttribute("units", unitService.findAll());
+            unit.addAttribute(UNITS, unitService.findAll());
             return "unit/add";
         }
-        return "redirect:/unit/list";
+        return REDIRECT_UNIT_LIST;
     }
 
     @GetMapping("/get")
@@ -46,7 +48,7 @@ public class UnitController {
     {
         UnitDto unitDto = unitService.findByIdentifier(identifier);
         unit.addAttribute("unit", unitDto);
-        unit.addAttribute("units", unitService.findAll());
+        unit.addAttribute(UNITS, unitService.findAll());
         return "unit/unit";
     }
 
@@ -57,21 +59,21 @@ public class UnitController {
         if(!unitDto1.isSuccess())
         {
             unit.addAttribute("message", unitDto1.getMessage());
-            unit.addAttribute("units", unitService.findAll());
+            unit.addAttribute(UNITS, unitService.findAll());
             return "unit/update";
         }
-        return "redirect:/unit/list";
+        return REDIRECT_UNIT_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model unit, @RequestParam String identifier)
     {
         unitService.delete(identifier);
-        return "redirect:/unit/list";
+        return REDIRECT_UNIT_LIST;
     }
     @PostMapping("/toggleStatus")
     public String toggleStatus(@RequestParam String identifier) {
         unitService.toggleStatus(identifier);
-        return "redirect:/unit/list";
+        return REDIRECT_UNIT_LIST;
     }
 }

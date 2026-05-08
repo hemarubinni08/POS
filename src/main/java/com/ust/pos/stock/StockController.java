@@ -1,7 +1,6 @@
 package com.ust.pos.stock;
 
 import com.ust.pos.dto.StockDto;
-import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
 import com.ust.pos.warehouse.service.WarehouseService;
@@ -51,7 +50,7 @@ public class StockController {
         StockDto response = stockService.findByIdentifier(identifier);
         model.addAttribute("stock", response);
         model.addAttribute("product", productService.findAll());
-        model.addAttribute("", warehouseService.findAll());
+        model.addAttribute("warehouse", warehouseService.findAll());
         return "stock/stock";
     }
 

@@ -1,5 +1,7 @@
 package com.ust.pos.racks.service.impl;
 
+import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.model.Customer;
 import com.ust.pos.racks.service.RacksService;
 import com.ust.pos.dto.RacksDto;
 import com.ust.pos.model.Racks;
@@ -7,6 +9,8 @@ import com.ust.pos.model.RacksRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,6 +85,15 @@ public class RacksServiceImpl implements RacksService {
             racks.setStatus(!racks.isStatus());
             racksRepository.save(racks);
         }
+
+    }
+
+    @Override
+    public List<RacksDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<RacksDto>>() {
+        }.getType();
+        Page<Racks> racksPage = racksRepository.findAll(pageable);
+        return modelMapper.map(racksPage.getContent(), listType);
 
     }
 }
