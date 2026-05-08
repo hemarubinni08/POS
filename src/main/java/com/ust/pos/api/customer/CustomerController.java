@@ -1,22 +1,27 @@
 package com.ust.pos.api.customer;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
 @RestController("customerApiController")
 @RequestMapping("/api/customers")
-public class CustomerController {
+public class CustomerController extends BaseController {
 
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping
-    public List<CustomerDto> getAll() {
-        return customerService.findAll();
+    @GetMapping("/list")
+    public List<CustomerDto> list(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        return customerService.findAll(pageable);
     }
 
     @GetMapping("/{identifier}")
@@ -30,8 +35,7 @@ public class CustomerController {
     }
 
     @PostMapping("/update/{identifier}")
-    public CustomerDto update(@PathVariable String identifier,
-                              @RequestBody CustomerDto customerDto) {
+    public CustomerDto update(@PathVariable String identifier, @RequestBody CustomerDto customerDto) {
         customerDto.setIdentifier(identifier);
         return customerService.update(customerDto);
     }

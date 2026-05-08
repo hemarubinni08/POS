@@ -1,4 +1,4 @@
-package com.ust.pos.api;
+package com.ust.pos.api.token;
 
 import com.ust.pos.config.JWTUtility;
 import com.ust.pos.dto.UserDto;

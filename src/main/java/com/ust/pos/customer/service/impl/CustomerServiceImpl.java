@@ -9,6 +9,9 @@ import com.ust.pos.model.CustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -132,10 +135,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerDto> findAll() {
+    public List<CustomerDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
-        return modelMapper.map(customerRepository.findAll(), listType);
+        Page<Customer> customerPage = customerRepository.findAll(pageable);
+        return modelMapper.map(customerPage.getContent(), listType);
     }
 
     @Override
