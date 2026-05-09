@@ -34,14 +34,14 @@ public class PriceController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        model.addAttribute(ATTR_PRICES, priceService.getAllPrices());
+        model.addAttribute(ATTR_PRICES, priceService.findAll(null));
         return VIEW_PRICE_LIST;
     }
 
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute(ATTR_PRICE_DTO, new PriceDto());
-        model.addAttribute(ATTR_PRODUCTS, productService.findAll());
+        model.addAttribute(ATTR_PRODUCTS, productService.findAll(null));
         return VIEW_PRICE_ADD;
     }
 
@@ -50,7 +50,7 @@ public class PriceController {
         try {
             priceService.createPrice(priceDto);
         } catch (RuntimeException ex) {
-            model.addAttribute(ATTR_PRODUCTS, productService.findAll());
+            model.addAttribute(ATTR_PRODUCTS, productService.findAll(null));
             model.addAttribute(ATTR_MESSAGE, ex.getMessage());
             model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);
             return VIEW_PRICE_ADD;
@@ -69,7 +69,7 @@ public class PriceController {
         }
 
         model.addAttribute(ATTR_PRICE, price);
-        model.addAttribute(ATTR_PRODUCTS, productService.findAll());
+        model.addAttribute(ATTR_PRODUCTS, productService.findAll(null));
         return VIEW_PRICE_EDIT;
     }
 
@@ -78,7 +78,7 @@ public class PriceController {
         try {
             priceService.updatePrice(priceDto);
         } catch (RuntimeException ex) {
-            model.addAttribute(ATTR_PRODUCTS, productService.findAll());
+            model.addAttribute(ATTR_PRODUCTS, productService.findAll(null));
             model.addAttribute(ATTR_PRICE, priceDto);
             model.addAttribute(ATTR_MESSAGE, ex.getMessage());
             model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);

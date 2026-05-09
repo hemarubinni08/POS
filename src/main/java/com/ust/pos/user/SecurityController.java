@@ -32,7 +32,7 @@ public class SecurityController {
 
     @GetMapping("/register")
     public String add(Model model, @ModelAttribute UserDto userDto) {
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("roles", roleService.findAll(null));
         return "register";
     }
 
@@ -43,7 +43,7 @@ public class SecurityController {
 
         if (!response.isSuccess()) {
             model.addAttribute("errorMsg", response.getMessage());
-            model.addAttribute("roles", roleService.findAll());
+            model.addAttribute("roles", roleService.findAll(null));
             return "register";
         }
 

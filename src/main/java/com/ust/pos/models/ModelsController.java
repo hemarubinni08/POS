@@ -16,7 +16,7 @@ public class ModelsController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("modelss", modelsService.findAll());
+        model.addAttribute("modelss", modelsService.findAll(null));
         return "models/list";
     }
 

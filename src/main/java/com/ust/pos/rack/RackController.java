@@ -23,7 +23,7 @@ public class RackController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        model.addAttribute("racks", rackService.getAllRacks());
+        model.addAttribute("racks", rackService.findAll(null));
         return "rack/list";
     }
 

@@ -41,7 +41,7 @@ public class StockController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        model.addAttribute(ATTR_STOCKS, stockService.getAllStocks());
+        model.addAttribute(ATTR_STOCKS, stockService.findAll(null));
         return VIEW_STOCK_LIST;
     }
 

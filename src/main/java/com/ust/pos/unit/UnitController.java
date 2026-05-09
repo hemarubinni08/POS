@@ -16,7 +16,7 @@ public class UnitController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("units", unitService.findAll());
+        model.addAttribute("units", unitService.findAll(null));
         return "unit/list";
     }
 

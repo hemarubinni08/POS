@@ -1,8 +1,6 @@
 package com.ust.pos.rack.service.impl;
 
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.RackDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
 import com.ust.pos.rack.service.RackService;
@@ -68,5 +66,11 @@ public class RackServiceImpl implements RackService {
         }.getType();
         Page<Rack> rackPage = rackRepository.findAll(pageable);
         return modelMapper.map(rackPage.getContent(), listType);
+    }
+
+    @Override
+    public boolean deleteRack(Long id) {
+        rackRepository.deleteById(id);
+        return true;
     }
 }

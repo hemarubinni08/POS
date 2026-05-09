@@ -64,6 +64,6 @@ public class StockController extends BaseController {
 
     @GetMapping("/warehouses")
     public List<WarehouseDto> getWarehouses() {
-        return warehouseService.findAll();
+        return warehouseService.findAll(null);
     }
 }

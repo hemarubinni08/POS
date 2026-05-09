@@ -27,6 +27,6 @@ public class SecurityController {
 
     @GetMapping("/roles")
     public List<RoleDto> roles() {
-        return roleService.findAll();
+        return roleService.findAll(null);
     }
 }

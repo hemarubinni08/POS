@@ -21,14 +21,14 @@ public class NodeController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("nodes", nodeService.findAll());
+        model.addAttribute("nodes", nodeService.findAll(null));
         return "node/list";
     }
 
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("nodeDto", new NodeDto());
-        model.addAttribute(ROLES, roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll(null));
         return "node/add";
     }
 
@@ -38,7 +38,7 @@ public class NodeController {
         NodeDto response = nodeService.save(nodeDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute(ROLES, roleService.findAll());
+            model.addAttribute(ROLES, roleService.findAll(null));
             model.addAttribute("message", response.getMessage());
             model.addAttribute("messageType", "error");
             return "node/add";
@@ -49,7 +49,7 @@ public class NodeController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-        model.addAttribute(ROLES, roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll(null));
         NodeDto response = nodeService.findByIdentifier(identifier);
         model.addAttribute("node", response);
         return "node/node";

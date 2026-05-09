@@ -30,7 +30,7 @@ public class WarehouseController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        model.addAttribute(ATTR_WAREHOUSES, warehouseService.findAll());
+        model.addAttribute(ATTR_WAREHOUSES, warehouseService.findAll(null));
         return VIEW_WAREHOUSE_LIST;
     }
 

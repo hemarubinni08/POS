@@ -18,7 +18,7 @@ public class ShelfController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        model.addAttribute("shelves", shelfService.getAllShelves());
+        model.addAttribute("shelves", shelfService.findAll(null));
         return "shelf/list";
     }
 
