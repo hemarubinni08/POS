@@ -44,7 +44,7 @@ public class StockController extends BaseController {
     public String home(Model model) {
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute(ATTR_STOCKS, stockService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
-        return REDIRECT_STOCK_LIST;
+        return "stock/list";
     }
 
     @GetMapping("/add")

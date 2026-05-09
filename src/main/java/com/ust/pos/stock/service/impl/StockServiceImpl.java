@@ -32,17 +32,9 @@ public class StockServiceImpl implements StockService {
     @Override
     public StockDto createStock(StockDto stockDto) {
 
-        if (!productRepository.existsById(stockDto.getProductId())) {
-            stockDto.setSuccess(false);
-            stockDto.setMessage("Product not found");
-            return stockDto;
-        }
+        var product = productRepository.findById(stockDto.getProductId()).orElseThrow(() -> new RuntimeException("Product not found"));
 
-        if (!warehouseRepository.existsById(stockDto.getWarehouseId())) {
-            stockDto.setSuccess(false);
-            stockDto.setMessage("Warehouse not found");
-            return stockDto;
-        }
+        var warehouse = warehouseRepository.findById(stockDto.getWarehouseId()).orElseThrow(() -> new RuntimeException("Warehouse not found"));
 
         boolean exists = stockRepository.existsByProductIdAndWarehouseId(stockDto.getProductId(), stockDto.getWarehouseId());
 
@@ -52,7 +44,11 @@ public class StockServiceImpl implements StockService {
             return stockDto;
         }
 
+        stockDto.setProductName(product.getIdentifier());
+        stockDto.setWarehouseName(warehouse.getName());
+
         Stock stock = modelMapper.map(stockDto, Stock.class);
+
         stockRepository.save(stock);
 
         return stockDto;
@@ -65,6 +61,8 @@ public class StockServiceImpl implements StockService {
 
         stockRepository.findById(stockId).ifPresentOrElse(stock -> {
             stock.setQuantity(quantity);
+            productRepository.findById(stock.getProductId()).ifPresent(product -> stock.setProductName(product.getIdentifier()));
+            warehouseRepository.findById(stock.getWarehouseId()).ifPresent(warehouse -> stock.setWarehouseName(warehouse.getName()));
             stockRepository.save(stock);
             modelMapper.map(stock, dto);
         }, () -> {

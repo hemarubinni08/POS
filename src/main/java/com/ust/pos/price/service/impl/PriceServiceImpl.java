@@ -33,11 +33,14 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDto createPrice(PriceDto priceDto) {
 
-        productRepository.findById(priceDto.getProductId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
+        var product = productRepository.findById(priceDto.getProductId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
 
         if (priceRepository.existsByProductId(priceDto.getProductId())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Price already exists for this product");
         }
+
+        priceDto.setProductName(product.getIdentifier());
 
         Price price = modelMapper.map(priceDto, Price.class);
         priceRepository.save(price);
@@ -48,9 +51,16 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDto updatePrice(PriceDto priceDto) {
 
-        Price price = priceRepository.findById(priceDto.getId()).orElseThrow(() -> new RuntimeException("Price record not found"));
+        Price price = priceRepository.findById(priceDto.getId())
+                .orElseThrow(() -> new RuntimeException("Price record not found"));
+
+        var product = productRepository.findById(priceDto.getProductId())
+                .orElseThrow(() -> new RuntimeException("Product not found"));
 
         modelMapper.map(priceDto, price);
+
+        price.setProductName(product.getIdentifier());
+
         priceRepository.save(price);
 
         return priceDto;
