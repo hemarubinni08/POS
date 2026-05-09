@@ -1,5 +1,7 @@
 package com.ust.pos.unit;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UnitDto;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +11,15 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/unit")
-public class UnitController {
+public class UnitController extends BaseController {
     public static final String REDIRECT_UNIT_LIST = "redirect:/unit/list";
     @Autowired
     private UnitService unitService;
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("units", unitService.findAll(null));
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute("units", unitService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "unit/list";
     }
 

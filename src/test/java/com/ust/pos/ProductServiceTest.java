@@ -12,7 +12,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -156,21 +158,19 @@ class ProductServiceTest {
     void findAllTest() {
         Product product = new Product();
         product.setIdentifier("Admin");
-
         ProductDto productDto = new ProductDto();
         productDto.setIdentifier("Admin");
-
         List<Product> products = List.of(product);
         List<ProductDto> productDtos = List.of(productDto);
-
-        Mockito.when(productRepository.findAll()).thenReturn(products);
+        Page<Product> productPage =
+                new PageImpl<>(products, PageRequest.of(0, 2), products.size());
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Mockito.when(productRepository.findAll(pageable)).thenReturn(productPage);
         Mockito.when(modelMapper.map(
                 Mockito.eq(products),
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(productDtos);
-
-        List<ProductDto> response = productService.findAll();
-
+        List<ProductDto> response = productService.findAll(pageable);
         Assertions.assertEquals(1, response.size());
     }
 

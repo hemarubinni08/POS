@@ -14,10 +14,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -189,21 +191,19 @@ class NodeServiceTest {
     void findAllTest() {
         Node node = new Node();
         node.setIdentifier("Admin");
-
         NodeDto nodeDto = new NodeDto();
         nodeDto.setIdentifier("Admin");
-
         List<Node> nodes = List.of(node);
         List<NodeDto> nodeDtos = List.of(nodeDto);
-
-        Mockito.when(nodeRepository.findAll()).thenReturn(nodes);
+        Page<Node> nodePage =
+                new PageImpl<>(nodes, PageRequest.of(0, 2), nodes.size());
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Mockito.when(nodeRepository.findAll(pageable)).thenReturn(nodePage);
         Mockito.when(modelMapper.map(
                 Mockito.eq(nodes),
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(nodeDtos);
-
-        List<NodeDto> response = nodeService.findAll();
-
+        List<NodeDto> response = nodeService.findAll(pageable);
         Assertions.assertEquals(1, response.size());
     }
 

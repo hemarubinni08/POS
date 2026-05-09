@@ -12,11 +12,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-<span class="fc" id="L19">class RacksServiceTest {</span>
+<span class="fc" id="L21">class RacksServiceTest {</span>
     @Mock
     private RacksRepository racksRepository;
 
@@ -30,175 +32,180 @@ import java.util.List;
 
     @Test
     void saveTest() {
-<span class="fc" id="L33">        RacksDto racksDto = new RacksDto();</span>
-<span class="fc" id="L34">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L35">        RacksDto racksDto = new RacksDto();</span>
+<span class="fc" id="L36">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
 
 
-<span class="fc" id="L37">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
-<span class="fc" id="L38">        Racks racks=new Racks();</span>
-<span class="fc" id="L39">        Mockito.when(modelMapper.map(racksDto, Racks.class)).thenReturn(racks);</span>
-<span class="fc" id="L40">        Mockito.when(racksRepository.save(racks)).thenReturn(racks);</span>
+<span class="fc" id="L39">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc" id="L40">        Racks racks=new Racks();</span>
+<span class="fc" id="L41">        Mockito.when(modelMapper.map(racksDto, Racks.class)).thenReturn(racks);</span>
+<span class="fc" id="L42">        Mockito.when(racksRepository.save(racks)).thenReturn(racks);</span>
 
-<span class="fc" id="L42">        RacksDto response = racksService.save(racksDto);</span>
+<span class="fc" id="L44">        RacksDto response = racksService.save(racksDto);</span>
 
-<span class="fc" id="L44">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
-<span class="fc" id="L45">        Assertions.assertTrue(response.isSuccess());</span>
-<span class="fc" id="L46">    }</span>
+<span class="fc" id="L46">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L47">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L48">    }</span>
 
     @Test
     void saveTestFailure() {
-<span class="fc" id="L50">        RacksDto racksDto = new RacksDto();</span>
-<span class="fc" id="L51">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L52">        RacksDto racksDto = new RacksDto();</span>
+<span class="fc" id="L53">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
 
 
-<span class="fc" id="L54">        Racks existingRacks = new Racks();</span>
-<span class="fc" id="L55">        existingRacks.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L56">        Racks existingRacks = new Racks();</span>
+<span class="fc" id="L57">        existingRacks.setIdentifier(&quot;Admin&quot;);</span>
 
 
-<span class="fc" id="L58">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L59">                .thenReturn(existingRacks);</span>
+<span class="fc" id="L60">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L61">                .thenReturn(existingRacks);</span>
 
-<span class="fc" id="L61">        RacksDto response = racksService.save(racksDto);</span>
+<span class="fc" id="L63">        RacksDto response = racksService.save(racksDto);</span>
 
-<span class="fc" id="L63">        Assertions.assertFalse(response.isSuccess());</span>
-<span class="fc" id="L64">    }</span>
+<span class="fc" id="L65">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L66">    }</span>
 
     /* ===================== FIND BY IDENTIFIER ===================== */
 
     @Test
     void findByIdentifierTest() {
-<span class="fc" id="L70">        Racks racks = new Racks();</span>
-<span class="fc" id="L71">        racks.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L72">        Racks racks = new Racks();</span>
+<span class="fc" id="L73">        racks.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L73">        RacksDto racksDto = new RacksDto();</span>
-<span class="fc" id="L74">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L75">        RacksDto racksDto = new RacksDto();</span>
+<span class="fc" id="L76">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L76">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(racks);</span>
-<span class="fc" id="L77">        Mockito.when(modelMapper.map(racks, RacksDto.class)).thenReturn(racksDto);</span>
+<span class="fc" id="L78">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(racks);</span>
+<span class="fc" id="L79">        Mockito.when(modelMapper.map(racks, RacksDto.class)).thenReturn(racksDto);</span>
 
-<span class="fc" id="L79">        RacksDto response = racksService.findByIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L81">        RacksDto response = racksService.findByIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L81">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
-<span class="fc" id="L82">    }</span>
+<span class="fc" id="L83">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L84">    }</span>
 
     /* ===================== UPDATE ===================== */
 
     @Test
     void updateTest() {
-<span class="fc" id="L88">        RacksDto racksDto = new RacksDto();</span>
-<span class="fc" id="L89">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L90">        RacksDto racksDto = new RacksDto();</span>
+<span class="fc" id="L91">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L91">        Racks existingRacks = new Racks();</span>
-<span class="fc" id="L92">        existingRacks.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L93">        Racks existingRacks = new Racks();</span>
+<span class="fc" id="L94">        existingRacks.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L94">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L95">                .thenReturn(existingRacks);</span>
-<span class="fc" id="L96">        Mockito.when(racksRepository.save(existingRacks))</span>
+<span class="fc" id="L96">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;))</span>
 <span class="fc" id="L97">                .thenReturn(existingRacks);</span>
+<span class="fc" id="L98">        Mockito.when(racksRepository.save(existingRacks))</span>
+<span class="fc" id="L99">                .thenReturn(existingRacks);</span>
 
-<span class="fc" id="L99">        RacksDto response = racksService.update(racksDto);</span>
+<span class="fc" id="L101">        RacksDto response = racksService.update(racksDto);</span>
 
-<span class="fc" id="L101">        Assertions.assertTrue(response.isSuccess());</span>
-<span class="fc" id="L102">    }</span>
+<span class="fc" id="L103">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L104">    }</span>
 
     @Test
     void updateTestFailure() {
-<span class="fc" id="L106">        RacksDto racksDto = new RacksDto();</span>
-<span class="fc" id="L107">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L108">        RacksDto racksDto = new RacksDto();</span>
+<span class="fc" id="L109">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L109">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L110">                .thenReturn(null);</span>
+<span class="fc" id="L111">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L112">                .thenReturn(null);</span>
 
-<span class="fc" id="L112">        RacksDto response = racksService.update(racksDto);</span>
+<span class="fc" id="L114">        RacksDto response = racksService.update(racksDto);</span>
 
-<span class="fc" id="L114">        Assertions.assertFalse(response.isSuccess());</span>
-<span class="fc" id="L115">    }</span>
+<span class="fc" id="L116">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L117">    }</span>
 
     /* ===================== DELETE ===================== */
 
     @Test
     void deleteTest() {
-<span class="fc" id="L121">        Mockito.doNothing().when(racksRepository)</span>
-<span class="fc" id="L122">                .deleteByIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L123">        Mockito.doNothing().when(racksRepository)</span>
+<span class="fc" id="L124">                .deleteByIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L124">        boolean response = racksService.delete(&quot;Admin&quot;);</span>
+<span class="fc" id="L126">        boolean response = racksService.delete(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L126">        Assertions.assertEquals(true, response);</span>
+<span class="fc" id="L128">        Assertions.assertEquals(true, response);</span>
 
 
-<span class="fc" id="L129">    }</span>
+<span class="fc" id="L131">    }</span>
 
     /* ===================== FIND ALL ===================== */
 
     @Test
     void findAllTest() {
-<span class="fc" id="L135">        Racks racks = new Racks();</span>
-<span class="fc" id="L136">        racks.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L137">        Racks racks = new Racks();</span>
+<span class="fc" id="L138">        racks.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L138">        RacksDto racksDto = new RacksDto();</span>
-<span class="fc" id="L139">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L140">        RacksDto racksDto = new RacksDto();</span>
+<span class="fc" id="L141">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L141">        List&lt;Racks&gt; rackss = List.of(racks);</span>
-<span class="fc" id="L142">        List&lt;RacksDto&gt; racksDtos = List.of(racksDto);</span>
+<span class="fc" id="L143">        List&lt;Racks&gt; rackss = List.of(racks);</span>
+<span class="fc" id="L144">        List&lt;RacksDto&gt; racksDtos = List.of(racksDto);</span>
 
-<span class="fc" id="L144">        Mockito.when(racksRepository.findAll()).thenReturn(rackss);</span>
-<span class="fc" id="L145">        Mockito.when(modelMapper.map(</span>
-<span class="fc" id="L146">                Mockito.eq(rackss),</span>
-<span class="fc" id="L147">                Mockito.any(java.lang.reflect.Type.class)</span>
-<span class="fc" id="L148">        )).thenReturn(racksDtos);</span>
+<span class="fc" id="L146">        Page&lt;Racks&gt; racksPage =</span>
+<span class="fc" id="L147">                new PageImpl&lt;&gt;(rackss, PageRequest.of(0, 2), rackss.size());</span>
 
-<span class="fc" id="L150">        List&lt;RacksDto&gt; response = racksService.findAll();</span>
+<span class="fc" id="L149">        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList&lt;&gt;()));</span>
 
-<span class="fc" id="L152">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L153">    }</span>
+<span class="fc" id="L151">        Mockito.when(racksRepository.findAll(pageable)).thenReturn(racksPage);</span>
+<span class="fc" id="L152">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L153">                Mockito.eq(rackss),</span>
+<span class="fc" id="L154">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L155">        )).thenReturn(racksDtos);</span>
+
+<span class="fc" id="L157">        List&lt;RacksDto&gt; response = racksService.findAll(pageable);</span>
+
+<span class="fc" id="L159">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L160">    }</span>
 
     @Test
     void findByStatusTest(){
-<span class="fc" id="L157">        Racks racks = new Racks();</span>
-<span class="fc" id="L158">        racks.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L159">        RacksDto racksDto = new RacksDto();</span>
-<span class="fc" id="L160">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L164">        Racks racks = new Racks();</span>
+<span class="fc" id="L165">        racks.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L166">        RacksDto racksDto = new RacksDto();</span>
+<span class="fc" id="L167">        racksDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L162">        List&lt;Racks&gt; rackss = List.of(racks);</span>
-<span class="fc" id="L163">        List&lt;RacksDto&gt; racksDtos = List.of(racksDto);</span>
+<span class="fc" id="L169">        List&lt;Racks&gt; rackss = List.of(racks);</span>
+<span class="fc" id="L170">        List&lt;RacksDto&gt; racksDtos = List.of(racksDto);</span>
 
-<span class="fc" id="L165">        Mockito.when(racksRepository.findByStatusIsTrue()).thenReturn(rackss);</span>
-<span class="fc" id="L166">        Mockito.when(modelMapper.map(</span>
-<span class="fc" id="L167">                Mockito.eq(rackss),</span>
-<span class="fc" id="L168">                Mockito.any(java.lang.reflect.Type.class)</span>
-<span class="fc" id="L169">        )).thenReturn(racksDtos);</span>
+<span class="fc" id="L172">        Mockito.when(racksRepository.findByStatusIsTrue()).thenReturn(rackss);</span>
+<span class="fc" id="L173">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L174">                Mockito.eq(rackss),</span>
+<span class="fc" id="L175">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L176">        )).thenReturn(racksDtos);</span>
 
-<span class="fc" id="L171">        List&lt;RacksDto&gt; response = racksService.findIfTrue();</span>
+<span class="fc" id="L178">        List&lt;RacksDto&gt; response = racksService.findIfTrue();</span>
 
-<span class="fc" id="L173">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L174">    }</span>
+<span class="fc" id="L180">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L181">    }</span>
 
     @Test
     void toggleTestActive(){
 
-<span class="fc" id="L179">        Racks racks = new Racks();</span>
-<span class="fc" id="L180">        racks.setStatus(false);</span>
-<span class="fc" id="L181">        RacksDto racksDto = new RacksDto();</span>
-<span class="fc" id="L182">        racksDto.setStatus(true);</span>
-<span class="fc" id="L183">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(racks);</span>
-<span class="fc" id="L184">        Mockito.when(modelMapper.map(racks,RacksDto.class)).thenReturn(racksDto);</span>
-<span class="fc" id="L185">        RacksDto response = racksService.toggleStatus(&quot;Admin&quot;);</span>
-<span class="fc" id="L186">        Assertions.assertTrue(response.isStatus());</span>
+<span class="fc" id="L186">        Racks racks = new Racks();</span>
+<span class="fc" id="L187">        racks.setStatus(false);</span>
+<span class="fc" id="L188">        RacksDto racksDto = new RacksDto();</span>
+<span class="fc" id="L189">        racksDto.setStatus(true);</span>
+<span class="fc" id="L190">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(racks);</span>
+<span class="fc" id="L191">        Mockito.when(modelMapper.map(racks,RacksDto.class)).thenReturn(racksDto);</span>
+<span class="fc" id="L192">        RacksDto response = racksService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L193">        Assertions.assertTrue(response.isStatus());</span>
 
-<span class="fc" id="L188">    }</span>
+<span class="fc" id="L195">    }</span>
 
     @Test
     void toggleTestInactive(){
 
-<span class="fc" id="L193">        Racks racks = new Racks();</span>
-<span class="fc" id="L194">        racks.setStatus(true);</span>
-<span class="fc" id="L195">        RacksDto racksDto = new RacksDto();</span>
-<span class="fc" id="L196">        racksDto.setStatus(false);</span>
-<span class="fc" id="L197">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(racks);</span>
-<span class="fc" id="L198">        Mockito.when(modelMapper.map(racks,RacksDto.class)).thenReturn(racksDto);</span>
-<span class="fc" id="L199">        RacksDto response = racksService.toggleStatus(&quot;Admin&quot;);</span>
-<span class="fc" id="L200">        Assertions.assertFalse(response.isStatus());</span>
+<span class="fc" id="L200">        Racks racks = new Racks();</span>
+<span class="fc" id="L201">        racks.setStatus(true);</span>
+<span class="fc" id="L202">        RacksDto racksDto = new RacksDto();</span>
+<span class="fc" id="L203">        racksDto.setStatus(false);</span>
+<span class="fc" id="L204">        Mockito.when(racksRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(racks);</span>
+<span class="fc" id="L205">        Mockito.when(modelMapper.map(racks,RacksDto.class)).thenReturn(racksDto);</span>
+<span class="fc" id="L206">        RacksDto response = racksService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L207">        Assertions.assertFalse(response.isStatus());</span>
 
-<span class="fc" id="L202">    }</span>
+<span class="fc" id="L209">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

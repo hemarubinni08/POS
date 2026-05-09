@@ -1,6 +1,8 @@
 package com.ust.pos.models;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.ModelsDto;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.models.service.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,14 +11,15 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/models")
-public class ModelsController {
+public class ModelsController extends BaseController {
     public static final String REDIRECT_MODELS_LIST = "redirect:/models/list";
     @Autowired
     private ModelsService modelsService;
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("modelss", modelsService.findAll(null));
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute("modelss", modelsService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "models/list";
     }
 

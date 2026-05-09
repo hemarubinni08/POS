@@ -4,9 +4,12 @@ import com.ust.pos.address.service.AddressService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.model.Address;
 import com.ust.pos.model.AddressRepository;
+import com.ust.pos.model.Brand;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -69,10 +72,11 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<AddressDto> findAll() {
+    public List<AddressDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<AddressDto>>() {
         }.getType();
-        return modelMapper.map(addressRepository.findAll(), listType);
+        Page<Address> addressPage=addressRepository.findAll(pageable);
+        return modelMapper.map(addressPage.getContent(), listType);
     }
 
 }

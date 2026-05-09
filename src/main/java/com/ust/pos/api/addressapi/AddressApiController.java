@@ -1,22 +1,26 @@
 package com.ust.pos.api.addressapi;
 
 import com.ust.pos.address.service.AddressService;
+import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.AddressDto;
+import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/address")
-public class AddressApiController {
+public class AddressApiController extends BaseController {
 
     @Autowired
     private AddressService addressService;
 
     @GetMapping("/list")
-    public List<AddressDto> home() {
-        return addressService.findAll();
+    public List<AddressDto> home(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        return addressService.findAll(pageable);
     }
 
     @PostMapping("/add")

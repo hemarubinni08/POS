@@ -12,11 +12,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-<span class="fc" id="L19">class PriceServiceTest {</span>
+<span class="fc" id="L21">class PriceServiceTest {</span>
     @Mock
     private PriceRepository priceRepository;
 
@@ -30,175 +32,180 @@ import java.util.List;
 
     @Test
     void saveTest() {
-<span class="fc" id="L33">        PriceDto priceDto = new PriceDto();</span>
-<span class="fc" id="L34">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L35">        PriceDto priceDto = new PriceDto();</span>
+<span class="fc" id="L36">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
 
 
-<span class="fc" id="L37">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
-<span class="fc" id="L38">        Price price=new Price();</span>
-<span class="fc" id="L39">        Mockito.when(modelMapper.map(priceDto, Price.class)).thenReturn(price);</span>
-<span class="fc" id="L40">        Mockito.when(priceRepository.save(price)).thenReturn(price);</span>
+<span class="fc" id="L39">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc" id="L40">        Price price=new Price();</span>
+<span class="fc" id="L41">        Mockito.when(modelMapper.map(priceDto, Price.class)).thenReturn(price);</span>
+<span class="fc" id="L42">        Mockito.when(priceRepository.save(price)).thenReturn(price);</span>
 
-<span class="fc" id="L42">        PriceDto response = priceService.save(priceDto);</span>
+<span class="fc" id="L44">        PriceDto response = priceService.save(priceDto);</span>
 
-<span class="fc" id="L44">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
-<span class="fc" id="L45">        Assertions.assertTrue(response.isSuccess());</span>
-<span class="fc" id="L46">    }</span>
+<span class="fc" id="L46">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L47">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L48">    }</span>
 
     @Test
     void saveTestFailure() {
-<span class="fc" id="L50">        PriceDto priceDto = new PriceDto();</span>
-<span class="fc" id="L51">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L52">        PriceDto priceDto = new PriceDto();</span>
+<span class="fc" id="L53">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
 
 
-<span class="fc" id="L54">        Price existingPrice = new Price();</span>
-<span class="fc" id="L55">        existingPrice.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L56">        Price existingPrice = new Price();</span>
+<span class="fc" id="L57">        existingPrice.setIdentifier(&quot;Admin&quot;);</span>
 
 
-<span class="fc" id="L58">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L59">                .thenReturn(existingPrice);</span>
+<span class="fc" id="L60">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L61">                .thenReturn(existingPrice);</span>
 
-<span class="fc" id="L61">        PriceDto response = priceService.save(priceDto);</span>
+<span class="fc" id="L63">        PriceDto response = priceService.save(priceDto);</span>
 
-<span class="fc" id="L63">        Assertions.assertFalse(response.isSuccess());</span>
-<span class="fc" id="L64">    }</span>
+<span class="fc" id="L65">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L66">    }</span>
 
     /* ===================== FIND BY IDENTIFIER ===================== */
 
     @Test
     void findByIdentifierTest() {
-<span class="fc" id="L70">        Price price = new Price();</span>
-<span class="fc" id="L71">        price.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L72">        Price price = new Price();</span>
+<span class="fc" id="L73">        price.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L73">        PriceDto priceDto = new PriceDto();</span>
-<span class="fc" id="L74">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L75">        PriceDto priceDto = new PriceDto();</span>
+<span class="fc" id="L76">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L76">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(price);</span>
-<span class="fc" id="L77">        Mockito.when(modelMapper.map(price, PriceDto.class)).thenReturn(priceDto);</span>
+<span class="fc" id="L78">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(price);</span>
+<span class="fc" id="L79">        Mockito.when(modelMapper.map(price, PriceDto.class)).thenReturn(priceDto);</span>
 
-<span class="fc" id="L79">        PriceDto response = priceService.findByIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L81">        PriceDto response = priceService.findByIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L81">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
-<span class="fc" id="L82">    }</span>
+<span class="fc" id="L83">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L84">    }</span>
 
     /* ===================== UPDATE ===================== */
 
     @Test
     void updateTest() {
-<span class="fc" id="L88">        PriceDto priceDto = new PriceDto();</span>
-<span class="fc" id="L89">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L90">        PriceDto priceDto = new PriceDto();</span>
+<span class="fc" id="L91">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L91">        Price existingPrice = new Price();</span>
-<span class="fc" id="L92">        existingPrice.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L93">        Price existingPrice = new Price();</span>
+<span class="fc" id="L94">        existingPrice.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L94">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L95">                .thenReturn(existingPrice);</span>
-<span class="fc" id="L96">        Mockito.when(priceRepository.save(existingPrice))</span>
+<span class="fc" id="L96">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;))</span>
 <span class="fc" id="L97">                .thenReturn(existingPrice);</span>
+<span class="fc" id="L98">        Mockito.when(priceRepository.save(existingPrice))</span>
+<span class="fc" id="L99">                .thenReturn(existingPrice);</span>
 
-<span class="fc" id="L99">        PriceDto response = priceService.update(priceDto);</span>
+<span class="fc" id="L101">        PriceDto response = priceService.update(priceDto);</span>
 
-<span class="fc" id="L101">        Assertions.assertTrue(response.isSuccess());</span>
-<span class="fc" id="L102">    }</span>
+<span class="fc" id="L103">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L104">    }</span>
 
     @Test
     void updateTestFailure() {
-<span class="fc" id="L106">        PriceDto priceDto = new PriceDto();</span>
-<span class="fc" id="L107">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L108">        PriceDto priceDto = new PriceDto();</span>
+<span class="fc" id="L109">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L109">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L110">                .thenReturn(null);</span>
+<span class="fc" id="L111">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L112">                .thenReturn(null);</span>
 
-<span class="fc" id="L112">        PriceDto response = priceService.update(priceDto);</span>
+<span class="fc" id="L114">        PriceDto response = priceService.update(priceDto);</span>
 
-<span class="fc" id="L114">        Assertions.assertFalse(response.isSuccess());</span>
-<span class="fc" id="L115">    }</span>
+<span class="fc" id="L116">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L117">    }</span>
 
     /* ===================== DELETE ===================== */
 
     @Test
     void deleteTest() {
-<span class="fc" id="L121">        Mockito.doNothing().when(priceRepository)</span>
-<span class="fc" id="L122">                .deleteByIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L123">        Mockito.doNothing().when(priceRepository)</span>
+<span class="fc" id="L124">                .deleteByIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L124">        boolean response = priceService.delete(&quot;Admin&quot;);</span>
+<span class="fc" id="L126">        boolean response = priceService.delete(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L126">        Assertions.assertEquals(true, response);</span>
+<span class="fc" id="L128">        Assertions.assertEquals(true, response);</span>
 
 
-<span class="fc" id="L129">    }</span>
+<span class="fc" id="L131">    }</span>
 
     /* ===================== FIND ALL ===================== */
 
     @Test
     void findAllTest() {
-<span class="fc" id="L135">        Price price = new Price();</span>
-<span class="fc" id="L136">        price.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L137">        Price price = new Price();</span>
+<span class="fc" id="L138">        price.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L138">        PriceDto priceDto = new PriceDto();</span>
-<span class="fc" id="L139">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L140">        PriceDto priceDto = new PriceDto();</span>
+<span class="fc" id="L141">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L141">        List&lt;Price&gt; prices = List.of(price);</span>
-<span class="fc" id="L142">        List&lt;PriceDto&gt; priceDtos = List.of(priceDto);</span>
+<span class="fc" id="L143">        List&lt;Price&gt; prices = List.of(price);</span>
+<span class="fc" id="L144">        List&lt;PriceDto&gt; priceDtos = List.of(priceDto);</span>
 
-<span class="fc" id="L144">        Mockito.when(priceRepository.findAll()).thenReturn(prices);</span>
-<span class="fc" id="L145">        Mockito.when(modelMapper.map(</span>
-<span class="fc" id="L146">                Mockito.eq(prices),</span>
-<span class="fc" id="L147">                Mockito.any(java.lang.reflect.Type.class)</span>
-<span class="fc" id="L148">        )).thenReturn(priceDtos);</span>
+<span class="fc" id="L146">        Page&lt;Price&gt; pricePage =</span>
+<span class="fc" id="L147">                new PageImpl&lt;&gt;(prices, PageRequest.of(0, 2), prices.size());</span>
 
-<span class="fc" id="L150">        List&lt;PriceDto&gt; response = priceService.findAll();</span>
+<span class="fc" id="L149">        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList&lt;&gt;()));</span>
 
-<span class="fc" id="L152">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L153">    }</span>
+<span class="fc" id="L151">        Mockito.when(priceRepository.findAll(pageable)).thenReturn(pricePage);</span>
+<span class="fc" id="L152">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L153">                Mockito.eq(prices),</span>
+<span class="fc" id="L154">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L155">        )).thenReturn(priceDtos);</span>
+
+<span class="fc" id="L157">        List&lt;PriceDto&gt; response = priceService.findAll(pageable);</span>
+
+<span class="fc" id="L159">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L160">    }</span>
 
     @Test
     void findByStatusTest(){
-<span class="fc" id="L157">        Price price = new Price();</span>
-<span class="fc" id="L158">        price.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L159">        PriceDto priceDto = new PriceDto();</span>
-<span class="fc" id="L160">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L164">        Price price = new Price();</span>
+<span class="fc" id="L165">        price.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L166">        PriceDto priceDto = new PriceDto();</span>
+<span class="fc" id="L167">        priceDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L162">        List&lt;Price&gt; prices = List.of(price);</span>
-<span class="fc" id="L163">        List&lt;PriceDto&gt; priceDtos = List.of(priceDto);</span>
+<span class="fc" id="L169">        List&lt;Price&gt; prices = List.of(price);</span>
+<span class="fc" id="L170">        List&lt;PriceDto&gt; priceDtos = List.of(priceDto);</span>
 
-<span class="fc" id="L165">        Mockito.when(priceRepository.findByStatusIsTrue()).thenReturn(prices);</span>
-<span class="fc" id="L166">        Mockito.when(modelMapper.map(</span>
-<span class="fc" id="L167">                Mockito.eq(prices),</span>
-<span class="fc" id="L168">                Mockito.any(java.lang.reflect.Type.class)</span>
-<span class="fc" id="L169">        )).thenReturn(priceDtos);</span>
+<span class="fc" id="L172">        Mockito.when(priceRepository.findByStatusIsTrue()).thenReturn(prices);</span>
+<span class="fc" id="L173">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L174">                Mockito.eq(prices),</span>
+<span class="fc" id="L175">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L176">        )).thenReturn(priceDtos);</span>
 
-<span class="fc" id="L171">        List&lt;PriceDto&gt; response = priceService.findIfTrue();</span>
+<span class="fc" id="L178">        List&lt;PriceDto&gt; response = priceService.findIfTrue();</span>
 
-<span class="fc" id="L173">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L174">    }</span>
+<span class="fc" id="L180">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L181">    }</span>
 
     @Test
     void toggleTestActive(){
 
-<span class="fc" id="L179">        Price price = new Price();</span>
-<span class="fc" id="L180">        price.setStatus(false);</span>
-<span class="fc" id="L181">        PriceDto priceDto = new PriceDto();</span>
-<span class="fc" id="L182">        priceDto.setStatus(true);</span>
-<span class="fc" id="L183">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(price);</span>
-<span class="fc" id="L184">        Mockito.when(modelMapper.map(price,PriceDto.class)).thenReturn(priceDto);</span>
-<span class="fc" id="L185">        PriceDto response = priceService.toggleStatus(&quot;Admin&quot;);</span>
-<span class="fc" id="L186">        Assertions.assertTrue(response.isStatus());</span>
+<span class="fc" id="L186">        Price price = new Price();</span>
+<span class="fc" id="L187">        price.setStatus(false);</span>
+<span class="fc" id="L188">        PriceDto priceDto = new PriceDto();</span>
+<span class="fc" id="L189">        priceDto.setStatus(true);</span>
+<span class="fc" id="L190">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(price);</span>
+<span class="fc" id="L191">        Mockito.when(modelMapper.map(price,PriceDto.class)).thenReturn(priceDto);</span>
+<span class="fc" id="L192">        PriceDto response = priceService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L193">        Assertions.assertTrue(response.isStatus());</span>
 
-<span class="fc" id="L188">    }</span>
+<span class="fc" id="L195">    }</span>
 
     @Test
     void toggleTestInactive(){
 
-<span class="fc" id="L193">        Price price = new Price();</span>
-<span class="fc" id="L194">        price.setStatus(true);</span>
-<span class="fc" id="L195">        PriceDto priceDto = new PriceDto();</span>
-<span class="fc" id="L196">        priceDto.setStatus(false);</span>
-<span class="fc" id="L197">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(price);</span>
-<span class="fc" id="L198">        Mockito.when(modelMapper.map(price,PriceDto.class)).thenReturn(priceDto);</span>
-<span class="fc" id="L199">        PriceDto response = priceService.toggleStatus(&quot;Admin&quot;);</span>
-<span class="fc" id="L200">        Assertions.assertFalse(response.isStatus());</span>
+<span class="fc" id="L200">        Price price = new Price();</span>
+<span class="fc" id="L201">        price.setStatus(true);</span>
+<span class="fc" id="L202">        PriceDto priceDto = new PriceDto();</span>
+<span class="fc" id="L203">        priceDto.setStatus(false);</span>
+<span class="fc" id="L204">        Mockito.when(priceRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(price);</span>
+<span class="fc" id="L205">        Mockito.when(modelMapper.map(price,PriceDto.class)).thenReturn(priceDto);</span>
+<span class="fc" id="L206">        PriceDto response = priceService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L207">        Assertions.assertFalse(response.isStatus());</span>
 
-<span class="fc" id="L202">    }</span>
+<span class="fc" id="L209">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

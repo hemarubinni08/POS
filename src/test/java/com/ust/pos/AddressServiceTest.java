@@ -11,7 +11,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @ExtendWith(MockitoExtension.class)
 class AddressServiceTest {
@@ -140,13 +142,17 @@ class AddressServiceTest {
         List<Address> addresss = List.of(address);
         List<AddressDto> addressDtos = List.of(addressDto);
 
-        Mockito.when(addressRepository.findAll()).thenReturn(addresss);
+        Page<Address> addressPage =
+                new PageImpl<>(addresss, PageRequest.of(0, 2), addresss.size());
+
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Mockito.when(addressRepository.findAll(pageable)).thenReturn(addressPage);
         Mockito.when(modelMapper.map(
                 Mockito.eq(addresss),
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(addressDtos);
 
-        List<AddressDto> response = addressService.findAll();
+        List<AddressDto> response = addressService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }

@@ -1,5 +1,7 @@
 package com.ust.pos.stocks;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StocksDto;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.warehouse.service.WareHouseService;
@@ -12,7 +14,7 @@ import com.ust.pos.stocks.service.StocksService;
 
 @Controller
 @RequestMapping("/stocks")
-public class    StocksController {
+public class StocksController extends BaseController {
     public static final String REDIRECT_STOCKS_LIST = "redirect:/stocks/list";
     public static final String STOCKS = "stocks";
     public static final String PRODUCTS = "products";
@@ -28,24 +30,27 @@ public class    StocksController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute(STOCKS, stocksService.findAll(null));
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute(STOCKS, stocksService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "stocks/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute StocksDto stocksDto) {
+        PaginationDto paginationDto = new PaginationDto();
         model.addAttribute(PRODUCTS,productService.findIfTrue());
-        model.addAttribute(WAREHOUSE,warehouseService.findAll(null));
+        model.addAttribute(WAREHOUSE,warehouseService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "stocks/add";
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute StocksDto stocksDto) {
         StocksDto response = stocksService.save(stocksDto);
+        PaginationDto paginationDto = new PaginationDto();
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute(PRODUCTS,productService.findAll(null));
-            model.addAttribute(WAREHOUSE,warehouseService.findAll(null));
+            model.addAttribute(PRODUCTS,productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+            model.addAttribute(WAREHOUSE,warehouseService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
             return "stocks/add";
         }
         return REDIRECT_STOCKS_LIST;
@@ -54,8 +59,9 @@ public class    StocksController {
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         StocksDto response = stocksService.findByIdentifier(identifier);
-        model.addAttribute(PRODUCTS,productService.findAll(null));
-        model.addAttribute(WAREHOUSE,warehouseService.findAll(null));
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute(PRODUCTS,productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+        model.addAttribute(WAREHOUSE,warehouseService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         model.addAttribute(STOCKS, response);
         return "stocks/stocks";
     }
@@ -63,11 +69,12 @@ public class    StocksController {
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute StocksDto stocksDto) {
         StocksDto response = stocksService.update(stocksDto);
+        PaginationDto paginationDto = new PaginationDto();
         if (!response.isSuccess()) {
             model.addAttribute(STOCKS, response);
             model.addAttribute("message", response.getMessage());
-            model.addAttribute(PRODUCTS,productService.findAll(null));
-            model.addAttribute(WAREHOUSE,warehouseService.findAll(null));
+            model.addAttribute(PRODUCTS,productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+            model.addAttribute(WAREHOUSE,warehouseService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
             return "stocks/stocks";
         }
         return REDIRECT_STOCKS_LIST;

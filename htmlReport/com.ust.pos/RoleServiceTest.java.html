@@ -12,11 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-<span class="fc" id="L19">class</span>
+<span class="fc" id="L21">class</span>
 RoleServiceTest {
 
     @Mock
@@ -32,176 +34,181 @@ RoleServiceTest {
 
     @Test
     void saveTest() {
-<span class="fc" id="L35">        RoleDto roleDto = new RoleDto();</span>
-<span class="fc" id="L36">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L37">        RoleDto roleDto = new RoleDto();</span>
+<span class="fc" id="L38">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
 
 
-<span class="fc" id="L39">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
-<span class="fc" id="L40">        Role role=new Role();</span>
-<span class="fc" id="L41">        Mockito.when(modelMapper.map(roleDto, Role.class)).thenReturn(role);</span>
-<span class="fc" id="L42">        Mockito.when(roleRepository.save(role)).thenReturn(role);</span>
+<span class="fc" id="L41">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc" id="L42">        Role role=new Role();</span>
+<span class="fc" id="L43">        Mockito.when(modelMapper.map(roleDto, Role.class)).thenReturn(role);</span>
+<span class="fc" id="L44">        Mockito.when(roleRepository.save(role)).thenReturn(role);</span>
 
-<span class="fc" id="L44">        RoleDto response = roleService.save(roleDto);</span>
+<span class="fc" id="L46">        RoleDto response = roleService.save(roleDto);</span>
 
-<span class="fc" id="L46">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
-<span class="fc" id="L47">        Assertions.assertTrue(response.isSuccess());</span>
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L48">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L49">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L50">    }</span>
 
     @Test
     void saveTestFailure() {
-<span class="fc" id="L52">        RoleDto roleDto = new RoleDto();</span>
-<span class="fc" id="L53">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L54">        RoleDto roleDto = new RoleDto();</span>
+<span class="fc" id="L55">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
 
 
-<span class="fc" id="L56">        Role existingRole = new Role();</span>
-<span class="fc" id="L57">        existingRole.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L58">        Role existingRole = new Role();</span>
+<span class="fc" id="L59">        existingRole.setIdentifier(&quot;Admin&quot;);</span>
 
 
-<span class="fc" id="L60">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L61">                .thenReturn(existingRole);</span>
+<span class="fc" id="L62">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L63">                .thenReturn(existingRole);</span>
 
-<span class="fc" id="L63">        RoleDto response = roleService.save(roleDto);</span>
+<span class="fc" id="L65">        RoleDto response = roleService.save(roleDto);</span>
 
-<span class="fc" id="L65">        Assertions.assertFalse(response.isSuccess());</span>
-<span class="fc" id="L66">    }</span>
+<span class="fc" id="L67">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L68">    }</span>
 
     /* ===================== FIND BY IDENTIFIER ===================== */
 
     @Test
     void findByIdentifierTest() {
-<span class="fc" id="L72">        Role role = new Role();</span>
-<span class="fc" id="L73">        role.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L74">        Role role = new Role();</span>
+<span class="fc" id="L75">        role.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L75">        RoleDto roleDto = new RoleDto();</span>
-<span class="fc" id="L76">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L77">        RoleDto roleDto = new RoleDto();</span>
+<span class="fc" id="L78">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L78">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(role);</span>
-<span class="fc" id="L79">        Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(roleDto);</span>
+<span class="fc" id="L80">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(role);</span>
+<span class="fc" id="L81">        Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(roleDto);</span>
 
-<span class="fc" id="L81">        RoleDto response = roleService.findByIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L83">        RoleDto response = roleService.findByIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L83">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
-<span class="fc" id="L84">    }</span>
+<span class="fc" id="L85">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L86">    }</span>
 
     /* ===================== UPDATE ===================== */
 
     @Test
     void updateTest() {
-<span class="fc" id="L90">        RoleDto roleDto = new RoleDto();</span>
-<span class="fc" id="L91">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L92">        RoleDto roleDto = new RoleDto();</span>
+<span class="fc" id="L93">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L93">        Role existingRole = new Role();</span>
-<span class="fc" id="L94">        existingRole.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L95">        Role existingRole = new Role();</span>
+<span class="fc" id="L96">        existingRole.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L96">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L97">                .thenReturn(existingRole);</span>
-<span class="fc" id="L98">        Mockito.when(roleRepository.save(existingRole))</span>
+<span class="fc" id="L98">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;))</span>
 <span class="fc" id="L99">                .thenReturn(existingRole);</span>
+<span class="fc" id="L100">        Mockito.when(roleRepository.save(existingRole))</span>
+<span class="fc" id="L101">                .thenReturn(existingRole);</span>
 
-<span class="fc" id="L101">        RoleDto response = roleService.update(roleDto);</span>
+<span class="fc" id="L103">        RoleDto response = roleService.update(roleDto);</span>
 
-<span class="fc" id="L103">        Assertions.assertTrue(response.isSuccess());</span>
-<span class="fc" id="L104">    }</span>
+<span class="fc" id="L105">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L106">    }</span>
 
     @Test
     void updateTestFailure() {
-<span class="fc" id="L108">        RoleDto roleDto = new RoleDto();</span>
-<span class="fc" id="L109">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L110">        RoleDto roleDto = new RoleDto();</span>
+<span class="fc" id="L111">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L111">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L112">                .thenReturn(null);</span>
+<span class="fc" id="L113">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L114">                .thenReturn(null);</span>
 
-<span class="fc" id="L114">        RoleDto response = roleService.update(roleDto);</span>
+<span class="fc" id="L116">        RoleDto response = roleService.update(roleDto);</span>
 
-<span class="fc" id="L116">        Assertions.assertFalse(response.isSuccess());</span>
-<span class="fc" id="L117">    }</span>
+<span class="fc" id="L118">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L119">    }</span>
 
     /* ===================== DELETE ===================== */
 
     @Test
     void deleteTest() {
-<span class="fc" id="L123">        Mockito.doNothing().when(roleRepository)</span>
-<span class="fc" id="L124">                .deleteByIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L125">        Mockito.doNothing().when(roleRepository)</span>
+<span class="fc" id="L126">                .deleteByIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L126">        boolean response = roleService.delete(&quot;Admin&quot;);</span>
+<span class="fc" id="L128">        boolean response = roleService.delete(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L128">        Assertions.assertEquals(true, response);</span>
+<span class="fc" id="L130">        Assertions.assertEquals(true, response);</span>
 
 
-<span class="fc" id="L131">    }</span>
+<span class="fc" id="L133">    }</span>
 
     /* ===================== FIND ALL ===================== */
 
     @Test
     void findAllTest() {
-<span class="fc" id="L137">        Role role = new Role();</span>
-<span class="fc" id="L138">        role.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L139">        Role role = new Role();</span>
+<span class="fc" id="L140">        role.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L140">        RoleDto roleDto = new RoleDto();</span>
-<span class="fc" id="L141">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L142">        RoleDto roleDto = new RoleDto();</span>
+<span class="fc" id="L143">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L143">        List&lt;Role&gt; roles = List.of(role);</span>
-<span class="fc" id="L144">        List&lt;RoleDto&gt; roleDtos = List.of(roleDto);</span>
+<span class="fc" id="L145">        List&lt;Role&gt; roles = List.of(role);</span>
+<span class="fc" id="L146">        List&lt;RoleDto&gt; roleDtos = List.of(roleDto);</span>
 
-<span class="fc" id="L146">        Mockito.when(roleRepository.findAll()).thenReturn(roles);</span>
-<span class="fc" id="L147">        Mockito.when(modelMapper.map(</span>
-<span class="fc" id="L148">                Mockito.eq(roles),</span>
-<span class="fc" id="L149">                Mockito.any(java.lang.reflect.Type.class)</span>
-<span class="fc" id="L150">        )).thenReturn(roleDtos);</span>
+<span class="fc" id="L148">        Page&lt;Role&gt; rolePage =</span>
+<span class="fc" id="L149">                new PageImpl&lt;&gt;(roles, PageRequest.of(0, 2), roles.size());</span>
 
-<span class="fc" id="L152">        List&lt;RoleDto&gt; response = roleService.findAll();</span>
+<span class="fc" id="L151">        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList&lt;&gt;()));</span>
 
-<span class="fc" id="L154">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L155">    }</span>
+<span class="fc" id="L153">        Mockito.when(roleRepository.findAll(pageable)).thenReturn(rolePage);</span>
+<span class="fc" id="L154">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L155">                Mockito.eq(roles),</span>
+<span class="fc" id="L156">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L157">        )).thenReturn(roleDtos);</span>
+
+<span class="fc" id="L159">        List&lt;RoleDto&gt; response = roleService.findAll(pageable);</span>
+
+<span class="fc" id="L161">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L162">    }</span>
 
     @Test
     void findByStatusTest(){
-<span class="fc" id="L159">        Role role = new Role();</span>
-<span class="fc" id="L160">        role.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L161">        RoleDto roleDto = new RoleDto();</span>
-<span class="fc" id="L162">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L166">        Role role = new Role();</span>
+<span class="fc" id="L167">        role.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L168">        RoleDto roleDto = new RoleDto();</span>
+<span class="fc" id="L169">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L164">        List&lt;Role&gt; roles = List.of(role);</span>
-<span class="fc" id="L165">        List&lt;RoleDto&gt; roleDtos = List.of(roleDto);</span>
+<span class="fc" id="L171">        List&lt;Role&gt; roles = List.of(role);</span>
+<span class="fc" id="L172">        List&lt;RoleDto&gt; roleDtos = List.of(roleDto);</span>
 
-<span class="fc" id="L167">        Mockito.when(roleRepository.findByStatusIsTrue()).thenReturn(roles);</span>
-<span class="fc" id="L168">        Mockito.when(modelMapper.map(</span>
-<span class="fc" id="L169">                Mockito.eq(roles),</span>
-<span class="fc" id="L170">                Mockito.any(java.lang.reflect.Type.class)</span>
-<span class="fc" id="L171">        )).thenReturn(roleDtos);</span>
+<span class="fc" id="L174">        Mockito.when(roleRepository.findByStatusIsTrue()).thenReturn(roles);</span>
+<span class="fc" id="L175">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L176">                Mockito.eq(roles),</span>
+<span class="fc" id="L177">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L178">        )).thenReturn(roleDtos);</span>
 
-<span class="fc" id="L173">        List&lt;RoleDto&gt; response = roleService.findIfTrue();</span>
+<span class="fc" id="L180">        List&lt;RoleDto&gt; response = roleService.findIfTrue();</span>
 
-<span class="fc" id="L175">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L176">    }</span>
+<span class="fc" id="L182">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L183">    }</span>
 
     @Test
     void toggleTestActive(){
 
-<span class="fc" id="L181">        Role role = new Role();</span>
-<span class="fc" id="L182">        role.setStatus(false);</span>
-<span class="fc" id="L183">        RoleDto roleDto = new RoleDto();</span>
-<span class="fc" id="L184">        roleDto.setStatus(true);</span>
-<span class="fc" id="L185">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(role);</span>
-<span class="fc" id="L186">        Mockito.when(modelMapper.map(role,RoleDto.class)).thenReturn(roleDto);</span>
-<span class="fc" id="L187">        RoleDto response = roleService.toggleStatus(&quot;Admin&quot;);</span>
-<span class="fc" id="L188">        Assertions.assertTrue(response.isStatus());</span>
+<span class="fc" id="L188">        Role role = new Role();</span>
+<span class="fc" id="L189">        role.setStatus(false);</span>
+<span class="fc" id="L190">        RoleDto roleDto = new RoleDto();</span>
+<span class="fc" id="L191">        roleDto.setStatus(true);</span>
+<span class="fc" id="L192">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(role);</span>
+<span class="fc" id="L193">        Mockito.when(modelMapper.map(role,RoleDto.class)).thenReturn(roleDto);</span>
+<span class="fc" id="L194">        RoleDto response = roleService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L195">        Assertions.assertTrue(response.isStatus());</span>
 
-<span class="fc" id="L190">    }</span>
+<span class="fc" id="L197">    }</span>
 
     @Test
     void toggleTestInactive(){
 
-<span class="fc" id="L195">        Role role = new Role();</span>
-<span class="fc" id="L196">        role.setStatus(true);</span>
-<span class="fc" id="L197">        RoleDto roleDto = new RoleDto();</span>
-<span class="fc" id="L198">        roleDto.setStatus(false);</span>
-<span class="fc" id="L199">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(role);</span>
-<span class="fc" id="L200">        Mockito.when(modelMapper.map(role,RoleDto.class)).thenReturn(roleDto);</span>
-<span class="fc" id="L201">        RoleDto response = roleService.toggleStatus(&quot;Admin&quot;);</span>
-<span class="fc" id="L202">        Assertions.assertFalse(response.isStatus());</span>
+<span class="fc" id="L202">        Role role = new Role();</span>
+<span class="fc" id="L203">        role.setStatus(true);</span>
+<span class="fc" id="L204">        RoleDto roleDto = new RoleDto();</span>
+<span class="fc" id="L205">        roleDto.setStatus(false);</span>
+<span class="fc" id="L206">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(role);</span>
+<span class="fc" id="L207">        Mockito.when(modelMapper.map(role,RoleDto.class)).thenReturn(roleDto);</span>
+<span class="fc" id="L208">        RoleDto response = roleService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L209">        Assertions.assertFalse(response.isStatus());</span>
 
-<span class="fc" id="L204">    }</span>
+<span class="fc" id="L211">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

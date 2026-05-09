@@ -14,7 +14,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -147,13 +149,18 @@ class StocksServiceTest {
         List<Stocks> stockss = List.of(stocks);
         List<StocksDto> stocksDtos = List.of(stocksDto);
 
-        Mockito.when(stocksRepository.findAll()).thenReturn(stockss);
+        Page<Stocks> stocksPage =
+                new PageImpl<>(stockss, PageRequest.of(0, 2), stockss.size());
+
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+
+        Mockito.when(stocksRepository.findAll(pageable)).thenReturn(stocksPage);
         Mockito.when(modelMapper.map(
                 Mockito.eq(stockss),
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(stocksDtos);
 
-        List<StocksDto> response = stocksService.findAll();
+        List<StocksDto> response = stocksService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }

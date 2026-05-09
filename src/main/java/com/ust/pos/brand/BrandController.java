@@ -1,7 +1,9 @@
 package com.ust.pos.brand;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.brand.service.BrandService;
+import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,14 +11,15 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/brand")
-public class BrandController {
+public class BrandController extends BaseController {
     public static final String REDIRECT_BRAND_LIST = "redirect:/brand/list";
     @Autowired
     private BrandService brandService;
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("brands", brandService.findAll(null));
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute("brands", brandService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "brand/list";
     }
 

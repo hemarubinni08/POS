@@ -1,7 +1,6 @@
 package com.ust.pos.user.service.impl;
 
 import com.ust.pos.dto.UserDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;

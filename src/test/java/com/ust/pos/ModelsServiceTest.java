@@ -12,7 +12,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @ExtendWith(MockitoExtension.class)
 class ModelsServiceTest {
@@ -133,21 +135,19 @@ class ModelsServiceTest {
     void findAllTest() {
         Models models = new Models();
         models.setIdentifier("Admin");
-
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("Admin");
-
         List<Models> modelss = List.of(models);
         List<ModelsDto> modelsDtos = List.of(modelsDto);
-
-        Mockito.when(modelsRepository.findAll()).thenReturn(modelss);
+        Page<Models> modelsPage =
+                new PageImpl<>(modelss, PageRequest.of(0, 2), modelss.size());
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Mockito.when(modelsRepository.findAll(pageable)).thenReturn(modelsPage);
         Mockito.when(modelMapper.map(
                 Mockito.eq(modelss),
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(modelsDtos);
-
-        List<ModelsDto> response = modelsService.findAll();
-
+        List<ModelsDto> response = modelsService.findAll(pageable);
         Assertions.assertEquals(1, response.size());
     }
 

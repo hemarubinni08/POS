@@ -12,7 +12,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @ExtendWith(MockitoExtension.class)
 class WarehouseServiceTest {
@@ -140,15 +142,15 @@ class WarehouseServiceTest {
 
         List<WareHouse> wareHouses = List.of(wareHouse);
         List<WareHouseDto> wareHouseDtos = List.of(wareHouseDto);
-
-        Mockito.when(wareHouseRepository.findAll()).thenReturn(wareHouses);
+        Page<WareHouse> wareHousePage =
+                new PageImpl<>(wareHouses, PageRequest.of(0, 2), wareHouses.size());
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Mockito.when(wareHouseRepository.findAll(pageable)).thenReturn(wareHousePage);
         Mockito.when(modelMapper.map(
                 Mockito.eq(wareHouses),
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(wareHouseDtos);
-
-        List<WareHouseDto> response = wareHouseService.findAll();
-
+        List<WareHouseDto> response = wareHouseService.findAll(pageable);
         Assertions.assertEquals(1, response.size());
     }
 

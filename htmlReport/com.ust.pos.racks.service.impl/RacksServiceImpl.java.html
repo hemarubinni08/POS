@@ -7,13 +7,15 @@ import com.ust.pos.racks.service.RacksService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-<span class="fc" id="L16">public class RacksServiceImpl implements RacksService {</span>
+<span class="fc" id="L18">public class RacksServiceImpl implements RacksService {</span>
     @Autowired
     private RacksRepository racksRepository;
 
@@ -22,63 +24,65 @@ import java.util.List;
 
     @Override
     public RacksDto findByIdentifier(String identifier) {
-<span class="fc" id="L25">        return modelMapper.map(racksRepository.findByIdentifier(identifier), RacksDto.class);</span>
+<span class="fc" id="L27">        return modelMapper.map(racksRepository.findByIdentifier(identifier), RacksDto.class);</span>
     }
 
     @Override
     public RacksDto toggleStatus(String identifier) {
-<span class="fc" id="L30">        Racks racks=racksRepository.findByIdentifier(identifier);</span>
-<span class="fc bfc" id="L31" title="All 2 branches covered.">        racks.setStatus(!racks.isStatus());</span>
-<span class="fc" id="L32">        racksRepository.save(racks);</span>
-<span class="fc" id="L33">        return   modelMapper.map(racks, RacksDto.class);</span>
+<span class="fc" id="L32">        Racks racks=racksRepository.findByIdentifier(identifier);</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        racks.setStatus(!racks.isStatus());</span>
+<span class="fc" id="L34">        racksRepository.save(racks);</span>
+<span class="fc" id="L35">        return   modelMapper.map(racks, RacksDto.class);</span>
     }
 
     @Override
     public RacksDto save(RacksDto racksDto) {
-<span class="fc" id="L38">        racksDto.setIdentifier(racksDto.getIdentifier().trim());</span>
-<span class="fc" id="L39">        String identifier = racksDto.getIdentifier();</span>
-<span class="fc" id="L40">        Racks existingRacks = racksRepository.findByIdentifier(identifier);</span>
-<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (existingRacks != null) {</span>
-<span class="fc" id="L42">            racksDto.setMessage(&quot;Racks with identifier - &quot; + identifier + &quot; already exists&quot;);</span>
-<span class="fc" id="L43">            racksDto.setSuccess(false);</span>
-<span class="fc" id="L44">            return racksDto;</span>
+<span class="fc" id="L40">        racksDto.setIdentifier(racksDto.getIdentifier().trim());</span>
+<span class="fc" id="L41">        String identifier = racksDto.getIdentifier();</span>
+<span class="fc" id="L42">        Racks existingRacks = racksRepository.findByIdentifier(identifier);</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (existingRacks != null) {</span>
+<span class="fc" id="L44">            racksDto.setMessage(&quot;Racks with identifier - &quot; + identifier + &quot; already exists&quot;);</span>
+<span class="fc" id="L45">            racksDto.setSuccess(false);</span>
+<span class="fc" id="L46">            return racksDto;</span>
         }
-<span class="fc" id="L46">        Racks racks = modelMapper.map(racksDto, Racks.class);</span>
-<span class="fc" id="L47">        racksRepository.save(racks);</span>
-<span class="fc" id="L48">        return racksDto;</span>
+<span class="fc" id="L48">        Racks racks = modelMapper.map(racksDto, Racks.class);</span>
+<span class="fc" id="L49">        racksRepository.save(racks);</span>
+<span class="fc" id="L50">        return racksDto;</span>
     }
 
     @Override
     public RacksDto update(RacksDto racksDto) {
-<span class="fc" id="L53">        String identifier = racksDto.getIdentifier();</span>
-<span class="fc" id="L54">        Racks existingRacks = racksRepository.findByIdentifier(identifier);</span>
-<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (existingRacks == null) {</span>
-<span class="fc" id="L56">            racksDto.setMessage(&quot;Racks with identifier - &quot; + identifier + &quot; not found&quot;);</span>
-<span class="fc" id="L57">            racksDto.setSuccess(false);</span>
-<span class="fc" id="L58">            return racksDto;</span>
+<span class="fc" id="L55">        String identifier = racksDto.getIdentifier();</span>
+<span class="fc" id="L56">        Racks existingRacks = racksRepository.findByIdentifier(identifier);</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (existingRacks == null) {</span>
+<span class="fc" id="L58">            racksDto.setMessage(&quot;Racks with identifier - &quot; + identifier + &quot; not found&quot;);</span>
+<span class="fc" id="L59">            racksDto.setSuccess(false);</span>
+<span class="fc" id="L60">            return racksDto;</span>
         }
-<span class="fc" id="L60">        modelMapper.map(racksDto, existingRacks);</span>
-<span class="fc" id="L61">        racksRepository.save(existingRacks);</span>
-<span class="fc" id="L62">        return racksDto;</span>
+<span class="fc" id="L62">        modelMapper.map(racksDto, existingRacks);</span>
+<span class="fc" id="L63">        racksRepository.save(existingRacks);</span>
+<span class="fc" id="L64">        return racksDto;</span>
     }
 
     @Override
     public boolean delete(String identifier) {
-<span class="fc" id="L67">        racksRepository.deleteByIdentifier(identifier);</span>
-<span class="fc" id="L68">        return true;</span>
+<span class="fc" id="L69">        racksRepository.deleteByIdentifier(identifier);</span>
+<span class="fc" id="L70">        return true;</span>
     }
 
     @Override
-    public List&lt;RacksDto&gt; findAll() {
-<span class="fc" id="L73">        Type listType = new TypeToken&lt;List&lt;RacksDto&gt;&gt;() {</span>
-<span class="fc" id="L74">        }.getType();</span>
-<span class="fc" id="L75">        return modelMapper.map(racksRepository.findAll(), listType);</span>
+    public List&lt;RacksDto&gt; findAll(Pageable pageable) {
+<span class="fc" id="L75">        Type listType = new TypeToken&lt;List&lt;RacksDto&gt;&gt;() {</span>
+<span class="fc" id="L76">        }.getType();</span>
+<span class="fc" id="L77">        Page&lt;Racks&gt; racksPage=racksRepository.findAll(pageable);</span>
+<span class="fc" id="L78">        return modelMapper.map(racksPage.getContent(), listType);</span>
     }
+
     @Override
     public List&lt;RacksDto&gt; findIfTrue() {
-<span class="fc" id="L79">        Type listType = new TypeToken&lt;List&lt;RacksDto&gt;&gt;(){</span>
-<span class="fc" id="L80">        }.getType();</span>
-<span class="fc" id="L81">        return modelMapper.map(racksRepository.findByStatusIsTrue(), listType);</span>
+<span class="fc" id="L83">        Type listType = new TypeToken&lt;List&lt;RacksDto&gt;&gt;(){</span>
+<span class="fc" id="L84">        }.getType();</span>
+<span class="fc" id="L85">        return modelMapper.map(racksRepository.findByStatusIsTrue(), listType);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

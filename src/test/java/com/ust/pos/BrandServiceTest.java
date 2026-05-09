@@ -1,5 +1,6 @@
 package com.ust.pos;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
@@ -12,11 +13,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-class BrandServiceTest {
+class BrandServiceTest extends BaseController {
 
     @Mock
     private BrandRepository brandRepository;
@@ -141,17 +144,16 @@ class BrandServiceTest {
         List<Brand> brands = List.of(brand);
         List<BrandDto> brandDtos = List.of(brandDto);
 
-        Mockito.when(brandRepository.findAll()).thenReturn(brands);
-        Mockito.when(modelMapper.map(
-                Mockito.eq(brands),
-                Mockito.any(java.lang.reflect.Type.class)
-        )).thenReturn(brandDtos);
+        Page<Brand> brandPage = new PageImpl<>(brands, PageRequest.of(0, 2), brands.size());
 
-        List<BrandDto> response = brandService.findAll();
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Mockito.when(brandRepository.findAll(pageable)).thenReturn(brandPage);
+        Mockito.when(modelMapper.map(Mockito.eq(brands), Mockito.any(java.lang.reflect.Type.class))).thenReturn(brandDtos);
+
+        List<BrandDto> response = brandService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }
-
     @Test
     void findByStatusTest(){
         Brand brand = new Brand();

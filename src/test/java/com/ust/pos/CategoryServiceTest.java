@@ -13,6 +13,10 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -125,10 +129,17 @@ class CategoryServiceTest {
         Category category = new Category();
         category.setIdentifier("Admin");
 
-        Mockito.when(categoryRepository.findAll())
-                .thenReturn(List.of(category));
+        List<Category> categories = List.of(category);
 
-        List<CategoryDto> response = categoryService.findAll();
+        Page<Category> categoryPage =
+                new PageImpl<>(categories, PageRequest.of(0, 2), categories.size());
+
+        Pageable pageable = PageRequest.of(0, 50);
+
+        Mockito.when(categoryRepository.findAll(pageable))
+                .thenReturn(categoryPage);
+
+        List<CategoryDto> response = categoryService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }

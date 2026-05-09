@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 <span class="nc" id="L35">        UserDto response = userService.save(userDto);</span>
 <span class="nc bnc" id="L36" title="All 2 branches missed.">        if (!response.isSuccess()) {</span>
 <span class="nc" id="L37">            model.addAttribute(&quot;message&quot;, response.getMessage());</span>
-<span class="nc" id="L38">            model.addAttribute(&quot;roles&quot;, roleService.findAll());</span>
+<span class="nc" id="L38">            model.addAttribute(&quot;roles&quot;, roleService.findAll(null));</span>
 <span class="nc" id="L39">            return &quot;register&quot;;</span>
         }
 <span class="nc" id="L41">        return &quot;login&quot;;</span>

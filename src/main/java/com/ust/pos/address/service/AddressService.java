@@ -1,6 +1,7 @@
 package com.ust.pos.address.service;
 
 import com.ust.pos.dto.AddressDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface AddressService {
 
     boolean delete(String identifier);
 
-    List<AddressDto> findAll();
+    List<AddressDto> findAll(Pageable pageable);
 
     AddressDto findByIdentifier(String identifier);
 

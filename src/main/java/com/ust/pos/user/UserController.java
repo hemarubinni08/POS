@@ -1,5 +1,7 @@
 package com.ust.pos.user;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
@@ -11,7 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -21,25 +23,28 @@ public class UserController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("users", userService.findAll(null));
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute("users", userService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "user/list";
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String username) {
         UserDto response = userService.findByUserName(username);
+        PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("user", response);
-        model.addAttribute("roles", roleService.findAll(null));
+        model.addAttribute("roles", roleService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "user/user";
     }
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute UserDto userDto) {
         UserDto response = userService.update(userDto);
+        PaginationDto paginationDto = new PaginationDto();
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("user", userDto);
-            model.addAttribute("roles", roleService.findAll(null));
+            model.addAttribute("roles", roleService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
             return "user/user";
         }
         return "redirect:/user/list";
@@ -48,9 +53,10 @@ public class UserController {
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username, RedirectAttributes redirectAttributes) {
         UserDto userDto = userService.delete(username);
+        PaginationDto paginationDto = new PaginationDto();
         if (!userDto.isSuccess()) {
             model.addAttribute("message", userDto.getMessage());
-            model.addAttribute("users", userService.findAll(null));
+            model.addAttribute("users", userService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
             return "user/list";
         }
         return "redirect:/user/list";

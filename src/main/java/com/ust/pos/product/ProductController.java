@@ -1,7 +1,9 @@
 package com.ust.pos.product;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.category.service.CategoryService;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.models.service.ModelsService;
 import com.ust.pos.product.service.ProductService;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/product")
-public class ProductController {
+public class ProductController extends BaseController{
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
     public static final String CATEGORIES = "categories";
     public static final String BRAND = "brand";
@@ -31,7 +33,8 @@ public class ProductController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("products", productService.findAll(null));
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute("products", productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "product/list";
     }
 
