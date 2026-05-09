@@ -12,7 +12,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 
@@ -95,17 +99,26 @@ class RackServiceTest {
     }
 
     @Test
-    void getAllRacksTest() {
+    void findAllTest() {
         Rack rack = new Rack();
         rack.setIdentifier("R1");
 
         RackDto dto = new RackDto();
         dto.setIdentifier("R1");
 
-        Mockito.when(rackRepository.findAll()).thenReturn(List.of(rack));
-        Mockito.when(modelMapper.map(rack, RackDto.class)).thenReturn(dto);
+        List<Rack> racks = List.of(rack);
+        List<RackDto> dtos = List.of(dto);
 
-        List<RackDto> response = rackService.getAllRacks();
+        Page<Rack> rackPage = new PageImpl<>(racks);
+
+        Mockito.when(rackRepository.findAll(Mockito.any(Pageable.class))).thenReturn(rackPage);
+
+        Mockito.when(modelMapper.map(
+                Mockito.eq(racks),
+                Mockito.any(Type.class))
+        ).thenReturn(dtos);
+
+        List<RackDto> response = rackService.findAll(Pageable.unpaged());
 
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("R1", response.get(0).getIdentifier());
