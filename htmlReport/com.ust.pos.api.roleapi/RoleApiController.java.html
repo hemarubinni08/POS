@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoleApiController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos (1) Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos.api.roleapi</a> &gt; <span class="el_source">RoleApiController.java</span></div><h1>RoleApiController.java</h1><pre class="source lang-java linenums">package com.ust.pos.api.roleapi;
+
+import com.ust.pos.dto.RoleDto;
+import com.ust.pos.role.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/api/role&quot;)
+<span class="fc" id="L12">public class RoleApiController {</span>
+
+    @Autowired
+    private RoleService roleService;
+
+    @GetMapping(&quot;/list&quot;)
+    public List&lt;RoleDto&gt; home() {
+
+<span class="nc" id="L20">        return roleService.findAll();</span>
+    }
+
+    @PostMapping(&quot;/add&quot;)
+    public RoleDto addPost(@RequestBody RoleDto roleDto) {
+<span class="nc" id="L25">        return roleService.save(roleDto);</span>
+
+    }
+
+    @GetMapping(&quot;/get&quot;)
+    public RoleDto update(@RequestParam String identifier) {
+<span class="nc" id="L31">        return roleService.findByIdentifier(identifier);</span>
+
+    }
+
+    @PostMapping(&quot;/update&quot;)
+    public RoleDto updatePost(@RequestBody RoleDto roleDto) {
+<span class="nc" id="L37">        return  roleService.update(roleDto);</span>
+
+    }
+
+    @GetMapping(&quot;/delete&quot;)
+    public boolean delete(@RequestParam String identifier) {
+<span class="nc" id="L43">        try{  roleService.delete(identifier);}</span>
+<span class="nc" id="L44">        catch(Exception e){</span>
+<span class="nc" id="L45">            return false;</span>
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">        return true;</span>
+    }
+
+    @PostMapping(&quot;/toggle-status&quot;)
+    public RoleDto toggle(@RequestParam String identifier){
+
+<span class="nc" id="L53">        return roleService.toggleStatus(identifier);</span>
+    }
+
+
+    @GetMapping(&quot;/findByStatus&quot;)
+    public List&lt;RoleDto&gt; findByStatus() {
+
+<span class="nc" id="L60">        return roleService.findIfTrue();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

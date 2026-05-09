@@ -1,9 +1,12 @@
 package com.ust.pos.api.userapi;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserApiController {
+public class UserApiController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -20,8 +23,9 @@ public class UserApiController {
     private RoleService roleService;
 
     @GetMapping("/list")
-    public List<UserDto> home(Model model) {
-        return  userService.findAll();
+    public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        return userService.findAll(pageable);
     }
 
     @GetMapping("/get")

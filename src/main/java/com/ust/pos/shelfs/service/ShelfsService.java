@@ -1,6 +1,7 @@
 package com.ust.pos.shelfs.service;
 
 import com.ust.pos.dto.ShelfsDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface ShelfsService {
 
     boolean delete(String identifier);
 
-    List<ShelfsDto> findAll();
+    List<ShelfsDto> findAll(Pageable pageable);
 
     ShelfsDto findByIdentifier(String identifier);
 

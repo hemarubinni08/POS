@@ -1,10 +1,13 @@
 package com.ust.pos.api.stocksapi;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StocksDto;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stocks.service.StocksService;
 import com.ust.pos.warehouse.service.WareHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/stocks")
-public class StocksApiController {
+public class StocksApiController extends BaseController {
     @Autowired
     private StocksService stocksService;
 
@@ -24,8 +27,9 @@ public class StocksApiController {
     private WareHouseService wareHouseService;
 
     @GetMapping("/list")
-    public List<StocksDto> home(Model model) {
-        return stocksService.findAll();
+    public List<StocksDto> home(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        return stocksService.findAll(pageable);
     }
 
     @PostMapping("/add")

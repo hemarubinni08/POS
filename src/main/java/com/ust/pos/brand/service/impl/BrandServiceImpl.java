@@ -7,6 +7,8 @@ import com.ust.pos.model.BrandRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -69,10 +71,11 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public List<BrandDto> findAll() {
+    public List<BrandDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
-        return modelMapper.map(brandRepository.findAll(), listType);
+        Page<Brand> brandPage=brandRepository.findAll(pageable);
+        return modelMapper.map(brandPage.getContent(), listType);
     }
 
     @Override

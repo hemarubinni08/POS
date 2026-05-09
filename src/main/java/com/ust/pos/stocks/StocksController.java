@@ -28,14 +28,14 @@ public class    StocksController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute(STOCKS, stocksService.findAll());
+        model.addAttribute(STOCKS, stocksService.findAll(null));
         return "stocks/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute StocksDto stocksDto) {
         model.addAttribute(PRODUCTS,productService.findIfTrue());
-        model.addAttribute(WAREHOUSE,warehouseService.findAll());
+        model.addAttribute(WAREHOUSE,warehouseService.findAll(null));
         return "stocks/add";
     }
 
@@ -44,8 +44,8 @@ public class    StocksController {
         StocksDto response = stocksService.save(stocksDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute(PRODUCTS,productService.findAll());
-            model.addAttribute(WAREHOUSE,warehouseService.findAll());
+            model.addAttribute(PRODUCTS,productService.findAll(null));
+            model.addAttribute(WAREHOUSE,warehouseService.findAll(null));
             return "stocks/add";
         }
         return REDIRECT_STOCKS_LIST;
@@ -54,8 +54,8 @@ public class    StocksController {
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         StocksDto response = stocksService.findByIdentifier(identifier);
-        model.addAttribute(PRODUCTS,productService.findAll());
-        model.addAttribute(WAREHOUSE,warehouseService.findAll());
+        model.addAttribute(PRODUCTS,productService.findAll(null));
+        model.addAttribute(WAREHOUSE,warehouseService.findAll(null));
         model.addAttribute(STOCKS, response);
         return "stocks/stocks";
     }
@@ -66,8 +66,8 @@ public class    StocksController {
         if (!response.isSuccess()) {
             model.addAttribute(STOCKS, response);
             model.addAttribute("message", response.getMessage());
-            model.addAttribute(PRODUCTS,productService.findAll());
-            model.addAttribute(WAREHOUSE,warehouseService.findAll());
+            model.addAttribute(PRODUCTS,productService.findAll(null));
+            model.addAttribute(WAREHOUSE,warehouseService.findAll(null));
             return "stocks/stocks";
         }
         return REDIRECT_STOCKS_LIST;

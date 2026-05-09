@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductServiceTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos</a> &gt; <span class="el_source">ProductServiceTest.java</span></div><h1>ProductServiceTest.java</h1><pre class="source lang-java linenums">package com.ust.pos;
+
+import com.ust.pos.dto.ProductDto;
+import com.ust.pos.model.Product;
+import com.ust.pos.model.ProductRepository;
+import com.ust.pos.product.service.impl.ProductServiceImpl;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+
+import java.util.List;
+
+@ExtendWith(MockitoExtension.class)
+<span class="fc" id="L19">class ProductServiceTest {</span>
+    @Mock
+    private ProductRepository productRepository;
+
+    @Mock
+    private ModelMapper modelMapper;
+
+    @InjectMocks
+    private ProductServiceImpl productService;
+
+    /* ===================== SAVE ===================== */
+
+    @Test
+    void saveTest() {
+<span class="fc" id="L33">        ProductDto productDto = new ProductDto();</span>
+<span class="fc" id="L34">        productDto.setIdentifier(&quot;Admin&quot;);</span>
+
+
+<span class="fc" id="L37">        Mockito.when(productRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc" id="L38">        Product product=new Product();</span>
+<span class="fc" id="L39">        Mockito.when(modelMapper.map(productDto, Product.class)).thenReturn(product);</span>
+<span class="fc" id="L40">        Mockito.when(productRepository.save(product)).thenReturn(product);</span>
+
+<span class="fc" id="L42">        ProductDto response = productService.save(productDto);</span>
+
+<span class="fc" id="L44">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L45">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L46">    }</span>
+
+    @Test
+    void saveTestFailure() {
+<span class="fc" id="L50">        ProductDto productDto = new ProductDto();</span>
+<span class="fc" id="L51">        productDto.setIdentifier(&quot;Admin&quot;);</span>
+
+
+<span class="fc" id="L54">        Product existingProduct = new Product();</span>
+<span class="fc" id="L55">        existingProduct.setIdentifier(&quot;Admin&quot;);</span>
+
+
+<span class="fc" id="L58">        Mockito.when(productRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L59">                .thenReturn(existingProduct);</span>
+
+<span class="fc" id="L61">        ProductDto response = productService.save(productDto);</span>
+
+<span class="fc" id="L63">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L64">    }</span>
+
+
+    @Test
+    void saveTestFailure2() {
+<span class="fc" id="L69">        ProductDto productDto = new ProductDto();</span>
+<span class="fc" id="L70">        productDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L71">        productDto.setSkuCode(123L);</span>
+
+
+
+<span class="fc" id="L75">        Product existingProduct = new Product();</span>
+<span class="fc" id="L76">        existingProduct.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L77">        existingProduct.setSkuCode(123L);</span>
+
+
+<span class="fc" id="L80">        Mockito.when(productRepository.findBySkuCode(123L))</span>
+<span class="fc" id="L81">                .thenReturn(existingProduct);</span>
+
+<span class="fc" id="L83">        ProductDto response = productService.save(productDto);</span>
+
+<span class="fc" id="L85">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L86">    }</span>
+
+    /* ===================== FIND BY IDENTIFIER ===================== */
+
+    @Test
+    void findByIdentifierTest() {
+<span class="fc" id="L92">        Product product = new Product();</span>
+<span class="fc" id="L93">        product.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L95">        ProductDto productDto = new ProductDto();</span>
+<span class="fc" id="L96">        productDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L98">        Mockito.when(productRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(product);</span>
+<span class="fc" id="L99">        Mockito.when(modelMapper.map(product, ProductDto.class)).thenReturn(productDto);</span>
+
+<span class="fc" id="L101">        ProductDto response = productService.findByIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L103">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L104">    }</span>
+
+    /* ===================== UPDATE ===================== */
+
+    @Test
+    void updateTest() {
+<span class="fc" id="L110">        ProductDto productDto = new ProductDto();</span>
+<span class="fc" id="L111">        productDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L113">        Product existingProduct = new Product();</span>
+<span class="fc" id="L114">        existingProduct.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L116">        Mockito.when(productRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L117">                .thenReturn(existingProduct);</span>
+<span class="fc" id="L118">        Mockito.when(productRepository.save(existingProduct))</span>
+<span class="fc" id="L119">                .thenReturn(existingProduct);</span>
+
+<span class="fc" id="L121">        ProductDto response = productService.update(productDto);</span>
+
+<span class="fc" id="L123">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L124">    }</span>
+
+    @Test
+    void updateTestFailure() {
+<span class="fc" id="L128">        ProductDto productDto = new ProductDto();</span>
+<span class="fc" id="L129">        productDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L131">        Mockito.when(productRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L132">                .thenReturn(null);</span>
+
+<span class="fc" id="L134">        ProductDto response = productService.update(productDto);</span>
+
+<span class="fc" id="L136">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L137">    }</span>
+
+    /* ===================== DELETE ===================== */
+
+    @Test
+    void deleteTest() {
+<span class="fc" id="L143">        Mockito.doNothing().when(productRepository)</span>
+<span class="fc" id="L144">                .deleteByIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L146">        boolean response = productService.delete(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L148">        Assertions.assertEquals(true, response);</span>
+
+
+<span class="fc" id="L151">    }</span>
+
+    /* ===================== FIND ALL ===================== */
+
+    @Test
+    void findAllTest() {
+<span class="fc" id="L157">        Product product = new Product();</span>
+<span class="fc" id="L158">        product.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L160">        ProductDto productDto = new ProductDto();</span>
+<span class="fc" id="L161">        productDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L163">        List&lt;Product&gt; products = List.of(product);</span>
+<span class="fc" id="L164">        List&lt;ProductDto&gt; productDtos = List.of(productDto);</span>
+
+<span class="fc" id="L166">        Mockito.when(productRepository.findAll()).thenReturn(products);</span>
+<span class="fc" id="L167">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L168">                Mockito.eq(products),</span>
+<span class="fc" id="L169">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L170">        )).thenReturn(productDtos);</span>
+
+<span class="fc" id="L172">        List&lt;ProductDto&gt; response = productService.findAll();</span>
+
+<span class="fc" id="L174">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L175">    }</span>
+
+    @Test
+    void findByStatusTest(){
+<span class="fc" id="L179">        Product product = new Product();</span>
+<span class="fc" id="L180">        product.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L181">        ProductDto productDto = new ProductDto();</span>
+<span class="fc" id="L182">        productDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L184">        List&lt;Product&gt; products = List.of(product);</span>
+<span class="fc" id="L185">        List&lt;ProductDto&gt; productDtos = List.of(productDto);</span>
+
+<span class="fc" id="L187">        Mockito.when(productRepository.findByStatusIsTrue()).thenReturn(products);</span>
+<span class="fc" id="L188">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L189">                Mockito.eq(products),</span>
+<span class="fc" id="L190">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L191">        )).thenReturn(productDtos);</span>
+
+<span class="fc" id="L193">        List&lt;ProductDto&gt; response = productService.findIfTrue();</span>
+
+<span class="fc" id="L195">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L196">    }</span>
+
+    @Test
+    void toggleTestActive(){
+
+<span class="fc" id="L201">        Product product = new Product();</span>
+<span class="fc" id="L202">        product.setStatus(false);</span>
+<span class="fc" id="L203">        ProductDto productDto = new ProductDto();</span>
+<span class="fc" id="L204">        productDto.setStatus(true);</span>
+<span class="fc" id="L205">        Mockito.when(productRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(product);</span>
+<span class="fc" id="L206">        Mockito.when(modelMapper.map(product,ProductDto.class)).thenReturn(productDto);</span>
+<span class="fc" id="L207">        ProductDto response = productService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L208">        Assertions.assertTrue(response.isStatus());</span>
+
+<span class="fc" id="L210">    }</span>
+
+    @Test
+    void toggleTestInactive(){
+
+<span class="fc" id="L215">        Product product = new Product();</span>
+<span class="fc" id="L216">        product.setStatus(true);</span>
+<span class="fc" id="L217">        ProductDto productDto = new ProductDto();</span>
+<span class="fc" id="L218">        productDto.setStatus(false);</span>
+<span class="fc" id="L219">        Mockito.when(productRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(product);</span>
+<span class="fc" id="L220">        Mockito.when(modelMapper.map(product,ProductDto.class)).thenReturn(productDto);</span>
+<span class="fc" id="L221">        ProductDto response = productService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L222">        Assertions.assertFalse(response.isStatus());</span>
+
+<span class="fc" id="L224">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

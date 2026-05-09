@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NodeServiceTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos</a> &gt; <span class="el_source">NodeServiceTest.java</span></div><h1>NodeServiceTest.java</h1><pre class="source lang-java linenums">package com.ust.pos;
+
+import com.ust.pos.dto.NodeDto;
+import com.ust.pos.model.Node;
+import com.ust.pos.model.NodeRepository;
+import com.ust.pos.model.User;
+import com.ust.pos.model.UserRepository;
+import com.ust.pos.node.service.impl.NodeServiceImpl;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.List;
+
+@ExtendWith(MockitoExtension.class)
+<span class="fc" id="L24">class NodeServiceTest {</span>
+    @Mock
+    private NodeRepository nodeRepository;
+
+    @Mock
+    private ModelMapper modelMapper;
+
+    @InjectMocks
+    private NodeServiceImpl nodeService;
+
+    @Mock
+    UserRepository userRepository;
+
+    /* ===================== SAVE ===================== */
+
+    @Test
+    void saveTest() {
+<span class="fc" id="L41">        NodeDto nodeDto = new NodeDto();</span>
+<span class="fc" id="L42">        nodeDto.setIdentifier(&quot;Admin&quot;);</span>
+
+
+<span class="fc" id="L45">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc" id="L46">        Node node=new Node();</span>
+<span class="fc" id="L47">        Mockito.when(modelMapper.map(nodeDto, Node.class)).thenReturn(node);</span>
+<span class="fc" id="L48">        Mockito.when(nodeRepository.save(node)).thenReturn(node);</span>
+
+<span class="fc" id="L50">        NodeDto response = nodeService.save(nodeDto);</span>
+
+<span class="fc" id="L52">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L53">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L54">    }</span>
+
+    @Test
+    void saveTestFailure() {
+<span class="fc" id="L58">        NodeDto nodeDto = new NodeDto();</span>
+<span class="fc" id="L59">        nodeDto.setIdentifier(&quot;Admin&quot;);</span>
+
+
+<span class="fc" id="L62">        Node existingNode = new Node();</span>
+<span class="fc" id="L63">        existingNode.setIdentifier(&quot;Admin&quot;);</span>
+
+
+<span class="fc" id="L66">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L67">                .thenReturn(existingNode);</span>
+
+<span class="fc" id="L69">        NodeDto response = nodeService.save(nodeDto);</span>
+
+<span class="fc" id="L71">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L72">    }</span>
+
+    /* ===================== FIND BY IDENTIFIER ===================== */
+
+    @Test
+    void findByIdentifierTest() {
+<span class="fc" id="L78">        Node node = new Node();</span>
+<span class="fc" id="L79">        node.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L81">        NodeDto nodeDto = new NodeDto();</span>
+<span class="fc" id="L82">        nodeDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L84">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(node);</span>
+<span class="fc" id="L85">        Mockito.when(modelMapper.map(node, NodeDto.class)).thenReturn(nodeDto);</span>
+
+<span class="fc" id="L87">        NodeDto response = nodeService.findByIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L89">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L90">    }</span>
+
+    @Test
+    void getNodesForRolesTest() {
+        // Mock security context
+<span class="fc" id="L95">        org.springframework.security.core.userdetails.User principal =</span>
+                new org.springframework.security.core.userdetails.User(
+<span class="fc" id="L97">                        &quot;admin@test.com&quot;, &quot;password&quot;, List.of());</span>
+
+<span class="fc" id="L99">        Authentication authentication = Mockito.mock(Authentication.class);</span>
+<span class="fc" id="L100">        Mockito.when(authentication.getPrincipal()).thenReturn(principal);</span>
+
+<span class="fc" id="L102">        SecurityContext securityContext = Mockito.mock(SecurityContext.class);</span>
+<span class="fc" id="L103">        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);</span>
+<span class="fc" id="L104">        SecurityContextHolder.setContext(securityContext);</span>
+
+        // Mock user with roles
+<span class="fc" id="L107">        User user = new User();</span>
+<span class="fc" id="L108">        user.setRoles(List.of(&quot;ADMIN&quot;));</span>
+<span class="fc" id="L109">        Mockito.when(userRepository.findByUsername(&quot;admin@test.com&quot;)).thenReturn(user);</span>
+
+        // Mock nodes
+<span class="fc" id="L112">        Node node = new Node();</span>
+<span class="fc" id="L113">        node.setIdentifier(&quot;dashboard&quot;);</span>
+<span class="fc" id="L114">        node.setRoles(List.of(&quot;ADMIN&quot;));</span>
+<span class="fc" id="L115">        Mockito.when(nodeRepository.findAll()).thenReturn(List.of(node));</span>
+
+        // Mock finding node by identifier
+<span class="fc" id="L118">        NodeDto nodeDto = new NodeDto();</span>
+<span class="fc" id="L119">        nodeDto.setIdentifier(&quot;dashboard&quot;);</span>
+<span class="fc" id="L120">        Mockito.when(nodeRepository.findByIdentifier(&quot;dashboard&quot;)).thenReturn(node);</span>
+<span class="fc" id="L121">        Mockito.when(modelMapper.map(node, NodeDto.class)).thenReturn(nodeDto);</span>
+
+<span class="fc" id="L123">        List&lt;NodeDto&gt; response = nodeService.getNodesForRoles();</span>
+
+<span class="fc" id="L125">        Assertions.assertNotNull(response);</span>
+<span class="fc" id="L126">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L127">    }</span>
+    @Test
+    void getNodesForRolesTest_NoAuth() {
+<span class="fc" id="L130">        SecurityContext securityContext = Mockito.mock(SecurityContext.class);</span>
+<span class="fc" id="L131">        Mockito.when(securityContext.getAuthentication()).thenReturn(null);</span>
+<span class="fc" id="L132">        SecurityContextHolder.setContext(securityContext);</span>
+
+<span class="fc" id="L134">        List&lt;NodeDto&gt; response = nodeService.getNodesForRoles();</span>
+
+<span class="fc" id="L136">        Assertions.assertTrue(response.isEmpty());</span>
+<span class="fc" id="L137">    }</span>
+
+    /* ===================== UPDATE ===================== */
+
+    @Test
+    void updateTest() {
+<span class="fc" id="L143">        NodeDto nodeDto = new NodeDto();</span>
+<span class="fc" id="L144">        nodeDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L146">        Node existingNode = new Node();</span>
+<span class="fc" id="L147">        existingNode.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L149">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L150">                .thenReturn(existingNode);</span>
+<span class="fc" id="L151">        Mockito.when(nodeRepository.save(existingNode))</span>
+<span class="fc" id="L152">                .thenReturn(existingNode);</span>
+
+<span class="fc" id="L154">        NodeDto response = nodeService.update(nodeDto);</span>
+
+<span class="fc" id="L156">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L157">    }</span>
+
+    @Test
+    void updateTestFailure() {
+<span class="fc" id="L161">        NodeDto nodeDto = new NodeDto();</span>
+<span class="fc" id="L162">        nodeDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L164">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L165">                .thenReturn(null);</span>
+
+<span class="fc" id="L167">        NodeDto response = nodeService.update(nodeDto);</span>
+
+<span class="fc" id="L169">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L170">    }</span>
+
+    /* ===================== DELETE ===================== */
+
+    @Test
+    void deleteTest() {
+<span class="fc" id="L176">        Mockito.doNothing().when(nodeRepository)</span>
+<span class="fc" id="L177">                .deleteByIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L179">        boolean response = nodeService.delete(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L181">        Assertions.assertEquals(true, response);</span>
+
+
+<span class="fc" id="L184">    }</span>
+
+    /* ===================== FIND ALL ===================== */
+
+    @Test
+    void findAllTest() {
+<span class="fc" id="L190">        Node node = new Node();</span>
+<span class="fc" id="L191">        node.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L193">        NodeDto nodeDto = new NodeDto();</span>
+<span class="fc" id="L194">        nodeDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L196">        List&lt;Node&gt; nodes = List.of(node);</span>
+<span class="fc" id="L197">        List&lt;NodeDto&gt; nodeDtos = List.of(nodeDto);</span>
+
+<span class="fc" id="L199">        Mockito.when(nodeRepository.findAll()).thenReturn(nodes);</span>
+<span class="fc" id="L200">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L201">                Mockito.eq(nodes),</span>
+<span class="fc" id="L202">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L203">        )).thenReturn(nodeDtos);</span>
+
+<span class="fc" id="L205">        List&lt;NodeDto&gt; response = nodeService.findAll();</span>
+
+<span class="fc" id="L207">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L208">    }</span>
+
+    @Test
+    void findByStatusTest(){
+<span class="fc" id="L212">        Node node = new Node();</span>
+<span class="fc" id="L213">        node.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L214">        NodeDto nodeDto = new NodeDto();</span>
+<span class="fc" id="L215">        nodeDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L217">        List&lt;Node&gt; nodes = List.of(node);</span>
+<span class="fc" id="L218">        List&lt;NodeDto&gt; nodeDtos = List.of(nodeDto);</span>
+
+<span class="fc" id="L220">        Mockito.when(nodeRepository.findByStatusIsTrue()).thenReturn(nodes);</span>
+<span class="fc" id="L221">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L222">                Mockito.eq(nodes),</span>
+<span class="fc" id="L223">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L224">        )).thenReturn(nodeDtos);</span>
+
+<span class="fc" id="L226">        List&lt;NodeDto&gt; response = nodeService.findIfTrue();</span>
+
+<span class="fc" id="L228">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L229">    }</span>
+
+    @Test
+    void toggleTestActive(){
+
+<span class="fc" id="L234">        Node node = new Node();</span>
+<span class="fc" id="L235">        node.setStatus(false);</span>
+<span class="fc" id="L236">        NodeDto nodeDto = new NodeDto();</span>
+<span class="fc" id="L237">        nodeDto.setStatus(true);</span>
+<span class="fc" id="L238">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(node);</span>
+<span class="fc" id="L239">        Mockito.when(modelMapper.map(node,NodeDto.class)).thenReturn(nodeDto);</span>
+<span class="fc" id="L240">        NodeDto response = nodeService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L241">        Assertions.assertTrue(response.isStatus());</span>
+
+<span class="fc" id="L243">    }</span>
+
+    @Test
+    void toggleTestInactive(){
+
+<span class="fc" id="L248">        Node node = new Node();</span>
+<span class="fc" id="L249">        node.setStatus(true);</span>
+<span class="fc" id="L250">        NodeDto nodeDto = new NodeDto();</span>
+<span class="fc" id="L251">        nodeDto.setStatus(false);</span>
+<span class="fc" id="L252">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(node);</span>
+<span class="fc" id="L253">        Mockito.when(modelMapper.map(node,NodeDto.class)).thenReturn(nodeDto);</span>
+<span class="fc" id="L254">        NodeDto response = nodeService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L255">        Assertions.assertFalse(response.isStatus());</span>
+
+<span class="fc" id="L257">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

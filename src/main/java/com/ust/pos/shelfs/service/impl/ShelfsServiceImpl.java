@@ -1,12 +1,15 @@
 package com.ust.pos.shelfs.service.impl;
 
 import com.ust.pos.dto.ShelfsDto;
+import com.ust.pos.model.Customer;
 import com.ust.pos.model.Shelfs;
 import com.ust.pos.model.ShelfsRepository;
 import com.ust.pos.shelfs.service.ShelfsService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -76,9 +79,10 @@ public class ShelfsServiceImpl implements ShelfsService {
     }
 
     @Override
-    public List<ShelfsDto> findAll() {
+    public List<ShelfsDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ShelfsDto>>() {
         }.getType();
-        return modelMapper.map(shelfsRepository.findAll(), listType);
+        Page<Shelfs> shelfsPage=shelfsRepository.findAll(pageable);
+        return modelMapper.map(shelfsPage.getContent(), listType);
     }
 }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TokenGenerationController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos (1) Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos.api</a> &gt; <span class="el_source">TokenGenerationController.java</span></div><h1>TokenGenerationController.java</h1><pre class="source lang-java linenums">package com.ust.pos.api;
+
+import com.ust.pos.config.JWTUtility;
+import com.ust.pos.dto.UserDto;
+import com.ust.pos.model.UserRepository;
+import com.ust.pos.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+<span class="fc" id="L18">public class TokenGenerationController {</span>
+
+    @Autowired
+    UserDetailsService userDetailsService;
+    @Autowired
+    private AuthenticationProvider authenticationProvider;
+    @Autowired
+    private JWTUtility jwtUtility;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+
+    @PostMapping(&quot;/api/authenticate&quot;)
+    @ResponseBody
+    public UserDto authenticate(@RequestBody UserDto userDto) {
+        try {
+<span class="nc" id="L35">            authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));</span>
+<span class="nc" id="L36">            UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());</span>
+<span class="nc" id="L37">            final String token = jwtUtility.generateToken(userDetails);</span>
+<span class="nc" id="L38">            return new UserDto(token);</span>
+<span class="nc" id="L39">        } catch (Exception e) {</span>
+<span class="nc" id="L40">            return new UserDto(&quot;Error&quot;);</span>
+        }
+    }
+
+    @PostMapping(&quot;/api/validateToken&quot;)
+    @ResponseBody
+    public Boolean validateToken(@RequestBody UserDto jwtRequest) {
+        try {
+<span class="nc" id="L48">            UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());</span>
+<span class="nc" id="L49">            return jwtUtility.validateToken(jwtRequest.getToken(), userDetails);</span>
+<span class="nc" id="L50">        } catch (Exception e) {</span>
+<span class="nc" id="L51">            return false;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

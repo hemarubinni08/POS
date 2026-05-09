@@ -2,12 +2,15 @@ package com.ust.pos.stocks.service.impl;
 
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.StocksDto;
+import com.ust.pos.model.Customer;
 import com.ust.pos.model.Stocks;
 import com.ust.pos.model.StocksRepository;
 import com.ust.pos.product.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.ust.pos.stocks.service.StocksService;
 
@@ -69,10 +72,11 @@ public class StocksServiceImpl implements StocksService {
     }
 
     @Override
-    public List<StocksDto> findAll() {
+    public List<StocksDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<StocksDto>>() {
         }.getType();
-        return modelMapper.map(stocksRepository.findAll(), listType);
+        Page<Stocks> stocksPage=stocksRepository.findAll(pageable);
+        return modelMapper.map(stocksPage.getContent(), listType);
     }
 
     @Override

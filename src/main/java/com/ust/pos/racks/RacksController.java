@@ -19,7 +19,7 @@ public class RacksController {
     private ShelfsService shelfsService;
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("rackss", racksService.findAll());
+        model.addAttribute("rackss", racksService.findAll(null));
         return "racks/list";
     }
 

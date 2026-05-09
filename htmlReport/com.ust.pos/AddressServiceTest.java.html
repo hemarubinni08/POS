@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AddressServiceTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos</a> &gt; <span class="el_source">AddressServiceTest.java</span></div><h1>AddressServiceTest.java</h1><pre class="source lang-java linenums">package com.ust.pos;
+import com.ust.pos.dto.AddressDto;
+import com.ust.pos.model.Address;
+import com.ust.pos.model.AddressRepository;
+import com.ust.pos.address.service.impl.AddressServiceImpl;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+
+import java.util.List;
+@ExtendWith(MockitoExtension.class)
+<span class="fc" id="L17">class AddressServiceTest {</span>
+    @Mock
+    private AddressRepository addressRepository;
+
+    @Mock
+    private ModelMapper modelMapper;
+
+    @InjectMocks
+    private AddressServiceImpl addressService;
+
+    /* ===================== SAVE ===================== */
+
+    @Test
+    void saveTest() {
+<span class="fc" id="L31">        AddressDto addressDto = new AddressDto();</span>
+<span class="fc" id="L32">        addressDto.setIdentifier(&quot;Admin&quot;);</span>
+
+
+<span class="fc" id="L35">        Mockito.when(addressRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc" id="L36">        Address address=new Address();</span>
+<span class="fc" id="L37">        Mockito.when(modelMapper.map(addressDto, Address.class)).thenReturn(address);</span>
+<span class="fc" id="L38">        Mockito.when(addressRepository.save(address)).thenReturn(address);</span>
+
+<span class="fc" id="L40">        AddressDto response = addressService.save(addressDto);</span>
+
+<span class="fc" id="L42">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L43">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L44">    }</span>
+
+    @Test
+    void saveTestFailure() {
+<span class="fc" id="L48">        AddressDto addressDto = new AddressDto();</span>
+<span class="fc" id="L49">        addressDto.setIdentifier(&quot;Admin&quot;);</span>
+
+
+<span class="fc" id="L52">        Address existingAddress = new Address();</span>
+<span class="fc" id="L53">        existingAddress.setIdentifier(&quot;Admin&quot;);</span>
+
+
+<span class="fc" id="L56">        Mockito.when(addressRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L57">                .thenReturn(existingAddress);</span>
+
+<span class="fc" id="L59">        AddressDto response = addressService.save(addressDto);</span>
+
+<span class="fc" id="L61">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L62">    }</span>
+
+    /* ===================== FIND BY IDENTIFIER ===================== */
+
+    @Test
+    void findByIdentifierTest() {
+<span class="fc" id="L68">        Address address = new Address();</span>
+<span class="fc" id="L69">        address.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L71">        AddressDto addressDto = new AddressDto();</span>
+<span class="fc" id="L72">        addressDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L74">        Mockito.when(addressRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(address);</span>
+<span class="fc" id="L75">        Mockito.when(modelMapper.map(address, AddressDto.class)).thenReturn(addressDto);</span>
+
+<span class="fc" id="L77">        AddressDto response = addressService.findByIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L79">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L80">    }</span>
+
+    /* ===================== UPDATE ===================== */
+
+    @Test
+    void updateTest() {
+<span class="fc" id="L86">        AddressDto addressDto = new AddressDto();</span>
+<span class="fc" id="L87">        addressDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L89">        Address existingAddress = new Address();</span>
+<span class="fc" id="L90">        existingAddress.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L92">        Mockito.when(addressRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L93">                .thenReturn(existingAddress);</span>
+<span class="fc" id="L94">        Mockito.when(addressRepository.save(existingAddress))</span>
+<span class="fc" id="L95">                .thenReturn(existingAddress);</span>
+
+<span class="fc" id="L97">        AddressDto response = addressService.update(addressDto);</span>
+
+<span class="fc" id="L99">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L100">    }</span>
+
+    @Test
+    void updateTestFailure() {
+<span class="fc" id="L104">        AddressDto addressDto = new AddressDto();</span>
+<span class="fc" id="L105">        addressDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L107">        Mockito.when(addressRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L108">                .thenReturn(null);</span>
+
+<span class="fc" id="L110">        AddressDto response = addressService.update(addressDto);</span>
+
+<span class="fc" id="L112">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L113">    }</span>
+
+    /* ===================== DELETE ===================== */
+
+    @Test
+    void deleteTest() {
+<span class="fc" id="L119">        Address address = new Address();</span>
+<span class="fc" id="L120">        List&lt;Address&gt; addressList = List.of(address);</span>
+<span class="fc" id="L121">        Mockito.when(addressRepository.findAllByPhoneNo(&quot;8919&quot;)).thenReturn(addressList);</span>
+<span class="fc" id="L122">        Mockito.doNothing().when(addressRepository)</span>
+<span class="fc" id="L123">                .deleteAll(addressList);</span>
+
+<span class="fc" id="L125">        boolean response = addressService.delete(&quot;8919&quot;);</span>
+
+<span class="fc" id="L127">        Assertions.assertEquals(true, response);</span>
+<span class="fc" id="L128">    }</span>
+
+    /* ===================== FIND ALL ===================== */
+
+    @Test
+    void findAllTest() {
+<span class="fc" id="L134">        Address address = new Address();</span>
+<span class="fc" id="L135">        address.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L137">        AddressDto addressDto = new AddressDto();</span>
+<span class="fc" id="L138">        addressDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L140">        List&lt;Address&gt; addresss = List.of(address);</span>
+<span class="fc" id="L141">        List&lt;AddressDto&gt; addressDtos = List.of(addressDto);</span>
+
+<span class="fc" id="L143">        Mockito.when(addressRepository.findAll()).thenReturn(addresss);</span>
+<span class="fc" id="L144">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L145">                Mockito.eq(addresss),</span>
+<span class="fc" id="L146">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L147">        )).thenReturn(addressDtos);</span>
+
+<span class="fc" id="L149">        List&lt;AddressDto&gt; response = addressService.findAll();</span>
+
+<span class="fc" id="L151">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L152">    }</span>
+
+    @Test
+    void findAllByPhoneNoTest() {
+
+<span class="fc" id="L157">        Address address = new Address();</span>
+<span class="fc" id="L158">        address.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L160">        AddressDto addressDto = new AddressDto();</span>
+<span class="fc" id="L161">        addressDto.setIdentifier(&quot;Admin&quot;);</span>
+
+
+<span class="fc" id="L164">        List&lt;Address&gt; addresss = List.of(address);</span>
+<span class="fc" id="L165">        List&lt;AddressDto&gt; addressDtos = List.of(addressDto);</span>
+
+<span class="fc" id="L167">        Mockito.when(addressRepository.findAllByPhoneNo(&quot;8919&quot;)).thenReturn(addresss);</span>
+<span class="fc" id="L168">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L169">                Mockito.eq(addresss),</span>
+<span class="fc" id="L170">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L171">        )).thenReturn(addressDtos);</span>
+
+<span class="fc" id="L173">        List&lt;AddressDto&gt; response = addressService.findAllByPhoneNo(&quot;8919&quot;);</span>
+
+<span class="fc" id="L175">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L176">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

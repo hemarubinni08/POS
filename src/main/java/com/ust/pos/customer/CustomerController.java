@@ -1,7 +1,7 @@
 package com.ust.pos.customer;
 
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.customer.service.CustomerService;
+import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.shelfs.service.ShelfsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ public class CustomerController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("customers", customerService.findAll());
+        model.addAttribute("customers", customerService.findAll(null));
         return "customer/list";
     }
 
@@ -64,7 +64,7 @@ public class CustomerController {
 
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
+    public void toggle(Model model, @RequestParam String identifier) {
         customerService.toggleStatus(identifier);
     }
 }

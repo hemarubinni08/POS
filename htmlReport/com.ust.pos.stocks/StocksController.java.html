@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StocksController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos.stocks</a> &gt; <span class="el_source">StocksController.java</span></div><h1>StocksController.java</h1><pre class="source lang-java linenums">package com.ust.pos.stocks;
+
+import com.ust.pos.dto.StocksDto;
+import com.ust.pos.product.service.ProductService;
+import com.ust.pos.warehouse.service.WareHouseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import com.ust.pos.stocks.service.StocksService;
+
+
+@Controller
+@RequestMapping(&quot;/stocks&quot;)
+<span class="fc" id="L15">public class    StocksController {</span>
+    public static final String REDIRECT_STOCKS_LIST = &quot;redirect:/stocks/list&quot;;
+    public static final String STOCKS = &quot;stocks&quot;;
+    public static final String PRODUCTS = &quot;products&quot;;
+    public static final String WAREHOUSE = &quot;warehouse&quot;;
+    @Autowired
+    private StocksService stocksService;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private WareHouseService warehouseService;
+
+    @GetMapping(&quot;/list&quot;)
+    public String home(Model model) {
+<span class="nc" id="L31">        model.addAttribute(STOCKS, stocksService.findAll());</span>
+<span class="nc" id="L32">        return &quot;stocks/list&quot;;</span>
+    }
+
+    @GetMapping(&quot;/add&quot;)
+    public String add(Model model, @ModelAttribute StocksDto stocksDto) {
+<span class="nc" id="L37">        model.addAttribute(PRODUCTS,productService.findIfTrue());</span>
+<span class="nc" id="L38">        model.addAttribute(WAREHOUSE,warehouseService.findAll());</span>
+<span class="nc" id="L39">        return &quot;stocks/add&quot;;</span>
+    }
+
+    @PostMapping(&quot;/add&quot;)
+    public String addPost(Model model, @ModelAttribute StocksDto stocksDto) {
+<span class="nc" id="L44">        StocksDto response = stocksService.save(stocksDto);</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        if (!response.isSuccess()) {</span>
+<span class="nc" id="L46">            model.addAttribute(&quot;message&quot;, response.getMessage());</span>
+<span class="nc" id="L47">            model.addAttribute(PRODUCTS,productService.findAll());</span>
+<span class="nc" id="L48">            model.addAttribute(WAREHOUSE,warehouseService.findAll());</span>
+<span class="nc" id="L49">            return &quot;stocks/add&quot;;</span>
+        }
+<span class="nc" id="L51">        return REDIRECT_STOCKS_LIST;</span>
+    }
+
+    @GetMapping(&quot;/get&quot;)
+    public String update(Model model, @RequestParam String identifier) {
+<span class="nc" id="L56">        StocksDto response = stocksService.findByIdentifier(identifier);</span>
+<span class="nc" id="L57">        model.addAttribute(PRODUCTS,productService.findAll());</span>
+<span class="nc" id="L58">        model.addAttribute(WAREHOUSE,warehouseService.findAll());</span>
+<span class="nc" id="L59">        model.addAttribute(STOCKS, response);</span>
+<span class="nc" id="L60">        return &quot;stocks/stocks&quot;;</span>
+    }
+
+    @PostMapping(&quot;/update&quot;)
+    public String updatePost(Model model, @ModelAttribute StocksDto stocksDto) {
+<span class="nc" id="L65">        StocksDto response = stocksService.update(stocksDto);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (!response.isSuccess()) {</span>
+<span class="nc" id="L67">            model.addAttribute(STOCKS, response);</span>
+<span class="nc" id="L68">            model.addAttribute(&quot;message&quot;, response.getMessage());</span>
+<span class="nc" id="L69">            model.addAttribute(PRODUCTS,productService.findAll());</span>
+<span class="nc" id="L70">            model.addAttribute(WAREHOUSE,warehouseService.findAll());</span>
+<span class="nc" id="L71">            return &quot;stocks/stocks&quot;;</span>
+        }
+<span class="nc" id="L73">        return REDIRECT_STOCKS_LIST;</span>
+    }
+
+    @GetMapping(&quot;/delete&quot;)
+    public String delete(Model model, @RequestParam String identifier) {
+<span class="nc" id="L78">        stocksService.delete(identifier);</span>
+<span class="nc" id="L79">        return REDIRECT_STOCKS_LIST;</span>
+    }
+    @PostMapping(&quot;/toggle-status&quot;)
+    @ResponseBody
+    public void toggle(Model model,@RequestParam String identifier){
+<span class="nc" id="L84">        stocksService.toggleStatus(identifier);}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

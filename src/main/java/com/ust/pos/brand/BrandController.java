@@ -16,7 +16,7 @@ public class BrandController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("brands", brandService.findAll());
+        model.addAttribute("brands", brandService.findAll(null));
         return "brand/list";
     }
 

@@ -17,13 +17,13 @@ public class CategoryController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("categorys", categoryService.findAll());
+        model.addAttribute(CATEGORIES, categoryService.findAll(null));
         return "category/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute CategoryDto categoryDto) {
-        model.addAttribute(CATEGORIES, categoryService.findAll());
+        model.addAttribute(CATEGORIES, categoryService.findAll(null));
         return "category/add";
     }
 
@@ -32,7 +32,7 @@ public class CategoryController {
         CategoryDto response = categoryService.save(categoryDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute(CATEGORIES, categoryService.findAll());
+            model.addAttribute(CATEGORIES, categoryService.findAll(null));
             return "category/add";
         }
         return REDIRECT_CATEGORY_LIST;
@@ -42,7 +42,7 @@ public class CategoryController {
     public String update(Model model, @RequestParam String identifier) {
         CategoryDto response = categoryService.findByIdentifier(identifier);
         model.addAttribute("category", response);
-        model.addAttribute(CATEGORIES, categoryService.findAll());
+        model.addAttribute(CATEGORIES, categoryService.findAll(null));
         return "category/category";
     }
 
@@ -51,7 +51,7 @@ public class CategoryController {
         CategoryDto response = categoryService.update(categoryDto);
         if (!response.isSuccess()) {
             model.addAttribute("category", response);
-            model.addAttribute(CATEGORIES, categoryService.findAll());
+            model.addAttribute(CATEGORIES, categoryService.findAll(null));
             model.addAttribute("message", response.getMessage());
             return "category/category";
         }

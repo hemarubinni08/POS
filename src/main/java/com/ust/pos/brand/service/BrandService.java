@@ -1,6 +1,8 @@
 package com.ust.pos.brand.service;
 
 import com.ust.pos.dto.BrandDto;
+import com.ust.pos.dto.CustomerDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -13,7 +15,7 @@ public interface BrandService {
 
     boolean delete(String identifier);
 
-    List<BrandDto> findAll();
+    List<BrandDto> findAll(Pageable pageable);
 
     BrandDto findByIdentifier(String identifier);
 

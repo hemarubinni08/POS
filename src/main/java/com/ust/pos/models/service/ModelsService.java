@@ -1,6 +1,7 @@
 package com.ust.pos.models.service;
 
 import com.ust.pos.dto.ModelsDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface ModelsService {
 
     boolean delete(String identifier);
 
-    List<ModelsDto> findAll();
+    List<ModelsDto> findAll(Pageable pageable);
 
     ModelsDto findByIdentifier(String identifier);
 

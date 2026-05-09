@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ShelfsServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos.shelfs.service.impl</a> &gt; <span class="el_source">ShelfsServiceImpl.java</span></div><h1>ShelfsServiceImpl.java</h1><pre class="source lang-java linenums">package com.ust.pos.shelfs.service.impl;
+
+import com.ust.pos.dto.ShelfsDto;
+import com.ust.pos.model.Shelfs;
+import com.ust.pos.model.ShelfsRepository;
+import com.ust.pos.shelfs.service.ShelfsService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+@Service
+<span class="fc" id="L16">public class ShelfsServiceImpl implements ShelfsService {</span>
+    @Autowired
+    private ShelfsRepository shelfsRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Override
+    public ShelfsDto findByIdentifier(String identifier) {
+<span class="fc" id="L25">        return modelMapper.map(shelfsRepository.findByIdentifier(identifier), ShelfsDto.class);</span>
+    }
+
+    @Override
+    public ShelfsDto toggleStatus(String identifier) {
+<span class="fc" id="L30">        Shelfs shelfs = shelfsRepository.findByIdentifier(identifier);</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        shelfs.setStatus(!shelfs.isStatus());</span>
+<span class="fc" id="L32">        shelfsRepository.save(shelfs);</span>
+<span class="fc" id="L33">        return modelMapper.map(shelfs,ShelfsDto.class);</span>
+    }
+
+    @Override
+    public List&lt;ShelfsDto&gt; findIfTrue() {
+<span class="fc" id="L38">        Type listType = new TypeToken&lt;List&lt;ShelfsDto&gt;&gt;(){</span>
+<span class="fc" id="L39">        }.getType();</span>
+<span class="fc" id="L40">        return modelMapper.map(shelfsRepository.findByStatusIsTrue(), listType);</span>
+    }
+
+    @Override
+    public ShelfsDto save(ShelfsDto shelfsDto) {
+<span class="fc" id="L45">        shelfsDto.setIdentifier(shelfsDto.getIdentifier().trim());</span>
+<span class="fc" id="L46">        String identifier = shelfsDto.getIdentifier();</span>
+<span class="fc" id="L47">        Shelfs existingShelfs = shelfsRepository.findByIdentifier(identifier);</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (existingShelfs != null) {</span>
+<span class="fc" id="L49">            shelfsDto.setMessage(&quot;Shelfs with identifier - &quot; + identifier + &quot; already exists&quot;);</span>
+<span class="fc" id="L50">            shelfsDto.setSuccess(false);</span>
+<span class="fc" id="L51">            return shelfsDto;</span>
+        }
+<span class="fc" id="L53">        Shelfs shelfs = modelMapper.map(shelfsDto, Shelfs.class);</span>
+<span class="fc" id="L54">        shelfsRepository.save(shelfs);</span>
+<span class="fc" id="L55">        return shelfsDto;</span>
+    }
+
+    @Override
+    public ShelfsDto update(ShelfsDto shelfsDto) {
+<span class="fc" id="L60">        String identifier = shelfsDto.getIdentifier();</span>
+<span class="fc" id="L61">        Shelfs existingShelfs = shelfsRepository.findByIdentifier(identifier);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (existingShelfs == null) {</span>
+<span class="fc" id="L63">            shelfsDto.setMessage(&quot;Shelfs with identifier - &quot; + identifier + &quot; not found&quot;);</span>
+<span class="fc" id="L64">            shelfsDto.setSuccess(false);</span>
+<span class="fc" id="L65">            return shelfsDto;</span>
+        }
+<span class="fc" id="L67">        modelMapper.map(shelfsDto, existingShelfs);</span>
+<span class="fc" id="L68">        shelfsRepository.save(existingShelfs);</span>
+<span class="fc" id="L69">        return shelfsDto;</span>
+    }
+
+    @Override
+    public boolean delete(String identifier) {
+<span class="fc" id="L74">        shelfsRepository.deleteByIdentifier(identifier);</span>
+<span class="fc" id="L75">        return true;</span>
+    }
+
+    @Override
+    public List&lt;ShelfsDto&gt; findAll() {
+<span class="fc" id="L80">        Type listType = new TypeToken&lt;List&lt;ShelfsDto&gt;&gt;() {</span>
+<span class="fc" id="L81">        }.getType();</span>
+<span class="fc" id="L82">        return modelMapper.map(shelfsRepository.findAll(), listType);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

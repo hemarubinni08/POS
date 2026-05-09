@@ -2,6 +2,7 @@ package com.ust.pos.customer.service;
 
 
 import com.ust.pos.dto.CustomerDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface CustomerService {
 
     boolean delete(String identifier);
 
-    List<CustomerDto> findAll();
+    List<CustomerDto> findAll(Pageable pageable);
 
     CustomerDto findByIdentifier(String identifier);
 
