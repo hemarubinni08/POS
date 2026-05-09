@@ -1,5 +1,7 @@
 package com.ust.pos.warehouse;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/warehouse")
-public class WarehouseController {
+public class WarehouseController extends BaseController {
 
     private static final String VIEW_WAREHOUSE_LIST = "warehouse/list";
     private static final String VIEW_WAREHOUSE_ADD = "warehouse/add";
@@ -29,8 +31,9 @@ public class WarehouseController {
     private WarehouseService warehouseService;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute(ATTR_WAREHOUSES, warehouseService.findAll(null));
+    public String home(Model model) {
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute("product", warehouseService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return VIEW_WAREHOUSE_LIST;
     }
 

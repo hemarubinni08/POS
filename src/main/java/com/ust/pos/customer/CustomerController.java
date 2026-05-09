@@ -1,7 +1,9 @@
 package com.ust.pos.customer;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.customer.service.CustomerService;
+import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,15 +11,16 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/customer")
-public class CustomerController {
+public class CustomerController extends BaseController {
     public static final String REDIRECT_CUSTOMER_LIST = "redirect:/customer/list";
     @Autowired
     private CustomerService customerService;
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("customers", customerService.findAll(null));
-        return "customer/list";
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute("customer", customerService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+        return REDIRECT_CUSTOMER_LIST;
     }
 
     @GetMapping("/add")

@@ -1,7 +1,9 @@
 package com.ust.pos.category;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.category.service.CategoryService;
+import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/category")
-public class CategoryController {
+public class CategoryController extends BaseController {
 
     public static final String REDIRECT_CATEGORY_LIST = "redirect:/category/list";
     private static final String SUPERCATEGORY = "superCategories";
@@ -20,8 +22,9 @@ public class CategoryController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("categorys", categoryService.findAll(null));
-        return "category/list";
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute("category", categoryService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+        return REDIRECT_CATEGORY_LIST;
     }
 
     @GetMapping("/add")

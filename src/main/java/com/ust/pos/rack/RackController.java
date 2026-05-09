@@ -1,5 +1,7 @@
 package com.ust.pos.rack;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RackDto;
 import com.ust.pos.rack.service.RackService;
 import com.ust.pos.shelf.service.ShelfService;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/rack")
-public class RackController {
+public class RackController extends BaseController {
 
     public static final String REDIRECT_RACK_LIST = "redirect:/rack/list";
     public static final String SHELVES = "shelves";
@@ -22,9 +24,10 @@ public class RackController {
     private ShelfService shelfService;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("racks", rackService.findAll(null));
-        return "rack/list";
+    public String home(Model model) {
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute("rack", rackService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+        return REDIRECT_RACK_LIST;
     }
 
     @GetMapping("/add")

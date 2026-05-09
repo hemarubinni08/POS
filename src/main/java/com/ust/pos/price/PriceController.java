@@ -1,5 +1,7 @@
 package com.ust.pos.price;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.price.service.PriceService;
 import com.ust.pos.product.service.ProductService;
@@ -10,16 +12,14 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/price")
-public class PriceController {
+public class PriceController extends BaseController {
 
-    private static final String VIEW_PRICE_LIST = "price/list";
     private static final String VIEW_PRICE_ADD = "price/add";
     private static final String VIEW_PRICE_EDIT = "price/price";
     private static final String REDIRECT_PRICE_LIST = "redirect:/price/list";
 
     private static final String ATTR_PRICE = "price";
     private static final String ATTR_PRICE_DTO = "priceDto";
-    private static final String ATTR_PRICES = "prices";
     private static final String ATTR_PRODUCTS = "products";
     private static final String ATTR_MESSAGE = "message";
     private static final String ATTR_MESSAGE_TYPE = "messageType";
@@ -33,15 +33,17 @@ public class PriceController {
     private ProductService productService;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute(ATTR_PRICES, priceService.findAll(null));
-        return VIEW_PRICE_LIST;
+    public String home(Model model) {
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute(ATTR_PRICE, priceService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+        return REDIRECT_PRICE_LIST;
     }
 
     @GetMapping("/add")
     public String add(Model model) {
+        PaginationDto paginationDto = new PaginationDto();
         model.addAttribute(ATTR_PRICE_DTO, new PriceDto());
-        model.addAttribute(ATTR_PRODUCTS, productService.findAll(null));
+        model.addAttribute(ATTR_PRODUCTS, productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return VIEW_PRICE_ADD;
     }
 
@@ -50,7 +52,8 @@ public class PriceController {
         try {
             priceService.createPrice(priceDto);
         } catch (RuntimeException ex) {
-            model.addAttribute(ATTR_PRODUCTS, productService.findAll(null));
+            PaginationDto paginationDto = new PaginationDto();
+            model.addAttribute(ATTR_PRODUCTS, productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
             model.addAttribute(ATTR_MESSAGE, ex.getMessage());
             model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);
             return VIEW_PRICE_ADD;
@@ -69,7 +72,8 @@ public class PriceController {
         }
 
         model.addAttribute(ATTR_PRICE, price);
-        model.addAttribute(ATTR_PRODUCTS, productService.findAll(null));
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute(ATTR_PRODUCTS, productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return VIEW_PRICE_EDIT;
     }
 
@@ -78,7 +82,8 @@ public class PriceController {
         try {
             priceService.updatePrice(priceDto);
         } catch (RuntimeException ex) {
-            model.addAttribute(ATTR_PRODUCTS, productService.findAll(null));
+            PaginationDto paginationDto = new PaginationDto();
+            model.addAttribute(ATTR_PRODUCTS, productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
             model.addAttribute(ATTR_PRICE, priceDto);
             model.addAttribute(ATTR_MESSAGE, ex.getMessage());
             model.addAttribute(ATTR_MESSAGE_TYPE, MESSAGE_TYPE_ERROR);

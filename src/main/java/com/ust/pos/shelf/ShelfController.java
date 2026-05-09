@@ -1,5 +1,7 @@
 package com.ust.pos.shelf;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.shelf.service.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/shelf")
-public class ShelfController {
+public class ShelfController extends BaseController {
 
     public static final String REDIRECT_SHELF_LIST = "redirect:/shelf/list";
 
@@ -17,9 +19,10 @@ public class ShelfController {
     private ShelfService shelfService;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("shelves", shelfService.findAll(null));
-        return "shelf/list";
+    public String home(Model model) {
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute("shelf", shelfService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+        return REDIRECT_SHELF_LIST;
     }
 
     @GetMapping("/add")

@@ -1,5 +1,7 @@
 package com.ust.pos.stock;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
@@ -11,16 +13,15 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/stock")
-public class StockController {
+public class StockController extends BaseController {
 
-    private static final String VIEW_STOCK_LIST = "stock/list";
     private static final String VIEW_STOCK_ADD = "stock/add";
     private static final String VIEW_STOCK_EDIT = "stock/stock";
     private static final String REDIRECT_STOCK_LIST = "redirect:/stock/list";
 
+    private static final String ATTR_STOCKS = "stocks";
     private static final String ATTR_STOCK = "stock";
     private static final String ATTR_STOCK_DTO = "stockDto";
-    private static final String ATTR_STOCKS = "stocks";
     private static final String ATTR_PRODUCTS = "products";
     private static final String ATTR_WAREHOUSES = "warehouses";
     private static final String ATTR_MESSAGE = "message";
@@ -40,9 +41,10 @@ public class StockController {
     private WarehouseService warehouseService;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute(ATTR_STOCKS, stockService.findAll(null));
-        return VIEW_STOCK_LIST;
+    public String home(Model model) {
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute(ATTR_STOCKS, stockService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+        return REDIRECT_STOCK_LIST;
     }
 
     @GetMapping("/add")
@@ -111,5 +113,3 @@ public class StockController {
         return REDIRECT_STOCK_LIST;
     }
 }
-
-
