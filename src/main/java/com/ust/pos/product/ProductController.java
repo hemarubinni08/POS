@@ -41,7 +41,7 @@ public class ProductController extends BaseController {
     public String home(Model model) {
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("product", productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
-        return REDIRECT_PRODUCT_LIST;
+        return "product/list";
     }
 
     @GetMapping("/add")

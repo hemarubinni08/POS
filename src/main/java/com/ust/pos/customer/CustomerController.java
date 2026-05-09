@@ -20,7 +20,7 @@ public class CustomerController extends BaseController {
     public String home(Model model) {
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("customer", customerService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
-        return REDIRECT_CUSTOMER_LIST;
+        return "customer/list";
     }
 
     @GetMapping("/add")

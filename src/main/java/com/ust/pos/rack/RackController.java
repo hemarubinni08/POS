@@ -27,7 +27,7 @@ public class RackController extends BaseController {
     public String home(Model model) {
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("rack", rackService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
-        return REDIRECT_RACK_LIST;
+        return "rack/list";
     }
 
     @GetMapping("/add")

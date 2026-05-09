@@ -24,7 +24,7 @@ public class CategoryController extends BaseController {
     public String home(Model model) {
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("category", categoryService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
-        return REDIRECT_CATEGORY_LIST;
+        return "category/list";
     }
 
     @GetMapping("/add")

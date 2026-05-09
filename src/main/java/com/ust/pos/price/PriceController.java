@@ -36,7 +36,7 @@ public class PriceController extends BaseController {
     public String home(Model model) {
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute(ATTR_PRICE, priceService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
-        return REDIRECT_PRICE_LIST;
+        return "price/list";
     }
 
     @GetMapping("/add")

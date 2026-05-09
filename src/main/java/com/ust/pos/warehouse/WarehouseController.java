@@ -33,7 +33,7 @@ public class WarehouseController extends BaseController {
     @GetMapping("/list")
     public String home(Model model) {
         PaginationDto paginationDto = new PaginationDto();
-        model.addAttribute("product", warehouseService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+        model.addAttribute(ATTR_WAREHOUSES, warehouseService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return VIEW_WAREHOUSE_LIST;
     }
 
