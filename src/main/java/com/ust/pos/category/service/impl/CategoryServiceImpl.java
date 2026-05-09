@@ -1,9 +1,7 @@
 package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.CategoryDto;
-import com.ust.pos.model.Brand;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import org.modelmapper.ModelMapper;

@@ -1,7 +1,6 @@
 package com.ust.pos.category.service;
 
 import com.ust.pos.dto.CategoryDto;
-import com.ust.pos.dto.CustomerDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 

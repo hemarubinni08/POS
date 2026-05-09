@@ -1,6 +1,5 @@
 package com.ust.pos.warehouse.service;
 
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.WarehouseDto;
 import org.springframework.data.domain.Pageable;
 

@@ -2,7 +2,6 @@ package com.ust.pos.api.category;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;

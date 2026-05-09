@@ -1,7 +1,6 @@
 package com.ust.pos.api.user;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.user.service.UserService;

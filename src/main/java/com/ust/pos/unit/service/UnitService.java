@@ -1,8 +1,6 @@
 package com.ust.pos.unit.service;
 
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.UnitDto;
-import com.ust.pos.model.Unit;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 

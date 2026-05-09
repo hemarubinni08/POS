@@ -1,7 +1,6 @@
 package com.ust.pos.api.role;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.role.service.RoleService;
