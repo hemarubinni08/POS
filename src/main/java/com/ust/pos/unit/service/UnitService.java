@@ -1,6 +1,9 @@
 package com.ust.pos.unit.service;
 
+import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.model.Unit;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -14,7 +17,7 @@ public interface UnitService {
 
     boolean delete(String identifier);
 
-    List<UnitDto> findAll();
+    List<UnitDto> findAll(Pageable pageable);
 
     UnitDto findByIdentifier(String identifier);
 

@@ -1,19 +1,19 @@
 package com.ust.pos.api.stock;
 
-import com.ust.pos.dto.ProductDto;
-import com.ust.pos.dto.StockDto;
-import com.ust.pos.dto.WarehouseDto;
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.*;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController("stockApiController")
 @RequestMapping("/api/stocks")
-public class StockController {
+public class StockController extends BaseController {
 
     @Autowired
     private StockService stockService;
@@ -24,9 +24,10 @@ public class StockController {
     @Autowired
     private WarehouseService warehouseService;
 
-    @GetMapping
-    public List<StockDto> getAll() {
-        return stockService.getAllStocks();
+    @GetMapping("/list")
+    public List<StockDto> list(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        return stockService.findAll(pageable);
     }
 
     @GetMapping("/search")
@@ -58,7 +59,7 @@ public class StockController {
 
     @GetMapping("/products")
     public List<ProductDto> getProducts() {
-        return productService.findAll();
+        return productService.findAll(null);
     }
 
     @GetMapping("/warehouses")

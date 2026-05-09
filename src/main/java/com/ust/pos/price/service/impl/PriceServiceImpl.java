@@ -1,16 +1,22 @@
 package com.ust.pos.price.service.impl;
 
+import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.model.Customer;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 
@@ -53,17 +59,11 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public List<PriceDto> getAllPrices() {
-
-        return priceRepository.findAll().stream().map(price -> {
-
-            PriceDto dto = modelMapper.map(price, PriceDto.class);
-
-            productRepository.findById(price.getProductId()).ifPresent(p -> dto.setProductName(p.getIdentifier()));
-
-            return dto;
-
-        }).toList();
+    public List<PriceDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<PriceDto>>() {
+        }.getType();
+        Page<Price> pricePage = priceRepository.findAll(pageable);
+        return modelMapper.map(pricePage.getContent(), listType);
     }
 
     @Override

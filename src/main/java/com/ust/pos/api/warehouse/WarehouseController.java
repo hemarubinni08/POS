@@ -1,8 +1,12 @@
 package com.ust.pos.api.warehouse;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.BrandDto;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,14 +14,15 @@ import java.util.List;
 
 @RestController("warehouseApiController")
 @RequestMapping("/api/warehouses")
-public class WarehouseController {
+public class WarehouseController extends BaseController {
 
     @Autowired
     private WarehouseService warehouseService;
 
-    @GetMapping
-    public ResponseEntity<List<WarehouseDto>> getAll() {
-        return ResponseEntity.ok(warehouseService.findAll());
+    @GetMapping("/list")
+    public List<WarehouseDto> list(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        return warehouseService.findAll(pageable);
     }
 
     @GetMapping("/{identifier}")

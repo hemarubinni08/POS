@@ -1,13 +1,19 @@
 package com.ust.pos.rack.service.impl;
 
+import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.RackDto;
+import com.ust.pos.model.Customer;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
 import com.ust.pos.rack.service.RackService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
@@ -57,14 +63,10 @@ public class RackServiceImpl implements RackService {
     }
 
     @Override
-    public List<RackDto> getAllRacks() {
-
-        return rackRepository.findAll().stream().map(rack -> modelMapper.map(rack, RackDto.class)).toList();
-    }
-
-    @Override
-    public boolean deleteRack(Long id) {
-        rackRepository.deleteById(id);
-        return true;
+    public List<RackDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<RackDto>>() {
+        }.getType();
+        Page<Rack> rackPage = rackRepository.findAll(pageable);
+        return modelMapper.map(rackPage.getContent(), listType);
     }
 }

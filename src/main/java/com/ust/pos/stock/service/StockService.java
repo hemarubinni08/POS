@@ -1,6 +1,8 @@
 package com.ust.pos.stock.service;
 
+import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.StockDto;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ public interface StockService {
 
     StockDto getStock(Long productId, Long warehouseId);
 
-    List<StockDto> getAllStocks();
+    List<StockDto> findAll(Pageable pageable);
 
     boolean deleteStock(Long stockId);
 

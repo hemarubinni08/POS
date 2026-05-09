@@ -1,22 +1,27 @@
 package com.ust.pos.api.models;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.ModelsDto;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.models.service.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController("modelsApiController")
 @RequestMapping("/api/models")
-public class ModelsController {
+public class ModelsController extends BaseController {
 
     @Autowired
     private ModelsService modelsService;
 
-    @GetMapping
-    public List<ModelsDto> getAll() {
-        return modelsService.findAll();
+    @GetMapping("/list")
+    public List<ModelsDto> list(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        return modelsService.findAll(pageable);
     }
 
     @GetMapping("/{identifier}")

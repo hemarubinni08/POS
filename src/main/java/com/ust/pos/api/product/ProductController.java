@@ -1,19 +1,19 @@
 package com.ust.pos.api.product;
 
-import com.ust.pos.dto.CategoryDto;
-import com.ust.pos.dto.PriceDto;
-import com.ust.pos.dto.ProductDto;
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.*;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.price.service.PriceService;
 import com.ust.pos.category.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController("productApiController")
 @RequestMapping("/api/products")
-public class ProductController {
+public class ProductController extends BaseController {
 
     @Autowired
     private ProductService productService;
@@ -24,9 +24,10 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping
-    public List<ProductDto> getAll() {
-        return productService.findAll();
+    @GetMapping("/list")
+    public List<ProductDto> list(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        return productService.findAll(pageable);
     }
 
     @GetMapping("/{identifier}")
@@ -67,11 +68,11 @@ public class ProductController {
 
     @GetMapping("/prices")
     public List<PriceDto> getPrices() {
-        return priceService.getAllPrices();
+        return priceService.findAll(null);
     }
 
     @GetMapping("/categories")
     public List<CategoryDto> getCategories() {
-        return categoryService.findAll();
+        return categoryService.findAll(null);
     }
 }

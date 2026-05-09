@@ -1,6 +1,8 @@
 package com.ust.pos.warehouse.service.impl;
 
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.WarehouseDto;
+import com.ust.pos.model.Brand;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
@@ -8,6 +10,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -70,11 +74,13 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public List<WarehouseDto> findAll() {
+    public List<WarehouseDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<WarehouseDto>>() {
         }.getType();
-        return modelMapper.map(warehouseRepository.findAll(), listType);
+        Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
+        return modelMapper.map(warehousePage.getContent(), listType);
     }
+
 
     @Override
     @Transactional
