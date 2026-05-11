@@ -22,7 +22,7 @@ public class BrandControllerApi extends BaseController {
     @Autowired
     private BrandService brandService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<BrandDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());

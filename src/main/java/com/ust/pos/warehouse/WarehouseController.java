@@ -23,13 +23,13 @@ public class WarehouseController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute WarehouseDto userDto) {
+    public String add(Model model, @ModelAttribute WarehouseDto warehouseDto) {
         return "warehouse/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute WarehouseDto userDto) {
-        WarehouseDto response = warehouseService.save(userDto);
+    public String addPost(Model model, @ModelAttribute WarehouseDto warehouseDto) {
+        WarehouseDto response = warehouseService.save(warehouseDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "warehouse/add";
