@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,25 +98,61 @@ class PriceServiceTest {
         PriceDto dto = new PriceDto();
         dto.setId(1L);
         dto.setProductId(1L);
+        dto.setCostPrice(BigDecimal.valueOf(300));
+        dto.setSellingPrice(BigDecimal.valueOf(500));
 
-        Price price = new Price();
+        Price existingPrice = new Price();
+        existingPrice.setId(1L);
 
         Product product = new Product();
+        product.setId(1L);
         product.setIdentifier("PROD1");
 
-        Mockito.when(priceRepository.findById(1L)).thenReturn(Optional.of(price));
+        Mockito.when(priceRepository.findById(1L))
+                .thenReturn(Optional.of(existingPrice));
 
-        Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+        Mockito.when(productRepository.findById(1L))
+                .thenReturn(Optional.of(product));
 
-        Mockito.doNothing().when(modelMapper).map(dto, price);
+        Mockito.doAnswer(invocation -> {
+
+            PriceDto source = invocation.getArgument(0);
+            Price destination = invocation.getArgument(1);
+
+            destination.setProductId(source.getProductId());
+            destination.setCostPrice(source.getCostPrice());
+            destination.setSellingPrice(source.getSellingPrice());
+
+            return null;
+
+        }).when(modelMapper).map(dto, existingPrice);
 
         PriceDto response = priceService.updatePrice(dto);
 
+        Assertions.assertNotNull(response);
+
         Assertions.assertEquals(1L, response.getId());
 
-        Mockito.verify(priceRepository).save(price);
+        Assertions.assertEquals(1L, existingPrice.getProductId());
 
-        Assertions.assertEquals("PROD1", price.getProductName());
+        Assertions.assertEquals(
+                BigDecimal.valueOf(300),
+                existingPrice.getCostPrice()
+        );
+
+        Assertions.assertEquals(
+                BigDecimal.valueOf(500),
+                existingPrice.getSellingPrice()
+        );
+
+        Assertions.assertEquals(
+                "PROD1",
+                existingPrice.getProductName()
+        );
+
+        Mockito.verify(modelMapper).map(dto, existingPrice);
+
+        Mockito.verify(priceRepository).save(existingPrice);
     }
 
     @Test
