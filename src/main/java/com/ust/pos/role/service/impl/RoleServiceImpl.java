@@ -1,5 +1,6 @@
 package com.ust.pos.role.service.impl;
 
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
@@ -7,6 +8,8 @@ import com.ust.pos.role.service.RoleService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,5 +69,13 @@ public class RoleServiceImpl implements RoleService {
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
         return modelMapper.map(roleRepository.findAll(), listType);
+    }
+
+    @Override
+    public List<RoleDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<RoleDto>>() {
+        }.getType();
+        Page<Role> rolePage = roleRepository.findAll(pageable);
+        return modelMapper.map(rolePage.getContent(), listType);
     }
 }
