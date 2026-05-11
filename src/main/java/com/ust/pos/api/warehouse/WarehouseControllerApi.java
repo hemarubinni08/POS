@@ -38,7 +38,7 @@ public class WarehouseControllerApi extends BaseController {
 
     @PostMapping("/update")
     public WarehouseDto updateWarehouse(@RequestBody WarehouseDto warehouseDto) {
-        return warehouseService.save(warehouseDto);
+        return warehouseService.update(warehouseDto);
 
     }
 

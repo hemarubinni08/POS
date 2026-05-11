@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ModelsServiceImpl implements ModelsService {
@@ -25,11 +24,16 @@ public class ModelsServiceImpl implements ModelsService {
     @Override
     public ModelsDto save(ModelsDto modelsDto) {
 
+        Models existingModels=modelsRepository.findByIdentifier(modelsDto.getIdentifier());
+        if(existingModels!=null)
+        {
+            modelsDto.setSuccess(false);
+            modelsDto.setMessage("Models with Identifier"+modelsDto.getIdentifier()+"already exist!");
+            return modelsDto;
+        }
         Models models = modelMapper.map(modelsDto, Models.class);
-        models.setIdentifier("MODELS-" + UUID.randomUUID()
-                .toString().substring(0, 4).toUpperCase());
-        Models savedModels = modelsRepository.save(models);
-        return modelMapper.map(savedModels, ModelsDto.class);
+        modelsRepository.save(models);
+        return modelsDto;
 
     }
 
@@ -59,11 +63,14 @@ public class ModelsServiceImpl implements ModelsService {
     @Override
     public ModelsDto update(ModelsDto modelsDto) {
 
-        Models models = modelsRepository.findById(modelsDto.getId())
-                .orElseThrow(() -> new RuntimeException("Models not found"));
-
+        Models models = modelsRepository.findByIdentifier(modelsDto.getIdentifier());
+        if (models == null) {
+            modelsDto.setSuccess(false);
+            return modelsDto;
+        }
         modelMapper.map(modelsDto, models);
         modelsRepository.save(models);
+        modelsDto.setSuccess(true);
         return modelsDto;
     }
 

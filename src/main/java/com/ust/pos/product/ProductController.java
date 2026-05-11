@@ -53,10 +53,11 @@ public class ProductController {
     }
 
     @GetMapping("/update")
-    public String update(Model model, @RequestParam Long id) {
+    public String update(Model model, @RequestParam Long id,Pageable pageable) {
         ProductDto response = productService.findById(id);
         model.addAttribute(PRODUCT_DTO, response);
         model.addAttribute("categories", categoryService.findSubCategories());
+        model.addAttribute("brands",brandService.findAll(pageable));
         return "product/product";
     }
 

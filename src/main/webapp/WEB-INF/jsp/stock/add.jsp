@@ -28,7 +28,7 @@
                 <!--  Product Dropdown -->
                 <div class="mb-3">
                     <label class="form-label">Product Name</label>
-                    <form:select path="name" cssClass="form-select" required="true">
+                    <form:select path="identifier" cssClass="form-select" required="true">
                         <form:options items="${productList}"
                                       itemValue="identifier"
                                       itemLabel="identifier"/>

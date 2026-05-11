@@ -31,16 +31,16 @@ public class RacksControllerApi extends BaseController {
     }
 
 
-    @GetMapping("/save")
+    @GetMapping("/update")
     public RacksDto showEditPage(@RequestParam Long id) {
 
         return racksService.findById(id);
     }
 
-    @PostMapping("/save")
+    @PostMapping("/update")
     public RacksDto saveEditedRacks(@RequestBody RacksDto racksDto) {
 
-        return racksService.save(racksDto);
+        return racksService.update(racksDto);
 
     }
 

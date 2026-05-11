@@ -38,7 +38,6 @@ public class ProductControllerApi extends BaseController {
             return false;
         }
         return true;
-
     }
 
     @GetMapping("/update")

@@ -75,7 +75,7 @@
         <form:hidden path="id"/>
 
         <label>Identifier</label>
-        <form:input path="name"/>
+        <form:input path="identifier"/>
 
         <button type="submit" class="btn update">Update</button>
         <a href="${pageContext.request.contextPath}/models/list" class="btn cancel">

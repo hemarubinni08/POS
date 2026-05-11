@@ -136,8 +136,7 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Identifier</th>
-            <th>Product Name</th>
+            <th>Product(Identifier)</th>
             <th>Warehouse</th>
             <th>Quantity</th>
             <th>Unit Price</th>
@@ -151,7 +150,6 @@
             <tr>
                 <td>${stock.id}</td>
                 <td>${stock.identifier}</td>
-                <td>${stock.name}</td>
                 <td>${stock.warehouse}</td>
                 <td>${stock.quantity}</td>
                 <td>${stock.unitPrice}</td>

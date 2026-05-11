@@ -189,7 +189,7 @@
         <c:forEach var="modelObj" items="${Models}">
             <tr>
                 <td>${modelObj.id}</td>
-                <td>${modelObj.name}</td>
+                <td>${modelObj.identifier}</td>
 
                 <td>
                     <form method="get"

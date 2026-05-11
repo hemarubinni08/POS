@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class StockServiceImpl implements StockService {
@@ -25,13 +24,22 @@ public class StockServiceImpl implements StockService {
     @Override
     public StockDto save(StockDto stockDto) {
 
+        Stock existingStock = stockRepository.findByIdentifier(stockDto.getIdentifier());
+        if (existingStock != null) {
+            stockDto.setSuccess(false);
+            stockDto.setMessage(
+                    "Stock with Identifier " + stockDto.getIdentifier() + " already exists!"
+            );
+            return stockDto;
+        }
+
         Stock stock = modelMapper.map(stockDto, Stock.class);
-        stock.setIdentifier("STOCK-" + UUID.randomUUID()
-                .toString().substring(0, 8).toUpperCase());
-        stock = stockRepository.save(stock);
-        StockDto responseDto = modelMapper.map(stock, StockDto.class);
+        Stock savedStock = stockRepository.save(stock);
+
+        StockDto responseDto = modelMapper.map(savedStock, StockDto.class);
         responseDto.setSuccess(true);
         responseDto.setMessage("Stock created successfully");
+
         return responseDto;
     }
 

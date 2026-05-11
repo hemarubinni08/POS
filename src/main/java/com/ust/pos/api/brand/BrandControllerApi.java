@@ -33,16 +33,16 @@ public class BrandControllerApi extends BaseController {
     }
 
 
-    @GetMapping("/save")
+    @GetMapping("/update")
     public BrandDto showEditPage(@RequestParam String identifier) {
 
         return brandService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/save")
+    @PostMapping("/update")
     public BrandDto saveEditedBrand(@RequestBody BrandDto brandDto) {
 
-        return brandService.save(brandDto);
+        return brandService.update(brandDto);
     }
 
 

@@ -199,7 +199,7 @@
         <c:forEach var="brand" items="${brands}">
             <tr>
                 <td>${brand.id}</td>
-                <td>${brand.name}</td>
+                <td>${brand.identifier}</td>
 
                 <!-- Status Toggle -->
                 <td class="status-cell">

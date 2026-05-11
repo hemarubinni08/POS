@@ -40,7 +40,7 @@ public class CategoryControllerApi extends BaseController {
     @PostMapping("/save")
     public CategoryDto saveEditedCategory(@RequestBody CategoryDto categoryDto) {
 
-        return categoryService.save(categoryDto);
+        return categoryService.update(categoryDto);
     }
 
     @GetMapping("/delete")

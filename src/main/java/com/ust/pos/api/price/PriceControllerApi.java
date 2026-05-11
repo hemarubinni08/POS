@@ -5,6 +5,7 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.price.service.PriceService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,17 @@ public class PriceControllerApi extends BaseController {
         return priceService.findById(id);
     }
 
+    @GetMapping("/delete")
+    @Transactional
+    public boolean delete(@RequestParam String identifier) {
+        try {
+            priceService.delete(identifier);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+
+    }
     @PostMapping("/update")
     public PriceDto update(@RequestBody PriceDto priceDto) {
 

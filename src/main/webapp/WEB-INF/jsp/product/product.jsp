@@ -58,7 +58,7 @@
 
 <h2>Edit Product</h2>
 
-<!-- ✅ MESSAGE DISPLAY -->
+<!--  MESSAGE DISPLAY -->
 <c:if test="${not empty message}">
     <div class="message ${success ? 'success' : 'error'}">
         ${message}
@@ -84,7 +84,7 @@
 
         <!-- CATEGORY DROPDOWN -->
         <label>Category</label>
-        <form:select path="category" required="required">
+        <form:select path="category" >
 
             <option value="">-- Select Category --</option>
 
@@ -98,6 +98,21 @@
             </c:forEach>
 
         </form:select>
+
+
+ <label>Brand</label>
+        <form:select path="brand" >
+            <option value="">-- Select Brand --</option>
+            <c:forEach var="b" items="${brands}">
+                <option value="${b.identifier}"
+                    <c:if test="${productDto.brand == b.identifier}">
+                        selected
+                    </c:if>>
+                    ${b.identifier}
+                </option>
+            </c:forEach>
+        </form:select>
+
 
         <!-- STATUS -->
         <label>Status</label>

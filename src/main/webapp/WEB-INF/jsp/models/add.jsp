@@ -71,7 +71,7 @@
                modelAttribute="modelsDto">
 
         <label>Model Name</label>
-        <form:input path="name"/>
+        <form:input path="identifier"/>
 
         <button type="submit" class="btn save">Save</button>
         <a href="${pageContext.request.contextPath}/models/list" class="btn cancel">

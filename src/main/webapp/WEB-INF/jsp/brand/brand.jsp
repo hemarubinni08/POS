@@ -84,7 +84,7 @@
 
         <!-- Brand Name -->
         <label for="name">Brand Name</label>
-        <form:input path="name"/>
+        <form:input path="identifier"/>
 
 
 

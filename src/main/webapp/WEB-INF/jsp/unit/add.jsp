@@ -72,7 +72,7 @@
                modelAttribute="unitDto">
 
         <label>Unit Name</label>
-        <form:input path="name"/>
+        <form:input path="identifier"/>
 
         <button type="submit" class="btn save">Save</button>
         <a href="${pageContext.request.contextPath}/unit/list" class="btn cancel">

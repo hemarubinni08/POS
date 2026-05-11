@@ -84,7 +84,7 @@
 
         <!-- Identifier -->
         <label for="identifier">Brand Name</label>
-        <form:input path="name" id="name"/>
+        <form:input path="identifier" id="identifier"/>
 
         <!-- Actions -->
         <button type="submit" class="btn save">Save</button>

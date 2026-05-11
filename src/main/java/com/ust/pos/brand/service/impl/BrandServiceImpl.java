@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.UUID;
 
 
 @Service
@@ -25,12 +24,16 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto save(BrandDto brandDto) {
-
+        String identifier = brandDto.getIdentifier();
+        Brand existingBrand = brandRepository.findByIdentifier(identifier);
+        if (existingBrand != null) {
+            brandDto.setMessage("Brand with identifier - " + identifier + " already exists");
+            brandDto.setSuccess(false);
+            return brandDto;
+        }
         Brand brand = modelMapper.map(brandDto, Brand.class);
-        brand.setIdentifier("BRAND-" + UUID.randomUUID()
-                .toString().substring(0, 8).toUpperCase());
-        Brand savedBrand = brandRepository.save(brand);
-        return modelMapper.map(savedBrand, BrandDto.class);
+        brandRepository.save(brand);
+        return brandDto;
 
     }
 

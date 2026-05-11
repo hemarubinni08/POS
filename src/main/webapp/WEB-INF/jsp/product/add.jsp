@@ -120,8 +120,8 @@
         <form:select path="brand" required="required">
             <option value="">-- Select Brand --</option>
             <c:forEach var="brand" items="${brand}">
-                <option value="${brand.name}">
-                    ${brand.name}
+                <option value="${brand.identifier}">
+                    ${brand.identifier}
                 </option>
             </c:forEach>
         </form:select>

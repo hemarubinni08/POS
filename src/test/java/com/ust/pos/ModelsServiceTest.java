@@ -31,24 +31,44 @@ class ModelsServiceTest {
     @InjectMocks
     private ModelsServiceImpl modelsService;
 
+    /* ================= SAVE ================= */
+
     @Test
     void saveSuccess() {
         ModelsDto dto = new ModelsDto();
-        Models models = new Models();
-        Models savedModels = new Models();
-        ModelsDto responseDto = new ModelsDto();
+        dto.setIdentifier("MODEL-1");
 
+        Models models = new Models();
+
+        Mockito.when(modelsRepository.findByIdentifier("MODEL-1"))
+                .thenReturn(null);
         Mockito.when(modelMapper.map(dto, Models.class))
                 .thenReturn(models);
-        Mockito.when(modelsRepository.save(models))
-                .thenReturn(savedModels);
-        Mockito.when(modelMapper.map(savedModels, ModelsDto.class))
-                .thenReturn(responseDto);
 
         ModelsDto response = modelsService.save(dto);
 
         Assertions.assertNotNull(response);
+        Assertions.assertEquals("MODEL-1", response.getIdentifier());
     }
+
+    @Test
+    void saveFailure_duplicateIdentifier() {
+        ModelsDto dto = new ModelsDto();
+        dto.setIdentifier("MODEL-1");
+
+        Models existing = new Models();
+
+        Mockito.when(modelsRepository.findByIdentifier("MODEL-1"))
+                .thenReturn(existing);
+
+        ModelsDto response = modelsService.save(dto);
+
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertTrue(response.getMessage().contains("already exist"));
+        Mockito.verify(modelsRepository, Mockito.never()).save(Mockito.any());
+    }
+
+    /* ================= FIND BY ID ================= */
 
     @Test
     void findByIdSuccess() {
@@ -67,7 +87,6 @@ class ModelsServiceTest {
 
     @Test
     void findByIdFailure() {
-
         Mockito.when(modelsRepository.findById(99L))
                 .thenReturn(Optional.empty());
 
@@ -79,6 +98,8 @@ class ModelsServiceTest {
         Assertions.assertTrue(exception.getMessage().contains("Models not found"));
     }
 
+    /* ================= FIND ALL ================= */
+
     @Test
     void findAllSuccess() {
         Models models = new Models();
@@ -89,49 +110,49 @@ class ModelsServiceTest {
         Mockito.when(modelsRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(page);
 
-        Type listType = new TypeToken<List<ModelsDto>>() {
-        }.getType();
+        Type listType = new TypeToken<List<ModelsDto>>() {}.getType();
         Mockito.when(modelMapper.map(page.getContent(), listType))
                 .thenReturn(List.of(dto));
 
-        Pageable pageable = PageRequest.of(0, 50, Sort.unsorted());
+        Pageable pageable = PageRequest.of(0, 10);
         List<ModelsDto> response = modelsService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }
 
+    /* ================= UPDATE ================= */
+
     @Test
     void updateSuccess() {
         ModelsDto dto = new ModelsDto();
-        dto.setId(1L);
+        dto.setIdentifier("MODEL-1");
 
-        Models existingModels = new Models();
+        Models models = new Models();
 
-        Mockito.when(modelsRepository.findById(1L))
-                .thenReturn(Optional.of(existingModels));
-        Mockito.when(modelsRepository.save(existingModels))
-                .thenReturn(existingModels);
+        Mockito.when(modelsRepository.findByIdentifier("MODEL-1"))
+                .thenReturn(models);
+        Mockito.when(modelsRepository.save(models))
+                .thenReturn(models);
 
         ModelsDto response = modelsService.update(dto);
 
-        Assertions.assertNotNull(response);
+        Assertions.assertTrue(response.isSuccess());
     }
 
     @Test
     void updateFailure_ModelNotFound() {
         ModelsDto dto = new ModelsDto();
-        dto.setId(99L);
+        dto.setIdentifier("MODEL-404");
 
-        Mockito.when(modelsRepository.findById(99L))
-                .thenReturn(Optional.empty());
+        Mockito.when(modelsRepository.findByIdentifier("MODEL-404"))
+                .thenReturn(null);
 
-        RuntimeException exception = Assertions.assertThrows(
-                RuntimeException.class,
-                () -> modelsService.update(dto)
-        );
+        ModelsDto response = modelsService.update(dto);
 
-        Assertions.assertTrue(exception.getMessage().contains("Models not found"));
+        Assertions.assertFalse(response.isSuccess());
     }
+
+    /* ================= CHANGE STATUS ================= */
 
     @Test
     void changeModelsStatusSuccess() {
@@ -149,6 +170,8 @@ class ModelsServiceTest {
 
         Assertions.assertNotNull(response);
     }
+
+    /* ================= DELETE ================= */
 
     @Test
     void deleteByIdSuccess() {

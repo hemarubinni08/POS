@@ -41,6 +41,20 @@
             border-radius: 4px;
         }
 
+        /* Read-only styling */
+        input[readonly] {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+            color: #6c757d;
+        }
+
+        .readonly-text {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
         .btn {
             padding: 8px 15px;
             border-radius: 4px;
@@ -71,16 +85,20 @@
                method="post"
                modelAttribute="unitDto">
 
-        <form:hidden path="identifier"/>
+        <!-- Hidden ID -->
         <form:hidden path="id"/>
 
+        <!-- Identifier (read-only but submitted) -->
         <label>Identifier</label>
-        <form:input path="name"/>
+        <form:input path="identifier" readonly="true"/>
+        <div class="readonly-text">Identifier cannot be edited</div>
 
+        <!-- Submit Buttons -->
         <button type="submit" class="btn update">Update</button>
         <a href="${pageContext.request.contextPath}/unit/list" class="btn cancel">
             Cancel
         </a>
+
     </form:form>
 </div>
 </body>

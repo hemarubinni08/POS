@@ -188,7 +188,7 @@
         <c:forEach var="unitObj" items="${units}">
             <tr>
                 <td>${unitObj.id}</td>
-                <td>${unitObj.name}</td>
+                <td>${unitObj.identifier}</td>
                 <td class="actions">
                     <a href="${pageContext.request.contextPath}/unit/update?id=${unitObj.id}" class="edit">
                         Edit
