@@ -32,6 +32,11 @@
         a.user-link:hover {
             text-decoration: underline;
         }
+
+        .status-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -43,10 +48,10 @@
 
             <h3 class="text-center mb-4">User Management</h3>
 
-            <!-- ✅ DELETE CURRENT USER ERROR MESSAGE -->
+            <!-- ✅ DELETE / TOGGLE CURRENT USER ERROR -->
             <c:if test="${param.error == 'loggedInUser'}">
                 <div class="alert alert-danger text-center">
-                    Cannot delete the currently logged‑in user
+                    Cannot disable or delete the currently logged‑in user
                 </div>
             </c:if>
 
@@ -67,32 +72,58 @@
                             <th>Name</th>
                             <th>Phone</th>
                             <th>Roles</th>
-                            <th>Action</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
+
                         <tbody>
                         <c:forEach var="user" items="${users}">
                             <tr>
+
                                 <td>
                                     <a class="user-link"
-                                       href="/user/get?username=${user.username}">
+                                       href="${pageContext.request.contextPath}/user/get?username=${user.username}">
                                         ${user.username}
                                     </a>
                                 </td>
+
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
+
+                                <!-- ✅ TOGGLE STATUS -->
+                                <td>
+                                    <form method="get"
+                                          action="${pageContext.request.contextPath}/user/toggle"
+                                          class="d-inline">
+
+                                        <input type="hidden" name="id" value="${user.id}">
+                                        <input type="hidden" name="status" value="${!user.status}">
+
+                                        <div class="form-check form-switch d-flex justify-content-center align-items-center gap-2">
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   ${user.status ? "checked" : ""}
+                                                   onchange="this.form.submit()">
+
+                                            <span class="status-label ${user.status ? 'text-success' : 'text-danger'}">
+                                                ${user.status ? 'Active' : 'Inactive'}
+                                            </span>
+                                        </div>
+                                    </form>
+                                </td>
+
+                                <!-- ✅ ACTIONS -->
                                 <td class="d-flex justify-content-center gap-2">
 
-                                    <!-- Edit -->
                                     <a class="btn btn-primary btn-sm"
-                                       href="/user/get?username=${user.username}">
+                                       href="${pageContext.request.contextPath}/user/get?username=${user.username}">
                                         Edit
                                     </a>
 
-                                    <!-- Delete -->
                                     <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?username=${user.username}"
+                                       href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
                                         Delete
                                     </a>
@@ -109,8 +140,8 @@
 
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">Home</a>
-                <a href="/register" class="btn btn-success">Register</a>
+                <a href="${pageContext.request.contextPath}/" class="btn btn-secondary">Home</a>
+                <a href="${pageContext.request.contextPath}/register" class="btn btn-success">Register</a>
             </div>
 
             <div class="text-muted small mt-2">

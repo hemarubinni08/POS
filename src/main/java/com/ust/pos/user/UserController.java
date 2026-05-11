@@ -6,6 +6,7 @@ import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     public static final String USER_USER1 = "user/user";
     public static final String USER_USER = "user/user";
+    public static final String REDIRECT_USER_LIST = "redirect:/user/list";
     @Autowired
     private UserService userService;
     @Autowired
@@ -25,29 +27,29 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/list")
-    public String home(Model model) {
-        model.addAttribute("users", userService.findAll());
+    public String home(Model model, Pageable pageable) {
+        model.addAttribute("users", userService.findAll(pageable));
         return "user/list";
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String username) {
+    public String update(Model model, @RequestParam String username, Pageable pageable) {
         UserDto response = userService.findByUserName(username);
-        model.addAttribute("roles",roleService.findAll());
+        model.addAttribute("roles", roleService.findAll(pageable));
         model.addAttribute("userDto", response);
         return USER_USER;
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute UserDto userDto) {
+    public String updatePost(Model model, @ModelAttribute UserDto userDto, Pageable pageable) {
         UserDto response = userService.update(userDto);
-        model.addAttribute("userDto",response);
-        model.addAttribute("roles",roleService.findAll());
+        model.addAttribute("userDto", response);
+        model.addAttribute("roles", roleService.findAll(pageable));
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return USER_USER1;
         }
-        return "redirect:/user/list";
+        return REDIRECT_USER_LIST;
     }
 
     @Transactional
@@ -65,8 +67,15 @@ public class UserController {
             }
 
             userRepository.deleteByUsername(username);
-            return "redirect:/user/list";
+            return REDIRECT_USER_LIST;
         }
         return null;
     }
+
+    @GetMapping("/toggle")
+    public String toggle(@RequestParam Long id, boolean status) {
+        userService.changeToggleStatus(id, status);
+        return REDIRECT_USER_LIST;
+    }
 }
+
