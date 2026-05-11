@@ -29,11 +29,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
-//@Configuration
-//@EnableWebSecurity
-//@EnableMethodSecurity
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 public class WebSecurityConfig {
-    private static final String JavaInUseSecurityScheme = "JavaInUseSecurityScheme";
+    private static final String JAVAINUSESECURITYSCHEME = "JavaInUseSecurityScheme";
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -52,10 +52,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 
-                        .requestMatchers("/login", "/register", "/api/authenticate", "/api/validateToken").permitAll()
+                        .requestMatchers("/login", "/register", "/api/authenticate", "/api/validateToken","/swagger-ui/**","/v3/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .logout((logout) -> logout.permitAll());
+                .logout(logout -> logout.permitAll());
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -87,9 +87,9 @@ public class WebSecurityConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("JavaInUse Authentication Service"))
-                .addSecurityItem(new SecurityRequirement().addList(JavaInUseSecurityScheme))
-                .components(new Components().addSecuritySchemes(JavaInUseSecurityScheme, new SecurityScheme()
-                        .name(JavaInUseSecurityScheme).type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
+                .addSecurityItem(new SecurityRequirement().addList(JAVAINUSESECURITYSCHEME))
+                .components(new Components().addSecuritySchemes(JAVAINUSESECURITYSCHEME, new SecurityScheme()
+                        .name(JAVAINUSESECURITYSCHEME).type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
 
     }
 

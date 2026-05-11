@@ -14,6 +14,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -192,5 +196,28 @@ class UserServiceTest {
 
         Mockito.verify(userRepository)
                 .deleteByUsername("admin");
+    }
+    @Test
+    void findAll_WithPagination_ShouldReturnUserDtos() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<User> users = List.of(new User());
+        Page<User> page = new PageImpl<>(users);
+
+        List<UserDto> userDtos = List.of(new UserDto());
+
+        Type listType = new TypeToken<List<UserDto>>() {}.getType();
+
+        Mockito.when(userRepository.findAll(pageable))
+                .thenReturn(page);
+        Mockito.when(modelMapper.map(users, listType))
+                .thenReturn(userDtos);
+
+        List<UserDto> response = userService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.size());
+        Mockito.verify(userRepository).findAll(pageable);
+        Mockito.verify(modelMapper).map(users, listType);
     }
 }

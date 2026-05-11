@@ -13,6 +13,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -168,5 +172,28 @@ class PriceServiceTest {
 
         Mockito.verify(priceRepository)
                 .deleteByIdentifier("Admin");
+    }
+    @Test
+    void findAll_WithPagination_ShouldReturnPriceDtos() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Price> prices = List.of(new Price());
+        Page<Price> page = new PageImpl<>(prices);
+
+        List<PriceDto> priceDtos = List.of(new PriceDto());
+
+        Type listType = new TypeToken<List<PriceDto>>() {}.getType();
+
+        Mockito.when(priceRepository.findAll(pageable))
+                .thenReturn(page);
+        Mockito.when(modelMapper.map(prices, listType))
+                .thenReturn(priceDtos);
+
+        List<PriceDto> response = priceService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.size());
+        Mockito.verify(priceRepository).findAll(pageable);
+        Mockito.verify(modelMapper).map(prices, listType);
     }
 }

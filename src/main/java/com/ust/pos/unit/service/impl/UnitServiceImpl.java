@@ -1,12 +1,16 @@
 package com.ust.pos.unit.service.impl;
 
+import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.model.Stock;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
 import com.ust.pos.unit.service.UnitService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,5 +87,13 @@ public class UnitServiceImpl implements UnitService {
         Unit unit = unitRepository.findByIdentifier(identifier);
         unit.setStatus(status);
         unitRepository.save(unit);
+    }
+
+    @Override
+    public List<UnitDto> findAll(Pageable pageable) {
+        Type listOfType = new TypeToken<List<UnitDto>>() {
+        }.getType();
+        Page<Unit> unitPage = unitRepository.findAll(pageable);
+        return modelMapper.map(unitPage.getContent(), listOfType);
     }
 }

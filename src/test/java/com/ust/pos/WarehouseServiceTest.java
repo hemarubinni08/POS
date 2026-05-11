@@ -13,6 +13,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -161,5 +165,28 @@ class WarehouseServiceTest {
 
         Mockito.verify(warehouseRepository)
                 .deleteByIdentifier("WH1");
+    }
+    @Test
+    void findAll_WithPagination_ShouldReturnWarehouseDtos() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Warehouse> warehouses = List.of(new Warehouse());
+        Page<Warehouse> page = new PageImpl<>(warehouses);
+
+        List<WarehouseDto> warehouseDtos = List.of(new WarehouseDto());
+
+        Type listType = new TypeToken<List<WarehouseDto>>() {}.getType();
+
+        Mockito.when(warehouseRepository.findAll(pageable))
+                .thenReturn(page);
+        Mockito.when(modelMapper.map(warehouses, listType))
+                .thenReturn(warehouseDtos);
+
+        List<WarehouseDto> response = warehouseService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.size());
+        Mockito.verify(warehouseRepository).findAll(pageable);
+        Mockito.verify(modelMapper).map(warehouses, listType);
     }
 }

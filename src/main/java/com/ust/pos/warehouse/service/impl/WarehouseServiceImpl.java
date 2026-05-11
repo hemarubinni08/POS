@@ -1,12 +1,16 @@
 package com.ust.pos.warehouse.service.impl;
 
+import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WarehouseDto;
+import com.ust.pos.model.User;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,5 +68,13 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public void delete(String identifier) {
         warehouseRepository.deleteByIdentifier(identifier);
+    }
+
+    @Override
+    public List<WarehouseDto> findAll(Pageable pageable) {
+        Type listOfType = new TypeToken<List<WarehouseDto>>() {
+        }.getType();
+        Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
+        return modelMapper.map(warehousePage.getContent(), listOfType);
     }
 }

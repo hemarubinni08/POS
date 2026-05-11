@@ -12,6 +12,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -207,6 +211,29 @@ class StockServiceTest {
 
         Mockito.verify(stockRepository)
                 .deleteByIdentifier("P1");
+    }
+    @Test
+    void findAll_WithPagination_ShouldReturnStockDtos() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Stock> stocks = List.of(new Stock());
+        Page<Stock> page = new PageImpl<>(stocks);
+
+        List<StockDto> stockDtos = List.of(new StockDto());
+
+        Type listType = new TypeToken<List<StockDto>>() {}.getType();
+
+        Mockito.when(stockRepository.findAll(pageable))
+                .thenReturn(page);
+        Mockito.when(modelMapper.map(stocks, listType))
+                .thenReturn(stockDtos);
+
+        List<StockDto> response = stockService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.size());
+        Mockito.verify(stockRepository).findAll(pageable);
+        Mockito.verify(modelMapper).map(stocks, listType);
     }
 }
 

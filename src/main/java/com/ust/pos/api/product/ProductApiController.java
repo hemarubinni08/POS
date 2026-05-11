@@ -1,12 +1,15 @@
 package com.ust.pos.api.product;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -15,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/product")
-public class ProductApiController {
+public class ProductApiController extends BaseController {
     @Autowired
     private ProductService productService;
 
@@ -29,9 +32,10 @@ public class ProductApiController {
     private CategoryService categoryService;
 
     @GetMapping("/list")
-    public List<ProductDto> home() {
-        return productService.findAll();
-    }
+    public List<ProductDto> home(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
+                paginationDto.getSortField());
+        return productService.findAll(pageable);    }
 
     @PostMapping("/add")
     public ProductDto addPost(@RequestBody ProductDto productDto) {

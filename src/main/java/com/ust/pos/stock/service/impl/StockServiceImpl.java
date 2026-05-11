@@ -1,6 +1,8 @@
 package com.ust.pos.stock.service.impl;
 
+import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.model.Shelf;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.StockService;
@@ -8,6 +10,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -80,5 +84,13 @@ public class StockServiceImpl implements StockService {
         Stock stock = stockRepository.findByIdentifier(identifier);
         stock.setStatus(status);
         stockRepository.save(stock);
+    }
+
+    @Override
+    public List<StockDto> findAll(Pageable pageable) {
+        Type listOfType = new TypeToken<List<StockDto>>() {
+        }.getType();
+        Page<Stock> stockPage = stockRepository.findAll(pageable);
+        return modelMapper.map(stockPage.getContent(), listOfType);
     }
 }

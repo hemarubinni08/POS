@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -79,5 +81,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto findByIdentifier(String identifier) {
         return modelMapper.map(categoryRepository.findByIdentifier(identifier), CategoryDto.class);
+    }
+    @Override
+    public List<CategoryDto> findAll(Pageable pageable) {
+        Type listOfType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
+        Page<Category> brandPage = categoryRepository.findAll(pageable);
+        return modelMapper.map(brandPage.getContent(), listOfType);
     }
 }

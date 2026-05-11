@@ -15,6 +15,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -190,4 +194,34 @@ class CustomerServiceTest {
         Mockito.verify(addressService).delete("Admin");
         Mockito.verify(customerRepository).deleteByIdentifier("Admin");
     }
+    @Test
+    void findAll_WithPagination_ShouldReturnCustomerDtos() {
+        // Arrange
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Customer> customers = List.of(new Customer());
+        Page<Customer> customerPage = new PageImpl<>(customers);
+
+        List<CustomerDto> customerDtos = List.of(new CustomerDto());
+
+        Type listType = new TypeToken<List<CustomerDto>>() {}.getType();
+
+        Mockito.when(customerRepository.findAll(pageable))
+                .thenReturn(customerPage);
+
+        Mockito.when(modelMapper.map(customers, listType))
+                .thenReturn(customerDtos);
+
+        // Act
+        List<CustomerDto> response = customerService.findAll(pageable);
+
+        // Assert
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.size());
+
+        Mockito.verify(customerRepository).findAll(pageable);
+        Mockito.verify(modelMapper).map(customers, listType);
+    }
+
+
 }

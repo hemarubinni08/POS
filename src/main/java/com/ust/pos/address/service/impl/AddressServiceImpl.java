@@ -2,12 +2,16 @@ package com.ust.pos.address.service.impl;
 
 import com.ust.pos.address.service.AddressService;
 import com.ust.pos.dto.AddressDto;
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.model.Address;
 import com.ust.pos.model.AddressRepository;
+import com.ust.pos.model.Brand;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -101,5 +105,12 @@ public class AddressServiceImpl implements AddressService {
     public AddressDto findByIdentifierAndBilling(String identifier) {
         return modelMapper.map(addressRepository.
                 findByIdentifierAndIsBillingTrue(identifier), AddressDto.class);
+    }
+    @Override
+    public List<AddressDto> findAll(Pageable pageable) {
+        Type listOfType = new TypeToken<List<AddressDto>>() {
+        }.getType();
+        Page<Address> brandPage = addressRepository.findAll(pageable);
+        return modelMapper.map(brandPage.getContent(), listOfType);
     }
 }

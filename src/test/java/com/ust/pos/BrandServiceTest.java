@@ -13,6 +13,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -181,4 +185,36 @@ class BrandServiceTest {
 
         Mockito.verify(brandRepository).deleteByIdentifier("Admin");
     }
+
+
+    @Test
+    void findAll_WithPagination_ShouldReturnBrandDtos() {
+        // Arrange
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Brand> brands = List.of(new Brand());
+        Page<Brand> brandPage = new PageImpl<>(brands);
+
+        List<BrandDto> brandDtos = List.of(new BrandDto());
+
+        Type listType = new TypeToken<List<BrandDto>>() {}.getType();
+
+        Mockito.when(brandRepository.findAll(pageable))
+                .thenReturn(brandPage);
+
+        Mockito.when(modelMapper.map(brands, listType))
+                .thenReturn(brandDtos);
+
+        // Act
+        List<BrandDto> response = brandService.findAll(pageable);
+
+        // Assert
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.size());
+
+        Mockito.verify(brandRepository).findAll(pageable);
+        Mockito.verify(modelMapper).map(brands, listType);
+    }
+
+
 }

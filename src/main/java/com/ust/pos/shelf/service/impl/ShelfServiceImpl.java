@@ -1,12 +1,16 @@
 package com.ust.pos.shelf.service.impl;
 
+import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.ShelfDto;
+import com.ust.pos.model.Role;
 import com.ust.pos.model.Shelf;
 import com.ust.pos.model.ShelfRepository;
 import com.ust.pos.shelf.service.ShelfService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,5 +93,12 @@ public class ShelfServiceImpl implements ShelfService {
         }.getType();
         List<ShelfDto> shelfDtos = modelMapper.map(shelfRepository.findAll(), listType);
         return shelfDtos.stream().filter(s -> s.getStatus()).toList();
+    }
+    @Override
+    public List<ShelfDto> findAll(Pageable pageable) {
+        Type listOfType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
+        Page<Shelf> rolePage = shelfRepository.findAll(pageable);
+        return modelMapper.map(rolePage.getContent(), listOfType);
     }
 }

@@ -22,6 +22,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.*;
@@ -223,5 +227,28 @@ class NodeServiceTest {
 
         Mockito.verify(nodeRepository)
                 .deleteByIdentifier("N1");
+    }
+    @Test
+    void findAll_WithPagination_ShouldReturnNodeDtos() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Node> nodes = List.of(new Node());
+        Page<Node> page = new PageImpl<>(nodes);
+
+        List<NodeDto> nodeDtos = List.of(new NodeDto());
+
+        Type listType = new TypeToken<List<NodeDto>>() {}.getType();
+
+        Mockito.when(nodeRepository.findAll(pageable))
+                .thenReturn(page);
+        Mockito.when(modelMapper.map(nodes, listType))
+                .thenReturn(nodeDtos);
+
+        List<NodeDto> response = nodeService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.size());
+        Mockito.verify(nodeRepository).findAll(pageable);
+        Mockito.verify(modelMapper).map(nodes, listType);
     }
 }

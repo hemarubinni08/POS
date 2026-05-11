@@ -1,20 +1,21 @@
 package com.ust.pos.api.racks;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RacksDto;
-import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.racks.service.RacksService;
 import com.ust.pos.shelf.service.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/api/racks")
-public class RacksApiController {
+public class RacksApiController extends BaseController {
 
     public static final String REDIRECT_RACKS_LIST = "redirect:/racks/list";
 
@@ -25,9 +26,10 @@ public class RacksApiController {
     private ShelfService shelfService;
 
     @GetMapping("/list")
-    public List<RacksDto> home() {
-        return racksService.findAll();
-    }
+    public List<RacksDto> home(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
+                paginationDto.getSortField());
+        return racksService.findAll(pageable);    }
 
     @PostMapping("/add")
     public RacksDto addPost(@RequestBody RacksDto racksDto) {

@@ -12,7 +12,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 
@@ -138,5 +144,28 @@ public class RoleServiceTest {
         List<RoleDto> response = roleService.findAll();
 
         Assertions.assertEquals(1, response.size());
+    }
+    @Test
+    void findAll_WithPagination_ShouldReturnRoleDtos() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Role> roles = List.of(new Role());
+        Page<Role> page = new PageImpl<>(roles);
+
+        List<RoleDto> roleDtos = List.of(new RoleDto());
+
+        Type listType = new TypeToken<List<RoleDto>>() {}.getType();
+
+        Mockito.when(roleRepository.findAll(pageable))
+                .thenReturn(page);
+        Mockito.when(modelMapper.map(roles, listType))
+                .thenReturn(roleDtos);
+
+        List<RoleDto> response = roleService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.size());
+        Mockito.verify(roleRepository).findAll(pageable);
+        Mockito.verify(modelMapper).map(roles, listType);
     }
 }

@@ -7,6 +7,8 @@ import com.ust.pos.model.BrandRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,10 +61,11 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public List<BrandDto> findAll() {
+    public List<BrandDto> findAll(Pageable pageable) {
         Type listOfType = new TypeToken<List<BrandDto>>() {
         }.getType();
-        return modelMapper.map(brandRepository.findAll(), listOfType);
+        Page<Brand> brandPage = brandRepository.findAll(pageable);
+        return modelMapper.map(brandPage.getContent(), listOfType);
     }
 
     @Override
@@ -75,5 +78,11 @@ public class BrandServiceImpl implements BrandService {
         Brand brand = brandRepository.findByIdentifier(identifier);
         brand.setStatus(status);
         brandRepository.save(brand);
+    }
+    @Override
+    public List<BrandDto> findAll() {
+        Type listOfType = new TypeToken<List<BrandDto>>() {
+        }.getType();
+        return modelMapper.map(brandRepository.findAll(), listOfType);
     }
 }

@@ -13,6 +13,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -227,5 +231,28 @@ class ShelfServiceTest {
 
         Mockito.verify(shelfRepository)
                 .deleteByIdentifier("S1");
+    }
+    @Test
+    void findAll_WithPagination_ShouldReturnShelfDtos() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Shelf> shelves = List.of(new Shelf());
+        Page<Shelf> page = new PageImpl<>(shelves);
+
+        List<ShelfDto> shelfDtos = List.of(new ShelfDto());
+
+        Type listType = new TypeToken<List<ShelfDto>>() {}.getType();
+
+        Mockito.when(shelfRepository.findAll(pageable))
+                .thenReturn(page);
+        Mockito.when(modelMapper.map(shelves, listType))
+                .thenReturn(shelfDtos);
+
+        List<ShelfDto> response = shelfService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.size());
+        Mockito.verify(shelfRepository).findAll(pageable);
+        Mockito.verify(modelMapper).map(shelves, listType);
     }
 }

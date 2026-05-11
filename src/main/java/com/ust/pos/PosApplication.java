@@ -18,11 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.sql.DataSource;
 
 @SpringBootApplication
-@OpenAPIDefinition(
-        servers = {
-                @Server(url = "/", description = "Default Server URL")
-        }
-)
+@OpenAPIDefinition
 @ComponentScan({"com.ust.pos.api", "com.ust.pos.web.controller", "com.ust.pos"})
 public class PosApplication {
     @Autowired

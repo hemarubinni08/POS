@@ -1,17 +1,19 @@
 package com.ust.pos.api.customer;
 
 import com.ust.pos.address.service.AddressService;
+import com.ust.pos.api.BaseController;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/customer")
-public class CustomerApiController {
-
+public class CustomerApiController extends BaseController {
 
     @Autowired
     private AddressService addressService;
@@ -20,8 +22,10 @@ public class CustomerApiController {
     private CustomerService customerService;
 
     @GetMapping("/list")
-    public List<CustomerDto> home() {
-        return customerService.findAll();
+    public List<CustomerDto> home(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
+                paginationDto.getSortField());
+        return customerService.findAll(pageable);
     }
 
     @PostMapping("/add")

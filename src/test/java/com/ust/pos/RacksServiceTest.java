@@ -13,6 +13,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -188,4 +192,28 @@ class RacksServiceTest {
         Mockito.verify(racksRepository)
                 .deleteByIdentifier("R1");
     }
+    @Test
+    void findAll_WithPagination_ShouldReturnRacksDtos() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Racks> racks = List.of(new Racks());
+        Page<Racks> page = new PageImpl<>(racks);
+
+        List<RacksDto> racksDtos = List.of(new RacksDto());
+
+        Type listType = new TypeToken<List<RacksDto>>() {}.getType();
+
+        Mockito.when(racksRepository.findAll(pageable))
+                .thenReturn(page);
+        Mockito.when(modelMapper.map(racks, listType))
+                .thenReturn(racksDtos);
+
+        List<RacksDto> response = racksService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.size());
+        Mockito.verify(racksRepository).findAll(pageable);
+        Mockito.verify(modelMapper).map(racks, listType);
+    }
+
 }
