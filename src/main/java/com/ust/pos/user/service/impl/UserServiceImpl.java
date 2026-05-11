@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
+
     @Autowired
     private UserRepository userRepository;
 
@@ -62,10 +65,10 @@ public class UserServiceImpl implements UserService {
         } else {
             User existingUser = userOptional.get();
             if (!username.equalsIgnoreCase(existingUser.getUsername()) && (userRepository.findByUsername(username) != null)) {
-                    userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
-                    userDto.setSuccess(false);
-                    return userDto;
-                }
+                userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
+                userDto.setSuccess(false);
+                return userDto;
+            }
             modelMapper.map(userDto, existingUser);
             userRepository.save(existingUser);
         }
@@ -78,9 +81,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAll() {
+    public List<UserDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
-        return modelMapper.map(userRepository.findAll(), listType);
+        Page<User> userPage = userRepository.findAll(pageable);
+        return modelMapper.map(userPage.getContent(), listType);
+    }
+
+    @Override
+    public List<UserDto> findAllActive() {
+        Type listType = new TypeToken<List<UserDto>>() {
+        }.getType();
+        return modelMapper.map(userRepository.findByStatus(true), listType);
+    }
+
+    @Override
+    public void changeStatus(String username, boolean status) {
+        User user = userRepository.findByUsername(username);
+        user.setStatus(status);
+        userRepository.save(user);
     }
 }

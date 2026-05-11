@@ -11,4 +11,6 @@ public interface NodeRepository extends JpaRepository<Node, Long> {
     Node findByIdentifier(String identifier);
 
     void deleteByIdentifier(String identifier);
+
+    List<Node> findByStatus(boolean status);
 }

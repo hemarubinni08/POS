@@ -175,6 +175,7 @@ tbody tr:hover {
         <table>
             <thead>
             <tr>
+                <th>SL No</th>
                 <th>Email</th>
                 <th>Name</th>
                 <th>Phone</th>
@@ -190,6 +191,8 @@ tbody tr:hover {
                 <c:when test="${not empty users}">
                     <c:forEach var="user" items="${users}">
                         <tr>
+
+                            <td>${user.id}</td>
 
                             <td>${user.username}</td>
 

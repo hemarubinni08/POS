@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -59,13 +61,28 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void delete(String identifier) {
-         roleRepository.deleteByIdentifier(identifier);
+        roleRepository.deleteByIdentifier(identifier);
     }
 
     @Override
-    public List<RoleDto> findAll() {
+    public List<RoleDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
-        return modelMapper.map(roleRepository.findAll(), listType);
+        Page<Role> rolePage = roleRepository.findAll(pageable);
+        return modelMapper.map(rolePage.getContent(), listType);
+    }
+
+    @Override
+    public List<RoleDto> findAllActive() {
+        Type listType = new TypeToken<List<RoleDto>>() {
+        }.getType();
+        return modelMapper.map(roleRepository.findByStatus(true), listType);
+    }
+
+    @Override
+    public void changeStatus(String identifier, boolean status) {
+        Role role = roleRepository.findByIdentifier(identifier);
+        role.setStatus(status);
+        roleRepository.save(role);
     }
 }
