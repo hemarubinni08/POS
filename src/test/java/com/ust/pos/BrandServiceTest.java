@@ -30,9 +30,7 @@ class BrandServiceTest {
     private ModelMapper modelMapper;
 
     @Test
-    void saveTest() {
-
-        //request data
+    void saveTest(){
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("B101");
 
@@ -47,8 +45,7 @@ class BrandServiceTest {
     }
 
     @Test
-    void saveTestFailure() {
-        //request data
+    void saveTestFailure(){
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("B101");
 
@@ -67,6 +64,7 @@ class BrandServiceTest {
 
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("B101");
+
         Mockito.when(brandRepository.findByIdentifier("B101")).thenReturn(brand);
         Mockito.when(modelMapper.map(brand, BrandDto.class)).thenReturn(brandDto);
         BrandDto response = brandService.findByIdentifier("B101");
@@ -80,6 +78,7 @@ class BrandServiceTest {
 
         Brand existingBrand = new Brand();
         existingBrand.setIdentifier("B101");
+
         Mockito.when(brandRepository.findByIdentifier("B101")).thenReturn(existingBrand);
         Mockito.when(brandRepository.save(existingBrand)).thenReturn(existingBrand);
         BrandDto response = brandService.update(brandDto);
@@ -104,25 +103,22 @@ class BrandServiceTest {
 
     @Test
     void findAllWithPageableTest() {
-
-        // ARRANGE
         Brand brand = new Brand();
         brand.setIdentifier("B101");
+
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("B101");
 
         List<Brand> brandList = List.of(brand);
         Page<Brand> brandPage = new PageImpl<>(brandList, PageRequest.of(0, 10), 1);
         Pageable pageable = PageRequest.of(0, 10);
-
         Mockito.when(brandRepository.findAll(pageable)).thenReturn(brandPage);
         Mockito.when(modelMapper.map(
                 Mockito.eq(brandList),
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(List.of(brandDto));
-        // ACT
+
         List<BrandDto> response = brandService.findAll(pageable);
-        // ASSERT
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("B101", response.get(0).getIdentifier());
@@ -130,55 +126,35 @@ class BrandServiceTest {
 
     @Test
     void toggleStatusSuccessTest() {
-
-        // ARRANGE
         Brand brand = new Brand();
         brand.setIdentifier("Admin");
-        brand.setStatus(false); // currently inactive
+        brand.setStatus(false);
+        // currently inactive
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("Admin");
-        brandDto.setStatus(true); // after toggle should be active
-        // MOCK
-        // brand exists in DB
+        brandDto.setStatus(true);
+        // after toggle should be active
         Mockito.when(brandRepository.findByIdentifier("Admin")).thenReturn(brand);
-        // after save, brand status is updated
         Mockito.when(brandRepository.save(brand)).thenReturn(brand);
-        // mapper returns brandDto
         Mockito.when(modelMapper.map(brand, BrandDto.class)).thenReturn(brandDto);
-        // ACT
         BrandDto response = brandService.toggleStatus("Admin", true);
-        // ASSERT
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertTrue(response.isStatus()); // status should be true now
     }
 
     @Test
     void toggleStatusFailureTest() {
-
-        // ARRANGE - brand does NOT exist in DB
-
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("Admin");
 
-        // MOCK
-        // brand not found → returns null
         Mockito.when(brandRepository.findByIdentifier("Admin")).thenReturn(null);
-
-        // ACT
         BrandDto response = brandService.toggleStatus("Admin", true);
-
-        // ASSERT
-        // since brand is null, modelMapper.map(null, BrandDto.class) returns null
         Assertions.assertNull(response);
-
-        // verify save was NEVER called because brand was null
         Mockito.verify(brandRepository, Mockito.never()).save(Mockito.any());
     }
 
     @Test
     void findActiveBrandsTest() {
-
-        // ARRANGE
         Brand brand = new Brand();
         brand.setIdentifier("RACK_01");
         brand.setStatus(true);
@@ -196,10 +172,7 @@ class BrandServiceTest {
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(activeBrandDtos);
 
-        // ACT
         List<BrandDto> response = brandService.findActiveBrands();
-
-        // ASSERT
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("RACK_01", response.get(0).getIdentifier());

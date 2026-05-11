@@ -98,19 +98,14 @@
 </head>
 
 <body>
-
 <div class="card">
     <h3>Add Price</h3>
-
     <c:if test="${not empty message}">
         <div class="message">${message}</div>
     </c:if>
-
     <form:form method="post"
                action="${pageContext.request.contextPath}/price/add"
                modelAttribute="priceDto">
-
-        <!-- PRODUCT DROPDOWN -->
         <div class="form-group">
             <label>Product</label>
             <form:select path="product" required="true">
@@ -124,8 +119,6 @@
                 </c:forEach>
             </form:select>
         </div>
-
-        <!--  PRICE TYPE DROPDOWN -->
         <div class="form-group">
             <label>Price Type</label>
             <form:select path="priceType" required="true">
@@ -137,8 +130,6 @@
                 <form:option value="DISCOUNT">Discount</form:option>
             </form:select>
         </div>
-
-        <!-- AMOUNT INPUT -->
         <div class="form-group">
             <label>Amount</label>
             <form:input
@@ -149,15 +140,11 @@
                     required="true"
                     placeholder="Enter amount (e.g. 199.99)"/>
         </div>
-
         <button type="submit">Add Price</button>
-
         <a href="${pageContext.request.contextPath}/price/list" class="back-link">
             ← Back to Price List
         </a>
-
     </form:form>
 </div>
-
 </body>
 </html>

@@ -7,11 +7,9 @@
     <meta charset="UTF-8">
     <title>Brand List</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -67,35 +65,26 @@
 </head>
 
 <body>
-
 <div class="content">
     <div class="page-wrapper">
-
-        <!-- Header -->
         <div class="header-banner">
             <h2>Brand List</h2>
             <p>View and manage product brands</p>
         </div>
-
         <div class="welcome-card">
-
-            <!--HOME-->
             <div class="d-flex justify-content-between mb-3">
                 <a href="${pageContext.request.contextPath}/"
                    class="btn btn-secondary btn-sm">
                     Home
                 </a>
-
                 <a href="${pageContext.request.contextPath}/brand/add"
                    class="btn btn-primary btn-sm">
                     + Add Brand
                 </a>
             </div>
-
             <c:if test="${empty brands}">
                 <div class="alert alert-info text-center">No brands found.</div>
             </c:if>
-
             <c:if test="${not empty brands}">
                 <table class="table table-bordered table-hover">
                     <thead>
@@ -107,14 +96,12 @@
                         <th style="width:180px;">Action</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <c:forEach items="${brands}" var="brand">
                         <tr>
                             <td>${brand.identifier}</td>
                             <td>${brand.brandName}</td>
                             <td>${brand.description}</td>
-
                             <td class="text-center">
                                 <div class="form-check form-switch">
                                     <input
@@ -125,12 +112,9 @@
                                     >
                                 </div>
                             </td>
-
-                            <!-- Action -->
                             <td class="text-center">
                                 <a href="${pageContext.request.contextPath}/brand/get?identifier=${brand.identifier}"
                                    class="btn btn-success btn-sm mr-2">Update</a>
-
                                 <a href="${pageContext.request.contextPath}/brand/delete?identifier=${brand.identifier}"
                                    class="btn btn-danger btn-sm"
                                    onclick="return confirm('Are you sure you want to delete this brand?');">

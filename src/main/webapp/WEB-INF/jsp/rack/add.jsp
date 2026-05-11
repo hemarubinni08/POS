@@ -7,11 +7,9 @@
     <meta charset="UTF-8">
     <title>Add Rack</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
@@ -54,23 +52,15 @@
 </head>
 
 <body>
-
 <div class="content">
     <div class="page-wrapper">
-
-        <!-- Header -->
         <div class="header-banner">
             <h4>Add Rack</h4>
             <p>Create a new rack</p>
         </div>
-
-        <!-- Form Card -->
         <div class="form-card">
-
             <form action="${pageContext.request.contextPath}/rack/add"
                   method="post">
-
-                <!-- Identifier -->
                 <div class="form-group">
                     <label for="identifier">Identifier</label>
                     <input type="text"
@@ -80,8 +70,6 @@
                            placeholder="Enter rack identifier"
                            required>
                 </div>
-
-                <!-- Rack Name -->
                 <div class="form-group">
                     <label for="name">Rack Name</label>
                     <input type="text"
@@ -91,8 +79,6 @@
                            placeholder="Enter rack name"
                            required>
                 </div>
-
-                <!-- Shelf Multi-Select Dropdown -->
                 <div class="form-group">
                     <label for="shelves">Shelves</label>
                     <select class="form-control"
@@ -108,8 +94,6 @@
                         </c:forEach>
                     </select>
                 </div>
-
-                <!-- Status -->
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select class="form-control"
@@ -121,32 +105,24 @@
                         <option value="false">Inactive</option>
                     </select>
                 </div>
-
-                <!-- Error Message -->
                 <c:if test="${not empty message}">
                     <div class="alert alert-danger">
                         ${message}
                     </div>
                 </c:if>
-
-                <!-- Buttons -->
                 <div class="d-flex justify-content-between">
                     <a href="${pageContext.request.contextPath}/rack/list"
                        class="btn btn-secondary btn-sm">
                         Back
                     </a>
-
                     <button type="submit"
                             class="btn btn-primary btn-sm">
                         Save Rack
                     </button>
                 </div>
-
             </form>
-
         </div>
     </div>
 </div>
-
 </body>
 </html>

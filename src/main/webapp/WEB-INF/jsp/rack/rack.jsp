@@ -7,11 +7,9 @@
     <meta charset="UTF-8">
     <title>Update Rack</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
@@ -51,7 +49,6 @@
             font-weight: 500;
         }
 
-        /* Toggle Switch */
         .switch {
             position: relative;
             display: inline-block;
@@ -95,23 +92,16 @@
         }
     </style>
 </head>
-
 <body>
 
 <div class="content">
     <div class="page-wrapper">
-
-        <!-- Header -->
         <div class="header-banner">
             <h4>Update Rack</h4>
             <p>Edit rack details</p>
         </div>
-
-        <!-- Form -->
         <div class="form-card">
             <form action="${pageContext.request.contextPath}/rack/update" method="post">
-
-                <!-- Identifier -->
                 <div class="form-group">
                     <label>Identifier</label>
                     <input type="text"
@@ -120,8 +110,6 @@
                            value="${rack.identifier}"
                            readonly>
                 </div>
-
-                <!-- Rack Name -->
                 <div class="form-group">
                     <label>Rack Name</label>
                     <input type="text"
@@ -130,8 +118,6 @@
                            value="${rack.name}"
                            required>
                 </div>
-
-                <!--  Shelves Multi-Select -->
                 <div class="form-group">
                     <label for="shelves">Shelves</label>
                     <select class="form-control"
@@ -147,8 +133,6 @@
                         </c:forEach>
                     </select>
                 </div>
-
-          <!-- Status Dropdown -->
           <div class="form-group">
               <label>Status</label>
               <select name="status" class="form-control" required>
@@ -162,32 +146,24 @@
                   </option>
               </select>
           </div>
-
-                <!-- Error Message -->
                 <c:if test="${not empty message}">
                     <div class="alert alert-danger">
                         ${message}
                     </div>
                 </c:if>
-
-                <!-- Buttons -->
                 <div class="d-flex justify-content-between">
                     <a href="${pageContext.request.contextPath}/rack/list"
                        class="btn btn-secondary btn-sm">
                         Back
                     </a>
-
                     <button type="submit"
                             class="btn btn-primary btn-sm">
                         Update Rack
                     </button>
                 </div>
-
             </form>
         </div>
-
     </div>
 </div>
-
 </body>
 </html>

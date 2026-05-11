@@ -32,32 +32,22 @@
 </head>
 
 <body>
-
 <div class="container mt-5">
-
     <div class="card">
-
         <h4 class="text-primary fw-bold mb-3">Update Customer</h4>
-
         <c:if test="${not empty message}">
             <div class="alert alert-danger">${message}</div>
         </c:if>
-
         <form:form method="post"
                    action="/customer/update"
                    modelAttribute="customer">
-
-            <!-- IDENTIFIER -->
             <form:hidden path="identifier"/>
-
             <!--CUSTOMER DETAILS-->
-
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Customer Name</label>
                     <form:input path="name" cssClass="form-control"/>
                 </div>
-
                 <div class="col-md-6">
                        <label class="form-label fw-semibold">
                            Phone Number <span style="color:red">*</span>
@@ -73,7 +63,6 @@
                                    title="Phone number cannot be edited"/>
                    </div>
             </div>
-
                  <div class="col-md-6">
                            <label class="form-label fw-semibold">Email</label>
                         <form:input path="email"
@@ -94,13 +83,11 @@
                     </form:select>
                 </div>
             </div>
-
             <div class="row g-3 mt-1">
                 <div class="col-md-6">
                     <label class="form-label">Balance</label>
                     <form:input path="balance" cssClass="form-control"/>
                 </div>
-
                 <div class="col-md-6">
                     <label class="form-label">Balance Type</label>
                     <form:select path="balanceType" cssClass="form-control">
@@ -110,7 +97,6 @@
                     </form:select>
                 </div>
             </div>
-
             <div class="row g-3 mt-1">
                 <div class="col-md-6">
                     <label class="form-label">Credit Limit</label>
@@ -125,91 +111,71 @@
                   </form:select>
                   </div>
             <!--BILLING ADDRESS-->
-
             <div class="section-title">Billing Address</div>
-
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Address Line</label>
                     <form:input path="billingAddress.addressLine" cssClass="form-control"/>
                 </div>
-
                 <div class="col-md-6">
                     <label class="form-label">City</label>
                     <form:input path="billingAddress.city" cssClass="form-control"/>
                 </div>
             </div>
-
             <div class="row g-3 mt-1">
                 <div class="col-md-6">
                     <label class="form-label">State</label>
                     <form:input path="billingAddress.state" cssClass="form-control"/>
                 </div>
-
                 <div class="col-md-6">
                     <label class="form-label">Zip Code</label>
                     <form:input path="billingAddress.zip" cssClass="form-control"/>
                 </div>
             </div>
-
             <div class="row g-3 mt-1">
                 <div class="col-md-6">
                     <label class="form-label">Country</label>
                     <form:input path="billingAddress.country" cssClass="form-control"/>
                 </div>
             </div>
-
             <!--SHIPPING ADDRESS-->
-
             <div class="section-title">Shipping Address</div>
-
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">Address Line</label>
                     <form:input path="shippingAddress.addressLine" cssClass="form-control"/>
                 </div>
-
                 <div class="col-md-6">
                     <label class="form-label">City</label>
                     <form:input path="shippingAddress.city" cssClass="form-control"/>
                 </div>
             </div>
-
             <div class="row g-3 mt-1">
                 <div class="col-md-6">
                     <label class="form-label">State</label>
                     <form:input path="shippingAddress.state" cssClass="form-control"/>
                 </div>
-
                 <div class="col-md-6">
                     <label class="form-label">Zip Code</label>
                     <form:input path="shippingAddress.zip" cssClass="form-control"/>
                 </div>
             </div>
-
             <div class="row g-3 mt-1">
                 <div class="col-md-6">
                     <label class="form-label">Country</label>
                     <form:input path="shippingAddress.country" cssClass="form-control"/>
                 </div>
             </div>
-
-            <!--ACTIONS-->
-
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary">
                     Update Customer
                 </button>
-
                 <a href="/customer/list" class="btn btn-secondary ms-2">
                     Cancel
                 </a>
             </div>
-
         </form:form>
-
     </div>
-
 </div>
 </body>
 </html>

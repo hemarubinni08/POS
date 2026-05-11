@@ -81,25 +81,20 @@
 <body>
 
 <div class="card">
-
     <div class="card-header">
         Category List
     </div>
-
     <div class="card-body">
-
         <div class="mb-3 d-flex justify-content-between">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-outline-secondary btn-sm">
                 Back to Home
             </a>
-
             <a href="${pageContext.request.contextPath}/category/add"
                class="btn btn-primary btn-sm">
                 + Add Category
             </a>
         </div>
-
         <table class="table table-bordered table-hover">
             <thead>
             <tr>
@@ -109,7 +104,6 @@
                 <th class="text-center">Actions</th>
             </tr>
             </thead>
-
             <tbody>
             <c:if test="${empty categories}">
                 <tr>
@@ -118,19 +112,16 @@
                     </td>
                 </tr>
             </c:if>
-
             <c:forEach var="cat" items="${categories}">
                 <tr>
                     <td>${cat.identifier}</td>
                     <td>${cat.name}</td>
                     <td>${cat.superCategory}</td>
-
                     <td class="text-center">
                         <a href="${pageContext.request.contextPath}/category/get?identifier=${cat.identifier}"
                            class="btn btn-outline-primary btn-sm mr-1">
                             Update
                         </a>
-
                         <a href="${pageContext.request.contextPath}/category/delete?identifier=${cat.identifier}"
                            class="btn btn-outline-danger btn-sm"
                            onclick="return confirm('Are you sure you want to delete this category?');">
@@ -141,7 +132,6 @@
             </c:forEach>
             </body>
         </table>
-
     </div>
 </div>
 </body>

@@ -7,11 +7,9 @@
     <meta charset="UTF-8">
     <title>Product List</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
@@ -57,7 +55,6 @@
             vertical-align: middle;
         }
 
-        /* Toggle Switch */
         .switch {
             position: relative;
             display: inline-block;
@@ -106,33 +103,24 @@
 </head>
 
 <body>
-
 <div class="content">
     <div class="page-wrapper">
-
-        <!-- Header -->
         <div class="header-banner">
             <h2>Product List</h2>
             <p>View and manage products</p>
         </div>
-
         <div class="welcome-card">
-
-            <!-- Top Buttons -->
             <div class="d-flex justify-content-between mb-3">
                 <a href="${pageContext.request.contextPath}/"
                    class="btn btn-secondary btn-sm">Home</a>
-
                 <a href="${pageContext.request.contextPath}/product/add"
                    class="btn btn-primary btn-sm">+ Add Product</a>
             </div>
-
             <c:if test="${empty products}">
                 <div class="alert alert-info text-center">
                     No Products Available
                 </div>
             </c:if>
-
             <c:if test="${not empty products}">
                 <table class="table table-bordered table-hover">
                     <thead>
@@ -147,7 +135,6 @@
                         <th style="width:180px;">Action</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <c:forEach var="product" items="${products}">
                         <tr>
@@ -157,8 +144,6 @@
                             <td>${product.brand}</td>
                             <td>${product.model}</td>
                             <td>${product.description}</td>
-
-                            <!-- Status -->
                             <td class="text-center">
                                 <form action="${pageContext.request.contextPath}/product/toggleStatus"
                                       method="get">
@@ -171,7 +156,6 @@
                                         <span class="slider"></span>
                                     </label>
                                 </form>
-
                                 <div class="mt-1 text-primary" style="font-size:12px;">
                                     <c:choose>
                                         <c:when test="${product.status}">
@@ -183,14 +167,11 @@
                                     </c:choose>
                                 </div>
                             </td>
-
-                            <!-- Actions -->
                             <td class="text-center">
                                 <a href="${pageContext.request.contextPath}/product/get?identifier=${product.identifier}"
                                    class="btn btn-success btn-sm mr-2">
                                     Update
                                 </a>
-
                                 <a href="${pageContext.request.contextPath}/product/delete?identifier=${product.identifier}"
                                    class="btn btn-danger btn-sm"
                                    onclick="return confirm('Are you sure you want to delete this product?');">
@@ -202,10 +183,8 @@
                     </tbody>
                 </table>
             </c:if>
-
         </div>
     </div>
 </div>
-
 </body>
 </html>

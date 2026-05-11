@@ -93,37 +93,29 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="content">
     <div class="page-wrapper">
-
         <div class="header-banner">
             <h4>Rack List</h4>
             <p>View and manage racks</p>
         </div>
-
         <div class="list-card">
-
             <div class="d-flex justify-content-between mb-3">
                 <a href="${pageContext.request.contextPath}/"
                    class="btn btn-secondary btn-sm">
                     Home
                 </a>
-
                 <a href="${pageContext.request.contextPath}/rack/add"
                    class="btn btn-primary btn-sm">
                     + Add Rack
                 </a>
             </div>
-
             <c:if test="${empty racks}">
                 <div class="alert alert-info text-center">
                     No racks found.
                 </div>
             </c:if>
-
             <c:if test="${not empty racks}">
                 <table class="table table-bordered table-hover">
                     <thead>
@@ -135,34 +127,27 @@
                         <th style="width:180px;">Action</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <c:forEach items="${racks}" var="rack">
                         <tr>
                             <td>${rack.identifier}</td>
                             <td>${rack.name}</td>
-
-                            <!--  Shelf Values -->
                       <td>
                           <c:if test="${not empty rack.shelves}">
                               <c:forTokens items="${rack.shelves}" delims="," var="shelf">
                                   ${shelf}<br/>
                               </c:forTokens>
                           </c:if>
-
                           <c:if test="${empty rack.shelves}">
                               <span class="text-muted">No Shelves</span>
                           </c:if>
                       </td>
-
-                            <!-- Status -->
                             <td class="text-center">
                                 <form action="${pageContext.request.contextPath}/rack/toggleStatus"
                                       method="post">
                                     <input type="hidden"
                                            name="identifier"
                                            value="${rack.identifier}"/>
-
                                     <label class="switch">
                                         <input type="checkbox"
                                                onchange="this.form.submit()"
@@ -170,7 +155,6 @@
                                         <span class="slider"></span>
                                     </label>
                                 </form>
-
                                 <small class="text-primary">
                                     <c:choose>
                                         <c:when test="${rack.status}">Active</c:when>
@@ -178,14 +162,11 @@
                                     </c:choose>
                                 </small>
                             </td>
-
-                            <!-- Actions -->
                             <td class="text-center">
                                 <a href="${pageContext.request.contextPath}/rack/get?identifier=${rack.identifier}"
                                    class="btn btn-success btn-sm mr-1">
                                     Update
                                 </a>
-
                                 <a href="${pageContext.request.contextPath}/rack/delete?identifier=${rack.identifier}"
                                    class="btn btn-danger btn-sm"
                                    onclick="return confirm('Delete this rack?');">
@@ -197,10 +178,8 @@
                     </tbody>
                 </table>
             </c:if>
-
         </div>
     </div>
 </div>
-
 </body>
 </html>

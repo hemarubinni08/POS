@@ -9,11 +9,9 @@
     <meta charset="UTF-8">
     <title>Customer List</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
@@ -59,7 +57,6 @@
             vertical-align: middle;
         }
 
-        /* BLUE TOGGLE SWITCH */
         .switch {
             position: relative;
             display: inline-block;
@@ -97,7 +94,6 @@
             border-radius: 50%;
         }
 
-        /* ON = BLUE */
         input:checked + .slider {
             background-color: #007bff;
         }
@@ -109,35 +105,24 @@
 </head>
 
 <body>
-
 <div class="content">
     <div class="page-wrapper">
-
-        <!-- Header -->
         <div class="header-banner">
             <h2>Customer List</h2>
             <p>View and manage customers</p>
         </div>
-
         <div class="welcome-card">
-
-            <!-- Top Actions -->
             <div class="d-flex justify-content-between mb-3">
                 <a href="${pageContext.request.contextPath}/"
                    class="btn btn-secondary btn-sm">Home</a>
-
                 <a href="${pageContext.request.contextPath}/customer/add"
                    class="btn btn-primary btn-sm">+ Add Customer</a>
             </div>
-
-            <!-- Empty State -->
             <c:if test="${empty customers}">
                 <div class="alert alert-info text-center">
                     No customers found.
                 </div>
             </c:if>
-
-            <!-- Customer Table -->
             <c:if test="${not empty customers}">
                 <table class="table table-bordered table-hover">
                     <thead>
@@ -152,7 +137,6 @@
                         <th style="width: 180px;">Action</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <c:forEach items="${customers}" var="customer" varStatus="status">
                         <tr>
@@ -167,25 +151,19 @@
                                     (${customer.balanceType})
                                 </small>
                             </td>
-
-                            <!-- BLUE STATUS TOGGLE -->
                             <td class="text-center">
                                 <form action="${pageContext.request.contextPath}/customer/toggleStatus"
                                       method="get">
-
                                     <input type="hidden"
                                            name="identifier"
                                            value="${customer.identifier}" />
-
                                     <label class="switch">
                                         <input type="checkbox"
                                                onchange="this.form.submit()"
                                                <c:if test="${customer.status}">checked</c:if>>
                                         <span class="slider"></span>
                                     </label>
-
                                 </form>
-
                                 <small class="text-primary">
                                     <c:choose>
                                         <c:when test="${customer.status}">
@@ -197,14 +175,11 @@
                                     </c:choose>
                                 </small>
                             </td>
-
-                            <!-- Action -->
                             <td class="text-center">
                                 <a href="${pageContext.request.contextPath}/customer/get?identifier=${customer.identifier}"
                                    class="btn btn-success btn-sm mr-2">
                                     Update
                                 </a>
-
                                 <a href="${pageContext.request.contextPath}/customer/delete?identifier=${customer.identifier}"
                                    class="btn btn-danger btn-sm"
                                    onclick="return confirm('Are you sure you want to delete this customer?');">
@@ -216,7 +191,6 @@
                     </tbody>
                 </table>
             </c:if>
-
         </div>
     </div>
 </div>

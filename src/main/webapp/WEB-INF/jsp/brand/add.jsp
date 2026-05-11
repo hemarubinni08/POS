@@ -7,12 +7,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Brand</title>
-
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
@@ -68,31 +65,20 @@
 </head>
 
 <body>
-
 <div class="content">
     <div class="form-wrapper">
-
-        <!-- Header -->
         <div class="header-banner">
             <h2>Add Brand</h2>
             <p>Create and manage product brands</p>
         </div>
-
-        <!-- Form Card -->
         <div class="welcome-card">
-
             <h5 class="mb-4 font-weight-semibold">Brand Details</h5>
-
-            <!-- Error Message -->
             <c:if test="${not empty message}">
                 <div class="alert alert-danger">${message}</div>
             </c:if>
-
             <form:form action="${pageContext.request.contextPath}/brand/add"
                        method="post"
                        modelAttribute="brandDto">
-
-                <!-- Identifier -->
                 <div class="form-group">
                     <label>Identifier</label>
                     <form:input path="identifier"
@@ -100,18 +86,13 @@
                                 placeholder="Enter unique identifier"
                                 required="required"/>
                 </div>
-
-                <!-- Brand Name -->
                 <div class="form-group">
                     <label>Brand Name</label>
                     <form:input path="brandName"
                                 cssClass="form-control"
                                 placeholder="Enter brand name"
                                  required="required"/>
-
                 </div>
-
-                <!-- Description -->
                 <div class="form-group">
                     <label>Description</label>
                     <form:textarea path="description"
@@ -120,8 +101,6 @@
                                    placeholder="Enter description"
                                    required="required"/>
                 </div>
-
-                <--Status Field-->
                 <div class="form-group">
                     <label>Status</label>
                     <form:select path="status" cssClass="form-control">
@@ -129,8 +108,6 @@
                         <form:option value="false">Inactive</form:option>
                     </form:select>
                 </div>
-
-                <!-- Buttons -->
                 <div class="text-right mt-4">
                     <button type="submit" class="btn btn-primary">
                         Save Brand
@@ -140,9 +117,7 @@
                         Cancel
                     </a>
                 </div>
-
             </form:form>
-
         </div>
     </div>
 </div>

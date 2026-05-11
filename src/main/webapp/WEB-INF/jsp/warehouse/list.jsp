@@ -7,11 +7,9 @@
     <meta charset="UTF-8">
     <title>Warehouse List</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
@@ -57,7 +55,6 @@
             vertical-align: middle;
         }
 
-        /* ===== TOGGLE SWITCH ===== */
         .switch {
             position: relative;
             display: inline-block;
@@ -104,39 +101,29 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="content">
     <div class="page-wrapper">
-
-        <!-- Header -->
         <div class="header-banner">
             <h2>Warehouse List</h2>
             <p>View and manage warehouses</p>
         </div>
-
         <div class="welcome-card">
-
-            <!-- Top buttons (same as Brand page) -->
             <div class="d-flex justify-content-between mb-3">
                 <a href="${pageContext.request.contextPath}/"
                    class="btn btn-secondary btn-sm">
                     Home
                 </a>
-
                 <a href="${pageContext.request.contextPath}/warehouse/add"
                    class="btn btn-primary btn-sm">
                     + Add Warehouse
                 </a>
             </div>
-
             <c:if test="${empty warehouses}">
                 <div class="alert alert-info text-center">
                     No Warehouses Available
                 </div>
             </c:if>
-
             <c:if test="${not empty warehouses}">
                 <table class="table table-bordered table-hover">
                     <thead>
@@ -149,7 +136,6 @@
                         <th style="width:180px;">Action</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <c:forEach items="${warehouses}" var="wh">
                         <tr>
@@ -157,14 +143,11 @@
                             <td>${wh.location}</td>
                             <td>${wh.contactPerson}</td>
                             <td>${wh.phoneNumber}</td>
-
-                            <!-- STATUS TOGGLE -->
                             <td class="text-center">
                                 <form action="${pageContext.request.contextPath}/warehouse/toggleStatus"
                                       method="get">
                                     <input type="hidden" name="identifier"
                                            value="${wh.identifier}"/>
-
                                     <label class="switch">
                                         <input type="checkbox"
                                                onchange="this.form.submit()"
@@ -172,7 +155,6 @@
                                         <span class="slider"></span>
                                     </label>
                                 </form>
-
                                 <div class="mt-1 text-primary" style="font-size:12px;">
                                     <c:choose>
                                         <c:when test="${wh.status}">
@@ -184,14 +166,11 @@
                                     </c:choose>
                                 </div>
                             </td>
-
-                            <!-- ACTIONS -->
                             <td class="text-center">
                                 <a href="${pageContext.request.contextPath}/warehouse/get?identifier=${wh.identifier}"
                                    class="btn btn-success btn-sm mr-2">
                                     Update
                                 </a>
-
                                 <a href="${pageContext.request.contextPath}/warehouse/delete?identifier=${wh.identifier}"
                                    class="btn btn-danger btn-sm"
                                    onclick="return confirm('Are you sure you want to delete this warehouse?');">
@@ -203,10 +182,8 @@
                     </tbody>
                 </table>
             </c:if>
-
         </div>
     </div>
 </div>
-
 </body>
 </html>

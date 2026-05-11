@@ -103,32 +103,23 @@
 </head>
 
 <body>
-
 <div class="card">
     <h3>Update Price</h3>
-
     <c:if test="${not empty message}">
         <div class="message">${message}</div>
     </c:if>
-
     <form:form method="post"
                action="${pageContext.request.contextPath}/price/update"
                modelAttribute="price">
-
-        <!-- Identifier hidden -->
         <form:hidden path="identifier"/>
-
         <div class="form-group">
             <label>Product</label>
             <form:input path="product" disabled="true"/>
         </div>
-
         <div class="form-group">
             <label>Price Type</label>
             <form:input path="priceType" disabled="true"/>
         </div>
-
-        <!-- ONLY editable field -->
         <div class="form-group">
             <label>Amount</label>
             <form:input path="amount"
@@ -137,15 +128,11 @@
                         min="0"
                         required="true"/>
         </div>
-
         <button type="submit">Update price</button>
-
         <a href="${pageContext.request.contextPath}/price/list" class="back-link">
             ← Back
         </a>
-
     </form:form>
 </div>
-
 </body>
 </html>

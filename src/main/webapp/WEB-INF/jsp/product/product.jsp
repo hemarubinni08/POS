@@ -8,7 +8,6 @@
 <head>
     <title>Update Product</title>
 
-    <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
 
@@ -109,117 +108,75 @@
 </head>
 
 <body>
-
 <div class="container">
     <h2>Update Product</h2>
-
     <c:if test="${not empty message}">
         <div class="message">${message}</div>
     </c:if>
-
     <form:form method="post"
                action="${pageContext.request.contextPath}/product/update"
                modelAttribute="product">
-
         <div class="form-group">
             <label>Identifier</label>
             <form:input path="identifier" readonly="true"/>
         </div>
-
         <div class="form-group">
             <label>Product Name</label>
             <form:input path="productName" required="required"/>
         </div>
-
-        <!-- MULTI SELECT CATEGORY -->
         <div class="form-group">
             <label>Category</label>
-
             <form:select path="category" multiple="true" required="required">
-
                 <c:forEach items="${categories}" var="cat">
-
                     <form:option value="${cat.name}">
                         ${cat.name}
                     </form:option>
-
                 </c:forEach>
-
             </form:select>
         </div>
-
-        <!-- MULTI SELECT BRAND -->
         <div class="form-group">
             <label>Brand</label>
-
             <form:select path="brand" multiple="true" required="required">
-
                 <c:forEach items="${brands}" var="brand">
-
                     <form:option value="${brand.brandName}">
                         ${brand.brandName}
                     </form:option>
-
                 </c:forEach>
-
             </form:select>
         </div>
-
-        <!-- MULTI SELECT MODEL -->
         <div class="form-group">
             <label>Model</label>
-
             <form:select path="model" multiple="true" required="required">
-
                 <c:forEach items="${model}" var="model">
-
                     <form:option value="${model.modelName}">
                         ${model.modelName}
                     </form:option>
-
                 </c:forEach>
-
             </form:select>
         </div>
-
         <div class="form-group">
             <label>Description</label>
             <form:input path="description" required="required"/>
         </div>
-
-        <!-- Status Field -->
         <div class="form-group">
-
             <label>Status</label>
-
             <form:select path="status" cssClass="form-control">
-
                 <form:option value="true">
                     Active
                 </form:option>
-
                 <form:option value="false">
                     Inactive
                 </form:option>
-
             </form:select>
-
         </div>
-
         <button type="submit" class="btn">
             Update Product
         </button>
-
     </form:form>
-
     <a href="${pageContext.request.contextPath}/product/list"
        class="back-link">
-
         Back to List
-
     </a>
-
 </div>
-
 </body>
 </html>

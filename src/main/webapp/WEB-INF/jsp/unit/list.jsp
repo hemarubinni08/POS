@@ -7,11 +7,9 @@
     <meta charset="UTF-8">
     <title>Unit List</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
@@ -58,7 +56,6 @@
             vertical-align: middle;
         }
 
-        /* Toggle switch (UNCHANGED) */
         .switch {
             position: relative;
             display: inline-block;
@@ -101,39 +98,29 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="content">
     <div class="page-wrapper">
-
-        <!-- Header -->
         <div class="header-banner">
             <h4>Unit List</h4>
             <p>View and manage units</p>
         </div>
-
         <div class="list-card">
-
-            <!--  HOME  | ADD  -->
             <div class="d-flex justify-content-between mb-3">
                 <a href="${pageContext.request.contextPath}/"
                    class="btn btn-secondary btn-sm">
                     Home
                 </a>
-
                 <a href="${pageContext.request.contextPath}/unit/add"
                    class="btn btn-primary btn-sm">
                     + Add Unit
                 </a>
             </div>
-
             <c:if test="${empty units}">
                 <div class="alert alert-info text-center">
                     No units found.
                 </div>
             </c:if>
-
             <c:if test="${not empty units}">
                 <table class="table table-bordered table-hover">
                     <thead>
@@ -144,20 +131,16 @@
                         <th style="width:180px;">Action</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <c:forEach items="${units}" var="unit">
                         <tr>
                             <td>${unit.identifier}</td>
                             <td>${unit.name}</td>
-
-                            <!--  STATUS -->
                             <td class="text-center">
                                 <form action="${pageContext.request.contextPath}/unit/toggleStatus"
                                       method="get">
                                     <input type="hidden" name="identifier"
                                            value="${unit.identifier}"/>
-
                                     <label class="switch">
                                         <input type="checkbox"
                                                onchange="this.form.submit()"
@@ -165,7 +148,6 @@
                                         <span class="slider"></span>
                                     </label>
                                 </form>
-
                                 <small class="text-primary">
                                     <c:choose>
                                         <c:when test="${unit.status}">
@@ -177,13 +159,11 @@
                                     </c:choose>
                                 </small>
                             </td>
-
                             <td class="text-center">
                                 <a href="${pageContext.request.contextPath}/unit/get?identifier=${unit.identifier}"
                                    class="btn btn-success btn-sm mr-1">
                                     Update
                                 </a>
-
                                 <a href="${pageContext.request.contextPath}/unit/delete?identifier=${unit.identifier}"
                                    class="btn btn-danger btn-sm"
                                    onclick="return confirm('Delete this unit?');">
@@ -195,10 +175,8 @@
                     </tbody>
                 </table>
             </c:if>
-
         </div>
     </div>
 </div>
-
 </body>
 </html>

@@ -88,15 +88,12 @@
 </head>
 
 <body>
-
 <div class="container">
     <h2>Price List</h2>
-
     <div class="top-bar">
         <a href="${pageContext.request.contextPath}/" class="home-btn">Home</a>
         <a href="${pageContext.request.contextPath}/price/add" class="add-btn">+ Add Price</a>
     </div>
-
     <table>
         <thead>
         <tr>
@@ -113,13 +110,10 @@
                 <td>${p.identifier}</td>
                 <!-- Product identifier (or name if you later map it) -->
                 <td>${p.product}</td>
-
                 <!-- MRP / SELLING / DISCOUNT -->
                 <td>${p.priceType}</td>
-
                 <!-- Amount -->
                 <td>${p.amount}</td>
-
                 <td>
                     <a class="action-btn edit-btn"
                        href="${pageContext.request.contextPath}/price/get?identifier=${p.identifier}">
@@ -136,6 +130,5 @@
         </tbody>
     </table>
 </div>
-
 </body>
 </html>

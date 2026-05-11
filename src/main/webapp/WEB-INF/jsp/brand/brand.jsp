@@ -8,11 +8,9 @@
     <meta charset="UTF-8">
     <title>Update Brand</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
@@ -68,48 +66,33 @@
 </head>
 
 <body>
-
 <div class="content">
     <div class="form-wrapper">
-
-        <!-- Header -->
         <div class="header-banner">
             <h2>Update Brand</h2>
             <p>Modify existing brand details</p>
         </div>
-
-        <!-- Form Card -->
         <div class="welcome-card">
-
             <h5 class="mb-4">Brand Information</h5>
-
             <c:if test="${not empty message}">
                 <div class="alert alert-danger">${message}</div>
             </c:if>
-
             <form:form action="${pageContext.request.contextPath}/brand/update"
                        method="post"
                        modelAttribute="brand">
-
                 <form:hidden path="id"/>
-
-                <!-- Identifier -->
                 <div class="form-group">
                     <label>Identifier</label>
                     <form:input path="identifier"
                                 cssClass="form-control"
                                 readonly="true"/>
                 </div>
-
-                <!-- Brand Name -->
                 <div class="form-group">
                     <label>Brand Name</label>
                     <form:input path="brandName"
                                 cssClass="form-control"
                                 required="required"/>
                 </div>
-
-                <!-- Description -->
                 <div class="form-group">
                     <label>Description</label>
                     <form:textarea path="description"
@@ -117,8 +100,6 @@
                                    rows="3"
                                    required="required"/>
                 </div>
-
-                <--Status Field -->
                 <div class="form-group">
                     <label>Status</label>
                     <form:select path="status" cssClass="form-control">
@@ -126,8 +107,6 @@
                         <form:option value="false">Inactive</form:option>
                     </form:select>
                 </div>
-
-                <!-- Buttons -->
                 <div class="text-right mt-4">
                     <button type="submit" class="btn btn-primary">
                         Update Brand
@@ -137,11 +116,8 @@
                         Cancel
                     </a>
                 </div>
-
             </form:form>
-
         </div>
-
     </div>
 </div>
 </body>

@@ -53,33 +53,24 @@
         }
     </style>
 </head>
-
 <body>
-
 <nav class="navbar navbar-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Stock Management</span>
         <a href="/stock/list" class="btn btn-outline-light btn-sm">Back</a>
     </div>
 </nav>
-
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="card shadow p-4" style="width: 450px;">
-
         <h3 class="text-center mb-4 fw-bold">Add Stock</h3>
-
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
-
         <form:form method="post"
                    action="/stock/add"
                    modelAttribute="stockDto">
-
-            <!-- IDENTIFIER -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Stock Identifier</label>
                 <form:input path="identifier"
@@ -87,8 +78,6 @@
                             placeholder="Auto-generated"
                             readonly="true"/>
             </div>
-
-            <!-- WAREHOUSE -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Warehouse</label>
                 <select name="wareHouse" class="form-control" required>
@@ -103,8 +92,6 @@
                     </c:forEach>
                 </select>
             </div>
-
-            <!-- PRODUCT -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Product</label>
                 <select name="product" class="form-control" required>
@@ -119,8 +106,6 @@
                     </c:forEach>
                 </select>
             </div>
-
-            <!-- RACK -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Rack</label>
                 <select name="racks" class="form-control" required>
@@ -135,8 +120,6 @@
                     </c:forEach>
                 </select>
             </div>
-
-     <!-- SHELF-->
      <div class="mb-3">
          <label class="form-label fw-semibold">Shelf</label>
 
@@ -151,8 +134,6 @@
              </c:forEach>
          </form:select>
      </div>
-
-            <!-- QUANTITY -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Quantity</label>
                 <form:input path="quantity"
@@ -161,8 +142,6 @@
                             placeholder="Enter quantity"
                             required="true"/>
             </div>
-
-            <!-- STATUS -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Status</label>
                 <form:select path="status" cssClass="form-control">
@@ -170,20 +149,15 @@
                     <form:option value="false">Inactive</form:option>
                 </form:select>
             </div>
-
             <button type="submit" class="btn btn-primary w-100">
                 Add Stock
             </button>
-
             <a href="/stock/list"
                class="btn btn-outline-secondary w-100 mt-2">
                 Cancel
             </a>
-
         </form:form>
-
     </div>
 </div>
-
 </body>
 </html>

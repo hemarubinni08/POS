@@ -86,49 +86,35 @@
 </head>
 
 <body>
-
 <div class="card">
     <h3>Update Category</h3>
-
     <c:if test="${not empty message}">
         <div class="message">${message}</div>
     </c:if>
-
     <form:form method="post"
                action="${pageContext.request.contextPath}/category/update"
                modelAttribute="category">
-
-        <!--Identifier-->
         <div class="form-group">
             <label>Identifier</label>
             <form:input path="identifier" readonly="true"/>
         </div>
-
         <div class="form-group">
             <label>Category Name</label>
             <form:input path="name"/>
         </div>
-
         <div class="form-group">
             <label>Super Category</label>
-
             <form:select path="superCategory">
                 <form:option value="">-- Select Category --</form:option>
-
                 <c:forEach var="cat" items="${categories}">
                     <form:option value="${cat.name}">
                         ${cat.name}
                     </form:option>
                 </c:forEach>
-
             </form:select>
-
         </div>
-
         <button type="submit">Update Category</button>
-
     </form:form>
-
     <a href="${pageContext.request.contextPath}/category/list" class="back-btn">
         ← Back to List
     </a>

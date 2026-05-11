@@ -7,11 +7,9 @@
     <meta charset="UTF-8">
     <title>Add Shelf</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
@@ -52,23 +50,15 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="content">
     <div class="page-wrapper">
-
-        <!-- Header -->
         <div class="header-banner">
             <h4>Add Shelf</h4>
             <p>Create a new shelf</p>
         </div>
-
-        <!-- Form Card -->
         <div class="form-card">
             <form action="${pageContext.request.contextPath}/shelf/add" method="post">
-
-                <!-- Identifier -->
                 <div class="form-group">
                     <label for="identifier">Identifier</label>
                     <input type="text"
@@ -78,8 +68,6 @@
                            placeholder="Enter shelf identifier"
                            required>
                 </div>
-
-                <!-- Shelf Name -->
                 <div class="form-group">
                     <label for="name">Shelf Name</label>
                     <input type="text"
@@ -89,8 +77,6 @@
                            placeholder="Enter shelf name"
                            required>
                 </div>
-
-                <!-- Status (Boolean Dropdown) -->
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select class="form-control"
@@ -102,32 +88,24 @@
                         <option value="false">Inactive</option>
                     </select>
                 </div>
-
-                <!-- Error Message -->
                 <c:if test="${not empty message}">
                     <div class="alert alert-danger">
                         ${message}
                     </div>
                 </c:if>
-
-                <!-- Buttons -->
                 <div class="d-flex justify-content-between">
                     <a href="${pageContext.request.contextPath}/shelf/list"
                        class="btn btn-secondary btn-sm">
                         Back
                     </a>
-
                     <button type="submit"
                             class="btn btn-primary btn-sm">
                         Save Shelf
                     </button>
                 </div>
-
             </form>
         </div>
-
     </div>
 </div>
-
 </body>
 </html>

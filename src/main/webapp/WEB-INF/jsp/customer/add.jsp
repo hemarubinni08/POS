@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* ANIMATED BACKGROUND BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -67,7 +66,6 @@
             z-index: 2;
         }
 
-        /* GLASS CARD */
         .form-card {
             width: 700px;
             padding: 40px;
@@ -105,7 +103,6 @@
             font-weight: 700;
         }
 
-        /* INPUTS */
         .form-control {
             border-radius: 10px;
             border: 1px solid #e5e7eb;
@@ -117,7 +114,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* BUTTON */
         .btn-primary-custom {
             width: 100%;
             padding: 12px;
@@ -139,7 +135,6 @@
             box-shadow: 0 14px 30px rgba(37,99,235,0.35);
         }
 
-        /* LINK */
         .back-link {
             text-align: center;
             margin-top: 15px;
@@ -165,34 +160,26 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-
             min-width: 260px;
             max-width: 80%;
-
             padding: 14px 18px;
             border-radius: 14px;
-
             text-align: center;
-
             font-size: 14px;
             font-weight: 500;
             color: rgba(31, 59, 59, 0.9);
-
             background: rgba(255, 255, 255, 0.18);
             backdrop-filter: blur(18px) saturate(180%);
             -webkit-backdrop-filter: blur(18px) saturate(180%);
-
             background-image: linear-gradient(
                 135deg,
                 rgba(255, 255, 255, 0.25),
                 rgba(255, 255, 255, 0.08)
             );
-
             border: 1px solid rgba(255, 255, 255, 0.35);
             box-shadow:
                 0 12px 30px rgba(0, 0, 0, 0.12),
                 inset 0 1px 0 rgba(255, 255, 255, 0.4);
-
             z-index: 9999;
             opacity: 0;
             animation: toastIn 0.4s ease forwards;
@@ -211,7 +198,6 @@
             z-index: -1;
             filter: blur(12px);
         }
-
         @keyframes toastIn {
             from {
                 opacity: 0;
@@ -232,15 +218,10 @@
     </style>
 </head>
 <body>
-
-<!-- BACKGROUND BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
-
 <div class="main-container">
-
     <div class="form-card">
-
         <h4>Add New Customer</h4>
             <c:if test="${not empty message}">
                 <div id="customToast" class="custom-toast">
@@ -248,14 +229,10 @@
                 </div>
                 <c:remove var="message" scope="session"/>
             </c:if>
-
         <form:form method="post"
                    action="/customer/add"
                    modelAttribute="customerDto">
-
             <div class="container-fluid p-0">
-
-                <!-- ROW 1 -->
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Customer Name</label>
@@ -263,7 +240,6 @@
                                     cssClass="form-control"
                                     placeholder="Enter Customer Name"/>
                     </div>
-
                      <div class="col-md-6">
                          <label class="form-label fw-semibold">
                              Phone Number <span style="color:red">*</span>
@@ -278,8 +254,6 @@
                                      oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                      title="Enter valid 10-digit Indian mobile number"/>
                      </div>
-
-                <!-- ROW 2 -->
                 <div class="row g-3 mt-1">
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Party Type</label>
@@ -290,7 +264,6 @@
                             <form:option value="Wholesaler">Wholesaler</form:option>
                         </form:select>
                     </div>
-
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Balance</label>
                         <div class="input-group">
@@ -304,8 +277,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- ROW 3 -->
                   <div class="col-md-6">
                  <label class="form-label fw-semibold">Email</label>
               <form:input path="email"
@@ -330,12 +301,10 @@
                       <form:option value="false">Inactive</form:option>
                   </form:select>
                   </div>
-
                 <!-- BILLING ADDRESS -->
                 <div class="mt-4">
                     <h6 class="fw-bold text-danger mb-3">– Billing Address</h6>
 
-                    <!-- ROW 1 -->
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Address Line 1</label>
@@ -343,7 +312,6 @@
                                         cssClass="form-control"
                                         placeholder="Enter Address"/>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label">City</label>
                             <form:input path="billingAddress.city"
@@ -351,8 +319,6 @@
                                         placeholder="Enter city"/>
                         </div>
                     </div>
-
-                    <!-- ROW 2 -->
                     <div class="row g-3 mt-1">
                         <div class="col-md-6">
                             <label class="form-label">State</label>
@@ -360,7 +326,6 @@
                                         cssClass="form-control"
                                         placeholder="Enter state"/>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label">Zip Code</label>
                             <form:input path="billingAddress.zip"
@@ -368,8 +333,6 @@
                                         placeholder="Enter zip code"/>
                         </div>
                     </div>
-
-                    <!-- ROW 3 -->
                     <div class="row g-3 mt-1">
                         <div class="col-md-6">
                             <label class="form-label">Country</label>
@@ -379,12 +342,9 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- SHIPPING ADDRESS -->
                 <div class="mt-4">
                     <h6 class="fw-bold text-danger mb-3">– Shipping Address</h6>
-
-                    <!-- ROW 1 -->
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Address Line 1</label>
@@ -392,7 +352,6 @@
                                         cssClass="form-control"
                                         placeholder="Enter Address"/>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label">City</label>
                             <form:input path="shippingAddress.city"
@@ -400,8 +359,6 @@
                                         placeholder="Enter city"/>
                         </div>
                     </div>
-
-                    <!-- ROW 2 -->
                     <div class="row g-3 mt-1">
                         <div class="col-md-6">
                             <label class="form-label">State</label>
@@ -409,7 +366,6 @@
                                         cssClass="form-control"
                                         placeholder="Enter state"/>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label">Zip Code</label>
                             <form:input path="shippingAddress.zip"
@@ -417,8 +373,6 @@
                                         placeholder="Enter zip code"/>
                         </div>
                     </div>
-
-                    <!-- ROW 3 -->
                     <div class="row g-3 mt-1">
                         <div class="col-md-6">
                             <label class="form-label">Country</label>
@@ -428,24 +382,18 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- SUBMIT -->
                 <div class="mt-4">
                     <button type="submit" class="btn-primary-custom">
                         Add Customer
                     </button>
                 </div>
-
             </div>
-
         </form:form>
-
         <div class="back-link">
             <a href="/customer/list">← Back to List</a>
         </div>
-
     </div>
-
 </div>
 <script>
 document.addEventListener("mousemove", (e) => {

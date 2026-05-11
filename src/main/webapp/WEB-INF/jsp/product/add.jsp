@@ -90,125 +90,77 @@
 </head>
 
 <body>
-
 <div class="card">
-
     <h3>Add Product</h3>
-
     <c:if test="${not empty message}">
         <div class="alert alert-danger">
             ${message}
         </div>
     </c:if>
-
     <form:form method="post"
                action="${pageContext.request.contextPath}/product/add"
                modelAttribute="productDto">
-
         <div class="form-group">
             <label>Identifier</label>
             <form:input path="identifier" required="required"/>
         </div>
-
         <div class="form-group">
             <label>Product Name</label>
             <form:input path="productName" required="required"/>
         </div>
-
-        <!-- MULTI SELECT CATEGORY -->
         <div class="form-group">
-
             <label>Category</label>
-
             <form:select path="category" multiple="true" required="required">
-
                 <c:forEach items="${categories}" var="cat">
-
                     <form:option value="${cat.name}">
                         ${cat.name}
                     </form:option>
-
                 </c:forEach>
-
             </form:select>
-
         </div>
-
-        <!-- MULTI SELECT BRAND -->
         <div class="form-group">
-
             <label>Brand</label>
-
             <form:select path="brand" multiple="true" required="required">
-
                 <c:forEach items="${brands}" var="brand">
-
                     <form:option value="${brand.brandName}">
                         ${brand.brandName}
                     </form:option>
-
                 </c:forEach>
-
             </form:select>
-
         </div>
-
-        <!-- MULTI SELECT MODEL -->
         <div class="form-group">
-
             <label>Model</label>
-
             <form:select path="model" multiple="true" required="required">
-
                 <c:forEach items="${model}" var="model">
-
                     <form:option value="${model.modelName}">
                         ${model.modelName}
                     </form:option>
-
                 </c:forEach>
-
             </form:select>
-
         </div>
-
         <div class="form-group">
             <label>Description</label>
             <form:input path="description" required="required"/>
         </div>
-
         <div class="form-group">
-
             <label>Status</label>
-
             <form:select path="status">
-
                 <form:option value="true">
                     Active
                 </form:option>
-
                 <form:option value="false">
                     Inactive
                 </form:option>
-
             </form:select>
-
         </div>
-
         <button type="submit">
             Add Product
         </button>
-
     </form:form>
-
     <a href="${pageContext.request.contextPath}/product/list"
        class="back-btn">
-
         ← Back to Product List
-
     </a>
-
 </div>
-
 </body>
 </html>

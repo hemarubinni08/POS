@@ -64,9 +64,7 @@
        }
     </style>
 </head>
-
 <body>
-
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Stock Management</span>
@@ -76,27 +74,20 @@
 
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="card shadow p-4" style="width: 450px;">
-
         <h3 class="text-center mb-4 fw-bold">Edit Stock</h3>
-
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
-
         <c:if test="${empty stockDto}">
             <div class="alert alert-danger text-center">
                 Stock not found
             </div>
         </c:if>
-
         <c:if test="${not empty stockDto}">
             <form action="/stock/update" method="post">
-
                 <input type="hidden" name="id" value="${stockDto.id}"/>
-
-                <!-- IDENTIFIER -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Stock Identifier</label>
                     <input type="text"
@@ -105,8 +96,6 @@
                            value="${stockDto.identifier}"
                            readonly>
                 </div>
-
-                <!-- WAREHOUSE (NO VALIDATION) -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Warehouse</label>
                     <select name="wareHouse"
@@ -122,8 +111,6 @@
                         </c:forEach>
                     </select>
                 </div>
-
-                <!-- PRODUCT (NO VALIDATION) -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Product</label>
                     <select name="product"
@@ -139,7 +126,6 @@
                         </c:forEach>
                     </select>
                 </div>
-               <!-- RACK -->
                <div class="mb-3">
                    <label class="form-label fw-semibold">Rack</label>
                    <select name="racks" class="form-control">
@@ -154,11 +140,8 @@
                        </c:forEach>
                    </select>
                </div>
-
-<!-- SHELF -->
 <div class="mb-3">
     <label class="form-label fw-semibold">Shelf</label>
-
     <select name="shelves"
             class="form-control"
             multiple
@@ -173,9 +156,6 @@
 </option>
         </c:forEach>
     </select>
-
-
-                <!-- QUANTITY (NO REQUIRED) -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Quantity</label>
                     <input type="number"
@@ -183,7 +163,6 @@
                            name="quantity"
                            value="${stockDto.quantity}">
                 </div>
-               <!-- STATUS-->
                <div class="mb-3">
                    <label class="form-label fw-semibold">Status</label>
                    <select name="status" class="form-control">
@@ -197,22 +176,17 @@
                        </option>
                    </select>
                </div>
-
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary w-100">
                         Update
                     </button>
-
                     <a href="/stock/list" class="btn btn-outline-secondary w-100">
                         Cancel
                     </a>
                 </div>
-
             </form>
         </c:if>
-
     </div>
 </div>
-
 </body>
 </html>

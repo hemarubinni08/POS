@@ -57,25 +57,17 @@
 </head>
 
 <body>
-
 <div class="card">
-
     <div class="card-header">
         Add Category
     </div>
-
     <div class="card-body">
-
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
-
         <form action="${pageContext.request.contextPath}/category/add" method="post">
-
-            <!-- IDENTIFIER -->
             <div class="form-group">
                 <label>Category Identifier</label>
                 <input type="text"
@@ -84,8 +76,6 @@
                        placeholder="Enter unique identifier"
                        required>
             </div>
-
-            <!-- CATEGORY NAME -->
             <div class="form-group">
                 <label>Category Name</label>
                 <input type="text"
@@ -94,8 +84,6 @@
                        placeholder="Enter category name"
                        required>
             </div>
-
-            <!--SUPER CATEGORY -->
             <div class="form-group">
                 <label>Super Category</label>
                 <select name="superCategory"
@@ -108,18 +96,14 @@
                     </c:forEach>
                 </select>
             </div>
-
             <button type="submit" class="btn btn-primary btn-block">
                 Add Category
             </button>
-
             <a href="${pageContext.request.contextPath}/category/list"
                class="btn btn-outline-secondary btn-block mt-2">
                 Cancel
             </a>
-
         </form>
-
     </div>
 </div>
 </body>

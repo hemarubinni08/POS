@@ -7,7 +7,6 @@
 <head>
     <title>Update Warehouse</title>
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet"/>
 
@@ -119,36 +118,27 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="card">
     <h3>Update Warehouse</h3>
-
     <c:if test="${not empty message}">
         <div class="message">${message}</div>
     </c:if>
-
     <form:form method="post"
                action="${pageContext.request.contextPath}/warehouse/update"
                modelAttribute="warehouseDto">
-
         <div class="form-group">
             <label>Identifier</label>
             <form:input path="identifier" readonly="true"/>
         </div>
-
         <div class="form-group">
             <label>Location</label>
             <form:input path="location" required="required"/>
         </div>
-
         <div class="form-group">
             <label>Contact Person</label>
             <form:input path="contactPerson" required="required"/>
         </div>
-
-        <!-- FIXED PHONE VALIDATION -->
         <div class="form-group">
             <label>Phone Number</label>
             <form:input path="phoneNumber"
@@ -159,7 +149,6 @@
                         placeholder="Enter 10-digit phone number"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,10);"/>
         </div>
-            <!--Status Field -->
                         <div class="form-group">
                             <label>Status</label>
                             <form:select path="status" cssClass="form-control">
@@ -167,15 +156,11 @@
                                 <form:option value="false">Inactive</form:option>
                             </form:select>
                         </div>
-
         <button type="submit">Update Warehouse</button>
-
         <a href="${pageContext.request.contextPath}/warehouse/list" class="back-link">
             Back to Warehouse List
         </a>
-
     </form:form>
 </div>
-
 </body>
 </html>

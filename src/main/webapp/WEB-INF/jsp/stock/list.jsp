@@ -10,11 +10,9 @@
     <meta charset="UTF-8">
     <title>Stock List</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
@@ -143,52 +141,33 @@
         }
 
     </style>
-
 </head>
-
 <body>
-
 <div class="content">
-
     <div class="page-wrapper">
-
         <div class="list-card">
-
-            <!-- HEADER -->
             <div class="header-banner">
                 <h4>Stock List</h4>
                 <p>View and manage stock</p>
             </div>
-
-            <!-- TOP BUTTONS -->
             <div class="d-flex justify-content-between mb-4">
-
                 <a href="${pageContext.request.contextPath}/"
                    class="btn btn-secondary btn-sm">
                     Home
                 </a>
-
                 <a href="${pageContext.request.contextPath}/stock/add"
                    class="btn btn-primary btn-sm">
                     + Add Stock
                 </a>
-
             </div>
-
-            <!-- EMPTY MESSAGE -->
             <c:if test="${empty stocks}">
                 <div class="alert alert-info text-center">
                     No stock found.
                 </div>
             </c:if>
-
-            <!-- TABLE -->
             <c:if test="${not empty stocks}">
-
                 <table class="table table-bordered table-hover">
-
                     <thead>
-
                     <tr>
                         <th>Stock Identifier</th>
                         <th>Warehouse</th>
@@ -199,101 +178,62 @@
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
-
                     </thead>
-
                     <tbody>
-
                     <c:forEach var="stock" items="${stocks}">
-
                         <tr>
-
                             <td>${stock.identifier}</td>
                             <td>${stock.wareHouse}</td>
                             <td>${stock.product}</td>
                             <td>${stock.racks}</td>
                             <td>${stock.shelves}</td>
                             <td>${stock.quantity}</td>
-
-                            <!-- STATUS -->
                             <td>
-
                                 <form action="${pageContext.request.contextPath}/stock/toggleStatus"
                                       method="get">
-
-                                    <input type="hidden"
+                                      <input type="hidden"
                                            name="identifier"
                                            value="${stock.identifier}"/>
-
-                                    <label class="switch mb-0">
-
-                                        <input type="checkbox"
+                                            <label class="switch mb-0">
+                                             <input type="checkbox"
                                                onchange="this.form.submit()"
                                                <c:if test="${stock.status}">
                                                    checked
                                                </c:if>>
-
                                         <span class="slider"></span>
-
                                     </label>
-
                                 </form>
-
                                 <div class="status-text text-primary">
-
                                     <c:choose>
-
                                         <c:when test="${stock.status}">
                                             Active
                                         </c:when>
-
                                         <c:otherwise>
                                             Inactive
                                         </c:otherwise>
-
                                     </c:choose>
-
                                 </div>
-
                             </td>
-
-                            <!-- ACTION -->
                             <td>
-
                                 <div class="action-buttons">
-
                                     <a href="${pageContext.request.contextPath}/stock/get?identifier=${stock.identifier}"
                                        class="btn btn-success btn-sm">
                                         Update
                                     </a>
-
                                     <a href="${pageContext.request.contextPath}/stock/delete?identifier=${stock.identifier}"
                                        class="btn btn-danger btn-sm"
                                        onclick="return confirm('Are you sure you want to delete this stock?');">
-
                                         Delete
-
                                     </a>
-
                                 </div>
-
                             </td>
-
                         </tr>
-
                     </c:forEach>
-
                     </tbody>
-
                 </table>
-
             </c:if>
-
         </div>
-
     </div>
-
 </div>
-
 </body>
 </html>

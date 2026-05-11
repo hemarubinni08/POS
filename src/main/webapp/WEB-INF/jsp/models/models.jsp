@@ -7,11 +7,9 @@
     <meta charset="UTF-8">
     <title>Update Model</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
@@ -50,7 +48,6 @@
             font-weight: 500;
         }
 
-        /* Toggle Switch */
         .switch {
             position: relative;
             display: inline-block;
@@ -95,22 +92,15 @@
 </head>
 
 <body>
-
 <div class="content">
     <div class="page-wrapper">
-
-        <!-- Header -->
         <div class="header-banner">
             <h4>Update Model</h4>
             <p>Edit model details</p>
         </div>
-
         <div class="form-card">
-
             <form action="${pageContext.request.contextPath}/models/update"
                   method="post">
-
-                <!-- Identifier (readonly) -->
                 <div class="form-group">
                     <label>Identifier</label>
                     <input type="text"
@@ -119,8 +109,6 @@
                            value="${models.identifier}"
                            readonly>
                 </div>
-
-                <!-- Model Name -->
                 <div class="form-group">
                     <label>Model Name</label>
                     <input type="text"
@@ -129,8 +117,6 @@
                            value="${models.modelName}"
                            required>
                 </div>
-
-             <!-- Status Dropdown -->
              <div class="form-group">
                  <label>Status</label>
                  <select name="status" class="form-control" required>
@@ -144,33 +130,24 @@
                      </option>
                  </select>
              </div>
-
-                <!-- Error Message -->
                 <c:if test="${not empty message}">
                     <div class="alert alert-danger">
                         ${message}
                     </div>
                 </c:if>
-
-                <!-- Buttons -->
                 <div class="d-flex justify-content-between">
                     <a href="${pageContext.request.contextPath}/models/list"
                        class="btn btn-secondary btn-sm">
                         Back
                     </a>
-
                     <button type="submit"
                             class="btn btn-primary btn-sm">
                         Update Model
                     </button>
                 </div>
-
             </form>
-
         </div>
-
     </div>
 </div>
-
 </body>
 </html>
