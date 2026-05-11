@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,12 +61,11 @@ public class UserServiceImpl implements UserService {
             return userDto;
         } else {
             User existingUser = userOptional.get();
-            if (!username.equalsIgnoreCase(existingUser.getUsername())&& userRepository.findByUsername(username) != null) {
+            if (!username.equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(username) != null) {
 
-                    userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
-                    userDto.setSuccess(false);
-                    return userDto;
-
+                userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
+                userDto.setSuccess(false);
+                return userDto;
             }
             modelMapper.map(userDto, existingUser);
             userRepository.save(existingUser);
@@ -79,8 +80,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAll() {
-        Type listType = new TypeToken<List<UserDto>>() {}.getType();
-        return modelMapper.map(userRepository.findAll(), listType);
+    public List<UserDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<UserDto>>() {
+        }.getType();
+        Page<User> userPage = userRepository.findAll(pageable);
+        return modelMapper.map(userPage.getContent(), listType);
     }
 }

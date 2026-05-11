@@ -11,9 +11,9 @@
           rel="stylesheet">
 
     <style>
+        /* ✅ SIMPLIFIED DEFAULT LOOK */
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
+            background-color: #ffffff;
         }
 
         .card {
@@ -68,28 +68,17 @@
 
                         <c:forEach var="user" items="${users}">
                             <tr>
-
-                                <!-- USERNAME LINK (EDIT) -->
-                                <td>
-
-                                        ${user.username}
-
-                                </td>
-
+                                <td>${user.username}</td>
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
-
-                                <!-- ACTION BUTTONS -->
                                 <td class="d-flex justify-content-center gap-2">
 
-                                    <!-- EDIT BUTTON -->
                                     <a class="btn btn-primary btn-sm"
                                        href="/user/get?username=${user.username}">
                                         Edit
                                     </a>
 
-                                    <!-- DELETE BUTTON -->
                                     <a class="btn btn-danger btn-sm"
                                        href="/user/delete?username=${user.username}"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
@@ -97,7 +86,6 @@
                                     </a>
 
                                 </td>
-
                             </tr>
                         </c:forEach>
 
