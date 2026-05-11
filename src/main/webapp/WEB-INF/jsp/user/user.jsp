@@ -136,7 +136,6 @@
             </div>
         </c:if>
 
-        <!--  CORRECT FORM OPEN -->
         <form:form action="${pageContext.request.contextPath}/user/update"
                    method="post"
                    modelAttribute="user">
@@ -164,7 +163,7 @@
             <button type="submit">Update User</button>
 
         </form:form>
-        <!-- CORRECT FORM CLOSE -->
+
 
     </div>
 </div>

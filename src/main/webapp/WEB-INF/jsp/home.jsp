@@ -12,6 +12,7 @@
             font-family: "Segoe UI", Roboto, Arial, sans-serif;
             background-color: #0f172a;
             color: #e5e7eb;
+            overflow-x: hidden;
         }
 
         /* ===== TOP BAR ===== */
@@ -78,9 +79,23 @@
             width: 220px;
             height: calc(100vh - 56px);
             background-color: #020617;
-            transition: left 0.3s ease;
             border-right: 1px solid #1e293b;
+            transition: left 0.3s ease;
             z-index: 999;
+
+            /* ENABLE SCROLL */
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Custom scrollbar (optional but nice) */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background-color: #334155;
+            border-radius: 10px;
         }
 
         .sidebar.active {
@@ -96,6 +111,7 @@
             font-weight: 500;
             border-left: 3px solid transparent;
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
         .sidebar a:hover {
@@ -137,7 +153,7 @@
 
 <body>
 
-<!--  TOP BAR -->
+<!-- TOP BAR -->
 <div class="topbar">
     <div class="topbar-left">
         <div class="menu" onclick="toggleMenu()">
@@ -148,13 +164,12 @@
         <div class="top-title">POS Application</div>
     </div>
 
-    <!--  LOGOUT -->
     <form action="${pageContext.request.contextPath}/logout" method="post" style="margin:0;">
         <button type="submit" class="logout-btn">Logout</button>
     </form>
 </div>
 
-<!--  SIDEBAR -->
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
     <c:forEach var="node" items="${nodes}">
         <a href="${pageContext.request.contextPath}${node.path}">

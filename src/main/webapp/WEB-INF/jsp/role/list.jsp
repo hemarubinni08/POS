@@ -165,6 +165,24 @@
         .delete:hover {
             background-color: #b91c1c;
         }
+
+        /* STATUS TOGGLE (ADDED) */
+        .status-btn {
+            border: none;
+            padding: 6px 16px;
+            border-radius: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .status-active {
+            background-color: #16a34a;
+        }
+
+        .status-inactive {
+            background-color: #dc2626;
+        }
     </style>
 </head>
 
@@ -206,42 +224,78 @@
                     <th>ID</th>
                     <th>Role</th>
                     <th>Description</th>
+                    <th>Status</th> <!-- ADDED -->
                     <th>Action</th>
                 </tr>
             </thead>
 
             <tbody>
-                <c:forEach var="role" items="${roles}">
-                    <tr>
-                        <td>${role.id}</td>
-                        <td>${role.identifier}</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${not empty role.description}">
-                                    ${role.description}
-                                </c:when>
-                                <c:otherwise>—</c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td>
-                            <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
-                               class="action-link edit">
-                                Edit
-                            </a>
+<c:forEach var="role" items="${roles}">
+<tr>
+    <td>${role.id}</td>
+    <td>${role.identifier}</td>
+    <td>
+        <c:choose>
+            <c:when test="${not empty role.description}">
+                ${role.description}
+            </c:when>
+            <c:otherwise>—</c:otherwise>
+        </c:choose>
+    </td>
 
-                            <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
-                               class="action-link delete"
-                               onclick="return confirm('Are you sure you want to delete this role?');">
-                                Delete
-                            </a>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
+    <!-- STATUS TOGGLE  -->
+    <td>
+        <button
+            class="status-btn ${role.status ? 'status-active' : 'status-inactive'}"
+            onclick="toggleRoleStatus('${role.identifier}', this)">
+            ${role.status ? 'Active' : 'Inactive'}
+        </button>
+    </td>
+
+    <td>
+        <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
+           class="action-link edit">
+            Edit
+        </a>
+
+        <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
+           class="action-link delete"
+           onclick="return confirm('Are you sure you want to delete this role?');">
+            Delete
+        </a>
+    </td>
+</tr>
+</c:forEach>
+</tbody>
+</table>
+</c:if>
 
 </div>
+
+<!-- AJAX TOGGLE SCRIPT -->
+<script>
+    function toggleRoleStatus(identifier, button) {
+        fetch('${pageContext.request.contextPath}/role/toggle-status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'identifier=' + encodeURIComponent(identifier)
+        })
+        .then(() => {
+            if (button.classList.contains('status-active')) {
+                button.classList.remove('status-active');
+                button.classList.add('status-inactive');
+                button.innerText = 'Inactive';
+            } else {
+                button.classList.remove('status-inactive');
+                button.classList.add('status-active');
+                button.innerText = 'Active';
+            }
+        })
+        .catch(() => alert('Failed to update status'));
+    }
+</script>
 
 </body>
 </html>

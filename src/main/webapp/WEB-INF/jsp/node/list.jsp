@@ -213,41 +213,41 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Identifier</th>
-                        <th>Path</th>
-                        <th>Roles</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+<th>Identifier</th>
+<th>Path</th>
+<th>Roles</th>
+<th>Action</th>
+</tr>
+</thead>
 
-                <tbody>
-                    <c:forEach var="node" items="${nodes}">
-                        <tr>
-                            <td>${node.identifier}</td>
-                            <td>${node.path}</td>
-                            <td class="roles">
-                                <c:forEach var="role" items="${node.roles}" varStatus="s">
-                                    ${role}<c:if test="${!s.last}">, </c:if>
-                                </c:forEach>
-                            </td>
-                            <td>
-                                <a class="action-link edit"
-                                   href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}">
-                                    Edit
-                                </a>
+<tbody>
+<c:forEach var="node" items="${nodes}">
+<tr>
+    <td>${node.identifier}</td>
+    <td>${node.path}</td>
+    <td class="roles">
+        <c:forEach var="role" items="${node.roles}" varStatus="s">
+            ${role}<c:if test="${!s.last}">, </c:if>
+        </c:forEach>
+    </td>
+    <td>
+        <a class="action-link edit"
+           href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}">
+            Edit
+        </a>
 
-                                <a class="action-link delete"
-                                   href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
-                                   onclick="return confirm('Are you sure you want to delete this node?');">
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </c:otherwise>
-    </c:choose>
+        <a class="action-link delete"
+           href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
+           onclick="return confirm('Are you sure you want to delete this node?');">
+            Delete
+        </a>
+    </td>
+</tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </c:otherwise>
+</c:choose>
 
 </div>
 
