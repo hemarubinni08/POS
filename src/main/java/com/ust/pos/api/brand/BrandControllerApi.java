@@ -17,7 +17,6 @@ public class BrandControllerApi extends BaseController {
     @Autowired
     private BrandService brandService;
 
-    // GET ALL
     @PostMapping("/list")
     public List<BrandDto> list(@RequestBody PaginationDto pagination) {
         Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
@@ -25,25 +24,21 @@ public class BrandControllerApi extends BaseController {
         return brandService.findAll(pageable);
     }
 
-    // ADD
     @PostMapping("/add")
     public BrandDto add(@RequestBody BrandDto brandDto) {
         return brandService.save(brandDto);
     }
 
-    // GET BY ID
     @GetMapping("/get")
     public BrandDto get(@RequestParam String identifier) {
         return brandService.findByIdentifier(identifier);
     }
 
-    // UPDATE
     @PostMapping("/update")
     public BrandDto update(@RequestBody BrandDto brandDto) {
         return brandService.update(brandDto);
     }
 
-    // DELETE
     @DeleteMapping("/delete")
     public BrandDto delete(@RequestParam String identifier) {
         BrandDto response = new BrandDto();
@@ -59,13 +54,11 @@ public class BrandControllerApi extends BaseController {
         return response;
     }
 
-    // TOGGLE STATUS (API STYLE)
     @PostMapping("/toggle-status")
     public BrandDto toggleStatus(@RequestBody BrandDto brandDto) {
         return brandService.toggleStatus(brandDto.getIdentifier());
     }
 
-    // ACTIVE LIST
     @GetMapping("/active")
     public List<BrandDto> active() {
         return brandService.findActiveBrands();

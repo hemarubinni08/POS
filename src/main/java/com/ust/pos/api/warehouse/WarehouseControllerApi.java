@@ -15,10 +15,10 @@ import java.util.List;
 public class WarehouseControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/warehouse/list";
+
     @Autowired
     private WarehouseService warehouseService;
 
-    // GET ALL
     @PostMapping("/list")
     public List<WarehouseDto> list(@RequestBody PaginationDto pagination) {
         Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
@@ -33,13 +33,11 @@ public class WarehouseControllerApi extends BaseController {
 
     @GetMapping("/get")
     public WarehouseDto updatePage(@RequestParam String identifier) {
-
         return warehouseService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
     public WarehouseDto updatePost(@RequestBody WarehouseDto warehouseDto) {
-
         return warehouseService.update(warehouseDto);
     }
 

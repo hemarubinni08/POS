@@ -15,67 +15,54 @@ public class ModelsController {
 
     private static final String REDIRECT_LIST = "redirect:/models/list";
     public static final String MESSAGE = "message";
+
     @Autowired
     private ModelsService modelsService;
 
-    // LIST ALL MODELS
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
         model.addAttribute("models", modelsService.findAll(pageable));
         return "models/list";
     }
 
-    // ADD A NEW MODEL
     @GetMapping("/add")
     public String addPage(Model model) {
         model.addAttribute("modelsDto", new ModelsDto());
         return "models/add";
     }
 
-    // SAVE
     @PostMapping("/save")
     public String save(@ModelAttribute ModelsDto modelsDto, Model model) {
-
         ModelsDto response = modelsService.save(modelsDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             return "models/add";
         }
-
         return REDIRECT_LIST;
     }
 
-    // GET PROFILE FOR THE UPDATE
     @GetMapping("/edit/{identifier}")
     public String edit(@PathVariable String identifier, Model model) {
-
         ModelsDto dto = modelsService.findByIdentifier(identifier);
-
         if (dto == null) {
             model.addAttribute(MESSAGE, "Model not found");
             return REDIRECT_LIST;
         }
-
         model.addAttribute("model", dto);
         return "models/models";
     }
 
     @PostMapping("/update")
     public String update(@ModelAttribute ModelsDto modelsDto, Model model) {
-
         ModelsDto response = modelsService.update(modelsDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute("model", modelsDto);
             return "models/models";
         }
-
         return REDIRECT_LIST;
     }
 
-    // DELETE
     @Transactional
     @GetMapping("/delete/{identifier}")
     public String delete(@PathVariable String identifier) {

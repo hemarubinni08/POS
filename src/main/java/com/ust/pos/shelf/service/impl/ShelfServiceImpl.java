@@ -27,42 +27,31 @@ public class ShelfServiceImpl implements ShelfService {
     @Autowired
     private ModelMapper modelMapper;
 
-    // SAVE
     @Override
     public ShelfDto save(ShelfDto shelfDto) {
-
         if (shelfDto.getName() == null || shelfDto.getName().trim().isEmpty()) {
             shelfDto.setSuccess(false);
             shelfDto.setMessage("Shelf name is required");
             return shelfDto;
         }
-
         Shelf existing = shelfRepository.findByIdentifier(shelfDto.getName());
-
         if (existing != null) {
             shelfDto.setSuccess(false);
             shelfDto.setMessage("Shelf already exists");
             return shelfDto;
         }
-
         Shelf shelf = modelMapper.map(shelfDto, Shelf.class);
         shelf.setIdentifier(shelfDto.getName()); // using name as identifier
-
         shelfRepository.save(shelf);
-
         ShelfDto response = modelMapper.map(shelf, ShelfDto.class);
         response.setSuccess(true);
         response.setMessage("Shelf saved successfully");
-
         return response;
     }
 
-    // UPDATE (only status change)
     @Override
     public ShelfDto update(ShelfDto shelfDto) {
-
         Shelf shelf = shelfRepository.findByIdentifier(shelfDto.getIdentifier());
-
         if (shelf == null) {
             ShelfDto dto = new ShelfDto();
             dto.setSuccess(false);
@@ -73,80 +62,60 @@ public class ShelfServiceImpl implements ShelfService {
         if (shelfDto.getStatus() != null) {
             shelf.setStatus(shelfDto.getStatus());
         }
-
         shelfRepository.save(shelf);
-
         ShelfDto response = modelMapper.map(shelf, ShelfDto.class);
         response.setSuccess(true);
         response.setMessage("Shelf updated successfully");
-
         return response;
     }
 
-    // FIND BY ID
     @Override
     public ShelfDto findByIdentifier(String identifier) {
-
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
-
         if (shelf == null) {
             ShelfDto dto = new ShelfDto();
             dto.setSuccess(false);
             dto.setMessage(SHELF_NOT_FOUND);
             return dto;
         }
-
         return modelMapper.map(shelf, ShelfDto.class);
     }
 
     @Override
     public List<ShelfDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
-
-        Page<Shelf> shelfPage =shelfRepository.findAll(pageable);
+        Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
         return modelMapper.map(shelfPage.getContent(), listType);
     }
 
-    // ACTIVE ONLY
     @Override
     public List<ShelfDto> getActiveShelves() {
-
         List<Shelf> list = shelfRepository.findByStatusTrue();
-
-        Type type = new TypeToken<List<ShelfDto>>() {}.getType();
-
+        Type type = new TypeToken<List<ShelfDto>>() {
+        }.getType();
         return modelMapper.map(list, type);
     }
 
-    // DELETE
     @Override
     public void delete(String identifier) {
         shelfRepository.deleteByIdentifier(identifier);
     }
 
-    // TOGGLE STATUS
     @Override
     public ShelfDto toggleStatus(String identifier) {
-
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
-
         if (shelf == null) {
             ShelfDto dto = new ShelfDto();
             dto.setSuccess(false);
             dto.setMessage(SHELF_NOT_FOUND);
             return dto;
         }
-
         shelf.setStatus(!Boolean.TRUE.equals(shelf.getStatus()));
-
         Shelf saved = shelfRepository.save(shelf);
-
         ShelfDto response = modelMapper.map(saved, ShelfDto.class);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
     }
 }

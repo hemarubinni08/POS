@@ -21,14 +21,12 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    //  LIST 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
         model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
         return "category/list";
     }
 
-    //  ADD PAGE 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute CategoryDto categoryDto,Pageable pageable) {
         model.addAttribute(CATEGORY, categoryDto);
@@ -36,58 +34,40 @@ public class CategoryController {
         return "category/add";
     }
 
-    //  SAVE 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute CategoryDto categoryDto,Pageable pageable) {
-
         CategoryDto response = categoryService.save(categoryDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(CATEGORY, categoryDto);
             model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
             return "category/add";
         }
-
         return REDIRECT_CATEGORY_LIST;
     }
 
-    //  EDIT 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier,Pageable pageable) {
-
         CategoryDto response = categoryService.findByIdentifier(identifier);
-
         model.addAttribute(CATEGORY, response);
-
         List<CategoryDto> cd = categoryService.findAll(pageable);
-
-        // exclude current category from dropdown
         model.addAttribute(CATEGORIES,
-                cd.stream()
-                        .filter(c -> !c.getIdentifier().equals(identifier))
-                        .toList());
-
+                cd.stream().filter(c -> !c.getIdentifier().equals(identifier)).toList());
         return "category/category";
     }
 
-    //  UPDATE 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute CategoryDto categoryDto,Pageable pageable) {
-
         CategoryDto response = categoryService.update(categoryDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(CATEGORY, categoryDto);
             model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
             return "category/category";
         }
-
         return REDIRECT_CATEGORY_LIST;
     }
 
-    //  DELETE 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
         categoryService.delete(identifier);

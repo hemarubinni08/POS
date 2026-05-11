@@ -23,52 +23,36 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
-    /*  LIST  */
-
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
         model.addAttribute("users", userService.findAll(pageable));
         return "user/list";
     }
 
-    /*  GET USER  */
-
     @GetMapping("/get")
     public String getUser(Model model, @RequestParam String username,Pageable pageable) {
-
         UserDto userDto = userService.findByUserName(username);
-
         if (userDto == null) {
             model.addAttribute("message", "User not found");
         }else {
-            //  store old username BEFORE edit
             userDto.setOldUsername(userDto.getUsername());
-
             model.addAttribute("userDto", userDto);
             model.addAttribute("roles", roleService.findAll(pageable));
         }
         return USER_USER;
     }
 
-    /*  UPDATE  */
-
     @PostMapping("/update")
-    public String updateUser(Model model,
-                             @ModelAttribute("userDto") UserDto userDto,Pageable pageable) {
-
+    public String updateUser(Model model, @ModelAttribute("userDto") UserDto userDto,Pageable pageable) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String loggedInUser = authentication.getName();
-
             UserDto response = userService.update(userDto);
-
             if (!response.isSuccess()) {
                 model.addAttribute("roles", roleService.findAll(pageable));
                 model.addAttribute("message", response.getMessage());
                 return USER_USER;
             }
-
-            //  logout if current user updated themselves
             if (loggedInUser.equals(userDto.getOldUsername())) {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";
@@ -78,17 +62,12 @@ public class UserController {
         return "redirect:/user/list";
     }
 
-    /*  DELETE  */
-
     @GetMapping("/delete")
     public String delete(@RequestParam String username) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String loggedInUser = authentication.getName();
-
             userService.delete(username);
-
             if (loggedInUser.equals(username)) {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";

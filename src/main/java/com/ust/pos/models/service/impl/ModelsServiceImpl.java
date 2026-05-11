@@ -24,89 +24,62 @@ public class ModelsServiceImpl implements ModelsService {
     @Autowired
     private ModelMapper modelMapper;
 
-    //  SAVE
     @Override
     public ModelsDto save(ModelsDto modelsDto) {
-
         if (modelsDto.getModelName() == null || modelsDto.getModelName().trim().isEmpty()) {
             modelsDto.setSuccess(false);
             modelsDto.setMessage("Model name is required");
             return modelsDto;
         }
-
         if (modelsRepository.findByIdentifier(modelsDto.getModelName()) != null) {
             modelsDto.setSuccess(false);
             modelsDto.setMessage("Model already exists");
             return modelsDto;
         }
-
         Models model = new Models();
-
-
         model.setIdentifier(modelsDto.getModelName());
         model.setModelName(modelsDto.getModelName());
-
         model.setStatus(modelsDto.getStatus());
         Models saved= modelsRepository.save(model);
         ModelsDto dto=modelMapper.map(saved,ModelsDto.class);
         dto.setSuccess(true);
         dto.setMessage("Model added successfully");
-
         return dto;
     }
 
-    //  UPDATE
     @Override
     public ModelsDto update(ModelsDto modelsDto) {
-
         Models model = modelsRepository.findByIdentifier(modelsDto.getIdentifier());
-
         if (model == null) {
             modelsDto.setSuccess(false);
             modelsDto.setMessage("Model not found");
             return modelsDto;
         }
-
-        // DO NOT change name
         model.setStatus(modelsDto.getStatus());
-
         modelsRepository.save(model);
-
         modelsDto.setSuccess(true);
         modelsDto.setMessage("Model updated successfully");
-
         return modelsDto;
     }
 
-    //  FIND ALL
     @Override
     public List<ModelsDto> findAll(Pageable pageable) {
-
-        Type listType = new TypeToken<List<ModelsDto>>() {
-        }.getType();
-
+        Type listType = new TypeToken<List<ModelsDto>>() {}.getType();
         Page<Models> modelsPage =modelsRepository.findAll(pageable);
         return modelMapper.map(modelsPage.getContent(), listType);
     }
 
-    //  FIND
     @Override
     public ModelsDto findByIdentifier(String identifier) {
-
         Models model = modelsRepository.findByIdentifier(identifier);
-
         if (model == null) return null;
-
         ModelsDto dto = new ModelsDto();
-
         dto.setIdentifier(model.getIdentifier());
         dto.setModelName(model.getModelName());
         dto.setStatus(model.getStatus());
-
         return dto;
     }
 
-    //  DELETE
     @Override
     public void delete(String identifier) {
         modelsRepository.deleteByIdentifier(identifier);
@@ -114,51 +87,36 @@ public class ModelsServiceImpl implements ModelsService {
 
     @Override
     public ModelsDto toggleStatus(String identifier) {
-
         ModelsDto response = new ModelsDto();
-
         Models model = modelsRepository.findByIdentifier(identifier);
-
         if (model == null) {
             response.setSuccess(false);
             response.setMessage("Model not found");
             return response;
         }
-
         model.setStatus(!Boolean.TRUE.equals(model.getStatus()));
-
         Models saved = modelsRepository.save(model);
-
         response.setIdentifier(saved.getIdentifier());
         response.setModelName(saved.getModelName());
         response.setStatus(saved.getStatus());
-
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
     }
 
     @Override
     public List<ModelsDto> findActiveModels() {
-
         List<Models> list = modelsRepository.findAll();
         List<ModelsDto> result = new ArrayList<>();
-
         for (Models model : list) {
-
-            // ONLY ACTIVE ONES
             if (model.getStatus() != null && model.getStatus()) {
-
                 ModelsDto dto = new ModelsDto();
                 dto.setIdentifier(model.getIdentifier());
                 dto.setModelName(model.getModelName());
                 dto.setStatus(model.getStatus());
-
                 result.add(dto);
             }
         }
-
         return result;
     }
 }

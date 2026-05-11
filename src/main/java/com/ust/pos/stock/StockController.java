@@ -1,6 +1,5 @@
 package com.ust.pos.stock;
 
-import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
@@ -44,9 +43,7 @@ public class StockController {
 
     @PostMapping("/add")
     public String save(@ModelAttribute StockDto dto, Model model, Pageable pageable) {
-
         StockDto res = stockService.save(dto);
-
         if (!res.isSuccess()) {
             model.addAttribute(MESSAGE, res.getMessage());
             model.addAttribute(STOCK_DTO, dto);
@@ -54,20 +51,16 @@ public class StockController {
             model.addAttribute(PRODUCT, productService.findActiveProducts());
             return "stock/add";
         }
-
         return REDIRECT;
     }
 
     @GetMapping("/get")
     public String edit(@RequestParam String identifier, Model model, Pageable pageable) {
-
         StockDto res = stockService.findByIdentifier(identifier);
-
         if (!res.isSuccess()) {
             model.addAttribute(MESSAGE, res.getMessage());
             return REDIRECT;
         }
-
         model.addAttribute(STOCK_DTO, res);
         model.addAttribute(WAREHOUSE, warehouseService.findAll(pageable));
         model.addAttribute(PRODUCT, productService.findActiveProducts());
@@ -76,9 +69,7 @@ public class StockController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute StockDto dto, Model model, Pageable pageable) {
-
         StockDto res = stockService.update(dto);
-
         if (!res.isSuccess()) {
             model.addAttribute(MESSAGE, res.getMessage());
             model.addAttribute(STOCK_DTO, dto);
@@ -86,7 +77,6 @@ public class StockController {
             model.addAttribute(PRODUCT, productService.findActiveProducts());
             return "stock/stock";
         }
-
         return REDIRECT;
     }
 

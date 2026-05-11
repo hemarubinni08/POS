@@ -9,24 +9,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 
 public class SecurityConfig {
 
     public static final String LOGIN = "/login";
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
         return config.getAuthenticationManager();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
-
-        http.csrf(csrf -> csrf.disable()) // Disable for testing
-                .authorizeHttpRequests(auth -> auth
+        http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                         .requestMatchers(LOGIN, "/register", "/api/**").permitAll()
                         .anyRequest().authenticated()

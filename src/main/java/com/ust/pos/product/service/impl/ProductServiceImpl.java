@@ -20,8 +20,7 @@ import java.util.List;
 @Transactional
 public class ProductServiceImpl implements ProductService {
 
-    public static final String PRODUCT_NOT_FOUND =
-            "Product not found";
+    public static final String PRODUCT_NOT_FOUND = "Product not found";
 
     @Autowired
     private ProductRepository productRepository;
@@ -29,134 +28,76 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ModelMapper modelMapper;
 
-    // SAVE
     @Override
     public ProductDto save(ProductDto productDto) {
-
-        if (productDto.getIdentifier() == null ||
-                productDto.getIdentifier().trim().isEmpty()) {
-
+        if (productDto.getIdentifier() == null || productDto.getIdentifier().trim().isEmpty()) {
             productDto.setSuccess(false);
             productDto.setMessage("Identifier required");
-
             return productDto;
         }
-
-        Product product =
-                productRepository.findByIdentifier(
-                        productDto.getIdentifier()
-                );
-
+        Product product = productRepository.findByIdentifier(productDto.getIdentifier());
         if (product != null) {
-
             productDto.setSuccess(false);
             productDto.setMessage("Product already exists");
-
             return productDto;
         }
-
-        Product saveProduct =
-                modelMapper.map(productDto, Product.class);
-
-        Product savedProduct =
-                productRepository.save(saveProduct);
-
-        ProductDto savedProductDto =
-                modelMapper.map(savedProduct, ProductDto.class);
-
+        Product saveProduct = modelMapper.map(productDto, Product.class);
+        Product savedProduct = productRepository.save(saveProduct);
+        ProductDto savedProductDto = modelMapper.map(savedProduct, ProductDto.class);
         savedProductDto.setSuccess(true);
         savedProductDto.setMessage("Product saved successfully");
-
         return savedProductDto;
     }
 
-    // UPDATE
     @Override
     public ProductDto update(ProductDto productDto) {
-
-        Product product =
-                productRepository.findByIdentifier(
-                        productDto.getIdentifier()
-                );
+        Product product = productRepository.findByIdentifier(productDto.getIdentifier());
 
         if (product == null) {
-
             productDto.setSuccess(false);
             productDto.setMessage(PRODUCT_NOT_FOUND);
-
             return productDto;
         }
-
         modelMapper.map(productDto, product);
-
-        Product updatedProduct =
-                productRepository.save(product);
-
-        ProductDto updatedProductDto =
-                modelMapper.map(updatedProduct, ProductDto.class);
-
+        Product updatedProduct = productRepository.save(product);
+        ProductDto updatedProductDto = modelMapper.map(updatedProduct, ProductDto.class);
         updatedProductDto.setSuccess(true);
         updatedProductDto.setMessage("Product updated successfully");
-
         return updatedProductDto;
     }
 
-    // FIND BY IDENTIFIER
     @Override
     public ProductDto findByIdentifier(String identifier) {
-
-        Product product =
-                productRepository.findByIdentifier(identifier);
-
+        Product product = productRepository.findByIdentifier(identifier);
         if (product == null) {
-
             ProductDto productDto = new ProductDto();
-
             productDto.setSuccess(false);
             productDto.setMessage(PRODUCT_NOT_FOUND);
-
             return productDto;
         }
-
-        ProductDto productDto =
-                modelMapper.map(product, ProductDto.class);
-
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
         productDto.setSuccess(true);
-
         return productDto;
     }
 
-    // FIND ALL
     @Override
     public List<ProductDto> findAll(Pageable pageable) {
-
-        Type listType = new TypeToken<List<ProductDto>>() {
-        }.getType();
-
+        Type listType = new TypeToken<List<ProductDto>>() {}.getType();
         Page<Product> productPage =productRepository.findAll(pageable);
         return modelMapper.map(productPage.getContent(), listType);
     }
 
-    // DELETE
     @Override
     public void delete(String identifier) {
-
         productRepository.deleteByIdentifier(identifier);
     }
 
-    // FIND ACTIVE PRODUCTS
     @Override
     public List<ProductDto> findActiveProducts() {
-
-        Type listType = new TypeToken<List<ProductDto>>() {
-        }.getType();
-
+        Type listType = new TypeToken<List<ProductDto>>() {}.getType();
         List<Product> productList = productRepository.findAll();
-
         List<ProductDto> productDtos = modelMapper.map(productList,listType);
-
         List<ProductDto> active = new ArrayList<>();
-
         if (productDtos != null) {
             for (ProductDto dto : productDtos) {
                 if (Boolean.TRUE.equals(dto.getStatus())) {
@@ -164,40 +105,23 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
         }
-
         return active;
     }
 
-    // TOGGLE STATUS
     @Override
     public ProductDto toggleStatus(String identifier) {
-
-        Product product =
-                productRepository.findByIdentifier(identifier);
-
+        Product product = productRepository.findByIdentifier(identifier);
         if (product == null) {
-
             ProductDto productDto = new ProductDto();
-
             productDto.setSuccess(false);
             productDto.setMessage(PRODUCT_NOT_FOUND);
-
             return productDto;
         }
-
-        product.setStatus(
-                !Boolean.TRUE.equals(product.getStatus())
-        );
-
-        Product savedProduct =
-                productRepository.save(product);
-
-        ProductDto productDto =
-                modelMapper.map(savedProduct, ProductDto.class);
-
+        product.setStatus(!Boolean.TRUE.equals(product.getStatus()));
+        Product savedProduct = productRepository.save(product);
+        ProductDto productDto = modelMapper.map(savedProduct, ProductDto.class);
         productDto.setSuccess(true);
         productDto.setMessage("Status updated successfully");
-
         return productDto;
     }
 }

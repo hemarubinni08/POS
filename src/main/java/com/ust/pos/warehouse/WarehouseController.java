@@ -33,44 +33,35 @@ public class WarehouseController {
 
     @PostMapping("/add")
     public String save(@ModelAttribute WarehouseDto warehouseDto, Model model) {
-
         WarehouseDto response = warehouseService.save(warehouseDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(WAREHOUSE_DTO, warehouseDto);
             return "warehouse/add";
         }
-
         return REDIRECT;
     }
 
     @GetMapping("/get")
     public String edit(@RequestParam String identifier, Model model,Pageable pageable) {
-
         WarehouseDto response = warehouseService.findByIdentifier(identifier);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute("warehouses", warehouseService.findAll(pageable));
             return "warehouse/list";
         }
-
         model.addAttribute(WAREHOUSE_DTO, response);
         return "warehouse/warehouse";
     }
 
     @PostMapping("/update")
     public String update(@ModelAttribute WarehouseDto warehouseDto, Model model) {
-
         WarehouseDto response = warehouseService.update(warehouseDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(WAREHOUSE_DTO, warehouseDto);
             return "warehouse/warehouse";
         }
-
         return REDIRECT;
     }
 

@@ -23,14 +23,12 @@ public class PriceController {
     @Autowired
     private ProductService productService;
 
-    // LIST ALL PRICES
     @GetMapping("/list")
     public String list(Model model,Pageable pageable) {
         model.addAttribute("prices", priceService.findAll(pageable));
         return "price/list";
     }
 
-    // ADD PRICE FOR A PRODUCT
     @GetMapping("/add")
     public String add(Model model, Pageable pageable) {
         model.addAttribute(PRICE_DTO, new PriceDto());
@@ -38,54 +36,42 @@ public class PriceController {
         return "price/add";
     }
 
-    // SAVE
     @PostMapping("/add")
     public String save(@ModelAttribute PriceDto priceDto, Model model,Pageable pageable) {
-
         priceDto.setIdentifier(priceDto.getProductId());
         PriceDto response = priceService.save(priceDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(PRICE_DTO, priceDto);
             model.addAttribute("products", productService.findAll(pageable));
             return "price/add";
         }
-
         return REDIRECT;
     }
 
-    // TO GET PRICE PROFILE OF PRODUCT
     @GetMapping("/get")
     public String edit(@RequestParam String identifier, Model model,Pageable pageable) {
-
         PriceDto response = priceService.findByIdentifier(identifier);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute("prices", priceService.findAll(pageable));
             return "price/list";
         }
-
         model.addAttribute(PRICE_DTO, response);
         return "price/price";
     }
 
     @PostMapping("/update")
     public String update(@ModelAttribute PriceDto priceDto, Model model) {
-
         PriceDto response = priceService.update(priceDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(PRICE_DTO, priceDto);
             return "price/price";
         }
-
         return REDIRECT;
     }
 
-    // DELETE
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
         priceService.delete(identifier);

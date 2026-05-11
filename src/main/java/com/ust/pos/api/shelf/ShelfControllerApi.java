@@ -17,7 +17,6 @@ public class ShelfControllerApi extends BaseController {
     @Autowired
     private ShelfService shelfService;
 
-    // GET ALL
     @PostMapping("/list")
     public List<ShelfDto> list(@RequestBody PaginationDto pagination) {
         Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
@@ -25,25 +24,21 @@ public class ShelfControllerApi extends BaseController {
         return shelfService.findAll(pageable);
     }
 
-    //  ADD 
     @PostMapping("/add")
     public ShelfDto add(@RequestBody ShelfDto shelfDto) {
         return shelfService.save(shelfDto);
     }
 
-    //  GET 
     @GetMapping("/get")
     public ShelfDto get(@RequestParam String identifier) {
         return shelfService.findByIdentifier(identifier);
     }
 
-    //  UPDATE 
     @PostMapping("/update")
     public ShelfDto update(@RequestBody ShelfDto shelfDto) {
         return shelfService.update(shelfDto);
     }
 
-    //  DELETE 
     @GetMapping("/delete")
     public Boolean delete(@RequestParam String identifier) {
         try {
@@ -54,13 +49,11 @@ public class ShelfControllerApi extends BaseController {
         }
     }
 
-    //  ACTIVE LIST 
     @GetMapping("/active")
     public List<ShelfDto> activeShelves() {
         return shelfService.getActiveShelves();
     }
 
-    //  TOGGLE (DTO RETURN LIKE MODELS) 
     @GetMapping("/toggle")
     public ShelfDto toggle(@RequestParam String identifier) {
         return shelfService.toggleStatus(identifier);

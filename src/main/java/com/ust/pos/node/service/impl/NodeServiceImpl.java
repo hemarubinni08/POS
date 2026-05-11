@@ -21,6 +21,7 @@ import java.util.Set;
 
 @Service
 public class NodeServiceImpl implements NodeService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -75,10 +76,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public List<NodeDto> findAll(Pageable pageable) {
-
-        Type listType = new TypeToken<List<NodeDto>>() {
-        }.getType();
-
+        Type listType = new TypeToken<List<NodeDto>>() {}.getType();
         Page<Node> nodePage =nodeRepository.findAll(pageable);
         return modelMapper.map(nodePage.getContent(), listType);
     }
@@ -93,8 +91,8 @@ public class NodeServiceImpl implements NodeService {
         return nodeDtos;
     }
 
-    private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
-
+    private void findNodes(org.springframework.security.core.userdetails.User principalObject,
+                           List<NodeDto> nodeDtos) {
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesStr = new HashSet<>();
         List<Node> nodes = nodeRepository.findAll();
@@ -105,10 +103,8 @@ public class NodeServiceImpl implements NodeService {
                 }
             }
         }
-
         for (String nodeStr : nodesStr) {
             nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
         }
     }
-
 }

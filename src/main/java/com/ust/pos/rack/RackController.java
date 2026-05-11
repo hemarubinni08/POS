@@ -39,42 +39,33 @@ public class RackController {
 
     @PostMapping("/add")
     public String save(@ModelAttribute RackDto rackDto, Model model) {
-
         RackDto response = rackService.save(rackDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(RACK_DTO, rackDto);
             model.addAttribute(SHELVES, shelfService.getActiveShelves());
             return "rack/add";
         }
-
         return REDIRECT_LIST;
     }
 
     @GetMapping("/edit")
     public String edit(@RequestParam String identifier, Model model) {
-
         RackDto dto = rackService.findByIdentifier(identifier);
-
         model.addAttribute(RACK_DTO, dto);
         model.addAttribute(SHELVES, shelfService.getActiveShelves());
-
         return "rack/rack";
     }
 
     @PostMapping("/update")
     public String update(@ModelAttribute RackDto rackDto, Model model) {
-
         RackDto response = rackService.update(rackDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(RACK_DTO, rackDto);
             model.addAttribute(SHELVES, shelfService.getActiveShelves());
             return "rack/rack";
         }
-
         return REDIRECT_LIST;
     }
 

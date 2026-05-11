@@ -15,20 +15,19 @@ public class NodeController {
 
     public static final String ROLES = "roles";
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
+
     @Autowired
     private NodeService nodeService;
 
     @Autowired
     private RoleService roleService;
 
-    // LIST ALL NODES
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
         model.addAttribute("nodes", nodeService.findAll(pageable));
         return "node/list";
     }
 
-    // ADD A NODE
     @GetMapping("/add")
     public String addPage(Model model,Pageable pageable) {
         model.addAttribute("nodeDto", new NodeDto());
@@ -37,42 +36,32 @@ public class NodeController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model,
-                          @ModelAttribute NodeDto nodeDto,Pageable pageable) {
-
+    public String addPost(Model model,@ModelAttribute NodeDto nodeDto,Pageable pageable) {
         NodeDto response = nodeService.save(nodeDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(ROLES, roleService.findAll(pageable));
             model.addAttribute("message", response.getMessage());
             return "node/add";
         }
-
         return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/get")
-    public String update(Model model,
-                         @RequestParam String identifier, Pageable pageable) {
-
+    public String update(Model model, @RequestParam String identifier, Pageable pageable) {
         NodeDto nodeDto = nodeService.findByIdentifier(identifier);
         model.addAttribute("nodeDto", nodeDto);
         model.addAttribute(ROLES, roleService.findAll(pageable));
-
         return "node/node";
     }
 
     @PostMapping("/update")
     public String update(Model model, @ModelAttribute NodeDto nodeDto,Pageable pageable) {
-
         NodeDto response = nodeService.update(nodeDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(ROLES, roleService.findAll(pageable));
             model.addAttribute("message", response.getMessage());
             return "node/node";
         }
-
         return REDIRECT_NODE_LIST;
     }
 

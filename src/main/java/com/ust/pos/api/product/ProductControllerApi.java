@@ -18,7 +18,6 @@ public class ProductControllerApi extends BaseController {
     @Autowired
     private ProductService productService;
 
-    // GET ALL
     @PostMapping("/list")
     public List<ProductDto> list(@RequestBody PaginationDto pagination) {
         Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),

@@ -21,7 +21,6 @@ public class ShelfController {
     @Autowired
     private ShelfService shelfService;
 
-    // LIST
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
         List<ShelfDto> shelfList = shelfService.findAll(pageable);
@@ -29,69 +28,51 @@ public class ShelfController {
         return "shelf/list";
     }
 
-    // ADD PAGE
     @GetMapping("/add")
     public String addPage(Model model) {
         model.addAttribute(SHELF_DTO, new ShelfDto());
         return "shelf/add";
     }
 
-    // SAVE
     @PostMapping("/add")
-    public String save(@ModelAttribute(SHELF_DTO) ShelfDto shelfDto,
-                       Model model) {
-
+    public String save(@ModelAttribute(SHELF_DTO) ShelfDto shelfDto, Model model) {
         ShelfDto response = shelfService.save(shelfDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(SHELF_DTO, shelfDto);
             return "shelf/add";
         }
-
         return REDIRECT_LIST;
     }
 
-    // EDIT (FIXED)
     @GetMapping("/edit")
     public String edit(@RequestParam String identifier, Model model) {
-
         ShelfDto shelfDto = shelfService.findByIdentifier(identifier);
-
         if (shelfDto == null || !shelfDto.isSuccess()) {
             model.addAttribute(MESSAGE, "Shelf not found");
             return REDIRECT_LIST;
         }
-
         model.addAttribute(SHELF_DTO, shelfDto);
-
         return "shelf/shelf";
     }
 
-    // UPDATE
     @PostMapping("/update")
-    public String update(@ModelAttribute(SHELF_DTO) ShelfDto shelfDto,
-                         Model model) {
-
+    public String update(@ModelAttribute(SHELF_DTO) ShelfDto shelfDto, Model model) {
         ShelfDto response = shelfService.update(shelfDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(SHELF_DTO, shelfDto);
             return "shelf/shelf";
         }
-
         return REDIRECT_LIST;
     }
 
-    // DELETE (REQUEST PARAM)
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
         shelfService.delete(identifier);
         return REDIRECT_LIST;
     }
 
-    // TOGGLE
     @GetMapping("/toggle")
     public String toggleStatus(@RequestParam String identifier) {
         shelfService.toggleStatus(identifier);

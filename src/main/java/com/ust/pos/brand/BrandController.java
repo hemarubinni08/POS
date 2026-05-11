@@ -18,51 +18,39 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
-    // LIST PAGE
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
         model.addAttribute("brands", brandService.findAll(pageable));
         return "brand/list";
     }
 
-    // ADD PAGE
     @GetMapping("/add")
     public String addPage(Model model) {
         model.addAttribute("brandDto", new BrandDto());
         return "brand/add";
     }
 
-    // SAVE
     @PostMapping("/add")
-    public String save(@ModelAttribute("brandDto") BrandDto brandDto,
-                       Model model) {
-
+    public String save(@ModelAttribute("brandDto") BrandDto brandDto, Model model) {
         BrandDto response = brandService.save(brandDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             return "brand/add";
         }
-
         return REDIRECT_LIST;
     }
 
-    // EDIT PAGE
     @GetMapping("/get")
     public String edit(@RequestParam String identifier, Model model) {
-
         BrandDto brandDto = brandService.findByIdentifier(identifier);
-
         if (brandDto == null) {
             model.addAttribute(MESSAGE, "Brand not found");
             return REDIRECT_LIST;
         }
-
         model.addAttribute("brandDto", brandDto);
         return "brand/brand";
     }
 
-    // UPDATE
     @PostMapping("/update")
     public String update(@ModelAttribute("brandDto") BrandDto brandDto,
                          Model model) {
@@ -77,15 +65,12 @@ public class BrandController {
         return REDIRECT_LIST;
     }
 
-    // DELETE
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
-
         brandService.delete(identifier);
         return REDIRECT_LIST;
     }
 
-    //  TOGGLE STATUS
     @GetMapping("/toggleStatus")
     public String toggleStatus(@RequestParam String identifier) {
 

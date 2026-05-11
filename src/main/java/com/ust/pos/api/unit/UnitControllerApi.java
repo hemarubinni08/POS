@@ -17,7 +17,6 @@ public class UnitControllerApi extends BaseController {
     @Autowired
     private UnitService unitService;
 
-    // GET ALL
     @PostMapping("/list")
     public List<UnitDto> list(@RequestBody PaginationDto pagination) {
         Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
@@ -25,25 +24,21 @@ public class UnitControllerApi extends BaseController {
         return unitService.findAll(pageable);
     }
 
-    // ADD
     @PostMapping("/add")
     public UnitDto add(@RequestBody UnitDto unitDto) {
         return unitService.save(unitDto);
     }
 
-    // GET
     @GetMapping("/get")
     public UnitDto get(@RequestParam String identifier) {
         return unitService.findByIdentifier(identifier);
     }
 
-    // UPDATE
     @PostMapping("/update")
     public UnitDto update(@RequestBody UnitDto unitDto) {
         return unitService.update(unitDto);
     }
 
-    // DELETE
     @GetMapping("/delete")
     public Boolean delete(@RequestParam String identifier) {
         try {
@@ -54,13 +49,11 @@ public class UnitControllerApi extends BaseController {
         }
     }
 
-    // TOGGLE STATUS
     @GetMapping("/toggle")
     public UnitDto toggle(@RequestParam String identifier) {
         return unitService.toggleStatus(identifier);
     }
 
-    // ACTIVE LIST
     @GetMapping("/active")
     public List<UnitDto> active() {
         return unitService.findActiveUnits();

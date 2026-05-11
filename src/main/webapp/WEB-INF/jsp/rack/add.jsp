@@ -51,7 +51,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
 
     <div class="container-fluid">

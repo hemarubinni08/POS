@@ -20,7 +20,6 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void save(AddressDto addressDto) {
 
-        // VALIDATION
         if (addressDto.getPhoneNo() == null || addressDto.getPhoneNo().isEmpty() ||
                 addressDto.getAddressType() == null || addressDto.getAddressType().isEmpty() ||
                 addressDto.getAddressLine() == null || addressDto.getAddressLine().isEmpty() ||
@@ -42,7 +41,6 @@ public class AddressServiceImpl implements AddressService {
 
         if (existing != null) {
 
-            // UPDATE EXISTING
             existing.setAddressLine(addressDto.getAddressLine());
             existing.setCity(addressDto.getCity());
             existing.setState(addressDto.getState());
@@ -53,7 +51,6 @@ public class AddressServiceImpl implements AddressService {
 
         } else {
 
-            // INSERT NEW
             Address address = modelMapper.map(addressDto, Address.class);
             addressRepository.save(address);
         }
