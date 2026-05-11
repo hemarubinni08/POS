@@ -49,7 +49,7 @@ public class ProductController extends BaseController {
 
         model.addAttribute("productDto", productDto);
         PaginationDto paginationDto = new PaginationDto();
-        model.addAttribute(CATEGORIES, categoryService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+        model.addAttribute(CATEGORIES, categoryService.findIfTrue());
         model.addAttribute(BRAND, brandService.findIfTrue());
         model.addAttribute("unit", unitService.findIfTrue());
         model.addAttribute(MODEL, modelsService.findIfTrue());
@@ -83,7 +83,7 @@ public class ProductController extends BaseController {
 
         model.addAttribute("product", response);
         PaginationDto paginationDto = new PaginationDto();
-        model.addAttribute(CATEGORIES, categoryService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+        model.addAttribute(CATEGORIES, categoryService.findIfTrue());
         model.addAttribute(BRAND, brandService.findIfTrue());
         model.addAttribute("unit", unitService.findIfTrue());
         model.addAttribute(MODEL, modelsService.findIfTrue());
@@ -100,7 +100,7 @@ public class ProductController extends BaseController {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("product", response);
             PaginationDto paginationDto = new PaginationDto();
-            model.addAttribute(CATEGORIES, categoryService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+            model.addAttribute(CATEGORIES, categoryService.findIfTrue());
             model.addAttribute(BRAND, brandService.findIfTrue());
             model.addAttribute("unit", unitService.findIfTrue());
             model.addAttribute(MODEL, modelsService.findIfTrue());

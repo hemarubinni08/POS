@@ -124,8 +124,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findIfTrue() {
+
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-        return modelMapper.map(categoryRepository.findByStatusIsTrue(), listType);
+
+        List<Category> categories = categoryRepository.findBySuperCategoryIsNotNull().stream().filter(Category::isStatus).toList();
+
+        return modelMapper.map(categories, listType);
     }
 }

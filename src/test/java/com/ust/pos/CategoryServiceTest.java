@@ -267,6 +267,8 @@ class CategoryServiceTest {
 
         Category category = new Category();
         category.setIdentifier("CAT1");
+        category.setStatus(true);
+        category.setSuperCategory("SUPER");
 
         CategoryDto dto = new CategoryDto();
         dto.setIdentifier("CAT1");
@@ -274,7 +276,7 @@ class CategoryServiceTest {
         List<Category> categories = List.of(category);
         List<CategoryDto> dtos = List.of(dto);
 
-        Mockito.when(categoryRepository.findByStatusIsTrue()).thenReturn(categories);
+        Mockito.when(categoryRepository.findBySuperCategoryIsNotNull()).thenReturn(categories);
 
         Mockito.when(modelMapper.map(Mockito.eq(categories), Mockito.any(Type.class))).thenReturn(dtos);
 
@@ -282,6 +284,6 @@ class CategoryServiceTest {
 
         Assertions.assertEquals(1, response.size());
 
-        Mockito.verify(categoryRepository).findByStatusIsTrue();
+        Mockito.verify(categoryRepository).findBySuperCategoryIsNotNull();
     }
 }
