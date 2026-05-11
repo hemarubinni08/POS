@@ -79,6 +79,7 @@ public class BrandServiceImpl implements BrandService {
         brand.setStatus(status);
         brandRepository.save(brand);
     }
+
     @Override
     public List<BrandDto> findAll() {
         Type listOfType = new TypeToken<List<BrandDto>>() {

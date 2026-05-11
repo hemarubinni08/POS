@@ -1,8 +1,6 @@
 package com.ust.pos.racks.service.impl;
 
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.RacksDto;
-import com.ust.pos.model.Product;
 import com.ust.pos.model.Racks;
 import com.ust.pos.model.RacksRepository;
 import com.ust.pos.racks.service.RacksService;
@@ -79,6 +77,7 @@ public class RacksServiceImpl implements RacksService {
             racksRepository.save(racks);
         }
     }
+
     @Override
     public List<RacksDto> findAll(Pageable pageable) {
         Type listOfType = new TypeToken<List<RacksDto>>() {

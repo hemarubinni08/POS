@@ -21,9 +21,9 @@ public class CustomerApiController extends BaseController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<CustomerDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortField());
         return customerService.findAll(pageable);
     }

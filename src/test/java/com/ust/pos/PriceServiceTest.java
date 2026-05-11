@@ -148,7 +148,8 @@ class PriceServiceTest {
         List<Price> entities = List.of(new Price());
         List<PriceDto> dtos = List.of(new PriceDto());
 
-        Type listType = new TypeToken<List<PriceDto>>() {}.getType();
+        Type listType = new TypeToken<List<PriceDto>>() {
+        }.getType();
 
         Mockito.when(priceRepository.findAll())
                 .thenReturn(entities);
@@ -173,6 +174,7 @@ class PriceServiceTest {
         Mockito.verify(priceRepository)
                 .deleteByIdentifier("Admin");
     }
+
     @Test
     void findAll_WithPagination_ShouldReturnPriceDtos() {
         Pageable pageable = PageRequest.of(0, 10);
@@ -182,7 +184,8 @@ class PriceServiceTest {
 
         List<PriceDto> priceDtos = List.of(new PriceDto());
 
-        Type listType = new TypeToken<List<PriceDto>>() {}.getType();
+        Type listType = new TypeToken<List<PriceDto>>() {
+        }.getType();
 
         Mockito.when(priceRepository.findAll(pageable))
                 .thenReturn(page);

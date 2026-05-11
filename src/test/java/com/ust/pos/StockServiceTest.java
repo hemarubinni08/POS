@@ -1,4 +1,5 @@
 package com.ust.pos;
+
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
@@ -169,7 +170,8 @@ class StockServiceTest {
         List<Stock> entities = List.of(new Stock());
         List<StockDto> dtos = List.of(new StockDto());
 
-        Type listType = new TypeToken<List<StockDto>>() {}.getType();
+        Type listType = new TypeToken<List<StockDto>>() {
+        }.getType();
 
         Mockito.when(stockRepository.findAll())
                 .thenReturn(entities);
@@ -212,6 +214,7 @@ class StockServiceTest {
         Mockito.verify(stockRepository)
                 .deleteByIdentifier("P1");
     }
+
     @Test
     void findAll_WithPagination_ShouldReturnStockDtos() {
         Pageable pageable = PageRequest.of(0, 10);
@@ -221,7 +224,8 @@ class StockServiceTest {
 
         List<StockDto> stockDtos = List.of(new StockDto());
 
-        Type listType = new TypeToken<List<StockDto>>() {}.getType();
+        Type listType = new TypeToken<List<StockDto>>() {
+        }.getType();
 
         Mockito.when(stockRepository.findAll(pageable))
                 .thenReturn(page);

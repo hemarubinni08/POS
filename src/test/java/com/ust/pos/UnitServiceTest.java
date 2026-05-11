@@ -161,7 +161,8 @@ class UnitServiceTest {
         List<Unit> entities = List.of(new Unit());
         List<UnitDto> dtos = List.of(new UnitDto());
 
-        Type listType = new TypeToken<List<UnitDto>>() {}.getType();
+        Type listType = new TypeToken<List<UnitDto>>() {
+        }.getType();
 
         Mockito.when(unitRepository.findAll())
                 .thenReturn(entities);
@@ -204,6 +205,7 @@ class UnitServiceTest {
         Mockito.verify(unitRepository)
                 .deleteByIdentifier("U1");
     }
+
     @Test
     void findAll_WithPagination_ShouldReturnUnitDtos() {
         Pageable pageable = PageRequest.of(0, 10);
@@ -213,7 +215,8 @@ class UnitServiceTest {
 
         List<UnitDto> unitDtos = List.of(new UnitDto());
 
-        Type listType = new TypeToken<List<UnitDto>>() {}.getType();
+        Type listType = new TypeToken<List<UnitDto>>() {
+        }.getType();
 
         Mockito.when(unitRepository.findAll(pageable))
                 .thenReturn(page);

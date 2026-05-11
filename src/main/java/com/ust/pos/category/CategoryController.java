@@ -12,10 +12,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
-    @Autowired
-    CategoryService categoryService;
     private static final String REDIRECT_CATEGORIES_LIST = "redirect:/category/list";
     private static final String CATEGORIES = "categories";
+    @Autowired
+    CategoryService categoryService;
 
     @GetMapping("/list")
     public String home(Model model) {

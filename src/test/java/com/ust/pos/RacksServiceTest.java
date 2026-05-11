@@ -138,7 +138,8 @@ class RacksServiceTest {
         List<Racks> entities = List.of(new Racks());
         List<RacksDto> dtos = List.of(new RacksDto());
 
-        Type listType = new TypeToken<List<RacksDto>>() {}.getType();
+        Type listType = new TypeToken<List<RacksDto>>() {
+        }.getType();
 
         Mockito.when(racksRepository.findAll())
                 .thenReturn(entities);
@@ -192,6 +193,7 @@ class RacksServiceTest {
         Mockito.verify(racksRepository)
                 .deleteByIdentifier("R1");
     }
+
     @Test
     void findAll_WithPagination_ShouldReturnRacksDtos() {
         Pageable pageable = PageRequest.of(0, 10);
@@ -201,7 +203,8 @@ class RacksServiceTest {
 
         List<RacksDto> racksDtos = List.of(new RacksDto());
 
-        Type listType = new TypeToken<List<RacksDto>>() {}.getType();
+        Type listType = new TypeToken<List<RacksDto>>() {
+        }.getType();
 
         Mockito.when(racksRepository.findAll(pageable))
                 .thenReturn(page);

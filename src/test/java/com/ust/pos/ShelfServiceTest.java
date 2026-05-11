@@ -163,7 +163,8 @@ class ShelfServiceTest {
         List<Shelf> entities = List.of(new Shelf());
         List<ShelfDto> dtos = List.of(new ShelfDto());
 
-        Type listType = new TypeToken<List<ShelfDto>>() {}.getType();
+        Type listType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
 
         Mockito.when(shelfRepository.findAll())
                 .thenReturn(entities);
@@ -206,7 +207,8 @@ class ShelfServiceTest {
         List<Shelf> entities = List.of(new Shelf(), new Shelf());
         List<ShelfDto> dtos = List.of(active, inactive);
 
-        Type listType = new TypeToken<List<ShelfDto>>() {}.getType();
+        Type listType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
 
         Mockito.when(shelfRepository.findAll())
                 .thenReturn(entities);
@@ -232,6 +234,7 @@ class ShelfServiceTest {
         Mockito.verify(shelfRepository)
                 .deleteByIdentifier("S1");
     }
+
     @Test
     void findAll_WithPagination_ShouldReturnShelfDtos() {
         Pageable pageable = PageRequest.of(0, 10);
@@ -241,7 +244,8 @@ class ShelfServiceTest {
 
         List<ShelfDto> shelfDtos = List.of(new ShelfDto());
 
-        Type listType = new TypeToken<List<ShelfDto>>() {}.getType();
+        Type listType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
 
         Mockito.when(shelfRepository.findAll(pageable))
                 .thenReturn(page);

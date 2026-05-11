@@ -3,9 +3,7 @@ package com.ust.pos.customer.service.impl;
 import com.ust.pos.address.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.AddressDto;
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.CustomerDto;
-import com.ust.pos.model.Brand;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
 import org.modelmapper.ModelMapper;
@@ -90,6 +88,7 @@ public class CustomerServiceImpl implements CustomerService {
         addressService.delete(identifier);
         customerRepository.deleteByIdentifier(identifier);
     }
+
     @Override
     public List<CustomerDto> findAll(Pageable pageable) {
         Type listOfType = new TypeToken<List<CustomerDto>>() {

@@ -7,11 +7,9 @@ import com.ust.pos.racks.service.RacksService;
 import com.ust.pos.shelf.service.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/racks")
@@ -25,11 +23,12 @@ public class RacksApiController extends BaseController {
     @Autowired
     private ShelfService shelfService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<RacksDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortField());
-        return racksService.findAll(pageable);    }
+        return racksService.findAll(pageable);
+    }
 
     @PostMapping("/add")
     public RacksDto addPost(@RequestBody RacksDto racksDto) {

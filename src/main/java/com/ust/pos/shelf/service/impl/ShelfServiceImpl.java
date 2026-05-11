@@ -1,8 +1,6 @@
 package com.ust.pos.shelf.service.impl;
 
-import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.ShelfDto;
-import com.ust.pos.model.Role;
 import com.ust.pos.model.Shelf;
 import com.ust.pos.model.ShelfRepository;
 import com.ust.pos.shelf.service.ShelfService;
@@ -94,6 +92,7 @@ public class ShelfServiceImpl implements ShelfService {
         List<ShelfDto> shelfDtos = modelMapper.map(shelfRepository.findAll(), listType);
         return shelfDtos.stream().filter(s -> s.getStatus()).toList();
     }
+
     @Override
     public List<ShelfDto> findAll(Pageable pageable) {
         Type listOfType = new TypeToken<List<ShelfDto>>() {

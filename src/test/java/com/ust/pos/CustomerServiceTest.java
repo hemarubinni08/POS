@@ -1,11 +1,11 @@
 package com.ust.pos;
 
+import com.ust.pos.address.service.AddressService;
 import com.ust.pos.customer.service.impl.CustomerServiceImpl;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
-import com.ust.pos.address.service.AddressService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -171,7 +171,8 @@ class CustomerServiceTest {
         Mockito.when(customerRepository.findAll())
                 .thenReturn(List.of(new Customer()));
 
-        Type listType = new TypeToken<List<CustomerDto>>() {}.getType();
+        Type listType = new TypeToken<List<CustomerDto>>() {
+        }.getType();
 
         Mockito.when(modelMapper.map(
                         Mockito.anyList(), Mockito.eq(listType)))
@@ -194,6 +195,7 @@ class CustomerServiceTest {
         Mockito.verify(addressService).delete("Admin");
         Mockito.verify(customerRepository).deleteByIdentifier("Admin");
     }
+
     @Test
     void findAll_WithPagination_ShouldReturnCustomerDtos() {
         // Arrange
@@ -204,7 +206,8 @@ class CustomerServiceTest {
 
         List<CustomerDto> customerDtos = List.of(new CustomerDto());
 
-        Type listType = new TypeToken<List<CustomerDto>>() {}.getType();
+        Type listType = new TypeToken<List<CustomerDto>>() {
+        }.getType();
 
         Mockito.when(customerRepository.findAll(pageable))
                 .thenReturn(customerPage);

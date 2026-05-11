@@ -142,7 +142,8 @@ class BrandServiceTest {
         List<Brand> brands = List.of(new Brand());
         List<BrandDto> brandDtos = List.of(new BrandDto());
 
-        Type listType = new TypeToken<List<BrandDto>>() {}.getType();
+        Type listType = new TypeToken<List<BrandDto>>() {
+        }.getType();
 
         Mockito.when(brandRepository.findAll())
                 .thenReturn(brands);
@@ -197,7 +198,8 @@ class BrandServiceTest {
 
         List<BrandDto> brandDtos = List.of(new BrandDto());
 
-        Type listType = new TypeToken<List<BrandDto>>() {}.getType();
+        Type listType = new TypeToken<List<BrandDto>>() {
+        }.getType();
 
         Mockito.when(brandRepository.findAll(pageable))
                 .thenReturn(brandPage);

@@ -145,6 +145,7 @@ public class RoleServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
+
     @Test
     void findAll_WithPagination_ShouldReturnRoleDtos() {
         Pageable pageable = PageRequest.of(0, 10);
@@ -154,7 +155,8 @@ public class RoleServiceTest {
 
         List<RoleDto> roleDtos = List.of(new RoleDto());
 
-        Type listType = new TypeToken<List<RoleDto>>() {}.getType();
+        Type listType = new TypeToken<List<RoleDto>>() {
+        }.getType();
 
         Mockito.when(roleRepository.findAll(pageable))
                 .thenReturn(page);

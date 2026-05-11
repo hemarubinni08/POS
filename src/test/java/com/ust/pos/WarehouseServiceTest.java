@@ -141,7 +141,8 @@ class WarehouseServiceTest {
         List<Warehouse> entities = List.of(new Warehouse());
         List<WarehouseDto> dtos = List.of(new WarehouseDto());
 
-        Type listType = new TypeToken<List<WarehouseDto>>() {}.getType();
+        Type listType = new TypeToken<List<WarehouseDto>>() {
+        }.getType();
 
         Mockito.when(warehouseRepository.findAll())
                 .thenReturn(entities);
@@ -166,6 +167,7 @@ class WarehouseServiceTest {
         Mockito.verify(warehouseRepository)
                 .deleteByIdentifier("WH1");
     }
+
     @Test
     void findAll_WithPagination_ShouldReturnWarehouseDtos() {
         Pageable pageable = PageRequest.of(0, 10);
@@ -175,7 +177,8 @@ class WarehouseServiceTest {
 
         List<WarehouseDto> warehouseDtos = List.of(new WarehouseDto());
 
-        Type listType = new TypeToken<List<WarehouseDto>>() {}.getType();
+        Type listType = new TypeToken<List<WarehouseDto>>() {
+        }.getType();
 
         Mockito.when(warehouseRepository.findAll(pageable))
                 .thenReturn(page);

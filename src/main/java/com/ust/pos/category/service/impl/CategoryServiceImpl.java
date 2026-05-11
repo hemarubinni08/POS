@@ -82,6 +82,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto findByIdentifier(String identifier) {
         return modelMapper.map(categoryRepository.findByIdentifier(identifier), CategoryDto.class);
     }
+
     @Override
     public List<CategoryDto> findAll(Pageable pageable) {
         Type listOfType = new TypeToken<List<CategoryDto>>() {

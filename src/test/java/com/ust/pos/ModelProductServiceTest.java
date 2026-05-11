@@ -184,6 +184,7 @@ class ModelProductServiceTest {
         Mockito.verify(modelProductRepository)
                 .deleteByIdentifier("Admin");
     }
+
     @Test
     void findAll_WithPagination_ShouldReturnModelProductDtos() {
         Pageable pageable = PageRequest.of(0, 10);
@@ -193,7 +194,8 @@ class ModelProductServiceTest {
 
         List<ModelProductDto> productDtos = List.of(new ModelProductDto());
 
-        Type listType = new TypeToken<List<ModelProductDto>>() {}.getType();
+        Type listType = new TypeToken<List<ModelProductDto>>() {
+        }.getType();
 
         Mockito.when(modelProductRepository.findAll(pageable))
                 .thenReturn(page);

@@ -6,8 +6,6 @@ import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.shelf.service.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,10 +17,9 @@ public class ShelfApiController extends BaseController {
     @Autowired
     private ShelfService shelfService;
 
-    @GetMapping("/list")
-    public List<ShelfDto> home(@RequestBody PaginationDto paginationDto)
-    {
-        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
+    @PostMapping("/list")
+    public List<ShelfDto> home(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortField());
         return shelfService.findAll(pageable);
     }

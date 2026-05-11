@@ -6,7 +6,6 @@ import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,10 +16,9 @@ public class CategoryApiController extends BaseController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("/list")
-    public List<CategoryDto> home(@RequestBody PaginationDto paginationDto)
-    {
-        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
+    @PostMapping("/list")
+    public List<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortField());
         return categoryService.findAll(pageable);
     }

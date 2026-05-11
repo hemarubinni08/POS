@@ -154,7 +154,8 @@ class AddressServiceTest {
         List<Address> addresses = List.of(new Address());
         List<AddressDto> addressDtos = List.of(new AddressDto());
 
-        Type listType = new TypeToken<List<AddressDto>>() {}.getType();
+        Type listType = new TypeToken<List<AddressDto>>() {
+        }.getType();
 
         Mockito.when(addressRepository.findAll())
                 .thenReturn(addresses);
@@ -226,7 +227,8 @@ class AddressServiceTest {
 
         List<AddressDto> addressDtos = List.of(new AddressDto());
 
-        Type listType = new TypeToken<List<AddressDto>>() {}.getType();
+        Type listType = new TypeToken<List<AddressDto>>() {
+        }.getType();
 
         Mockito.when(addressRepository.findAll(pageable))
                 .thenReturn(page);

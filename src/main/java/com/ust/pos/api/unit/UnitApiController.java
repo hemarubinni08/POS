@@ -17,12 +17,12 @@ public class UnitApiController extends BaseController {
     @Autowired
     private UnitService unitService;
 
-    @GetMapping("/list")
-    public List<UnitDto> home(@RequestBody PaginationDto paginationDto)
-    {
-        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
+    @PostMapping("/list")
+    public List<UnitDto> home(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortField());
-        return unitService.findAll(pageable);     }
+        return unitService.findAll(pageable);
+    }
 
     @PostMapping("/add")
     public UnitDto addModel(@RequestBody UnitDto unitDto) {

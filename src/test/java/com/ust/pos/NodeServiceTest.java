@@ -1,8 +1,6 @@
 package com.ust.pos;
 
 
-import java.util.Arrays;
-import java.util.HashSet;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
@@ -18,17 +16,19 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class NodeServiceTest {
@@ -183,7 +183,8 @@ class NodeServiceTest {
         List<Node> entities = List.of(new Node());
         List<NodeDto> dtos = List.of(new NodeDto());
 
-        Type listType = new TypeToken<List<NodeDto>>() {}.getType();
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
 
         Mockito.when(nodeRepository.findAll())
                 .thenReturn(entities);
@@ -228,6 +229,7 @@ class NodeServiceTest {
         Mockito.verify(nodeRepository)
                 .deleteByIdentifier("N1");
     }
+
     @Test
     void findAll_WithPagination_ShouldReturnNodeDtos() {
         Pageable pageable = PageRequest.of(0, 10);
@@ -237,7 +239,8 @@ class NodeServiceTest {
 
         List<NodeDto> nodeDtos = List.of(new NodeDto());
 
-        Type listType = new TypeToken<List<NodeDto>>() {}.getType();
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
 
         Mockito.when(nodeRepository.findAll(pageable))
                 .thenReturn(page);

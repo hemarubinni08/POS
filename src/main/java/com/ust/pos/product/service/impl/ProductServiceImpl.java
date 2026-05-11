@@ -1,8 +1,6 @@
 package com.ust.pos.product.service.impl;
 
-import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.ProductDto;
-import com.ust.pos.model.Price;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -71,6 +69,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto findByIdentifier(String identifier) {
         return modelMapper.map(productRepository.findByIdentifier(identifier), ProductDto.class);
     }
+
     @Override
     public List<ProductDto> findAll(Pageable pageable) {
         Type listOfType = new TypeToken<List<ProductDto>>() {

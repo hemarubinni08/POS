@@ -150,7 +150,8 @@ class CategoryServiceTest {
         List<Category> categories = List.of(new Category());
         List<CategoryDto> categoryDtos = List.of(new CategoryDto());
 
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
 
         Mockito.when(categoryRepository.findAll())
                 .thenReturn(categories);
@@ -175,7 +176,8 @@ class CategoryServiceTest {
         List<Category> entities = List.of(new Category(), new Category());
         List<CategoryDto> dtoList = List.of(dto1, dto2);
 
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
 
         Mockito.when(categoryRepository.findAll())
                 .thenReturn(entities);
@@ -212,7 +214,8 @@ class CategoryServiceTest {
 
         List<CategoryDto> categoryDtos = List.of(new CategoryDto());
 
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
 
         Mockito.when(categoryRepository.findAll(pageable))
                 .thenReturn(categoryPage);
