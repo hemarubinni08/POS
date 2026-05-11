@@ -41,19 +41,15 @@ class ModelsServiceTest {
         ModelsDto dto = new ModelsDto();
         dto.setIdentifier("M1");
 
-        Mockito.when(modelsRepository.findByIdentifier("M1"))
-                .thenReturn(models);
+        Mockito.when(modelsRepository.findByIdentifier("M1")).thenReturn(models);
 
-        Mockito.when(modelMapper.map(models, ModelsDto.class))
-                .thenReturn(dto);
+        Mockito.when(modelMapper.map(models, ModelsDto.class)).thenReturn(dto);
 
         ModelsDto response = modelsService.findByIdentifier("M1");
 
-        Assertions.assertEquals("M1",
-                response.getIdentifier());
+        Assertions.assertEquals("M1", response.getIdentifier());
 
-        Mockito.verify(modelsRepository)
-                .findByIdentifier("M1");
+        Mockito.verify(modelsRepository).findByIdentifier("M1");
     }
 
     @Test
@@ -67,22 +63,17 @@ class ModelsServiceTest {
         dto.setIdentifier("M1");
         dto.setStatus(false);
 
-        Mockito.when(modelsRepository.findByIdentifier("M1"))
-                .thenReturn(models);
+        Mockito.when(modelsRepository.findByIdentifier("M1")).thenReturn(models);
 
-        Mockito.when(modelsRepository.save(models))
-                .thenReturn(models);
+        Mockito.when(modelsRepository.save(models)).thenReturn(models);
 
-        Mockito.when(modelMapper.map(models, ModelsDto.class))
-                .thenReturn(dto);
+        Mockito.when(modelMapper.map(models, ModelsDto.class)).thenReturn(dto);
 
         ModelsDto response = modelsService.toggleStatus("M1");
 
-        Assertions.assertEquals("M1",
-                response.getIdentifier());
+        Assertions.assertEquals("M1", response.getIdentifier());
 
-        Mockito.verify(modelsRepository)
-                .save(models);
+        Mockito.verify(modelsRepository).save(models);
     }
 
     @Test
@@ -93,21 +84,15 @@ class ModelsServiceTest {
 
         Models models = new Models();
 
-        Mockito.when(modelsRepository.findByIdentifier("M1"))
-                .thenReturn(null);
+        Mockito.when(modelsRepository.findByIdentifier("M1")).thenReturn(null);
 
-        Mockito.when(modelMapper.map(
-                        Mockito.any(ModelsDto.class),
-                        Mockito.eq(Models.class)))
-                .thenReturn(models);
+        Mockito.when(modelMapper.map(Mockito.any(ModelsDto.class), Mockito.eq(Models.class))).thenReturn(models);
 
         ModelsDto response = modelsService.save(dto);
 
-        Assertions.assertEquals("M1",
-                response.getIdentifier());
+        Assertions.assertEquals("M1", response.getIdentifier());
 
-        Mockito.verify(modelsRepository)
-                .save(models);
+        Mockito.verify(modelsRepository).save(models);
     }
 
     @Test
@@ -118,17 +103,13 @@ class ModelsServiceTest {
 
         Models existing = new Models();
 
-        Mockito.when(modelsRepository.findByIdentifier("M1"))
-                .thenReturn(existing);
+        Mockito.when(modelsRepository.findByIdentifier("M1")).thenReturn(existing);
 
         ModelsDto response = modelsService.save(dto);
 
         Assertions.assertFalse(response.isSuccess());
 
-        Assertions.assertEquals(
-                "Models with identifier - M1 already exists",
-                response.getMessage()
-        );
+        Assertions.assertEquals("Models with identifier - M1 already exists", response.getMessage());
     }
 
     @Test
@@ -140,23 +121,17 @@ class ModelsServiceTest {
         Models existing = new Models();
         existing.setIdentifier("M1");
 
-        Mockito.when(modelsRepository.findByIdentifier("M1"))
-                .thenReturn(existing);
+        Mockito.when(modelsRepository.findByIdentifier("M1")).thenReturn(existing);
 
-        Mockito.when(modelsRepository.save(existing))
-                .thenReturn(existing);
+        Mockito.when(modelsRepository.save(existing)).thenReturn(existing);
 
-        Mockito.doNothing()
-                .when(modelMapper)
-                .map(dto, existing);
+        Mockito.doNothing().when(modelMapper).map(dto, existing);
 
         ModelsDto response = modelsService.update(dto);
 
-        Assertions.assertEquals("M1",
-                response.getIdentifier());
+        Assertions.assertEquals("M1", response.getIdentifier());
 
-        Mockito.verify(modelsRepository)
-                .save(existing);
+        Mockito.verify(modelsRepository).save(existing);
     }
 
     @Test
@@ -165,32 +140,25 @@ class ModelsServiceTest {
         ModelsDto dto = new ModelsDto();
         dto.setIdentifier("M1");
 
-        Mockito.when(modelsRepository.findByIdentifier("M1"))
-                .thenReturn(null);
+        Mockito.when(modelsRepository.findByIdentifier("M1")).thenReturn(null);
 
         ModelsDto response = modelsService.update(dto);
 
         Assertions.assertFalse(response.isSuccess());
 
-        Assertions.assertEquals(
-                "Models with identifier - M1 not found",
-                response.getMessage()
-        );
+        Assertions.assertEquals("Models with identifier - M1 not found", response.getMessage());
     }
 
     @Test
     void deleteTest() {
 
-        Mockito.doNothing()
-                .when(modelsRepository)
-                .deleteByIdentifier("M1");
+        Mockito.doNothing().when(modelsRepository).deleteByIdentifier("M1");
 
         boolean response = modelsService.delete("M1");
 
         Assertions.assertTrue(response);
 
-        Mockito.verify(modelsRepository)
-                .deleteByIdentifier("M1");
+        Mockito.verify(modelsRepository).deleteByIdentifier("M1");
     }
 
     @Test
@@ -209,21 +177,15 @@ class ModelsServiceTest {
 
         Page<Models> modelsPage = new PageImpl<>(modelsList);
 
-        Mockito.when(modelsRepository.findAll(pageable))
-                .thenReturn(modelsPage);
+        Mockito.when(modelsRepository.findAll(pageable)).thenReturn(modelsPage);
 
-        Mockito.when(modelMapper.map(
-                        Mockito.eq(modelsList),
-                        Mockito.any(Type.class)))
-                .thenReturn(dtoList);
+        Mockito.when(modelMapper.map(Mockito.eq(modelsList), Mockito.any(Type.class))).thenReturn(dtoList);
 
-        List<ModelsDto> response =
-                modelsService.findAll(pageable);
+        List<ModelsDto> response = modelsService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
 
-        Mockito.verify(modelsRepository)
-                .findAll(pageable);
+        Mockito.verify(modelsRepository).findAll(pageable);
     }
 
     @Test
@@ -240,19 +202,14 @@ class ModelsServiceTest {
         List<Models> modelsList = List.of(models);
         List<ModelsDto> dtoList = List.of(dto);
 
-        Mockito.when(modelsRepository.findByStatusIsTrue())
-                .thenReturn(modelsList);
+        Mockito.when(modelsRepository.findByStatusIsTrue()).thenReturn(modelsList);
 
-        Mockito.when(modelMapper.map(
-                        Mockito.eq(modelsList),
-                        Mockito.any(Type.class)))
-                .thenReturn(dtoList);
+        Mockito.when(modelMapper.map(Mockito.eq(modelsList), Mockito.any(Type.class))).thenReturn(dtoList);
 
         List<ModelsDto> response = modelsService.findIfTrue();
 
         Assertions.assertEquals(1, response.size());
 
-        Mockito.verify(modelsRepository)
-                .findByStatusIsTrue();
+        Mockito.verify(modelsRepository).findByStatusIsTrue();
     }
 }

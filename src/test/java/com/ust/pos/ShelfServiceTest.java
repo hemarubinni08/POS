@@ -154,13 +154,9 @@ class ShelfServiceTest {
 
         Page<Shelf> shelfPage = new PageImpl<>(shelves);
 
-        Mockito.when(shelfRepository.findAll(Mockito.any(Pageable.class)))
-                .thenReturn(shelfPage);
+        Mockito.when(shelfRepository.findAll(Mockito.any(Pageable.class))).thenReturn(shelfPage);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(shelves),
-                Mockito.any(Type.class))
-        ).thenReturn(dtos);
+        Mockito.when(modelMapper.map(Mockito.eq(shelves), Mockito.any(Type.class))).thenReturn(dtos);
 
         List<ShelfDto> response = shelfService.findAll(Pageable.unpaged());
 

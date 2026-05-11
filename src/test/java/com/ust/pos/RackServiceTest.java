@@ -113,10 +113,7 @@ class RackServiceTest {
 
         Mockito.when(rackRepository.findAll(Mockito.any(Pageable.class))).thenReturn(rackPage);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(racks),
-                Mockito.any(Type.class))
-        ).thenReturn(dtos);
+        Mockito.when(modelMapper.map(Mockito.eq(racks), Mockito.any(Type.class))).thenReturn(dtos);
 
         List<RackDto> response = rackService.findAll(Pageable.unpaged());
 

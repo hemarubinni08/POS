@@ -144,10 +144,7 @@ class RoleServiceTest {
 
         Mockito.when(roleRepository.findAll(Mockito.any(Pageable.class))).thenReturn(rolePage);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(roles),
-                Mockito.any(Type.class))
-        ).thenReturn(roleDtos);
+        Mockito.when(modelMapper.map(Mockito.eq(roles), Mockito.any(Type.class))).thenReturn(roleDtos);
 
         List<RoleDto> response = roleService.findAll(Pageable.unpaged());
 

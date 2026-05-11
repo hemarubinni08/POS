@@ -4,7 +4,6 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.models.service.ModelsService;
-import org.eclipse.tags.shaded.org.apache.regexp.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

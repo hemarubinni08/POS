@@ -50,25 +50,19 @@ class PriceServiceTest {
 
         Price price = new Price();
 
-        Mockito.when(productRepository.findById(1L))
-                .thenReturn(Optional.of(product));
+        Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
-        Mockito.when(priceRepository.existsByProductId(1L))
-                .thenReturn(false);
+        Mockito.when(priceRepository.existsByProductId(1L)).thenReturn(false);
 
-        Mockito.when(modelMapper.map(dto, Price.class))
-                .thenReturn(price);
+        Mockito.when(modelMapper.map(dto, Price.class)).thenReturn(price);
 
         PriceDto response = priceService.createPrice(dto);
 
-        Assertions.assertEquals(1L,
-                response.getProductId());
+        Assertions.assertEquals(1L, response.getProductId());
 
-        Assertions.assertEquals("PROD1",
-                response.getProductName());
+        Assertions.assertEquals("PROD1", response.getProductName());
 
-        Mockito.verify(priceRepository)
-                .save(price);
+        Mockito.verify(priceRepository).save(price);
     }
 
     @Test
@@ -77,13 +71,9 @@ class PriceServiceTest {
         PriceDto dto = new PriceDto();
         dto.setProductId(1L);
 
-        Mockito.when(productRepository.findById(1L))
-                .thenReturn(Optional.empty());
+        Mockito.when(productRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(
-                ResponseStatusException.class,
-                () -> priceService.createPrice(dto)
-        );
+        Assertions.assertThrows(ResponseStatusException.class, () -> priceService.createPrice(dto));
     }
 
     @Test
@@ -94,16 +84,11 @@ class PriceServiceTest {
 
         Product product = new Product();
 
-        Mockito.when(productRepository.findById(1L))
-                .thenReturn(Optional.of(product));
+        Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
-        Mockito.when(priceRepository.existsByProductId(1L))
-                .thenReturn(true);
+        Mockito.when(priceRepository.existsByProductId(1L)).thenReturn(true);
 
-        Assertions.assertThrows(
-                ResponseStatusException.class,
-                () -> priceService.createPrice(dto)
-        );
+        Assertions.assertThrows(ResponseStatusException.class, () -> priceService.createPrice(dto));
     }
 
     @Test
@@ -118,26 +103,19 @@ class PriceServiceTest {
         Product product = new Product();
         product.setIdentifier("PROD1");
 
-        Mockito.when(priceRepository.findById(1L))
-                .thenReturn(Optional.of(price));
+        Mockito.when(priceRepository.findById(1L)).thenReturn(Optional.of(price));
 
-        Mockito.when(productRepository.findById(1L))
-                .thenReturn(Optional.of(product));
+        Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
-        Mockito.doNothing()
-                .when(modelMapper)
-                .map(dto, price);
+        Mockito.doNothing().when(modelMapper).map(dto, price);
 
         PriceDto response = priceService.updatePrice(dto);
 
-        Assertions.assertEquals(1L,
-                response.getId());
+        Assertions.assertEquals(1L, response.getId());
 
-        Mockito.verify(priceRepository)
-                .save(price);
+        Mockito.verify(priceRepository).save(price);
 
-        Assertions.assertEquals("PROD1",
-                price.getProductName());
+        Assertions.assertEquals("PROD1", price.getProductName());
     }
 
     @Test
@@ -146,13 +124,9 @@ class PriceServiceTest {
         PriceDto dto = new PriceDto();
         dto.setId(1L);
 
-        Mockito.when(priceRepository.findById(1L))
-                .thenReturn(Optional.empty());
+        Mockito.when(priceRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(
-                RuntimeException.class,
-                () -> priceService.updatePrice(dto)
-        );
+        Assertions.assertThrows(RuntimeException.class, () -> priceService.updatePrice(dto));
     }
 
     @Test
@@ -164,16 +138,11 @@ class PriceServiceTest {
 
         Price price = new Price();
 
-        Mockito.when(priceRepository.findById(1L))
-                .thenReturn(Optional.of(price));
+        Mockito.when(priceRepository.findById(1L)).thenReturn(Optional.of(price));
 
-        Mockito.when(productRepository.findById(1L))
-                .thenReturn(Optional.empty());
+        Mockito.when(productRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(
-                RuntimeException.class,
-                () -> priceService.updatePrice(dto)
-        );
+        Assertions.assertThrows(RuntimeException.class, () -> priceService.updatePrice(dto));
     }
 
     @Test
@@ -192,46 +161,35 @@ class PriceServiceTest {
 
         Page<Price> pricePage = new PageImpl<>(prices);
 
-        Mockito.when(priceRepository.findAll(pageable))
-                .thenReturn(pricePage);
+        Mockito.when(priceRepository.findAll(pageable)).thenReturn(pricePage);
 
-        Mockito.when(modelMapper.map(
-                        Mockito.eq(prices),
-                        Mockito.any(Type.class)))
-                .thenReturn(dtos);
+        Mockito.when(modelMapper.map(Mockito.eq(prices), Mockito.any(Type.class))).thenReturn(dtos);
 
-        List<PriceDto> response =
-                priceService.findAll(pageable);
+        List<PriceDto> response = priceService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
 
-        Mockito.verify(priceRepository)
-                .findAll(pageable);
+        Mockito.verify(priceRepository).findAll(pageable);
     }
 
     @Test
     void deletePriceTest() {
 
-        Mockito.when(priceRepository.existsById(1L))
-                .thenReturn(true);
+        Mockito.when(priceRepository.existsById(1L)).thenReturn(true);
 
-        Mockito.doNothing()
-                .when(priceRepository)
-                .deleteById(1L);
+        Mockito.doNothing().when(priceRepository).deleteById(1L);
 
         boolean response = priceService.deletePrice(1L);
 
         Assertions.assertTrue(response);
 
-        Mockito.verify(priceRepository)
-                .deleteById(1L);
+        Mockito.verify(priceRepository).deleteById(1L);
     }
 
     @Test
     void deletePriceNotFoundTest() {
 
-        Mockito.when(priceRepository.existsById(1L))
-                .thenReturn(false);
+        Mockito.when(priceRepository.existsById(1L)).thenReturn(false);
 
         boolean response = priceService.deletePrice(1L);
 
@@ -243,11 +201,9 @@ class PriceServiceTest {
 
         Price price = new Price();
 
-        Mockito.when(priceRepository.findById(1L))
-                .thenReturn(Optional.of(price));
+        Mockito.when(priceRepository.findById(1L)).thenReturn(Optional.of(price));
 
         Mockito.doAnswer(invocation -> {
-            Price source = invocation.getArgument(0);
             PriceDto destination = invocation.getArgument(1);
             destination.setSuccess(true);
             return null;
@@ -261,16 +217,12 @@ class PriceServiceTest {
     @Test
     void getPriceByIdNotFoundTest() {
 
-        Mockito.when(priceRepository.findById(1L))
-                .thenReturn(Optional.empty());
+        Mockito.when(priceRepository.findById(1L)).thenReturn(Optional.empty());
 
         PriceDto response = priceService.getPriceById(1L);
 
         Assertions.assertFalse(response.isSuccess());
 
-        Assertions.assertEquals(
-                "Price not found",
-                response.getMessage()
-        );
+        Assertions.assertEquals("Price not found", response.getMessage());
     }
 }

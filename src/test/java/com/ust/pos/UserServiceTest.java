@@ -45,11 +45,9 @@ class UserServiceTest {
         UserDto userDto = new UserDto();
         userDto.setUsername("john");
 
-        Mockito.when(userRepository.findByUsername("john"))
-                .thenReturn(user);
+        Mockito.when(userRepository.findByUsername("john")).thenReturn(user);
 
-        Mockito.when(modelMapper.map(user, UserDto.class))
-                .thenReturn(userDto);
+        Mockito.when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
 
         UserDto response = userService.findByUserName("john");
 
@@ -65,14 +63,11 @@ class UserServiceTest {
 
         User user = new User();
 
-        Mockito.when(userRepository.findByUsername("john"))
-                .thenReturn(null);
+        Mockito.when(userRepository.findByUsername("john")).thenReturn(null);
 
-        Mockito.when(modelMapper.map(userDto, User.class))
-                .thenReturn(user);
+        Mockito.when(modelMapper.map(userDto, User.class)).thenReturn(user);
 
-        Mockito.when(passwordEncoder.encode("password"))
-                .thenReturn("encodedPassword");
+        Mockito.when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
 
         UserDto response = userService.save(userDto);
 
@@ -91,17 +86,13 @@ class UserServiceTest {
 
         User existingUser = new User();
 
-        Mockito.when(userRepository.findByUsername("john"))
-                .thenReturn(existingUser);
+        Mockito.when(userRepository.findByUsername("john")).thenReturn(existingUser);
 
         UserDto response = userService.save(userDto);
 
         Assertions.assertFalse(response.isSuccess());
 
-        Assertions.assertEquals(
-                UserServiceImpl.USER_WITH_USERNAME_EMAIL + "john already exists",
-                response.getMessage()
-        );
+        Assertions.assertEquals(UserServiceImpl.USER_WITH_USERNAME_EMAIL + "john already exists", response.getMessage());
     }
 
     @Test
@@ -115,8 +106,7 @@ class UserServiceTest {
         existingUser.setId(1L);
         existingUser.setUsername("john");
 
-        Mockito.when(userRepository.findById(1L))
-                .thenReturn(Optional.of(existingUser));
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
 
         Mockito.doAnswer(invocation -> {
 
@@ -127,10 +117,7 @@ class UserServiceTest {
 
             return null;
 
-        }).when(modelMapper).map(
-                Mockito.any(UserDto.class),
-                Mockito.any(User.class)
-        );
+        }).when(modelMapper).map(Mockito.any(UserDto.class), Mockito.any(User.class));
 
         UserDto response = userService.update(userDto);
 
@@ -146,17 +133,13 @@ class UserServiceTest {
         userDto.setId(1L);
         userDto.setUsername("john");
 
-        Mockito.when(userRepository.findById(1L))
-                .thenReturn(Optional.empty());
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
         UserDto response = userService.update(userDto);
 
         Assertions.assertFalse(response.isSuccess());
 
-        Assertions.assertEquals(
-                UserServiceImpl.USER_WITH_USERNAME_EMAIL + "john not found",
-                response.getMessage()
-        );
+        Assertions.assertEquals(UserServiceImpl.USER_WITH_USERNAME_EMAIL + "john not found", response.getMessage());
     }
 
     @Test
@@ -172,35 +155,27 @@ class UserServiceTest {
 
         User duplicateUser = new User();
 
-        Mockito.when(userRepository.findById(1L))
-                .thenReturn(Optional.of(existingUser));
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
 
-        Mockito.when(userRepository.findByUsername("john"))
-                .thenReturn(duplicateUser);
+        Mockito.when(userRepository.findByUsername("john")).thenReturn(duplicateUser);
 
         UserDto response = userService.update(userDto);
 
         Assertions.assertFalse(response.isSuccess());
 
-        Assertions.assertEquals(
-                UserServiceImpl.USER_WITH_USERNAME_EMAIL + "john already exists",
-                response.getMessage()
-        );
+        Assertions.assertEquals(UserServiceImpl.USER_WITH_USERNAME_EMAIL + "john already exists", response.getMessage());
     }
 
     @Test
     void deleteTest() {
 
-        Mockito.doNothing()
-                .when(userRepository)
-                .deleteByUsername("john");
+        Mockito.doNothing().when(userRepository).deleteByUsername("john");
 
         boolean result = userService.delete("john");
 
         Assertions.assertTrue(result);
 
-        Mockito.verify(userRepository)
-                .deleteByUsername("john");
+        Mockito.verify(userRepository).deleteByUsername("john");
     }
 
     @Test
@@ -217,16 +192,11 @@ class UserServiceTest {
 
         Page<User> userPage = new PageImpl<>(users);
 
-        Mockito.when(userRepository.findAll(Mockito.any(PageRequest.class)))
-                .thenReturn(userPage);
+        Mockito.when(userRepository.findAll(Mockito.any(PageRequest.class))).thenReturn(userPage);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(users),
-                Mockito.any(Type.class)
-        )).thenReturn(userDtos);
+        Mockito.when(modelMapper.map(Mockito.eq(users), Mockito.any(Type.class))).thenReturn(userDtos);
 
-        List<UserDto> response =
-                userService.findAll(PageRequest.of(0, 10));
+        List<UserDto> response = userService.findAll(PageRequest.of(0, 10));
 
         Assertions.assertEquals(1, response.size());
 
