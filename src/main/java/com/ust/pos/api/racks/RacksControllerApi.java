@@ -16,7 +16,7 @@ public class RacksControllerApi extends BaseController {
     @Autowired
     RacksService racksService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<RacksDto> listCategories(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return racksService.findAll(pageable);

@@ -16,7 +16,7 @@ public class WarehouseControllerApi extends BaseController {
     @Autowired
     WarehouseService warehouseService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<WarehouseDto> listWarehouses(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());

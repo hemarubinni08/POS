@@ -25,12 +25,12 @@
 
 <div class="form-container">
 
-    <!-- ✅ MUST be Spring form -->
+    <!--  MUST be Spring form -->
     <form:form action="${pageContext.request.contextPath}/price/update"
                method="post"
                modelAttribute="priceDto">
 
-        <!-- ✅ THESE WERE NOT SUBMITTED BEFORE -->
+        <!--  THESE WERE NOT SUBMITTED BEFORE -->
         <form:hidden path="identifier"/>
         <form:hidden path="id"/>
 

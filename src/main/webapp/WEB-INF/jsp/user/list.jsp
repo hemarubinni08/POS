@@ -11,7 +11,7 @@
           rel="stylesheet">
 
     <style>
-        /* ✅ SIMPLIFIED DEFAULT LOOK */
+        /*  SIMPLIFIED DEFAULT LOOK */
         body {
             background-color: #ffffff;
         }

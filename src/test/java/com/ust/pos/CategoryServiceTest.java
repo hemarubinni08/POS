@@ -98,6 +98,23 @@ class CategoryServiceTest {
     }
 
     @Test
+    void update_shouldThrowException_whenCategoryNotFound() {
+        CategoryDto dto = new CategoryDto();
+        dto.setId(99L);
+        dto.setIdentifier("FOOD");
+
+        when(categoryRepository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> categoryService.update(dto)
+        );
+
+        assertEquals("Category not found", exception.getMessage());
+    }
+
+    @Test
     void findAll_shouldReturnList() {
         Page<Category> page = new PageImpl<>(List.of(category));
 

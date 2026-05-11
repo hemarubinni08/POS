@@ -31,10 +31,10 @@
                        method="post"
                        modelAttribute="stockDto">
 
-                <!-- ✅ Hidden Stock ID -->
+                <!--  Hidden Stock ID -->
                 <form:hidden path="id"/>
 
-                <!-- ✅ Product / Identifier -->
+                <!--  Product / Identifier -->
                 <div class="mb-3">
                     <label class="form-label">Product</label>
                     <form:select path="identifier"
@@ -46,7 +46,7 @@
                     </form:select>
                 </div>
 
-                <!-- ✅ Warehouse -->
+                <!-- Warehouse -->
                 <div class="mb-3">
                     <label class="form-label">Warehouse</label>
                     <form:select path="warehouse"
@@ -58,7 +58,7 @@
                     </form:select>
                 </div>
 
-                <!-- ✅ Quantity -->
+                <!--  Quantity -->
                 <div class="mb-3">
                     <label class="form-label">Quantity</label>
                     <form:input path="quantity"
@@ -68,7 +68,7 @@
                                 required="true"/>
                 </div>
 
-                <!-- ✅ Unit Price -->
+                <!--  Unit Price -->
                 <div class="mb-3">
                     <label class="form-label">Unit Price</label>
                     <form:input path="unitPrice"
@@ -78,7 +78,7 @@
                                 required="true"/>
                 </div>
 
-                <!-- ✅ Status -->
+                <!-- Status -->
                 <div class="mb-3">
                     <label class="form-label">Status</label>
                     <form:select path="status" cssClass="form-select">
@@ -87,7 +87,7 @@
                     </form:select>
                 </div>
 
-                <!-- ✅ Buttons -->
+                <!--  Buttons -->
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-success">
                         Update Stock

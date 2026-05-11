@@ -83,7 +83,7 @@
 
 <h2>Add Product</h2>
 
-<!-- ✅ Success / Error Message -->
+<!--  Success / Error Message -->
 <c:if test="${not empty message}">
     <div class="message ${success ? 'success' : 'error'}">
         ${message}

@@ -17,7 +17,7 @@ public class BrandControllerApi extends BaseController {
     @Autowired
     BrandService brandService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<BrandDto> listCategories(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());

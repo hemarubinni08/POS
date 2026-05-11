@@ -10,7 +10,7 @@
           rel="stylesheet">
 
     <style>
-        /* ✅ SIMPLE DEFAULT BACKGROUND */
+        /*  SIMPLE DEFAULT BACKGROUND */
         body {
             background-color: #ffffff;
         }
@@ -29,7 +29,7 @@
             color: white;
         }
 
-        /* ✅ TOGGLE SWITCH */
+        /*  TOGGLE SWITCH */
         .switch {
             position: relative;
             display: inline-block;

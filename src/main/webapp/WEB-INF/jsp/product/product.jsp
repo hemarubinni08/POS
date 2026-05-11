@@ -71,18 +71,18 @@
                method="post"
                modelAttribute="productDto">
 
-        <!-- ✅ HIDDEN ID (VERY IMPORTANT) -->
+        <!--  HIDDEN ID (VERY IMPORTANT) -->
         <form:hidden path="id"/>
 
-        <!-- ✅ PRODUCT NAME -->
+        <!-- PRODUCT NAME -->
         <label>Product Name</label>
         <form:input path="identifier" required="required"/>
 
-        <!-- ✅ DESCRIPTION -->
+        <!-- DESCRIPTION -->
         <label>Description</label>
         <form:textarea path="description" rows="3"/>
 
-        <!-- ✅ CATEGORY DROPDOWN -->
+        <!-- CATEGORY DROPDOWN -->
         <label>Category</label>
         <form:select path="category" required="required">
 
@@ -99,14 +99,14 @@
 
         </form:select>
 
-        <!-- ✅ STATUS -->
+        <!-- STATUS -->
         <label>Status</label>
         <form:select path="status">
             <form:option value="true">Active</form:option>
             <form:option value="false">InActive</form:option>
         </form:select>
 
-        <!-- ✅ BUTTONS -->
+        <!--  BUTTONS -->
         <button type="submit" class="btn btn-save">Update</button>
 
         <a href="${pageContext.request.contextPath}/product/list"

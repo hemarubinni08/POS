@@ -59,7 +59,7 @@
 
 <h2>Price List</h2>
 
-<!-- ✅ HOME & ADD PRICE BUTTONS -->
+<!--  HOME & ADD PRICE BUTTONS -->
 <div style="margin-bottom: 15px;">
     <a href="/" class="btn btn-home">Home</a>
 
@@ -69,7 +69,7 @@
     </a>
 </div>
 
-<!-- ✅ PRICE TABLE -->
+<!--PRICE TABLE -->
 <table>
     <thead>
         <tr>
@@ -87,13 +87,13 @@
                 <td>${p.costPrice}</td>
                 <td>${p.sellingPrice}</td>
                 <td>
-                    <!-- ✅ EDIT -->
+                    <!--  EDIT -->
                     <a href="${pageContext.request.contextPath}/price/update?identifier=${p.identifier}"
                        class="btn btn-edit">
                         Edit
                     </a>
 
-                    <!-- ✅ DELETE -->
+                    <!-- DELETE -->
                     <a href="${pageContext.request.contextPath}/price/delete?identifier=${p.identifier}"
                        class="btn btn-delete"
                        onclick="return confirm('Are you sure you want to delete this price?');">
@@ -103,7 +103,7 @@
             </tr>
         </c:forEach>
 
-        <!-- ✅ NO DATA MESSAGE -->
+        <!--  NO DATA MESSAGE -->
         <c:if test="${empty priceList}">
             <tr>
                 <td colspan="4" class="no-data">

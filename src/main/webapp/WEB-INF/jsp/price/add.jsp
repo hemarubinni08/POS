@@ -61,7 +61,7 @@
 
 <h2>Add Price</h2>
 
-<!-- ✅ MESSAGE DISPLAY -->
+<!--  MESSAGE DISPLAY -->
 <c:if test="${not empty message}">
     <div class="message ${success ? 'success' : 'error'}">
         ${message}
@@ -79,7 +79,7 @@
         <label>Selling Price</label>
         <input type="number" step="0.10" name="sellingPrice" required />
 
-        <!-- ✅ BUTTONS -->
+        <!--  BUTTONS -->
         <button type="submit" class="btn btn-save">Save</button>
 
         <a href="${pageContext.request.contextPath}/price/list"

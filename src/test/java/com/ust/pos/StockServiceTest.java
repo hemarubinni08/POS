@@ -152,6 +152,20 @@ class StockServiceTest {
     }
 
     @Test
+    void findByIdFailure_shouldThrowException() {
+
+        Mockito.when(stockRepository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        RuntimeException exception = Assertions.assertThrows(
+                RuntimeException.class,
+                () -> stockService.findById(99L)
+        );
+
+        Assertions.assertEquals("Stock not found", exception.getMessage());
+    }
+
+    @Test
     void changeStockStatusTest() {
         Stock stock = new Stock();
         stock.setIdentifier("STOCK-1");

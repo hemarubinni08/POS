@@ -61,7 +61,7 @@
 
 <h2>Add Warehouse</h2>
 
-<!-- ✅ MESSAGE DISPLAY -->
+<!--  MESSAGE DISPLAY -->
 <c:if test="${not empty message}">
     <div class="message ${success ? 'success' : 'error'}">
         ${message}

@@ -65,7 +65,7 @@
         .success { color: green; }
         .error { color: red; }
 
-        /* ✅ STATUS TOGGLE SWITCH */
+        /*  STATUS TOGGLE SWITCH */
         .switch {
             position: relative;
             display: inline-block;
@@ -114,7 +114,7 @@
 
 <h2>Stock List</h2>
 
-<!-- ✅ FLASH MESSAGE -->
+<!--  FLASH MESSAGE -->
 <c:if test="${not empty message}">
     <div class="message ${success ? 'success' : 'error'}">
         ${message}

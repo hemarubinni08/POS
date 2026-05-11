@@ -66,6 +66,20 @@ class ModelsServiceTest {
     }
 
     @Test
+    void findByIdFailure() {
+
+        Mockito.when(modelsRepository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        RuntimeException exception = Assertions.assertThrows(
+                RuntimeException.class,
+                () -> modelsService.findById(99L)
+        );
+
+        Assertions.assertTrue(exception.getMessage().contains("Models not found"));
+    }
+
+    @Test
     void findAllSuccess() {
         Models models = new Models();
         ModelsDto dto = new ModelsDto();
@@ -101,6 +115,22 @@ class ModelsServiceTest {
         ModelsDto response = modelsService.update(dto);
 
         Assertions.assertNotNull(response);
+    }
+
+    @Test
+    void updateFailure_ModelNotFound() {
+        ModelsDto dto = new ModelsDto();
+        dto.setId(99L);
+
+        Mockito.when(modelsRepository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        RuntimeException exception = Assertions.assertThrows(
+                RuntimeException.class,
+                () -> modelsService.update(dto)
+        );
+
+        Assertions.assertTrue(exception.getMessage().contains("Models not found"));
     }
 
     @Test

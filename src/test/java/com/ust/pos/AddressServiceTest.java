@@ -70,6 +70,20 @@ class AddressServiceTest {
     }
 
     @Test
+    void findByIdFailure_shouldThrowException() {
+
+        Mockito.when(addressRepository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        RuntimeException exception = Assertions.assertThrows(
+                RuntimeException.class,
+                () -> addressService.findById(99L)
+        );
+
+        Assertions.assertTrue(exception.getMessage().toLowerCase().contains("not found"));
+    }
+
+    @Test
     void updateSuccess() {
         AddressDto dto = new AddressDto();
         dto.setIdentifier("ADDR1");

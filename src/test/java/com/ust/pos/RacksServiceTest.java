@@ -143,6 +143,38 @@ class RacksServiceTest {
     }
 
     @Test
+    void findByIdSuccessTest() {
+        Racks racks = new Racks();
+        racks.setIdentifier("Rack");
+
+        RacksDto racksDto = new RacksDto();
+        racksDto.setIdentifier("Rack");
+
+        Mockito.when(racksRepository.findById(1L))
+                .thenReturn(java.util.Optional.of(racks));
+        Mockito.when(modelMapper.map(racks, RacksDto.class))
+                .thenReturn(racksDto);
+
+        RacksDto response = racksService.findById(1L);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals("Rack", response.getIdentifier());
+    }
+
+    @Test
+    void findByIdFailureTest() {
+        Mockito.when(racksRepository.findById(1L))
+                .thenReturn(java.util.Optional.empty());
+
+        RuntimeException exception = Assertions.assertThrows(
+                RuntimeException.class,
+                () -> racksService.findById(1L)
+        );
+
+        Assertions.assertEquals("Racks not found with id 1", exception.getMessage());
+    }
+
+    @Test
     void changeRacksStatusSuccessTest() {
         Racks racks = new Racks();
         racks.setIdentifier("Rack");

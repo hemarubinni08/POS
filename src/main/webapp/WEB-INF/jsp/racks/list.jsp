@@ -41,7 +41,7 @@
             font-size: 14px;
         }
 
-        /* ✅ Home button (added) */
+        /*  Home button (added) */
         .home-btn {
             background-color: #6c757d;
             color: #fff;

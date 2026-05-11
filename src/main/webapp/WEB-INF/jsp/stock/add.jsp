@@ -35,7 +35,7 @@
                     </form:select>
                 </div>
 
-                <!-- ✅ Warehouse Dropdown -->
+                <!-- Warehouse Dropdown -->
                 <div class="mb-3">
                     <label class="form-label">Warehouse</label>
                     <form:select path="warehouse" cssClass="form-select" required="true">

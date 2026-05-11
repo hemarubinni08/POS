@@ -40,7 +40,7 @@
             margin-right: 5px;
         }
 
-        .btn-home { background-color: #6c757d; } /* ✅ Home */
+        .btn-home { background-color: #6c757d; } /* Home */
         .btn-add { background-color: #28a745; }
         .btn-edit { background-color: #007bff; }
         .btn-delete { background-color: #dc3545; }

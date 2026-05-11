@@ -39,7 +39,7 @@
             border-radius: 4px;
         }
 
-        /* ✅ Toggle Switch */
+        /* Toggle Switch */
         .switch {
             position: relative;
             display: inline-block;
