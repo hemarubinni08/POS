@@ -6,20 +6,36 @@
 <head>
     <title>User Management</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
+    <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
           rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(to right, #eef2f7, #f8f9fc);
             min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
         }
 
         .card {
+            border: none;
             border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .card-header {
+            background: linear-gradient(to right, #000, #343a40);
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            font-size: 18px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            padding: 15px;
         }
 
         .table th {
@@ -27,9 +43,14 @@
             color: white;
         }
 
+        .table td {
+            vertical-align: middle;
+        }
+
         a.user-link {
             text-decoration: none;
             font-weight: 500;
+            color: #0d6efd;
         }
 
         a.user-link:hover {
@@ -45,29 +66,41 @@
         .action-icons a:hover {
             opacity: 0.7;
         }
+
+        .btn {
+            border-radius: 8px;
+            padding: 8px 15px;
+        }
+
+        .footer-text {
+            font-size: 13px;
+        }
     </style>
 </head>
 
 <body>
 
 <div class="container mt-5">
-    <div class="card shadow-lg">
+    <div class="card">
+
+        <!-- ✅ HEADER -->
+        <div class="card-header">
+            <i class="bi bi-people-fill me-2"></i> User Management
+        </div>
 
         <div class="card-body">
 
-            <h3 class="text-center mb-4">User Management</h3>
-
-            <!-- NO USERS -->
+            <!-- ✅ NO USERS -->
             <c:if test="${empty users}">
                 <div class="alert alert-warning text-center">
                     No users found
                 </div>
             </c:if>
 
-            <!-- TABLE -->
+            <!-- ✅ TABLE -->
             <c:if test="${not empty users}">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center">
+                    <table class="table table-hover align-middle text-center">
 
                         <thead>
                         <tr>
@@ -98,19 +131,23 @@
                                 <td>${user.phoneNo}</td>
 
                                 <!-- ROLES -->
-                                <td>${user.roles}</td>
+                                <td>
+                                    <span class="badge bg-secondary">
+                                        ${user.roles}
+                                    </span>
+                                </td>
 
                                 <!-- ACTION ICONS -->
                                 <td class="action-icons">
 
-                                    <!-- EDIT ICON -->
+                                    <!-- EDIT -->
                                     <a href="${pageContext.request.contextPath}/user/get?username=${user.username}"
                                        class="text-primary"
                                        title="Edit">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
 
-                                    <!-- DELETE ICON -->
+                                    <!-- DELETE -->
                                     <a href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
                                        class="text-danger"
                                        title="Delete"
@@ -130,21 +167,22 @@
 
         </div>
 
-        <!-- FOOTER -->
         <div class="card-footer text-center">
+
             <div class="d-flex justify-content-center gap-3">
                 <a href="${pageContext.request.contextPath}/" class="btn btn-secondary">
-                    Home
+                    <i class="bi bi-house-door"></i> Home
                 </a>
 
                 <a href="${pageContext.request.contextPath}/register" class="btn btn-success">
-                    Register
+                    <i class="bi bi-person-plus"></i> Register
                 </a>
             </div>
 
-            <div class="text-muted small mt-2">
+            <div class="text-muted mt-2 footer-text">
                 User Management System
             </div>
+
         </div>
 
     </div>

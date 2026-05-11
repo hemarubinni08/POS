@@ -6,148 +6,113 @@
 <head>
     <title>Role Management</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
-          rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <style>
-        body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
+        body { background-color:#f5f6f7; }
+        .page-header {
+            background:#000; color:#fff;
+            padding:14px 20px;
+            border-radius:8px;
+            margin-bottom:20px;
         }
-
-        .card {
-            border-radius: 15px;
+        .card { border-radius:10px; }
+        .table thead th { background:#f1f3f5; }
+        .action-icon {
+            font-size:1.1rem; margin:0 8px;
         }
-
-        .table th {
-            background-color: #343a40;
-            color: white;
-        }
-
-        a.role-link {
-            text-decoration: none;
-            font-weight: 500;
-            color: #0d6efd;
-        }
-
-        a.role-link:hover {
-            text-decoration: underline;
-        }
-
-        .action-icons a {
-            font-size: 18px;
-            margin: 0 6px;
-            text-decoration: none;
-        }
-
-        .action-icons a:hover {
-            opacity: 0.7;
-        }
+        .edit-icon { color:#0d6efd; }
+        .delete-icon { color:#dc3545; }
+        .add-btn { background:#198754; color:#fff; }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="card shadow-lg">
+<div class="container mt-4">
 
-        <div class="card-body">
+    <!-- HEADER -->
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <h3>Role Management</h3>
 
-            <h3 class="text-center mb-4">Role Management</h3>
+        <div>
+            <a href="${pageContext.request.contextPath}/" class="btn btn-secondary me-2">
+                <i class="bi bi-house-door"></i> Home
+            </a>
+
+            <a href="${pageContext.request.contextPath}/role/add" class="btn add-btn">
+                <i class="bi bi-plus-circle"></i> Add Role
+            </a>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card shadow">
+        <div class="card-body p-0">
 
             <c:if test="${empty roles}">
-                <div class="alert alert-warning text-center">
+                <div class="text-center text-muted py-4">
                     No roles found
                 </div>
             </c:if>
 
             <c:if test="${not empty roles}">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center">
+                <table class="table table-hover align-middle mb-0">
 
-                        <thead>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Role</th>
+                        <th>Description</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <c:forEach var="role" items="${roles}">
                         <tr>
-                            <th>ID</th>
-                            <th>Role</th>
-                            <th>Description</th>
-                            <th>Action</th>
+
+                            <td>${role.id}</td>
+                            <td>${role.identifier}</td>
+
+                            <td>
+                                <c:choose>
+                                    <c:when test="${empty role.description}">
+                                        <span class="text-muted">—</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${role.description}
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+
+                            <td class="text-center">
+                                <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
+                                   class="action-icon edit-icon">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+
+                                <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
+                                   class="action-icon delete-icon"
+                                   onclick="return confirm('Delete this role?');">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+
                         </tr>
-                        </thead>
+                    </c:forEach>
+                    </tbody>
 
-                        <tbody>
-                        <c:forEach var="role" items="${roles}">
-                            <tr>
-
-                                <td>
-                                    <a class="role-link"
-                                       href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}">
-                                        ${role.id}
-                                    </a>
-                                </td>
-
-                                <td>${role.identifier}</td>
-
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${empty role.description}">
-                                            <span class="text-muted">—</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            ${role.description}
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-
-                                <td class="action-icons">
-
-                                    <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
-                                       class="text-primary"
-                                       title="Edit">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-
-                                    <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
-                                       class="text-danger"
-                                       title="Delete"
-                                       onclick="return confirm('Are you sure you want to delete this role?');">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-
-                                </td>
-
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-
-                    </table>
-                </div>
+                </table>
             </c:if>
 
         </div>
-
-        <div class="card-footer text-center">
-
-            <div class="d-flex justify-content-center gap-3">
-                <a href="${pageContext.request.contextPath}/" class="btn btn-secondary">
-                    Home
-                </a>
-
-                <a href="${pageContext.request.contextPath}/role/add" class="btn btn-success">
-                    + Add New Role
-                </a>
-            </div>
-
-            <div class="text-muted small mt-2">
-                Role Management System
-            </div>
-
-        </div>
-
     </div>
+
 </div>
 
 </body>

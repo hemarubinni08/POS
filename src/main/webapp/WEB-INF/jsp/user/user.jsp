@@ -6,53 +6,43 @@
 <head>
     <title>Update User</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
+    <!-- ✅ Bootstrap -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
     <style>
         body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: "Segoe UI", Arial, sans-serif;
+            background-color: #f5f6f7;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
         }
 
-        .update-card {
-            width: 460px;
-            background: #fff;
-            padding: 30px 35px;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        .card {
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            max-width: 480px;
+            margin: 60px auto;
+            box-shadow: 0 6px 18px rgba(0,0,0,.08);
         }
 
-        h3 {
+        .card-header {
+            background-color: #000;
+            color: #fff;
             text-align: center;
-            color: #4b6cb7;
-            margin-bottom: 15px;
             font-weight: 600;
-        }
-
-        label {
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
+            padding: 14px;
+            border-radius: 12px 12px 0 0;
         }
 
         .form-control {
-            border-radius: 8px;
-            padding: 10px 12px;
+            border-radius: 6px;
         }
 
         .dropdown-box {
             border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
             cursor: pointer;
             background: #fff;
-            font-size: 14px;
-            min-height: 42px;
         }
 
         .dropdown-list {
@@ -61,11 +51,11 @@
             width: 100%;
             max-height: 180px;
             overflow-y: auto;
-            background: white;
+            background: #fff;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            z-index: 1000;
+            border-radius: 6px;
             margin-top: 5px;
+            z-index: 1000;
         }
 
         .role-dropdown.active .dropdown-list {
@@ -76,107 +66,105 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 8px;
-            cursor: pointer;
+            padding: 6px 10px;
         }
 
         .dropdown-list label:hover {
             background: #f1f1f1;
-        }
-
-        .btn-grey {
-            background: #6c757d;
-            color: white;
-            font-weight: 600;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .btn-grey:hover {
-            background: #5a6268;
-            color: white;
         }
     </style>
 </head>
 
 <body>
 
-<div class="update-card">
+<div class="card">
 
-    <h3>Update User</h3>
+    <!-- ✅ Header -->
+    <div class="card-header">
+        Update User
+    </div>
 
-    <c:if test="${not empty message}">
-        <div class="alert alert-danger text-center">
-            ${message}
-        </div>
-    </c:if>
+    <!-- ✅ Body -->
+    <div class="card-body">
 
-    <form action="${pageContext.request.contextPath}/user/update" method="post">
+        <c:if test="${not empty message}">
+            <div class="alert alert-danger text-center">
+                ${message}
+            </div>
+        </c:if>
 
-        <input type="hidden" name="oldUsername" value="${user.username}"/>
-        <input type="hidden" name="id" value="${user.id}"/>
+        <form action="${pageContext.request.contextPath}/user/update" method="post">
 
-        <div class="mb-3">
-            <label>Name</label>
-            <input type="text" name="name" class="form-control"
-                   value="${user.name}" required/>
-        </div>
+            <input type="hidden" name="oldUsername" value="${user.username}"/>
+            <input type="hidden" name="id" value="${user.id}"/>
 
-        <div class="mb-3">
-            <label>Email</label>
-            <input type="email" name="username" class="form-control"
-                   value="${user.username}" required/>
-        </div>
-
-        <div class="mb-3">
-            <label>Phone Number</label>
-            <input type="text" name="phoneNo" class="form-control"
-                   value="${user.phoneNo}" required/>
-        </div>
-
-        <div class="mb-3 position-relative role-dropdown" id="roleDropdown">
-
-            <label>Select Roles</label>
-
-            <div class="dropdown-box" id="selectedRolesText" onclick="toggleDropdown()">
-                <c:choose>
-                    <c:when test="${not empty user.roles}">
-                        <c:forEach var="r" items="${user.roles}" varStatus="s">
-                            ${r}<c:if test="${!s.last}">, </c:if>
-                        </c:forEach>
-                    </c:when>
-                    <c:otherwise>
-                        Select Roles
-                    </c:otherwise>
-                </c:choose>
+            <!-- Name -->
+            <div class="mb-3">
+                <label>Name</label>
+                <input type="text" name="name" class="form-control"
+                       value="${user.name}" required/>
             </div>
 
-            <div class="dropdown-list">
-                <c:forEach var="role" items="${roles}">
-                    <label>
-                        <input type="checkbox" name="roles"
-                               value="${role.identifier}"
-                               onchange="updateSelectedRoles()"
-                               <c:if test="${user.roles.contains(role.identifier)}">checked</c:if>>
-                        ${role.identifier}
-                    </label>
-                </c:forEach>
+            <!-- Email -->
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" name="username" class="form-control"
+                       value="${user.username}" required/>
             </div>
-        </div>
 
-        <div class="d-flex gap-2 mt-3">
-            <button type="submit" class="btn btn-grey w-100">
-                Update User
-            </button>
+            <!-- Phone -->
+            <div class="mb-3">
+                <label>Phone Number</label>
+                <input type="text" name="phoneNo" class="form-control"
+                       value="${user.phoneNo}" required/>
+            </div>
 
-            <a href="/user/list" class="btn btn-grey w-100 text-center">
-                Cancel
-            </a>
-        </div>
+            <!-- Roles -->
+            <div class="mb-3 position-relative role-dropdown" id="roleDropdown">
 
-    </form>
+                <label>Select Roles</label>
 
+                <div class="dropdown-box" id="selectedRolesText" onclick="toggleDropdown()">
+                    <c:choose>
+                        <c:when test="${not empty user.roles}">
+                            <c:forEach var="r" items="${user.roles}" varStatus="s">
+                                ${r}<c:if test="${!s.last}">, </c:if>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            Select Roles
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+
+                <div class="dropdown-list">
+                    <c:forEach var="role" items="${roles}">
+                        <label>
+                            <input type="checkbox" name="roles"
+                                   value="${role.identifier}"
+                                   onchange="updateSelectedRoles()"
+                                   <c:if test="${user.roles.contains(role.identifier)}">checked</c:if>>
+                            ${role.identifier}
+                        </label>
+                    </c:forEach>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-success">
+                    Update User
+                </button>
+
+                <a href="${pageContext.request.contextPath}/user/list"
+                   class="btn btn-secondary">
+                    Back
+                </a>
+            </div>
+
+        </form>
+
+    </div>
 </div>
 
 <script>

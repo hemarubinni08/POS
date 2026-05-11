@@ -2,138 +2,320 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Login</title>
 
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<meta charset="UTF-8">
 
-        form {
-            background: #ffffff;
-            padding: 30px 35px;
-            width: 320px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
+<title>Login</title>
 
-        .error {
-            color: red;
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet">
 
-        .success {
-            color: green;
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
+<style>
 
-        form div {
-            margin-bottom: 18px;
-        }
 
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
-            color: #555;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-        }
+body{
 
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+    font-family:'Poppins', sans-serif;
 
-        button {
-            display: block;
-            width: 160px;
-            margin: 20px auto 0;
-            padding: 10px;
-            background-color: #667eea;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 15px;
-            cursor: pointer;
-        }
+    min-height:100vh;
 
-        button:hover {
-            background-color: #5a67d8;
-        }
+    display:flex;
 
-        .register-link {
-            margin-top: 18px;
-            text-align: center;
-            font-size: 14px;
-        }
+    justify-content:center;
 
-        .register-link a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: bold;
-        }
+    align-items:center;
 
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    background:#111;
+
+    padding:20px;
+}
+
+
+.login-card{
+
+    width:400px;
+
+    background:#fff;
+
+    padding:35px 40px;
+
+    border-radius:16px;
+
+    box-shadow:0 15px 40px rgba(255,255,255,0.08);
+
+}
+
+
+h2{
+
+    text-align:center;
+
+    margin-bottom:28px;
+
+    color:#111;
+
+    font-size:28px;
+
+    font-weight:600;
+
+}
+
+
+.error{
+
+    background:#ffe5e5;
+
+    color:#d8000c;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    font-size:13px;
+
+    margin-bottom:18px;
+
+    text-align:center;
+
+}
+
+.success{
+
+    background:#e7ffe7;
+
+    color:#1a7f37;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    font-size:13px;
+
+    margin-bottom:18px;
+
+    text-align:center;
+
+}
+
+
+.form-group{
+
+    margin-bottom:18px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:7px;
+
+    font-size:14px;
+
+    font-weight:500;
+
+    color:#111;
+
+}
+
+
+input{
+
+    width:100%;
+
+    padding:12px 14px;
+
+    border:1px solid #ccc;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    outline:none;
+
+    transition:0.3s ease;
+
+    background:#f8f8f8;
+
+}
+
+input:focus{
+
+    border-color:#000;
+
+    background:#fff;
+
+}
+
+
+button{
+
+    width:100%;
+
+    padding:13px;
+
+    margin-top:10px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#111;
+
+    color:#fff;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s ease;
+
+}
+
+button:hover{
+
+    background:#333;
+
+}
+
+
+.register-link{
+
+    margin-top:20px;
+
+    text-align:center;
+
+    font-size:14px;
+
+    color:#555;
+
+}
+
+.register-link a{
+
+    color:#111;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+}
+
+.register-link a:hover{
+
+    text-decoration:underline;
+
+}
+
+
+@media(max-width:500px){
+
+    .login-card{
+
+        width:100%;
+
+        padding:28px 22px;
+
+    }
+}
+
+</style>
+
 </head>
 
 <body>
 
-<form action="${pageContext.request.contextPath}/login" method="post">
-    <h2>Login</h2>
+<div class="login-card">
 
-    <c:if test="${param.error != null}">
-        <div class="error">Invalid username or password</div>
-    </c:if>
+    <form action="${pageContext.request.contextPath}/login"
+          method="post">
 
-    <c:if test="${param.logout != null}">
-        <div class="success">You have been logged out successfully</div>
-    </c:if>
+        <h2>Login</h2>
 
-    <div>
-        <label>Email</label>
-        <input type="text" name="username" required />
-    </div>
+        <c:if test="${param.error != null}">
 
-    <div>
-        <label>Password</label>
-        <input type="password" name="password" required />
-    </div>
+            <div class="error">
 
-    <button type="submit">Login</button>
+                Invalid username or password
 
-    <div class="register-link">
-        New user?
-        <a href="${pageContext.request.contextPath}/register">Register here</a>
-    </div>
-</form>
+            </div>
+
+        </c:if>
+
+
+        <c:if test="${param.logout != null}">
+
+            <div class="success">
+
+                You have been logged out successfully
+
+            </div>
+
+        </c:if>
+
+
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}" />
+
+
+        <div class="form-group">
+
+            <label>Email</label>
+
+            <input type="text"
+                   name="username"
+                   placeholder="Enter email"
+                   required />
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Password</label>
+
+            <input type="password"
+                   name="password"
+                   placeholder="Enter password"
+                   required />
+
+        </div>
+
+        <button type="submit">
+
+            Login
+
+        </button>
+
+        <div class="register-link">
+
+            New user?
+
+            <a href="${pageContext.request.contextPath}/register">
+
+                Register here
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
 
 </body>
+
 </html>

@@ -10,21 +10,33 @@
     <meta charset="UTF-8">
     <title>Add Node</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
+            background-color: #f5f6f7;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
         }
 
         .card {
-            border-radius: 15px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            max-width: 480px;
+            margin: 60px auto;
+            box-shadow: 0 6px 18px rgba(0,0,0,.08);
+        }
+
+        .card-header {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            font-weight: 600;
+            padding: 14px;
+            border-radius: 12px 12px 0 0;
         }
 
         .form-control {
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .form-label {
@@ -36,19 +48,12 @@
             background-color: #fff5f5;
         }
 
-        .btn-grey {
-            background: #6c757d;
-            border: none;
-            color: white;
-        }
-
-        .btn-grey:hover {
-            background: #5a6268;
+        .btn {
+            border-radius: 6px;
         }
 
         .dropdown-check {
             position: relative;
-            width: 100%;
         }
 
         .dropdown-btn {
@@ -56,7 +61,7 @@
             height: 38px;
             padding: 0 12px;
             border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 6px;
             background: #fff;
             cursor: pointer;
             display: flex;
@@ -70,7 +75,7 @@
             width: 100%;
             background: #fff;
             border: 1px solid #ddd;
-            border-radius: 8px;
+            border-radius: 6px;
             margin-top: 5px;
             max-height: 180px;
             overflow-y: auto;
@@ -84,9 +89,8 @@
         .dropdown-content label {
             display: flex;
             align-items: center;
-            padding: 8px 10px;
+            padding: 6px 10px;
             gap: 8px;
-            cursor: pointer;
         }
 
         .dropdown-content label:hover {
@@ -97,109 +101,113 @@
 
 <body>
 
-<div class="container mt-5 d-flex justify-content-center">
-    <div class="col-md-5">
+<div class="card">
 
-        <div class="card shadow-lg">
+    <div class="card-header">
+        Add Node
+    </div>
 
-            <div class="card-body">
+    <div class="card-body">
 
-                <h3 class="text-center mb-4">Add Node</h3>
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger text-center">
+                ${error}
+            </div>
+        </c:if>
 
-                <c:if test="${not empty error}">
-                    <div class="alert alert-danger text-center">
-                        ${error}
-                    </div>
-                </c:if>
+        <form action="${pageContext.request.contextPath}/node/add" method="post">
 
-                <!-- FORM -->
-                <form action="${pageContext.request.contextPath}/node/add" method="post">
-
-                    <!-- Identifier -->
-                    <div class="mb-3">
-                        <label class="form-label">Node Identifier</label>
-                        <input type="text"
-                               name="identifier"
-                               placeholder="e.g. NODE_VIEW"
-                               value="${param.identifier}"
-                               class="form-control ${not empty error && error.contains('already') ? 'input-error' : ''}"
-                               required>
-                    </div>
-
-                    <!-- Path -->
-                    <div class="mb-3">
-                        <label class="form-label">Node Path</label>
-                        <input type="text"
-                               name="path"
-                               placeholder="/node/list"
-                               value="${param.path}"
-                               class="form-control"
-                               required>
-                    </div>
-
-                    <!-- Roles -->
-                    <div class="mb-3">
-                        <label class="form-label">Assign Roles</label>
-
-                        <div class="dropdown-check" id="roleDropdown">
-
-                            <div class="dropdown-btn" onclick="toggleDropdown()">
-                                <span id="selectedRoles">Select Roles</span>
-                                <span>  ▼</span>
-                            </div>
-
-                            <div class="dropdown-content">
-                                <c:forEach items="${roles}" var="role">
-                                    <label>
-                                        <input type="checkbox"
-                                               name="roles"
-                                               value="${role.identifier}">
-                                        ${role.identifier}
-                                    </label>
-                                </c:forEach>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- BUTTONS -->
-                    <div class="d-flex gap-2 mt-4">
-
-                        <button type="submit" class="btn btn-grey w-100">
-                            Add Node
-                        </button>
-
-                        <a href="${pageContext.request.contextPath}/node/list"
-                           class="btn btn-grey w-100 text-center">
-                            Cancel
-                        </a>
-
-                    </div>
-
-                </form>
-
+            <div class="mb-3">
+                <label class="form-label">Node Identifier</label>
+                <input type="text"
+                       name="identifier"
+                       value="${param.identifier}"
+                       class="form-control ${not empty error && error.contains('already') ? 'input-error' : ''}"
+                       placeholder="e.g. NODE_VIEW"
+                       required>
             </div>
 
-            <div class="card-footer text-center text-muted small">
-                Node Management System
+            <div class="mb-3">
+                <label class="form-label">Node Path</label>
+                <input type="text"
+                       name="path"
+                       value="${param.path}"
+                       class="form-control"
+                       placeholder="/node/list"
+                       required>
             </div>
 
-        </div>
+            <div class="mb-3">
+                <label class="form-label">Assign Roles</label>
+
+                <div class="dropdown-check" id="roleDropdown">
+
+                    <div class="dropdown-btn" onclick="toggleDropdown()">
+                        <span id="selectedRoles">Select Roles</span>
+                        <span>▼</span>
+                    </div>
+
+                    <div class="dropdown-content">
+                        <c:forEach items="${roles}" var="role">
+                            <label>
+                                <input type="checkbox"
+                                       name="roles"
+                                       value="${role.identifier}">
+                                ${role.identifier}
+                            </label>
+                        </c:forEach>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-success">
+                    Add Node
+                </button>
+
+                <a href="${pageContext.request.contextPath}/node/list"
+                   class="btn btn-secondary">
+                    Back
+                </a>
+            </div>
+
+        </form>
 
     </div>
+
+    <div class="card-footer text-center text-muted small">
+        Node Management System
+    </div>
+
 </div>
 
 <script>
-    function toggleDropdown() {
-        document.getElementById("roleDropdown").classList.toggle("active");
-    }
+function toggleDropdown() {
+    document.getElementById("roleDropdown").classList.toggle("active");
+}
 
-    document.addEventListener("click", function (e) {
-        let dropdown = document.getElementById("roleDropdown");
-        if (!dropdown.contains(e.target)) {
-            dropdown.classList.remove("active");
-        }
+document.addEventListener("click", function (e) {
+    let dropdown = document.getElementById("roleDropdown");
+    if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove("active");
+    }
+});
+
+const checkboxes = document.querySelectorAll("input[name='roles']");
+const selectedText = document.getElementById("selectedRoles");
+
+checkboxes.forEach(cb => {
+    cb.addEventListener("change", () => {
+        let selected = Array.from(checkboxes)
+            .filter(c => c.checked)
+            .map(c => c.value);
+
+        selectedText.innerText = selected.length > 0
+            ? selected.join(", ")
+            : "Select Roles";
     });
+});
 </script>
 
 </body>

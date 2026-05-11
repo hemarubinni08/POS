@@ -3,6 +3,7 @@ package com.ust.pos.role;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,26 +18,26 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping("/list")
-    public String home(Model model) {
-        model.addAttribute(ROLES, roleService.findAll());
+    public String home(Model model, Pageable pageable) {
+        model.addAttribute(ROLES, roleService.findAll(pageable));
         return "role/list";
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute RoleDto userDto) {
-        model.addAttribute("nodes", roleService.findAll());
-        model.addAttribute(ROLES, roleService.findAll());
+    public String add(Model model, Pageable pageable, @ModelAttribute RoleDto userDto) {
+        model.addAttribute("nodes", roleService.findAll(pageable));
+        model.addAttribute(ROLES, roleService.findAll(pageable));
         return "role/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute RoleDto userDto) {
+    public String addPost(Model model, Pageable pageable, @ModelAttribute RoleDto userDto) {
 
         RoleDto response = roleService.save(userDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("error", response.getMessage());
-            model.addAttribute(ROLES, roleService.findAll());
+            model.addAttribute(ROLES, roleService.findAll(pageable));
             return "role/add";
         }
         return REDIRECT_ROLE_LIST;

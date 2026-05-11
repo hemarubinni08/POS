@@ -8,23 +8,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Role</title>
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
+            background-color: #f5f6f7;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
         }
 
         .card {
-            border-radius: 15px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            max-width: 480px;
+            margin: 60px auto;
+            box-shadow: 0 6px 18px rgba(0,0,0,.08);
+        }
+
+        .card-header {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            font-weight: 600;
+            padding: 14px;
+            border-radius: 12px 12px 0 0;
         }
 
         .form-control {
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
         .form-label {
@@ -36,79 +46,67 @@
             background-color: #fff5f5;
         }
 
-        .btn-grey {
-            background: #6c757d;
-            border: none;
-            color: white;
-        }
-
-        .btn-grey:hover {
-            background: #5a6268;
+        .btn {
+            border-radius: 6px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5 d-flex justify-content-center">
-    <div class="col-md-5">
+<div class="card">
 
-        <div class="card shadow-lg">
+    <div class="card-header">
+        Add Role
+    </div>
 
-            <div class="card-body">
+    <div class="card-body">
 
-                <h3 class="text-center mb-4">Add Role</h3>
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger text-center">
+                ${error}
+            </div>
+        </c:if>
 
-                <c:if test="${not empty error}">
-                    <div class="alert alert-danger text-center">
-                        ${error}
-                    </div>
-                </c:if>
+        <form action="${pageContext.request.contextPath}/role/add" method="post">
 
-                <form action="${pageContext.request.contextPath}/role/add" method="post">
-
-                    <div class="mb-3">
-                        <label class="form-label">Role Identifier</label>
-                        <input type="text"
-                               name="identifier"
-                               placeholder="e.g. ADMIN, USER"
-                               value="${param.identifier}"
-                               class="form-control ${not empty error && error.contains('already') ? 'input-error' : ''}"
-                               required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Description</label>
-                        <textarea name="description"
-                                  class="form-control"
-                                  rows="3"
-                                  placeholder="Describe role responsibilities">${param.description}</textarea>
-                    </div>
-
-                    <div class="d-flex gap-2 mt-4">
-
-                        <button type="submit" class="btn btn-grey w-100">
-                            Add Role
-                        </button>
-
-                        <a href="${pageContext.request.contextPath}/user/list"
-                           class="btn btn-grey w-100 text-center">
-                            Cancel
-                        </a>
-
-                    </div>
-
-                </form>
-
+            <div class="mb-3">
+                <label class="form-label">Role Identifier</label>
+                <input type="text"
+                       name="identifier"
+                       value="${param.identifier}"
+                       class="form-control ${not empty error && error.contains('already') ? 'input-error' : ''}"
+                       placeholder="e.g. ADMIN, USER"
+                       required>
             </div>
 
-            <div class="card-footer text-center text-muted small">
-                Role Management System
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Describe role responsibilities">${param.description}</textarea>
             </div>
 
-        </div>
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-success">
+                    Add Role
+                </button>
+
+                <a href="${pageContext.request.contextPath}/user/list"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
 
     </div>
+
+    <div class="card-footer text-center text-muted small">
+        Role Management System
+    </div>
+
 </div>
 
 </body>

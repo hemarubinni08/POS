@@ -1,208 +1,563 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>User Registration</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
       rel="stylesheet">
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-.back-btn {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-}
-.back-btn::before {
-    content: '';
-    width: 10px;
-    height: 10px;
-    border-left: 3px solid #333;
-    border-bottom: 3px solid #333;
-    transform: rotate(45deg);
-    margin-left: 5px;
+body{
+
+    font-family:'Poppins', sans-serif;
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#111;
+
+    padding:20px;
 }
 
-.register-card {
-    width: 430px;
-    background: rgba(255,255,255,0.95);
-    padding: 35px 40px;
-    border-radius: 16px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+.back-btn{
+
+    position:fixed;
+
+    top:20px;
+
+    left:20px;
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+    transition:0.3s ease;
+
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #4b6cb7;
+.back-btn:hover{
+
+    transform:scale(1.05);
+
 }
 
-.form-group {
-    margin-bottom: 16px;
+.back-btn::before{
+
+    content:'';
+
+    width:10px;
+
+    height:10px;
+
+    border-left:3px solid #111;
+
+    border-bottom:3px solid #111;
+
+    transform:rotate(45deg);
+
+    margin-left:5px;
+
 }
 
-label {
-    font-size: 13px;
-    font-weight: 500;
-    display: block;
-    margin-bottom: 6px;
+.register-card{
+
+    width:430px;
+
+    background:#fff;
+
+    padding:35px 40px;
+
+    border-radius:16px;
+
+    box-shadow:0 15px 40px rgba(255,255,255,0.08);
+
 }
 
-input {
-    width: 100%;
-    padding: 11px 14px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 14px;
+h2{
+
+    text-align:center;
+
+    margin-bottom:28px;
+
+    color:#111;
+
+    font-size:28px;
+
+    font-weight:600;
+
 }
 
-.error {
-    color: red;
-    font-size: 12px;
-    display: none;
+.form-group{
+
+    margin-bottom:18px;
+
 }
 
-input:invalid:not(:placeholder-shown):not(:focus) {
-    border-color: red;
-}
-input:invalid:not(:placeholder-shown):not(:focus) + .error {
-    display: block;
+label{
+
+    display:block;
+
+    margin-bottom:7px;
+
+    font-size:14px;
+
+    font-weight:500;
+
+    color:#111;
+
 }
 
-#roleList {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 8px;
-    max-height: 150px;
-    overflow-y: auto;
-}
-.role-item {
-    padding: 6px 4px;
-}
-.role-item label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-}
-.role-item input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    margin: 0;
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"]{
+
+    width:100%;
+
+    padding:12px 14px;
+
+    border:1px solid #ccc;
+
+    border-radius:10px;
+
+    font-size:14px;
+
+    outline:none;
+
+    transition:0.3s ease;
+
+    background:#f8f8f8;
+
 }
 
-.btn-submit {
-    margin: 20px auto 0;
-    display: block;
-    width: 220px;
-    padding: 13px;
-    background: linear-gradient(135deg, #4b6cb7, #182848);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
+input:focus{
+
+    border-color:#000;
+
+    background:#fff;
+
 }
+
+.error{
+
+    color:red;
+
+    font-size:12px;
+
+    margin-top:5px;
+
+    display:none;
+
+}
+
+#roleList{
+
+    border:1px solid #ccc;
+
+    border-radius:10px;
+
+    padding:10px;
+
+    background:#f8f8f8;
+
+}
+
+.role-item{
+
+    margin-bottom:10px;
+
+}
+
+.role-item:last-child{
+
+    margin-bottom:0;
+
+}
+
+.role-item label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin:0;
+
+}
+
+.role-item input{
+
+    width:16px;
+
+    height:16px;
+
+}
+.btn-submit{
+
+    width:100%;
+
+    padding:13px;
+
+    margin-top:10px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#111;
+
+    color:#fff;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s ease;
+
+}
+
+.btn-submit:hover{
+
+    background:#333;
+
+}
+
+@media(max-width:500px){
+
+    .register-card{
+
+        width:100%;
+
+        padding:28px 22px;
+
+    }
+}
+
 </style>
+
 </head>
 
 <body>
 
-<div class="back-btn" onclick="history.back()"></div>
+<div class="back-btn"
+     onclick="history.back()"></div>
+
+<!-- Registration Card -->
 
 <div class="register-card">
+
     <h2>User Registration</h2>
 
-    <form action="register" method="post" onsubmit="return validateRoles();">
+    <form action="${pageContext.request.contextPath}/register"
+          method="post"
+          onsubmit="return validateForm();">
 
-        <!-- NAME -->
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}" />
+
         <div class="form-group">
+
             <label>Name</label>
-            <input type="text" name="name" required placeholder="Enter name">
-            <span class="error">Name is required</span>
+
+            <input type="text"
+                   id="name"
+                   name="name"
+                   placeholder="Enter full name">
+
+            <span class="error" id="nameError">
+                Name must contain only alphabets
+            </span>
+
         </div>
 
-        <!-- EMAIL -->
         <div class="form-group">
+
             <label>Email</label>
-            <input type="email" name="username" required placeholder="Enter email">
-            <span class="error">Valid email is required</span>
+
+            <input type="email"
+                   id="email"
+                   name="username"
+                   placeholder="Enter email">
+
+            <span class="error" id="emailError">
+                Enter valid email address
+            </span>
+
         </div>
 
-        <!-- ROLES -->
         <div class="form-group">
+
             <label>Roles</label>
+
             <div id="roleList">
+
                 <div class="role-item">
-                    <label><input type="checkbox" name="roles" value="Admin"> Admin</label>
+
+                    <label>
+
+                        <input type="checkbox"
+                               name="roles"
+                               value="Admin">
+
+                        Admin
+
+                    </label>
+
                 </div>
+
                 <div class="role-item">
-                    <label><input type="checkbox" name="roles" value="User"> User</label>
+
+                    <label>
+
+                        <input type="checkbox"
+                               name="roles"
+                               value="User">
+
+                        User
+
+                    </label>
+
                 </div>
+
                 <div class="role-item">
-                    <label><input type="checkbox" name="roles" value="Manager"> Manager</label>
+
+                    <label>
+
+                        <input type="checkbox"
+                               name="roles"
+                               value="Manager">
+
+                        Manager
+
+                    </label>
+
                 </div>
+
             </div>
-            <span class="error" id="roleError">Select at least one role</span>
+
+            <span class="error"
+                  id="roleError">
+
+                Select at least one role
+
+            </span>
+
         </div>
 
-        <!-- PHONE -->
         <div class="form-group">
+
             <label>Phone Number</label>
-            <input type="tel" name="phoneNo" pattern="[0-9]{10}" required placeholder="10 digit number">
-            <span class="error">Enter valid 10 digit phone number</span>
+
+            <input type="tel"
+                   id="phone"
+                   name="phoneNo"
+                   placeholder="Enter 10 digit number">
+
+            <span class="error"
+                  id="phoneError">
+
+                Phone number must contain 10 digits
+
+            </span>
+
         </div>
 
-        <!-- PASSWORD -->
         <div class="form-group">
+
             <label>Password</label>
-            <input type="password" name="password" minlength="6" required placeholder="Enter password">
-            <span class="error">Minimum 6 characters required</span>
+
+            <input type="password"
+                   id="password"
+                   name="password"
+                   placeholder="Enter password">
+
+            <span class="error"
+                  id="passwordError">
+
+                Password must contain minimum 6 characters
+
+            </span>
+
         </div>
 
-        <input type="submit" value="Register" class="btn-submit">
+        <div class="form-group">
+
+            <label>Confirm Password</label>
+
+            <input type="password"
+                   id="confirmPassword"
+                   placeholder="Confirm password">
+
+            <span class="error"
+                  id="confirmPasswordError">
+
+                Passwords do not match
+
+            </span>
+
+        </div>
+
+        <input type="submit"
+               value="Register"
+               class="btn-submit">
+
     </form>
+
 </div>
 
 <script>
-function validateRoles() {
-    const roles = document.querySelectorAll('input[name="roles"]');
-    const roleError = document.getElementById('roleError');
-    let selected = false;
 
-    roles.forEach(r => {
-        if (r.checked) selected = true;
+function showError(id){
+
+    document.getElementById(id).style.display='block';
+}
+
+function hideError(id){
+
+    document.getElementById(id).style.display='none';
+}
+
+function validateForm(){
+
+    let valid=true;
+
+    const name=document.getElementById('name').value.trim();
+
+    const nameRegex=/^[A-Za-z ]+$/;
+
+    if(name==='' || !nameRegex.test(name)){
+
+        showError('nameError');
+
+        valid=false;
+
+    }else{
+
+        hideError('nameError');
+    }
+
+    const email=document.getElementById('email').value.trim();
+
+    const emailRegex=/^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+    if(email==='' || !emailRegex.test(email)){
+
+        showError('emailError');
+
+        valid=false;
+
+    }else{
+
+        hideError('emailError');
+    }
+
+    const roles=document.querySelectorAll('input[name="roles"]');
+
+    let roleSelected=false;
+
+    roles.forEach(role=>{
+
+        if(role.checked){
+
+            roleSelected=true;
+        }
     });
 
-    if (!selected) {
-        roleError.style.display = 'block';
-        return false;
-    } else {
-        roleError.style.display = 'none';
-        return true;
+    if(!roleSelected){
+
+        showError('roleError');
+
+        valid=false;
+
+    }else{
+
+        hideError('roleError');
     }
+
+    const phone=document.getElementById('phone').value.trim();
+
+    const phoneRegex=/^[0-9]{10}$/;
+
+    if(!phoneRegex.test(phone)){
+
+        showError('phoneError');
+
+        valid=false;
+
+    }else{
+
+        hideError('phoneError');
+    }
+
+    const password=document.getElementById('password').value;
+
+    if(password.length < 6){
+
+        showError('passwordError');
+
+        valid=false;
+
+    }else{
+
+        hideError('passwordError');
+    }
+
+    const confirmPassword=document.getElementById('confirmPassword').value;
+
+    if(password !== confirmPassword){
+
+        showError('confirmPasswordError');
+
+        valid=false;
+
+    }else{
+
+        hideError('confirmPasswordError');
+    }
+
+    return valid;
 }
+
 </script>
 
 </body>
+
 </html>
