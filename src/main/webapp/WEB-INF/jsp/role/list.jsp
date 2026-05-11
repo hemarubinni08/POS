@@ -133,10 +133,6 @@
             transition: 0.25s ease;
         }
 
-
-
-
-
         .btn-add {
             background: #4a90e2;
             color: white;
@@ -149,9 +145,7 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="card-container">
 
     <a href="/" class="back-icon">←</a>

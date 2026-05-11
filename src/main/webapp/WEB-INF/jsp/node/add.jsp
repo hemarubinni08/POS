@@ -9,12 +9,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Node</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet">
 
     <style>
-        /* ✅ YOUR CSS (UNCHANGED) */
+
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
@@ -148,7 +147,6 @@
         }
     </style>
 
-    <!-- ✅ POPUP SCRIPT -->
     <script>
         window.onload = function () {
             var message = "${message}";
@@ -159,16 +157,11 @@
     </script>
 
 </head>
-
 <body>
-
 <div class="card-container">
-
     <a href="/node/list" class="back-icon">←</a>
 
     <h2>Add New Node</h2>
-
-    <!-- ✅ Optional inline message (can remove if only popup needed) -->
     <c:if test="${not empty message}">
         <div class="error-message">
             ${message}

@@ -13,7 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        /* 🔥 KEEP YOUR ORIGINAL CSS AS-IS (UNCHANGED) */
 
         body {
             margin: 0;
@@ -162,15 +161,12 @@
     <a href="/role/list" class="back-icon">←</a>
 
     <h2>Add New Role</h2>
-
-    <!-- Success message -->
     <c:if test="${not empty role}">
         <div class="alert">
             ${role}
         </div>
     </c:if>
 
-    <!-- Error / Info message -->
     <c:if test="${not empty message}">
         <div class="error-message">
             ${message}
