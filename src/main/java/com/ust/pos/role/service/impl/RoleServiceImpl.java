@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -63,9 +65,25 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleDto> findAll() {
+    public List<RoleDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
-        return modelMapper.map(roleRepository.findAll(), listType);
+        Page<Role> customerPage = roleRepository.findAll(pageable);
+        return modelMapper.map(customerPage.getContent(), listType);
+    }
+
+    @Override
+    public RoleDto toggleStatus(String identifier) {
+        Role role = roleRepository.findByIdentifier(identifier);
+        role.setStatus(!role.isStatus());
+        roleRepository.save(role);
+        return modelMapper.map(role, RoleDto.class);
+    }
+
+    @Override
+    public List<RoleDto> findIfTrue() {
+        Type listType = new TypeToken<List<RoleDto>>() {
+        }.getType();
+        return modelMapper.map(roleRepository.findByStatusIsTrue(), listType);
     }
 }

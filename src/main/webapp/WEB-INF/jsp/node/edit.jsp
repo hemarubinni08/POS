@@ -9,48 +9,50 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
     <style>
         body {
-            background: #f5f7fb;
+            min-height: 100vh;
+            background-color: #f6f7fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Segoe UI", Arial, sans-serif;
         }
 
         .page-container {
-            max-width: 600px;
-            margin: auto;
+            max-width: 640px;
+            width: 100%;
         }
 
         .card-custom {
-            background: #ffffff;
-            border-radius: 14px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px 35px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         h2 {
             text-align: center;
             font-weight: 600;
             margin-bottom: 25px;
-            color: #0d6efd;
         }
 
         .form-label {
             font-weight: 600;
-            color: #333;
+            font-size: 14px;
         }
 
         .form-control {
             border-radius: 8px;
-            padding: 10px;
-        }
-
-        .form-control:focus {
-            border-color: #0d6efd;
-            box-shadow: none;
+            padding: 10px 12px;
         }
 
         .roles-box {
             background: #f8f9fa;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 15px;
         }
 
@@ -58,31 +60,29 @@
             margin-bottom: 8px;
         }
 
-        .btn-primary {
-            padding: 10px 30px;
-            border-radius: 30px;
-            font-weight: 600;
-        }
-
+        .btn-primary,
         .btn-secondary {
-            padding: 10px 30px;
+            padding: 12px 32px;
             border-radius: 30px;
             font-weight: 600;
         }
 
         .action-buttons {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 30px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5 page-container">
+<div class="page-container">
     <div class="card-custom">
 
-        <h2>Edit Node</h2>
+        <h2>
+            <i class="bi bi-pencil-square"></i>
+            Edit Node
+        </h2>
 
         <form:form method="post"
                    action="${pageContext.request.contextPath}/node/update"
@@ -96,8 +96,8 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Node Name</label>
-                <form:input path="identifier" class="form-control" required="true" readonly="true"/>
+                <label class="form-label">Identifier</label>
+                <form:input path="identifier" class="form-control" readonly="true"/>
             </div>
 
             <div class="mb-3">
@@ -106,7 +106,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Select Roles</label>
+                <label class="form-label">Assign Roles</label>
 
                 <div class="roles-box">
                     <form:checkboxes
@@ -121,10 +121,16 @@
             </div>
 
             <div class="action-buttons">
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary me-3">
+                    <i class="bi bi-check-circle"></i>
+                    Update
+                </button>
 
                 <a href="${pageContext.request.contextPath}/node/list"
-                   class="btn btn-secondary ms-3">Cancel</a>
+                   class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle"></i>
+                    Cancel
+                </a>
             </div>
 
         </form:form>

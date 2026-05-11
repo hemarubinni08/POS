@@ -4,6 +4,7 @@
 <head>
     <title>Edit Role</title>
 
+    <!-- ✅ Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
@@ -43,7 +44,6 @@
 
         .form-control[readonly] {
             background-color: #e9ecef;
-            cursor: not-allowed;
         }
 
         .btn-primary, .btn-secondary {
@@ -55,12 +55,6 @@
         .action-buttons {
             text-align: center;
             margin-top: 25px;
-        }
-
-        .error-text {
-            color: red;
-            text-align: center;
-            margin-top: 10px;
         }
     </style>
 </head>
@@ -74,10 +68,9 @@
 
         <form action="${pageContext.request.contextPath}/role/update" method="post">
 
-            <input type="hidden" name="id" value="${role.id}" />
-
+            <!-- ✅ Identifier (readonly) -->
             <div class="mb-3">
-                <label class="form-label">Role Name</label>
+                <label class="form-label">Role Identifier</label>
                 <input type="text"
                        name="identifier"
                        value="${role.identifier}"
@@ -85,6 +78,7 @@
                        readonly />
             </div>
 
+            <!-- ✅ Description -->
             <div class="mb-3">
                 <label class="form-label">Description</label>
                 <input type="text"
@@ -94,16 +88,31 @@
                        required />
             </div>
 
-            <c:if test="${not empty error}">
-                <div class="error-text">${error}</div>
-            </c:if>
+            <!-- ✅ STATUS (VERY IMPORTANT) -->
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-control">
+                    <option value="true" ${role.status ? 'selected' : ''}>
+                        Active
+                    </option>
+                    <option value="false" ${!role.status ? 'selected' : ''}>
+                        Inactive
+                    </option>
+                </select>
+            </div>
 
+            <!-- ✅ ACTION BUTTONS -->
             <div class="action-buttons">
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary">
+                    Update
+                </button>
 
                 <a href="${pageContext.request.contextPath}/role/list"
-                   class="btn btn-secondary ms-3">Cancel</a>
+                   class="btn btn-secondary ms-3">
+                    Cancel
+                </a>
             </div>
+
         </form>
 
     </div>

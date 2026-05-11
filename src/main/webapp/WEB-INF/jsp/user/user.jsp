@@ -7,13 +7,18 @@
 <head>
     <title>Update User</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"/>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <style>
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-color: #f6f7fb;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -21,16 +26,15 @@
         }
 
         .update-card {
-            width: 460px;
-            background: #fff;
+            width: 520px;
+            background: #ffffff;
             padding: 30px 35px;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         h3 {
             text-align: center;
-            color: #4b6cb7;
             margin-bottom: 25px;
             font-weight: 600;
         }
@@ -38,13 +42,13 @@
         label {
             font-weight: 600;
             font-size: 14px;
-            color: #333;
         }
 
         .form-control,
         select {
             border-radius: 8px;
             padding: 10px 12px;
+            font-size: 14px;
         }
 
         select[multiple] {
@@ -54,56 +58,93 @@
         .btn-update {
             width: 100%;
             padding: 12px;
-            background: #4b6cb7;
+            background-color: #5563DE;
             border: none;
             color: white;
             font-weight: 600;
-            border-radius: 8px;
+            border-radius: 30px;
         }
 
         .btn-update:hover {
-            background: #182848;
+            background-color: #3f4acb;
         }
 
-        small {
-            font-size: 11px;
-            color: #666;
+        .badge {
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 12px;
+        }
+
+        a {
+            font-weight: 500;
+            color: #5563DE;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
+
+<!-- ✅ ERROR MESSAGE -->
+<c:if test="${not empty message}">
+    <div class="alert alert-danger text-center position-absolute top-0 mt-3">
+        ${message}
+    </div>
+</c:if>
+
 <div class="update-card">
-    <h3>Update User</h3>
+
+    <h3>
+        <i class="bi bi-pencil-square"></i>
+        Update User
+    </h3>
 
     <form:form action="/user/update" method="post" modelAttribute="userDto">
 
-        <form:input type="hidden" path="id" value="${user.id}"/>
-        <p style="color:red;">${message}</p>
+        <!-- Hidden ID -->
+        <form:hidden path="id" value="${user.id}" />
+
+        <!-- Name -->
         <div class="mb-3">
             <label>Name</label>
-            <form:input path="name" cssClass="form-control" value="${user.name}" required="true"/>
+            <form:input path="name"
+                        cssClass="form-control"
+                        value="${user.name}"
+                        required="true" />
         </div>
 
-         <div class="mb-3">
-             <label>Email</label>
-             <form:input path="username" type="email"
-                 cssClass="form-control"
-                 value="${user.username}"
-                 required="true"
-                 pattern="^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$" />
-             <form:errors path="username" cssClass="error"/>
-         </div>
+        <!-- Email -->
+        <div class="mb-3">
+            <label>Email</label>
+            <form:input path="username"
+                        type="email"
+                        cssClass="form-control"
+                        value="${user.username}"
+                        required="true" />
+            <form:errors path="username" cssClass="text-danger small" />
+        </div>
 
+        <!-- Phone -->
         <div class="mb-3">
             <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" value="${user.phoneNo}" pattern="[0-9]{10}" maxlength="10" required="true"   title="Phone number must be exactly 10 digits"/>
+            <form:input path="phoneNo"
+                        cssClass="form-control"
+                        value="${user.phoneNo}"
+                        maxlength="10"
+                        pattern="[0-9]{10}"
+                        title="Phone number must be exactly 10 digits"
+                        required="true" />
         </div>
 
+        <!-- Roles -->
         <div class="mb-3">
             <label>Roles</label>
 
-            <div class="mb-1 text-muted">
+            <div class="mb-2 text-muted">
                 Current:
                 <c:forEach var="r" items="${user.roles}">
                     <span class="badge bg-secondary me-1">${r}</span>
@@ -111,21 +152,30 @@
             </div>
 
             <form:select path="roles" multiple="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+                <form:options items="${roles}"
+                              itemValue="identifier"
+                              itemLabel="identifier" />
             </form:select>
 
-
-            <small>
+            <small class="text-muted">
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
             </small>
         </div>
 
-        <button type="submit" class="btn-update">Update</button>
+        <!-- Submit -->
+        <button type="submit" class="btn-update">
+            <i class="bi bi-check-circle"></i>
+            Update
+        </button>
 
     </form:form>
 
+    <!-- Back -->
     <div class="text-center mt-3">
-        <a href="/user/list">← Back to User List</a>
+        <a href="/user/list">
+            <i class="bi bi-arrow-left-circle"></i>
+            Back to User List
+        </a>
     </div>
 
 </div>

@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -62,8 +64,6 @@ public class UserServiceImpl implements UserService {
             userDto.setSuccess(false);
             return userDto;
         }
-
-        // ✅ Correct email check (your old one was wrong)
         if (!existingUser.getUsername().equalsIgnoreCase(userDto.getUsername())) {
             User emailCheck =
                     userRepository.findByUsername(userDto.getUsername());
@@ -95,9 +95,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAll() {
+    public List<UserDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
-        return modelMapper.map(userRepository.findAll(), listType);
+        Page<User> customerPage = userRepository.findAll(pageable);
+        return modelMapper.map(customerPage.getContent(), listType);
+    }
+
+    @Override
+    public UserDto toggleStatus(String identifier) {
+        User user = userRepository.findByIdentifier(identifier);
+        user.setStatus(!user.isStatus());
+        userRepository.save(user);
+        return modelMapper.map(user, UserDto.class);
+    }
+
+    @Override
+    public List<UserDto> findIfTrue() {
+        Type listType = new TypeToken<List<UserDto>>() {
+
+        }.getType();
+        return modelMapper.map(userRepository.findByStatusIsTrue(), listType);
     }
 }

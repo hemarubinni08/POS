@@ -4,6 +4,7 @@ import com.ust.pos.dto.NodeDto;
 import com.ust.pos.node.service.NodeService;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +21,14 @@ public class NodeController {
     private RoleService roleService;
 
     @GetMapping("/list")
-    public String home(Model model) {
-        model.addAttribute("nodes", nodeService.findAll());
+    public String home(Model model, Pageable pageable) {
+        model.addAttribute("nodes", nodeService.findAll(pageable));
         return "node/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute NodeDto nodeDto) {
-        model.addAttribute(ROLES, roleService.findAll());
+        model.addAttribute(ROLES, roleService.findIfTrue());
         return "node/add";
     }
 
@@ -36,7 +37,7 @@ public class NodeController {
         NodeDto response = nodeService.save(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute(ROLES, roleService.findAll());
+            model.addAttribute(ROLES, roleService.findIfTrue());
             return "node/add";
         }
         return REDIRECT_NODE_LIST;
@@ -46,7 +47,7 @@ public class NodeController {
     public String update(Model model, @RequestParam String identifier) {
         NodeDto response = nodeService.findByIdentifier(identifier);
         model.addAttribute("node", response);
-        model.addAttribute(ROLES, roleService.findAll());
+        model.addAttribute(ROLES, roleService.findIfTrue());
         return "node/edit";
     }
 
@@ -58,9 +59,16 @@ public class NodeController {
         }
         return REDIRECT_NODE_LIST;
     }
+
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         nodeService.delete(identifier);
+        return REDIRECT_NODE_LIST;
+    }
+
+    @PostMapping("/toggle")
+    public String toggleNode(@RequestParam String identifier) {
+        nodeService.toggleStatus(identifier);
         return REDIRECT_NODE_LIST;
     }
 }

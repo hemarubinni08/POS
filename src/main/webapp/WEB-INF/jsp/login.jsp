@@ -90,6 +90,9 @@
 </head>
 
 <body>
+<div th:if="${successMessage}" class="alert alert-success">
+    <span th:text="${successMessage}"></span>
+</div>
 
 <div class="left">
     <h1>POS System</h1>
