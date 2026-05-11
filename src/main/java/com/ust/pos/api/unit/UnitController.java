@@ -17,7 +17,7 @@ public class UnitController extends BaseController {
     @Autowired
     private UnitService unitService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<UnitDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return unitService.findAll(pageable);

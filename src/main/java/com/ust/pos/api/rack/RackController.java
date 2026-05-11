@@ -22,7 +22,7 @@ public class RackController extends BaseController {
     @Autowired
     private ShelfService shelfService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<RackDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return rackService.findAll(pageable);
