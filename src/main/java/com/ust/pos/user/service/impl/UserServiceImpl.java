@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -65,10 +67,10 @@ public class UserServiceImpl implements UserService {
             User existingUser = userOptional.get();
             if (!username.equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(username) != null) {
 
-                    userDto.setMessage(USER_WITH_USERNAME_EMAIL2 + userDto.getUsername() + " already exists");
-                    userDto.setSuccess(false);
-                    return userDto;
-                }
+                userDto.setMessage(USER_WITH_USERNAME_EMAIL2 + userDto.getUsername() + " already exists");
+                userDto.setSuccess(false);
+                return userDto;
+            }
 
             modelMapper.map(userDto, existingUser);
             userRepository.save(existingUser);
@@ -79,14 +81,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void delete(String username) {
-         userRepository.deleteByUsername(username);
+        userRepository.deleteByUsername(username);
     }
 
     @Override
-    public List<UserDto> findAll() {
+    public List<UserDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
-        return modelMapper.map(userRepository.findAll(), listType);
+        Page<User> userPage = userRepository.findAll(pageable);
+        return modelMapper.map(userPage.getContent(), listType);
     }
 
     @Override

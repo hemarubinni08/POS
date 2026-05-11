@@ -12,7 +12,6 @@ body {
     background: #F6F7F9;
 }
 
-/* HEADER */
 .header {
     height: 60px;
     background: #2B2B2B;
@@ -23,17 +22,19 @@ body {
     font-weight: 600;
 }
 
-/* SIDEBAR */
 .sidebar {
     position: fixed;
     top: 60px;
     left: -260px;
     width: 260px;
-    height: 100%;
+    height: calc(100vh - 60px);
     background: #FFFFFF;
     border-right: 1px solid #E5E7EB;
     transition: 0.3s;
+
+    overflow-y: auto;
 }
+
 
 .sidebar.active {
     left: 0;
@@ -50,8 +51,6 @@ body {
 .sidebar a:hover {
     background: #F3F4F6;
 }
-
-/* CONTENT */
 .content {
     padding: 30px;
     transition: margin-left 0.3s;
@@ -61,7 +60,6 @@ body {
     margin-left: 260px;
 }
 
-/* WELCOME BOX */
 .welcome-box {
     background: #FFFFFF;
     padding: 30px;
@@ -71,7 +69,7 @@ body {
     max-width: 700px;
 }
 
-/* LOGOUT */
+
 .logout-link {
     margin-left: auto;
     background: #B91C1C;
@@ -85,7 +83,6 @@ body {
     background: #7F1D1D;
 }
 
-/* HAMBURGER */
 .hamburger {
     font-size: 22px;
     cursor: pointer;
@@ -93,18 +90,12 @@ body {
 }
 </style>
 
-<script>
-function toggleSidebar() {
-    document.getElementById("sidebar").classList.toggle("active");
-    document.getElementById("content").classList.toggle("shift");
-}
-</script>
+
 
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
     <span class="hamburger" onclick="toggleSidebar()">☰</span>
     POS Dashboard
@@ -112,7 +103,6 @@ function toggleSidebar() {
     <a href="/login?logout" class="logout-link">Logout</a>
 </div>
 
-<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
 
     <c:forEach var="node" items="${nodes}">
@@ -121,7 +111,6 @@ function toggleSidebar() {
 
 </div>
 
-<!-- CONTENT -->
 <div class="content" id="content">
 
     <div class="welcome-box">
@@ -130,6 +119,16 @@ function toggleSidebar() {
     </div>
 
 </div>
+
+<script>
+function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const content = document.getElementById("content");
+
+    sidebar.classList.toggle("active");
+    content.classList.toggle("shift");
+}
+</script>
 
 </body>
 </html>

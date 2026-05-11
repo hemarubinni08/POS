@@ -10,7 +10,7 @@
 
     <style>
         body {
-            background: #F6F7F9;   /* clean POS background */
+            background: #F6F7F9;
             min-height: 100vh;
         }
 
@@ -24,7 +24,7 @@
         .card-header {
             border-top-left-radius: 16px;
             border-top-right-radius: 16px;
-            background: #2B2B2B;   /* professional dark header */
+            background: #2B2B2B;
         }
 
         .card-header h4 {
