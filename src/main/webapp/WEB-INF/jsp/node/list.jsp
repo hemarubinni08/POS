@@ -6,119 +6,134 @@
 <head>
     <title>Node List</title>
 
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
-            min-height: 100vh;
+            background-color: #f7f9fc;
         }
-        .card {
-            border-radius: 16px;
+
+        .page-header {
+            background: linear-gradient(to right, #0f766e, #134e4a);
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
-        .card-header {
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
+
+        .table thead th {
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.03em;
+            vertical-align: middle;
+            text-align: center;
         }
-        table th {
-            background-color: #0d6efd;
-            color: white;
+
+        .table tbody td {
+            vertical-align: middle;
         }
+
         .badge-role {
-            background-color: #6c757d;
+            font-size: 12px;
             margin: 2px;
+        }
+
+        .action-btns a {
+            margin: 0 3px;
         }
     </style>
 </head>
 
-<body>
+<body class="container py-4">
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
+<!-- HEADER -->
+<div class="page-header d-flex justify-content-between align-items-center">
+    <h4 class="mb-0">
+        <i class="bi bi-diagram-3-fill me-2"></i> Node Management
+    </h4>
 
-            <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4 class="mb-0">List of Nodes</h4>
-                </div>
+    <div>
+        <a href="${pageContext.request.contextPath}/"
+           class="btn btn-light fw-semibold me-2">
+            <i class="bi bi-house-door-fill me-1"></i> Home
+        </a>
 
-                <div class="card-body">
+        <a href="${pageContext.request.contextPath}/node/add"
+           class="btn btn-light fw-semibold">
+            <i class="bi bi-plus-circle me-1"></i> Add Node
+        </a>
+    </div>
+</div>
 
-                    <c:if test="${empty nodes}">
-                        <div class="alert alert-warning text-center">
-                            No nodes found
-                        </div>
-                    </c:if>
+<!-- TABLE CARD -->
+<div class="card shadow-sm">
+    <div class="card-body">
 
-                    <c:if test="${not empty nodes}">
-                        <table class="table table-bordered table-hover align-middle text-center">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Identifier</th>
-                                <th>Path</th>
-                                <th>Roles</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Identifier</th>
+                <th>Path</th>
+                <th>Roles</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
 
-                            <tbody>
-                            <c:forEach var="node" items="${nodes}">
-                                <tr>
-                                    <td>${node.id}</td>
+            <tbody>
+            <c:forEach var="node" items="${nodes}">
+                <tr>
+                    <td class="text-center fw-semibold">${node.id}</td>
+                    <td class="text-center">${node.identifier}</td>
+                    <td class="text-center">${node.path}</td>
 
-                                    <td>${node.identifier}</td>
+                    <td class="text-center">
+                        <c:if test="${empty node.roles}">
+                            <span class="text-muted">No roles</span>
+                        </c:if>
 
-                                    <td>${node.path}</td>
+                        <c:forEach var="role" items="${node.roles}">
+                            <span class="badge bg-secondary badge-role">
+                                ${role}
+                            </span>
+                        </c:forEach>
+                    </td>
 
-                                    <td>
-                                        <c:if test="${empty node.roles}">
-                                            <span class="text-muted">No roles</span>
-                                        </c:if>
+                    <td class="text-center action-btns">
+                        <a href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}"
+                           class="btn btn-sm btn-outline-primary"
+                           title="Edit">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
 
-                                        <c:forEach var="role" items="${node.roles}">
-                                            <span class="badge badge-role">${role}</span>
-                                        </c:forEach>
-                                    </td>
+                        <a href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
+                           class="btn btn-sm btn-outline-danger"
+                           title="Delete"
+                           onclick="return confirm('Are you sure you want to delete this node?');">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
 
-                                    <td class="d-flex justify-content-center gap-2">
+            <c:if test="${empty nodes}">
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">
+                        <i class="bi bi-info-circle me-1"></i>
+                        No nodes found
+                    </td>
+                </tr>
+            </c:if>
 
-                                        <a href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}"
-                                           class="btn btn-sm btn-warning">
-                                            Edit
-                                        </a>
+            </tbody>
+        </table>
 
-                                        <a href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
-                                           class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Are you sure you want to delete this node?');">
-                                            Delete
-                                        </a>
-
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </c:if>
-
-                </div>
-
-                <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
-                    <a href="${pageContext.request.contextPath}/"
-                       class="btn btn-secondary">
-                        Home
-                    </a>
-
-                    <a href="${pageContext.request.contextPath}/node/add"
-                       class="btn btn-success">
-                        + Add New Node
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
     </div>
 </div>
 

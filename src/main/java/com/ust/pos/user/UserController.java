@@ -4,6 +4,7 @@ import com.ust.pos.dto.UserDto;
 import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,18 +25,18 @@ public class UserController {
     public RoleService roleService;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("users", userService.findAll());
+    public String list(Model model, Pageable pageable) {
+        model.addAttribute("users", userService.findAll(pageable));
         return "user/list";
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String username) {
+    public String update(Model model, @RequestParam String username, Pageable pageable) {
 
         UserDto response = userService.findByUserName(username);
 
         model.addAttribute("user", response);
-        model.addAttribute(ROLES, roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll(pageable));
 
         return USER_USER;
     }
@@ -43,13 +44,13 @@ public class UserController {
     @PostMapping("/update")
     public String updatePost(Model model,
                              @ModelAttribute UserDto userDto,
-                             @RequestParam String oldUsername) {
+                             @RequestParam String oldUsername, Pageable pageable) {
 
         UserDto existingUser = userService.findByUserName(oldUsername);
 
         if (existingUser == null) {
             model.addAttribute(MESSAGE, "User not found.");
-            model.addAttribute(ROLES, roleService.findAll());
+            model.addAttribute(ROLES, roleService.findAll(pageable));
             return USER_USER;
         }
 
@@ -62,7 +63,7 @@ public class UserController {
                 model.addAttribute(MESSAGE,
                         "❌ Email already exists. Please use a new email.");
                 model.addAttribute("user", userDto);
-                model.addAttribute(ROLES, roleService.findAll());
+                model.addAttribute(ROLES, roleService.findAll(pageable));
                 return USER_USER;
             }
         }
@@ -73,11 +74,12 @@ public class UserController {
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute("user", userDto);
-            model.addAttribute(ROLES, roleService.findAll());
+            model.addAttribute(ROLES, roleService.findAll(pageable));
             return USER_USER;
         }
         return "redirect:/user/list";
     }
+
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
 

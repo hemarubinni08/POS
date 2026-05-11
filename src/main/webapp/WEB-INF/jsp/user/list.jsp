@@ -6,28 +6,47 @@
 <head>
     <title>User Management</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
+            background-color: #f7f9fc;
         }
 
-        .card {
-            border-radius: 15px;
+        .page-header {
+            background: linear-gradient(to right, #0f766e, #134e4a);
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
 
-        .table th {
-            background-color: #343a40;
-            color: white;
+        .table thead th {
+            vertical-align: middle;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.03em;
+        }
+
+        .action-btns a {
+            margin-right: 6px;
+        }
+
+        .role-badge {
+            font-size: 12px;
+            margin: 2px;
         }
 
         a.user-link {
             text-decoration: none;
             font-weight: 500;
+            color: #0d6efd;
         }
 
         a.user-link:hover {
@@ -36,79 +55,97 @@
     </style>
 </head>
 
-<body>
+<body class="container py-4">
 
-<div class="container mt-5">
-    <div class="card shadow-lg">
-        <div class="card-body">
+<!-- ================= HEADER ================= -->
+<div class="page-header d-flex justify-content-between align-items-center">
+    <h4 class="mb-0">
+        <i class="bi bi-people-fill me-2"></i> User Management
+    </h4>
 
-            <h3 class="text-center mb-4">User Management</h3>
+    <div>
+        <a href="${pageContext.request.contextPath}/"
+           class="btn btn-light fw-semibold me-2">
+            <i class="bi bi-house-door-fill me-1"></i> Home
+        </a>
 
-            <c:if test="${empty users}">
-                <div class="alert alert-warning text-center">
-                    No users found
-                </div>
-            </c:if>
+        <a href="${pageContext.request.contextPath}/register"
+           class="btn btn-light fw-semibold">
+            <i class="bi bi-person-plus-fill me-1"></i> Register User
+        </a>
+    </div>
+</div>
 
-            <c:if test="${not empty users}">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center">
-                        <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Roles</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
+<!-- ================= TABLE ================= -->
+<div class="card shadow-sm">
+    <div class="card-body">
 
-                        <tbody>
-                        <c:forEach var="user" items="${users}">
-                            <tr>
-                                <td>
-                                    <a class="user-link"
-                                       href="/user/get?username=${user.username}">
-                                        ${user.username}
-                                    </a>
-                                </td>
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Roles</th>
+                <th class="text-center">Actions</th>
+            </tr>
+            </thead>
 
-                                <td>${user.name}</td>
-                                <td>${user.phoneNo}</td>
-                                <td>${user.roles}</td>
+            <tbody>
+            <c:forEach var="user" items="${users}">
+                <tr>
+                    <!-- Email -->
+                    <td>
+                        <a class="user-link"
+                           href="${pageContext.request.contextPath}/user/get?username=${user.username}">
+                            ${user.username}
+                        </a>
+                    </td>
 
-                                <td>
+                    <!-- Name -->
+                    <td>${user.name}</td>
 
-                                    <a class="btn btn-warning btn-sm me-2"
-                                       href="/user/get?username=${user.username}">
-                                        Edit
-                                    </a>
+                    <!-- Phone -->
+                    <td>${user.phoneNo}</td>
 
-                                    <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?username=${user.username}"
-                                       onclick="return confirm('Are you sure you want to delete this user?');">
-                                        Delete
-                                    </a>
-                                </td>
-                            </tr>
+                    <!-- Roles -->
+                    <td>
+                        <c:forEach var="role" items="${user.roles}">
+                            <span class="badge bg-secondary role-badge">
+                                ${role}
+                            </span>
                         </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
+                    </td>
+
+                    <!-- Actions -->
+                    <td class="text-center action-btns">
+                        <a href="${pageContext.request.contextPath}/user/get?username=${user.username}"
+                           class="btn btn-sm btn-outline-primary"
+                           title="Edit">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+
+                        <a href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
+                           class="btn btn-sm btn-outline-danger"
+                           title="Delete"
+                           onclick="return confirm('Are you sure you want to delete this user?');">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+
+            <!-- EMPTY STATE -->
+            <c:if test="${empty users}">
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">
+                        <i class="bi bi-info-circle me-1"></i>
+                        No users found
+                    </td>
+                </tr>
             </c:if>
-
-        </div>
-
-        <div class="card-footer text-center">
-            <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">Home</a>
-                <a href="/register" class="btn btn-success">Register</a>
-            </div>
-
-            <div class="text-muted small mt-2">
-                User Management System
-            </div>
-        </div>
+            </tbody>
+        </table>
 
     </div>
 </div>

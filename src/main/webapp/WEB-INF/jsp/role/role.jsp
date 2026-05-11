@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" %>
 
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -10,89 +10,121 @@
     <meta charset="UTF-8">
     <title>Edit Role</title>
 
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
+            background-color: #f7f9fc;
         }
 
-        .card {
-            border-radius: 12px;
+        .page-header {
+            background: linear-gradient(to right, #0f766e, #134e4a);
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .form-control {
+        .form-wrapper {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-control,
+        textarea {
             border-radius: 8px;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(to right, #0f766e, #134e4a);
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-gradient:hover {
+            background: linear-gradient(to right, #134e4a, #0f766e);
+            color: #ffffff;
         }
     </style>
 </head>
 
-<body>
+<body class="container py-4">
 
-<div class="container d-flex justify-content-center align-items-center mt-5">
-    <div class="col-md-5">
+<!-- HEADER -->
+<div class="page-header text-center">
+    <h4 class="mb-0">
+        <i class="bi bi-person-badge me-2"></i> Edit Role
+    </h4>
+</div>
 
-        <div class="card shadow-lg">
+<!-- FORM CARD -->
+<div class="form-wrapper">
+    <div class="card shadow-sm">
+        <div class="card-body">
 
-            <div class="card-body">
+            <!-- Message -->
+            <c:if test="${not empty message}">
+                <div class="alert alert-info text-center">
+                    ${message}
+                </div>
+            </c:if>
 
-                <h3 class="text-center mb-4">Edit Role</h3>
+            <form:form method="post"
+                       action="${pageContext.request.contextPath}/role/update"
+                       modelAttribute="role">
 
-                <c:if test="${not empty message}">
-                    <div class="alert alert-info text-center">
-                        ${message}
-                    </div>
-                </c:if>
+                <!-- Hidden ID -->
+                <form:hidden path="id"/>
 
-                <form:form method="post"
-                           action="${pageContext.request.contextPath}/role/update"
-                           modelAttribute="role">
+                <!-- Role Identifier (Readonly) -->
+                <div class="mb-3">
+                    <label>Role Identifier</label>
+                    <form:input path="identifier"
+                                cssClass="form-control"
+                                readonly="true"/>
+                    <small class="text-muted">
+                        Role identifier cannot be changed
+                    </small>
+                </div>
 
-                    <form:hidden path="id"/>
+                <!-- Description -->
+                <div class="mb-3">
+                    <label>Description</label>
+                    <form:textarea path="description"
+                                   cssClass="form-control"
+                                   rows="3"
+                                   placeholder="Update role description"/>
+                </div>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Role Name</label>
-                        <form:input path="identifier"
-                                    cssClass="form-control"
-                                    readonly="true"/>
-                        <small class="text-muted">
-                            Role name cannot be changed
-                        </small>
-                    </div>
+                <!-- Buttons -->
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <a href="${pageContext.request.contextPath}/role/list"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Description</label>
-                        <form:textarea path="description"
-                                       cssClass="form-control"
-                                       rows="3"
-                                       placeholder="Update role description"/>
-                    </div>
+                    <button type="submit" class="btn btn-gradient">
+                        <i class="bi bi-save me-1"></i> Update Role
+                    </button>
+                </div>
 
-                    <div class="d-flex gap-2">
-
-                        <button type="submit" class="btn btn-secondary btn-lg w-100">
-                            Update Role
-                        </button>
-
-                        <a href="${pageContext.request.contextPath}/role/list"
-                           class="btn btn-secondary btn-lg w-100 text-center">
-                            Cancel
-                        </a>
-
-                    </div>
-
-                </form:form>
-
-            </div>
-
-            <div class="card-footer text-center text-muted small">
-                POS Management System
-            </div>
+            </form:form>
 
         </div>
-
     </div>
 </div>
 

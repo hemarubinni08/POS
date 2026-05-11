@@ -4,6 +4,7 @@ package com.ust.pos.role;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,8 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping("/list")
-    public String home(Model model) {
-        model.addAttribute(ROLES, roleService.findAll());
+    public String home(Model model, Pageable pageable) {
+        model.addAttribute(ROLES, roleService.findAll(pageable));
         return "role/list";
     }
 
@@ -37,7 +38,7 @@ public class RoleController {
 
         if (userDto.getIdentifier() == null || userDto.getIdentifier().trim().isEmpty()) {
             model.addAttribute(MESSAGE, "Role Identifier is mandatory");
-            model.addAttribute(ROLES, roleService.findAll());
+            model.addAttribute(ROLES, roleService.findAll(null));
             return ROLE_ADD;
         }
         userDto.setIdentifier(userDto.getIdentifier().trim().toUpperCase());
@@ -46,7 +47,7 @@ public class RoleController {
 
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
-            model.addAttribute(ROLES, roleService.findAll());
+            model.addAttribute(ROLES, roleService.findAll(null));
             return ROLE_ADD;
         }
         return REDIRECT_ROLE_LIST;

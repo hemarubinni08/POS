@@ -1,13 +1,16 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
-
-import com.ust.pos.model.*;
+import com.ust.pos.modell.Node;
+import com.ust.pos.modell.NodeRepository;
+import com.ust.pos.modell.UserRepository;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -41,7 +44,7 @@ public class NodeServiceImpl implements NodeService {
     }
 
     private void findNodes(User principalObject, List<NodeDto> nodeDtos) {
-        com.ust.pos.model.User currentUser = userRepository.findByUsername(principalObject.getUsername());
+        com.ust.pos.modell.User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesStr = new HashSet<>();
         List<Node> nodes = nodeRepository.findAll();
         for (String role : currentUser.getRoles()) {
@@ -92,14 +95,16 @@ public class NodeServiceImpl implements NodeService {
     @Override
     @Transactional
     public void delete(String identifier) {
-         nodeRepository.deleteByIdentifier(identifier);
+        nodeRepository.deleteByIdentifier(identifier);
     }
 
     @Override
-    public List<NodeDto> findAll() {
+    public List<NodeDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<NodeDto>>() {
 
         }.getType();
-        return modelMapper.map(nodeRepository.findAll(), listType);
+        Page<Node> nodePage = nodeRepository.findAll(pageable);
+
+        return modelMapper.map(nodePage.getContent(), listType);
     }
 }
