@@ -17,7 +17,7 @@ public class WarehouseController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("warehouses", warehouseService.findAll());
+        model.addAttribute("warehouses", warehouseService.findAll(null));
         return "warehouse/list";
     }
 
@@ -29,8 +29,7 @@ public class WarehouseController {
     @PostMapping("/add")
     public String doadd(Model model, @ModelAttribute WarehouseDto warehouseDto) {
         WarehouseDto warehouseDto1 = warehouseService.save(warehouseDto);
-        if(!warehouseDto1.isSuccess())
-        {
+        if (!warehouseDto1.isSuccess()) {
             model.addAttribute("message", warehouseDto1.getMessage());
             return "warehouse/add";
         }
@@ -47,8 +46,7 @@ public class WarehouseController {
     @PostMapping("/update")
     public String doupdate(Model model, @ModelAttribute WarehouseDto warehouseDto) {
         WarehouseDto warehouseDto1 = warehouseService.update(warehouseDto);
-        if(!warehouseDto1.isSuccess())
-        {
+        if (!warehouseDto1.isSuccess()) {
             model.addAttribute("message", warehouseDto1.getMessage());
             return "warehouse/warehouse";
         }

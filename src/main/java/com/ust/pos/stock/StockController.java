@@ -1,7 +1,6 @@
 package com.ust.pos.stock;
 
 import com.ust.pos.dto.StockDto;
-import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
 import com.ust.pos.warehouse.service.WarehouseService;
@@ -25,7 +24,7 @@ public class StockController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("stocks", stockService.findAll());
+        model.addAttribute("stocks", stockService.findAll(null));
         return "stock/list";
     }
 
@@ -60,7 +59,7 @@ public class StockController {
         StockDto response = stockService.update(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("stock",userDto);
+            model.addAttribute("stock", userDto);
         }
         return REDIRECT_STOCK_LIST;
     }

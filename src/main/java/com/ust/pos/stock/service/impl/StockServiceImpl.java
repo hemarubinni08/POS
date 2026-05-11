@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -25,18 +27,19 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public StockDto findByIdentifier(String identifier) {
-        return modelMapper.map(stockRepository.findByIdentifier(identifier),StockDto.class);
+        return modelMapper.map(stockRepository.findByIdentifier(identifier), StockDto.class);
     }
+
     @Override
     public StockDto save(StockDto stockDto) {
-        String identifier=stockDto.getIdentifier();
-        Stock existingStock= stockRepository.findByIdentifier(identifier);
-        if(existingStock != null){
+        String identifier = stockDto.getIdentifier();
+        Stock existingStock = stockRepository.findByIdentifier(identifier);
+        if (existingStock != null) {
             stockDto.setSuccess(false);
             stockDto.setMessage("Stock with identifier - " + identifier + " already exists");
             return stockDto;
         }
-        Stock stock=modelMapper.map(stockDto,Stock.class);
+        Stock stock = modelMapper.map(stockDto, Stock.class);
         stockRepository.save(stock);
         return stockDto;
     }
@@ -66,5 +69,20 @@ public class StockServiceImpl implements StockService {
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
         return modelMapper.map(stockRepository.findAll(), listType);
+    }
+
+    @Override
+    public List<StockDto> findAll(Pageable pageable) {
+        Type listtype = new TypeToken<List<StockDto>>() {
+        }.getType();
+        Page<Stock> stockPage = stockRepository.findAll(pageable);
+        return modelMapper.map(stockPage.getContent(), listtype);
+    }
+
+    @Override
+    public void toggleStatus(String identifier) {
+        Stock stock = stockRepository.findByIdentifier(identifier);
+        stock.setStatus(!stock.isStatus());
+        stockRepository.save(stock);
     }
 }

@@ -7,9 +7,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Stock extends CommonFields{
+public class Stock extends CommonFields {
     private String productName;
     private String warehouseName;
-    private String status;
+    private String stockStatus;
     private Integer noOfProducts;
 }

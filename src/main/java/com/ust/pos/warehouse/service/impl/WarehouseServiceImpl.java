@@ -5,7 +5,10 @@ import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,17 +26,24 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<WarehouseDto> findAll() {
-        Type listType = new TypeToken<List<WarehouseDto>>()
-        {}.getType();
+        Type listType = new TypeToken<List<WarehouseDto>>() {
+        }.getType();
         return modelMapper.map(warehouseRepository.findAll(), listType);
+    }
+
+    @Override
+    public List<WarehouseDto> findAll(Pageable pageable) {
+        Type listtype = new TypeToken<List<WarehouseDto>>() {
+        }.getType();
+        Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
+        return modelMapper.map(warehousePage.getContent(), listtype);
     }
 
     @Override
     public WarehouseDto save(WarehouseDto warehouseDto) {
         String identifier = warehouseDto.getIdentifier();
         Warehouse existingwarehouse = warehouseRepository.findByIdentifier(identifier);
-        if(existingwarehouse != null)
-        {
+        if (existingwarehouse != null) {
             warehouseDto.setMessage("Warehouse already exists");
             warehouseDto.setSuccess(false);
             return warehouseDto;
@@ -47,9 +57,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     public WarehouseDto update(WarehouseDto warehouseDto) {
         String identifier = warehouseDto.getIdentifier();
         Warehouse existingWarehouse = warehouseRepository.findByIdentifier(identifier);
-        if(existingWarehouse == null)
-        {
-            warehouseDto.setMessage("Warehouse with identifier - "+identifier+" not found");
+        if (existingWarehouse == null) {
+            warehouseDto.setMessage("Warehouse with identifier - " + identifier + " not found");
             warehouseDto.setSuccess(false);
             return warehouseDto;
         }

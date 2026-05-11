@@ -1,12 +1,14 @@
 package com.ust.pos.category.service.impl;
 
+import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
-import com.ust.pos.category.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,9 +29,8 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto save(CategoryDto categoryDto) {
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
-        if(existingCategory != null)
-        {
-            categoryDto.setMessage("Category with identifier - "+ identifier + " already exists");
+        if (existingCategory != null) {
+            categoryDto.setMessage("Category with identifier - " + identifier + " already exists");
             categoryDto.setSuccess(false);
             return categoryDto;
         }
@@ -42,9 +43,8 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto update(CategoryDto categoryDto) {
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
-        if(existingCategory == null)
-        {
-            categoryDto.setMessage("Category with identifier - "+identifier+" is not found");
+        if (existingCategory == null) {
+            categoryDto.setMessage("Category with identifier - " + identifier + " is not found");
             categoryDto.setSuccess(false);
             return categoryDto;
         }
@@ -60,8 +60,17 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAll() {
-        Type listOfType = new TypeToken<List<CategoryDto>>(){}.getType();
+        Type listOfType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
         return modelMapper.map(categoryRepository.findAll(), listOfType);
+    }
+
+    @Override
+    public List<CategoryDto> findAll(Pageable pageable) {
+        Type listtype = new TypeToken<List<CategoryDto>>() {
+        }.getType();
+        Page<Category> categoryPage = categoryRepository.findAll(pageable);
+        return modelMapper.map(categoryPage.getContent(), listtype);
     }
 
     @Override
@@ -70,9 +79,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findBySuperCategoryNotNull() {
-        Type listType = new TypeToken<List<CategoryDto>>() {
+    public List<CategoryDto> findAllWithoutNull() {
+        Type listOfType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-        return modelMapper.map(categoryRepository.findBySuperCategoryIsNot(""), listType);
+        List<CategoryDto> categoryDtos = modelMapper.map(categoryRepository.findAll(), listOfType);
+        return categoryDtos.stream().filter(c -> c.getSuperCategory() != null)
+                .toList();
     }
 }

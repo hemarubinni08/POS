@@ -7,6 +7,8 @@ import com.ust.pos.product.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,9 +29,8 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto save(ProductDto productDto) {
         String identifier = productDto.getIdentifier();
         Product existingProduct = productRepository.findByIdentifier(identifier);
-        if(existingProduct != null)
-        {
-            productDto.setMessage("Product with identifier - "+ identifier + " already exists");
+        if (existingProduct != null) {
+            productDto.setMessage("Product with identifier - " + identifier + " already exists");
             productDto.setSuccess(false);
             return productDto;
         }
@@ -42,9 +43,8 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto update(ProductDto productDto) {
         String identifier = productDto.getIdentifier();
         Product existingProduct = productRepository.findByIdentifier(identifier);
-        if(existingProduct == null)
-        {
-            productDto.setMessage("Product with identifier - "+identifier+" is not found");
+        if (existingProduct == null) {
+            productDto.setMessage("Product with identifier - " + identifier + " is not found");
             productDto.setSuccess(false);
             return productDto;
         }
@@ -60,8 +60,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAll() {
-        Type listOfType = new TypeToken<List<ProductDto>>(){}.getType();
+        Type listOfType = new TypeToken<List<ProductDto>>() {
+        }.getType();
         return modelMapper.map(productRepository.findAll(), listOfType);
+    }
+
+    @Override
+    public List<ProductDto> findAll(Pageable pageable) {
+        Type listtype = new TypeToken<List<ProductDto>>() {
+        }.getType();
+        Page<Product> productPage = productRepository.findAll(pageable);
+        return modelMapper.map(productPage.getContent(), listtype);
     }
 
     @Override

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductDto extends CommonDto{
+public class ProductDto extends CommonDto {
     private Long supplierId;
     private String category;
 }

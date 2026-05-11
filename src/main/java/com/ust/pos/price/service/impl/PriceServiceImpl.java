@@ -7,6 +7,8 @@ import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,9 +29,8 @@ public class PriceServiceImpl implements PriceService {
     public PriceDto save(PriceDto priceDto) {
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);
-        if(existingPrice != null)
-        {
-            priceDto.setMessage("Price with identifier - "+ identifier + " already exists");
+        if (existingPrice != null) {
+            priceDto.setMessage("Price with identifier - " + identifier + " already exists");
             priceDto.setSuccess(false);
             return priceDto;
         }
@@ -43,9 +44,8 @@ public class PriceServiceImpl implements PriceService {
     public PriceDto update(PriceDto priceDto) {
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);
-        if(existingPrice == null)
-        {
-            priceDto.setMessage("Price with identifier - "+identifier+" is not found");
+        if (existingPrice == null) {
+            priceDto.setMessage("Price with identifier - " + identifier + " is not found");
             priceDto.setSuccess(false);
             return priceDto;
         }
@@ -62,8 +62,17 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public List<PriceDto> findAll() {
-        Type listOfType = new TypeToken<List<PriceDto>>(){}.getType();
+        Type listOfType = new TypeToken<List<PriceDto>>() {
+        }.getType();
         return modelMapper.map(priceRepository.findAll(), listOfType);
+    }
+
+    @Override
+    public List<PriceDto> findAll(Pageable pageable) {
+        Type listtype = new TypeToken<List<PriceDto>>() {
+        }.getType();
+        Page<Price> pricePage = priceRepository.findAll(pageable);
+        return modelMapper.map(pricePage.getContent(), listtype);
     }
 
     @Override

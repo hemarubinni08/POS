@@ -71,6 +71,52 @@
             color: #856404;
         }
 
+        /* ===== Toggle Switch ===== */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 26px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: #2ecc71;
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
         .footer-actions {
             margin-top: 20px;
             display: flex;
@@ -128,16 +174,31 @@
                     <td>${stock.productName}</td>
                     <td>${stock.warehouseName}</td>
                     <td>${stock.noOfProducts}</td>
-                    <td>${stock.status}</td>
+
+                    <!-- ✅ STATUS TOGGLE -->
                     <td>
-                        <!-- ✅ EDIT -->
+                        <form action="${pageContext.request.contextPath}/stock/toggleStatus"
+                              method="post" style="margin:0;">
+                            <input type="hidden" name="identifier"
+                                   value="${stock.identifier}"/>
+
+                            <label class="toggle-switch">
+                                <input type="checkbox"
+                                       ${stock.status ? "checked" : ""}
+                                       onchange="this.form.submit()"/>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </form>
+                    </td>
+
+                    <!-- ✅ ACTIONS -->
+                    <td>
                         <a class="action-icon"
                            title="Edit"
                            href="${pageContext.request.contextPath}/stock/get?identifier=${stock.identifier}">
                             ✏️
                         </a>
 
-                        <!-- ✅ DELETE -->
                         <a class="action-icon"
                            title="Delete"
                            href="${pageContext.request.contextPath}/stock/delete?identifier=${stock.identifier}"

@@ -165,7 +165,7 @@
         <!-- ✅ Status -->
         <div class="form-group">
             <label>Status</label>
-            <form:select path="status" cssClass="form-control">
+            <form:select path="stockStatus" cssClass="form-control">
                 <form:option value="" label="-- Select Status --"/>
                 <form:option value="IN_STOCK">In Stock</form:option>
                 <form:option value="OUT_OF_STOCK">Out of Stock</form:option>
@@ -179,6 +179,5 @@
     </form:form>
 
 </div>
-
 </body>
 </html>
