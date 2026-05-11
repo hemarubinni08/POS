@@ -1,11 +1,9 @@
 package com.ust.pos.category.service.impl;
 
+import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
-import com.ust.pos.category.service.CategoryService;
-import com.ust.pos.model.Customer;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +29,8 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto save(CategoryDto categoryDto) {
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
-        if(existingCategory != null)
-        {
-            categoryDto.setMessage("Category with identifier - "+ identifier + " already exists");
+        if (existingCategory != null) {
+            categoryDto.setMessage("Category with identifier - " + identifier + " already exists");
             categoryDto.setSuccess(false);
             return categoryDto;
         }
@@ -46,9 +43,8 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto update(CategoryDto categoryDto) {
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
-        if(existingCategory == null)
-        {
-            categoryDto.setMessage("Category with identifier - "+identifier+" is not found");
+        if (existingCategory == null) {
+            categoryDto.setMessage("Category with identifier - " + identifier + " is not found");
             categoryDto.setSuccess(false);
             return categoryDto;
         }
@@ -64,7 +60,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAll() {
-        Type listOfType = new TypeToken<List<CategoryDto>>(){}.getType();
+        Type listOfType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
         return modelMapper.map(categoryRepository.findAll(), listOfType);
     }
 

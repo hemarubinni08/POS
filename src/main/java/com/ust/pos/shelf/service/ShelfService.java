@@ -1,6 +1,5 @@
 package com.ust.pos.shelf.service;
 
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.ShelfDto;
 import org.springframework.data.domain.Pageable;
 

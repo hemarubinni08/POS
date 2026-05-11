@@ -42,7 +42,6 @@ public class WebSecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
 
@@ -53,7 +52,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 
-                        .requestMatchers("/login", "/register","/api/authenticate","/api/validateToken","/swagger-ui/**","/v3/**").permitAll()
+                        .requestMatchers("/login", "/register", "/api/authenticate", "/api/validateToken", "/swagger-ui/**", "/v3/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(org.springframework.security.config.annotation.web.configurers.LogoutConfigurer::permitAll);
@@ -96,6 +95,7 @@ public class WebSecurityConfig {
                         .name(JAVA_IN_USE_SECURITY_SCHEME).type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
 
     }
+
     @Bean
     public AuthenticationProvider userDetailsAuthProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);

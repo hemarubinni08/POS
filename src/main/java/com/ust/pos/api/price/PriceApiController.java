@@ -1,7 +1,6 @@
 package com.ust.pos.api.price;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.price.service.PriceService;
@@ -20,17 +19,18 @@ public class PriceApiController extends BaseController {
 
     @GetMapping("/list")
     public List<PriceDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-        return priceService.findAll();
+        return priceService.findAll(pageable);
     }
+
     @PostMapping("/add")
     public PriceDto addPost(@RequestBody PriceDto priceDto) {
         return priceService.save(priceDto);
     }
 
     @GetMapping("/get")
-    public PriceDto update( @RequestParam String identifier) {
+    public PriceDto update(@RequestParam String identifier) {
         return priceService.findByIdentifier(identifier);
     }
 
@@ -41,9 +41,9 @@ public class PriceApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{
+        try {
             priceService.delete(identifier);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

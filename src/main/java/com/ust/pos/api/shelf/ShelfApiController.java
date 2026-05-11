@@ -1,7 +1,6 @@
 package com.ust.pos.api.shelf;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.shelf.service.ShelfService;
@@ -20,17 +19,18 @@ public class ShelfApiController extends BaseController {
 
     @GetMapping("/list")
     public List<ShelfDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-        return shelfService.findAll();
+        return shelfService.findAll(pageable);
     }
+
     @PostMapping("/add")
     public ShelfDto addPost(@RequestBody ShelfDto shelfDto) {
         return shelfService.save(shelfDto);
     }
 
     @GetMapping("/get")
-    public ShelfDto update( @RequestParam String identifier) {
+    public ShelfDto update(@RequestParam String identifier) {
         return shelfService.findByIdentifier(identifier);
     }
 
@@ -41,16 +41,16 @@ public class ShelfApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{
+        try {
             shelfService.delete(identifier);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
 
     @PostMapping("/toggleStatus")
-    public boolean toggleStatus(@RequestBody String identifier){
+    public boolean toggleStatus(@RequestBody String identifier) {
         try {
             shelfService.toggleStatus(identifier);
         } catch (Exception e) {

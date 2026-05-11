@@ -1,8 +1,8 @@
 package com.ust.pos.api.customer;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.customer.service.CustomerService;
+import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -19,9 +19,9 @@ public class CustomerApiController extends BaseController {
 
     @GetMapping("/list")
     public List<CustomerDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-        return customerService.findAll();
+        return customerService.findAll(pageable);
     }
 
     @PostMapping("/add")
@@ -30,7 +30,7 @@ public class CustomerApiController extends BaseController {
     }
 
     @GetMapping("/get")
-    public CustomerDto update( @RequestParam String identifier) {
+    public CustomerDto update(@RequestParam String identifier) {
         return customerService.findByIdentifier(identifier);
     }
 
@@ -41,9 +41,9 @@ public class CustomerApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{
+        try {
             customerService.deleteByIdentifier(identifier);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

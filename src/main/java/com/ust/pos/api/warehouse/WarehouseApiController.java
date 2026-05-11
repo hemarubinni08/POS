@@ -1,7 +1,6 @@
 package com.ust.pos.api.warehouse;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.warehouse.service.WarehouseService;
@@ -20,17 +19,18 @@ public class WarehouseApiController extends BaseController {
 
     @GetMapping("/list")
     public List<WarehouseDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-        return warehouseService.findAll();
+        return warehouseService.findAll(pageable);
     }
+
     @PostMapping("/add")
     public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.save(warehouseDto);
     }
 
     @GetMapping("/get")
-    public WarehouseDto update( @RequestParam String identifier) {
+    public WarehouseDto update(@RequestParam String identifier) {
         return warehouseService.findByIdentifier(identifier);
     }
 
@@ -41,9 +41,9 @@ public class WarehouseApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{
+        try {
             warehouseService.delete(identifier);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

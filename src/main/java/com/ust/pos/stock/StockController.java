@@ -24,7 +24,7 @@ public class StockController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("stocks", stockService.findAll());
+        model.addAttribute("stocks", stockService.findAll(null));
         return "stock/list";
     }
 
@@ -59,7 +59,7 @@ public class StockController {
         StockDto response = stockService.update(stockDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("stock",stockDto);
+            model.addAttribute("stock", stockDto);
         }
         return REDIRECT_STOCK_LIST;
     }

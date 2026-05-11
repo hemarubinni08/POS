@@ -1,7 +1,6 @@
 package com.ust.pos.api.stock;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.stock.service.StockService;
@@ -20,17 +19,18 @@ public class StockApiController extends BaseController {
 
     @GetMapping("/list")
     public List<StockDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-        return stockService.findAll();
+        return stockService.findAll(pageable);
     }
+
     @PostMapping("/add")
     public StockDto addPost(@RequestBody StockDto stockDto) {
         return stockService.save(stockDto);
     }
 
     @GetMapping("/get")
-    public StockDto update( @RequestParam String identifier) {
+    public StockDto update(@RequestParam String identifier) {
         return stockService.findByIdentifier(identifier);
     }
 
@@ -41,16 +41,16 @@ public class StockApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{
+        try {
             stockService.delete(identifier);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
 
     @PostMapping("/toggleStatus")
-    public boolean toggleStatus(@RequestBody String identifier){
+    public boolean toggleStatus(@RequestBody String identifier) {
         try {
             stockService.toggleStatus(identifier);
         } catch (Exception e) {

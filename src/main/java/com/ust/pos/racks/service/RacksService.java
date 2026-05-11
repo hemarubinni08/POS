@@ -1,6 +1,5 @@
 package com.ust.pos.racks.service;
 
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.RacksDto;
 import org.springframework.data.domain.Pageable;
 

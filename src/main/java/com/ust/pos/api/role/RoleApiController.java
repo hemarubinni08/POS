@@ -1,7 +1,6 @@
 package com.ust.pos.api.role;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.role.service.RoleService;
@@ -21,17 +20,18 @@ public class RoleApiController extends BaseController {
 
     @GetMapping("/list")
     public List<RoleDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-        return roleService.findAll();
+        return roleService.findAll(pageable);
     }
+
     @PostMapping("/add")
     public RoleDto addPost(@RequestBody RoleDto roleDto) {
         return roleService.save(roleDto);
     }
 
     @GetMapping("/get")
-    public RoleDto update( @RequestParam String identifier) {
+    public RoleDto update(@RequestParam String identifier) {
         return roleService.findByIdentifier(identifier);
     }
 
@@ -42,9 +42,9 @@ public class RoleApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{
+        try {
             roleService.delete(identifier);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

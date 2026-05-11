@@ -1,8 +1,6 @@
 package com.ust.pos.product.service.impl;
 
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.ProductDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -31,9 +29,8 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto save(ProductDto productDto) {
         String identifier = productDto.getIdentifier();
         Product existingProduct = productRepository.findByIdentifier(identifier);
-        if(existingProduct != null)
-        {
-            productDto.setMessage("Product with identifier - "+ identifier + " already exists");
+        if (existingProduct != null) {
+            productDto.setMessage("Product with identifier - " + identifier + " already exists");
             productDto.setSuccess(false);
             return productDto;
         }
@@ -46,9 +43,8 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto update(ProductDto productDto) {
         String identifier = productDto.getIdentifier();
         Product existingProduct = productRepository.findByIdentifier(identifier);
-        if(existingProduct == null)
-        {
-            productDto.setMessage("Product with identifier - "+identifier+" is not found");
+        if (existingProduct == null) {
+            productDto.setMessage("Product with identifier - " + identifier + " is not found");
             productDto.setSuccess(false);
             return productDto;
         }
@@ -64,7 +60,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAll() {
-        Type listOfType = new TypeToken<List<ProductDto>>(){}.getType();
+        Type listOfType = new TypeToken<List<ProductDto>>() {
+        }.getType();
         return modelMapper.map(productRepository.findAll(), listOfType);
     }
 

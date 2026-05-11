@@ -1,6 +1,5 @@
 package com.ust.pos.modelproduct.service;
 
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.ModelProductDto;
 import org.springframework.data.domain.Pageable;
 
@@ -16,6 +15,8 @@ public interface ModelProductService {
     List<ModelProductDto> findAll();
 
     void delete(String identifier);
+
     void toggleStatus(String identifier);
+
     List<ModelProductDto> findAll(Pageable pageable);
 }

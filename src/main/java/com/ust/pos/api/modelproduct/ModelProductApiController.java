@@ -19,9 +19,9 @@ public class ModelProductApiController extends BaseController {
 
     @GetMapping("/list")
     public List<ModelProductDto> list(@RequestBody PaginationDto paginationDto) {
-        getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-        return modelProductService.findAll();
+        return modelProductService.findAll(pageable);
     }
 
     @PostMapping("/add")
@@ -30,7 +30,7 @@ public class ModelProductApiController extends BaseController {
     }
 
     @GetMapping("/get")
-    public ModelProductDto update( @RequestParam String identifier) {
+    public ModelProductDto update(@RequestParam String identifier) {
         return modelProductService.findByIdentifier(identifier);
     }
 
@@ -41,16 +41,16 @@ public class ModelProductApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{
+        try {
             modelProductService.delete(identifier);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
 
     @PostMapping("/toggleStatus")
-    public boolean toggleStatus(@RequestBody String identifier){
+    public boolean toggleStatus(@RequestBody String identifier) {
         try {
             modelProductService.toggleStatus(identifier);
         } catch (Exception e) {

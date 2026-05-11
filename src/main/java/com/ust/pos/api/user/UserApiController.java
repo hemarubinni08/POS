@@ -1,7 +1,6 @@
 package com.ust.pos.api.user;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.user.service.UserService;
@@ -21,17 +20,18 @@ public class UserApiController extends BaseController {
 
     @GetMapping("/list")
     public List<UserDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-        return userService.findAll();
+        return userService.findAll(pageable);
     }
+
     @PostMapping("/add")
     public UserDto addPost(@RequestBody UserDto userDto) {
         return userService.save(userDto);
     }
 
     @GetMapping("/get")
-    public UserDto update( @RequestParam String username) {
+    public UserDto update(@RequestParam String username) {
         return userService.findByUserName(username);
     }
 
@@ -42,9 +42,9 @@ public class UserApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{
+        try {
             userService.delete(identifier);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

@@ -1,6 +1,5 @@
 package com.ust.pos.stock.service;
 
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.StockDto;
 import org.springframework.data.domain.Pageable;
 

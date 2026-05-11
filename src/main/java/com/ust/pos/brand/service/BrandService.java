@@ -1,7 +1,6 @@
 package com.ust.pos.brand.service;
 
 import com.ust.pos.dto.BrandDto;
-import com.ust.pos.dto.PriceDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

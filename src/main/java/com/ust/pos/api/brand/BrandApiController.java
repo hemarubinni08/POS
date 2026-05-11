@@ -1,10 +1,9 @@
 package com.ust.pos.api.brand;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.brand.service.BrandService;
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.PriceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -20,17 +19,18 @@ public class BrandApiController extends BaseController {
 
     @GetMapping("/list")
     public List<BrandDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-        return brandService.findAll();
+        return brandService.findAll(pageable);
     }
+
     @PostMapping("/add")
     public BrandDto addPost(@RequestBody BrandDto brandDto) {
         return brandService.save(brandDto);
     }
 
     @GetMapping("/get")
-    public BrandDto update( @RequestParam String identifier) {
+    public BrandDto update(@RequestParam String identifier) {
         return brandService.findByIdentifier(identifier);
     }
 
@@ -41,16 +41,16 @@ public class BrandApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{
+        try {
             brandService.delete(identifier);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
 
     @PostMapping("/toggleStatus")
-    public boolean toggleStatus(@RequestBody String identifier){
+    public boolean toggleStatus(@RequestBody String identifier) {
         try {
             brandService.toggleStatus(identifier);
         } catch (Exception e) {

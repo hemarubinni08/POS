@@ -1,8 +1,6 @@
 package com.ust.pos.unit.service.impl;
 
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.UnitDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
 import com.ust.pos.unit.service.UnitService;
@@ -32,9 +30,8 @@ public class UnitServiceImpl implements UnitService {
     public UnitDto save(UnitDto unitDto) {
         String identifier = unitDto.getIdentifier();
         Unit existingmodel = unitRepository.findByIdentifier(identifier);
-        if(existingmodel != null)
-        {
-            unitDto.setMessage("Model - "+identifier+" already exists");
+        if (existingmodel != null) {
+            unitDto.setMessage("Model - " + identifier + " already exists");
             unitDto.setSuccess(false);
             return unitDto;
         }
@@ -47,20 +44,17 @@ public class UnitServiceImpl implements UnitService {
     public UnitDto update(UnitDto unitDto) {
         String identifier = unitDto.getIdentifier();
         Optional<Unit> optionalUnit = unitRepository.findById(unitDto.getId());
-        if(optionalUnit.isEmpty()) {
+        if (optionalUnit.isEmpty()) {
             unitDto.setSuccess(false);
             return unitDto;
-        }
-
-        else{
+        } else {
             Unit existingmodel = optionalUnit.get();
             if (!identifier.equals(existingmodel.getIdentifier()) && unitRepository.findByIdentifier(identifier) != null) {
                 unitDto.setSuccess(false);
                 unitDto.setMessage("Model Already Exists");
                 return unitDto;
-            }
-            else{
-                modelMapper.map(unitDto , existingmodel);
+            } else {
+                modelMapper.map(unitDto, existingmodel);
                 unitRepository.save(existingmodel);
                 unitDto.setSuccess(true);
             }
@@ -76,7 +70,8 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public List<UnitDto> findAll() {
-        Type listType = new TypeToken<List<UnitDto>>(){}.getType();
+        Type listType = new TypeToken<List<UnitDto>>() {
+        }.getType();
         return modelMapper.map(unitRepository.findAll(), listType);
     }
 

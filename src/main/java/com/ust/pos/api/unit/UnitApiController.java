@@ -1,7 +1,6 @@
 package com.ust.pos.api.unit;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UnitDto;
 import com.ust.pos.unit.service.UnitService;
@@ -20,17 +19,18 @@ public class UnitApiController extends BaseController {
 
     @GetMapping("/list")
     public List<UnitDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-        return unitService.findAll();
+        return unitService.findAll(pageable);
     }
+
     @PostMapping("/add")
     public UnitDto addPost(@RequestBody UnitDto unitDto) {
         return unitService.save(unitDto);
     }
 
     @GetMapping("/get")
-    public UnitDto update( @RequestParam String identifier) {
+    public UnitDto update(@RequestParam String identifier) {
         return unitService.findByIdentifier(identifier);
     }
 
@@ -41,16 +41,16 @@ public class UnitApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{
+        try {
             unitService.delete(identifier);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
 
     @PostMapping("/toggleStatus")
-    public boolean toggleStatus(@RequestBody String identifier){
+    public boolean toggleStatus(@RequestBody String identifier) {
         try {
             unitService.toggleStatus(identifier);
         } catch (Exception e) {

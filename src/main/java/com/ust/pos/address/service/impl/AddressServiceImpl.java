@@ -23,7 +23,7 @@ public class AddressServiceImpl implements AddressService {
     private ModelMapper modelMapper;
 
     @Override
-    public void save(AddressDto shipping , AddressDto billing) {
+    public void save(AddressDto shipping, AddressDto billing) {
         String shippingIdentifier = shipping.getIdentifier();
         String billingIdentifier = billing.getIdentifier();
 
@@ -86,19 +86,20 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public List<AddressDto> findAll() {
-        Type listOfType = new TypeToken<List<AddressDto>>(){}.getType();
+        Type listOfType = new TypeToken<List<AddressDto>>() {
+        }.getType();
         return modelMapper.map(addressRepository.findAll(), listOfType);
     }
 
     @Override
     public AddressDto findByIdentifierAndShipping(String identifier) {
         return modelMapper.map(addressRepository.
-                findByIdentifierAndIsShippingTrue(identifier) , AddressDto.class);
+                findByIdentifierAndIsShippingTrue(identifier), AddressDto.class);
     }
 
     @Override
     public AddressDto findByIdentifierAndBilling(String identifier) {
         return modelMapper.map(addressRepository.
-                findByIdentifierAndIsBillingTrue(identifier) , AddressDto.class);
+                findByIdentifierAndIsBillingTrue(identifier), AddressDto.class);
     }
 }

@@ -1,8 +1,6 @@
 package com.ust.pos.modelproduct.service.impl;
 
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.ModelProductDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.ModelProduct;
 import com.ust.pos.model.ModelProductRepository;
 import com.ust.pos.modelproduct.service.ModelProductService;
@@ -31,9 +29,8 @@ public class ModelProductServiceImpl implements ModelProductService {
     public ModelProductDto save(ModelProductDto modelProductDto) {
         String identifier = modelProductDto.getIdentifier();
         ModelProduct existingmodel = modelProductRepository.findByIdentifier(identifier);
-        if(existingmodel != null)
-        {
-            modelProductDto.setMessage("Model - "+identifier+" already exists");
+        if (existingmodel != null) {
+            modelProductDto.setMessage("Model - " + identifier + " already exists");
             modelProductDto.setSuccess(false);
             return modelProductDto;
         }
@@ -46,9 +43,8 @@ public class ModelProductServiceImpl implements ModelProductService {
     public ModelProductDto update(ModelProductDto modelProductDto) {
         String identifier = modelProductDto.getIdentifier();
         ModelProduct existingmodel = modelProductRepository.findByIdentifier(identifier);
-        if(existingmodel == null)
-        {
-            modelProductDto.setMessage("Model - "+identifier+" not found");
+        if (existingmodel == null) {
+            modelProductDto.setMessage("Model - " + identifier + " not found");
             modelProductDto.setSuccess(false);
             return modelProductDto;
         }
@@ -64,7 +60,8 @@ public class ModelProductServiceImpl implements ModelProductService {
 
     @Override
     public List<ModelProductDto> findAll() {
-        Type listType = new TypeToken<List<ModelProductDto>>(){}.getType();
+        Type listType = new TypeToken<List<ModelProductDto>>() {
+        }.getType();
         return modelMapper.map(modelProductRepository.findAll(), listType);
     }
 

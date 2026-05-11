@@ -1,10 +1,6 @@
 package com.ust.pos.stock.service.impl;
 
-import com.ust.pos.dto.BrandDto;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.StockDto;
-import com.ust.pos.model.Brand;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.StockService;
@@ -31,18 +27,19 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public StockDto findByIdentifier(String identifier) {
-        return modelMapper.map(stockRepository.findByIdentifier(identifier),StockDto.class);
+        return modelMapper.map(stockRepository.findByIdentifier(identifier), StockDto.class);
     }
+
     @Override
     public StockDto save(StockDto stockDto) {
-        String identifier=stockDto.getIdentifier();
-        Stock existingStock= stockRepository.findByIdentifier(identifier);
-        if(existingStock != null){
+        String identifier = stockDto.getIdentifier();
+        Stock existingStock = stockRepository.findByIdentifier(identifier);
+        if (existingStock != null) {
             stockDto.setSuccess(false);
             stockDto.setMessage("Stock with identifier - " + identifier + " already exists");
             return stockDto;
         }
-        Stock stock=modelMapper.map(stockDto,Stock.class);
+        Stock stock = modelMapper.map(stockDto, Stock.class);
         stockRepository.save(stock);
         return stockDto;
     }

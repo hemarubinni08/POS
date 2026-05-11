@@ -2,10 +2,8 @@ package com.ust.pos.brand.service.impl;
 
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
-import com.ust.pos.model.Customer;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +28,8 @@ public class BrandServiceImpl implements BrandService {
     public BrandDto save(BrandDto brandDto) {
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
-        if(existingBrand != null)
-        {
-            brandDto.setMessage("Brand with identifier - "+ identifier + " already exists");
+        if (existingBrand != null) {
+            brandDto.setMessage("Brand with identifier - " + identifier + " already exists");
             brandDto.setSuccess(false);
             return brandDto;
         }
@@ -69,7 +66,8 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public List<BrandDto> findAll() {
-        Type listOfType = new TypeToken<List<BrandDto>>(){}.getType();
+        Type listOfType = new TypeToken<List<BrandDto>>() {
+        }.getType();
         return modelMapper.map(brandRepository.findAll(), listOfType);
     }
 

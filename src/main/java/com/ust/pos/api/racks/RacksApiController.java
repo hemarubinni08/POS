@@ -1,7 +1,6 @@
 package com.ust.pos.api.racks;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RacksDto;
 import com.ust.pos.racks.service.RacksService;
@@ -20,9 +19,9 @@ public class RacksApiController extends BaseController {
 
     @GetMapping("/list")
     public List<RacksDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-        return racksService.findAll();
+        return racksService.findAll(pageable);
     }
 
     @PostMapping("/add")
@@ -31,7 +30,7 @@ public class RacksApiController extends BaseController {
     }
 
     @GetMapping("/get")
-    public RacksDto update( @RequestParam String identifier) {
+    public RacksDto update(@RequestParam String identifier) {
         return racksService.findByIdentifier(identifier);
     }
 
@@ -42,16 +41,16 @@ public class RacksApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{
+        try {
             racksService.delete(identifier);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
 
     @PostMapping("/toggleStatus")
-    public boolean toggleStatus(@RequestBody String identifier){
+    public boolean toggleStatus(@RequestBody String identifier) {
         try {
             racksService.toggleStatus(identifier);
         } catch (Exception e) {

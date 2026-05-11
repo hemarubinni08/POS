@@ -7,7 +7,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Price extends CommonFields{
+public class Price extends CommonFields {
     private Long costPrice;
     private Long sellingPrice;
     private Long difference;

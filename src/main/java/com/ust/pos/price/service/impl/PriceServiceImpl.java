@@ -1,8 +1,6 @@
 package com.ust.pos.price.service.impl;
 
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
@@ -31,9 +29,8 @@ public class PriceServiceImpl implements PriceService {
     public PriceDto save(PriceDto priceDto) {
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);
-        if(existingPrice != null)
-        {
-            priceDto.setMessage("Price with identifier - "+ identifier + " already exists");
+        if (existingPrice != null) {
+            priceDto.setMessage("Price with identifier - " + identifier + " already exists");
             priceDto.setSuccess(false);
             return priceDto;
         }
@@ -47,9 +44,8 @@ public class PriceServiceImpl implements PriceService {
     public PriceDto update(PriceDto priceDto) {
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);
-        if(existingPrice == null)
-        {
-            priceDto.setMessage("Price with identifier - "+identifier+" is not found");
+        if (existingPrice == null) {
+            priceDto.setMessage("Price with identifier - " + identifier + " is not found");
             priceDto.setSuccess(false);
             return priceDto;
         }
@@ -66,7 +62,8 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public List<PriceDto> findAll() {
-        Type listOfType = new TypeToken<List<PriceDto>>(){}.getType();
+        Type listOfType = new TypeToken<List<PriceDto>>() {
+        }.getType();
         return modelMapper.map(priceRepository.findAll(), listOfType);
     }
 

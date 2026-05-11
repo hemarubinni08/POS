@@ -1,8 +1,6 @@
 package com.ust.pos.user.service.impl;
 
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.UserDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
@@ -69,9 +67,9 @@ public class UserServiceImpl implements UserService {
         } else {
             User existingUser = userOptional.get();
             if (!username.equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(username) != null) {
-                    userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
-                    userDto.setSuccess(false);
-                    return userDto;
+                userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
+                userDto.setSuccess(false);
+                return userDto;
 
             }
             modelMapper.map(userDto, existingUser);
@@ -82,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(String username) {
-         userRepository.deleteByUsername(username);
+        userRepository.deleteByUsername(username);
     }
 
     @Override

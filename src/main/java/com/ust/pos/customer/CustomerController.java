@@ -23,17 +23,15 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/list")
-    public String home(Model model)
-    {
+    public String home(Model model) {
         model.addAttribute("customers", customerService.findAll(null));
         return "customer/list";
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute("customerDto") CustomerDto customerDto ,
+    public String add(Model model, @ModelAttribute("customerDto") CustomerDto customerDto,
                       @ModelAttribute("billing") AddressDto billing,
-                      @ModelAttribute("shipping") AddressDto shipping)
-    {
+                      @ModelAttribute("shipping") AddressDto shipping) {
         return "customer/add";
     }
 
@@ -49,8 +47,7 @@ public class CustomerController {
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String identifier)
-    {
+    public String update(Model model, @RequestParam String identifier) {
         CustomerDto customerDto = customerService.findByIdentifier(identifier);
         model.addAttribute("customers", customerService.findAll());
         model.addAttribute("customerDto", customerDto);
@@ -60,11 +57,9 @@ public class CustomerController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute CustomerDto customerDto)
-    {
+    public String updatePost(Model model, @ModelAttribute CustomerDto customerDto) {
         CustomerDto customerDto1 = customerService.update(customerDto);
-        if(!customerDto1.isSuccess())
-        {
+        if (!customerDto1.isSuccess()) {
             model.addAttribute("message", customerDto1.getMessage());
             model.addAttribute("customerDto", customerDto);
             return "customer/customer";
@@ -73,8 +68,7 @@ public class CustomerController {
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam String identifier)
-    {
+    public String delete(Model model, @RequestParam String identifier) {
         customerService.deleteByIdentifier(identifier);
         addressService.delete(identifier);
         return REDIRECT_CUSTOMER_LIST;

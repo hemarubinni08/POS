@@ -43,8 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
         AddressDto billing = customerDto.getBilling();
         AddressDto shipping = customerDto.getShipping();
         Customer existingcustomer = customerRepository.findByIdentifier(identifier);
-        if(existingcustomer != null)
-        {
+        if (existingcustomer != null) {
             customerDto.setMessage("Customer already exists");
             customerDto.setSuccess(false);
             return customerDto;
@@ -63,8 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer existingcustomer = customerRepository.findByIdentifier(identifier);
         AddressDto billing = customerDto.getBilling();
         AddressDto shipping = customerDto.getShipping();
-        if(existingcustomer == null)
-        {
+        if (existingcustomer == null) {
             customerDto.setMessage("Customer not found");
             customerDto.setSuccess(false);
             return customerDto;
@@ -73,7 +71,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
         billing.setIdentifier(customerDto.getIdentifier());
         shipping.setIdentifier(customerDto.getIdentifier());
-        addressService.update(shipping,billing);
+        addressService.update(shipping, billing);
         return customerDto;
     }
 
@@ -88,7 +86,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDto> findAll() {
-        Type listtype = new TypeToken<List<CustomerDto>>(){}.getType();
+        Type listtype = new TypeToken<List<CustomerDto>>() {
+        }.getType();
         return modelMapper.map(customerRepository.findAll(), listtype);
     }
 

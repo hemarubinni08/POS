@@ -17,7 +17,7 @@ public class RoleController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("roles", roleService.findAll(null));
         return "role/list";
     }
 
@@ -48,7 +48,7 @@ public class RoleController {
         RoleDto response = roleService.update(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("role",userDto);
+            model.addAttribute("role", userDto);
         }
         return REDIRECT_ROLE_LIST;
     }
