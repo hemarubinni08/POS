@@ -112,6 +112,7 @@
 
                             <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Identifier</th>
                                 <th>Path</th>
                                 <th>Roles</th>

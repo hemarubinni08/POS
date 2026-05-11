@@ -89,6 +89,8 @@ body {
     padding-top: 20px;
     z-index: 4;
     border-right: 1px solid rgba(148,163,184,0.25);
+
+    overflow-y: auto;
 }
 
 .sidebar.active {

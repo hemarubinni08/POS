@@ -143,34 +143,28 @@
 
                                 <td>${user.id}</td>
 
-                                <!-- EMAIL (NO HYPERLINK) -->
                                 <td>
                                     ${user.username}
                                 </td>
-
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
 
                                 <td class="d-flex justify-content-center gap-2">
 
-                                    <!-- EDIT ICON -->
                                     <a href="/user/get?username=${user.username}"
                                        class="icon-btn edit-btn"
                                        title="Edit">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
 
-                                    <!-- DELETE ICON -->
                                     <a href="/user/delete?username=${user.username}"
                                        class="icon-btn delete-btn"
                                        onclick="return confirm('Are you sure?');"
                                        title="Delete">
                                         <i class="bi bi-trash"></i>
                                     </a>
-
                                 </td>
-
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -178,7 +172,6 @@
                     </table>
                 </div>
             </c:if>
-
         </div>
 
         <div class="card-footer text-center">
@@ -191,7 +184,6 @@
                 User Management System
             </div>
         </div>
-
     </div>
 </div>
 </body>
