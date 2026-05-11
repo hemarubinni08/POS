@@ -17,7 +17,7 @@ public class UserControllerApi extends BaseController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return userService.findAll(pageable);

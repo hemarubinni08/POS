@@ -17,7 +17,7 @@ public class StockControllerApi extends BaseController {
     @Autowired
     private StockService stockService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<StockDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return stockService.findAll(pageable);

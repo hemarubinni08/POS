@@ -22,7 +22,7 @@ public class CustomerControllerApi extends BaseController {
     @Autowired
     private AddressService addressService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<CustomerDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return customerService.findAll(pageable);

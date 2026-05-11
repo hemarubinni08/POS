@@ -87,7 +87,7 @@
             <div class="user-profile-box">
                 <div class="avatar-circle" id="userInitial"><sec:authentication property="principal.username" /></div>
                 <div class="user-info">
-                    <span style="display:block; font-size: 10px; color: var(--text-gray); text-transform: uppercase;">Operator</span>
+                    <span style="display:block; font-size: 10px; color: var(--text-gray); text-transform: uppercase;">LOGGED IN AS:</span>
                     <span style="display:block; font-size: 13px; font-weight: 700; color: white;"><sec:authentication property="principal.username" /></span>
                 </div>
             </div>
