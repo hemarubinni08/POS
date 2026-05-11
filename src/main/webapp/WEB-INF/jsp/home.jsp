@@ -45,12 +45,20 @@
             top: 55px;
             left: 0;
             width: 260px;
+
             height: calc(100vh - 55px);
+
             background: #1c1c1c;
             transform: translateX(-100%);
             transition: transform 0.3s ease;
+
             padding: 15px;
             box-shadow: 4px 0 15px rgba(0,0,0,0.8);
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            box-sizing: border-box;
         }
 
         #menuToggle:checked ~ .side-menu {

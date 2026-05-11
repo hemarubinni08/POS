@@ -92,7 +92,11 @@
 
         <div class="mb-3">
             <label>Phone Number</label>
-            <form:input path="phoneNo" minlength="10" cssClass="form-control" type="number" required="true"/>
+            <form:input path="phoneNo"
+            minlength="10"
+            cssClass="form-control"
+            type="number"
+            required="true"/>
         </div>
 
         <div class="mb-3">

@@ -27,7 +27,7 @@
         }
 
         .btn-pos-update {
-            background-color: #4b6cb7; /* matches header blue */
+            background-color: #4b6cb7;
             border-color: #4b6cb7;
             color: #fff;
         }

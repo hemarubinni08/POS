@@ -121,7 +121,6 @@
         background: rgba(255,255,255,0.15);
     }
 
-    /* Move form slightly right */
     .register-card {
         border-radius: 0 8px 8px 0;
     }
