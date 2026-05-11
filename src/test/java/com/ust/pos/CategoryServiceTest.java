@@ -1,18 +1,20 @@
 package com.ust.pos;
 
+import com.ust.pos.category.service.impl.CategoryServiceImpl;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
-import com.ust.pos.category.service.impl.CategoryServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -112,10 +114,13 @@ class CategoryServiceTest {
         List<Category> categorys = List.of(category);
         List<CategoryDto> categoryDtos = List.of(categoryDto);
 
-        Mockito.when(categoryRepository.findAll()).thenReturn(categorys);
+        Page<Category> userPage = new PageImpl<>(categorys, PageRequest.of(0, 2), categorys.size());
+
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Mockito.when(categoryRepository.findAll(pageable)).thenReturn(userPage);
         Mockito.when(modelMapper.map(Mockito.eq(categorys), Mockito.any(java.lang.reflect.Type.class))).thenReturn(categoryDtos);
 
-        List<CategoryDto> response = categoryService.findAll();
+        List<CategoryDto> response = categoryService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }

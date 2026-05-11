@@ -117,6 +117,15 @@
                     <form:errors path="identifier" cssClass="text-danger" style="font-size: 12px;"/>
                 </div>
 
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the model..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
+                </div>
+
+
                 <div class="mt-2" style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">
                     Note: Status will be <strong>Active</strong> by default.
                 </div>

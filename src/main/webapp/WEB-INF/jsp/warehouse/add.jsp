@@ -156,8 +156,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Location Name</label>
-                            <form:input path="name" class="input-control" placeholder="e.g. Trivandrum" required="true"/>
+                            <label>Warehouse Identifier</label>
+                            <form:input path="identifier" class="input-control" placeholder="e.g. KL-01-04" required="true"/>
                         </div>
                     </div>
                 </div>
@@ -178,6 +178,14 @@
                             <form:textarea path="address" class="input-control" rows="3" placeholder="Enter complete facility address..." required="true" style="resize: none;"/>
                         </div>
                     </div>
+                </div>
+
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the warehouse..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
                 </div>
 
                 <button type="submit" class="btn-submit">Register Warehouse</button>

@@ -7,6 +7,7 @@ import com.ust.pos.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -26,17 +27,17 @@ public class UserController {
     private NodeService nodeService;
 
     @GetMapping("/list")
-    public String home(Model model) {
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("roles", roleService.findAll());
+    public String home(Model model, Pageable pageable) {
+        model.addAttribute("users", userService.findAll(pageable));
+        model.addAttribute("roles", roleService.findAll(pageable));
         model.addAttribute("nodes", nodeService.getNodesForRoles());
         return "user/list";
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String username, @ModelAttribute UserDto userDto) {
+    public String update(Model model, @RequestParam String username, @ModelAttribute UserDto userDto, Pageable pageable) {
         UserDto response = userService.findByUserName(username);
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("roles", roleService.findAll(pageable));
         model.addAttribute("user", response);
         model.addAttribute("userDto", response);
         return "user/user";

@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +14,7 @@
             --primary-navy: #1e293b;
             --accent-blue: #2563eb;
             --success-green: #10b981;
-            --error-red: #ef4444;
+            --danger-red: #ef4444;
             --bg-body: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #1e293b;
@@ -24,37 +23,26 @@
         }
 
         body {
-            margin: 0;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            min-height: 100vh;
+            margin: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-body); color: var(--text-main); min-height: 100vh;
         }
 
         .top-navbar {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(8px);
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 40px;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px);
+            height: 70px; display: flex; align-items: center;
+            justify-content: space-between; padding: 0 40px;
+            border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000;
         }
 
         .btn-home {
-            display: flex;
-            align-items: center; gap: 8px;
+            display: flex; align-items: center; gap: 8px;
             text-decoration: none; color: var(--primary-navy);
             font-weight: 700; font-size: 14px; padding: 8px 16px;
             border-radius: 8px; background: #f1f5f9; transition: all 0.2s;
         }
         .btn-home:hover { background: #e2e8f0; transform: translateY(-1px); }
 
-        .main-content { padding: 40px; max-width: 1300px; margin: 0 auto; width: 100%; }
+        .main-content { padding: 40px; max-width: 1200px; margin: 0 auto; width: 100%; }
 
         .data-card {
             background: var(--card-bg); border-radius: 16px;
@@ -76,26 +64,33 @@
         }
 
         .brand-tag {
-            padding: 6px 14px; background-color: #f1f5f9;
-            color: var(--primary-navy); border-radius: 8px;
-            font-size: 13px; font-weight: 800; border: 1px solid var(--border-color);
+            padding: 4px 12px; background-color: #f1f5f9;
+            color: var(--primary-navy); border-radius: 6px;
+            font-size: 13px; font-weight: 700; border: 1px solid var(--border-color);
             text-transform: uppercase;
         }
 
-        /* Toggle Switch Customization */
-        .form-check-input:checked {
-            background-color: var(--success-green) !important;
-            border-color: var(--success-green) !important;
+        /* --- INFO CIRCLE STYLES --- */
+        .info-circle {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 20px; height: 20px; background: #eff6ff; color: var(--accent-blue);
+            border-radius: 50%; font-size: 11px; font-weight: 800;
+            cursor: pointer; transition: all 0.2s; border: 1.5px solid #dbeafe;
+            font-style: normal;
+        }
+        .info-circle:hover { background: var(--accent-blue); color: white; transform: scale(1.1); }
+
+        .popover {
+            border-radius: 10px; border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 5px;
         }
 
-        .status-label {
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.02em;
-        }
-
+        .status-label { font-size: 11px; font-weight: 800; letter-spacing: 0.02em; }
         .text-active { color: var(--success-green); }
-        .text-inactive { color: var(--text-muted); }
+        .text-inactive { color: var(--danger-red); }
+
+        .form-check-input { cursor: pointer; }
+        .form-check-input:checked { background-color: var(--success-green) !important; border-color: var(--success-green) !important; }
 
         .btn-op { border-radius: 8px; font-weight: 700; font-size: 13px; }
 
@@ -127,7 +122,7 @@
             <div class="card-header-custom">
                 <div>
                     <h4 class="m-0" style="font-weight: 800; color: var(--primary-navy);">Brand Management</h4>
-                    <p class="m-0 text-muted" style="font-size: 13px;">Control brand visibility and manufacturer records.</p>
+                    <p class="m-0 text-muted" style="font-size: 13px;">View and manage brands using their unique identifiers.</p>
                 </div>
                 <a href="${pageContext.request.contextPath}/brand/add" class="btn btn-primary"
                    style="border-radius: 10px; font-weight: 700; padding: 10px 24px; background-color: var(--accent-blue); border: none;">
@@ -140,7 +135,7 @@
                     <thead>
                         <tr>
                             <th class="ps-4">System ID</th>
-                            <th>Brand Name</th>
+                            <th>Brand Identifier</th>
                             <th>Availability Status</th>
                             <th class="text-end pe-4">Operations</th>
                         </tr>
@@ -155,9 +150,18 @@
                                         </td>
 
                                         <td>
-                                            <span class="brand-tag">
-                                                <c:out value="${brand.identifier}" />
-                                            </span>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="brand-tag">
+                                                    <c:out value="${brand.identifier}" />
+                                                </span>
+
+                                                <%-- CLICKABLE INFO ICON --%>
+                                                <i class="info-circle"
+                                                   data-bs-toggle="popover"
+                                                   data-bs-trigger="click"
+                                                   data-bs-placement="right"
+                                                   data-bs-content="${not empty brand.description ? brand.description : 'No description provided.'}">i</i>
+                                            </div>
                                         </td>
 
                                         <td>
@@ -165,7 +169,7 @@
                                                 <input class="form-check-input status-toggle" type="checkbox" role="switch"
                                                        data-id="${brand.identifier}"
                                                        ${brand.status ? 'checked' : ''}
-                                                       style="width: 38px; height: 19px; cursor: pointer;">
+                                                       style="width: 34px; height: 17px;">
                                                 <label class="ms-2 status-label ${brand.status ? 'text-active' : 'text-inactive'}">
                                                     ${brand.status ? 'ACTIVE' : 'INACTIVE'}
                                                 </label>
@@ -185,7 +189,7 @@
                                 </c:forEach>
                             </c:when>
                             <c:otherwise>
-                                <tr><td colspan="4" class="text-center py-5 text-muted">No brands found in the inventory.</td></tr>
+                                <tr><td colspan="4" class="text-center py-5 text-muted">No brands found.</td></tr>
                             </c:otherwise>
                         </c:choose>
                     </tbody>
@@ -194,44 +198,55 @@
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        // Inline Status Update using Fetch API
-        document.querySelectorAll('.status-toggle').forEach(toggle => {
-            toggle.addEventListener('change', function() {
-                const identifier = this.getAttribute('data-id');
-                const isChecked = this.checked;
-                const label = this.parentElement.querySelector('.status-label');
-                const toast = document.getElementById("toast");
+        // INITIALIZE POPOVERS
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+            var popoverList = popoverTriggerList.map(function (el) {
+                return new bootstrap.Popover(el)
+            });
 
-                // Update UI instantly
-                label.innerText = isChecked ? 'ACTIVE' : 'INACTIVE';
-                label.className = `ms-2 status-label ${isChecked ? 'text-active' : 'text-inactive'}`;
-
-                // Send request to Controller
-                fetch(`${pageContext.request.contextPath}/brand/toggleStatus?identifier=` + identifier + `&status=` + isChecked, {
-                    method: 'POST'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // Show Success Toast
-                        toast.className = "show";
-                        setTimeout(() => { toast.className = ""; }, 3000);
-                    } else {
-                        // Revert on failure
-                        this.checked = !isChecked;
-                        label.innerText = !isChecked ? 'ACTIVE' : 'INACTIVE';
-                        label.className = `ms-2 status-label ${!isChecked ? 'text-active' : 'text-inactive'}`;
-                        alert("Critical: Could not update brand status. Verify backend connection.");
+            document.addEventListener('click', function (e) {
+                popoverTriggerList.forEach(function (el) {
+                    if (!el.contains(e.target)) {
+                        const instance = bootstrap.Popover.getInstance(el);
+                        if (instance) instance.hide();
                     }
-                })
-                .catch(err => {
-                    console.error("Error:", err);
-                    alert("Network error. Status sync failed.");
                 });
             });
         });
 
-        // Handle page load messages (if any)
+        // AJAX Status Update
+        document.querySelectorAll('.status-toggle').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const id = this.getAttribute('data-id');
+                const isChecked = this.checked;
+                const label = this.parentElement.querySelector('.status-label');
+                const toast = document.getElementById("toast");
+
+                fetch(`${pageContext.request.contextPath}/brand/toggleStatus?identifier=` + id + `&status=` + isChecked, {
+                    method: 'POST'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        label.innerText = isChecked ? 'ACTIVE' : 'INACTIVE';
+                        label.className = `ms-2 status-label ${isChecked ? 'text-active' : 'text-inactive'}`;
+                        toast.className = "show";
+                        setTimeout(() => { toast.className = ""; }, 3000);
+                    } else {
+                        this.checked = !isChecked;
+                        alert("Error: Database sync failed.");
+                    }
+                })
+                .catch(err => {
+                    console.error("Error:", err);
+                    alert("Network error.");
+                });
+            });
+        });
+
         window.onload = function() {
             const msg = "${message}";
             if (msg && msg.trim() !== "") {

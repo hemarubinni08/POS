@@ -7,6 +7,7 @@ import com.ust.pos.models.service.ModelsService;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +29,8 @@ public class ProductController {
     ModelsService modelsService;
 
     @GetMapping("/list")
-    public String home(Model model, @ModelAttribute ProductDto productDto) {
-        model.addAttribute("products", productService.findAll());
+    public String home(Model model, @ModelAttribute ProductDto productDto, Pageable pageable) {
+        model.addAttribute("products", productService.findAll(pageable));
         return "product/list";
     }
 

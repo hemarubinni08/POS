@@ -41,7 +41,7 @@
             <div class="card-header-custom">
                 <h4 class="m-0" style="font-weight: 800;">Add New Customer</h4>
                 <c:if test="${param.error eq 'true'}">
-                    <div class="alert-error">Submission Failed: Please ensure numbers are filled (use 0 if empty).</div>
+                    <div class="alert-error">Submission Failed: Phone Number Already exists.</div>
                 </c:if>
             </div>
 

@@ -110,13 +110,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Name</label>
-                    <form:input path="name" class="input-control"/>
-                </div>
-
-                <div class="form-group">
                     <label></label>
                     <form:hidden path="status"/>
+                </div>
+
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the shelf..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
                 </div>
 
                 <button type="submit" class="btn-submit mt-2">Update Shelf</button>

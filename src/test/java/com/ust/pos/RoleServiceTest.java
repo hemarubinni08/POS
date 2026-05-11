@@ -7,12 +7,14 @@ import com.ust.pos.role.service.impl.RoleServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -131,10 +133,14 @@ class RoleServiceTest {
         List<Role> roles = List.of(role);
         List<RoleDto> roleDtos = List.of(roleDto);
 
-        Mockito.when(roleRepository.findAll()).thenReturn(roles);
+        Page<Role> rolePage = new PageImpl<>(roles, PageRequest.of(0, 2), roles.size());
+
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+
+        Mockito.when(roleRepository.findAll(pageable)).thenReturn(rolePage);
         Mockito.when(modelMapper.map(Mockito.eq(roles), Mockito.any(java.lang.reflect.Type.class))).thenReturn(roleDtos);
 
-        List<RoleDto> response = roleService.findAll();
+        List<RoleDto> response = roleService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }

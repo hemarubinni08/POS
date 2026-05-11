@@ -150,6 +150,14 @@
                     <div class="helper-text">
                         <i class="bi bi-info-circle"></i> Hold <strong>Ctrl</strong> (Win) or <strong>Cmd</strong> (Mac) to select multiple shelves.
                     </div>
+
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the rack..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
+                </div>
                 </div>
 
                 <button type="submit" class="btn-submit">Save Racks Configuration</button>

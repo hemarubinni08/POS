@@ -229,7 +229,7 @@
                                 <form:checkboxes path="warehouses"
                                                 items="${warehouses}"
                                                 itemValue="identifier"
-                                                itemLabel="location"
+                                                itemLabel="identifier"
                                                 element="div" />
                             </c:when>
                             <c:otherwise>
@@ -237,6 +237,14 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
+                </div>
+
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the stock..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center mt-4">

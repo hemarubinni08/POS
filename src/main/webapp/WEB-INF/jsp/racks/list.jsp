@@ -69,13 +69,42 @@
             font-size: 13px; font-weight: 700; border: 1px solid var(--border-color);
         }
 
+        /* --- INFO CIRCLE STYLES --- */
+        .info-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: #eff6ff;
+            color: var(--accent-blue);
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1.5px solid #dbeafe;
+            font-style: normal;
+        }
+        .info-circle:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .popover {
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            padding: 5px;
+        }
+
         .shelfs-badge {
             padding: 4px 12px; background-color: #eff6ff;
             color: var(--accent-blue); border-radius: 8px;
             font-size: 12px; font-weight: 700;
         }
 
-        /* Interactive Status Label Styles */
         .status-label { font-size: 11px; font-weight: 800; letter-spacing: 0.02em; }
         .text-active { color: var(--success-green); }
         .text-inactive { color: var(--danger-red); }
@@ -142,9 +171,18 @@
                                         </td>
 
                                         <td>
-                                            <span class="racks-tag">
-                                                <c:out value="${r.identifier}" />
-                                            </span>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="racks-tag">
+                                                    <c:out value="${r.identifier}" />
+                                                </span>
+
+                                                <%-- CLICKABLE INFO ICON (NO TITLE) --%>
+                                                <i class="info-circle"
+                                                   data-bs-toggle="popover"
+                                                   data-bs-trigger="click"
+                                                   data-bs-placement="right"
+                                                   data-bs-content="${not empty r.description ? r.description : 'No description provided.'}">i</i>
+                                            </div>
                                         </td>
 
                                         <td>
@@ -155,7 +193,6 @@
 
                                         <td>
                                             <div class="form-check form-switch d-flex align-items-center">
-                                                <%-- AJAX status-toggle class and data-id attribute added --%>
                                                 <input class="form-check-input status-toggle" type="checkbox" role="switch"
                                                        data-id="${r.identifier}"
                                                        ${r.status ? 'checked' : ''}
@@ -188,7 +225,27 @@
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
+        // INITIALIZE POPOVERS
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+            var popoverList = popoverTriggerList.map(function (el) {
+                return new bootstrap.Popover(el)
+            });
+
+            // Close popover when clicking outside
+            document.addEventListener('click', function (e) {
+                popoverTriggerList.forEach(function (el) {
+                    if (!el.contains(e.target)) {
+                        const instance = bootstrap.Popover.getInstance(el);
+                        if (instance) instance.hide();
+                    }
+                });
+            });
+        });
+
         // AJAX Toggle Logic for Racks
         document.querySelectorAll('.status-toggle').forEach(toggle => {
             toggle.addEventListener('change', function() {
@@ -197,11 +254,9 @@
                 const label = this.parentElement.querySelector('.status-label');
                 const toast = document.getElementById("toast");
 
-                // Immediate UI update for smooth feel
                 label.innerText = isChecked ? 'ACTIVE' : 'INACTIVE';
                 label.className = `ms-2 status-label ${isChecked ? 'text-active' : 'text-inactive'}`;
 
-                // Async fetch call to the backend
                 fetch(`${pageContext.request.contextPath}/racks/toggle?identifier=` + identifier + `&status=` + isChecked, {
                     method: 'POST'
                 })
@@ -211,7 +266,6 @@
                         toast.className = "show";
                         setTimeout(() => { toast.className = ""; }, 3000);
                     } else {
-                        // Revert the toggle if database update fails
                         this.checked = !isChecked;
                         label.innerText = !isChecked ? 'ACTIVE' : 'INACTIVE';
                         label.className = `ms-2 status-label ${!isChecked ? 'text-active' : 'text-inactive'}`;
@@ -225,7 +279,6 @@
             });
         });
 
-        // Toast handling for redirect messages
         window.onload = function() {
             const msg = "${message}";
             if (msg && msg.trim() !== "") {

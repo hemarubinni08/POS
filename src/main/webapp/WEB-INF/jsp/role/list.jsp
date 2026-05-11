@@ -31,7 +31,6 @@
             min-height: 100vh;
         }
 
-        /* --- Top Navbar with Home Redirect --- */
         .top-navbar {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(8px);
@@ -61,7 +60,6 @@
         }
         .btn-home:hover { background: #e2e8f0; transform: translateY(-1px); }
 
-        /* --- Content Layout --- */
         .main-content {
             padding: 40px;
             max-width: 1200px;
@@ -70,7 +68,6 @@
             box-sizing: border-box;
         }
 
-        /* --- Table/Card Styling --- */
         .data-card {
             background: var(--card-bg);
             border-radius: 16px;
@@ -105,6 +102,36 @@
             padding: 6px 12px;
             border-radius: 8px;
             font-size: 13px;
+        }
+
+        /* --- INFO CIRCLE STYLES --- */
+        .info-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: #eff6ff;
+            color: var(--accent-blue);
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1.5px solid #dbeafe;
+            font-style: normal;
+        }
+        .info-circle:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .popover {
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            padding: 5px;
         }
 
         .btn-op {
@@ -154,7 +181,7 @@
                     <p class="m-0 text-muted" style="font-size: 13px;">Define and manage security roles for system access.</p>
                 </div>
                 <a href="${pageContext.request.contextPath}/role/add" class="btn btn-primary shadow-sm"
-                   style="border-radius: 10px; font-weight: 700; padding: 10px 24px;">
+                   style="border-radius: 10px; font-weight: 700; padding: 10px 24px; background-color: var(--accent-blue); border: none;">
                     + Define New Role
                 </a>
             </div>
@@ -174,13 +201,27 @@
                                 <c:forEach var="role" items="${roles}">
                                     <tr>
                                         <td class="ps-4 text-muted" style="font-family: monospace; font-size: 14px;">#${role.id}</td>
-                                        <td><span class="role-badge">${role.identifier}</span></td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="role-badge">${role.identifier}</span>
+
+                                                <%-- CLICKABLE INFO ICON (NO TITLE) --%>
+                                                <i class="info-circle"
+                                                   data-bs-toggle="popover"
+                                                   data-bs-trigger="click"
+                                                   data-bs-placement="right"
+                                                   data-bs-content="${not empty role.description ? role.description : 'No description provided.'}">i</i>
+                                            </div>
+                                        </td>
                                         <td class="text-end pe-4">
                                             <a class="btn btn-outline-danger btn-sm px-3 btn-op"
                                                href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
                                                onclick="return confirm('Deleting this role may affect user permissions. Continue?');">
                                                 Remove Role
                                             </a>
+                                            <a class="btn btn-outline-primary btn-sm px-3 btn-op"
+                                                href="${pageContext.request.contextPath}/racks/get?identifier=${r.identifier}">Edit</a>
+
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -195,7 +236,27 @@
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
+        // INITIALIZE POPOVERS
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+            var popoverList = popoverTriggerList.map(function (el) {
+                return new bootstrap.Popover(el)
+            });
+
+            // Close popover when clicking outside
+            document.addEventListener('click', function (e) {
+                popoverTriggerList.forEach(function (el) {
+                    if (!el.contains(e.target)) {
+                        const instance = bootstrap.Popover.getInstance(el);
+                        if (instance) instance.hide();
+                    }
+                });
+            });
+        });
+
         window.onload = function() {
             const msg = "${message}";
             if (msg && msg.trim() !== "") {

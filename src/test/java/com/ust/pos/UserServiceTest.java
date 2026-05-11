@@ -12,8 +12,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -147,10 +149,12 @@ class UserServiceTest {
         List<User> users = List.of(user);
         List<UserDto> userDtos = List.of(userDto);
 
-        Mockito.when(userRepository.findAll()).thenReturn(users);
-        Mockito.when(modelMapper.map(Mockito.eq(users), Mockito.any(java.lang.reflect.Type.class))).thenReturn(userDtos);
+        Page<User> userPage = new PageImpl<>(users, PageRequest.of(0, 2), users.size());
 
-        List<UserDto> response = userService.findAll();
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Mockito.when(userRepository.findAll(pageable)).thenReturn(userPage);
+        Mockito.when(modelMapper.map(Mockito.eq(users), Mockito.any(java.lang.reflect.Type.class))).thenReturn(userDtos);
+        List<UserDto> response = userService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }

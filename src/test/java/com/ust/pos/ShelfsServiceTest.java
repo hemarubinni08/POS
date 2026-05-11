@@ -7,12 +7,14 @@ import com.ust.pos.shelfs.service.impl.ShelfsServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -112,10 +114,14 @@ class ShelfsServiceTest {
         List<Shelfs> shelfss = List.of(shelfs);
         List<ShelfsDto> shelfsDtos = List.of(shelfsDto);
 
-        Mockito.when(shelfsRepository.findAll()).thenReturn(shelfss);
+        Page<Shelfs> shelfsPage = new PageImpl<>(shelfss, PageRequest.of(0, 2), shelfss.size());
+
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+
+        Mockito.when(shelfsRepository.findAll(pageable)).thenReturn(shelfsPage);
         Mockito.when(modelMapper.map(Mockito.eq(shelfss), Mockito.any(java.lang.reflect.Type.class))).thenReturn(shelfsDtos);
 
-        List<ShelfsDto> response = shelfsService.findAll();
+        List<ShelfsDto> response = shelfsService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }

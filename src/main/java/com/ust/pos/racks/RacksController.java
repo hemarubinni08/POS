@@ -4,6 +4,7 @@ import com.ust.pos.dto.RacksDto;
 import com.ust.pos.racks.service.RacksService;
 import com.ust.pos.shelfs.service.ShelfsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,15 +21,15 @@ public class RacksController {
     ShelfsService shelfsService;
 
     @GetMapping("/list")
-    public String home(Model model, @ModelAttribute RacksDto racksDto) {
-        model.addAttribute(RACKS, racksService.findAll());
+    public String home(Model model, @ModelAttribute RacksDto racksDto, Pageable pageable) {
+        model.addAttribute(RACKS, racksService.findAll(pageable));
         return "racks/list";
     }
 
     @GetMapping("/add")
-    public String addWarehouse(@ModelAttribute RacksDto racksDto, Model model) {
+    public String addWarehouse(@ModelAttribute RacksDto racksDto, Model model, Pageable pageable) {
         model.addAttribute("shelfs", shelfsService.findAllActive());
-        model.addAttribute(RACKS, racksService.findAll());
+        model.addAttribute(RACKS, racksService.findAll(pageable));
         return "racks/add";
     }
 
@@ -48,10 +49,10 @@ public class RacksController {
     }
 
     @GetMapping("/get")
-    public String update(@RequestParam String identifier, Model model, @ModelAttribute RacksDto racksDto) {
+    public String update(@RequestParam String identifier, Model model, @ModelAttribute RacksDto racksDto, Pageable pageable) {
         RacksDto racksDto1 = racksService.findByIdentifier(identifier);
         model.addAttribute("shelfs", shelfsService.findAllActive());
-        model.addAttribute(RACKS, racksService.findAll());
+        model.addAttribute(RACKS, racksService.findAll(pageable));
         model.addAttribute("racksDto", racksDto1);
         return "racks/racks";
     }

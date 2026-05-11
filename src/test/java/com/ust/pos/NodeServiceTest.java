@@ -3,21 +3,23 @@ package com.ust.pos;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
+import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.node.service.impl.NodeServiceImpl;
 import org.junit.jupiter.api.Assertions;
-import com.ust.pos.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -133,10 +135,14 @@ class NodeServiceTest {
         List<Node> nodes = List.of(node);
         List<NodeDto> nodeDtos = List.of(nodeDto);
 
-        Mockito.when(nodeRepository.findAll()).thenReturn(nodes);
+        Page<Node> nodePage = new PageImpl<>(nodes, PageRequest.of(0, 2), nodes.size());
+
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+
+        Mockito.when(nodeRepository.findAll(pageable)).thenReturn(nodePage);
         Mockito.when(modelMapper.map(Mockito.eq(nodes), Mockito.any(java.lang.reflect.Type.class))).thenReturn(nodeDtos);
 
-        List<NodeDto> response = nodeService.findAll();
+        List<NodeDto> response = nodeService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }
@@ -210,6 +216,7 @@ class NodeServiceTest {
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.size());
     }
+
     @Test
     void getNodesForRolesTest_NoAuth() {
         SecurityContext securityContext = Mockito.mock(SecurityContext.class);
@@ -220,5 +227,4 @@ class NodeServiceTest {
 
         Assertions.assertTrue(response.isEmpty());
     }
-
 }

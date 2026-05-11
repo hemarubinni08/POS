@@ -3,6 +3,7 @@ package com.ust.pos.brand;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +18,14 @@ public class BrandController {
     BrandService brandService;
 
     @GetMapping("/list")
-    public String home(Model model, @ModelAttribute BrandDto brandDto) {
-        model.addAttribute(BRANDS, brandService.findAll());
+    public String home(Model model, @ModelAttribute BrandDto brandDto, Pageable pageable) {
+        model.addAttribute(BRANDS, brandService.findAll(pageable));
         return "brand/list";
     }
 
     @GetMapping("/add")
-    public String addWarehouse(@ModelAttribute BrandDto brandDto, Model model) {
-        model.addAttribute(BRANDS, brandService.findAll());
+    public String addWarehouse(@ModelAttribute BrandDto brandDto, Model model, Pageable pageable) {
+        model.addAttribute(BRANDS, brandService.findAll(pageable));
         return "brand/add";
     }
 
@@ -44,9 +45,9 @@ public class BrandController {
     }
 
     @GetMapping("/get")
-    public String update(@RequestParam String identifier, Model model, @ModelAttribute BrandDto brandDto) {
+    public String update(@RequestParam String identifier, Model model, @ModelAttribute BrandDto brandDto, Pageable pageable) {
         BrandDto brandDto1 = brandService.findByIdentifier(identifier);
-        model.addAttribute(BRANDS, brandService.findAll());
+        model.addAttribute(BRANDS, brandService.findAll(pageable));
         model.addAttribute("brandDto", brandDto1);
         return "brand/brand";
     }

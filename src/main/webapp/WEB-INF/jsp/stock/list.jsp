@@ -39,14 +39,11 @@
             justify-content: space-between;
             padding: 0 40px;
             border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            position: sticky; top: 0; z-index: 1000;
         }
 
         .btn-home {
-            display: flex;
-            align-items: center; gap: 8px;
+            display: flex; align-items: center; gap: 8px;
             text-decoration: none; color: var(--primary-navy);
             font-weight: 700; font-size: 14px; padding: 8px 16px;
             border-radius: 8px; background: #f1f5f9; transition: all 0.2s;
@@ -72,6 +69,21 @@
             background-color: #f8fafc; text-transform: uppercase;
             font-size: 11px; letter-spacing: 0.05em; font-weight: 700;
             color: var(--text-muted); padding: 15px 20px;
+        }
+
+        /* --- INFO CIRCLE STYLES --- */
+        .info-circle {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 20px; height: 20px; background: #eff6ff; color: var(--accent-blue);
+            border-radius: 50%; font-size: 11px; font-weight: 800;
+            cursor: pointer; transition: all 0.2s; border: 1.5px solid #dbeafe;
+            font-style: normal;
+        }
+        .info-circle:hover { background: var(--accent-blue); color: white; transform: scale(1.1); }
+
+        .popover {
+            border-radius: 10px; border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 5px;
         }
 
         .role-badge {
@@ -146,20 +158,25 @@
                                         </td>
 
                                         <td>
-                                            <%--
-                                               Since your identifier is now the Product ID,
-                                               we display it here as the primary "Product Name"
-                                            --%>
-                                            <span class="product-tag">
-                                                <c:choose>
-                                                    <c:when test="${not empty identifier}">
-                                                        ${product}
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        ${stock.identifier}
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </span>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="product-tag">
+                                                    <c:choose>
+                                                        <c:when test="${not empty identifier}">
+                                                            ${product}
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            ${stock.identifier}
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </span>
+
+                                                <%-- CLICKABLE INFO ICON (NO TITLE) --%>
+                                                <i class="info-circle"
+                                                   data-bs-toggle="popover"
+                                                   data-bs-trigger="click"
+                                                   data-bs-placement="right"
+                                                   data-bs-content="${not empty stock.description ? stock.description : 'No description provided.'}">i</i>
+                                            </div>
                                         </td>
 
                                         <td>
@@ -194,7 +211,27 @@
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
+        // INITIALIZE POPOVERS
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+            var popoverList = popoverTriggerList.map(function (el) {
+                return new bootstrap.Popover(el)
+            });
+
+            // Close popover when clicking outside
+            document.addEventListener('click', function (e) {
+                popoverTriggerList.forEach(function (el) {
+                    if (!el.contains(e.target)) {
+                        const instance = bootstrap.Popover.getInstance(el);
+                        if (instance) instance.hide();
+                    }
+                });
+            });
+        });
+
         window.onload = function() {
             const msg = "${message}";
             if (msg && msg.trim() !== "") {

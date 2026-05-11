@@ -93,11 +93,12 @@
 
                 <%-- Hidden ID for JPA update mapping --%>
                 <form:hidden path="id" />
+                <form:hidden path="identifier" />
 
                 <div class="form-group">
-                    <label>Brand Identifier (Fixed)</label>
+                    <label>Description</label>
                     <%-- Read-only to maintain data integrity --%>
-                    <form:input path="identifier" class="input-control input-readonly" readonly="true"/>
+                    <form:input path="description" class="input-control"/>
                 </div>
 
                 <div class="form-group">

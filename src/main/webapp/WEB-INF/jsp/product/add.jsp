@@ -177,9 +177,9 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>Product Name</label>
-                            <form:input path="name" class="input-control" placeholder="e.g. Iphone 15 pro" required="true"/>
-                            <form:errors path="name" class="text-danger small" />
+                            <label>Product Identifier</label>
+                            <form:input path="identifier" class="input-control" placeholder="e.g. Iphone 15 pro" required="true"/>
+                            <form:errors path="identifier" class="text-danger small" />
                         </div>
                     </div>
                 </div>
@@ -237,6 +237,15 @@
                             <form:errors path="unit" class="text-danger small" />
                         </div>
                     </div>
+
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the product.." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
+                </div>
+
                 </div>
 
                 <button type="submit" class="btn-submit">Save Master Record</button>

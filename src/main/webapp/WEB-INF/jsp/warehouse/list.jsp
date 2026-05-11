@@ -98,6 +98,36 @@
             font-weight: 700;
         }
 
+        /* --- INFO CIRCLE STYLES --- */
+        .info-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: #eff6ff;
+            color: var(--accent-blue);
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1.5px solid #dbeafe;
+            font-style: normal;
+        }
+        .info-circle:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .popover {
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            padding: 5px;
+        }
+
         .location-tag {
             font-weight: 700;
             color: var(--primary-navy);
@@ -112,7 +142,6 @@
             gap: 5px;
         }
 
-        /* Toggle & Status Styles */
         .status-label { font-size: 11px; font-weight: 800; letter-spacing: 0.02em; }
         .text-active { color: var(--success-green); }
         .text-inactive { color: var(--danger-red); }
@@ -164,7 +193,7 @@
                 <table class="table table-hover align-middle m-0">
                     <thead>
                         <tr>
-                            <th class="ps-4">Facility & ID</th>
+                            <th class="ps-4">Facility identifier</th>
                             <th>Full Address</th>
                             <th>Contact</th>
                             <th>Status (Toggle)</th>
@@ -177,15 +206,23 @@
                                 <c:forEach var="wh" items="${warehouses}">
                                     <tr>
                                         <td class="ps-4 py-3">
-                                            <div class="location-tag">${wh.name}</div>
-                                            <span class="warehouse-id">${wh.identifier}</span>
+                                            <div class="location-tag">${wh.identifier}</div>
+                                            <div class="d-flex align-items-center gap-2 mt-1">
+
+                                                <%-- CLICKABLE INFO ICON (NO TITLE) --%>
+                                                <i class="info-circle"
+                                                   data-bs-toggle="popover"
+                                                   data-bs-trigger="click"
+                                                   data-bs-placement="right"
+                                                   data-bs-content="${not empty wh.description ? wh.description : 'No description provided.'}">i</i>
+                                            </div>
                                         </td>
                                         <td style="max-width: 250px;">
                                             <div class="text-truncate text-muted" style="font-size: 13px;">${wh.address}</div>
                                         </td>
                                         <td>
                                             <div class="contact-info">
-                                                <span>📞</span> ${wh.contactNumber}
+                                                <span></span> ${wh.contactNumber}
                                             </div>
                                         </td>
                                         <td>
@@ -205,7 +242,7 @@
                                                    href="${pageContext.request.contextPath}/warehouse/get?identifier=${wh.identifier}">Edit</a>
                                                 <a class="btn btn-outline-danger btn-sm btn-op"
                                                    href="${pageContext.request.contextPath}/warehouse/delete?identifier=${wh.identifier}"
-                                                   onclick="confirm('Remove this warehouse?');">Delete</a>
+                                                   onclick="return confirm('Remove this warehouse?');">Delete</a>
                                             </div>
                                         </td>
                                     </tr>
@@ -221,7 +258,27 @@
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
+        // INITIALIZE POPOVERS
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+            var popoverList = popoverTriggerList.map(function (el) {
+                return new bootstrap.Popover(el)
+            });
+
+            // Close popover when clicking outside
+            document.addEventListener('click', function (e) {
+                popoverTriggerList.forEach(function (el) {
+                    if (!el.contains(e.target)) {
+                        const instance = bootstrap.Popover.getInstance(el);
+                        if (instance) instance.hide();
+                    }
+                });
+            });
+        });
+
         // AJAX Toggle Logic for Warehouse
         document.querySelectorAll('.status-toggle').forEach(toggle => {
             toggle.addEventListener('change', function() {
@@ -230,11 +287,9 @@
                 const label = this.parentElement.querySelector('.status-label');
                 const toast = document.getElementById("toast");
 
-                // Immediate UI update
                 label.innerText = isChecked ? 'ACTIVE' : 'INACTIVE';
                 label.className = `ms-2 status-label ${isChecked ? 'text-active' : 'text-inactive'}`;
 
-                // Async fetch call
                 fetch(`${pageContext.request.contextPath}/warehouse/toggle?identifier=` + identifier + `&status=` + isChecked, {
                     method: 'POST'
                 })
@@ -244,7 +299,6 @@
                         toast.className = "show";
                         setTimeout(() => { toast.className = ""; }, 3000);
                     } else {
-                        // Revert on failure
                         this.checked = !isChecked;
                         label.innerText = !isChecked ? 'ACTIVE' : 'INACTIVE';
                         label.className = `ms-2 status-label ${!isChecked ? 'text-active' : 'text-inactive'}`;

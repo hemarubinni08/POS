@@ -45,7 +45,7 @@
         .main-content { padding: 60px 40px; display: flex; justify-content: center; width: 100%; }
 
         .form-card {
-            width: 100%; max-width: 480px; background: var(--card-bg);
+            width: 100%; max-width: 520px; background: var(--card-bg);
             padding: 40px; border-radius: 20px; border: 1px solid var(--border-color);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
         }
@@ -62,20 +62,27 @@
             border-radius: 12px; font-size: 14px; transition: all 0.3s ease;
             background-color: white;
         }
+        .input-control:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
 
-        /* Styling for Multi-select */
-        select.input-control[multiple] {
-            height: auto;
-            min-height: 120px;
-            padding: 8px;
-        }
+        /* Multi-select styling */
+        select.input-control[multiple] { height: auto; min-height: 100px; padding: 8px; }
 
         .input-readonly { background-color: #f1f5f9; cursor: not-allowed; color: var(--text-muted); font-weight: 600; }
+
+        /* --- INFO CIRCLE STYLES (Consistency with List Pages) --- */
+        .info-circle {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 20px; height: 20px; background: #eff6ff; color: var(--accent-blue);
+            border-radius: 50%; font-size: 11px; font-weight: 800;
+            cursor: pointer; transition: all 0.2s; border: 1.5px solid #dbeafe;
+            font-style: normal;
+        }
+        .info-circle:hover { background: var(--accent-blue); color: white; }
 
         .status-container {
             display: flex; align-items: center; justify-content: space-between;
             background: #f8fafc; padding: 16px; border-radius: 12px;
-            border: 1px solid var(--border-color); margin-top: 10px;
+            border: 1px solid var(--border-color);
         }
 
         .btn-submit {
@@ -86,6 +93,8 @@
         .btn-submit:hover { background-color: #0f172a; transform: translateY(-2px); }
 
         .form-check-input:checked { background-color: var(--success-green); border-color: var(--success-green); }
+
+        .popover { border-radius: 10px; border: 1px solid var(--border-color); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); padding: 5px; }
     </style>
 </head>
 <body>
@@ -103,12 +112,15 @@
         <div class="form-card">
             <div class="mb-4">
                 <h2 style="font-weight: 800; color: var(--primary-navy); margin: 0;">Edit Racks</h2>
-                <p style="color: var(--text-muted); font-size: 14px;">Updating record: <strong class="text-primary">${racksDto.identifier}</strong></p>
+                <div class="d-flex align-items-center gap-2 mt-1">
+                    <p class="m-0 text-muted" style="font-size: 14px;">Updating record: <strong class="text-primary">${racksDto.identifier}</strong></p>
+                    <%-- Info Icon for current record description --%>
+                    <i class="info-circle" data-bs-toggle="popover" data-bs-trigger="click" data-bs-placement="right"
+                       data-bs-content="${not empty racksDto.description ? racksDto.description : 'No description set.'}">i</i>
+                </div>
             </div>
 
             <form:form id="editRacksForm" method="POST" action="update" modelAttribute="racksDto">
-
-                <%-- Hidden ID --%>
                 <form:hidden path="id" />
 
                 <div class="form-group">
@@ -118,31 +130,55 @@
 
                 <div class="form-group">
                     <label>Assigned Shelves</label>
-                    <%-- Changed path to 'shelves' and added multiple="true" --%>
                     <form:select path="shelves" class="input-control" required="true" multiple="true">
                         <c:forEach var="shelf" items="${shelfs}">
                             <form:option value="${shelf.identifier}" label="${shelf.identifier}"/>
                         </c:forEach>
                     </form:select>
                     <div class="mt-2" style="font-size: 11px; color: var(--text-muted);">
-                        <i class="bi bi-info-circle"></i> Use <strong>Ctrl/Cmd + Click</strong> to select multiple shelves.
+                        <i class="bi bi-info-circle"></i> Hold <strong>Ctrl (Win)</strong> or <strong>Cmd (Mac)</strong> to select multiple.
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Rack Description</label>
+                    <form:textarea path="description" class="input-control" rows="3" placeholder="Describe the purpose of this rack..."/>
                 </div>
 
                 <div class="form-group">
                     <label>Availability Status</label>
                     <div class="status-container">
-                        <span style="font-size: 13px; font-weight: 600; color: var(--primary-navy);">Enable/Disable Rack</span>
+                        <span style="font-size: 13px; font-weight: 600; color: var(--primary-navy);">Rack Active Status</span>
                         <div class="form-check form-switch m-0">
                             <form:checkbox path="status" class="form-check-input" role="switch" id="statusToggle" style="width: 40px; height: 20px;"/>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-submit mt-2">Update Racks</button>
+                <button type="submit" class="btn-submit">Update Racks</button>
             </form:form>
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize Popover
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+            var popoverList = popoverTriggerList.map(function (el) {
+                return new bootstrap.Popover(el)
+            });
+
+            // Close popover when clicking elsewhere
+            document.addEventListener('click', function (e) {
+                popoverTriggerList.forEach(function (el) {
+                    if (!el.contains(e.target)) {
+                        const instance = bootstrap.Popover.getInstance(el);
+                        if (instance) instance.hide();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

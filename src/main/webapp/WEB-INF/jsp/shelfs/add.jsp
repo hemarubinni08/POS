@@ -119,17 +119,16 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Shelf Name</label>
-                    <form:input path="name" class="input-control" placeholder="e.g. Shelf-1" required="true"/>
-                    <form:errors path="name" cssClass="text-danger" style="font-size: 12px;"/>
-                    <div class="mt-2" style="font-size: 11px; color: var(--text-muted);">
-                        Provide a name for this storage unit.
-                    </div>
-                </div>
-
                 <div class="mt-2" style="font-size: 11px; color: var(--text-muted); line-height: 1.5;">
                     Note: Status will be <strong>Active</strong> by default for new shelfs.
+                </div>
+
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the shelf..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
                 </div>
 
                 <button type="submit" class="btn-submit">Save Shelfs</button>

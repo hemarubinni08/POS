@@ -181,6 +181,14 @@
                     <form:errors path="warehouses" cssClass="text-danger mt-1" style="font-size: 12px; font-weight:600;" />
                 </div>
 
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the stock..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
+                </div>
+
                 <button type="submit" class="btn-submit">Initialize Stock Record</button>
             </form:form>
         </div>

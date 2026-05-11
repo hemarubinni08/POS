@@ -3,6 +3,7 @@ package com.ust.pos.category;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,8 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping("/list")
-    public String home(Model model, @ModelAttribute CategoryDto categoryDto) {
-        model.addAttribute(CATEGORIES, categoryService.findAll());
+    public String home(Model model, @ModelAttribute CategoryDto categoryDto, Pageable pageable) {
+        model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
         return "category/list";
     }
 

@@ -3,6 +3,7 @@ package com.ust.pos.shelfs;
 import com.ust.pos.dto.ShelfsDto;
 import com.ust.pos.shelfs.service.ShelfsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +18,14 @@ public class ShelfsController {
     ShelfsService shelfsService;
 
     @GetMapping("/list")
-    public String home(Model model, @ModelAttribute ShelfsDto shelfsDto) {
-        model.addAttribute(SHELFS, shelfsService.findAll());
+    public String home(Model model, @ModelAttribute ShelfsDto shelfsDto, Pageable pageable) {
+        model.addAttribute(SHELFS, shelfsService.findAll(pageable));
         return "shelfs/list";
     }
 
     @GetMapping("/add")
-    public String addWarehouse(@ModelAttribute ShelfsDto shelfsDto, Model model) {
-        model.addAttribute(SHELFS, shelfsService.findAll());
+    public String addWarehouse(@ModelAttribute ShelfsDto shelfsDto, Model model, Pageable pageable) {
+        model.addAttribute(SHELFS, shelfsService.findAll(pageable));
         return "shelfs/add";
     }
 
@@ -44,9 +45,9 @@ public class ShelfsController {
     }
 
     @GetMapping("/get")
-    public String update(@RequestParam String identifier, Model model, @ModelAttribute ShelfsDto shelfsDto) {
+    public String update(@RequestParam String identifier, Model model, @ModelAttribute ShelfsDto shelfsDto, Pageable pageable) {
         ShelfsDto shelfsDto1 = shelfsService.findByIdentifier(identifier);
-        model.addAttribute(SHELFS, shelfsService.findAll());
+        model.addAttribute(SHELFS, shelfsService.findAll(pageable));
         model.addAttribute("shelfsDto", shelfsDto1);
         return "shelfs/shelfs";
     }

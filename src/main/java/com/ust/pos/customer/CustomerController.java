@@ -1,16 +1,18 @@
 package com.ust.pos.customer;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.node.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/customer")
-public class CustomerController {
+public class CustomerController extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/customer/list";
 
@@ -20,8 +22,8 @@ public class CustomerController {
     private NodeService nodeService;
 
     @GetMapping("/list")
-    public String home(Model model) {
-        model.addAttribute("customers", customerService.findAll());
+    public String home(Model model, Pageable pageable) {
+        model.addAttribute("customers", customerService.findAll(pageable));
         return "customer/list";
     }
 

@@ -7,12 +7,14 @@ import com.ust.pos.racks.service.impl.RacksServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -112,10 +114,14 @@ class RacksServiceTest {
         List<Racks> rackss = List.of(racks);
         List<RacksDto> racksDtos = List.of(racksDto);
 
-        Mockito.when(racksRepository.findAll()).thenReturn(rackss);
+        Page<Racks> racksPage = new PageImpl<>(rackss, PageRequest.of(0, 2), rackss.size());
+
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+
+        Mockito.when(racksRepository.findAll(pageable)).thenReturn(racksPage);
         Mockito.when(modelMapper.map(Mockito.eq(rackss), Mockito.any(java.lang.reflect.Type.class))).thenReturn(racksDtos);
 
-        List<RacksDto> response = racksService.findAll();
+        List<RacksDto> response = racksService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }

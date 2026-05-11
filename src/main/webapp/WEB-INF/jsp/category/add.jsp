@@ -117,12 +117,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Category Identifier</label>
-                    <form:input path="name" class="input-control" placeholder="e.g. ELECTRONICS" required="true"/>
-                    <form:errors path="name" cssClass="text-danger" style="font-size: 12px;"/>
-                </div>
-
-                <div class="form-group">
                     <label>Super Category (Parent)</label>
                     <form:select path="superCategory" class="input-control">
                         <form:option value="" label="-- No Parent (Root) --"/>
@@ -133,6 +127,14 @@
                     <div class="mt-2" style="font-size: 11px; color: var(--text-muted);">
                         Optional: Select an existing identifier to make this a sub-category.
                     </div>
+                </div>
+
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the category..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
                 </div>
 
                 <button type="submit" class="btn-submit">Save Category</button>

@@ -1,33 +1,30 @@
 package com.ust.pos.warehouse;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Controller
 @RequestMapping("/warehouse")
-public class WarehouseController {
+public class WarehouseController extends BaseController {
     public static final String REDIRECT_WAREHOUSE_LIST = "redirect:/warehouse/list";
     @Autowired
     WarehouseService warehouseService;
 
     @GetMapping("/list")
-    public String home(Model model, @ModelAttribute WarehouseDto warehouseDto) {
-        model.addAttribute("warehouses", warehouseService.findAll());
+    public String home(Model model, @ModelAttribute WarehouseDto warehouseDto, Pageable pageable) {
+        model.addAttribute("warehouses", warehouseService.findAll(pageable));
         return "warehouse/list";
     }
 
     @GetMapping("/add")
     public String addWarehouse(@ModelAttribute WarehouseDto warehouseDto, Model model) {
-        List<String> commonUnits = Arrays.asList("pcs", "kg", "gram", "box", "ltr", "unit", "pack");
-        model.addAttribute("unitList", commonUnits);
         return "warehouse/add";
     }
 

@@ -163,6 +163,14 @@
                     <form:input path="identifier" class="input-control" placeholder="e.g. ROLE_MANAGER" required="true" autofocus="true"/>
                 </div>
 
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the role..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
+                </div>
+
                 <button type="submit" class="btn-submit">Create Role</button>
             </form:form>
         </div>

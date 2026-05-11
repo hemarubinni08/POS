@@ -181,6 +181,14 @@
                             <form:input path="identifier" class="input-control" value="${role.identifier}" required="true"/>
                         </div>
 
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the role..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
+                </div>
+
                         <div class="d-flex justify-content-between align-items-center mt-4">
                             <a href="${pageContext.request.contextPath}/role/list" class="btn-cancel">Cancel</a>
                             <button type="submit" class="btn-submit">Update Role</button>

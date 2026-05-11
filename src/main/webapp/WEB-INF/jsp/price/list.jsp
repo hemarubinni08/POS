@@ -70,15 +70,35 @@
             padding: 15px 20px;
         }
 
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 6px;
+        /* --- INFO CIRCLE STYLES --- */
+        .info-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: #eff6ff;
+            color: var(--accent-blue);
+            border-radius: 50%;
             font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1.5px solid #dbeafe;
+            font-style: normal;
         }
-        .status-active { background: #dcfce7; color: #15803d; }
-        .status-expired { background: #fee2e2; color: #b91c1c; }
+        .info-circle:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .popover {
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            padding: 5px;
+        }
 
         .price-val { font-weight: 700; color: var(--primary-navy); }
         .mrp-val { font-size: 12px; text-decoration: line-through; color: #94a3b8; }
@@ -129,7 +149,16 @@
                                 <c:forEach var="price" items="${prices}">
                                     <tr>
                                         <td class="ps-4">
-                                            <span class="fw-bold" style="color: var(--accent-blue);">${price.identifier}</span>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="fw-bold" style="color: var(--accent-blue);">${price.identifier}</span>
+
+                                                <%-- CLICKABLE INFO ICON (NO TITLE) --%>
+                                                <i class="info-circle"
+                                                   data-bs-toggle="popover"
+                                                   data-bs-trigger="click"
+                                                   data-bs-placement="right"
+                                                   data-bs-content="${not empty price.description ? price.description : 'No description provided.'}">i</i>
+                                            </div>
                                         </td>
                                         <td>
                                             <div class="price-val">₹<fmt:formatNumber value="${price.costPrice}" pattern="#,##0.00"/></div>
@@ -175,5 +204,26 @@
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // INITIALIZE POPOVERS
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+            var popoverList = popoverTriggerList.map(function (el) {
+                return new bootstrap.Popover(el)
+            });
+
+            // Close popover when clicking outside
+            document.addEventListener('click', function (e) {
+                popoverTriggerList.forEach(function (el) {
+                    if (!el.contains(e.target)) {
+                        const instance = bootstrap.Popover.getInstance(el);
+                        if (instance) instance.hide();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,24 +1,26 @@
 package com.ust.pos.api.user;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserControllerApi {
-
-    public static final String REDIRECT_ROLE_LIST = "redirect:/user/list";
+public class UserControllerApi extends BaseController {
 
     @Autowired
     private UserService userService;
 
     @GetMapping("/list")
-    public List<UserDto> home() {
-        return userService.findAll();
+    public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        return userService.findAll(pageable);
     }
 
     @PostMapping("/add")

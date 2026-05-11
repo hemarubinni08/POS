@@ -4,13 +4,11 @@ import com.ust.pos.dto.PriceDto;
 import com.ust.pos.price.service.PriceService;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
 @RequestMapping("/price")
@@ -22,16 +20,14 @@ public class PriceController {
     ProductService productService;
 
     @GetMapping("/list")
-    public String home(Model model, @ModelAttribute PriceDto priceDto) {
-        model.addAttribute("prices", priceService.findAll());
+    public String home(Model model, @ModelAttribute PriceDto priceDto, Pageable pageable) {
+        model.addAttribute("prices", priceService.findAll(pageable));
         return "price/list";
     }
 
     @GetMapping("/add")
     public String addPrice(@ModelAttribute PriceDto priceDto, Model model) {
-        List<String> commonUnits = Arrays.asList("pcs", "kg", "gram", "box", "ltr", "unit", "pack");
         model.addAttribute("products", productService.findAllActive());
-        model.addAttribute("unitList", commonUnits);
         return "price/add";
     }
 
@@ -51,10 +47,8 @@ public class PriceController {
     }
 
     @GetMapping("/get")
-    public String update(@RequestParam String identifier, Model model, @ModelAttribute PriceDto priceDto) {
-        List<String> commonUnits = Arrays.asList("pcs", "kg", "gram", "box", "ltr", "unit", "pack");
-        model.addAttribute("unitList", commonUnits);
-        model.addAttribute("products", productService.findAll());
+    public String update(@RequestParam String identifier, Model model, @ModelAttribute PriceDto priceDto, Pageable pageable) {
+        model.addAttribute("products", productService.findAll(pageable));
         PriceDto priceDto1 = priceService.findByIdentifier(identifier);
         model.addAttribute("priceDto", priceDto1);
         return "price/price";

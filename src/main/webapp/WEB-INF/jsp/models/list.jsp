@@ -75,10 +75,34 @@
             font-size: 13px; font-weight: 700; border: 1px solid var(--border-color);
         }
 
-        .brand-badge {
-            padding: 4px 12px; background-color: #eff6ff;
-            color: var(--accent-blue); border-radius: 8px;
-            font-size: 12px; font-weight: 700;
+        /* --- INFO CIRCLE STYLES --- */
+        .info-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: #eff6ff;
+            color: var(--accent-blue);
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1.5px solid #dbeafe;
+            font-style: normal;
+        }
+        .info-circle:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .popover {
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            padding: 5px;
         }
 
         .form-check-input:checked {
@@ -148,9 +172,18 @@
                                         </td>
 
                                         <td>
-                                            <span class="model-tag">
-                                                <c:out value="${modelItem.identifier}" />
-                                            </span>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="model-tag">
+                                                    <c:out value="${modelItem.identifier}" />
+                                                </span>
+
+                                                <%-- CLICKABLE INFO ICON (NO TITLE) --%>
+                                                <i class="info-circle"
+                                                   data-bs-toggle="popover"
+                                                   data-bs-trigger="click"
+                                                   data-bs-placement="right"
+                                                   data-bs-content="${not empty modelItem.description ? modelItem.description : 'No description provided.'}">i</i>
+                                            </div>
                                         </td>
 
                                         <td>
@@ -178,7 +211,7 @@
                                 </c:forEach>
                             </c:when>
                             <c:otherwise>
-                                <tr><td colspan="5" class="text-center py-5 text-muted">No models defined yet.</td></tr>
+                                <tr><td colspan="4" class="text-center py-5 text-muted">No models defined yet.</td></tr>
                             </c:otherwise>
                         </c:choose>
                     </tbody>
@@ -187,7 +220,27 @@
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
+        // INITIALIZE POPOVERS
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+            var popoverList = popoverTriggerList.map(function (el) {
+                return new bootstrap.Popover(el)
+            });
+
+            // Close popover when clicking outside
+            document.addEventListener('click', function (e) {
+                popoverTriggerList.forEach(function (el) {
+                    if (!el.contains(e.target)) {
+                        const instance = bootstrap.Popover.getInstance(el);
+                        if (instance) instance.hide();
+                    }
+                });
+            });
+        });
+
         document.querySelectorAll('.status-toggle').forEach(toggle => {
             toggle.addEventListener('change', function() {
                 const identifier = this.getAttribute('data-id');

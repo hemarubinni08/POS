@@ -118,6 +118,14 @@
                     </div>
                 </div>
 
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the category..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
+                </div>
+
                 <button type="submit" class="btn-submit">Update Category</button>
             </form:form>
         </div>

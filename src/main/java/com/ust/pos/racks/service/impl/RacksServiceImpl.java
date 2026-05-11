@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -35,10 +37,11 @@ public class RacksServiceImpl implements RacksService {
     }
 
     @Override
-    public List<RacksDto> findAll() {
+    public List<RacksDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<RacksDto>>() {
         }.getType();
-        return modelMapper.map(racksRepository.findAll(), listType);
+        Page<Racks> racksPage = racksRepository.findAll(pageable);
+        return modelMapper.map(racksPage.getContent(), listType);
     }
 
     @Override

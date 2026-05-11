@@ -87,6 +87,36 @@
             font-size: 12px; font-weight: 700;
         }
 
+        /* --- INFO CIRCLE STYLES --- */
+        .info-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background: #eff6ff;
+            color: var(--accent-blue);
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1.5px solid #dbeafe;
+            font-style: normal;
+        }
+        .info-circle:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .popover {
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            padding: 5px;
+        }
+
         /* Toggle Styles */
         .status-label { font-size: 11px; font-weight: 800; letter-spacing: 0.02em; }
         .text-active { color: var(--success-green); }
@@ -153,9 +183,18 @@
                                         </td>
 
                                         <td>
-                                            <span class="category-tag">
-                                                <c:out value="${cat.identifier}" />
-                                            </span>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="category-tag">
+                                                    <c:out value="${cat.identifier}" />
+                                                </span>
+
+                                                <%-- CLICKABLE INFO ICON (TITLE REMOVED) --%>
+                                                <i class="info-circle"
+                                                   data-bs-toggle="popover"
+                                                   data-bs-trigger="click"
+                                                   data-bs-placement="right"
+                                                   data-bs-content="${not empty cat.description ? cat.description : 'No description provided.'}">i</i>
+                                            </div>
                                         </td>
 
                                         <td>
@@ -205,8 +244,25 @@
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        // AJAX Toggle Logic
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+            var popoverList = popoverTriggerList.map(function (el) {
+                return new bootstrap.Popover(el)
+            });
+
+            document.addEventListener('click', function (e) {
+                popoverTriggerList.forEach(function (el) {
+                    if (!el.contains(e.target)) {
+                        const instance = bootstrap.Popover.getInstance(el);
+                        if (instance) instance.hide();
+                    }
+                });
+            });
+        });
+
         document.querySelectorAll('.status-toggle').forEach(toggle => {
             toggle.addEventListener('change', function() {
                 const identifier = this.getAttribute('data-id');
@@ -214,11 +270,9 @@
                 const label = this.parentElement.querySelector('.status-label');
                 const toast = document.getElementById("toast");
 
-                // Immediate UI Feedback
                 label.innerText = isChecked ? 'ACTIVE' : 'INACTIVE';
                 label.className = `ms-2 status-label ${isChecked ? 'text-active' : 'text-inactive'}`;
 
-                // Background Request
                 fetch(`${pageContext.request.contextPath}/category/toggle?identifier=` + identifier + `&status=` + isChecked, {
                     method: 'POST'
                 })
@@ -228,16 +282,10 @@
                         toast.className = "show";
                         setTimeout(() => { toast.className = ""; }, 3000);
                     } else {
-                        // Revert on Failure
                         this.checked = !isChecked;
                         label.innerText = !isChecked ? 'ACTIVE' : 'INACTIVE';
                         label.className = `ms-2 status-label ${!isChecked ? 'text-active' : 'text-inactive'}`;
-                        alert("Error: Database sync failed for category status.");
                     }
-                })
-                .catch(err => {
-                    console.error("Fetch Error:", err);
-                    alert("Network error. Could not update status.");
                 });
             });
         });

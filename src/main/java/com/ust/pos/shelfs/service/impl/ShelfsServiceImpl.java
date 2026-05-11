@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -35,10 +37,11 @@ public class ShelfsServiceImpl implements ShelfsService {
     }
 
     @Override
-    public List<ShelfsDto> findAll() {
+    public List<ShelfsDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ShelfsDto>>() {
         }.getType();
-        return modelMapper.map(shelfsRepository.findAll(), listType);
+        Page<Shelfs> shelfsPage = shelfsRepository.findAll(pageable);
+        return modelMapper.map(shelfsPage.getContent(), listType);
     }
 
     @Override
@@ -76,5 +79,12 @@ public class ShelfsServiceImpl implements ShelfsService {
         Type listType = new TypeToken<List<ShelfsDto>>() {
         }.getType();
         return modelMapper.map(shelfsRepository.findByStatus(true), listType);
+    }
+
+    @Override
+    public List<ShelfsDto> findAllForHome() {
+        Type listType = new TypeToken<List<ShelfsDto>>() {
+        }.getType();
+        return modelMapper.map(shelfsRepository.findAll(), listType);
     }
 }

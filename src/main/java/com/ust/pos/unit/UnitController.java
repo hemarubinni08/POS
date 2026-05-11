@@ -3,6 +3,7 @@ package com.ust.pos.unit;
 import com.ust.pos.dto.UnitDto;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +18,14 @@ public class UnitController {
     UnitService unitService;
 
     @GetMapping("/list")
-    public String home(Model model, @ModelAttribute UnitDto unitDto) {
-        model.addAttribute(UNITS, unitService.findAll());
+    public String home(Model model, @ModelAttribute UnitDto unitDto, Pageable pageable) {
+        model.addAttribute(UNITS, unitService.findAll(pageable));
         return "unit/list";
     }
 
     @GetMapping("/add")
-    public String addWarehouse(@ModelAttribute UnitDto unitDto, Model model) {
-        model.addAttribute(UNITS, unitService.findAll());
+    public String addWarehouse(@ModelAttribute UnitDto unitDto, Model model, Pageable pageable) {
+        model.addAttribute(UNITS, unitService.findAll(pageable));
         return "unit/add";
     }
 
@@ -44,9 +45,9 @@ public class UnitController {
     }
 
     @GetMapping("/get")
-    public String update(@RequestParam String identifier, Model model, @ModelAttribute UnitDto unitDto) {
+    public String update(@RequestParam String identifier, Model model, @ModelAttribute UnitDto unitDto, Pageable pageable) {
         UnitDto unitDto1 = unitService.findByIdentifier(identifier);
-        model.addAttribute(UNITS, unitService.findAll());
+        model.addAttribute(UNITS, unitService.findAll(pageable));
         model.addAttribute("unitDto", unitDto1);
         return "unit/unit";
     }

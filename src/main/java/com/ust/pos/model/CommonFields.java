@@ -16,5 +16,5 @@ public class CommonFields {
     private Long id;
     private String identifier;
     private boolean status = true;
-    private String name;
+    private String description;
 }

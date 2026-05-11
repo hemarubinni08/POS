@@ -45,7 +45,7 @@ public class WebSecurityConfig {
 
         http.csrf(csrf -> csrf.disable()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 
-                .requestMatchers("/api/authenticate", "/api/validateToken").permitAll().anyRequest().authenticated()).logout(LogoutConfigurer::permitAll);
+                .requestMatchers("/api/authenticate", "/api/validateToken", "/swagger-ui/**", "/v3/**").permitAll().anyRequest().authenticated()).logout(LogoutConfigurer::permitAll);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

@@ -7,12 +7,14 @@ import com.ust.pos.stock.service.impl.StockServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -112,10 +114,14 @@ class StockServiceTest {
         List<Stock> stocks = List.of(stock);
         List<StockDto> stockDtos = List.of(stockDto);
 
-        Mockito.when(stockRepository.findAll()).thenReturn(stocks);
+        Page<Stock> stockPage = new PageImpl<>(stocks, PageRequest.of(0, 2), stocks.size());
+
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+
+        Mockito.when(stockRepository.findAll(pageable)).thenReturn(stockPage);
         Mockito.when(modelMapper.map(Mockito.eq(stocks), Mockito.any(java.lang.reflect.Type.class))).thenReturn(stockDtos);
 
-        List<StockDto> response = stockService.findAll();
+        List<StockDto> response = stockService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }

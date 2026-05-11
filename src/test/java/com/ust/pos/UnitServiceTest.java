@@ -7,12 +7,14 @@ import com.ust.pos.unit.service.impl.UnitServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -112,10 +114,14 @@ class UnitServiceTest {
         List<Unit> units = List.of(unit);
         List<UnitDto> unitDtos = List.of(unitDto);
 
-        Mockito.when(unitRepository.findAll()).thenReturn(units);
+        Page<Unit> unitPage = new PageImpl<>(units, PageRequest.of(0, 2), units.size());
+
+        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+
+        Mockito.when(unitRepository.findAll(pageable)).thenReturn(unitPage);
         Mockito.when(modelMapper.map(Mockito.eq(units), Mockito.any(java.lang.reflect.Type.class))).thenReturn(unitDtos);
 
-        List<UnitDto> response = unitService.findAll();
+        List<UnitDto> response = unitService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }

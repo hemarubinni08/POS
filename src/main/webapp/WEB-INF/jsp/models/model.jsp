@@ -99,6 +99,14 @@
                     <form:input path="identifier" class="input-control"/>
                 </div>
 
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the model..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
+                </div>
+
                 <button type="submit" class="btn-submit">Update Model</button>
             </form:form>
         </div>

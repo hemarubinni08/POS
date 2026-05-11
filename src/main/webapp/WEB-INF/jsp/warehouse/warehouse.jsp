@@ -169,13 +169,6 @@
                             <form:input path="identifier" class="readonly-control" placeholder="e.g. WH-KERALA-01" readonly="true"/>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Location Name</label>
-                            <form:input path="name" class="input-control" placeholder="e.g. Trivandrum" required="true"/>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="row">
                     <div class="col-md-12">
@@ -196,9 +189,17 @@
                 </div>
 
                 <div class="form-group">
-                                            <label></label>
-                                            <form:hidden path="status"/>
-                                    </div>
+                    <label></label>
+                    <form:hidden path="status"/>
+                </div>
+
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the warehouse..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
+                </div>
 
                 <button type="submit" class="btn-submit">Save Changes</button>
             </form:form>

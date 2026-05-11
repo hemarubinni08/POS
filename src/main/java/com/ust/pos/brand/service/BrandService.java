@@ -1,13 +1,14 @@
 package com.ust.pos.brand.service;
 
 import com.ust.pos.dto.BrandDto;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface BrandService {
     BrandDto save(BrandDto brandDto);
 
-    List<BrandDto> findAll();
+    List<BrandDto> findAll(Pageable pageable);
 
     boolean delete(String identifier);
 
@@ -18,4 +19,6 @@ public interface BrandService {
     List<BrandDto> findAllActive();
 
     BrandDto changeBrandStatus(String identifier, boolean status);
+
+    List<BrandDto> findAllForHome();
 }

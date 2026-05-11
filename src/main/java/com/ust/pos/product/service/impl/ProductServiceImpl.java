@@ -8,11 +8,12 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -30,16 +31,16 @@ public class ProductServiceImpl implements ProductService {
             return productDto;
         }
         Product product = modelMapper.map(productDto, Product.class);
-        product.setIdentifier("PR - " + UUID.randomUUID().toString().substring(0, 7));
         productRepository.save(product);
         return productDto;
     }
 
     @Override
-    public List<ProductDto> findAll() {
+    public List<ProductDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
-        return modelMapper.map(productRepository.findAll(), listType);
+        Page<Product> productPage = productRepository.findAll(pageable);
+        return modelMapper.map(productPage.getContent(), listType);
     }
 
     @Override

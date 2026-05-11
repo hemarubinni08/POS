@@ -104,6 +104,14 @@
                     <strong>Note:</strong> Unit identifiers are unique keys. If you need a completely different unit, please create a new one in the directory.
                 </div>
 
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the unit..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
+                </div>
+
                 <button type="submit" class="btn-submit mt-4">Confirm Changes</button>
             </form:form>
         </div>

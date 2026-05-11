@@ -193,12 +193,6 @@
                             <input type="text" class="input-control" value="${productDto.identifier}" readonly />
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>SKU Code (Fixed)</label>
-                            <form:input path="sku" class="input-control" readonly="true"/>
-                        </div>
-                    </div>
                 </div>
 
                 <%-- Brand and Model Section --%>
@@ -257,6 +251,13 @@
                     </div>
                 </div>
 
+                <%-- Brand Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the product.." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
+                </div>
 
                 <div class="d-flex justify-content-between align-items-center mt-4">
                     <a href="${pageContext.request.contextPath}/product/list" class="btn-cancel">Cancel</a>

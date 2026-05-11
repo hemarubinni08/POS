@@ -186,6 +186,14 @@
                             <form:input path="path" class="input-control" value="${node.path}" required="true"/>
                         </div>
 
+                <%-- Node Description Group --%>
+                <div class="form-group">
+                    <label>Description</label>
+                    <form:textarea path="description" class="input-control" rows="3"
+                                   placeholder="Enter details about the node..." />
+                    <form:errors path="description" cssClass="text-danger" style="font-size: 12px;"/>
+                </div>
+
                         <div class="d-flex justify-content-between align-items-center mt-4">
                             <a href="${pageContext.request.contextPath}/node/list" class="btn-cancel">Cancel</a>
                             <button type="submit" class="btn-submit">Update Node</button>

@@ -6,6 +6,7 @@ import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +26,10 @@ public class StockController {
     ProductService productService;
 
     @GetMapping("/list")
-    public String home(Model model, @ModelAttribute StockDto stockDto) {
-        model.addAttribute(PRODUCT, productService.findAll());
-        model.addAttribute(WAREHOUSES, warehouseService.findAll());
-        model.addAttribute("stocks", stockService.findAll());
+    public String home(Model model, @ModelAttribute StockDto stockDto, Pageable pageable) {
+        model.addAttribute(PRODUCT, productService.findAll(pageable));
+        model.addAttribute(WAREHOUSES, warehouseService.findAll(pageable));
+        model.addAttribute("stocks", stockService.findAll(pageable));
         return "stock/list";
     }
 
