@@ -10,6 +10,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -101,5 +103,13 @@ public class NodeServiceImpl implements NodeService {
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
         return modelMapper.map(nodeRepository.findAll(), listType);
+    }
+
+    @Override
+    public List<NodeDto> findAll(Pageable pageable) {
+        Type listtype = new TypeToken<List<NodeDto>>() {
+        }.getType();
+        Page<Node> nodePage = nodeRepository.findAll(pageable);
+        return modelMapper.map(nodePage.getContent(), listtype);
     }
 }
