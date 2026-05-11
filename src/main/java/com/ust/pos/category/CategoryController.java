@@ -79,10 +79,8 @@ public class CategoryController extends BaseController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
-
         categoryService.delete(identifier);
         return REDIRECT_CATEGORY_LIST;
-
     }
 
     @PostMapping("/toggle-status")

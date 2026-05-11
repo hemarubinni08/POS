@@ -65,10 +65,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean delete(String identifier) {
-
         categoryRepository.deleteByIdentifier(identifier);
         return true;
-
     }
 
     @Override
