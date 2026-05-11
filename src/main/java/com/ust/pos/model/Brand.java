@@ -10,5 +10,4 @@ import lombok.Setter;
 public class Brand extends CommonFields {
     private String brandName;
     private String description;
-    private Boolean status;
 }

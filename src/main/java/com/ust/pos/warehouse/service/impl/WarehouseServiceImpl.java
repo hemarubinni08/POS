@@ -6,10 +6,13 @@ import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
@@ -21,53 +24,59 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Autowired
     private ModelMapper modelMapper;
 
-    //  SAVE 
     @Override
     public WarehouseDto save(WarehouseDto warehouseDto) {
 
         if (warehouseDto.getIdentifier() == null || warehouseDto.getIdentifier().isEmpty()) {
-            warehouseDto.setSuccess(false);
-            warehouseDto.setMessage("Identifier required");
-            return warehouseDto;
+            WarehouseDto dto = new WarehouseDto();
+            dto.setSuccess(false);
+            dto.setMessage("Identifier required");
+            return dto;
         }
 
         Warehouse existing = warehouseRepository.findByIdentifier(warehouseDto.getIdentifier());
 
         if (existing != null) {
-            warehouseDto.setSuccess(false);
-            warehouseDto.setMessage("Warehouse already exists");
-            return warehouseDto;
+            WarehouseDto dto = new WarehouseDto();
+            dto.setSuccess(false);
+            dto.setMessage("Warehouse already exists");
+            return dto;
         }
 
         Warehouse warehouse = modelMapper.map(warehouseDto, Warehouse.class);
 
-        warehouseRepository.save(warehouse);
+        Warehouse saved = warehouseRepository.save(warehouse);
 
-        warehouseDto.setSuccess(true);
-        return warehouseDto;
+        WarehouseDto response = modelMapper.map(saved, WarehouseDto.class);
+        response.setSuccess(true);
+        response.setMessage("Warehouse saved successfully");
+
+        return response;
     }
 
-    //  UPDATE 
     @Override
     public WarehouseDto update(WarehouseDto warehouseDto) {
 
         Warehouse existing = warehouseRepository.findByIdentifier(warehouseDto.getIdentifier());
 
         if (existing == null) {
-            warehouseDto.setSuccess(false);
-            warehouseDto.setMessage("Warehouse not found");
-            return warehouseDto;
+            WarehouseDto dto = new WarehouseDto();
+            dto.setSuccess(false);
+            dto.setMessage("Warehouse not found");
+            return dto;
         }
 
         modelMapper.map(warehouseDto, existing);
 
-        warehouseRepository.save(existing);
+        Warehouse saved = warehouseRepository.save(existing);
 
-        warehouseDto.setSuccess(true);
-        return warehouseDto;
+        WarehouseDto response = modelMapper.map(saved, WarehouseDto.class);
+        response.setSuccess(true);
+        response.setMessage("Warehouse updated successfully");
+
+        return response;
     }
 
-    //  FIND BY ID 
     @Override
     public WarehouseDto findByIdentifier(String identifier) {
 
@@ -81,29 +90,20 @@ public class WarehouseServiceImpl implements WarehouseService {
         }
 
         WarehouseDto dto = modelMapper.map(warehouse, WarehouseDto.class);
-
         dto.setSuccess(true);
+
         return dto;
     }
 
-    //  FIND ALL 
     @Override
-    public List<WarehouseDto> findAll() {
+    public List<WarehouseDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<Warehouse>>() {
+        }.getType();
 
-        List<Warehouse> warehouses = warehouseRepository.findAll();
-        List<WarehouseDto> result = new ArrayList<>();
-
-        for (Warehouse warehouse : warehouses) {
-
-            WarehouseDto dto = modelMapper.map(warehouse, WarehouseDto.class);
-
-            result.add(dto);
-        }
-
-        return result;
+        Page<Warehouse> warehousePage =warehouseRepository.findAll(pageable);
+        return modelMapper.map(warehousePage.getContent(), listType);
     }
 
-    //  DELETE 
     @Override
     @Transactional
     public void delete(String identifier) {

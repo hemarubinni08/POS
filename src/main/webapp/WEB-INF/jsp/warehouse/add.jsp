@@ -4,87 +4,206 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Add Warehouse</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
     <style>
-        body { background-color: #E9EEF5; min-height: 100vh; }
-        .card { border-radius: 16px; }
-        .form-control { border-radius: 10px; }
-        .btn { border-radius: 10px; }
+
+        body {
+            background-color: #E9EEF5;
+            min-height: 100vh;
+        }
+
+        .card {
+            border-radius: 16px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        .btn {
+            border-radius: 10px;
+        }
+
     </style>
+
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
+
     <div class="container-fluid">
-        <span class="navbar-brand fw-bold">Warehouse Management</span>
+
+        <span class="navbar-brand fw-bold">
+
+            Warehouse Management
+
+        </span>
+
         <a href="${pageContext.request.contextPath}/warehouse/list"
-           class="btn btn-outline-light btn-sm">Back</a>
+           class="btn btn-outline-light btn-sm">
+
+            Back
+
+        </a>
+
     </div>
+
 </nav>
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+<!-- MAIN -->
+<div class="container d-flex justify-content-center align-items-center"
+     style="min-height: 100vh;">
 
-    <div class="card shadow p-4" style="width: 450px;">
+    <div class="card shadow p-4"
+         style="width: 450px;">
 
-        <h3 class="text-center mb-4 fw-bold">Add Warehouse</h3>
+        <h3 class="text-center mb-4 fw-bold">
 
+            Add Warehouse
+
+        </h3>
+
+        <!-- MESSAGE -->
         <c:if test="${not empty message}">
+
             <div class="alert alert-danger text-center">
+
                 ${message}
+
             </div>
+
         </c:if>
 
+        <!-- FORM -->
         <form:form method="post"
                    action="${pageContext.request.contextPath}/warehouse/add"
                    modelAttribute="warehouseDto">
 
             <!-- IDENTIFIER -->
             <div class="mb-3">
-                <label class="form-label fw-semibold">Identifier</label>
-                <form:input path="identifier" cssClass="form-control"
-                            placeholder="e.g. WH001"/>
+
+                <label class="form-label fw-semibold">
+
+                    Identifier
+
+                </label>
+
+                <form:input path="identifier"
+                            cssClass="form-control"
+                            placeholder="e.g. WH001"
+                            required="true"/>
+
             </div>
 
-            <!-- NAME -->
+            <!-- WAREHOUSE NAME -->
             <div class="mb-3">
-                <label class="form-label fw-semibold">Warehouse Name</label>
-                <form:input path="warehouseName" cssClass="form-control"/>
+
+                <label class="form-label fw-semibold">
+
+                    Warehouse Name
+
+                </label>
+
+                <form:input path="warehouseName"
+                            cssClass="form-control"
+                            maxlength="50"
+                            required="true"/>
+
             </div>
 
             <!-- COUNTRY -->
             <div class="mb-3">
-                <label class="form-label fw-semibold">Country</label>
-                <form:input path="country" cssClass="form-control"/>
+
+                <label class="form-label fw-semibold">
+
+                    Country
+
+                </label>
+
+                <form:input path="country"
+                            cssClass="form-control"
+                            maxlength="50"
+                            required="true"/>
+
             </div>
 
             <!-- STATE -->
             <div class="mb-3">
-                <label class="form-label fw-semibold">State</label>
-                <form:input path="state" cssClass="form-control"/>
+
+                <label class="form-label fw-semibold">
+
+                    State
+
+                </label>
+
+                <form:input path="state"
+                            cssClass="form-control"
+                            maxlength="50"
+                            required="true"/>
+
             </div>
 
             <!-- CITY -->
             <div class="mb-3">
-                <label class="form-label fw-semibold">City</label>
-                <form:input path="cityName" cssClass="form-control"/>
+
+                <label class="form-label fw-semibold">
+
+                    City
+
+                </label>
+
+                <form:input path="cityName"
+                            cssClass="form-control"
+                            maxlength="50"
+                            required="true"/>
+
             </div>
 
             <!-- LOCATION -->
             <div class="mb-4">
-                <label class="form-label fw-semibold">Location</label>
-                <form:input path="location" cssClass="form-control"/>
+
+                <label class="form-label fw-semibold">
+
+                    Location
+
+                </label>
+
+                <form:input path="location"
+                            cssClass="form-control"
+                            maxlength="50"
+                            required="true"/>
+
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">
-                Save Warehouse
-            </button>
+            <!-- BUTTONS -->
+            <div class="d-flex gap-2">
+
+                <button type="submit"
+                        class="btn btn-primary w-100">
+
+                    Save Warehouse
+
+                </button>
+
+                <a href="${pageContext.request.contextPath}/warehouse/list"
+                   class="btn btn-outline-secondary w-100">
+
+                    Cancel
+
+                </a>
+
+            </div>
 
         </form:form>
 
@@ -93,4 +212,5 @@
 </div>
 
 </body>
+
 </html>

@@ -3,6 +3,7 @@ package com.ust.pos.customer;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +23,8 @@ public class CustomerController {
 
     // LIST
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("customers", customerService.findAll());
+    public String list(Model model, Pageable pageable) {
+        model.addAttribute("customers", customerService.findAll(pageable));
         return CUSTOMER_LIST;
     }
 

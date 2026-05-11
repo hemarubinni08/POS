@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class Price extends CommonFields {
     private String productId;
+    private String productName;
     private Double costPrice;
     private Double mrp;
     private Double sellingPrice;

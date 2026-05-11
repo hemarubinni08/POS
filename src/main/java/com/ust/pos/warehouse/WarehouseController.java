@@ -3,6 +3,7 @@ package com.ust.pos.warehouse;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,8 @@ public class WarehouseController {
     private WarehouseService warehouseService;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("warehouses", warehouseService.findAll());
+    public String list(Model model, Pageable pageable) {
+        model.addAttribute("warehouses", warehouseService.findAll(pageable));
         return "warehouse/list";
     }
 
@@ -45,13 +46,13 @@ public class WarehouseController {
     }
 
     @GetMapping("/get")
-    public String edit(@RequestParam String identifier, Model model) {
+    public String edit(@RequestParam String identifier, Model model,Pageable pageable) {
 
         WarehouseDto response = warehouseService.findByIdentifier(identifier);
 
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
-            model.addAttribute("warehouses", warehouseService.findAll());
+            model.addAttribute("warehouses", warehouseService.findAll(pageable));
             return "warehouse/list";
         }
 

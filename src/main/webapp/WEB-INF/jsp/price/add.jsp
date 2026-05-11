@@ -28,6 +28,7 @@
 
         <h3 class="text-center mb-3">Add Price</h3>
 
+        <!-- ERROR MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger">${message}</div>
         </c:if>
@@ -36,11 +37,11 @@
                    action="${pageContext.request.contextPath}/price/add"
                    modelAttribute="priceDto">
 
-            <!-- PRODUCT DROPDOWN -->
+            <!-- PRODUCT -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Product</label>
 
-                <form:select path="productId" cssClass="form-control">
+                <form:select path="productId" cssClass="form-control" required="required">
 
                     <form:option value="" label="-- Select Product --"/>
 
@@ -53,23 +54,39 @@
                 </form:select>
             </div>
 
-            <!-- PRICE FIELDS -->
+            <!-- COST PRICE -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Cost Price</label>
-                <form:input path="costPrice" cssClass="form-control" type="number"/>
+                <form:input path="costPrice"
+                            cssClass="form-control"
+                            type="number"
+                            step="0.01"
+                            required="required"/>
             </div>
 
+            <!-- MRP -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">MRP</label>
-                <form:input path="mrp" cssClass="form-control" type="number"/>
+                <form:input path="mrp"
+                            cssClass="form-control"
+                            type="number"
+                            step="0.01"
+                            required="required"/>
             </div>
 
+            <!-- SELLING PRICE -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Selling Price</label>
-                <form:input path="sellingPrice" cssClass="form-control" type="number"/>
+                <form:input path="sellingPrice"
+                            cssClass="form-control"
+                            type="number"
+                            step="0.01"
+                            required="required"/>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">Save</button>
+            <button type="submit" class="btn btn-primary w-100">
+                Save
+            </button>
 
         </form:form>
 

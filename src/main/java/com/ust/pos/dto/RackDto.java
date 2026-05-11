@@ -8,6 +8,5 @@ import java.util.List;
 @Setter
 public class RackDto extends CommonDto {
     private String name;
-    private Boolean status = true;
     private List<String> shelfIdentifiers;
 }

@@ -71,7 +71,7 @@
                        name="name"
                        class="form-control"
                        value="${category.name}"
-                       required>
+                       readonly>
             </div>
 
             <!-- SUPER CATEGORY -->

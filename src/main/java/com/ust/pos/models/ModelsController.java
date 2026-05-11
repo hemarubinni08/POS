@@ -4,6 +4,7 @@ import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.models.service.ModelsService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,18 +18,21 @@ public class ModelsController {
     @Autowired
     private ModelsService modelsService;
 
+    // LIST ALL MODELS
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("models", modelsService.findAll());
+    public String list(Model model, Pageable pageable) {
+        model.addAttribute("models", modelsService.findAll(pageable));
         return "models/list";
     }
 
+    // ADD A NEW MODEL
     @GetMapping("/add")
     public String addPage(Model model) {
         model.addAttribute("modelsDto", new ModelsDto());
         return "models/add";
     }
 
+    // SAVE
     @PostMapping("/save")
     public String save(@ModelAttribute ModelsDto modelsDto, Model model) {
 
@@ -42,6 +46,7 @@ public class ModelsController {
         return REDIRECT_LIST;
     }
 
+    // GET PROFILE FOR THE UPDATE
     @GetMapping("/edit/{identifier}")
     public String edit(@PathVariable String identifier, Model model) {
 
@@ -70,6 +75,7 @@ public class ModelsController {
         return REDIRECT_LIST;
     }
 
+    // DELETE
     @Transactional
     @GetMapping("/delete/{identifier}")
     public String delete(@PathVariable String identifier) {

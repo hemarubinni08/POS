@@ -4,6 +4,7 @@ import com.ust.pos.dto.RackDto;
 import com.ust.pos.rack.service.RackService;
 import com.ust.pos.shelf.service.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class RackController {
     private ShelfService shelfService;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("racks", rackService.findAll());
+    public String list(Model model, Pageable pageable) {
+        model.addAttribute("racks", rackService.findAll(pageable));
         return "rack/list";
     }
 

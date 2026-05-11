@@ -1,23 +1,28 @@
 package com.ust.pos.api.rack;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.RackDto;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.rack.service.RackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/rack")
-public class RackControllerApi {
+public class RackControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/rack/list";
     @Autowired
     private RackService rackService;
 
-    @GetMapping("/list")
-    public List<RackDto> list() {
-        return rackService.findAll();
+    @PostMapping("/list")
+    public List<RackDto> list(@RequestBody PaginationDto pagination) {
+        Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
+                pagination.getSortDirection(), pagination.getSortfield());
+        return rackService.findAll(pageable);
     }
 
     @PostMapping("/add")

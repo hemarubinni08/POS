@@ -12,5 +12,4 @@ public class Stock extends CommonFields {
     private String warehouseIdentifier;
     private Integer availableQuantity;
     private Integer reorderLevel;
-    private Boolean status = true;
 }

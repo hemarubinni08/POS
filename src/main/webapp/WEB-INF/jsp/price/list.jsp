@@ -68,6 +68,7 @@
                 <thead class="table-dark">
                 <tr>
                     <th>Identifier</th>
+                    <th>Product Name</th>
                     <th>Cost Price</th>
                     <th>MRP</th>
                     <th>Selling Price</th>
@@ -81,7 +82,7 @@
 
                     <c:when test="${empty prices}">
                         <tr>
-                            <td colspan="5" class="text-center py-4 text-muted">
+                            <td colspan="6" class="text-center py-4 text-muted">
                                 No price records available
                             </td>
                         </tr>
@@ -92,16 +93,12 @@
                         <c:forEach var="p" items="${prices}">
                             <tr>
 
-                                <!-- IDENTIFIER -->
-                                <td class="fw-semibold">
-                                    ${p.identifier}
-                                </td>
-
+                                <td class="fw-semibold">${p.identifier}</td>
+                                <td>${p.productName}</td>
                                 <td>₹ ${p.costPrice}</td>
                                 <td>₹ ${p.mrp}</td>
                                 <td>₹ ${p.sellingPrice}</td>
 
-                                <!-- ACTIONS -->
                                 <td class="text-center">
 
                                     <a href="${pageContext.request.contextPath}/price/get?identifier=${p.identifier}"

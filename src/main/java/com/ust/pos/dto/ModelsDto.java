@@ -7,6 +7,4 @@ import lombok.Setter;
 @Setter
 public class ModelsDto extends CommonDto {
     private String modelName;
-    private Boolean status;
-
 }

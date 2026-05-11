@@ -63,24 +63,37 @@
                        class="form-control"
                        name="modelName"
                        placeholder="Enter model name"
+                       maxlength="50"
                        required>
             </div>
 
-            <!-- STATUS TOGGLE (FIXED PROPERLY) -->
-            <div class="mb-4 form-check form-switch">
-                <input class="form-check-input" type="checkbox"
-                       role="switch" id="status"
-                       name="status" value="true" checked>
+           <!-- STATUS DROPDOWN -->
+           <div class="mb-4">
+               <label class="form-label fw-semibold">Status</label>
 
-                <label class="form-check-label fw-semibold" for="status">
-                    Active / Inactive
-                </label>
+               <select class="form-control" name="status" required>
+
+                   <option value="">-- Select Status --</option>
+
+                   <option value="true">Active</option>
+                   <option value="false">Inactive</option>
+
+               </select>
+           </div>
+
+            <!-- BUTTONS -->
+            <div class="d-flex gap-2">
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Save Model
+                </button>
+
+                <a href="${pageContext.request.contextPath}/models/list"
+                   class="btn btn-outline-secondary w-100">
+                    Cancel
+                </a>
+
             </div>
-
-            <!-- BUTTON -->
-            <button type="submit" class="btn btn-primary w-100">
-                Save Model
-            </button>
 
         </form>
 

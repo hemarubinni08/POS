@@ -9,10 +9,7 @@ public class StockDto extends CommonDto {
 
     private String productIdentifier;
     private String warehouseIdentifier;
-
     private Integer availableQuantity;
     private Integer reorderLevel;
-
-    private Boolean status = true;
     private String stockState;
 }

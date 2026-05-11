@@ -83,16 +83,26 @@
                            readonly>
                 </div>
 
-                <!-- STATUS TOGGLE SWITCH -->
-                <div class="mb-4 form-check form-switch">
-                    <input class="form-check-input" type="checkbox"
-                           role="switch" name="status" value="true"
-                           id="status"  <c:if test="${model.status}">checked</c:if>>
+               <!-- STATUS DROPDOWN -->
+               <div class="mb-4">
+                   <label class="form-label fw-semibold">Status</label>
 
-                    <label class="form-check-label fw-semibold" for="status">
-                        Active / Inactive
-                    </label>
-                </div>
+                   <select class="form-control" name="status" required>
+
+                       <option value="">-- Select Status --</option>
+
+                       <option value="true"
+                           <c:if test="${model.status == 'true'}">selected</c:if>>
+                           Active
+                       </option>
+
+                       <option value="false"
+                           <c:if test="${model.status == 'false'}">selected</c:if>>
+                           Inactive
+                       </option>
+
+                   </select>
+               </div>
 
                 <!-- BUTTONS -->
                 <div class="d-flex gap-2">

@@ -3,6 +3,7 @@ package com.ust.pos.brand;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,8 @@ public class BrandController {
 
     // LIST PAGE
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("brands", brandService.findAll());
+    public String list(Model model, Pageable pageable) {
+        model.addAttribute("brands", brandService.findAll(pageable));
         return "brand/list";
     }
 

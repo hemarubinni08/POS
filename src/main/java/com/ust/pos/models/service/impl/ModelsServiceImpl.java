@@ -5,9 +5,13 @@ import com.ust.pos.model.Models;
 import com.ust.pos.model.ModelsRepository;
 import com.ust.pos.models.service.ModelsService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +24,7 @@ public class ModelsServiceImpl implements ModelsService {
     @Autowired
     private ModelMapper modelMapper;
 
-    //  SAVE 
+    //  SAVE
     @Override
     public ModelsDto save(ModelsDto modelsDto) {
 
@@ -43,16 +47,15 @@ public class ModelsServiceImpl implements ModelsService {
         model.setModelName(modelsDto.getModelName());
 
         model.setStatus(modelsDto.getStatus());
-        modelsRepository.save(model);
+        Models saved= modelsRepository.save(model);
+        ModelsDto dto=modelMapper.map(saved,ModelsDto.class);
+        dto.setSuccess(true);
+        dto.setMessage("Model added successfully");
 
-        modelsDto.setIdentifier(model.getIdentifier());
-        modelsDto.setSuccess(true);
-        modelsDto.setMessage("Model added successfully");
-
-        return modelsDto;
+        return dto;
     }
 
-    //  UPDATE 
+    //  UPDATE
     @Override
     public ModelsDto update(ModelsDto modelsDto) {
 
@@ -75,28 +78,18 @@ public class ModelsServiceImpl implements ModelsService {
         return modelsDto;
     }
 
-    //  FIND ALL 
+    //  FIND ALL
     @Override
-    public List<ModelsDto> findAll() {
+    public List<ModelsDto> findAll(Pageable pageable) {
 
-        List<Models> list = modelsRepository.findAll();
-        List<ModelsDto> dtoList = new ArrayList<>();
+        Type listType = new TypeToken<List<ModelsDto>>() {
+        }.getType();
 
-        for (Models model : list) {
-
-            ModelsDto dto = new ModelsDto();
-
-            dto.setIdentifier(model.getIdentifier());
-            dto.setModelName(model.getModelName());
-            dto.setStatus(model.getStatus());
-
-            dtoList.add(dto);
-        }
-
-        return dtoList;
+        Page<Models> modelsPage =modelsRepository.findAll(pageable);
+        return modelMapper.map(modelsPage.getContent(), listType);
     }
 
-    //  FIND 
+    //  FIND
     @Override
     public ModelsDto findByIdentifier(String identifier) {
 
@@ -113,7 +106,7 @@ public class ModelsServiceImpl implements ModelsService {
         return dto;
     }
 
-    //  DELETE 
+    //  DELETE
     @Override
     public void delete(String identifier) {
         modelsRepository.deleteByIdentifier(identifier);

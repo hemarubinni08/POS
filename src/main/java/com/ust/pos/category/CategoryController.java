@@ -3,6 +3,7 @@ package com.ust.pos.category;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,29 +23,29 @@ public class CategoryController {
 
     //  LIST 
     @GetMapping("/list")
-    public String home(Model model) {
-        model.addAttribute(CATEGORIES, categoryService.findAll());
+    public String home(Model model, Pageable pageable) {
+        model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
         return "category/list";
     }
 
     //  ADD PAGE 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute CategoryDto categoryDto) {
+    public String add(Model model, @ModelAttribute CategoryDto categoryDto,Pageable pageable) {
         model.addAttribute(CATEGORY, categoryDto);
-        model.addAttribute(CATEGORIES, categoryService.findAll());
+        model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
         return "category/add";
     }
 
     //  SAVE 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute CategoryDto categoryDto) {
+    public String addPost(Model model, @ModelAttribute CategoryDto categoryDto,Pageable pageable) {
 
         CategoryDto response = categoryService.save(categoryDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(CATEGORY, categoryDto);
-            model.addAttribute(CATEGORIES, categoryService.findAll());
+            model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
             return "category/add";
         }
 
@@ -53,13 +54,13 @@ public class CategoryController {
 
     //  EDIT 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String identifier) {
+    public String update(Model model, @RequestParam String identifier,Pageable pageable) {
 
         CategoryDto response = categoryService.findByIdentifier(identifier);
 
         model.addAttribute(CATEGORY, response);
 
-        List<CategoryDto> cd = categoryService.findAll();
+        List<CategoryDto> cd = categoryService.findAll(pageable);
 
         // exclude current category from dropdown
         model.addAttribute(CATEGORIES,
@@ -72,14 +73,14 @@ public class CategoryController {
 
     //  UPDATE 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute CategoryDto categoryDto) {
+    public String updatePost(Model model, @ModelAttribute CategoryDto categoryDto,Pageable pageable) {
 
         CategoryDto response = categoryService.update(categoryDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(CATEGORY, categoryDto);
-            model.addAttribute(CATEGORIES, categoryService.findAll());
+            model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
             return "category/category";
         }
 

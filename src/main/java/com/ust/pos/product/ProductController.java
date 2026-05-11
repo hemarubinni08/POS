@@ -7,6 +7,7 @@ import com.ust.pos.models.service.ModelsService;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +40,8 @@ public class ProductController {
     private UnitService unitService;
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("products", productService.findAll());
+    public String list(Model model, Pageable pageable) {
+        model.addAttribute("products", productService.findAll(pageable));
         return "product/list";
     }
 
@@ -62,7 +63,7 @@ public class ProductController {
 
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
-            model.addAttribute(CATEGORIES, categoryService.findLeafCategories());
+            model.addAttribute(CATEGORIES, categoryService.findChildCategories());
             model.addAttribute(BRANDS, brandService.findActiveBrands());
             model.addAttribute(MODELS, modelService.findActiveModels());
             model.addAttribute(UNITS, unitService.findActiveUnits());
@@ -74,18 +75,18 @@ public class ProductController {
     }
 
     @GetMapping("/get")
-    public String edit(@RequestParam String identifier, Model model) {
+    public String edit(@RequestParam String identifier, Model model,Pageable pageable) {
 
         ProductDto response = productService.findByIdentifier(identifier);
 
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
-            model.addAttribute("products", productService.findAll());
+            model.addAttribute("products", productService.findAll(pageable));
             return "product/list";
         }
 
         model.addAttribute(PRODUCT_DTO, response);
-        model.addAttribute(CATEGORIES, categoryService.findLeafCategories());
+        model.addAttribute(CATEGORIES, categoryService.findChildCategories());
         model.addAttribute(BRANDS, brandService.findActiveBrands());
         model.addAttribute(MODELS, modelService.findActiveModels());
         model.addAttribute(UNITS, unitService.findActiveUnits());
@@ -101,7 +102,7 @@ public class ProductController {
 
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
-            model.addAttribute(CATEGORIES, categoryService.findLeafCategories());
+            model.addAttribute(CATEGORIES, categoryService.findChildCategories());
             model.addAttribute(BRANDS, brandService.findActiveBrands());
             model.addAttribute(MODELS, modelService.findActiveModels());
             model.addAttribute(UNITS, unitService.findActiveUnits());

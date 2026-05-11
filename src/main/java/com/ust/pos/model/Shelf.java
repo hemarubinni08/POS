@@ -9,5 +9,4 @@ import lombok.Setter;
 @Setter
 public class Shelf extends CommonFields {
     private String name;
-    private Boolean status = true;
 }

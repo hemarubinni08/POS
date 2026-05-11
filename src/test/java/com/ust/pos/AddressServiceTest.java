@@ -25,47 +25,35 @@ class AddressServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    //  SAVE - SUCCESS (INSERT NEW) 
+    //  INSERT CASE 
     @Test
-    void save_success_insertNew() {
+    void save_insert_success() {
 
-        AddressDto dto = new AddressDto();
-        dto.setPhoneNo("9876543210");
-        dto.setAddressType("billing");
-        dto.setAddressLine("Street 1");
-        dto.setCity("Chennai");
-        dto.setState("TN");
-        dto.setZip("600001");
-        dto.setCountry("India");
+        AddressDto dto = validDto();
 
         Mockito.when(addressRepository
                         .findTopByPhoneNoAndAddressTypeOrderByIdDesc("9876543210", "billing"))
                 .thenReturn(null);
 
+        Address mappedEntity = new Address();
+
         Mockito.when(modelMapper.map(dto, Address.class))
-                .thenReturn(new Address());
+                .thenReturn(mappedEntity);
 
         addressService.save(dto);
 
         Assertions.assertTrue(dto.isSuccess());
         Assertions.assertEquals("Address saved successfully", dto.getMessage());
 
-        Mockito.verify(addressRepository).save(Mockito.any(Address.class));
+        Mockito.verify(modelMapper).map(dto, Address.class);
+        Mockito.verify(addressRepository).save(mappedEntity);
     }
 
-    //  SAVE - UPDATE EXISTING 
+    //  UPDATE CASE 
     @Test
-    void save_success_updateExisting() {
+    void save_update_success() {
 
-        AddressDto dto = new AddressDto();
-        dto.setPhoneNo("9876543210");
-        dto.setAddressType("billing");
-        dto.setAddressLine("Street 1");
-        dto.setCity("Chennai");
-        dto.setState("TN");
-        dto.setZip("600001");
-        dto.setCountry("India");
-
+        AddressDto dto = validDto();
         Address existing = new Address();
 
         Mockito.when(addressRepository
@@ -77,12 +65,15 @@ class AddressServiceTest {
         Assertions.assertTrue(dto.isSuccess());
         Assertions.assertEquals("Address saved successfully", dto.getMessage());
 
+        // verify field updates happened
+        Assertions.assertEquals("Street 1", dto.getAddressLine());
+
         Mockito.verify(addressRepository).save(existing);
     }
 
-    //  SAVE - VALIDATION FAILURE 
+    //  VALIDATION FAILURE 
     @Test
-    void save_failure_missingFields() {
+    void save_validation_failure() {
 
         AddressDto dto = new AddressDto(); // empty
 
@@ -90,32 +81,38 @@ class AddressServiceTest {
 
         Assertions.assertFalse(dto.isSuccess());
         Assertions.assertEquals("All address fields are required", dto.getMessage());
+
+        Mockito.verifyNoInteractions(addressRepository);
+        Mockito.verifyNoInteractions(modelMapper);
     }
 
-    //  FIND 
+    //  FIND SUCCESS 
     @Test
     void find_success() {
 
-        Address address = new Address();
-
+        Address entity = new Address();
         AddressDto mapped = new AddressDto();
 
         Mockito.when(addressRepository
                         .findTopByPhoneNoAndAddressTypeOrderByIdDesc("9876543210", "billing"))
-                .thenReturn(address);
+                .thenReturn(entity);
 
-        Mockito.when(modelMapper.map(address, AddressDto.class))
+        Mockito.when(modelMapper.map(entity, AddressDto.class))
                 .thenReturn(mapped);
 
         AddressDto result = addressService
                 .findByPhoneNoAndAddressType("9876543210", "billing");
 
         Assertions.assertNotNull(result);
+        Assertions.assertSame(mapped, result);
+
+        Mockito.verify(addressRepository)
+                .findTopByPhoneNoAndAddressTypeOrderByIdDesc("9876543210", "billing");
     }
 
-    //  FIND - NOT FOUND 
+    //  FIND NOT FOUND 
     @Test
-    void find_notFound() {
+    void find_not_found() {
 
         Mockito.when(addressRepository
                         .findTopByPhoneNoAndAddressTypeOrderByIdDesc("9876543210", "billing"))
@@ -129,12 +126,24 @@ class AddressServiceTest {
 
     //  DELETE 
     @Test
-    void delete_test() {
-
-        Mockito.doNothing().when(addressRepository).deleteByPhoneNo("9876543210");
+    void delete_success() {
 
         addressService.delete("9876543210");
 
-        Mockito.verify(addressRepository).deleteByPhoneNo("9876543210");
+        Mockito.verify(addressRepository)
+                .deleteByPhoneNo("9876543210");
+    }
+
+    //  HELPER 
+    private AddressDto validDto() {
+        AddressDto dto = new AddressDto();
+        dto.setPhoneNo("9876543210");
+        dto.setAddressType("billing");
+        dto.setAddressLine("Street 1");
+        dto.setCity("Chennai");
+        dto.setState("TN");
+        dto.setZip("600001");
+        dto.setCountry("India");
+        return dto;
     }
 }

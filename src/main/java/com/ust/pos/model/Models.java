@@ -9,6 +9,4 @@ import lombok.Setter;
 @Setter
 public class Models extends CommonFields {
     private String modelName;
-    private Boolean status;
-
 }

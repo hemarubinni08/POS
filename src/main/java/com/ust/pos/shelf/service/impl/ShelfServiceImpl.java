@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -97,15 +99,14 @@ public class ShelfServiceImpl implements ShelfService {
         return modelMapper.map(shelf, ShelfDto.class);
     }
 
-    // FIND ALL
     @Override
-    public List<ShelfDto> findAll() {
+    public List<ShelfDto> findAll(Pageable pageable) {
 
-        List<Shelf> list = shelfRepository.findAll();
+        Type listType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
 
-        Type type = new TypeToken<List<ShelfDto>>() {}.getType();
-
-        return modelMapper.map(list, type);
+        Page<Shelf> shelfPage =shelfRepository.findAll(pageable);
+        return modelMapper.map(shelfPage.getContent(), listType);
     }
 
     // ACTIVE ONLY

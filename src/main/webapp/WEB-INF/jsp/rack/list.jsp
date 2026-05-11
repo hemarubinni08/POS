@@ -1,9 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <title>Rack List</title>
 
@@ -11,6 +14,7 @@
           rel="stylesheet">
 
     <style>
+
         body {
             background-color: #E9EEF5;
             min-height: 100vh;
@@ -24,12 +28,14 @@
             border-radius: 10px;
         }
 
-        .table th, .table td {
+        .table th,
+        .table td {
             vertical-align: middle;
         }
 
         .badge {
-            font-size: 12px;
+            border-radius: 8px;
+            margin-right: 4px;
         }
 
         .form-switch .form-check-input {
@@ -37,16 +43,21 @@
             height: 22px;
             cursor: pointer;
         }
+
     </style>
+
 </head>
 
 <body>
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
+
     <div class="container-fluid">
 
-        <span class="navbar-brand fw-bold">Rack Management</span>
+        <span class="navbar-brand fw-bold">
+            Rack Management
+        </span>
 
         <div class="d-flex gap-2">
 
@@ -63,16 +74,24 @@
         </div>
 
     </div>
+
 </nav>
 
 <!-- MAIN -->
 <div class="container mt-5">
 
-    <div class="card shadow p-4">
+    <div class="card shadow p-3">
 
-        <h4 class="text-center fw-bold mb-4">Rack List</h4>
+        <h3 class="fw-bold mb-3 text-center">Rack List</h3>
 
-        <!-- EMPTY -->
+        <!-- MESSAGE -->
+        <c:if test="${not empty message}">
+            <div class="alert alert-info text-center">
+                ${message}
+            </div>
+        </c:if>
+
+        <!-- EMPTY STATE -->
         <c:if test="${empty racks}">
             <div class="text-center text-muted py-4">
                 No racks available
@@ -84,55 +103,77 @@
 
             <div class="table-responsive">
 
-                <table class="table table-hover table-striped align-middle">
+                <table class="table table-hover table-striped mb-0">
 
                     <thead class="table-dark">
+
                     <tr>
-                        <th>Rack ID</th>
-                        <th>Name</th>
+                        <th>Identifier</th>
+                        <th>Rack Name</th>
                         <th>Shelves</th>
-                        <th class="text-center">Status</th>
+                        <th>Status</th>
                         <th class="text-center">Actions</th>
                     </tr>
+
                     </thead>
 
                     <tbody>
 
                     <c:forEach var="r" items="${racks}">
+
                         <tr>
 
-                            <!-- ID -->
-                            <td class="fw-semibold">${r.identifier}</td>
+                            <!-- IDENTIFIER -->
+                            <td class="fw-semibold">
+
+                                <a href="${pageContext.request.contextPath}/rack/edit?identifier=${r.identifier}"
+                                   class="text-decoration-none">
+
+                                    ${r.identifier}
+
+                                </a>
+
+                            </td>
 
                             <!-- NAME -->
-                            <td>${r.name}</td>
+                            <td>
+                                ${r.name}
+                            </td>
 
                             <!-- SHELVES -->
                             <td>
+
                                 <c:choose>
+
                                     <c:when test="${empty r.shelfIdentifiers}">
-                                        <span class="text-muted">No shelves</span>
+                                        <span class="text-muted">-</span>
                                     </c:when>
 
                                     <c:otherwise>
+
                                         <c:forEach var="s" items="${r.shelfIdentifiers}">
-                                            <span class="badge bg-secondary me-1">
+                                            <span class="badge bg-primary">
                                                 ${s}
                                             </span>
                                         </c:forEach>
+
                                     </c:otherwise>
+
                                 </c:choose>
+
                             </td>
 
                             <!-- STATUS -->
-                            <td class="text-center">
+                            <td>
 
                                 <div class="form-check form-switch d-flex justify-content-center">
 
                                     <input class="form-check-input"
                                            type="checkbox"
                                            onclick="toggleRack('${r.identifier}')"
-                                           <c:if test="${r.status}">checked</c:if> />
+                                           <c:if test="${r.status}">
+                                               checked
+                                           </c:if> />
 
                                 </div>
 
@@ -143,18 +184,19 @@
 
                                 <a href="${pageContext.request.contextPath}/rack/edit?identifier=${r.identifier}"
                                    class="btn btn-sm btn-outline-primary me-2">
-                                    Edit
+                                    Update
                                 </a>
 
                                 <a href="${pageContext.request.contextPath}/rack/delete?identifier=${r.identifier}"
                                    class="btn btn-sm btn-outline-danger"
-                                   onclick="return confirm('Delete this rack?');">
+                                   onclick="return confirm('Are you sure you want to delete this rack?');">
                                     Delete
                                 </a>
 
                             </td>
 
                         </tr>
+
                     </c:forEach>
 
                     </tbody>
@@ -169,11 +211,17 @@
 
 </div>
 
+<!-- TOGGLE SCRIPT -->
 <script>
-    function toggleRack(identifier) {
-        window.location.href =
-            "${pageContext.request.contextPath}/rack/toggle?identifier=" + identifier;
-    }
+
+function toggleRack(identifier) {
+
+    window.location.href =
+        "${pageContext.request.contextPath}/rack/toggle?identifier="
+        + identifier;
+
+}
+
 </script>
 
 </body>

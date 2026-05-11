@@ -60,6 +60,7 @@
                        class="form-control"
                        value="${category.name}"
                        placeholder="Enter category name"
+                       maxlength="50"
                        required>
             </div>
 

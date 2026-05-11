@@ -3,6 +3,7 @@ package com.ust.pos.shelf;
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.shelf.service.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +23,8 @@ public class ShelfController {
 
     // LIST
     @GetMapping("/list")
-    public String list(Model model) {
-        List<ShelfDto> shelfList = shelfService.findAll();
+    public String list(Model model, Pageable pageable) {
+        List<ShelfDto> shelfList = shelfService.findAll(pageable);
         model.addAttribute("shelves", shelfList);
         return "shelf/list";
     }
@@ -62,7 +63,6 @@ public class ShelfController {
             return REDIRECT_LIST;
         }
 
-        // 🔴 MUST MATCH JSP modelAttribute
         model.addAttribute(SHELF_DTO, shelfDto);
 
         return "shelf/shelf";

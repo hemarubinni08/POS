@@ -9,5 +9,4 @@ import lombok.Setter;
 @Setter
 public class Unit extends CommonFields {
     private String unitName;
-    private Boolean status;
 }

@@ -6,9 +6,13 @@ import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +26,16 @@ public class BrandServiceImpl implements BrandService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Override
+    public List<BrandDto> findAll(Pageable pageable) {
+
+        Type listType = new TypeToken<List<BrandDto>>() {
+        }.getType();
+        Page<Brand> brandPage =brandRepository.findAll(pageable);
+        return modelMapper.map(brandPage.getContent(), listType);
+    }
+
+    // SAVE LOGIC
     @Override
     public BrandDto save(BrandDto brandDto) {
 
@@ -52,6 +66,7 @@ public class BrandServiceImpl implements BrandService {
         return dto;
     }
 
+    // UPDATE LOGIC
     @Override
     public BrandDto update(BrandDto brandDto) {
 
@@ -78,22 +93,10 @@ public class BrandServiceImpl implements BrandService {
         return dto;
     }
 
+    //DELETE LOGIC
     @Override
     public void delete(String identifier) {
         brandRepository.deleteByIdentifier(identifier);
-    }
-
-    @Override
-    public List<BrandDto> findAll() {
-
-        List<Brand> brands = brandRepository.findAll();
-        List<BrandDto> list = new ArrayList<>();
-
-        for (Brand brand : brands) {
-            list.add(modelMapper.map(brand, BrandDto.class));
-        }
-
-        return list;
     }
 
     @Override
@@ -108,6 +111,7 @@ public class BrandServiceImpl implements BrandService {
         return modelMapper.map(brand, BrandDto.class);
     }
 
+    // FIND ACTIVE BRANDS
     @Override
     public List<BrandDto> findActiveBrands() {
 
@@ -123,6 +127,7 @@ public class BrandServiceImpl implements BrandService {
         return result;
     }
 
+    // TOGGLE STATUS
     @Override
     public BrandDto toggleStatus(String identifier) {
 

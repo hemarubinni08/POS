@@ -1,23 +1,29 @@
 package com.ust.pos.api.product;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/product")
-public class ProductControllerApi {
+public class ProductControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/product/list";
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/list")
-    public List<ProductDto> list() {
-        return productService.findAll();
+    // GET ALL
+    @PostMapping("/list")
+    public List<ProductDto> list(@RequestBody PaginationDto pagination) {
+        Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
+                pagination.getSortDirection(), pagination.getSortfield());
+        return productService.findAll(pageable);
     }
 
     @PostMapping("/add")

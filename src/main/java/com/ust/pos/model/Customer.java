@@ -16,5 +16,4 @@ public class Customer extends CommonFields {
     private String balanceType;
     private String partyType;
     private Long creditLimit;
-    private Boolean status = true;
 }

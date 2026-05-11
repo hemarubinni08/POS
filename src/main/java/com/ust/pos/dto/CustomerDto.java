@@ -16,5 +16,4 @@ public class CustomerDto extends CommonDto {
     private Long creditLimit;
     private AddressDto billingAddress;
     private AddressDto shippingAddress;
-    private Boolean status = true;
 }

@@ -7,5 +7,4 @@ import lombok.Setter;
 @Setter
 public class ShelfDto extends CommonDto {
     private String name;
-    private Boolean status = true;
 }

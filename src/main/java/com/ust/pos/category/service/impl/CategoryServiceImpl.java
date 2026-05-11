@@ -5,9 +5,13 @@ import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,19 +24,16 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private ModelMapper modelMapper;
 
-    //  FIND ALL 
+    //  FIND ALL
     @Override
-    public List<CategoryDto> findAll() {
-        List<Category> categoryList = categoryRepository.findAll();
-        List<CategoryDto> dtoList = new ArrayList<>();
-
-        for (Category category : categoryList) {
-            dtoList.add(modelMapper.map(category, CategoryDto.class));
-        }
-        return dtoList;
+    public List<CategoryDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
+        Page<Category> categoryPage =categoryRepository.findAll(pageable);
+        return modelMapper.map(categoryPage.getContent(), listType);
     }
 
-    //  FIND SUPER 
+    //  FIND SUPER
     @Override
     public List<CategoryDto> findSuperCategories() {
         List<Category> categoryList = categoryRepository.findAll();
@@ -48,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
         return superList;
     }
 
-    //  FIND LEAF 
+    //  FIND LEAF
     @Override
     public List<CategoryDto> findLeafCategories() {
 
@@ -73,7 +74,7 @@ public class CategoryServiceImpl implements CategoryService {
         return leafList;
     }
 
-    //  FIND CHILD (NEW) 
+    //  FIND CHILD (NEW)
     @Override
     public List<CategoryDto> findChildCategories() {
 
@@ -91,7 +92,7 @@ public class CategoryServiceImpl implements CategoryService {
         return childList;
     }
 
-    //  FIND BY ID 
+    //  FIND BY ID
     @Override
     public CategoryDto findByIdentifier(String identifier) {
 
@@ -108,7 +109,7 @@ public class CategoryServiceImpl implements CategoryService {
         return modelMapper.map(category, CategoryDto.class);
     }
 
-    //  SAVE 
+    //  SAVE
     @Override
     public CategoryDto save(CategoryDto dto) {
 
@@ -131,7 +132,7 @@ public class CategoryServiceImpl implements CategoryService {
         return response;
     }
 
-    //  UPDATE 
+    //  UPDATE
     @Override
     public CategoryDto update(CategoryDto dto) {
 
@@ -154,7 +155,7 @@ public class CategoryServiceImpl implements CategoryService {
         return response;
     }
 
-    //  DELETE 
+    //  DELETE
     @Override
     public void delete(String identifier) {
 

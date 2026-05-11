@@ -4,6 +4,7 @@ import com.ust.pos.dto.PriceDto;
 import com.ust.pos.price.service.PriceService;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,21 +23,24 @@ public class PriceController {
     @Autowired
     private ProductService productService;
 
+    // LIST ALL PRICES
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("prices", priceService.findAll());
+    public String list(Model model,Pageable pageable) {
+        model.addAttribute("prices", priceService.findAll(pageable));
         return "price/list";
     }
 
+    // ADD PRICE FOR A PRODUCT
     @GetMapping("/add")
-    public String add(Model model) {
+    public String add(Model model, Pageable pageable) {
         model.addAttribute(PRICE_DTO, new PriceDto());
-        model.addAttribute("products", productService.findAll());
+        model.addAttribute("products", productService.findAll(pageable));
         return "price/add";
     }
 
+    // SAVE
     @PostMapping("/add")
-    public String save(@ModelAttribute PriceDto priceDto, Model model) {
+    public String save(@ModelAttribute PriceDto priceDto, Model model,Pageable pageable) {
 
         priceDto.setIdentifier(priceDto.getProductId());
         PriceDto response = priceService.save(priceDto);
@@ -44,21 +48,22 @@ public class PriceController {
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(PRICE_DTO, priceDto);
-            model.addAttribute("products", productService.findAll());
+            model.addAttribute("products", productService.findAll(pageable));
             return "price/add";
         }
 
         return REDIRECT;
     }
 
+    // TO GET PRICE PROFILE OF PRODUCT
     @GetMapping("/get")
-    public String edit(@RequestParam String identifier, Model model) {
+    public String edit(@RequestParam String identifier, Model model,Pageable pageable) {
 
         PriceDto response = priceService.findByIdentifier(identifier);
 
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
-            model.addAttribute("prices", priceService.findAll());
+            model.addAttribute("prices", priceService.findAll(pageable));
             return "price/list";
         }
 
@@ -80,6 +85,7 @@ public class PriceController {
         return REDIRECT;
     }
 
+    // DELETE
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
         priceService.delete(identifier);

@@ -10,12 +10,13 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -30,7 +31,17 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private AddressService addressService;
 
-    //  FIND 
+    //  FIND ALL 
+    @Override
+    public List<CustomerDto> findAll(Pageable pageable) {
+
+        Type listType = new TypeToken<List<CustomerDto>>() {}.getType();
+
+        Page<Customer> page = customerRepository.findAll(pageable);
+        return modelMapper.map(page.getContent(), listType);
+    }
+
+    //  FIND BY ID 
     @Override
     public CustomerDto findByIdentifier(String identifier) {
 
@@ -45,6 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
         dto.setBillingAddress(
                 addressService.findByPhoneNoAndAddressType(customer.getPhoneNo(), "billing")
         );
+
         dto.setShippingAddress(
                 addressService.findByPhoneNoAndAddressType(customer.getPhoneNo(), "shipping")
         );
@@ -76,12 +88,11 @@ public class CustomerServiceImpl implements CustomerService {
             return customerDto;
         }
 
-        // SAVE ADDRESSES
         saveAddresses(customerDto);
 
         Customer customer = modelMapper.map(customerDto, Customer.class);
 
-        // IMPORTANT: identifier = phoneNo (ONLY ONCE HERE)
+        // PHONE IS PRIMARY IDENTIFIER
         customer.setIdentifier(customerDto.getPhoneNo());
 
         if (customer.getStatus() == null) {
@@ -91,10 +102,12 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
 
         customerDto.setSuccess(true);
+        customerDto.setMessage("Customer created successfully");
+
         return customerDto;
     }
 
-    //  UPDATE 
+    //  UPDATE (IMMUTABLE PHONE) 
     @Override
     public CustomerDto update(CustomerDto customerDto) {
 
@@ -106,22 +119,13 @@ public class CustomerServiceImpl implements CustomerService {
             return customerDto;
         }
 
-        // PHONE VALIDATION
+        // PHONE IS READ-ONLY (IMMUTABLE)
         if (!existing.getPhoneNo().equals(customerDto.getPhoneNo())) {
-
-            Customer phoneExists = customerRepository.findByPhoneNo(customerDto.getPhoneNo());
-
-            if (phoneExists != null) {
-                customerDto.setSuccess(false);
-                customerDto.setMessage("Phone already used");
-                return customerDto;
-            }
-
-            // update phone ONLY if changed
-            existing.setPhoneNo(customerDto.getPhoneNo());
+            customerDto.setSuccess(false);
+            customerDto.setMessage("Phone number is read-only and cannot be updated");
+            return customerDto;
         }
 
-        //  MANUAL FIELD UPDATE
         existing.setName(customerDto.getName());
         existing.setEmail(customerDto.getEmail());
         existing.setBalance(customerDto.getBalance());
@@ -129,54 +133,48 @@ public class CustomerServiceImpl implements CustomerService {
         existing.setPartyType(customerDto.getPartyType());
         existing.setCreditLimit(customerDto.getCreditLimit());
 
-        //  STATUS
         if (customerDto.getStatus() != null) {
             existing.setStatus(customerDto.getStatus());
         }
 
-        // SAVE ADDRESSES
         saveAddresses(customerDto);
 
         customerRepository.save(existing);
 
         customerDto.setSuccess(true);
+        customerDto.setMessage("Customer updated successfully");
+
         return customerDto;
     }
 
-    //  DELETE (SOFT) 
+    //  DELETE 
     @Override
     public void delete(String identifier) {
-        customerRepository.deleteByIdentifier(identifier);
-        addressService.delete(identifier);
-    }
 
-    //  FIND ALL 
-    @Override
-    public List<CustomerDto> findAll() {
+        Customer customer = customerRepository.findByIdentifier(identifier);
 
-        Type listType = new TypeToken<List<CustomerDto>>() {
-        }.getType();
-
-        return modelMapper.map(customerRepository.findAll(), listType);
+        if (customer != null) {
+            addressService.delete(customer.getPhoneNo());
+            customerRepository.delete(customer);
+        }
     }
 
     //  ACTIVE 
     @Override
     public List<CustomerDto> findActive() {
 
-        List<Customer> list = new ArrayList<>();
+        List<CustomerDto> result = new ArrayList<>();
+
         for (Customer c : customerRepository.findAll()) {
             if (Boolean.TRUE.equals(c.getStatus())) {
-                list.add(c);
+                result.add(modelMapper.map(c, CustomerDto.class));
             }
         }
 
-        Type listType = new TypeToken<List<CustomerDto>>() {
-        }.getType();
-
-        return modelMapper.map(list, listType);
+        return result;
     }
 
+    //  TOGGLE 
     @Override
     public CustomerDto toggleStatus(String identifier) {
 
@@ -190,7 +188,6 @@ public class CustomerServiceImpl implements CustomerService {
             return response;
         }
 
-        // TOGGLE LOGIC
         customer.setStatus(!Boolean.TRUE.equals(customer.getStatus()));
 
         Customer saved = customerRepository.save(customer);
@@ -206,7 +203,7 @@ public class CustomerServiceImpl implements CustomerService {
         return response;
     }
 
-    //  COMMON METHOD 
+    //  ADDRESS HANDLER 
     private void saveAddresses(CustomerDto customerDto) {
 
         if (customerDto.getBillingAddress() != null) {

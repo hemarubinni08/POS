@@ -1,12 +1,12 @@
 package com.ust.pos.stock;
 
+import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.product.service.ProductService;
-import com.ust.pos.rack.service.RackService;
-import com.ust.pos.shelf.service.ShelfService;
 import com.ust.pos.stock.service.StockService;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,34 +18,40 @@ public class StockController {
     private static final String REDIRECT = "redirect:/stock/list";
     public static final String STOCK_DTO = "stockDto";
     public static final String MESSAGE = "message";
+    public static final String WAREHOUSE = "warehouse";
+    public static final String PRODUCT = "product";
 
-    @Autowired private StockService stockService;
-    @Autowired private WarehouseService warehouseService;
-    @Autowired private ProductService productService;
+    @Autowired
+    private StockService stockService;
+    @Autowired
+    private WarehouseService warehouseService;
+    @Autowired
+    private ProductService productService;
 
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("stocks", stockService.findAll());
+    public String list(Model model, Pageable pageable) {
+        model.addAttribute("stocks", stockService.findAll(pageable));
         return "stock/list";
     }
 
     @GetMapping("/add")
-    public String add(Model model) {
-        model.addAttribute(STOCK_DTO, new StockDto());
-        load(model);
+    public String add(Model model, Pageable pageable, @ModelAttribute StockDto stockDto) {
+        model.addAttribute(WAREHOUSE, warehouseService.findAll(pageable));
+        model.addAttribute(PRODUCT, productService.findActiveProducts());
         return "stock/add";
     }
 
     @PostMapping("/add")
-    public String save(@ModelAttribute StockDto dto, Model model) {
+    public String save(@ModelAttribute StockDto dto, Model model, Pageable pageable) {
 
         StockDto res = stockService.save(dto);
 
         if (!res.isSuccess()) {
             model.addAttribute(MESSAGE, res.getMessage());
             model.addAttribute(STOCK_DTO, dto);
-            load(model);
+            model.addAttribute(WAREHOUSE, warehouseService.findAll(pageable));
+            model.addAttribute(PRODUCT, productService.findActiveProducts());
             return "stock/add";
         }
 
@@ -53,7 +59,7 @@ public class StockController {
     }
 
     @GetMapping("/get")
-    public String edit(@RequestParam String identifier, Model model) {
+    public String edit(@RequestParam String identifier, Model model, Pageable pageable) {
 
         StockDto res = stockService.findByIdentifier(identifier);
 
@@ -63,19 +69,21 @@ public class StockController {
         }
 
         model.addAttribute(STOCK_DTO, res);
-        load(model);
+        model.addAttribute(WAREHOUSE, warehouseService.findAll(pageable));
+        model.addAttribute(PRODUCT, productService.findActiveProducts());
         return "stock/stock";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute StockDto dto, Model model) {
+    public String update(@ModelAttribute StockDto dto, Model model, Pageable pageable) {
 
         StockDto res = stockService.update(dto);
 
         if (!res.isSuccess()) {
             model.addAttribute(MESSAGE, res.getMessage());
             model.addAttribute(STOCK_DTO, dto);
-            load(model);
+            model.addAttribute(WAREHOUSE, warehouseService.findAll(pageable));
+            model.addAttribute(PRODUCT, productService.findActiveProducts());
             return "stock/stock";
         }
 
@@ -92,10 +100,5 @@ public class StockController {
     public String toggle(@RequestParam String identifier) {
         stockService.toggleStatus(identifier);
         return REDIRECT;
-    }
-
-    private void load(Model model) {
-        model.addAttribute("warehouse", warehouseService.findAll());
-        model.addAttribute("product", productService.findActiveProducts());
     }
 }

@@ -9,6 +9,8 @@ import java.util.List;
 public interface ShelfRepository extends JpaRepository<Shelf, Long> {
 
     Shelf findByIdentifier(String identifier);
+
     void deleteByIdentifier(String identifier);
+
     List<Shelf> findByStatusTrue();   // ONLY ACTIVE
 }

@@ -7,5 +7,4 @@ import lombok.Setter;
 @Setter
 public class UnitDto extends CommonDto {
     private String unitName;
-    private Boolean status;
 }

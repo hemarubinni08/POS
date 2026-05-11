@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface ModelsRepository extends JpaRepository<Models, Long> {
 
     Models findByIdentifier(String identifier);
+
     void deleteByIdentifier(String identifier);
 }

@@ -6,10 +6,13 @@ import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.StockService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
@@ -24,7 +27,6 @@ public class StockServiceImpl implements StockService {
 
     public static final String STOCK_NOT_FOUND = "Stock not found";
 
-    // STATE
     private String calculateState(Stock stock) {
 
         if (Boolean.FALSE.equals(stock.getStatus())) {
@@ -43,7 +45,6 @@ public class StockServiceImpl implements StockService {
         return "AVAILABLE";
     }
 
-    // SAVE
     @Override
     public StockDto save(StockDto dto) {
 
@@ -61,16 +62,16 @@ public class StockServiceImpl implements StockService {
             stock.setStatus(true);
         }
 
-        stockRepository.save(stock);
+        Stock saved = stockRepository.save(stock);
 
-        dto.setSuccess(true);
-        dto.setMessage("Stock saved successfully");
-        dto.setStockState(calculateState(stock));
+        StockDto response = modelMapper.map(saved, StockDto.class);
+        response.setStockState(calculateState(saved));
+        response.setSuccess(true);
+        response.setMessage("Stock saved successfully");
 
-        return dto;
+        return response;
     }
 
-    // UPDATE
     @Override
     public StockDto update(StockDto dto) {
 
@@ -88,16 +89,16 @@ public class StockServiceImpl implements StockService {
         existing.setReorderLevel(dto.getReorderLevel());
         existing.setStatus(dto.getStatus());
 
-        stockRepository.save(existing);
+        Stock saved = stockRepository.save(existing);
 
-        dto.setSuccess(true);
-        dto.setMessage("Stock updated successfully");
-        dto.setStockState(calculateState(existing));
+        StockDto response = modelMapper.map(saved, StockDto.class);
+        response.setStockState(calculateState(saved));
+        response.setSuccess(true);
+        response.setMessage("Stock updated successfully");
 
-        return dto;
+        return response;
     }
 
-    // FIND BY ID
     @Override
     public StockDto findByIdentifier(String identifier) {
 
@@ -112,35 +113,36 @@ public class StockServiceImpl implements StockService {
 
         StockDto dto = modelMapper.map(stock, StockDto.class);
         dto.setStockState(calculateState(stock));
+        dto.setSuccess(true);
 
         return dto;
     }
 
-    // FIND ALL
     @Override
-    public List<StockDto> findAll() {
+    public List<StockDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<StockDto>>() {
+        }.getType();
 
-        List<Stock> list = stockRepository.findAll();
-        List<StockDto> result = new ArrayList<>();
+        Page<Stock> stockPage = stockRepository.findAll(pageable);
 
-        for (Stock s : list) {
+        List<StockDto> dtoList =
+                modelMapper.map(stockPage.getContent(), listType);
 
-            StockDto dto = modelMapper.map(s, StockDto.class);
-            dto.setStockState(calculateState(s));
+        for (int i = 0; i < dtoList.size(); i++) {
 
-            result.add(dto);
+            dtoList.get(i).setStockState(
+                    calculateState(stockPage.getContent().get(i))
+            );
         }
 
-        return result;
+        return dtoList;
     }
 
-    // DELETE
     @Override
     public void delete(String identifier) {
         stockRepository.deleteByIdentifier(identifier);
     }
 
-    // TOGGLE
     @Override
     public StockDto toggleStatus(String identifier) {
 
@@ -154,10 +156,10 @@ public class StockServiceImpl implements StockService {
         }
 
         stock.setStatus(!Boolean.TRUE.equals(stock.getStatus()));
-        stockRepository.save(stock);
+        Stock saved = stockRepository.save(stock);
 
-        StockDto dto = modelMapper.map(stock, StockDto.class);
-        dto.setStockState(calculateState(stock));
+        StockDto dto = modelMapper.map(saved, StockDto.class);
+        dto.setStockState(calculateState(saved));
         dto.setSuccess(true);
         dto.setMessage("Stock status updated successfully");
 

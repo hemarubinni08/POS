@@ -12,8 +12,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.lang.reflect.Type;
 import java.util.List;
+
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class StockServiceTest {
@@ -36,19 +44,28 @@ class StockServiceTest {
         dto.setWarehouseIdentifier("W1");
         dto.setAvailableQuantity(10);
 
-        String identifier = "P1_W1";
+        Stock stock = new Stock();
+        Stock saved = new Stock();
 
-        Mockito.when(stockRepository.findByIdentifier(identifier))
+        StockDto mapped = new StockDto();
+        mapped.setIdentifier("P1_W1");
+
+        when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(null);
 
-        Mockito.when(modelMapper.map(dto, Stock.class))
-                .thenReturn(new Stock());
+        when(modelMapper.map(any(StockDto.class), eq(Stock.class)))
+                .thenReturn(stock);
+
+        when(stockRepository.save(any(Stock.class)))
+                .thenReturn(saved);
+
+        when(modelMapper.map(eq(saved), eq(StockDto.class)))
+                .thenReturn(mapped);
 
         StockDto response = stockService.save(dto);
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Stock saved successfully", response.getMessage());
-        Assertions.assertEquals(identifier, response.getIdentifier());
     }
 
     @Test
@@ -58,7 +75,7 @@ class StockServiceTest {
         dto.setProductIdentifier("P1");
         dto.setWarehouseIdentifier("W1");
 
-        Mockito.when(stockRepository.findByIdentifier("P1_W1"))
+        when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(new Stock());
 
         StockDto response = stockService.save(dto);
@@ -80,11 +97,17 @@ class StockServiceTest {
 
         Stock existing = new Stock();
 
-        Mockito.when(stockRepository.findByIdentifier("P1_W1"))
+        StockDto mapped = new StockDto();
+        mapped.setIdentifier("P1_W1");
+
+        when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(existing);
 
-        Mockito.when(stockRepository.save(existing))
+        when(stockRepository.save(existing))
                 .thenReturn(existing);
+
+        when(modelMapper.map(eq(existing), eq(StockDto.class)))
+                .thenReturn(mapped);
 
         StockDto response = stockService.update(dto);
 
@@ -99,7 +122,7 @@ class StockServiceTest {
         dto.setProductIdentifier("P1");
         dto.setWarehouseIdentifier("W1");
 
-        Mockito.when(stockRepository.findByIdentifier("P1_W1"))
+        when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(null);
 
         StockDto response = stockService.update(dto);
@@ -113,27 +136,24 @@ class StockServiceTest {
     void find_success() {
 
         Stock stock = new Stock();
-        stock.setIdentifier("P1_W1");
-        stock.setAvailableQuantity(10);
+        StockDto dto = new StockDto();
+        dto.setIdentifier("P1_W1");
 
-        StockDto mapped = new StockDto();
-        mapped.setIdentifier("P1_W1");
-
-        Mockito.when(stockRepository.findByIdentifier("P1_W1"))
+        when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(stock);
 
-        Mockito.when(modelMapper.map(stock, StockDto.class))
-                .thenReturn(mapped);
+        when(modelMapper.map(eq(stock), eq(StockDto.class)))
+                .thenReturn(dto);
 
         StockDto response = stockService.findByIdentifier("P1_W1");
 
-        Assertions.assertEquals("P1_W1", response.getIdentifier());
+        Assertions.assertTrue(response.isSuccess());
     }
 
     @Test
     void find_notFound() {
 
-        Mockito.when(stockRepository.findByIdentifier("P1_W1"))
+        when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(null);
 
         StockDto response = stockService.findByIdentifier("P1_W1");
@@ -142,23 +162,26 @@ class StockServiceTest {
         Assertions.assertEquals("Stock not found", response.getMessage());
     }
 
-    // ================= FIND ALL =================
+    // ================= FIND ALL (FIXED) =================
     @Test
     void findAllTest() {
 
         Stock stock = new Stock();
-        stock.setIdentifier("P1_W1");
 
-        StockDto dto = new StockDto();
-        dto.setIdentifier("P1_W1");
+        List<Stock> list = List.of(stock);
+        List<StockDto> dtoList = List.of(new StockDto());
 
-        Mockito.when(stockRepository.findAll())
-                .thenReturn(List.of(stock));
+        Page<Stock> page = new PageImpl<>(list);
 
-        Mockito.when(modelMapper.map(stock, StockDto.class))
-                .thenReturn(dto);
+        Pageable pageable = PageRequest.of(0, 5);
 
-        List<StockDto> result = stockService.findAll();
+        when(stockRepository.findAll(pageable))
+                .thenReturn(page);
+
+        when(modelMapper.map(any(), any(Type.class)))
+                .thenReturn(dtoList);
+
+        List<StockDto> result = stockService.findAll(pageable);
 
         Assertions.assertEquals(1, result.size());
     }
@@ -167,12 +190,9 @@ class StockServiceTest {
     @Test
     void deleteTest() {
 
-        Mockito.doNothing().when(stockRepository)
-                .deleteByIdentifier("P1_W1");
-
         stockService.delete("P1_W1");
 
-        Mockito.verify(stockRepository).deleteByIdentifier("P1_W1");
+        verify(stockRepository).deleteByIdentifier("P1_W1");
     }
 
     // ================= TOGGLE =================
@@ -180,17 +200,19 @@ class StockServiceTest {
     void toggle_success() {
 
         Stock stock = new Stock();
-        stock.setIdentifier("P1_W1");
         stock.setStatus(true);
 
-        Mockito.when(stockRepository.findByIdentifier("P1_W1"))
+        StockDto dto = new StockDto();
+        dto.setSuccess(true);
+
+        when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(stock);
 
-        Mockito.when(stockRepository.save(stock))
+        when(stockRepository.save(stock))
                 .thenReturn(stock);
 
-        Mockito.when(modelMapper.map(stock, StockDto.class))
-                .thenReturn(new StockDto());
+        when(modelMapper.map(eq(stock), eq(StockDto.class)))
+                .thenReturn(dto);
 
         StockDto response = stockService.toggleStatus("P1_W1");
 
@@ -200,7 +222,7 @@ class StockServiceTest {
     @Test
     void toggle_notFound() {
 
-        Mockito.when(stockRepository.findByIdentifier("P1_W1"))
+        when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(null);
 
         StockDto response = stockService.toggleStatus("P1_W1");

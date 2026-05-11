@@ -9,6 +9,8 @@ import java.util.List;
 public interface RackRepository extends JpaRepository<Rack, Long> {
 
     Rack findByIdentifier(String identifier);
+
     void deleteByIdentifier(String identifier);
+
     List<Rack> findByStatusTrue();   // ONLY ACTIVE
 }

@@ -8,5 +8,4 @@ import lombok.Setter;
 public class BrandDto extends CommonDto {
     private String brandName;
     private String description;
-    private Boolean status;
 }

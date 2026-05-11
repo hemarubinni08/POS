@@ -1,9 +1,15 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page language="java"
+         contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <title>Edit Rack</title>
 
@@ -11,6 +17,7 @@
           rel="stylesheet">
 
     <style>
+
         body {
             background-color: #E9EEF5;
             min-height: 100vh;
@@ -20,23 +27,38 @@
             border-radius: 16px;
         }
 
-        .form-control, .form-select {
+        .form-control,
+        .form-select {
             border-radius: 10px;
         }
 
         .btn {
             border-radius: 10px;
         }
+
+        .shelf-box {
+            max-height: 180px;
+            overflow-y: auto;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            padding: 10px;
+            background: #fff;
+        }
+
     </style>
+
 </head>
 
 <body>
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
+
     <div class="container-fluid">
 
-        <span class="navbar-brand fw-bold">Rack Management</span>
+        <span class="navbar-brand fw-bold">
+            Rack Management
+        </span>
 
         <a href="${pageContext.request.contextPath}/rack/list"
            class="btn btn-outline-light btn-sm">
@@ -44,12 +66,14 @@
         </a>
 
     </div>
+
 </nav>
 
 <!-- MAIN -->
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+<div class="container d-flex justify-content-center align-items-center"
+     style="min-height: 100vh;">
 
-    <div class="card shadow p-4" style="width: 450px;">
+    <div class="card shadow p-4" style="width: 500px;">
 
         <h3 class="text-center mb-4 fw-bold">Edit Rack</h3>
 
@@ -60,47 +84,44 @@
             </div>
         </c:if>
 
-        <form action="${pageContext.request.contextPath}/rack/update" method="post">
+        <!-- FORM -->
+        <form:form method="post"
+                   action="${pageContext.request.contextPath}/rack/update"
+                   modelAttribute="rackDto"
+                   id="rackForm">
 
-            <!-- IDENTIFIER -->
-            <input type="hidden" name="identifier" value="${rackDto.identifier}" />
+            <!-- IDENTIFIER (LOCKED) -->
+            <form:hidden path="identifier"/>
 
-            <!-- NAME -->
+            <!-- NAME (READONLY) -->
             <div class="mb-3">
+
                 <label class="form-label fw-semibold">Rack Name</label>
-                <input type="text"
-                       class="form-control"
-                       name="name"
-                       value="${rackDto.name}"
-                       required />
+
+                <form:input path="name"
+                            cssClass="form-control"
+                            readonly="true"/>
+
             </div>
 
             <!-- SHELVES -->
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Select Shelves</label>
+            <div class="mb-4">
 
-                <div class="border rounded p-3 bg-light">
+                <label class="form-label fw-semibold">
+                    Shelves <span class="text-danger">*</span>
+                </label>
+
+                <div class="shelf-box">
 
                     <c:forEach var="s" items="${shelves}">
 
                         <div class="form-check">
 
-                            <input class="form-check-input"
-                                   type="checkbox"
-                                   name="shelfIdentifiers"
-                                   value="${s.identifier}"
-                                   id="shelf_${s.identifier}"
+                            <form:checkbox path="shelfIdentifiers"
+                                           value="${s.identifier}"
+                                           cssClass="form-check-input shelf-check"/>
 
-                                   <c:if test="${rackDto.shelfIdentifiers != null}">
-                                       <c:forEach var="sel" items="${rackDto.shelfIdentifiers}">
-                                           <c:if test="${sel == s.identifier}">
-                                               checked
-                                           </c:if>
-                                       </c:forEach>
-                                   </c:if>
-                            />
-
-                            <label class="form-check-label" for="shelf_${s.identifier}">
+                            <label class="form-check-label">
                                 ${s.name}
                             </label>
 
@@ -109,32 +130,32 @@
                     </c:forEach>
 
                 </div>
+
+                <small id="shelfError" class="text-danger d-none">
+                    Please select at least one shelf
+                </small>
+
             </div>
 
             <!-- STATUS -->
-            <div class="mb-4">
+            <div class="mb-3">
+
                 <label class="form-label fw-semibold">Status</label>
 
-                <select name="status" class="form-select">
+                <form:select path="status" cssClass="form-select">
 
-                    <option value="true"
-                        <c:if test="${rackDto.status}">selected</c:if>>
-                        Active
-                    </option>
+                    <form:option value="true">Active</form:option>
+                    <form:option value="false">Inactive</form:option>
 
-                    <option value="false"
-                        <c:if test="${!rackDto.status}">selected</c:if>>
-                        Inactive
-                    </option>
+                </form:select>
 
-                </select>
             </div>
 
             <!-- BUTTONS -->
             <div class="d-flex gap-2">
 
                 <button type="submit" class="btn btn-primary w-100">
-                    Update
+                    Update Rack
                 </button>
 
                 <a href="${pageContext.request.contextPath}/rack/list"
@@ -144,11 +165,38 @@
 
             </div>
 
-        </form>
+        </form:form>
 
     </div>
 
 </div>
+
+<!-- VALIDATION -->
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const checks = document.querySelectorAll(".shelf-check");
+    const error = document.getElementById("shelfError");
+    const form = document.getElementById("rackForm");
+
+    function validate() {
+        let ok = Array.from(checks).some(c => c.checked);
+        error.classList.toggle("d-none", ok);
+        return ok;
+    }
+
+    checks.forEach(c => c.addEventListener("change", validate));
+
+    form.addEventListener("submit", function (e) {
+        if (!validate()) {
+            e.preventDefault();
+        }
+    });
+
+});
+
+</script>
 
 </body>
 </html>

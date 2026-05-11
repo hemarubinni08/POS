@@ -3,14 +3,18 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Update Brand</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
     <style>
+
         body {
             background-color: #E9EEF5;
             min-height: 100vh;
@@ -20,7 +24,9 @@
             border-radius: 16px;
         }
 
-        .form-control {
+        .form-control,
+        .form-select,
+        textarea {
             border-radius: 10px;
         }
 
@@ -28,17 +34,19 @@
             border-radius: 10px;
         }
 
-        .form-switch .form-check-input {
-            width: 45px;
-            height: 22px;
-            cursor: pointer;
+        textarea {
+            resize: none;
         }
+
     </style>
+
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
+
     <div class="container-fluid">
 
         <span class="navbar-brand fw-bold">
@@ -47,101 +55,109 @@
 
         <a href="/brand/list"
            class="btn btn-outline-light btn-sm">
+
             Back
+
         </a>
 
     </div>
+
 </nav>
 
+<!-- PAGE -->
 <div class="container d-flex justify-content-center align-items-center"
      style="min-height: 100vh;">
 
-    <div class="card shadow p-4" style="width: 500px;">
+    <div class="card shadow p-4"
+         style="width: 550px;">
 
+        <!-- TITLE -->
         <h3 class="text-center mb-4 fw-bold">
             Update Brand
         </h3>
 
         <!-- MESSAGE -->
         <c:if test="${not empty message}">
+
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
+
         </c:if>
 
-        <form action="/brand/update" method="post">
+        <!-- FORM -->
+        <form action="/brand/update"
+              method="post">
 
             <!-- IDENTIFIER -->
             <div class="mb-3">
-                <label class="form-label">Identifier</label>
+
+                <label class="form-label fw-semibold">
+                    Identifier
+                </label>
 
                 <input type="text"
                        name="identifier"
                        class="form-control"
                        value="${brandDto.identifier}"
                        readonly>
+
             </div>
 
             <!-- BRAND NAME -->
             <div class="mb-3">
-                <label class="form-label">Brand Name</label>
+
+                <label class="form-label fw-semibold">
+                    Brand Name
+                </label>
 
                 <input type="text"
                        name="brandName"
                        class="form-control"
                        value="${brandDto.brandName}"
                        readonly>
+
             </div>
 
             <!-- DESCRIPTION -->
             <div class="mb-3">
-                <label class="form-label">Description</label>
 
-                <input type="text"
-                       name="description"
-                       class="form-control"
-                       value="${brandDto.description}"
-                       required>
+                <label class="form-label fw-semibold">
+                    Description
+                </label>
+
+                <textarea name="description"
+                          class="form-control"
+                          rows="4"
+                          required>${brandDto.description}</textarea>
+
             </div>
 
             <!-- STATUS -->
             <div class="mb-4">
 
-                <label class="form-label">Status</label>
+                <label class="form-label fw-semibold">
+                    Status
+                </label>
 
-                <div class="form-check form-switch">
+                <select name="status"
+                        class="form-select">
 
-                    <input class="form-check-input"
-                           type="checkbox"
-                           id="statusToggle"
+                    <option value="true"
+                        <c:if test="${brandDto.status}">
+                            selected
+                        </c:if>>
+                        Active
+                    </option>
 
-                           <c:if test="${brandDto.status}">
-                               checked
-                           </c:if>
+                    <option value="false"
+                        <c:if test="${!brandDto.status}">
+                            selected
+                        </c:if>>
+                        Inactive
+                    </option>
 
-                           onchange="updateStatusValue()" />
-
-                    <input type="hidden"
-                           id="statusHidden"
-                           name="status"
-                           value="${brandDto.status}" />
-
-                    <label class="form-check-label ms-2"
-                           id="statusLabel">
-
-                        <c:choose>
-                            <c:when test="${brandDto.status}">
-                                Active
-                            </c:when>
-
-                            <c:otherwise>
-                                Inactive
-                            </c:otherwise>
-                        </c:choose>
-
-                    </label>
-
-                </div>
+                </select>
 
             </div>
 
@@ -150,12 +166,16 @@
 
                 <button type="submit"
                         class="btn btn-primary w-100">
+
                     Update
+
                 </button>
 
                 <a href="/brand/list"
                    class="btn btn-outline-secondary w-100">
+
                     Cancel
+
                 </a>
 
             </div>
@@ -166,24 +186,6 @@
 
 </div>
 
-<script>
-
-    function updateStatusValue() {
-
-        const toggle = document.getElementById("statusToggle");
-        const hidden = document.getElementById("statusHidden");
-        const label = document.getElementById("statusLabel");
-
-        hidden.value = toggle.checked;
-
-        if (toggle.checked) {
-            label.innerText = "Active";
-        } else {
-            label.innerText = "Inactive";
-        }
-    }
-
-</script>
-
 </body>
+
 </html>

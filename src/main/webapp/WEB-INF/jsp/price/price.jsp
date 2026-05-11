@@ -60,13 +60,15 @@
             <!-- IDENTIFIER (hidden) -->
             <form:hidden path="identifier"/>
 
-            <!-- DISPLAY IDENTIFIER -->
+            <!-- PRODUCT NAME (MANDATORY DISPLAY FIELD) -->
             <div class="mb-3">
-                <label class="form-label fw-semibold">Product Identifier</label>
+                <label class="form-label fw-semibold">Product Name</label>
+
                 <input type="text"
                        class="form-control"
-                       value="${priceDto.identifier}"
-                       readonly>
+                       value="${priceDto.productName}"
+                       readonly
+                       required>
             </div>
 
             <!-- COST PRICE -->
@@ -75,7 +77,8 @@
                 <form:input path="costPrice"
                             type="number"
                             step="0.01"
-                            cssClass="form-control"/>
+                            cssClass="form-control"
+                            required="required"/>
             </div>
 
             <!-- MRP -->
@@ -84,7 +87,8 @@
                 <form:input path="mrp"
                             type="number"
                             step="0.01"
-                            cssClass="form-control"/>
+                            cssClass="form-control"
+                            required="required"/>
             </div>
 
             <!-- SELLING PRICE -->
@@ -93,7 +97,8 @@
                 <form:input path="sellingPrice"
                             type="number"
                             step="0.01"
-                            cssClass="form-control"/>
+                            cssClass="form-control"
+                            required="required"/>
             </div>
 
             <!-- BUTTONS -->
