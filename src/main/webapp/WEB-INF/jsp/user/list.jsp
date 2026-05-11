@@ -5,130 +5,183 @@
 <html>
 <head>
     <title>User Management</title>
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            padding: 40px;
+            color: #333;
         }
 
-        .card {
-            border-radius: 15px;
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .table th {
-            background-color: #343a40;
-            color: white;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
         }
 
-        a.user-link {
+        h2 { margin: 0; }
+
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 15px;
             text-decoration: none;
-            font-weight: 500;
+            border-radius: 4px;
+            font-size: 13px;
+            color: white;
+            font-weight: bold;
+            display: inline-block;
         }
 
-        a.user-link:hover {
-            text-decoration: underline;
+        .btn-home     { background-color: #6c757d; }
+        .btn-add      { background-color: #28a745; }
+        .btn-edit     { background-color: #007bff; padding: 6px 12px; }
+        .btn-delete   { background-color: #dc3545; padding: 6px 12px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #666;
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 2px solid #dee2e6;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        tr:hover { background-color: #fafafa; }
+
+        .badge {
+            display: inline-block;
+            background: #e9ecef;
+            color: #495057;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 1px solid #ddd;
+            margin: 2px;
+        }
+
+        .text-muted { color: #999; }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .empty-msg {
+            text-align: center;
+            padding: 40px;
+            color: #999;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="card shadow-lg">
-        <div class="card-body">
+<div class="container">
 
-            <h3 class="text-center mb-4">User Management</h3>
-
-            <!-- NO USERS -->
-            <c:if test="${empty users}">
-                <div class="alert alert-warning text-center">
-                    No users found
-                </div>
-            </c:if>
-
-            <!-- USERS TABLE -->
-            <c:if test="${not empty users}">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center">
-
-                        <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Roles</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        <c:forEach var="user" items="${users}">
-                            <tr>
-
-                                <!-- Email -->
-                                <td>${user.username}</td>
-                                <!-- Name -->
-                                <td>${user.name}</td>
-                                <!-- Phone -->
-                                <td>${user.phoneNo}</td>
-
-                                <!-- Roles  -->
-                                <td>
-                                    <c:if test="${not empty user.roles}">
-                                        <c:forEach var="role" items="${user.roles}">
-                                            <span class="badge bg-primary me-1">
-                                                ${role}
-                                            </span>
-                                        </c:forEach>
-                                    </c:if>
-
-                                    <c:if test="${empty user.roles}">
-                                        <span class="text-muted">No Roles</span>
-                                    </c:if>
-                                </td>
-
-                                <!-- Actions -->
-                                <td>
-                                    <a class="btn btn-danger btn-sm"
-                                       href="/user/delete?username=${user.username}"
-                                       onclick="return confirm('Are you sure you want to delete ${user.name}?');">
-                                        Delete
-                                    </a>
-
-                                    <a class="btn btn-primary btn-sm"
-                                       href="/user/get?username=${user.username}">
-                                        Edit
-                                    </a>
-                                </td>
-
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-
-                    </table>
-                </div>
-            </c:if>
-
+    <!-- HEADER -->
+    <div class="header">
+        <h2>User Management</h2>
+        <div class="header-buttons">
+            <a href="/" class="btn btn-home">Home</a>
+            <a href="/register" class="btn btn-add">+ Register User</a>
         </div>
-
-        <!-- FOOTER -->
-        <div class="card-footer text-center">
-            <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">Home</a>
-                <a href="/register" class="btn btn-success">Register</a>
-            </div>
-
-            <div class="text-muted small mt-2">
-                User Management System
-            </div>
-        </div>
-
     </div>
+
+    <!-- EMPTY -->
+    <c:if test="${empty users}">
+        <div class="empty-msg">No users found</div>
+    </c:if>
+
+    <!-- TABLE -->
+    <c:if test="${not empty users}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Roles</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            <c:forEach var="user" items="${users}">
+                <tr>
+                    <td>${user.id}</td>
+
+                    <td>${user.username}</td>
+
+                    <td>${user.name}</td>
+
+                    <td>${user.phoneNo}</td>
+
+                    <!-- ROLES -->
+                    <td>
+                        <c:choose>
+                            <c:when test="${not empty user.roles}">
+                                <c:forEach var="role" items="${user.roles}">
+                                    <span class="badge">${role}</span>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="text-muted">—</span>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+
+                    <!-- ACTIONS -->
+                    <td>
+                        <div class="action-buttons">
+                            <a href="/user/get?username=${user.username}"
+                               class="btn btn-edit">Edit</a>
+                            <a href="/user/delete?username=${user.username}"
+                               class="btn btn-delete"
+                               onclick="return confirm('Are you sure you want to delete ${user.name}?');">
+                                Delete
+                            </a>
+                        </div>
+                    </td>
+
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+
 </div>
 
 </body>

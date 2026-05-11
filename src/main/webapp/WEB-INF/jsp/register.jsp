@@ -5,182 +5,157 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>User Registration</title>
+    <title>User Registration</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7f6;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 8px 14px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+        }
 
-<style>
-body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: #d1d5db;
-}
+        .back-btn:hover {
+            background: #5a6268;
+        }
 
-/* BACK ARROW */
-.back-arrow {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: #f1f5f9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    text-decoration: none;
-    color: #334155;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: 0.25s;
-}
+        .card {
+            width: 460px;
+            margin: 80px auto;
+            background: white;
+            padding: 30px 35px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+        }
 
-.back-arrow:hover {
-    background: #e2e8f0;
-    transform: translateY(-2px);
-}
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-/* CONTAINER */
-.register-card {
-    width: 430px;
-    margin: 100px auto;
-    background: #f1f5f9;
-    padding: 35px 40px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
+        label {
+            display: block;
+            margin-top: 15px;
+            font-size: 13px;
+            font-weight: bold;
+        }
 
-/* TITLE */
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 22px;
-    color: #0891b2;
-    font-weight: 600;
-}
+        input, select {
+            width: 100%;
+            margin-top: 6px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 13px;
+            box-sizing: border-box;
+        }
 
-/* ERROR MESSAGE */
-.error-message {
-    margin-bottom: 15px;
-    padding: 10px 12px;
-    background-color: #fee2e2;
-    color: #b91c1c;
-    border: 1px solid #fecaca;
-    border-radius: 8px;
-    font-size: 13px;
-    text-align: center;
-}
+        select[multiple] {
+            height: 110px;
+        }
 
-/* LABEL */
-label {
-    margin-top: 16px;
-    display: block;
-    font-weight: 600;
-    font-size: 13px;
-    color: #334155;
-}
+        small {
+            font-size: 11px;
+            color: #999;
+            margin-top: 3px;
+            display: block;
+        }
 
-/* INPUT */
-input, select {
-    width: 100%;
-    margin-top: 6px;
-    padding: 10px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 13px;
-    outline: none;
-    transition: 0.2s;
-}
+        .error-msg {
+            margin-bottom: 12px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            background: #fee2e2;
+            color: #b91c1c;
+        }
 
-input:focus, select:focus {
-    border-color: #0891b2;
-    box-shadow: 0 0 0 2px rgba(8,145,178,0.2);
-}
+        .btn-submit {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
 
-select[multiple] {
-    height: 130px;
-}
-
-/* BUTTON */
-.btn-submit {
-    margin-top: 28px;
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, #0891b2, #0e7490);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.25s;
-}
-
-.btn-submit:hover {
-    background: linear-gradient(135deg, #0e7490, #075985);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(8,145,178,0.4);
-}
-</style>
-
+        .btn-submit:hover {
+            background: #218838;
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- BACK BUTTON -->
-<a href="${pageContext.request.contextPath}/user/list" class="back-arrow">
-    &#8592;
-</a>
+<a href="${pageContext.request.contextPath}/user/list" class="back-btn">← Back</a>
 
-<div class="register-card">
+<div class="card">
 
-<h2>User Registration</h2>
+    <h2>User Registration</h2>
 
-<!-- ✅ ERROR MESSAGE FROM CONTROLLER -->
-<c:if test="${not empty message}">
-    <div class="error-message">
-        ${message}
-    </div>
-</c:if>
+    <!-- ERROR -->
+    <c:if test="${not empty message}">
+        <div class="error-msg">${message}</div>
+    </c:if>
 
-<form:form action="register"
-           method="post"
-           modelAttribute="userDto">
+    <form:form action="register" method="post" modelAttribute="userDto">
 
-    <label>Name</label>
-    <form:input path="name" required="true"/>
+        <!-- NAME -->
+        <label>Name</label>
+        <form:input path="name" required="true"/>
 
-    <label>Email</label>
-    <form:input path="username"
-                type="email"
-                required="true"
-                pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
-                title="Enter a valid Gmail (example@gmail.com)"/>
+        <!-- EMAIL -->
+        <label>Email</label>
+        <form:input path="username"
+                    type="email"
+                    required="true"
+                    pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                    title="Enter a valid Gmail (example@gmail.com)"/>
 
-    <label>Roles</label>
-    <form:select path="roles" multiple="true" required="true">
-        <form:options items="${roles}"
-                      itemValue="identifier"
-                      itemLabel="identifier"/>
-    </form:select>
+        <!-- PHONE -->
+        <label>Mobile Number</label>
+        <form:input path="phoneNo"
+                    type="tel"
+                    required="true"
+                    pattern="[0-9]{10}"
+                    maxlength="10"
+                    title="Enter a valid 10-digit mobile number"/>
 
-    <label>Mobile number</label>
-    <form:input path="phoneNo"
-                type="tel"
-                required="true"
-                pattern="[0-9]{10}"
-                maxlength="10"
-                title="Enter a valid 10-digit mobile number"/>
+        <!-- PASSWORD -->
+        <label>Password</label>
+        <form:password path="password"
+                       required="true"
+                       pattern=".{6,}"
+                       title="Password must be at least 6 characters"/>
 
-    <label>Password</label>
-    <form:password path="password"
-                   required="true"
-                   pattern=".{6,}"
-                   title="Password must be at least 6 characters"/>
+        <!-- ROLES -->
+        <label>Roles</label>
+        <form:select path="roles" multiple="true" required="true">
+            <form:options items="${roles}"
+                          itemValue="identifier"
+                          itemLabel="identifier"/>
+        </form:select>
+        <small>Hold Ctrl (Windows) or Cmd (Mac) to select multiple</small>
 
-    <!--SUBMIT BUTTON -->
-    <input type="submit" value="Register" class="btn-submit"/>
+        <!-- SUBMIT -->
+        <input type="submit" value="Register" class="btn-submit"/>
 
-</form:form>
+    </form:form>
 
 </div>
 

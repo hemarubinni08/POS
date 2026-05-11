@@ -6,131 +6,179 @@
 <html>
 <head>
     <title>Update User</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
-
     <style>
         body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7f6;
         }
 
-        .update-card {
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 8px 14px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .back-btn:hover {
+            background: #5a6268;
+        }
+
+        .card {
             width: 460px;
-            background: #fff;
+            margin: 80px auto;
+            background: white;
             padding: 30px 35px;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
         }
 
-        h3 {
+        h2 {
             text-align: center;
-            color: #4b6cb7;
-            margin-bottom: 25px;
-            font-weight: 600;
+            margin-bottom: 20px;
         }
 
         label {
-            font-weight: 600;
-            font-size: 14px;
-            color: #333;
+            display: block;
+            margin-top: 15px;
+            font-size: 13px;
+            font-weight: bold;
         }
 
-        .form-control {
-            border-radius: 8px;
-            padding: 10px 12px;
+        input, select {
+            width: 100%;
+            margin-top: 6px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 13px;
+            box-sizing: border-box;
         }
 
-        .btn-update {
+        select[multiple] {
+            height: 110px;
+        }
+
+        small {
+            font-size: 11px;
+            color: #999;
+            margin-top: 3px;
+            display: block;
+        }
+
+        .current-roles {
+            margin-top: 6px;
+            margin-bottom: 4px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e9ecef;
+            color: #495057;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 1px solid #ddd;
+            margin: 2px;
+        }
+
+        .error-msg {
+            margin-bottom: 12px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .field-error {
+            font-size: 12px;
+            color: #b91c1c;
+            margin-top: 3px;
+            display: block;
+        }
+
+        .btn-submit {
+            margin-top: 25px;
             width: 100%;
             padding: 12px;
-            background: #4b6cb7;
-            border: none;
+            background: #007bff;
             color: white;
-            font-weight: 600;
-            border-radius: 8px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
         }
 
-        .btn-update:hover {
-            background: #182848;
-        }
-
-        .error {
-            color: red;
-            font-size: 13px;
+        .btn-submit:hover {
+            background: #0056b3;
         }
     </style>
 </head>
 
 <body>
 
-<div class="update-card">
-    <h3>Update User</h3>
+<a href="/user/list" class="back-btn">← Back</a>
+
+<div class="card">
+
+    <h2>Update User</h2>
+
+    <!-- ERROR -->
+    <c:if test="${not empty message}">
+        <div class="error-msg">${message}</div>
+    </c:if>
 
     <form:form action="/user/update" method="post" modelAttribute="user">
 
         <form:input type="hidden" path="id"/>
 
-        <!-- Name -->
-        <div class="mb-3">
-            <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
-            <form:errors path="name" cssClass="error"/>
+        <!-- NAME -->
+        <label>Name</label>
+        <form:input path="name" required="true"/>
+        <form:errors path="name" cssClass="field-error"/>
+
+        <!-- EMAIL -->
+        <label>Email</label>
+        <form:input path="username" type="email" required="true"/>
+        <form:errors path="username" cssClass="field-error"/>
+
+        <!-- PHONE -->
+        <label>Phone Number</label>
+        <form:input path="phoneNo"
+                    pattern="[0-9]{10}"
+                    title="Enter a valid 10 digit phone number"
+                    required="true"/>
+        <form:errors path="phoneNo" cssClass="field-error"/>
+
+        <!-- ROLES -->
+        <label>Roles</label>
+        <div class="current-roles">
+            Current:
+            <c:forEach var="r" items="${user.roles}">
+                <span class="badge">${r}</span>
+            </c:forEach>
         </div>
+        <form:select path="roles" multiple="true" required="true">
+            <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+        </form:select>
+        <small>Hold Ctrl (Windows) or Cmd (Mac) to select multiple</small>
 
-        <!-- Email -->
-        <div class="mb-3">
-            <label>Email</label>
-            <form:input path="username" type="email" cssClass="form-control" required="true"/>
-            <form:errors path="username" cssClass="error"/>
-        </div>
-
-        <!-- Phone -->
-        <div class="mb-3">
-            <label>Phone Number</label>
-            <form:input path="phoneNo"
-                        cssClass="form-control"
-                        pattern="[0-9]{10}"
-                        title="Enter a valid 10 digit phone number"
-                        required="true"/>
-            <form:errors path="phoneNo" cssClass="error"/>
-        </div>
-
-        <!-- Roles -->
-        <div class="mb-3">
-            <label>Roles</label>
-
-            <div class="mb-1 text-muted">
-                Current:
-                <c:forEach var="r" items="${user.roles}">
-                    <span class="badge bg-secondary me-1">${r}</span>
-                </c:forEach>
-            </div>
-
-            <form:select path="roles" multiple="true" required="true" cssClass="form-control">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-            </form:select>
-
-            <small>Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple</small>
-        </div>
-
-        <button type="submit" class="btn-update">Update User</button>
+        <!-- SUBMIT -->
+        <input type="submit" value="Update User" class="btn-submit"/>
 
     </form:form>
-
-
-    <c:if test="${not empty message}">
-        <p class="error">${message}</p>
-    </c:if>
-
-    <div class="text-center mt-3">
-        <a href="/user/list">← Back to User List</a>
-    </div>
 
 </div>
 

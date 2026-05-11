@@ -5,109 +5,160 @@
 <html>
 <head>
     <title>Role List</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
     <style>
         body {
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            padding: 40px;
+            color: #333;
         }
-        .card {
-            border-radius: 16px;
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .card-header {
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
         }
-        table th {
-            background-color: #0d6efd;
+
+        h2 { margin: 0; }
+
+        .header-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 13px;
             color: white;
+            font-weight: bold;
+            display: inline-block;
         }
+
+        .btn-home   { background-color: #6c757d; }
+        .btn-add    { background-color: #28a745; }
+        .btn-edit   { background-color: #007bff; padding: 6px 12px; }
+        .btn-delete { background-color: #dc3545; padding: 6px 12px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #666;
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 2px solid #dee2e6;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        tr:hover { background-color: #fafafa; }
+
+        .empty-msg {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .text-muted { color: #999; }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="container">
 
-            <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4 class="mb-0">List of Roles</h4>
-                </div>
-
-                <div class="card-body">
-
-                    <c:if test="${empty roles}">
-                        <div class="alert alert-warning text-center">
-                            No roles found
-                        </div>
-                    </c:if>
-
-                    <c:if test="${not empty roles}">
-                        <table class="table table-bordered table-hover text-center align-middle">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Role</th>
-                                <th>Description</th>
-                                <th>Actions</th> <!-- updated -->
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            <c:forEach var="role" items="${roles}">
-                                <tr>
-                                    <td>
-                                        <a href="/role/get?identifier=${role.identifier}"
-                                           class="text-decoration-none fw-semibold">
-                                            ${role.id}
-                                        </a>
-                                    </td>
-
-                                    <td>${role.identifier}</td>
-                                    <td>${role.description}</td>
-
-                                    <td>
-                                        <!-- EDIT BUTTON -->
-                                        <a href="/role/get?identifier=${role.identifier}"
-                                           class="btn btn-primary btn-sm me-2">
-                                            Edit
-                                        </a>
-
-                                        <!-- DELETE BUTTON -->
-                                        <a href="/role/delete?identifier=${role.identifier}"
-                                           class="btn btn-danger btn-sm"
-                                           onclick="return confirm('Are you sure you want to delete this role?');">
-                                            Delete
-                                        </a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-
-                            </tbody>
-                        </table>
-                    </c:if>
-
-                </div>
-
-                <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
-                    <a href="/" class="btn btn-secondary">
-                        Home
-                    </a>
-
-                    <a href="/role/add" class="btn btn-success">
-                        + Add New Role
-                    </a>
-                </div>
-
-            </div>
-
+    <!-- HEADER -->
+    <div class="header">
+        <h2>Role List</h2>
+        <div class="header-buttons">
+            <a href="/" class="btn btn-home">Home</a>
+            <a href="/role/add" class="btn btn-add">+ Add Role</a>
         </div>
     </div>
+
+    <!-- EMPTY -->
+    <c:if test="${empty roles}">
+        <div class="empty-msg">No roles found</div>
+    </c:if>
+
+    <!-- TABLE -->
+    <c:if test="${not empty roles}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Role</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            <c:forEach var="role" items="${roles}">
+                <tr>
+
+                    <td>${role.id}</td>
+
+                    <td>${role.identifier}</td>
+
+                    <td>
+                        <c:choose>
+                            <c:when test="${empty role.description}">
+                                <span class="text-muted">—</span>
+                            </c:when>
+                            <c:otherwise>${role.description}</c:otherwise>
+                        </c:choose>
+                    </td>
+
+                    <!-- ACTIONS -->
+                    <td>
+                        <div class="action-buttons">
+                            <a href="/role/get?identifier=${role.identifier}"
+                               class="btn btn-edit">Edit</a>
+                            <a href="/role/delete?identifier=${role.identifier}"
+                               class="btn btn-delete"
+                               onclick="return confirm('Are you sure you want to delete this role?');">
+                                Delete
+                            </a>
+                        </div>
+                    </td>
+
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+
 </div>
 
 </body>
