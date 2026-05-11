@@ -152,6 +152,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>Sl.</th>
                     <th>Email</th>
                     <th>Name</th>
                     <th>Phone</th>
@@ -160,8 +161,9 @@
                 </tr>
             </thead>
             <tbody>
-            <c:forEach var="user" items="${users}">
+            <c:forEach var="user" items="${users}" varStatus="loop">
                 <tr>
+                    <td>${loop.index + 1}</td>
                     <td>${user.username}</td>
                     <td>${user.name}</td>
                     <td>${user.phoneNo}</td>
