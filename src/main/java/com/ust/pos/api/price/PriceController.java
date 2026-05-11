@@ -8,6 +8,8 @@ import com.ust.pos.price.service.PriceService;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,39 +25,79 @@ public class PriceController extends BaseController {
     private ProductService productService;
 
     @PostMapping("/list")
-    public List<PriceDto> list(@RequestBody PaginationDto paginationDto) {
+    public ResponseEntity<List<PriceDto>> list(@RequestBody PaginationDto paginationDto) {
+
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return priceService.findAll(pageable);
+
+        List<PriceDto> prices = priceService.findAll(pageable);
+
+        return ResponseEntity.ok(prices);
     }
 
     @GetMapping("/{id}")
-    public PriceDto getById(@PathVariable Long id) {
-        return priceService.getPriceById(id);
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+
+        PriceDto response = priceService.getPriceById(id);
+
+        if (response == null || !response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response != null ? response.getMessage() : "Price not found");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/save")
-    public PriceDto save(@RequestBody PriceDto priceDto) {
-        return priceService.createPrice(priceDto);
-    }
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody PriceDto priceDto) {
 
-    @PostMapping("/update/{id}")
-    public PriceDto update(@PathVariable Long id, @RequestBody PriceDto priceDto) {
-        priceDto.setId(id);
-        return priceService.updatePrice(priceDto);
-    }
-
-    @PostMapping("/delete/{id}")
-    public boolean delete(@PathVariable Long id) {
         try {
+
+            PriceDto response = priceService.createPrice(priceDto);
+
+            return ResponseEntity.ok(response);
+
+        } catch (RuntimeException ex) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PriceDto priceDto) {
+
+        try {
+
+            priceDto.setId(id);
+
+            PriceDto response = priceService.updatePrice(priceDto);
+
+            return ResponseEntity.ok(response);
+
+        } catch (RuntimeException ex) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+
+        try {
+
             priceService.deletePrice(id);
-            return true;
+
+            return ResponseEntity.ok().build();
+
         } catch (Exception e) {
-            return false;
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @GetMapping("/products")
-    public List<ProductDto> getAllProducts() {
-        return productService.findAll(null);
+    public ResponseEntity<List<ProductDto>> getAllProducts() {
+
+        List<ProductDto> products = productService.findAll(null);
+
+        return ResponseEntity.ok(products);
     }
 }

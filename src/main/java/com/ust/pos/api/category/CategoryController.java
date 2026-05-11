@@ -6,6 +6,8 @@ import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,48 +20,93 @@ public class CategoryController extends BaseController {
     private CategoryService categoryService;
 
     @PostMapping("/list")
-    public List<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
+    public ResponseEntity<List<CategoryDto>> list(@RequestBody PaginationDto paginationDto) {
+
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return categoryService.findAll(pageable);
+
+        List<CategoryDto> categories = categoryService.findAll(pageable);
+
+        return ResponseEntity.ok(categories);
     }
 
     @GetMapping("/{identifier}")
-    public CategoryDto getByIdentifier(@PathVariable String identifier) {
-        return categoryService.findByIdentifier(identifier);
+    public ResponseEntity<?> getByIdentifier(@PathVariable String identifier) {
+
+        CategoryDto response = categoryService.findByIdentifier(identifier);
+
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/save")
-    public CategoryDto save(@RequestBody CategoryDto dto) {
-        return categoryService.save(dto);
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody CategoryDto categoryDto) {
+
+        CategoryDto response = categoryService.save(categoryDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update/{identifier}")
-    public CategoryDto update(@PathVariable String identifier, @RequestBody CategoryDto dto) {
-        dto.setIdentifier(identifier);
-        return categoryService.update(dto);
+    @PostMapping("/{identifier}")
+    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody CategoryDto categoryDto) {
+
+        categoryDto.setIdentifier(identifier);
+
+        CategoryDto response = categoryService.update(categoryDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/delete/{identifier}")
-    public boolean delete(@PathVariable String identifier) {
+    @PostMapping("/{identifier}")
+    public ResponseEntity<?> delete(@PathVariable String identifier) {
+
         try {
-            return categoryService.delete(identifier);
+
+            boolean deleted = categoryService.delete(identifier);
+
+            if (!deleted) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to delete category");
+            }
+
+            return ResponseEntity.ok().build();
+
         } catch (Exception e) {
-            return false;
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @PostMapping("/toggle/{identifier}")
-    public CategoryDto toggleStatus(@PathVariable String identifier) {
-        return categoryService.toggleStatus(identifier);
+    @PostMapping("/{identifier}/toggle-status")
+    public ResponseEntity<CategoryDto> toggleStatus(@PathVariable String identifier) {
+
+        CategoryDto response = categoryService.toggleStatus(identifier);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/active")
-    public List<CategoryDto> activeCategories() {
-        return categoryService.findIfTrue();
+    public ResponseEntity<List<CategoryDto>> activeCategories() {
+
+        List<CategoryDto> activeCategories = categoryService.findIfTrue();
+
+        return ResponseEntity.ok(activeCategories);
     }
 
-    @GetMapping("/sub-categories")
-    public List<CategoryDto> subCategories() {
-        return categoryService.findSuperCategories();
+    @GetMapping("/super-categories")
+    public ResponseEntity<List<CategoryDto>> superCategories() {
+
+        List<CategoryDto> superCategories = categoryService.findSuperCategories();
+
+        return ResponseEntity.ok(superCategories);
     }
 }

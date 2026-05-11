@@ -8,6 +8,8 @@ import com.ust.pos.rack.service.RackService;
 import com.ust.pos.shelf.service.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,39 +25,73 @@ public class RackController extends BaseController {
     private ShelfService shelfService;
 
     @PostMapping("/list")
-    public List<RackDto> list(@RequestBody PaginationDto paginationDto) {
+    public ResponseEntity<List<RackDto>> list(@RequestBody PaginationDto paginationDto) {
+
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return rackService.findAll(pageable);
+
+        List<RackDto> racks = rackService.findAll(pageable);
+
+        return ResponseEntity.ok(racks);
     }
 
     @GetMapping("/{id}")
-    public RackDto getById(@PathVariable Long id) {
-        return rackService.getRack(id);
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+
+        RackDto response = rackService.getRack(id);
+
+        if (response == null || !response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response != null ? response.getMessage() : "Rack not found");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/save")
-    public RackDto save(@RequestBody RackDto rackDto) {
-        return rackService.createRack(rackDto);
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody RackDto rackDto) {
+
+        RackDto response = rackService.createRack(rackDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update/{id}")
-    public RackDto update(@PathVariable Long id, @RequestBody RackDto rackDto) {
+    @PostMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody RackDto rackDto) {
+
         rackDto.setId(id);
-        return rackService.updateRack(rackDto);
+
+        RackDto response = rackService.updateRack(rackDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/delete/{id}")
-    public boolean delete(@PathVariable Long id) {
+    @PostMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+
         try {
+
             rackService.deleteRack(id);
-            return true;
+
+            return ResponseEntity.ok().build();
+
         } catch (Exception e) {
-            return false;
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @GetMapping("/shelves")
-    public List<ShelfDto> getShelves() {
-        return shelfService.findAll(null);
+    public ResponseEntity<List<ShelfDto>> getShelves() {
+
+        List<ShelfDto> shelves = shelfService.getActiveShelves();
+
+        return ResponseEntity.ok(shelves);
     }
 }

@@ -6,8 +6,9 @@ import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 
@@ -19,38 +20,77 @@ public class CustomerController extends BaseController {
     private CustomerService customerService;
 
     @PostMapping("/list")
-    public List<CustomerDto> list(@RequestBody PaginationDto paginationDto) {
+    public ResponseEntity<List<CustomerDto>> list(@RequestBody PaginationDto paginationDto) {
+
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return customerService.findAll(pageable);
+
+        List<CustomerDto> customers = customerService.findAll(pageable);
+
+        return ResponseEntity.ok(customers);
     }
 
     @GetMapping("/{identifier}")
-    public CustomerDto getByIdentifier(@PathVariable String identifier) {
-        return customerService.findByIdentifierWithAddressDto(identifier);
+    public ResponseEntity<?> getByIdentifier(@PathVariable String identifier) {
+
+        CustomerDto response = customerService.findByIdentifierWithAddressDto(identifier);
+
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/save")
-    public CustomerDto save(@RequestBody CustomerDto customerDto) {
-        return customerService.save(customerDto);
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody CustomerDto customerDto) {
+
+        CustomerDto response = customerService.save(customerDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update/{identifier}")
-    public CustomerDto update(@PathVariable String identifier, @RequestBody CustomerDto customerDto) {
+    @PostMapping("/{identifier}")
+    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody CustomerDto customerDto) {
+
         customerDto.setIdentifier(identifier);
-        return customerService.update(customerDto);
+
+        CustomerDto response = customerService.update(customerDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/delete/{identifier}")
-    public boolean delete(@PathVariable String identifier) {
+    @PostMapping("/{identifier}")
+    public ResponseEntity<?> delete(@PathVariable String identifier) {
+
         try {
-            return customerService.delete(identifier);
+
+            boolean deleted = customerService.delete(identifier);
+
+            if (!deleted) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to delete customer");
+            }
+
+            return ResponseEntity.ok().build();
+
         } catch (Exception e) {
-            return false;
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @PostMapping("/toggle/{identifier}")
-    public CustomerDto toggleStatus(@PathVariable String identifier) {
-        return customerService.toggleStatus(identifier);
+    @PostMapping("/{identifier}/toggle-status")
+    public ResponseEntity<CustomerDto> toggleStatus(@PathVariable String identifier) {
+
+        CustomerDto response = customerService.toggleStatus(identifier);
+
+        return ResponseEntity.ok(response);
     }
 }

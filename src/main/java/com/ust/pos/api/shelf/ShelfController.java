@@ -6,6 +6,8 @@ import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.shelf.service.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,39 +20,73 @@ public class ShelfController extends BaseController {
     private ShelfService shelfService;
 
     @PostMapping("/list")
-    public List<ShelfDto> list(@RequestBody PaginationDto paginationDto) {
+    public ResponseEntity<List<ShelfDto>> list(@RequestBody PaginationDto paginationDto) {
+
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return shelfService.findAll(pageable);
+
+        List<ShelfDto> shelves = shelfService.findAll(pageable);
+
+        return ResponseEntity.ok(shelves);
     }
 
     @GetMapping("/{id}")
-    public ShelfDto getById(@PathVariable Long id) {
-        return shelfService.getShelf(id);
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+
+        ShelfDto response = shelfService.getShelf(id);
+
+        if (response == null || !response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response != null ? response.getMessage() : "Shelf not found");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/save")
-    public ShelfDto save(@RequestBody ShelfDto shelfDto) {
-        return shelfService.createShelf(shelfDto);
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody ShelfDto shelfDto) {
+
+        ShelfDto response = shelfService.createShelf(shelfDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update/{id}")
-    public ShelfDto update(@PathVariable Long id, @RequestBody ShelfDto shelfDto) {
+    @PostMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ShelfDto shelfDto) {
+
         shelfDto.setId(id);
-        return shelfService.updateShelf(shelfDto);
+
+        ShelfDto response = shelfService.updateShelf(shelfDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/delete/{id}")
-    public boolean delete(@PathVariable Long id) {
+    @PostMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+
         try {
+
             shelfService.deleteShelf(id);
-            return true;
+
+            return ResponseEntity.ok().build();
+
         } catch (Exception e) {
-            return false;
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @PostMapping("/toggle/{id}")
-    public ShelfDto toggleStatus(@PathVariable Long id) {
-        return shelfService.toggleStatus(id);
+    @PostMapping("/{id}/toggle-status")
+    public ResponseEntity<ShelfDto> toggleStatus(@PathVariable Long id) {
+
+        ShelfDto response = shelfService.toggleStatus(id);
+
+        return ResponseEntity.ok(response);
     }
 }

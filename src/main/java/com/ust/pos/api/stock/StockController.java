@@ -1,12 +1,17 @@
 package com.ust.pos.api.stock;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.*;
+import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,43 +30,83 @@ public class StockController extends BaseController {
     private WarehouseService warehouseService;
 
     @PostMapping("/list")
-    public List<StockDto> list(@RequestBody PaginationDto paginationDto) {
+    public ResponseEntity<List<StockDto>> list(@RequestBody PaginationDto paginationDto) {
+
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return stockService.findAll(pageable);
+
+        List<StockDto> stocks = stockService.findAll(pageable);
+
+        return ResponseEntity.ok(stocks);
     }
 
     @GetMapping("/search")
-    public StockDto get(@RequestParam Long productId, @RequestParam Long warehouseId) {
-        return stockService.getStock(productId, warehouseId);
+    public ResponseEntity<?> get(@RequestParam Long productId, @RequestParam Long warehouseId) {
+
+        StockDto response = stockService.getStock(productId, warehouseId);
+
+        if (response == null || !response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response != null ? response.getMessage() : "Stock not found");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/save")
-    public StockDto save(@RequestBody StockDto stockDto) {
-        return stockService.createStock(stockDto);
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody StockDto stockDto) {
+
+        StockDto response = stockService.createStock(stockDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update-quantity/{stockId}")
-    public StockDto updateQuantity(@PathVariable Long stockId, @RequestParam Integer quantity) {
-        return stockService.updateStockQuantity(stockId, quantity);
+    @PostMapping("/{stockId}/quantity")
+    public ResponseEntity<?> updateQuantity(@PathVariable Long stockId, @RequestParam Integer quantity) {
+
+        StockDto response = stockService.updateStockQuantity(stockId, quantity);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/delete/{id}")
-    public boolean delete(@PathVariable Long id) {
+    @PostMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+
         try {
-            stockService.deleteStock(id);
-            return true;
+
+            boolean deleted = stockService.deleteStock(id);
+
+            if (!deleted) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Stock not found");
+            }
+
+            return ResponseEntity.ok().build();
+
         } catch (Exception e) {
-            return false;
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @GetMapping("/products")
-    public List<ProductDto> getProducts() {
-        return productService.findAll(null);
+    public ResponseEntity<List<ProductDto>> getProducts() {
+
+        List<ProductDto> products = productService.findIfTrue();
+
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/warehouses")
-    public List<WarehouseDto> getWarehouses() {
-        return warehouseService.findAll(null);
+    public ResponseEntity<List<WarehouseDto>> getWarehouses() {
+
+        List<WarehouseDto> warehouses = warehouseService.findIfTrue();
+
+        return ResponseEntity.ok(warehouses);
     }
 }

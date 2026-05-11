@@ -7,6 +7,8 @@ import com.ust.pos.node.service.NodeService;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,34 +24,65 @@ public class NodeController extends BaseController {
     private RoleService roleService;
 
     @PostMapping("/list")
-    public List<NodeDto> list(@RequestBody PaginationDto paginationDto) {
+    public ResponseEntity<List<NodeDto>> list(@RequestBody PaginationDto paginationDto) {
+
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return nodeService.findAll(pageable);
+
+        List<NodeDto> nodes = nodeService.findAll(pageable);
+
+        return ResponseEntity.ok(nodes);
     }
 
-    @GetMapping("/get")
-    public NodeDto get(@RequestParam String identifier) {
-        return nodeService.findByIdentifier(identifier);
+    @GetMapping("/{identifier}")
+    public ResponseEntity<?> getByIdentifier(@PathVariable String identifier) {
+
+        NodeDto response = nodeService.findByIdentifier(identifier);
+
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Node not found");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/add")
-    public NodeDto add(@RequestBody NodeDto nodeDto) {
-        return nodeService.save(nodeDto);
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody NodeDto nodeDto) {
+
+        NodeDto response = nodeService.save(nodeDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update")
-    public NodeDto update(@RequestBody NodeDto nodeDto) {
-        return nodeService.update(nodeDto);
+    @PostMapping("/{identifier}")
+    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody NodeDto nodeDto) {
+
+        nodeDto.setIdentifier(identifier);
+
+        NodeDto response = nodeService.update(nodeDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/{identifier}")
+    public ResponseEntity<?> delete(@PathVariable String identifier) {
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
         try {
+
             nodeService.delete(identifier);
-            return true;
+
+            return ResponseEntity.ok().build();
+
         } catch (Exception e) {
-            return false;
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

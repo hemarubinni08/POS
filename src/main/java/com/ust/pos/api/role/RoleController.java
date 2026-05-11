@@ -6,6 +6,8 @@ import com.ust.pos.dto.RoleDto;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,33 +20,65 @@ public class RoleController extends BaseController {
     private RoleService roleService;
 
     @PostMapping("/list")
-    public List<RoleDto> list(@RequestBody PaginationDto paginationDto) {
+    public ResponseEntity<List<RoleDto>> list(@RequestBody PaginationDto paginationDto) {
+
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return roleService.findAll(pageable);
+
+        List<RoleDto> roles = roleService.findAll(pageable);
+
+        return ResponseEntity.ok(roles);
     }
 
-    @GetMapping("/get")
-    public RoleDto get(@RequestParam String identifier) {
-        return roleService.findByIdentifier(identifier);
+    @GetMapping("/{identifier}")
+    public ResponseEntity<?> getByIdentifier(@PathVariable String identifier) {
+
+        RoleDto response = roleService.findByIdentifier(identifier);
+
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Role not found");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/add")
-    public RoleDto add(@RequestBody RoleDto roleDto) {
-        return roleService.save(roleDto);
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody RoleDto roleDto) {
+
+        RoleDto response = roleService.save(roleDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update")
-    public RoleDto update(@RequestBody RoleDto roleDto) {
-        return roleService.update(roleDto);
+    @PostMapping("/{identifier}")
+    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody RoleDto roleDto) {
+
+        roleDto.setIdentifier(identifier);
+
+        RoleDto response = roleService.update(roleDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    @PostMapping("/{identifier}")
+    public ResponseEntity<?> delete(@PathVariable String identifier) {
+
         try {
+
             roleService.delete(identifier);
-            return true;
+
+            return ResponseEntity.ok().build();
+
         } catch (Exception e) {
-            return false;
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

@@ -6,6 +6,8 @@ import com.ust.pos.dto.UnitDto;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,39 +20,73 @@ public class UnitController extends BaseController {
     private UnitService unitService;
 
     @PostMapping("/list")
-    public List<UnitDto> list(@RequestBody PaginationDto paginationDto) {
+    public ResponseEntity<List<UnitDto>> list(@RequestBody PaginationDto paginationDto) {
+
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return unitService.findAll(pageable);
+
+        List<UnitDto> units = unitService.findAll(pageable);
+
+        return ResponseEntity.ok(units);
     }
 
     @GetMapping("/{identifier}")
-    public UnitDto getByIdentifier(@PathVariable String identifier) {
-        return unitService.findByIdentifier(identifier);
+    public ResponseEntity<?> getByIdentifier(@PathVariable String identifier) {
+
+        UnitDto response = unitService.findByIdentifier(identifier);
+
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unit not found");
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/save")
-    public UnitDto save(@RequestBody UnitDto unitDto) {
-        return unitService.save(unitDto);
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody UnitDto unitDto) {
+
+        UnitDto response = unitService.save(unitDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update/{identifier}")
-    public UnitDto update(@PathVariable String identifier, @RequestBody UnitDto unitDto) {
+    @PostMapping("/{identifier}")
+    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody UnitDto unitDto) {
+
         unitDto.setIdentifier(identifier);
-        return unitService.update(unitDto);
+
+        UnitDto response = unitService.update(unitDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/delete/{identifier}")
-    public boolean delete(@PathVariable String identifier) {
+    @PostMapping("/{identifier}")
+    public ResponseEntity<?> delete(@PathVariable String identifier) {
+
         try {
+
             unitService.delete(identifier);
-            return true;
+
+            return ResponseEntity.ok().build();
+
         } catch (Exception e) {
-            return false;
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @PostMapping("/toggle/{identifier}")
-    public UnitDto toggleStatus(@PathVariable String identifier) {
-        return unitService.toggleStatus(identifier);
+    @PostMapping("/{identifier}/toggle-status")
+    public ResponseEntity<UnitDto> toggleStatus(@PathVariable String identifier) {
+
+        UnitDto response = unitService.toggleStatus(identifier);
+
+        return ResponseEntity.ok(response);
     }
 }

@@ -6,6 +6,8 @@ import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,44 +20,76 @@ public class BrandController extends BaseController {
     private BrandService brandService;
 
     @PostMapping("/list")
-    public List<BrandDto> list(@RequestBody PaginationDto paginationDto) {
+    public ResponseEntity<List<BrandDto>> list(@RequestBody PaginationDto paginationDto) {
+
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return brandService.findAll(pageable);
+
+        List<BrandDto> brands = brandService.findAll(pageable);
+
+        return ResponseEntity.ok(brands);
     }
 
     @GetMapping("/{identifier}")
-    public BrandDto getByIdentifier(@PathVariable String identifier) {
-        return brandService.findByIdentifier(identifier);
+    public ResponseEntity<BrandDto> getByIdentifier(@PathVariable String identifier) {
+
+        BrandDto response = brandService.findByIdentifier(identifier);
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/save")
-    public BrandDto save(@RequestBody BrandDto brandDto) {
-        return brandService.save(brandDto);
+    @PostMapping
+    public ResponseEntity<?> save(@RequestBody BrandDto brandDto) {
+
+        BrandDto response = brandService.save(brandDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update/{identifier}")
-    public BrandDto update(@PathVariable String identifier, @RequestBody BrandDto brandDto) {
+    @PostMapping("/{identifier}")
+    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody BrandDto brandDto) {
+
         brandDto.setIdentifier(identifier);
-        return brandService.update(brandDto);
+
+        BrandDto response = brandService.update(brandDto);
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/delete/{identifier}")
-    public boolean delete(@PathVariable String identifier) {
+    @PostMapping("/{identifier}")
+    public ResponseEntity<?> delete(@PathVariable String identifier) {
+
         try {
             brandService.delete(identifier);
-            return true;
+
+            return ResponseEntity.ok().build();
+
         } catch (Exception e) {
-            return false;
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-    @PostMapping("/toggle/{identifier}")
-    public BrandDto toggleStatus(@PathVariable String identifier) {
-        return brandService.toggleStatus(identifier);
+    @PostMapping("/{identifier}/toggle-status")
+    public ResponseEntity<BrandDto> toggleStatus(@PathVariable String identifier) {
+
+        BrandDto response = brandService.toggleStatus(identifier);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/active")
-    public List<BrandDto> getActiveBrands() {
-        return brandService.findIfTrue();
+    public ResponseEntity<List<BrandDto>> getActiveBrands() {
+
+        List<BrandDto> activeBrands = brandService.findIfTrue();
+
+        return ResponseEntity.ok(activeBrands);
     }
 }
