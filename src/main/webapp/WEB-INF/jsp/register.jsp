@@ -5,197 +5,159 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>User Registration</title>
+    <title>User Registration</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-      rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-color: #f6f7f9;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        }
 
-<style>
-body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-}
+        .container {
+            width: 360px;
+            padding: 20px 24px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            position: relative;
+        }
 
-/* ✅ BACK ARROW (EXACT STYLE LIKE IMAGE) */
-.back-arrow {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 42px;
-    height: 42px;
-    background: #ffffff;
-    border: 1px solid #c4b5fd;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: #6d28d9;
-    font-size: 18px;
-    font-weight: 600;
-    box-shadow: 0 6px 15px rgba(76, 29, 149, 0.18);
-    transition: 0.2s;
-}
+        .back-btn {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 4px 10px;
+            background-color: #e5e7eb;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
 
-.back-arrow:hover {
-    background: #7c3aed;
-    color: #ffffff;
-}
+        h2 {
+            text-align: center;
+            margin: 8px 0 14px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #020617;
+        }
 
-/* 🎯 CONTAINER */
-.register-card {
-    width: 430px;
-    margin: 100px auto;
-    background: #ffffff;
-    padding: 35px 40px;
-    border-radius: 16px;
-    box-shadow: 0 15px 35px rgba(76, 29, 149, 0.18);
-}
+        label {
+            display: block;
+            margin-top: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #475569;
+        }
 
-/* 🔷 TITLE */
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 22px;
-    color: #6d28d9;
-    font-weight: 600;
-}
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 4px;
 
-/* ❌ ERROR MESSAGE */
-.error-message {
-    margin-bottom: 15px;
-    padding: 10px 12px;
-    background-color: #efe9ff;
-    color: #5b21b6;
-    border: 1px solid #c4b5fd;
-    border-radius: 8px;
-    font-size: 13px;
-    text-align: center;
-}
+            border-radius: 22px;
+            border: 1px solid #cbd5e1;
 
-/* 🏷 LABEL */
-label {
-    margin-top: 16px;
-    display: block;
-    font-weight: 600;
-    font-size: 13px;
-    color: #4c1d95;
-}
+            font-size: 13px;
+        }
 
-/* ✏ INPUT */
-input, select {
-    width: 100%;
-    margin-top: 6px;
-    padding: 10px;
-    border: 1px solid #c4b5fd;
-    border-radius: 8px;
-    font-size: 13px;
-}
+        select[multiple] {
+            height: 80px;
+            border-radius: 10px;
+        }
 
-input:focus, select:focus {
-    border-color: #7c3aed;
-    box-shadow: 0 0 0 2px rgba(124,58,237,0.25);
-}
+        button {
+            margin-top: 16px;
+            width: 100%;
+            padding: 10px;
+            background: teal;
+            color: #ffffff;
+            border: none;
+            border-radius: 22px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
 
-select[multiple] {
-    height: 130px;
-}
+        button:hover {
+            background: #0f766e;
+        }
 
-/* 🔥 BUTTON */
-.btn-submit {
-    margin-top: 28px;
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, #7c3aed, #6d28d9);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
-}
+        .error-message {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #dc2626;
+            font-size: 12px;
+            font-weight: 600;
+        }
 
-.btn-submit:hover {
-    background: linear-gradient(135deg, #6d28d9, #5b21b6);
-}
-</style>
-
-<script>
-function validateForm() {
-
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("username").value.trim();
-    const roles = document.getElementById("roles").selectedOptions.length;
-    const phone = document.getElementById("phoneNo").value.trim();
-    const password = document.getElementById("password").value.trim();
-
-    const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
-    if (!name || !email || roles === 0 || !phone || !password) {
-        alert("Please fill all the details before registering");
-        return false;
-    }
-
-    if (!gmailRegex.test(email)) {
-        alert("Email must be in the format abc@gmail.com");
-        return false;
-    }
-
-    return true;
-}
-</script>
-
+    </style>
 </head>
 
 <body>
 
-<!-- ✅ BACK ARROW -->
-<a href="${pageContext.request.contextPath}/user/list" class="back-arrow">←</a>
+<div class="container">
 
-<div class="register-card">
+    <!-- Back -->
+    <a href="${pageContext.request.contextPath}/login" class="back-btn">
+        Back
+    </a>
 
-<h2>User Registration</h2>
+    <h2>User Registration</h2>
 
-<c:if test="${not empty message}">
-    <div class="error-message">${message}</div>
-</c:if>
+    <!-- Error -->
+    <c:if test="${not empty message}">
+        <div class="error-message">
+            ${message}
+        </div>
+    </c:if>
 
-<form:form action="register"
-           method="post"
-           modelAttribute="userDto"
-           onsubmit="return validateForm();">
+    <!-- Form -->
+    <form:form action="${pageContext.request.contextPath}/register"
+               method="post"
+               modelAttribute="userDto">
 
-    <label>Name</label>
-    <form:input path="name" id="name" required="true"/>
+        <label>Name</label>
+        <form:input path="name" required="true"/>
 
-    <label>Email</label>
-    <form:input path="username"
-                id="username"
-                required="true"
-                pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
-                title="Email must be in the format name@gmail.com"/>
+        <label>Email</label>
+        <form:input path="username" type="email" required="true"
+                    placeholder="example@mail.com"/>
 
-    <label>Roles</label>
-    <form:select path="roles" id="roles" multiple="true" required="true">
-        <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-    </form:select>
+        <label>Roles</label>
+        <form:select path="roles" multiple="true" required="true">
+            <form:options items="${roles}"
+                          itemValue="identifier"
+                          itemLabel="identifier"/>
+        </form:select>
 
-    <label>Mobile number</label>
-    <form:input path="phoneNo"
-                id="phoneNo"
-                type="tel"
-                pattern="[0-9]{10}"
-                maxlength="10"
-                required="true"/>
+        <label>Phone Number</label>
+        <form:input path="phoneNo"
+                    type="tel"
+                    required="true"
+                    pattern="[0-9]{10}"
+                    maxlength="10"
+                    title="Phone number must be exactly 10 digits"
+                    oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
 
-    <label>Password</label>
-    <form:password path="password" id="password" required="true"/>
+        <label>Password</label>
+        <form:password path="password"
+                       required="true"
+                       minlength="6"/>
 
-    <input type="submit" value="Register" class="btn-submit"/>
+        <button type="submit">Register</button>
 
-</form:form>
+    </form:form>
 
 </div>
 
 </body>
-</html>r
+</html>

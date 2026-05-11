@@ -4,137 +4,191 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Role List</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <title>Role Management</title>
 
     <style>
         body {
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            margin: 0;
             min-height: 100vh;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background: #ffffff;
         }
 
-        .card {
-            border-radius: 16px;
-            background-color: #ffffff;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
+        /* ===== CONTAINER ===== */
+        .container {
+            width: 95%;
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 18px;
         }
 
-        .card-header {
-            background-color: #a78bfa;
+        .app-title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #14b8a6;
+            margin-bottom: 4px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        /* ===== ACTIONS ===== */
+        .list-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .home-btn {
+            padding: 7px 16px;
+            background: #ffffff;
+            color: teal;
+            text-decoration: none;
+            border-radius: 18px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid teal;
+        }
+
+        .add-btn {
+            padding: 7px 16px;
+            background: teal;
             color: #ffffff;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
+            text-decoration: none;
+            border-radius: 18px;
+            font-size: 13px;
+            font-weight: 600;
         }
 
-        table th {
-            background-color: #a78bfa;
+        /* ===== TABLE ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #f1f5f9;
+            font-weight: 700;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        /* ===== STATUS ===== */
+        .status-toggle {
+            padding: 5px 12px;
+            border-radius: 18px;
+            font-size: 12px;
+            font-weight: 600;
             color: white;
-        }
-
-        table.table-hover tbody tr:hover {
-            background-color: #f5f3ff;
-        }
-
-        .btn-secondary {
-            background-color: #b197fc;
-            border: none;
-            color: #ffffff;
-        }
-
-        .btn-secondary:hover {
-            background-color: #b197fc;
-            color: #ffffff;
-        }
-
-        .btn-success {
-            background-color: #7c3aed;
+            cursor: pointer;
             border: none;
         }
 
-        .btn-success:hover {
-            background-color: #6d28d9;
+        .status-true { background: teal; }
+        .status-false { background: #9ca3af; }
+
+        /* ===== ACTION BUTTONS ===== */
+        .action-link {
+            padding: 6px 12px;
+            border-radius: 18px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
         }
+
+        .edit { background: teal; }
+        .delete { background: #ef4444; margin-left: 6px; }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+<div class="container">
 
-            <div class="card shadow-lg">
-                <div class="card-header text-center">
-                    <h4 class="mb-0">List of Roles</h4>
-                </div>
-
-                <div class="card-body">
-
-                    <c:if test="${empty roles}">
-                        <div class="alert alert-warning text-center">
-                            No roles found
-                        </div>
-                    </c:if>
-
-                    <c:if test="${not empty roles}">
-                        <table class="table table-bordered table-hover text-center align-middle">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Role</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-                            <c:forEach var="role" items="${roles}">
-                                <tr>
-
-                                    <td class="fw-semibold">
-                                        ${role.id}
-                                    </td>
-
-                                    <td>${role.identifier}</td>
-
-
-                                    <td class="d-flex justify-content-center gap-2">
-                                        <a href="/role/get?identifier=${role.identifier}"
-                                           class="btn btn-primary btn-sm">
-                                            Edit
-                                        </a>
-
-                                        <a href="/role/delete?identifier=${role.identifier}"
-                                           class="btn btn-danger btn-sm"
-                                           onclick="return confirm('Are you sure you want to delete this role?');">
-                                            Delete
-                                        </a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </c:if>
-
-                </div>
-
-                <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
-                    <a href="/" class="btn btn-secondary">
-                        Home
-                    </a>
-
-                    <a href="/role/add" class="btn btn-success">
-                        + Add New Role
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
+    <div class="app-title">POS Application</div>
+    <h2>Role Management</h2>
+    <div class="list-actions">
+        <a href="${pageContext.request.contextPath}/" class="home-btn">Home</a>
+        <a href="${pageContext.request.contextPath}/role/add" class="add-btn">
+            Add Role
+        </a>
     </div>
+
+    <c:if test="${empty roles}">
+        <div style="text-align:center; padding:18px;">No roles found</div>
+    </c:if>
+
+    <c:if test="${not empty roles}">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Role</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <c:forEach var="role" items="${roles}">
+                    <tr>
+                        <td>${role.id}</td>
+                        <td>${role.identifier}</td>
+                        <td>${role.description}</td>
+
+                        <td>
+                            <button
+                                class="status-toggle ${role.status ? 'status-true' : 'status-false'}"
+                                onclick="toggleStatus('${role.identifier}')">
+                                ${role.status ? 'Active' : 'Inactive'}
+                            </button>
+                        </td>
+
+                        <td>
+                            <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
+                               class="action-link edit">Edit</a>
+
+                            <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
+                               class="action-link delete">Delete</a>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+
 </div>
+
+<script>
+function toggleStatus(identifier) {
+    fetch('${pageContext.request.contextPath}/role/toggle-status?identifier=' + identifier, {
+        method: 'POST'
+    }).then(() => location.reload());
+}
+</script>
 
 </body>
 </html>

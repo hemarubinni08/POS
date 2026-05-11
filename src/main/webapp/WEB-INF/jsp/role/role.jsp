@@ -7,65 +7,101 @@
 <head>
     <title>Edit Role</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
     <style>
         body {
+            margin: 0;
             min-height: 100vh;
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe); /* light purple gradient */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background: #ffffff;
         }
 
+        /* ===== CARD ===== */
         .card {
-            width: 420px;
-            border-radius: 15px;
-            background-color: #ffffff;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18); /* soft purple shadow */
+            width: 360px;
+            background: #ffffff;
+            margin: 40px auto;
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: relative;
         }
 
-        h4 {
+        .app-title {
+            text-align: center;
+            font-size: 14px;
             font-weight: 600;
-            color: #6d28d9; /* purple heading */
+            color: #14b8a6;
+            margin-bottom: 4px;
         }
 
-        .form-control {
-            border-radius: 8px;
-            border: 1px solid #c4b5fd;
-        }
-
-        .form-control:focus {
-            border-color: #a78bfa;
-            box-shadow: 0 0 0 0.15rem rgba(167, 139, 250, 0.35);
-        }
-
-        .help-text {
+        .back-btn {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 5px 12px;
+            background: #ffffff;
+            border: 1px solid teal;
+            color: teal;
+            text-decoration: none;
+            border-radius: 16px;
             font-size: 12px;
-            color: #6b7280;
-            margin-top: 6px;
+            font-weight: 600;
         }
 
-        .btn-primary {
-            background-color: #7c3aed;
+        h2 {
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        /* ===== FORM ===== */
+        label {
+            display: block;
+            margin-top: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        input, textarea {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px 10px;
+            margin-top: 4px;
+            border: 1px solid #d1d5db;
+            border-radius: 18px;
+            font-size: 13px;
+        }
+
+        input[readonly] {
+            background: #f1f5f9;
+        }
+
+        textarea {
+            resize: none;
+            height: 70px;
+        }
+
+        button {
+            margin-top: 16px;
+            width: 100%;
+            height: 34px;
+            background: teal;
+            color: white;
+            border-radius: 18px;
             border: none;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
         }
 
-        .btn-primary:hover {
-            background-color: #6d28d9;
-        }
-
-        .btn-outline-secondary {
-            color: #6b21a8;
-            border-color: #c4b5fd;
-        }
-
-        .btn-outline-secondary:hover {
-            background-color: #ddd6fe;
-            color: #4c1d95;
-            border-color: #c4b5fd;
+        .error-message {
+            text-align: center;
+            color: #ef4444;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -73,59 +109,33 @@
 <body>
 
 <div class="card">
-    <div class="card-body">
 
-        <h4 class="text-center mb-4">Edit Role</h4>
+    <div class="app-title">POS Application</div>
 
-        <c:if test="${empty role}">
-            <div class="alert alert-danger text-center">
-                Role not found
-            </div>
-        </c:if>
+    <a href="${pageContext.request.contextPath}/role/list" class="back-btn">Back</a>
 
-        <c:if test="${not empty role}">
+    <h2>Edit Role</h2>
 
-            <form:form action="/role/update"
-                       method="post"
-                       modelAttribute="role">
+    <c:if test="${not empty message}">
+        <div class="error-message">${message}</div>
+    </c:if>
+    <form:form action="${pageContext.request.contextPath}/role/update"
+               method="post"
+               modelAttribute="role">
 
-                <!-- Hidden ID -->
-                <form:hidden path="id"/>
+        <form:hidden path="id"/>
 
-                <!-- Role Identifier (READ ONLY) -->
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Role Name</label>
+        <label>Role Name</label>
+        <form:input path="identifier" readonly="true"/>
 
-                    <form:input path="identifier"
-                                cssClass="form-control"
-                                placeholder="Enter role"
-                                required="true"
-                                readonly="true"/>
-                </div>
+        <label>Description</label>
+        <form:textarea path="description"/>
 
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Description</label>
+        <button type="submit">Update Role</button>
 
-                    <form:input path="description"
-                                cssClass="form-control"
-                                placeholder="Enter role"
-                                required="true"/>
-                </div>
+    </form:form>
 
-                <div class="d-flex justify-content-between">
-                    <a href="/role/list" class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
-                    <button type="submit" class="btn btn-primary">
-                        Update
-                    </button>
-                </div>
-
-            </form:form>
-
-        </c:if>
-
-    </div>
 </div>
+
 </body>
 </html>

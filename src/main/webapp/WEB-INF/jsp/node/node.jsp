@@ -8,96 +8,104 @@
 
     <style>
         body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe); /* light purple gradient */
             margin: 0;
             min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #ffffff;
         }
 
-        .container {
-            width: 420px;
-            margin: 80px auto;
+        /* ===== CARD ===== */
+        .card {
+            width: 360px;
+            margin: 40px auto;
             background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18); /* soft purple shadow */
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .app-title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #14b8a6;
+            margin-bottom: 4px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 5px 12px;
+            background: #ffffff;
+            border: 1px solid teal;
+            color: teal;
+            text-decoration: none;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 24px;
-            color: #6d28d9; /* purple heading */
-            font-weight: 600;
+            margin: 12px 0;
+            font-size: 20px;
         }
 
+        /* ===== FORM ===== */
         label {
-            margin-top: 16px;
             display: block;
+            margin-top: 12px;
+            font-size: 12px;
             font-weight: 600;
-            font-size: 13px;
-            color: #4c1d95; /* deep purple text */
+            color: #475569;
         }
 
         input, select {
+            display: block;
             width: 100%;
-            margin-top: 6px;
-            padding: 9px;
-            border: 1px solid #c4b5fd;
-            border-radius: 6px;
+            box-sizing: border-box;
+            height: 34px;
+            padding: 8px 10px;
+            margin-top: 4px;
+            border-radius: 18px;
+            border: 1px solid #d1d5db;
             font-size: 13px;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #a78bfa;
-            box-shadow: 0 0 0 0.15rem rgba(167, 139, 250, 0.35);
         }
 
         select[multiple] {
-            height: 110px;
+            height: 90px;
+            border-radius: 12px;
         }
 
         button {
-            margin-top: 26px;
+            margin-top: 16px;
             width: 100%;
-            padding: 11px;
-            background: #7c3aed; /* primary purple */
+            height: 34px;
+            padding: 8px 10px;
+            background: teal;
             color: #ffffff;
             border: none;
+            border-radius: 18px;
             font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #6d28d9;
-        }
-
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 18px;
-            color: #6d28d9;
-            font-weight: 600;
-            text-decoration: none;
             font-size: 13px;
         }
 
-        a:hover {
-            text-decoration: underline;
-            color: #5b21b6;
-        }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="card">
+
+    <div class="app-title">POS Application</div>
+
+    <a href="${pageContext.request.contextPath}/node/list" class="back-btn">Back</a>
 
     <h2>Edit Node</h2>
 
     <form action="${pageContext.request.contextPath}/node/update" method="post">
-
         <input type="hidden" name="id" value="${node.id}" />
         <input type="hidden" name="identifier" value="${node.identifier}" />
 
@@ -108,19 +116,13 @@
         <select name="roles" multiple required>
             <c:forEach var="role" items="${roles}">
                 <option value="${role.identifier}"
-                        <c:if test="${node.roles.contains(role.identifier)}">selected</c:if>>
+                    <c:if test="${node.roles.contains(role.identifier)}">selected</c:if>>
                     ${role.identifier}
                 </option>
             </c:forEach>
         </select>
-
-        <button type="submit">Update</button>
+        <button type="submit">Update Node</button>
     </form>
-
-    <a href="${pageContext.request.contextPath}/node/list">
-        ← Back to Node List
-    </a>
-
 </div>
 
 </body>

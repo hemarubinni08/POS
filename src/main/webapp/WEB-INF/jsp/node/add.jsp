@@ -8,123 +8,120 @@
 
     <style>
         body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
             margin: 0;
             min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #ffffff;
         }
 
-        .container {
-            width: 420px;
-            margin: 80px auto;
+        /* ===== CARD ===== */
+        .card {
+            width: 360px;
+            margin: 40px auto;
             background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+
+        .app-title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #14b8a6;
+            margin-bottom: 4px;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 5px 12px;
+            background: #ffffff;
+            border: 1px solid teal;
+            color: teal;
+            text-decoration: none;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 24px;
+            margin: 12px 0;
             font-size: 20px;
-            color: #6d28d9;
-            font-weight: 600;
         }
 
+        /* ===== FORM ===== */
         label {
-            margin-top: 16px;
             display: block;
+            margin-top: 12px;
+            font-size: 12px;
             font-weight: 600;
-            font-size: 13px;
-            color: #4c1d95;
+            color: #475569;
         }
 
         input, select {
+            display: block;
             width: 100%;
-            margin-top: 6px;
-            padding: 9px;
-            border: 1px solid #c4b5fd;
-            border-radius: 6px;
+            box-sizing: border-box;
+            height: 34px;
+            padding: 8px 10px;
+            margin-top: 4px;
+            border-radius: 18px;
+            border: 1px solid #d1d5db;
             font-size: 13px;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #a78bfa;
-            box-shadow: 0 0 0 0.15rem rgba(167, 139, 250, 0.35);
         }
 
         select[multiple] {
-            height: 110px;
+            height: 90px;
+            border-radius: 12px;
         }
 
         button {
-            margin-top: 26px;
+            margin-top: 16px;
             width: 100%;
-            padding: 11px;
-            background: #7c3aed;
+            height: 34px;
+            padding: 8px 10px;
+            background: teal;
             color: #ffffff;
             border: none;
+            border-radius: 18px;
             font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #6d28d9;
-        }
-
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 18px;
-            color: #6d28d9;
-            font-weight: 600;
-            text-decoration: none;
             font-size: 13px;
         }
 
-        a:hover {
-            text-decoration: underline;
-            color: #5b21b6;
-        }
-
-        /* ✅ Error message style (RED, top) */
         .error-message {
-            background: #fee2e2;
-            color: #b91c1c;
-            border: 1px solid #fca5a5;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 13px;
             text-align: center;
-            margin-bottom: 16px;
+            color: #dc2626;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="card">
 
-    <!-- ✅ Error message moved to TOP -->
+    <div class="app-title">POS Application</div>
+    <a href="${pageContext.request.contextPath}/node/list" class="back-btn">Back</a>
+
+    <h2>Add Node</h2>
     <c:if test="${not empty message}">
-        <div class="error-message">
-            ${message}
-        </div>
+        <div class="error-message">${message}</div>
     </c:if>
-
     <form action="${pageContext.request.contextPath}/node/add" method="post">
 
-        <!-- Identifier -->
         <label>Identifier</label>
         <input type="text" name="identifier" required />
 
-        <!-- Path -->
         <label>Path</label>
         <input type="text" name="path" required />
 
-        <!-- Roles -->
         <label>Roles</label>
         <select name="roles" multiple required>
             <c:forEach var="role" items="${roles}">
@@ -133,14 +130,8 @@
                 </option>
             </c:forEach>
         </select>
-
-        <button type="submit">Save</button>
+        <button type="submit">Save Node</button>
     </form>
-
-    <a href="${pageContext.request.contextPath}/node/list">
-        ← Back to Node List
-    </a>
-
 </div>
 
 </body>
