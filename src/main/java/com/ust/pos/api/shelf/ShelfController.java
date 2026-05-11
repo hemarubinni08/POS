@@ -34,8 +34,7 @@ public class ShelfController extends BaseController {
     }
 
     @PostMapping("/update/{id}")
-    public ShelfDto update(@PathVariable Long id,
-                           @RequestBody ShelfDto shelfDto) {
+    public ShelfDto update(@PathVariable Long id, @RequestBody ShelfDto shelfDto) {
         shelfDto.setId(id);
         return shelfService.updateShelf(shelfDto);
     }

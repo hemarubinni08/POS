@@ -39,8 +39,7 @@ public class RackController extends BaseController {
     }
 
     @PostMapping("/update/{id}")
-    public RackDto update(@PathVariable Long id,
-                          @RequestBody RackDto rackDto) {
+    public RackDto update(@PathVariable Long id, @RequestBody RackDto rackDto) {
         rackDto.setId(id);
         return rackService.updateRack(rackDto);
     }

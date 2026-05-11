@@ -39,8 +39,7 @@ public class PriceController extends BaseController {
     }
 
     @PostMapping("/update/{id}")
-    public PriceDto update(@PathVariable Long id,
-                           @RequestBody PriceDto priceDto) {
+    public PriceDto update(@PathVariable Long id, @RequestBody PriceDto priceDto) {
         priceDto.setId(id);
         return priceService.updatePrice(priceDto);
     }

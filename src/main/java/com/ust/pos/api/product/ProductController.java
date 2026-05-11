@@ -41,8 +41,7 @@ public class ProductController extends BaseController {
     }
 
     @PostMapping("/update/{identifier}")
-    public ProductDto update(@PathVariable String identifier,
-                             @RequestBody ProductDto productDto) {
+    public ProductDto update(@PathVariable String identifier, @RequestBody ProductDto productDto) {
         productDto.setIdentifier(identifier);
         return productService.update(productDto);
     }

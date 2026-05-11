@@ -34,8 +34,7 @@ public class ModelsController extends BaseController {
     }
 
     @PostMapping("/update/{identifier}")
-    public ModelsDto update(@PathVariable String identifier,
-                            @RequestBody ModelsDto modelsDto) {
+    public ModelsDto update(@PathVariable String identifier, @RequestBody ModelsDto modelsDto) {
         modelsDto.setIdentifier(identifier);
         return modelsService.update(modelsDto);
     }

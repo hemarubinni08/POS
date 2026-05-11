@@ -34,8 +34,7 @@ public class UnitController extends BaseController {
     }
 
     @PostMapping("/update/{identifier}")
-    public UnitDto update(@PathVariable String identifier,
-                          @RequestBody UnitDto unitDto) {
+    public UnitDto update(@PathVariable String identifier, @RequestBody UnitDto unitDto) {
         unitDto.setIdentifier(identifier);
         return unitService.update(unitDto);
     }

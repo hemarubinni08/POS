@@ -98,7 +98,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
-
     @Override
     public List<CategoryDto> findSuperCategories() {
         Type listType = new TypeToken<List<CategoryDto>>() {

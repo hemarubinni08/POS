@@ -31,8 +31,7 @@ public class StockController extends BaseController {
     }
 
     @GetMapping("/search")
-    public StockDto get(@RequestParam Long productId,
-                        @RequestParam Long warehouseId) {
+    public StockDto get(@RequestParam Long productId, @RequestParam Long warehouseId) {
         return stockService.getStock(productId, warehouseId);
     }
 
@@ -42,8 +41,7 @@ public class StockController extends BaseController {
     }
 
     @PostMapping("/update-quantity/{stockId}")
-    public StockDto updateQuantity(@PathVariable Long stockId,
-                                   @RequestParam Integer quantity) {
+    public StockDto updateQuantity(@PathVariable Long stockId, @RequestParam Integer quantity) {
         return stockService.updateStockQuantity(stockId, quantity);
     }
 

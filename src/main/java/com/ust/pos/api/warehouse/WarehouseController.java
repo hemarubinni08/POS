@@ -35,8 +35,7 @@ public class WarehouseController extends BaseController {
     }
 
     @PutMapping("/{identifier}")
-    public ResponseEntity<WarehouseDto> update(@PathVariable String identifier,
-                                               @RequestBody WarehouseDto warehouseDto) {
+    public ResponseEntity<WarehouseDto> update(@PathVariable String identifier, @RequestBody WarehouseDto warehouseDto) {
         warehouseDto.setIdentifier(identifier);
         return ResponseEntity.ok(warehouseService.update(warehouseDto));
     }

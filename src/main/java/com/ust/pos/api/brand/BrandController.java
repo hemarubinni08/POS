@@ -34,8 +34,7 @@ public class BrandController extends BaseController {
     }
 
     @PostMapping("/update/{identifier}")
-    public BrandDto update(@PathVariable String identifier,
-                           @RequestBody BrandDto brandDto) {
+    public BrandDto update(@PathVariable String identifier, @RequestBody BrandDto brandDto) {
         brandDto.setIdentifier(identifier);
         return brandService.update(brandDto);
     }

@@ -80,7 +80,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public List<BrandDto> findIfTrue() {
-        Type listType = new TypeToken<List<BrandDto>>(){
+        Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
         return modelMapper.map(brandRepository.findByStatusIsTrue(), listType);
     }

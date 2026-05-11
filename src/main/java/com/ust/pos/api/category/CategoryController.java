@@ -34,8 +34,7 @@ public class CategoryController extends BaseController {
     }
 
     @PostMapping("/update/{identifier}")
-    public CategoryDto update(@PathVariable String identifier,
-                              @RequestBody CategoryDto dto) {
+    public CategoryDto update(@PathVariable String identifier, @RequestBody CategoryDto dto) {
         dto.setIdentifier(identifier);
         return categoryService.update(dto);
     }

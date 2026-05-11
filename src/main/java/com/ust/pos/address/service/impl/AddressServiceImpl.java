@@ -63,7 +63,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public boolean delete(String phoneNo) {
-        List<Address>  address = addressRepository.findAllByPhoneNo(phoneNo);
+        List<Address> address = addressRepository.findAllByPhoneNo(phoneNo);
         addressRepository.deleteAll(address);
         return true;
     }

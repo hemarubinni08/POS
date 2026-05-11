@@ -6,6 +6,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 import java.security.Key;
 import java.util.Date;
@@ -38,11 +39,7 @@ public class JWTUtility implements Serializable {
     // for retrieving any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
     // check if the token has expired
@@ -62,14 +59,9 @@ public class JWTUtility implements Serializable {
     // 2. Sign the JWT using the HS512 algorithm and secret key.
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(key)
-                .compact();
+        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis())).setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000)).signWith(key).compact();
     }
+
     // validate token
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
