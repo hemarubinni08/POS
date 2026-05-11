@@ -21,7 +21,7 @@ public class NodeApiController extends BaseController {
     @Autowired
     private RoleService roleService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<NodeDto> home(@RequestBody PaginationDto paginationDto)
     {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());

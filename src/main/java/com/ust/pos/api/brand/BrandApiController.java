@@ -1,8 +1,8 @@
 package com.ust.pos.api.brand;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.brand.service.BrandService;
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +18,7 @@ public class BrandApiController extends BaseController {
     @Autowired
     private BrandService brandService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<BrandDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
