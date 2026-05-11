@@ -19,7 +19,7 @@ public class UnitController extends BaseController {
     @GetMapping("/list")
     public String home(Model model) {
         PaginationDto paginationDto = new PaginationDto();
-        model.addAttribute("unit", unitService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
+        model.addAttribute("units", unitService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "unit/list";
     }
 
