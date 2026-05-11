@@ -6,6 +6,7 @@ import com.ust.pos.dto.UserDto;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class UserApiController extends BaseController {
     private UserService userService;
 
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<UserDto> list(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
