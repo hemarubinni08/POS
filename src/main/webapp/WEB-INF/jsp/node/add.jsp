@@ -220,8 +220,8 @@
             <label>Roles</label>
             <div class="checkbox-list">
                 <c:forEach var="role" items="${roles}">
-                    <label class="checkbox-item">
-                        <form:checkbox path="roles" value="${role.identifier}"/>
+                    <label for="${role.identifier}" class="checkbox-item">
+                        <form:checkbox id="${role.identifier}" path="roles" value="${role.identifier}"/>
                         <span>${role.identifier}</span>
                     </label>
                 </c:forEach>
@@ -239,6 +239,121 @@
     </div>
 
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", function (e) {
+
+        // REMOVE OLD ERRORS
+        document.querySelectorAll(".validation-error")
+            .forEach(el => el.remove());
+
+        // INPUTS
+        const identifier =
+            document.querySelector('input[name="identifier"]');
+
+        const path =
+            document.querySelector('input[name="path"]');
+
+        const roleCheckboxes =
+            document.querySelectorAll('input[name="roles"]');
+
+        // HELPER
+        function showError(element, message) {
+
+            const small = document.createElement("small");
+
+            small.className = "validation-error";
+            small.style.color = "red";
+            small.style.fontSize = "13px";
+            small.innerText = message;
+
+            if (
+                element.tagName === "INPUT" ||
+                element.tagName === "SELECT" ||
+                element.tagName === "TEXTAREA"
+            ) {
+                element.parentNode.appendChild(small);
+                element.focus();
+            }
+            else {
+                element.appendChild(small);
+            }
+
+            e.preventDefault();
+
+            return false;
+        }
+
+        // IDENTIFIER
+        if (identifier.value.trim() === "") {
+            return showError(
+                identifier,
+                "Node name is required"
+            );
+        }
+
+        if (identifier.value.trim().length < 2) {
+            return showError(
+                identifier,
+                "Node name must be at least 2 characters"
+            );
+        }
+
+        const identifierRegex = /^[A-Za-z0-9\s_-]+$/;
+
+        if (!identifierRegex.test(identifier.value.trim())) {
+            return showError(
+                identifier,
+                "Only letters, numbers, spaces, _ and - are allowed"
+            );
+        }
+
+        // PATH
+        if (path.value.trim() === "") {
+            return showError(
+                path,
+                "Node path is required"
+            );
+        }
+
+        if (path.value.trim().length < 2) {
+            return showError(
+                path,
+                "Node path must be at least 2 characters"
+            );
+        }
+
+        // PATH FORMAT
+        const pathRegex = /^\/[A-Za-z0-9/_-]*$/;
+
+        if (!pathRegex.test(path.value.trim())) {
+            return showError(
+                path,
+                "Path must start with / and contain valid characters"
+            );
+        }
+
+        // ROLES
+        const roleSelected =
+            [...roleCheckboxes].some(cb => cb.checked);
+
+        if (!roleSelected) {
+
+            const roleGroup =
+                document.querySelector(".checkbox-list");
+
+            return showError(
+                roleGroup,
+                "Select at least one role"
+            );
+        }
+
+    });
+
+});
+</script>
 </body>
 </html>

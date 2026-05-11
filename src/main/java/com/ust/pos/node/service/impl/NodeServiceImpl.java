@@ -8,11 +8,15 @@ import com.ust.pos.model.UserRepository;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -31,17 +35,34 @@ public class NodeServiceImpl implements NodeService {
     private ModelMapper modelMapper;
 
     @Override
-    public boolean save(NodeDto nodeDto) {
+    public NodeDto save(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
 
         if (nodeRepository.findByIdentifier(identifier) != null) {
-            return false;
+            nodeDto.setSuccess(false);
+            return nodeDto;
         }
 
         Node node = modelMapper.map(nodeDto, Node.class);
         nodeRepository.save(node);
+        nodeDto.setSuccess(true);
+        return nodeDto;
+    }
 
-        return true;
+    public NodeDto update(NodeDto nodeDto) {
+        String identifier = nodeDto.getIdentifier();
+        Node node = nodeRepository.findByIdentifier(identifier);
+        if (node == null) {
+            nodeDto.setMessage("Node not found");
+            nodeDto.setSuccess(false);
+            return nodeDto;
+        }
+
+        nodeRepository.save(modelMapper.map(nodeDto, Node.class));
+        nodeDto.setMessage("Node updated successfully");
+        nodeDto.setSuccess(true);
+
+        return nodeDto;
     }
 
     @Override
@@ -52,6 +73,39 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public NodeDto findByIdentifier(String identifier) {
         return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);
+    }
+
+    @Override
+    public List<NodeDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
+        if (pageable == null) {
+            return modelMapper.map(nodeRepository.findAll(), listType);
+        }
+        Page<Node> nodePage = nodeRepository.findAll(pageable);
+        return modelMapper.map(nodePage.getContent(), listType);
+    }
+
+    @Override
+    @Transactional
+    public NodeDto updateStatus(String identifier, boolean status) {
+        NodeDto response = new NodeDto();
+
+        Node node = nodeRepository.findByIdentifier(identifier);
+        if (node == null) {
+            response.setSuccess(false);
+            response.setMessage("Node not found");
+            return response;
+        }
+
+        // Toggle status
+        node.setStatus(status);
+        nodeRepository.save(node);
+
+        response.setSuccess(true);
+        response.setMessage("Status updated successfully");
+
+        return response;
     }
 
     public List<NodeDto> getNodesForRoles() {

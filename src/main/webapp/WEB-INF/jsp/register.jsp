@@ -323,7 +323,7 @@
                 <form:input path="name" placeholder="Full Name" required="true"/>
 
                 <form:input path="username"
-                            type="text"
+                            type="email"
                             placeholder="Email Address"
                             required="true"
                             pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
@@ -334,8 +334,8 @@
                     <span class="roles-label">SELECT ROLE(S)</span>
                     <div class="checkbox-list">
                         <c:forEach var="role" items="${roles}">
-                            <label class="checkbox-item">
-                                <form:checkbox path="roles" value="${role.identifier}"/>
+                            <label for="${role.identifier}" class="checkbox-item">
+                                <form:checkbox path="roles" id="${role.identifier}" value="${role.identifier}"/>
                                 <span>${role.identifier}</span>
                             </label>
                         </c:forEach>
@@ -369,6 +369,105 @@ window.addEventListener("DOMContentLoaded", function () {
             }, 400);
         }, 3500);
     }
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", function (e) {
+
+        // REMOVE OLD ERRORS
+        document.querySelectorAll(".validation-error")
+            .forEach(el => el.remove());
+
+        // INPUTS
+        const name = document.querySelector('input[name="name"]');
+        const email = document.querySelector('input[name="username"]');
+        const phone = document.querySelector('input[name="phoneNo"]');
+        const password = document.querySelector('input[name="password"]');
+        const roleCheckboxes =
+            document.querySelectorAll('input[name="roles"]');
+
+        // HELPER
+        function showError(element, message) {
+
+            const small = document.createElement("small");
+            small.className = "validation-error";
+            small.innerText = message;
+
+            element.parentNode.appendChild(small);
+
+            element.focus();
+
+            e.preventDefault();
+
+            return false;
+        }
+
+        // NAME
+        const nameRegex = /^[A-Za-z\s]+$/;
+
+        if (name.value.trim().length < 3) {
+            return showError(
+                name,
+                "Name must be at least 3 characters"
+            );
+        }
+
+        if (!nameRegex.test(name.value.trim())) {
+            return showError(
+                name,
+                "Name should contain only letters"
+            );
+        }
+
+        // EMAIL
+        const emailRegex =
+            /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+        if (!emailRegex.test(email.value.trim())) {
+            return showError(
+                email,
+                "Enter valid email address"
+            );
+        }
+
+        // ROLES
+        const roleSelected =
+            [...roleCheckboxes].some(cb => cb.checked);
+
+        if (!roleSelected) {
+
+            const roleGroup =
+                document.querySelector(".roles-group");
+
+            return showError(
+                roleGroup,
+                "Select at least one role"
+            );
+        }
+
+        // PHONE
+        const phoneRegex = /^[6-9][0-9]{9}$/;
+
+        if (!phoneRegex.test(phone.value.trim())) {
+            return showError(
+                phone,
+                "Enter valid 10-digit Indian mobile number"
+            );
+        }
+
+        // PASSWORD
+        if (password.value.length < 6) {
+            return showError(
+                password,
+                "Password must be at least 6 characters"
+            );
+        }
+
+    });
 });
 </script>
 </body>

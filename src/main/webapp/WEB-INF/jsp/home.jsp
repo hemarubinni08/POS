@@ -19,6 +19,8 @@ body {
 /* SIDEBAR */
 .sidebar {
     height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
     position: fixed;
     top: 0;
     left: 0;

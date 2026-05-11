@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("users", userService.findAll(null));
         return "user/list";
     }
 
@@ -28,7 +28,7 @@ public class UserController {
     public String update(@ModelAttribute UserDto userDto, Model model, @RequestParam String username) {
         UserDto response = userService.findByUserName(username);
         model.addAttribute("userDto", response);
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("roles", roleService.findAll(null));
         return "user/user";
     }
 

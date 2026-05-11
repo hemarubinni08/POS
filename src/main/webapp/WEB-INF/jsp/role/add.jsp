@@ -237,5 +237,92 @@ window.addEventListener("DOMContentLoaded", function () {
     }
 });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const form = document.querySelector("form");
+
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+
+        // REMOVE OLD ERRORS
+        document.querySelectorAll(".validation-error")
+            .forEach(el => el.remove());
+
+        // INPUTS
+        const identifier =
+            document.querySelector('input[name="identifier"]');
+
+        const description =
+            document.querySelector('textarea[name="description"]');
+
+        // HELPER
+        function showError(element, message) {
+
+            const small = document.createElement("small");
+
+            small.className = "validation-error";
+            small.style.color = "red";
+            small.style.fontSize = "13px";
+            small.style.display = "block";
+            small.style.marginTop = "5px";
+
+            small.innerText = message;
+
+            element.parentNode.appendChild(small);
+
+            element.focus();
+
+            e.preventDefault();
+
+            return false;
+        }
+
+        // ROLE NAME VALIDATION
+
+        if (identifier.value.trim().length < 2) {
+            return showError(
+                identifier,
+                "Role name must be at least 2 characters"
+            );
+        }
+
+        if (identifier.value.trim().length > 50) {
+            return showError(
+                identifier,
+                "Role name cannot exceed 50 characters"
+            );
+        }
+
+        const identifierRegex = /^[A-Za-z0-9\s_-]+$/;
+
+        if (!identifierRegex.test(identifier.value.trim())) {
+            return showError(
+                identifier,
+                "Only letters, numbers, spaces, _ and - are allowed"
+            );
+        }
+
+        // DESCRIPTION VALIDATION
+
+        if (description.value.trim().length < 5) {
+            return showError(
+                description,
+                "Description must be at least 5 characters"
+            );
+        }
+
+        if (description.value.trim().length > 300) {
+            return showError(
+                description,
+                "Description cannot exceed 300 characters"
+            );
+        }
+
+    });
+
+});
+</script>
 </body>
 </html>
