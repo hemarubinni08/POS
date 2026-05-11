@@ -1,0 +1,55 @@
+package com.ust.pos.api.customer;
+
+import com.ust.pos.api.BaseController;
+import com.ust.pos.customer.service.CustomerService;
+import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.node.service.NodeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/customer")
+public class CustomerControllerApi extends BaseController {
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private NodeService nodeService;
+
+    @PostMapping("/list")
+    public List<CustomerDto> home(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        return customerService.findAll(pageable);
+    }
+
+    @PostMapping("/add")
+    public CustomerDto addPost(@RequestBody CustomerDto userDto) {
+        return customerService.save(userDto);
+    }
+
+    @GetMapping("/get")
+    public CustomerDto update(@RequestParam String identifier) {
+        return customerService.findByIdentifier(identifier);
+    }
+
+    @PostMapping("/update")
+    public CustomerDto updatePost(@RequestBody CustomerDto userDto) {
+        return customerService.update(userDto);
+    }
+
+    @GetMapping("/delete")
+    public boolean delete(@RequestParam String identifier) {
+        try {
+            customerService.delete(identifier);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}
+

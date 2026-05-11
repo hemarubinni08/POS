@@ -1,0 +1,54 @@
+package com.ust.pos.api.warehouse;
+
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WarehouseDto;
+import com.ust.pos.node.service.NodeService;
+import com.ust.pos.warehouse.service.WarehouseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/warehouse")
+public class WarehouseControllerApi extends BaseController {
+
+    @Autowired
+    private WarehouseService warehouseService;
+
+    @Autowired
+    private NodeService nodeService;
+
+    @PostMapping("/list")
+    public List<WarehouseDto> home(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        return warehouseService.findAll(pageable);
+    }
+
+    @PostMapping("/add")
+    public WarehouseDto addPost(@RequestBody WarehouseDto userDto) {
+        return warehouseService.save(userDto);
+    }
+
+    @GetMapping("/get")
+    public WarehouseDto update(@RequestParam String identifier) {
+        return warehouseService.findByIdentifier(identifier);
+    }
+
+    @PostMapping("/update")
+    public WarehouseDto updatePost(@RequestBody WarehouseDto userDto) {
+        return warehouseService.update(userDto);
+    }
+
+    @GetMapping("/delete")
+    public boolean delete(@RequestParam String identifier) {
+        try {
+            warehouseService.delete(identifier);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}
