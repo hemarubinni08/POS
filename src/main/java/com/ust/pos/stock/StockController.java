@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/stock")
 public class StockController {
+    private static final String REDIRECT_LIST = "redirect:/stock/list";
     @Autowired
     StockService stockService;
     @Autowired
@@ -23,7 +24,6 @@ public class StockController {
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("stock", stockService.findAll());
-
         return "stock/list";
     }
 
@@ -41,7 +41,7 @@ public class StockController {
             model.addAttribute("message", response.getMessage());
             return "stock/add";
         }
-        return "redirect:/stock/list";
+        return REDIRECT_LIST;
     }
 
     @GetMapping("/get")
@@ -59,12 +59,12 @@ public class StockController {
             model.addAttribute("message", response.getMessage());
             return "/stock/stock";
         }
-        return "redirect:/stock/list";
+        return REDIRECT_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         stockService.delete(identifier);
-        return "redirect:/stock/list";
+        return REDIRECT_LIST;
     }
 }

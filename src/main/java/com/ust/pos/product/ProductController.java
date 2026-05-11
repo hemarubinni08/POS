@@ -13,15 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+    private static final String REDIRECT_LIST = "redirect:/product/list";
     @Autowired
     private ProductService productService;
-
     @Autowired
     private StockService stockService;
-
     @Autowired
     private WarehouseService warehouseService;
-
     @Autowired
     private CategoryService categoryService;
 
@@ -36,7 +34,7 @@ public class ProductController {
         model.addAttribute("products", productService.findAll());
         model.addAttribute("Stocks", stockService.findAll());
         model.addAttribute("warehouses", warehouseService.findAll());
-        model.addAttribute("categories", categoryService.listOfCategories());
+        model.addAttribute("categories", categoryService.findAllWithoutNull());
         return "product/add";
     }
 
@@ -46,7 +44,7 @@ public class ProductController {
         if (!productDto1.isSuccess()) {
             model.addAttribute("message", productDto1.getMessage());
         }
-        return "redirect:/product/list";
+        return REDIRECT_LIST;
     }
 
     @GetMapping("/get")
@@ -64,12 +62,12 @@ public class ProductController {
             model.addAttribute("message", productDto1.getMessage());
             return "product/update";
         }
-        return "redirect:/product/list";
+        return REDIRECT_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         productService.delete(identifier);
-        return "redirect:/product/list";
+        return REDIRECT_LIST;
     }
 }

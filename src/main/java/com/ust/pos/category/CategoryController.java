@@ -10,19 +10,21 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
+    private static final String CATEGORIES = "categories";
+    private static final String REDIRECT_LIST = "redirect:/category/list";
     @Autowired
     CategoryService categoryService;
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute(CATEGORIES, categoryService.findAll());
 
         return "category/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute CategoryDto categoryDto) {
-        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute(CATEGORIES, categoryService.findAll());
         return "category/add";
     }
 
@@ -32,13 +34,13 @@ public class CategoryController {
         if (!categoryDto1.isSuccess()) {
             model.addAttribute("message", categoryDto1.getMessage());
         }
-        return "redirect:/category/list";
+        return REDIRECT_LIST;
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         CategoryDto categoryDto = categoryService.findByIdentifier(identifier);
-        model.addAttribute("categories", categoryDto);
+        model.addAttribute(CATEGORIES, categoryDto);
         return "category/category";
     }
 
@@ -49,12 +51,12 @@ public class CategoryController {
             model.addAttribute("message", categoryDto1.getMessage());
             return "category/category";
         }
-        return "redirect:/category/list";
+        return REDIRECT_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         categoryService.delete(identifier);
-        return "redirect:/category/list";
+        return REDIRECT_LIST;
     }
 }

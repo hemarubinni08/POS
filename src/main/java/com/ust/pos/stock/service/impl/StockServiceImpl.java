@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -58,6 +60,14 @@ public class StockServiceImpl implements StockService {
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
         return modelMapper.map(stockRepository.findAll(), listType);
+    }
+
+    @Override
+    public List<StockDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<StockDto>>() {
+        }.getType();
+        Page<Stock> stockPage = stockRepository.findAll(pageable);
+        return modelMapper.map(stockPage.getContent(), listType);
     }
 
     @Override

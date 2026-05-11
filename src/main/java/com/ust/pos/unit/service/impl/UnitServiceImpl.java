@@ -7,6 +7,8 @@ import com.ust.pos.unit.service.UnitService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +73,14 @@ public class UnitServiceImpl implements UnitService {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
         return modelMapper.map(unitRepository.findAll(), listType);
+    }
+
+    @Override
+    public List<UnitDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<UnitDto>>() {
+        }.getType();
+        Page<Unit> unitPage = unitRepository.findAll(pageable);
+        return modelMapper.map(unitPage.getContent(), listType);
     }
 
     @Override

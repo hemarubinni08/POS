@@ -1,7 +1,7 @@
-package com.ust.pos.modelProduct;
+package com.ust.pos.modelproduct;
 
 import com.ust.pos.dto.ModelProductDto;
-import com.ust.pos.modelProduct.service.ModelProductService;
+import com.ust.pos.modelproduct.service.ModelProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/model")
 public class ModelProductController {
 
+    private static final String REDIRECT_LIST = "redirect:/model/list";
+    private static final String MODELS = "models";
     @Autowired
     private ModelProductService modelProductService;
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("models", modelProductService.findAll());
+        model.addAttribute(MODELS, modelProductService.findAll());
         return "model/list";
     }
 
@@ -34,14 +36,14 @@ public class ModelProductController {
             model.addAttribute("modelProducts", modelProductService.findAll());
             return "model/add";
         }
-        return "redirect:/model/list";
+        return REDIRECT_LIST;
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         ModelProductDto modelProductDto = modelProductService.findByIdentifier(identifier);
         model.addAttribute("modelProduct", modelProductDto);
-        model.addAttribute("models", modelProductService.findAll());
+        model.addAttribute(MODELS, modelProductService.findAll());
         return "model/model";
     }
 
@@ -50,15 +52,15 @@ public class ModelProductController {
         ModelProductDto modelProductDto1 = modelProductService.update(modelProductDto);
         if (!modelProductDto1.isSuccess()) {
             model.addAttribute("message", modelProductDto1.getMessage());
-            model.addAttribute("models", modelProductService.findAll());
+            model.addAttribute(MODELS, modelProductService.findAll());
             return "model/model";
         }
-        return "redirect:/model/list";
+        return REDIRECT_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         modelProductService.delete(identifier);
-        return "redirect:/model/list";
+        return REDIRECT_LIST;
     }
 }

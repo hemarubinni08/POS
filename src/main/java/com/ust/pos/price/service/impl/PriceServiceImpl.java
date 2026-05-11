@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -62,6 +64,14 @@ public class PriceServiceImpl implements PriceService {
         Type listOfType = new TypeToken<List<PriceDto>>() {
         }.getType();
         return modelMapper.map(priceRepository.findAll(), listOfType);
+    }
+
+    @Override
+    public List<PriceDto> findAll(Pageable pageable) {
+        Type listOfType = new TypeToken<List<PriceDto>>() {
+        }.getType();
+        Page<Price> pricePage = priceRepository.findAll(pageable);
+        return modelMapper.map(pricePage.getContent(), listOfType);
     }
 
     @Override

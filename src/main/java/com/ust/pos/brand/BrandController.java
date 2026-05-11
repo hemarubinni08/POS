@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/brand")
 public class BrandController {
+    private static final String REDIRECT_LIST = "redirect:/brand/list";
     @Autowired
     BrandService brandService;
     @Autowired
@@ -23,7 +24,6 @@ public class BrandController {
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("brands", brandService.findAll());
-
         return "brand/list";
     }
 
@@ -41,7 +41,7 @@ public class BrandController {
             model.addAttribute("message", response.getMessage());
             return "brand/add";
         }
-        return "redirect:/brand/list";
+        return REDIRECT_LIST;
     }
 
     @GetMapping("/get")
@@ -58,12 +58,12 @@ public class BrandController {
             model.addAttribute("message", response.getMessage());
             return "/brand/brand";
         }
-        return "redirect:/brand/list";
+        return REDIRECT_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         brandService.delete(identifier);
-        return "redirect:/brand/list";
+        return REDIRECT_LIST;
     }
 }

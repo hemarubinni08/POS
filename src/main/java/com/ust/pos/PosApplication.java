@@ -1,5 +1,6 @@
 package com.ust.pos;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import javax.sql.DataSource;
 
 @SpringBootApplication
 @ComponentScan({"com.ust.pos.web.controller", "com.ust.pos"})
+@OpenAPIDefinition
 public class PosApplication {
     @Autowired
     Environment environment;

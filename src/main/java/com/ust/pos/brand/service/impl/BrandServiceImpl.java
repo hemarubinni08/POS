@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -31,8 +33,8 @@ public class BrandServiceImpl implements BrandService {
             brandDto.setSuccess(false);
             return brandDto;
         }
-        Brand Brand1 = modelMapper.map(brandDto, Brand.class);
-        brandRepository.save(Brand1);
+        Brand brand1 = modelMapper.map(brandDto, Brand.class);
+        brandRepository.save(brand1);
         return brandDto;
     }
 
@@ -60,6 +62,14 @@ public class BrandServiceImpl implements BrandService {
         brandRepository.save(existingBrand); // ✅ UPDATE
 
         return brandDto;
+    }
+
+    @Override
+    public List<BrandDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<BrandDto>>() {
+        }.getType();
+        Page<Brand> brandPage = brandRepository.findAll(pageable);
+        return modelMapper.map(brandPage.getContent(), listType);
     }
 
     @Override

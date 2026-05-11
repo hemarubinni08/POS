@@ -11,18 +11,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/shelf")
 public class ShelfController {
 
+    private static final String SHELVES = "shelfs";
     @Autowired
     private ShelfService shelfService;
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("shelfs", shelfService.findAll());
+        model.addAttribute(SHELVES, shelfService.findAll());
         return "shelf/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute ShelfDto shelfDto) {
-        model.addAttribute("shelfs", shelfService.findAll());
+        model.addAttribute(SHELVES, shelfService.findAll());
         return "shelf/add";
     }
 
@@ -31,7 +32,7 @@ public class ShelfController {
         ShelfDto shelfDto1 = shelfService.save(shelfDto);
         if (!shelfDto1.isSuccess()) {
             model.addAttribute("message", shelfDto1.getMessage());
-            model.addAttribute("shelfs", shelfService.findAll());
+            model.addAttribute(SHELVES, shelfService.findAll());
             return "shelf/add";
         }
         return "redirect:/shelf/list";
@@ -40,7 +41,7 @@ public class ShelfController {
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         ShelfDto shelfDto = shelfService.findByIdentifier(identifier);
-        model.addAttribute("shelfs", shelfDto);
+        model.addAttribute(SHELVES, shelfDto);
         return "shelf/shelf";
     }
 
@@ -49,7 +50,7 @@ public class ShelfController {
         ShelfDto shelfDto1 = shelfService.update(shelfDto);
         if (!shelfDto1.isSuccess()) {
             model.addAttribute("messsage", shelfDto1.getMessage());
-            model.addAttribute("shelfs", shelfService.findAll());
+            model.addAttribute(SHELVES, shelfService.findAll());
             return "shelf/shelf";
         }
         return "redirect:/shelf/list";

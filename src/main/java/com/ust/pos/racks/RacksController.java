@@ -13,22 +13,21 @@ import org.springframework.web.bind.annotation.*;
 public class RacksController {
 
     public static final String REDIRECT_RACKS_LIST = "redirect:/racks/list";
-
+    private static final String RACKS = "racks";
     @Autowired
     private RacksService racksService;
-
     @Autowired
     private ShelfService shelfService;
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("racks", racksService.findAll());
+        model.addAttribute(RACKS, racksService.findAll());
         return "racks/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute RacksDto racksDto) {
-        model.addAttribute("racks", racksService.findAll());
+        model.addAttribute(RACKS, racksService.findAll());
         model.addAttribute("shelf", shelfService.findAllByStatus());
         return "racks/add";
     }
@@ -38,7 +37,7 @@ public class RacksController {
         RacksDto response = racksService.save(racksDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("racks", racksService.findAll());
+            model.addAttribute(RACKS, racksService.findAll());
             return "racks/add";
         }
         return REDIRECT_RACKS_LIST;
@@ -47,7 +46,7 @@ public class RacksController {
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         RacksDto racksDto = racksService.findByIdentifier(identifier);
-        model.addAttribute("racks", racksService.findAll());
+        model.addAttribute(RACKS, racksService.findAll());
         model.addAttribute("shelf", shelfService.findAllByStatus());
         model.addAttribute("racksDto", racksDto);
         return "racks/racks";
@@ -73,7 +72,6 @@ public class RacksController {
     @PostMapping("/toggleStatus")
     public String toggleStatus(@RequestParam String identifier) {
         racksService.toggleStatus(identifier);
-        return "redirect:/racks/list";
+        return REDIRECT_RACKS_LIST;
     }
-
 }
