@@ -52,6 +52,15 @@
                                     placeholder="Enter role description"/>
                     </div>
 
+                            <!-- Status Field -->
+                                    <div class="form-group">
+                                        <label>Status</label>
+                                        <form:select path="status" cssClass="form-control">
+                                            <form:option value="true">Active</form:option>
+                                            <form:option value="false">Inactive</form:option>
+                                        </form:select>
+                                    </div>
+
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
                             Add Role

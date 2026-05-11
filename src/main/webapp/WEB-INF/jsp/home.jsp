@@ -34,12 +34,18 @@
         .sidebar h4 {
             color: #ffffff;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-weight: 600;
             font-size: 20px;
         }
 
-        .sidebar a {
+        /* NODES SCROLL */
+        .sidebar-menu {
+            max-height: calc(100vh - 140px); /* header + logout space */
+            overflow-y: auto;
+        }
+
+        .sidebar-menu a {
             display: block;
             padding: 14px 25px;
             color: rgba(255,255,255,0.9);
@@ -50,7 +56,7 @@
             transition: all 0.3s ease;
         }
 
-        .sidebar a:hover {
+        .sidebar-menu a:hover {
             background: rgba(255,255,255,0.15);
             color: #ffffff;
             padding-left: 32px;
@@ -113,29 +119,35 @@
 <div class="sidebar">
     <h4>POS System</h4>
 
-    <c:if test="${not empty nodes}">
-        <c:forEach items="${nodes}" var="nav">
-            <a href="${pageContext.request.contextPath}${nav.path}">
-                ${nav.identifier}
-            </a>
-        </c:forEach>
-    </c:if>
+    <!-- SCROLLABLE -->
+    <div class="sidebar-menu">
+        <c:if test="${not empty nodes}">
+            <c:forEach items="${nodes}" var="nav">
+                <a href="${pageContext.request.contextPath}${nav.path}">
+                    ${nav.identifier}
+                </a>
+            </c:forEach>
+        </c:if>
 
-    <c:if test="${empty nodes}">
-        <p style="color:#ccc;text-align:center;">No access</p>
-    </c:if>
+        <c:if test="${empty nodes}">
+            <p style="color:#ccc;text-align:center;">No access</p>
+        </c:if>
+    </div>
 
+    <!-- LOGOUT FIXED -->
     <div class="logout-btn">
         <form action="${pageContext.request.contextPath}/logout" method="post">
             <button type="submit">Logout</button>
         </form>
     </div>
 </div>
+
 <div class="content">
     <div class="header-banner">
         <h2>Welcome to POS System</h2>
-        <p>Manage users, roles and nodes efficiently</p>
+        <p>Manage sales, products, and transactions quickly and efficiently</p>
     </div>
+
     <div class="welcome-card">
         <h4>Getting Started</h4>
         <p>
@@ -143,5 +155,6 @@
         </p>
     </div>
 </div>
+
 </body>
 </html>
