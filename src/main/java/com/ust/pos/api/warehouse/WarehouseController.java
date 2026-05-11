@@ -30,63 +30,78 @@ public class WarehouseController extends BaseController {
     }
 
     @GetMapping("/{identifier}")
-    public ResponseEntity<?> getByIdentifier(@PathVariable String identifier) {
+    public ResponseEntity<WarehouseDto> getByIdentifier(@PathVariable String identifier) {
 
         WarehouseDto response = warehouseService.findByIdentifier(identifier);
 
         if (response == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Warehouse not found");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody WarehouseDto warehouseDto) {
+    @PostMapping("/save")
+    public ResponseEntity<WarehouseDto> create(@RequestBody WarehouseDto warehouseDto) {
 
         WarehouseDto response = warehouseService.save(warehouseDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody WarehouseDto warehouseDto) {
+    @PostMapping("/update/{identifier}")
+    public ResponseEntity<WarehouseDto> update(@PathVariable String identifier, @RequestBody WarehouseDto warehouseDto) {
 
         warehouseDto.setIdentifier(identifier);
 
         WarehouseDto response = warehouseService.update(warehouseDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> delete(@PathVariable String identifier) {
+    @PostMapping("/delete/{identifier}")
+    public ResponseEntity<Boolean> delete(@PathVariable String identifier) {
 
         try {
 
             warehouseService.delete(identifier);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(true);
 
         } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 
-    @PostMapping("/{identifier}/toggle-status")
-    public ResponseEntity<?> toggleStatus(@PathVariable String identifier) {
+    @PostMapping("/toggle/{identifier}")
+    public ResponseEntity<Boolean> toggleStatus(@PathVariable String identifier) {
 
-        warehouseService.toggleStatus(identifier);
+        try {
 
-        return ResponseEntity.ok().build();
+            warehouseService.toggleStatus(identifier);
+
+            return ResponseEntity.ok(true);
+
+        } catch (Exception e) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        }
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<WarehouseDto>> getActiveWarehouses() {
+
+        List<WarehouseDto> warehouses = warehouseService.findIfTrue();
+
+        return ResponseEntity.ok(warehouses);
     }
 }

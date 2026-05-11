@@ -40,63 +40,59 @@ public class ProductController extends BaseController {
     }
 
     @GetMapping("/{identifier}")
-    public ResponseEntity<?> getByIdentifier(@PathVariable String identifier) {
+    public ResponseEntity<ProductDto> getByIdentifier(@PathVariable String identifier) {
 
         ProductDto response = productService.findByIdentifier(identifier);
 
         if (response == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody ProductDto productDto) {
+    @PostMapping("/save")
+    public ResponseEntity<ProductDto> save(@RequestBody ProductDto productDto) {
 
         ProductDto response = productService.save(productDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody ProductDto productDto) {
+    @PostMapping("/update/{identifier}")
+    public ResponseEntity<ProductDto> update(@PathVariable String identifier, @RequestBody ProductDto productDto) {
 
         productDto.setIdentifier(identifier);
 
         ProductDto response = productService.update(productDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> delete(@PathVariable String identifier) {
+    @PostMapping("/delete/{identifier}")
+    public ResponseEntity<Boolean> delete(@PathVariable String identifier) {
 
         try {
 
             boolean deleted = productService.delete(identifier);
 
-            if (!deleted) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to delete product");
-            }
-
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(deleted);
 
         } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 
-    @PostMapping("/{identifier}/toggle-status")
+    @PostMapping("/toggle/{identifier}")
     public ResponseEntity<ProductDto> toggleStatus(@PathVariable String identifier) {
 
         ProductDto response = productService.toggleStatus(identifier);

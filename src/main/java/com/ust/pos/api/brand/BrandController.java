@@ -37,47 +37,48 @@ public class BrandController extends BaseController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody BrandDto brandDto) {
+    @PostMapping("/save")
+    public ResponseEntity<BrandDto> save(@RequestBody BrandDto brandDto) {
 
         BrandDto response = brandService.save(brandDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody BrandDto brandDto) {
+    @PostMapping("/update/{identifier}")
+    public ResponseEntity<BrandDto> update(@PathVariable String identifier, @RequestBody BrandDto brandDto) {
 
         brandDto.setIdentifier(identifier);
 
         BrandDto response = brandService.update(brandDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> delete(@PathVariable String identifier) {
+    @PostMapping("/delete/{identifier}")
+    public ResponseEntity<Boolean> delete(@PathVariable String identifier) {
 
         try {
+
             brandService.delete(identifier);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(true);
 
         } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 
-    @PostMapping("/{identifier}/toggle-status")
+    @PostMapping("/toggle/{identifier}")
     public ResponseEntity<BrandDto> toggleStatus(@PathVariable String identifier) {
 
         BrandDto response = brandService.toggleStatus(identifier);

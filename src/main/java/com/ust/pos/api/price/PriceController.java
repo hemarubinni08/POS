@@ -35,19 +35,19 @@ public class PriceController extends BaseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
+    public ResponseEntity<PriceDto> getById(@PathVariable Long id) {
 
         PriceDto response = priceService.getPriceById(id);
 
         if (response == null || !response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response != null ? response.getMessage() : "Price not found");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody PriceDto priceDto) {
+    @PostMapping("/save")
+    public ResponseEntity<PriceDto> save(@RequestBody PriceDto priceDto) {
 
         try {
 
@@ -57,12 +57,16 @@ public class PriceController extends BaseController {
 
         } catch (RuntimeException ex) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+            PriceDto errorResponse = new PriceDto();
+            errorResponse.setSuccess(false);
+            errorResponse.setMessage(ex.getMessage());
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PriceDto priceDto) {
+    @PostMapping("/update/{id}")
+    public ResponseEntity<PriceDto> update(@PathVariable Long id, @RequestBody PriceDto priceDto) {
 
         try {
 
@@ -74,22 +78,26 @@ public class PriceController extends BaseController {
 
         } catch (RuntimeException ex) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+            PriceDto errorResponse = new PriceDto();
+            errorResponse.setSuccess(false);
+            errorResponse.setMessage(ex.getMessage());
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
 
         try {
 
             priceService.deletePrice(id);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(true);
 
         } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 

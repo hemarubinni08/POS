@@ -30,59 +30,59 @@ public class UnitController extends BaseController {
     }
 
     @GetMapping("/{identifier}")
-    public ResponseEntity<?> getByIdentifier(@PathVariable String identifier) {
+    public ResponseEntity<UnitDto> getByIdentifier(@PathVariable String identifier) {
 
         UnitDto response = unitService.findByIdentifier(identifier);
 
         if (response == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unit not found");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody UnitDto unitDto) {
+    @PostMapping("/save")
+    public ResponseEntity<UnitDto> save(@RequestBody UnitDto unitDto) {
 
         UnitDto response = unitService.save(unitDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody UnitDto unitDto) {
+    @PostMapping("/update/{identifier}")
+    public ResponseEntity<UnitDto> update(@PathVariable String identifier, @RequestBody UnitDto unitDto) {
 
         unitDto.setIdentifier(identifier);
 
         UnitDto response = unitService.update(unitDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> delete(@PathVariable String identifier) {
+    @PostMapping("/delete/{identifier}")
+    public ResponseEntity<Boolean> delete(@PathVariable String identifier) {
 
         try {
 
             unitService.delete(identifier);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(true);
 
         } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 
-    @PostMapping("/{identifier}/toggle-status")
+    @PostMapping("/toggle/{identifier}")
     public ResponseEntity<UnitDto> toggleStatus(@PathVariable String identifier) {
 
         UnitDto response = unitService.toggleStatus(identifier);

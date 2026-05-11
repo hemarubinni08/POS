@@ -35,55 +35,55 @@ public class RackController extends BaseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
+    public ResponseEntity<RackDto> getById(@PathVariable Long id) {
 
         RackDto response = rackService.getRack(id);
 
         if (response == null || !response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response != null ? response.getMessage() : "Rack not found");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody RackDto rackDto) {
+    @PostMapping("/save")
+    public ResponseEntity<RackDto> save(@RequestBody RackDto rackDto) {
 
         RackDto response = rackService.createRack(rackDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody RackDto rackDto) {
+    @PostMapping("/update/{id}")
+    public ResponseEntity<RackDto> update(@PathVariable Long id, @RequestBody RackDto rackDto) {
 
         rackDto.setId(id);
 
         RackDto response = rackService.updateRack(rackDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
 
         try {
 
             rackService.deleteRack(id);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(true);
 
         } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 

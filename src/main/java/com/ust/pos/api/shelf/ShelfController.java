@@ -30,59 +30,59 @@ public class ShelfController extends BaseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
+    public ResponseEntity<ShelfDto> getById(@PathVariable Long id) {
 
         ShelfDto response = shelfService.getShelf(id);
 
         if (response == null || !response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response != null ? response.getMessage() : "Shelf not found");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody ShelfDto shelfDto) {
+    @PostMapping("/save")
+    public ResponseEntity<ShelfDto> save(@RequestBody ShelfDto shelfDto) {
 
         ShelfDto response = shelfService.createShelf(shelfDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody ShelfDto shelfDto) {
+    @PostMapping("/update/{id}")
+    public ResponseEntity<ShelfDto> update(@PathVariable Long id, @RequestBody ShelfDto shelfDto) {
 
         shelfDto.setId(id);
 
         ShelfDto response = shelfService.updateShelf(shelfDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
 
         try {
 
             shelfService.deleteShelf(id);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(true);
 
         } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 
-    @PostMapping("/{id}/toggle-status")
+    @PostMapping("/toggle/{id}")
     public ResponseEntity<ShelfDto> toggleStatus(@PathVariable Long id) {
 
         ShelfDto response = shelfService.toggleStatus(id);

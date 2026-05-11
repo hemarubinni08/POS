@@ -34,55 +34,55 @@ public class NodeController extends BaseController {
     }
 
     @GetMapping("/{identifier}")
-    public ResponseEntity<?> getByIdentifier(@PathVariable String identifier) {
+    public ResponseEntity<NodeDto> getByIdentifier(@PathVariable String identifier) {
 
         NodeDto response = nodeService.findByIdentifier(identifier);
 
         if (response == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Node not found");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody NodeDto nodeDto) {
+    @PostMapping("/save")
+    public ResponseEntity<NodeDto> save(@RequestBody NodeDto nodeDto) {
 
         NodeDto response = nodeService.save(nodeDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody NodeDto nodeDto) {
+    @PostMapping("/update/{identifier}")
+    public ResponseEntity<NodeDto> update(@PathVariable String identifier, @RequestBody NodeDto nodeDto) {
 
         nodeDto.setIdentifier(identifier);
 
         NodeDto response = nodeService.update(nodeDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> delete(@PathVariable String identifier) {
+    @PostMapping("/delete/{identifier}")
+    public ResponseEntity<Boolean> delete(@PathVariable String identifier) {
 
         try {
 
             nodeService.delete(identifier);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(true);
 
         } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 }

@@ -30,63 +30,59 @@ public class ModelsController extends BaseController {
     }
 
     @GetMapping("/{identifier}")
-    public ResponseEntity<?> getByIdentifier(@PathVariable String identifier) {
+    public ResponseEntity<ModelsDto> getByIdentifier(@PathVariable String identifier) {
 
         ModelsDto response = modelsService.findByIdentifier(identifier);
 
         if (response == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Model not found");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody ModelsDto modelsDto) {
+    @PostMapping("/save")
+    public ResponseEntity<ModelsDto> save(@RequestBody ModelsDto modelsDto) {
 
         ModelsDto response = modelsService.save(modelsDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody ModelsDto modelsDto) {
+    @PostMapping("/update/{identifier}")
+    public ResponseEntity<ModelsDto> update(@PathVariable String identifier, @RequestBody ModelsDto modelsDto) {
 
         modelsDto.setIdentifier(identifier);
 
         ModelsDto response = modelsService.update(modelsDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> delete(@PathVariable String identifier) {
+    @PostMapping("/delete/{identifier}")
+    public ResponseEntity<Boolean> delete(@PathVariable String identifier) {
 
         try {
 
             boolean deleted = modelsService.delete(identifier);
 
-            if (!deleted) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to delete model");
-            }
-
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(deleted);
 
         } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 
-    @PostMapping("/{identifier}/toggle-status")
+    @PostMapping("/toggle/{identifier}")
     public ResponseEntity<ModelsDto> toggleStatus(@PathVariable String identifier) {
 
         ModelsDto response = modelsService.toggleStatus(identifier);

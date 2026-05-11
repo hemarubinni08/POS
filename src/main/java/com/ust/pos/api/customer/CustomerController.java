@@ -30,63 +30,59 @@ public class CustomerController extends BaseController {
     }
 
     @GetMapping("/{identifier}")
-    public ResponseEntity<?> getByIdentifier(@PathVariable String identifier) {
+    public ResponseEntity<CustomerDto> getByIdentifier(@PathVariable String identifier) {
 
         CustomerDto response = customerService.findByIdentifierWithAddressDto(identifier);
 
         if (response == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody CustomerDto customerDto) {
+    @PostMapping("/save")
+    public ResponseEntity<CustomerDto> save(@RequestBody CustomerDto customerDto) {
 
         CustomerDto response = customerService.save(customerDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> update(@PathVariable String identifier, @RequestBody CustomerDto customerDto) {
+    @PostMapping("/update/{identifier}")
+    public ResponseEntity<CustomerDto> update(@PathVariable String identifier, @RequestBody CustomerDto customerDto) {
 
         customerDto.setIdentifier(identifier);
 
         CustomerDto response = customerService.update(customerDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{identifier}")
-    public ResponseEntity<?> delete(@PathVariable String identifier) {
+    @PostMapping("/delete/{identifier}")
+    public ResponseEntity<Boolean> delete(@PathVariable String identifier) {
 
         try {
 
             boolean deleted = customerService.delete(identifier);
 
-            if (!deleted) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to delete customer");
-            }
-
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(deleted);
 
         } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 
-    @PostMapping("/{identifier}/toggle-status")
+    @PostMapping("/toggle/{identifier}")
     public ResponseEntity<CustomerDto> toggleStatus(@PathVariable String identifier) {
 
         CustomerDto response = customerService.toggleStatus(identifier);

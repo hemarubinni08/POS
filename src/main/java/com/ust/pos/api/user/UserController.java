@@ -30,43 +30,43 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<?> getByUsername(@PathVariable String username) {
+    public ResponseEntity<UserDto> getByUsername(@PathVariable String username) {
 
         UserDto response = userService.findByUserName(username);
 
         if (response == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{username}")
-    public ResponseEntity<?> update(@PathVariable String username, @RequestBody UserDto userDto) {
+    @PostMapping("/update/{username}")
+    public ResponseEntity<UserDto> update(@PathVariable String username, @RequestBody UserDto userDto) {
 
         userDto.setUsername(username);
 
         UserDto response = userService.update(userDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{username}")
-    public ResponseEntity<?> delete(@PathVariable String username) {
+    @PostMapping("/delete/{username}")
+    public ResponseEntity<Boolean> delete(@PathVariable String username) {
 
         try {
 
             userService.delete(username);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(true);
 
         } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 }

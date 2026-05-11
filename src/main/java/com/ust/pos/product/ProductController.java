@@ -48,7 +48,6 @@ public class ProductController extends BaseController {
     public String add(Model model, @ModelAttribute ProductDto productDto) {
 
         model.addAttribute("productDto", productDto);
-        PaginationDto paginationDto = new PaginationDto();
         model.addAttribute(CATEGORIES, categoryService.findIfTrue());
         model.addAttribute(BRAND, brandService.findIfTrue());
         model.addAttribute("unit", unitService.findIfTrue());
@@ -82,7 +81,6 @@ public class ProductController extends BaseController {
         ProductDto response = productService.findByIdentifier(identifier);
 
         model.addAttribute("product", response);
-        PaginationDto paginationDto = new PaginationDto();
         model.addAttribute(CATEGORIES, categoryService.findIfTrue());
         model.addAttribute(BRAND, brandService.findIfTrue());
         model.addAttribute("unit", unitService.findIfTrue());
@@ -99,7 +97,6 @@ public class ProductController extends BaseController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("product", response);
-            PaginationDto paginationDto = new PaginationDto();
             model.addAttribute(CATEGORIES, categoryService.findIfTrue());
             model.addAttribute(BRAND, brandService.findIfTrue());
             model.addAttribute("unit", unitService.findIfTrue());

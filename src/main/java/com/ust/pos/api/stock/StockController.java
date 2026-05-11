@@ -40,57 +40,53 @@ public class StockController extends BaseController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> get(@RequestParam Long productId, @RequestParam Long warehouseId) {
+    public ResponseEntity<StockDto> get(@RequestParam Long productId, @RequestParam Long warehouseId) {
 
         StockDto response = stockService.getStock(productId, warehouseId);
 
         if (response == null || !response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response != null ? response.getMessage() : "Stock not found");
+            return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody StockDto stockDto) {
+    @PostMapping("/save")
+    public ResponseEntity<StockDto> save(@RequestBody StockDto stockDto) {
 
         StockDto response = stockService.createStock(stockDto);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{stockId}/quantity")
-    public ResponseEntity<?> updateQuantity(@PathVariable Long stockId, @RequestParam Integer quantity) {
+    @PostMapping("/update-quantity/{stockId}")
+    public ResponseEntity<StockDto> updateQuantity(@PathVariable Long stockId, @RequestParam Integer quantity) {
 
         StockDto response = stockService.updateStockQuantity(stockId, quantity);
 
         if (!response.isSuccess()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.badRequest().body(response);
         }
 
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable Long id) {
 
         try {
 
             boolean deleted = stockService.deleteStock(id);
 
-            if (!deleted) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Stock not found");
-            }
-
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(deleted);
 
         } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 
