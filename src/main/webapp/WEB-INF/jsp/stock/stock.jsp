@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Role</title>
+    <title>Edit Stock</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -13,7 +13,7 @@
     <style>
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -35,39 +35,51 @@ ${message}
 <div class="card shadow-lg">
     <div class="card-body">
 
-        <h4 class="text-center mb-4 text-primary">Edit Role</h4>
+        <h4 class="text-center mb-4 text-primary">Edit Stock</h4>
 
-        <c:if test="${empty role}">
+        <c:if test="${empty stocks}">
             <div class="alert alert-danger text-center">
-                Role not found
+                Product not found
             </div>
         </c:if>
 
-        <c:if test="${not empty role}">
-            <form:form action="/role/update"
+        <c:if test="${not empty stocks}">
+            <form:form action="/stock/update"
                        method="post"
-                       modelAttribute="role">
+                       modelAttribute="stock">
 
-                <form:hidden path="id" value="${role.id}"/>
+                <form:hidden path="id" value="${stock.id}"/>
 
                 <div class="mb-4">
-                    <label class="form-label">Role Name</label>
-                    <form:input path="identifier"
-                                cssClass="form-control"
-                                placeholder="Enter role"
-                                readonly="true"/>
+                     <label class="form-label">Product</label>
+                     <form:input path="identifier"
+                                 cssClass="form-control"
+                                 placeholder="Enter product"
+                                 readonly="true"/>
+                                </div>
+
+                <div class="mb-4">
+                     <label class="form-label">Quantity</label>
+                     <form:input path="quantity"
+                                 cssClass="form-control"
+                                 placeholder="Enter quantity"
+                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                 pattern="[0-9]+"
+                                 required="true"/>
                 </div>
 
                 <div class="mb-4">
-                     <label class="form-label">Description</label>
-                     <form:input path="description"
+                     <label class="form-label">Minimum Stock</label>
+                     <form:input path="minimumStock"
                                  cssClass="form-control"
-                                 placeholder="Enter description"
+                                 placeholder="Enter Minimum Count"
+                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                 pattern="[0-9]+"
                                  required="true"/>
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <a href="/role/list" class="btn btn-outline-secondary">
+                    <a href="/stock/list" class="btn btn-outline-secondary">
                         Cancel
                     </a>
                     <button type="submit" class="btn btn-primary">

@@ -8,14 +8,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Add Role</title>
+    <title>Add Product</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
             min-height: 100vh;
         }
         .card {
@@ -38,9 +38,9 @@
 
             <div class="card-body">
 
-                <c:if test="${not empty stock}">
+                <c:if test="${not empty message}">
                     <div class="alert alert-success text-center">
-                        ${stock}
+                        ${message}
                     </div>
                 </c:if>
 
@@ -48,25 +48,50 @@
                            action="/stock/add"
                            modelAttribute="stockDto">
 
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Product Tag</label>
-                        <form:input path="identifier"
-                                    cssClass="form-control"
-                                    placeholder="Enter product code" />
-                    </div>
+                     <div class="mb-3">
+                      <div class="form-group">
+                          <label>Product List</label>
+                          <form:select path="identifier"
+                                       cssClass="form-control"
+                                       required="required">
+                                   <form:option value="" label="-- Select Product --"/>
+                                   <form:options items="${products}"
+                                   itemValue="identifier"
+                                   itemLabel="identifier"/>
+                          </form:select>
+                      </div>
+                     </div>
+
+                     <div class="mb-3">
+                          <div class="form-group">
+                             <label>Warehouse List</label>
+                             <form:select path="warehouse"
+                                          cssClass="form-control"
+                                          required="required">
+                                          <form:option value="" label="-- Select Warehouse--"/>
+                                          <form:options items="${warehouses}"
+                                               itemValue="identifier"
+                                               itemLabel="name"/>
+                                          </form:select>
+                          </div>
+                     </div>
 
                      <div class="mb-3">
                          <label class="form-label fw-semibold">Quantity to Add</label>
                          <form:input path="quantity"
                                      cssClass="form-control"
-                                     placeholder="Enter quantity" />
+                                     placeholder="Enter quantity"
+                                     type="number"
+                                     required="true"/>
                      </div>
 
                      <div class="mb-3">
-                         <label class="form-label fw-semibold">Minimum Countx</label>
+                         <label class="form-label fw-semibold">Minimum Count</label>
                          <form:input path="minimumStock"
                                      cssClass="form-control"
-                                     placeholder="Enter the Minimum Count" />
+                                     placeholder="Enter the Minimum Count"
+                                     required="true"
+                                     type="number"/>
                      </div>
 
                     <div class="d-grid">
@@ -87,7 +112,6 @@
                     </c:if>
 
                 </form:form>
-
             </div>
 
             <div class="card-footer text-center text-muted small">

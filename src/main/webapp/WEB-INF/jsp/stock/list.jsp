@@ -67,7 +67,7 @@
                                     <td>${stock.identifier}</td>
                                     <td>${stock.quantity}</td>
                                     <td>${stock.minimumStock}</td>
-                                    <td>${stock.status}</td>
+                                    <td>${stock.stockStatus}</td>
                                     <td>
                                     <a class="btn btn-warning btn-sm"
                                          href="${pageContext.request.contextPath}/stock/get?identifier=${stock.identifier}">

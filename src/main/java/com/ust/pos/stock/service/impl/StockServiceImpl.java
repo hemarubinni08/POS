@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -31,15 +33,14 @@ public class StockServiceImpl implements StockService {
             stockDto.setSuccess(false);
             return stockDto;
         }
-        if(stockDto.getQuantity()> stockDto.getMinimumStock()){
-            stockDto.setStatus("Available");
+        if (stockDto.getQuantity() > stockDto.getMinimumStock()) {
+            stockDto.setStockStatus("Available");
+        } else if (stockDto.getQuantity() > 0 && stockDto.getQuantity() <= stockDto.getMinimumStock()) {
+            stockDto.setStockStatus("Low Stock");
+        } else {
+            stockDto.setStockStatus("Out of Stock");
         }
-        else if(stockDto.getQuantity()>0 && stockDto.getQuantity()< stockDto.getMinimumStock()){
-            stockDto.setStatus("Low Stock");
-        }
-        else{
-            stockDto.setStatus("Out of Stock");
-        }
+        stockDto.setIdentifier(stockDto.getIdentifier() + "_" + stockDto.getWarehouse());
         Stock stock = modelMapper.map(stockDto, Stock.class);
         stockRepository.save(stock);
         return stockDto;
@@ -54,6 +55,13 @@ public class StockServiceImpl implements StockService {
             stockDto.setSuccess(false);
             return stockDto;
         }
+        if (stockDto.getQuantity() > stockDto.getMinimumStock()) {
+            stockDto.setStockStatus("Available");
+        } else if (stockDto.getQuantity() > 0 && stockDto.getQuantity() <= stockDto.getMinimumStock()) {
+            stockDto.setStockStatus("Low Stock");
+        } else {
+            stockDto.setStockStatus("Out of Stock");
+        }
         modelMapper.map(stockDto, existingStock);
         stockRepository.save(existingStock);
         return stockDto;
@@ -66,10 +74,11 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public List<StockDto> findAll() {
+    public List<StockDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
-        return modelMapper.map(stockRepository.findAll(), listType);
+        Page<Stock> stockPage = stockRepository.findAll(pageable);
+        return modelMapper.map(stockPage.getContent(), listType);
     }
 
     @Override
