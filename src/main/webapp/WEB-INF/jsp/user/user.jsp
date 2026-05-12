@@ -5,129 +5,192 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Update User</title>
+<meta charset="UTF-8">
+<title>Update User</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-    <style>
-        body {
-            min-height: 100vh;
-            background-color: #f1f3f6;
-            font-family: "Segoe UI", sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1b26, #2a2b3d);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        .card {
-            width: 460px;
-            border-radius: 12px;
-            border: none;
-        }
+.card {
+    width: 460px;
+    padding: 30px;
+    border-radius: 15px;
 
-        .card-header {
-            background-color: #1e272e;
-            color: #ffffff;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-        }
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
 
-        .form-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
 
-        select[multiple] {
-            height: 120px;
-        }
+.card-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-        .badge {
-            font-size: 0.75rem;
-        }
-    </style>
+.card-header h5 {
+    color: #fff;
+}
+
+.form-label {
+    font-size: 13px;
+    color: #ccc;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 15px;
+
+    border-radius: 8px;
+    border: none;
+    outline: none;
+
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+}
+
+.form-control:focus {
+    border: 1px solid #00ffff;
+    box-shadow: 0 0 8px #00ffff;
+}
+
+select[multiple] {
+    height: 120px;
+}
+
+.current-roles {
+    font-size: 12px;
+    margin-bottom: 8px;
+    color: #aaa;
+}
+
+.badge {
+    background: rgba(0,255,255,0.2);
+    color: #00ffff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-right: 4px;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+
+    background: #00ffff;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 15px #00ffff,
+                0 0 30px #00ffff;
+}
+
+.alert {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    color: #00ffcc;
+    font-size: 13px;
+}
+
+.card-footer {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.card-footer a {
+    color: #00ffff;
+    text-decoration: none;
+}
+
+.card-footer a:hover {
+    text-decoration: underline;
+}
+</style>
 </head>
 
 <body>
 
-<div class="card shadow-sm">
+<div class="card">
 
-    <div class="card-header text-center py-3">
-        <h5 class="mb-0">Update User</h5>
+    <div class="card-header">
+        <h5>Update User</h5>
     </div>
 
-    <div class="card-body p-4">
+    <c:if test="${not empty message}">
+        <div class="alert">
+            ${message}
+        </div>
+    </c:if>
 
-        <!-- Optional message -->
-        <c:if test="${not empty message}">
-            <div class="alert alert-info text-center">
-                ${message}
-            </div>
-        </c:if>
+    <form:form action="/user/update" method="post" modelAttribute="userDto">
 
-<form:form action="/user/update" method="post" modelAttribute="userDto">
-            <form:hidden path="id"/>
+        <form:hidden path="id"/>
 
-            <div class="mb-3">
-                <label class="form-label">Name</label>
-                <form:input path="name"
-                            cssClass="form-control"
-                            required="true"/>
-            </div>
+        <label class="form-label">Name</label>
+        <form:input path="name"
+                    cssClass="form-control"
+                    required="true"/>
 
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <form:input path="username"
-                            cssClass="form-control"
-                            />
-            </div>
+        <label class="form-label">Email</label>
+        <form:input path="username"
+                    cssClass="form-control"/>
 
-            <div class="mb-3">
-                <label class="form-label">Phone Number</label>
-                <form:input path="phoneNo"
-                            cssClass="form-control"
-                            required="true"/>
-            </div>
+        <label class="form-label">Phone Number</label>
+        <form:input path="phoneNo"
+                    cssClass="form-control"
+                    required="true"/>
 
-            <div class="mb-3">
-                <label class="form-label">Roles</label>
+        <label class="form-label">Roles</label>
 
-                <div class="mb-2 text-muted small">
-                    Current:
-                    <c:forEach var="r" items="${userDto.roles}">
-                        <span class="badge bg-secondary me-1">${r}</span>
-                    </c:forEach>
-                </div>
+        <div class="current-roles">
+            Current:
+            <c:forEach var="r" items="${userDto.roles}">
+                <span class="badge">${r}</span>
+            </c:forEach>
+        </div>
 
-                <form:select path="roles"
-                             multiple="true"
-                             cssClass="form-control">
-                    <form:options items="${roles}"
-                                  itemValue="identifier"
-                                  itemLabel="identifier"/>
-                </form:select>
+        <form:select path="roles"
+                     multiple="true"
+                     cssClass="form-control">
+            <form:options items="${roles}"
+                          itemValue="identifier"
+                          itemLabel="identifier"/>
+        </form:select>
 
-                <div class="form-text">
-                    Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple roles
-                </div>
-            </div>
+        <div class="current-roles">
+            Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple roles
+        </div>
 
-            <div class="d-grid mt-4">
-                <button type="submit" class="btn btn-primary">
-                    Update User
-                </button>
-            </div>
+        <button type="submit" class="btn-primary">
+            Update User
+        </button>
 
-        </form:form>
+    </form:form>
 
-    </div>
-
-    <div class="card-footer text-center bg-light small">
-        <a href="/user/list" class="text-decoration-none">
-            ← Back to User List
-        </a>
+    <div class="card-footer">
+        <a href="/user/list">← Back to User List</a>
     </div>
 
 </div>

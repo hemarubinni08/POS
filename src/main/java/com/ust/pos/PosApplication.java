@@ -10,11 +10,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
 @SpringBootApplication
-@ComponentScan({"com.ust.pos.web.controller", "com.ust.pos"})
+@ComponentScan(
+        {"com.ust.pos.web.controller", "com.ust.pos"}
+)
 public class PosApplication {
 
     @Autowired
@@ -52,5 +56,10 @@ public class PosApplication {
         );
 
         return ds;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

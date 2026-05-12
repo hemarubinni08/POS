@@ -7,98 +7,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Add Role</title>
+<meta charset="UTF-8">
+<title>Add Role</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-    <style>
-        body {
-            background-color: #f1f3f6;
-            min-height: 100vh;
-            font-family: "Segoe UI", sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #1a1b26, #2a2b3d);
+}
 
-        .card {
-            border-radius: 12px;
-            border: none;
-            width: 420px;
-        }
+.card {
+    width: 420px;
+    padding: 30px;
+    border-radius: 15px;
 
-        .card-header {
-            background-color: #1e272e;
-            color: #ffffff;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-        }
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
 
-        .form-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-    </style>
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card-header h5 {
+    color: #fff;
+}
+
+.form-label {
+    font-size: 13px;
+    color: #ccc;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 15px;
+
+    border-radius: 8px;
+    border: none;
+    outline: none;
+
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+}
+
+.form-control:focus {
+    border: 1px solid #00ffff;
+    box-shadow: 0 0 8px #00ffff;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+
+    background: #00ffff;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 15px #00ffff,
+                0 0 30px #00ffff;
+}
+
+.alert {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    color: #00ffcc;
+    font-size: 13px;
+}
+
+.card-footer {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #aaa;
+}
+</style>
 </head>
 
 <body>
 
-<div class="card shadow-sm">
+<div class="card">
 
-    <div class="card-header text-center py-3">
-        <h5 class="mb-0">Add New Role</h5>
+    <div class="card-header">
+        <h5>Add New Role</h5>
     </div>
 
-    <div class="card-body p-4">
+    <c:if test="${not empty role}">
+        <div class="alert">
+            ${role}
+        </div>
+    </c:if>
 
-        <!-- ✅ Success Message -->
-        <c:if test="${not empty role}">
-            <div class="alert alert-success text-center">
-                ${role}
-            </div>
-        </c:if>
+    <form:form method="post"
+               action="/role/add"
+               modelAttribute="roleDto">
 
-        <!-- ✅ Spring Form -->
-        <form:form method="post"
-                   action="/role/add"
-                   modelAttribute="roleDto">
+        <label class="form-label">Role Name</label>
+        <form:input path="identifier"
+                    cssClass="form-control"
+                    required="true"/>
 
-            <div class="mb-3">
-                <form:label path="identifier" cssClass="form-label">
-                    Role Name
-                </form:label>
+        <label class="form-label">Description</label>
+        <form:input path="description"
+                    cssClass="form-control"
+                    required="true"/>
 
-                <form:input
-                        path="identifier"
-                        cssClass="form-control"
-                        required="true"/>
-            </div>
+        <button type="submit" class="btn-primary">
+            Add Role
+        </button>
 
-            <div class="mb-3">
-                <form:label path="description" cssClass="form-label">
-                    Description
-                </form:label>
+    </form:form>
 
-                <form:input
-                        path="description"
-                        cssClass="form-control"
-                        required="true"/>
-            </div>
-
-            <div class="d-grid mt-4">
-                <button type="submit" class="btn btn-primary">
-                    Add Role
-                </button>
-            </div>
-
-        </form:form>
-
-    </div>
-
-    <div class="card-footer text-muted small text-center">
+    <div class="card-footer">
         POS Management System
     </div>
 

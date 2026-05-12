@@ -1,134 +1,183 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>User Management</title>
+<meta charset="UTF-8">
+<title>User Management</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-    <style>
-        body {
-            background-color: #f1f3f6;
-            min-height: 100vh;
-            font-family: "Segoe UI", sans-serif;
-        }
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1b26, #2a2b3d);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-        .card {
-            border-radius: 12px;
-            border: none;
-        }
+.container {
+    width: 1000px;
+    padding: 30px;
+    border-radius: 15px;
 
-        .card-header {
-            background-color: #1e272e;
-            color: #ffffff;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-        }
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
 
-        table th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
 
-        table td {
-            font-size: 0.9rem;
-        }
-    </style>
+h2 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #fff;
+}
+
+th {
+    background: rgba(0,255,255,0.2);
+    color: #00ffff;
+    padding: 12px;
+}
+
+td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+tr:hover {
+    background: rgba(0,255,255,0.1);
+}
+
+.btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    text-decoration: none;
+    margin: 0 4px;
+}
+
+.btn-warning {
+    background: #ffc107;
+    color: #000;
+}
+
+.btn-danger {
+    background: #ff4d4d;
+    color: #fff;
+}
+
+.btn-primary {
+    background: #00ffff;
+    color: #000;
+}
+
+.btn-secondary {
+    background: #666;
+    color: #fff;
+}
+
+.btn:hover {
+    box-shadow: 0 0 10px #00ffff;
+}
+
+.alert {
+    text-align: center;
+    padding: 10px;
+    color: #aaa;
+}
+
+.footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.footer .actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.footer small {
+    color: #aaa;
+}
+</style>
 </head>
 
 <body>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
+<div class="container">
 
-            <div class="card shadow-sm">
+    <h2>User Management</h2>
 
-                <div class="card-header text-center py-3">
-                    <h5 class="mb-0">User Management</h5>
-                </div>
-
-                <div class="card-body">
-
-                    <!-- NO USERS -->
-                    <c:if test="${empty users}">
-                        <div class="alert alert-warning text-center">
-                            No users found
-                        </div>
-                    </c:if>
-
-                    <!-- USERS TABLE -->
-                    <c:if test="${not empty users}">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover text-center align-middle">
-                                <thead>
-                                <tr>
-                                    <th>Email</th>
-                                    <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Roles</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                <c:forEach var="user" items="${users}">
-                                    <tr>
-                                        <td>${user.username}</td>
-                                        <td>${user.name}</td>
-                                        <td>${user.phoneNo}</td>
-                                        <td>${user.roles}</td>
-
-                                        <td>
-                                            <div class="d-flex justify-content-center gap-2">
-                                                <a class="btn btn-sm btn-warning"
-                                                   href="/user/get?username=${user.username}">
-                                                    Edit
-                                                </a>
-
-                                                <a class="btn btn-sm btn-danger"
-                                                   href="/user/delete?username=${user.username}"
-                                                   onclick="return confirm('Are you sure you want to delete this user?');">
-                                                    Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                        </div>
-                    </c:if>
-
-                </div>
-
-                <div class="card-footer bg-light text-center">
-                    <div class="d-flex justify-content-center gap-3 mb-2">
-                        <a href="/" class="btn btn-secondary">
-                            Home
-                        </a>
-
-                        <a href="/register" class="btn btn-primary">
-                            Register User
-                        </a>
-                    </div>
-
-                    <div class="text-muted small">
-                        POS Management System
-                    </div>
-                </div>
-
-            </div>
-
+    <c:if test="${empty users}">
+        <div class="alert">
+            No users found
         </div>
+    </c:if>
+
+    <c:if test="${not empty users}">
+        <table>
+            <thead>
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Roles</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <c:forEach var="user" items="${users}">
+                <tr>
+                    <td>${user.username}</td>
+                    <td>${user.name}</td>
+                    <td>${user.phoneNo}</td>
+                    <td>${user.roles}</td>
+
+                    <td>
+                        <a class="btn btn-warning"
+                           href="/user/get?username=${user.username}">
+                            Edit
+                        </a>
+
+                        <a class="btn btn-danger"
+                           href="/user/delete?username=${user.username}"
+                           onclick="return confirm('Are you sure you want to delete this user?');">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+
+    <div class="footer">
+        <div class="actions">
+            <a href="/" class="btn btn-secondary">Home</a>
+            <a href="/register" class="btn btn-primary">Register User</a>
+        </div>
+
+        <small>POS Management System</small>
     </div>
+
 </div>
 
 </body>

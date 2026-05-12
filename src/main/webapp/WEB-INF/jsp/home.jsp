@@ -5,134 +5,150 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>POS Home</title>
+<meta charset="UTF-8">
+<title>POS Home</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
 
-    <!-- Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-          rel="stylesheet"/>
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1b26, #2a2b3d);
+    color: #fff;
+}
 
-    <style>
-        body {
-            min-height: 100vh;
-            background-color: #f1f3f6;
-            font-family: "Segoe UI", sans-serif;
-        }
+.wrapper {
+    display: flex;
+}
 
-        /* Sidebar */
-        .sidebar {
-            width: 260px;
-            min-height: 100vh;
-            background: linear-gradient(180deg, #1e272e, #2f3640);
-            color: #fff;
-        }
+.sidebar {
+    width: 250px;
+    min-height: 100vh;
 
-        .brand {
-            font-size: 1.3rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
 
-        .sidebar a {
-            color: #dcdde1;
-            text-decoration: none;
-            padding: 10px 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-radius: 6px;
-            font-size: 0.95rem;
-        }
+    border-right: 1px solid rgba(255,255,255,0.1);
+    padding: 20px;
+}
 
-        .sidebar a:hover {
-            background-color: #353b48;
-            color: #fff;
-        }
+.brand {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #00ffff;
+}
 
-        .content-area {
-            padding: 40px;
-        }
+.logout-btn {
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 18px;
+}
 
-        .content-card {
-            border-radius: 12px;
-            border: none;
-        }
+.logout-btn:hover {
+    color: #fff;
+}
 
-        .logout-btn {
-            border: none;
-            background: transparent;
-            color: #adb5bd;
-            font-size: 1.1rem;
-        }
+.sidebar a {
+    display: block;
+    padding: 10px;
+    margin: 6px 0;
 
-        .logout-btn:hover {
-            color: #fff;
-        }
-    </style>
+    border-radius: 6px;
+    text-decoration: none;
+    color: #ccc;
+
+    border: 1px solid transparent;
+}
+
+.sidebar a:hover {
+    background: rgba(0,255,255,0.1);
+    border-color: #00ffff;
+    color: #00ffff;
+}
+
+.content-area {
+    flex-grow: 1;
+    padding: 40px;
+}
+
+.content-card {
+    border-radius: 15px;
+    padding: 30px;
+
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+h5 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #aaa;
+}
+
+.alert {
+    text-align: center;
+    margin-top: 10px;
+    color: #aaa;
+}
+</style>
 </head>
 
 <body>
 
-<div class="d-flex">
+<div class="wrapper">
 
-    <!-- Sidebar -->
-    <div class="sidebar p-4">
+    <div class="sidebar">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div class="brand">
-                POS System
-            </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="brand">POS System</div>
 
             <form action="/logout" method="post">
-                <button type="submit" class="logout-btn" title="Logout">
-                    <i class="bi bi-box-arrow-right"></i>
-                </button>
+                <button type="submit" class="logout-btn">⎋</button>
             </form>
         </div>
 
-        <hr class="text-secondary"/>
+        <hr style="margin:15px 0; border-color: rgba(255,255,255,0.1);"/>
 
         <c:if test="${empty node}">
-            <div class="alert alert-secondary text-center small">
+            <div class="alert">
                 No menu items available
             </div>
         </c:if>
 
         <c:if test="${not empty node}">
-            <ul class="nav flex-column gap-1 mt-3">
-                <c:forEach var="n" items="${node}">
-                    <li class="nav-item">
-                        <a href="${n.path}">
-                            <i class="bi bi-chevron-right"></i>
-                            ${n.identifier}
-                        </a>
-                    </li>
-                </c:forEach>
-            </ul>
+            <c:forEach var="n" items="${node}">
+                <a href="${n.path}">
+                    ➤ ${n.identifier}
+                </a>
+            </c:forEach>
         </c:if>
 
     </div>
 
-    <!-- Content Area -->
-    <div class="content-area flex-grow-1">
+    <div class="content-area">
 
-        <div class="card content-card shadow-sm">
-            <div class="card-body">
+        <div class="content-card">
 
-                <h5 class="fw-semibold mb-2">
-                    Welcome to the POS Management System
-                </h5>
+            <h5>Welcome to the POS Management System</h5>
 
-                <p class="text-muted mb-0">
-                    Use the navigation menu on the left to manage users, roles,
-                    configurations, and other system operations.
-                </p>
+            <p>
+                Use the navigation menu on the left to manage users, roles,
+                configurations, and other system operations.
+            </p>
 
-            </div>
         </div>
 
     </div>
