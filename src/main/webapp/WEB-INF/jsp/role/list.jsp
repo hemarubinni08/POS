@@ -6,10 +6,8 @@
 <head>
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <meta charset="UTF-8">
     <title>Roles Management</title>
-
     <style>
         * {
             box-sizing: border-box;
@@ -88,12 +86,12 @@
         }
 
         .btn-delete {
-            background-color: #8d3c36;
+            background-color: #4b2e2b;
             color: #FFF8F0;
         }
 
         .btn-delete:hover {
-            background-color: #702f2a;
+            background-color: #3a2421;
         }
 
         .top-bar {
@@ -141,21 +139,57 @@
                 font-size: 12px;
             }
         }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 22px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background-color: #cfc4bb;
+            border-radius: 20px;
+            transition: 0.4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+
+        input:checked + .slider {
+                    background-color: #6b4a46;
+        }
+
+        input:checked + .slider:before {
+                    transform: translateX(24px);
+        }
     </style>
 </head>
-
 <body>
-
 <div class="container">
-
     <h2>Roles Management</h2>
-
     <c:if test="${empty roles}">
         <div style="text-align:center; color:#8d3c36; font-weight:600;">
             No roles found
         </div>
     </c:if>
-
     <c:if test="${not empty roles}">
         <table>
             <thead>
@@ -163,19 +197,34 @@
                 <th>ID</th>
                 <th>Role</th>
                 <th>Description</th>
+                <th>Status</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
             </thead>
-
             <tbody>
             <c:forEach var="role" items="${roles}">
                 <tr>
                     <td>${role.id}</td>
                     <td>${role.identifier}</td>
                     <td>${role.description}</td>
-
-
+                    <td class="text-center">
+                        <form action="${pageContext.request.contextPath}/role/toggleStatus" method="post">
+                            <input type="hidden" name="identifier" value="${role.identifier}"/>
+                                <label class="switch">
+                                    <input type="checkbox"
+                                        onchange="this.form.submit()"
+                                        <c:if test="${role.status}">checked</c:if>>
+                                    <span class="slider"></span>
+                                </label>
+                        </form>
+                        <small class="text-primary">
+                            <c:choose>
+                                <c:when test="${role.status}">Active</c:when>
+                                <c:otherwise>Inactive</c:otherwise>
+                            </c:choose>
+                        </small>
+                    </td>
                     <td>
                         <a class="btn btn-edit"
                             href="/role/get?identifier=${role.identifier}"
@@ -183,9 +232,6 @@
                             <i class="fa-solid fa-pen"></i>
                         </a>
                     </td>
-
-
-
                     <td>
                         <a class="btn btn-delete"
                             href="/role/delete?identifier=${role.identifier}"
@@ -194,23 +240,17 @@
                             <i class="fa-solid fa-trash"></i>
                         </a>
                     </td>
-
-
                 </tr>
             </c:forEach>
             </tbody>
         </table>
     </c:if>
-
     <div class="top-bar">
         <a href="/" class="home-btn">Home</a>
     </div>
-
     <div style="text-align:center;">
         <a href="/role/add" class="add-role">+ Add New Role</a>
     </div>
-
 </div>
-
 </body>
 </html>

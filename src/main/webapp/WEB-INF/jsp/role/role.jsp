@@ -6,10 +6,8 @@
 <html land="en">
 <head>
     <title>Edit Role</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
-
     <style>
         body {
             min-height: 100vh;
@@ -71,44 +69,31 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="card shadow-lg">
     <div class="card-body">
-
         <h4 class="text-center mb-4">Edit Role</h4>
-
         <c:if test="${empty role}">
             <div class="alert alert-danger text-center">
                 Role not found
             </div>
         </c:if>
-
         <c:if test="${not empty role}">
-            <form:form action="/role/update"
-                       method="post"
-                       modelAttribute="roleDto">
-
+            <form:form action="/role/update" method="post" modelAttribute="roleDto">
                 <form:hidden path="id" value="${role.id}"/>
-
                 <div class="mb-4">
                     <label class="form-label"><b>Role Name</b></label>
-                    <form:input path="identifier"
-                                cssClass="form-control"
-                                readonly="true"/>
+                    <form:input path="identifier" cssClass="form-control" readonly="true"/>
                 </div>
-
                 <div class="mb-4">
                     <label class="form-label"><b>Description</b></label>
-
                     <form:input path="description"
-                                   cssClass="form-control"
-                                   value="${role.description}"
-                                   rows="3"
-                                   required="true"/>
+                        cssClass="form-control"
+                        value="${role.description}"
+                        rows="3"
+                        required="true"
+                    />
                 </div>
-
                 <div class="d-flex justify-content-between">
                     <a href="/role/list" class="btn btn-outline-secondary">
                         Cancel
@@ -117,12 +102,9 @@
                         Update
                     </button>
                 </div>
-
             </form:form>
         </c:if>
-
     </div>
 </div>
-
 </body>
 </html>

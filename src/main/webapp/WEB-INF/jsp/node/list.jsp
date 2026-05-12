@@ -8,7 +8,6 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta charset="UTF-8">
     <title>Nodes Management</title>
-
     <style>
         * {
             box-sizing: border-box;
@@ -150,13 +149,9 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="container">
-
     <h2>Nodes Management</h2>
-
     <table>
         <thead>
         <tr>
@@ -166,7 +161,6 @@
             <th>Roles</th>
             <th>Edit</th>
             <th>Delete</th>
-
         </tr>
         </thead>
         <tbody>
@@ -192,24 +186,19 @@
                        href="/node/delete?identifier=${node.identifier}"
                        title="Delete Node"
                        onclick="return confirm('Are you sure you want to delete this node?');">
-                        <i class="fa-solid fa-trash"></i>
+                       <i class="fa-solid fa-trash"></i>
                     </a>
                 </td>
-
             </tr>
         </c:forEach>
         </tbody>
     </table>
-
     <div class="top-bar mt-3">
         <a href="/" class="home-btn">Home</a>
     </div>
-
     <div style="text-align:center;">
         <a href="/node/add" class="add-node">+ Add New Node</a>
     </div>
-
 </div>
-
 </body>
 </html>

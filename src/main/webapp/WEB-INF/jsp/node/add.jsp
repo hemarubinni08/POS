@@ -6,11 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Node</title>
-
     <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-
     <style>
         body {
             font-family: "Segoe UI", Arial, sans-serif;
@@ -87,16 +85,11 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="card shadow p-4" style="width: 420px;">
-
         <h3 class="text-center mb-4">Add Node</h3>
-
         <form action="/node/add" method="post" modelAttribute="nodeDto">
-
             <div class="form-group">
                 <label><b>Node Name</b></label>
                 <input type="text"
@@ -105,7 +98,6 @@
                        placeholder="Enter the node name"
                        required>
             </div>
-
             <div class="form-group">
                 <label><b>Path Name</b></label>
                 <input type="text"
@@ -114,27 +106,20 @@
                        placeholder="Enter the path"
                        required>
             </div>
-
             <label><b>Roles</b></label>
             <div class="multi-role-box">
                 <c:forEach items="${roles}" var="role">
                     <label class="role-item">
-                        <input type="checkbox"
-                               name="roles"
-                               value="${role.identifier}">
-                        ${role.identifier}
+                        <input type="checkbox" name="roles" value="${role.identifier}">
+                            ${role.identifier}
                     </label>
                 </c:forEach>
             </div>
-
             <button type="submit" class="btn btn-primary">
                 Add Node
             </button>
-
         </form>
-
     </div>
 </div>
-
 </body>
 </html>

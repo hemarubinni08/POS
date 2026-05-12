@@ -14,7 +14,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-
         try {
             model.addAttribute("nodes", nodeService.getNodesForRoles());
             return "home";
@@ -22,7 +21,6 @@ public class HomeController {
             if ("USER_DELETED".equals(ex.getMessage())) {
                 return "redirect:/login";
             }
-
             return "redirect:/login";
         }
     }
