@@ -52,7 +52,6 @@ public class BrandApiController extends BaseController {
         return true;
     }
 
-
     @GetMapping("/delete")
     public boolean delete(Model model, @RequestParam String identifier) {
         try {
