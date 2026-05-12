@@ -119,14 +119,12 @@
 
     <form method="post" action="${pageContext.request.contextPath}/shelf/add">
 
-        <!-- Hidden ID (for edit support) -->
         <input
             type="hidden"
             name="id"
             value="${shelfDto.id}"
         />
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -138,7 +136,6 @@
             />
         </div>
 
-        <!-- Shelf Name -->
         <div class="form-group">
             <label>Shelf Name</label>
             <input
@@ -150,12 +147,10 @@
             />
         </div>
 
-        <!-- Submit -->
         <button type="submit" class="btn-submit">
             Save Shelf
         </button>
 
-        <!-- Back -->
         <div class="back-center">
             <a href="${pageContext.request.contextPath}/shelf/list">
                 Back

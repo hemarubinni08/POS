@@ -154,7 +154,6 @@
 
     <form action="${pageContext.request.contextPath}/user/update" method="post">
 
-        <!-- ID -->
         <div class="form-group">
             <label>ID</label>
             <input
@@ -165,7 +164,6 @@
             />
         </div>
 
-        <!-- Username -->
         <div class="form-group">
             <label>Username</label>
             <input
@@ -175,7 +173,6 @@
             />
         </div>
 
-        <!-- Name -->
         <div class="form-group">
             <label>Name</label>
             <input
@@ -185,7 +182,6 @@
             />
         </div>
 
-        <!-- Phone -->
         <div class="form-group">
             <label>Phone Number</label>
             <input
@@ -200,7 +196,6 @@
             />
         </div>
 
-        <!-- Roles -->
         <div class="checkbox-group">
             <label>Assigned Roles</label>
 
@@ -230,7 +225,6 @@
             </c:forEach>
         </div>
 
-        <!-- Buttons -->
         <div class="btn-group">
             <button type="submit" class="btn btn-update">
                 Update User

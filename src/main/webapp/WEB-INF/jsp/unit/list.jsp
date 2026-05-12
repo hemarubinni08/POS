@@ -124,7 +124,6 @@
 
 <div class="container">
 
-    <!-- TOP BAR -->
     <div class="top-bar">
         <a href="${pageContext.request.contextPath}/" class="btn">
             Home
@@ -137,7 +136,6 @@
 
     <h2>Unit List</h2>
 
-    <!-- TABLE -->
     <table>
         <tr>
             <th>ID</th>
@@ -153,7 +151,6 @@
                 <td>${unit.identifier}</td>
                 <td>${unit.name}</td>
 
-                <!-- STATUS -->
                 <td>
                     <div class="status-cell">
                         <div class="form-check form-switch">
@@ -167,7 +164,6 @@
                     </div>
                 </td>
 
-                <!-- ACTIONS -->
                 <td class="action-cell">
                     <a href="${pageContext.request.contextPath}/unit/get?identifier=${unit.identifier}"
                        class="btn btn-edit">
@@ -183,7 +179,6 @@
             </tr>
         </c:forEach>
 
-        <!-- EMPTY STATE -->
         <c:if test="${empty units}">
             <tr>
                 <td colspan="5" style="text-align:center;">
@@ -196,7 +191,6 @@
 
 </div>
 
-<!-- TOGGLE SCRIPT -->
 <script>
 document.addEventListener("change", function (e) {
     if (!e.target.classList.contains("unit-toggle")) return;

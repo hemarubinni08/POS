@@ -126,7 +126,6 @@
 
     <form method="post" action="${pageContext.request.contextPath}/brand/add">
 
-        <!-- Hidden ID for edit -->
         <input type="hidden" name="id" value="${brandDto.id}" />
 
         <div class="form-group">

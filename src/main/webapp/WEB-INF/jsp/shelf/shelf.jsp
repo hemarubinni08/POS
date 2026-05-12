@@ -119,7 +119,6 @@
 
     <form action="${pageContext.request.contextPath}/shelf/update" method="post">
 
-        <!-- ID -->
         <div class="form-group">
             <label>ID</label>
             <input
@@ -130,7 +129,6 @@
             />
         </div>
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -141,7 +139,6 @@
             />
         </div>
 
-        <!-- Name -->
         <div class="form-group">
             <label>Shelf Name</label>
             <input
@@ -151,14 +148,12 @@
             />
         </div>
 
-        <!-- Hidden Status -->
         <input
             type="hidden"
             name="status"
             value="${shelf.status}"
         />
 
-        <!-- Buttons -->
         <div class="btn-group">
             <button type="submit" class="btn">
                 Update Shelf

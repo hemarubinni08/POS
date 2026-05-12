@@ -47,10 +47,7 @@
                    action="/customer/update"
                    modelAttribute="customer">
 
-            <!-- IDENTIFIER -->
             <form:hidden path="identifier"/>
-
-            <!--CUSTOMER DETAILS-->
 
             <div class="row g-3">
                 <div class="col-md-6">
@@ -124,7 +121,6 @@
                       <form:option value="false">Inactive</form:option>
                   </form:select>
                   </div>
-            <!--BILLING ADDRESS-->
 
             <div class="section-title">Billing Address</div>
 
@@ -159,8 +155,6 @@
                 </div>
             </div>
 
-            <!--SHIPPING ADDRESS-->
-
             <div class="section-title">Shipping Address</div>
 
             <div class="row g-3">
@@ -193,8 +187,6 @@
                     <form:input path="shippingAddress.country" cssClass="form-control"/>
                 </div>
             </div>
-
-            <!--ACTIONS-->
 
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary">

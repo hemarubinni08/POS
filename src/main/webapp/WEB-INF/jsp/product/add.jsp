@@ -149,7 +149,6 @@
 
     <form method="post" action="${pageContext.request.contextPath}/product/add">
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -160,7 +159,6 @@
             />
         </div>
 
-        <!-- Name -->
         <div class="form-group">
             <label>Name</label>
             <input
@@ -171,7 +169,6 @@
             />
         </div>
 
-        <!-- Unit -->
         <div class="form-group">
             <label>Unit</label>
             <select name="unit" id="unit" required>
@@ -185,7 +182,6 @@
             </select>
         </div>
 
-        <!-- Brand -->
         <div class="form-group">
             <label>Brand</label>
             <select name="brand" id="brand" required>
@@ -199,7 +195,6 @@
             </select>
         </div>
 
-        <!-- Category -->
         <div class="form-group">
             <label>Category</label>
             <select name="category" id="category" required>
@@ -213,7 +208,6 @@
             </select>
         </div>
 
-        <!-- Description -->
         <div class="form-group">
             <label>Description</label>
             <textarea
@@ -222,7 +216,6 @@
             ></textarea>
         </div>
 
-        <!-- Shelf -->
         <div class="form-group">
             <label>Shelf</label>
 
@@ -243,7 +236,6 @@
             </div>
         </div>
 
-        <!-- Rack -->
         <div class="form-group">
             <label>Rack</label>
 
@@ -264,12 +256,10 @@
             </div>
         </div>
 
-        <!-- Submit -->
         <button type="submit" class="btn-submit">
             Save Product
         </button>
 
-        <!-- Back -->
         <div class="back-center">
             <a href="${pageContext.request.contextPath}/product/list">
                 Back

@@ -9,7 +9,6 @@
     <meta charset="UTF-8">
     <title>Customer List</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -154,7 +153,6 @@
 
 <div class="container-box">
 
-    <!-- Top Buttons -->
     <div class="top-bar">
         <a href="${pageContext.request.contextPath}/"
            class="btn-custom">
@@ -169,14 +167,12 @@
 
     <h2>Customer List</h2>
 
-    <!-- Empty State -->
     <c:if test="${empty customers}">
         <div class="alert-box">
             No customers found.
         </div>
     </c:if>
 
-    <!-- Customer Table -->
     <c:if test="${not empty customers}">
         <table>
 
@@ -216,7 +212,6 @@
                         </small>
                     </td>
 
-                    <!-- Status Toggle -->
                     <td>
 
                         <div class="status-cell">
@@ -268,7 +263,6 @@
 
                     </td>
 
-                    <!-- Action Buttons -->
                     <td>
 
                         <div class="action-cell">

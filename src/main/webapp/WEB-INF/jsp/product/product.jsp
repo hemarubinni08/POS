@@ -146,7 +146,6 @@
 
     <form action="${pageContext.request.contextPath}/product/update" method="post">
 
-        <!-- ID -->
         <div class="form-group">
             <label>ID</label>
             <input
@@ -157,7 +156,6 @@
             />
         </div>
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -168,7 +166,6 @@
             />
         </div>
 
-        <!-- Name -->
         <div class="form-group">
             <label>Name</label>
             <input
@@ -179,7 +176,6 @@
             />
         </div>
 
-        <!-- Unit -->
         <div class="form-group">
             <label>Unit</label>
             <select name="unit" required>
@@ -198,7 +194,6 @@
             </select>
         </div>
 
-        <!-- Brand -->
         <div class="form-group">
             <label>Brand</label>
             <select name="brand" required>
@@ -217,7 +212,6 @@
             </select>
         </div>
 
-        <!-- Category -->
         <div class="form-group">
             <label>Category</label>
             <select name="category" required>
@@ -236,7 +230,6 @@
             </select>
         </div>
 
-        <!-- Description -->
         <div class="form-group">
             <label>Description</label>
             <textarea name="description">
@@ -244,7 +237,6 @@ ${product.description}
             </textarea>
         </div>
 
-        <!-- Shelf -->
         <div class="form-group">
             <label>Shelf</label>
 
@@ -269,7 +261,6 @@ ${product.description}
             </div>
         </div>
 
-        <!-- Rack -->
         <div class="form-group">
             <label>Rack</label>
 
@@ -294,7 +285,6 @@ ${product.description}
             </div>
         </div>
 
-        <!-- Buttons -->
         <div class="btn-group">
             <button type="submit" class="btn">
                 Update Product

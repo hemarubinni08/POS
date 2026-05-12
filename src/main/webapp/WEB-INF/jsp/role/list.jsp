@@ -111,7 +111,6 @@
 
 <div class="container">
 
-    <!-- TOP BAR -->
     <div class="top-bar">
         <a href="${pageContext.request.contextPath}/" class="btn">
             Home
@@ -124,7 +123,6 @@
 
     <h2>Roles List</h2>
 
-    <!-- TABLE -->
     <table>
         <tr>
             <th>ID</th>
@@ -160,7 +158,6 @@
             </tr>
         </c:forEach>
 
-        <!-- EMPTY STATE -->
         <c:if test="${empty roles}">
             <tr>
                 <td colspan="4" class="text-center">

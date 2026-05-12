@@ -109,7 +109,6 @@
 
     <form action="${pageContext.request.contextPath}/role/update" method="post">
 
-        <!-- ID -->
         <div class="form-group">
             <label>ID</label>
             <input
@@ -120,7 +119,6 @@
             />
         </div>
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -131,7 +129,6 @@
             />
         </div>
 
-        <!-- Description -->
         <div class="form-group">
             <label>Description</label>
             <input
@@ -142,7 +139,6 @@
             />
         </div>
 
-        <!-- Buttons -->
         <div class="btn-group">
             <button type="submit" class="btn">
                 Update Role

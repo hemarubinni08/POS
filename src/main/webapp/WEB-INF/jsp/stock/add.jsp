@@ -118,7 +118,6 @@
 
         <input type="hidden" name="id" value="${stockDto.id}" />
 
-        <!--  Product Dropdown -->
         <div class="form-group">
             <label>Product</label>
             <select name="product" required>
@@ -134,7 +133,6 @@
             </select>
         </div>
 
-        <!--  Warehouse Dropdown -->
         <div class="form-group">
             <label>Warehouse</label>
             <select name="warehouse" required>

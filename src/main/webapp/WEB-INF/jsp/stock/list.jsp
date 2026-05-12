@@ -115,7 +115,6 @@
 
 <div class="container">
 
-    <!-- TOP BAR -->
     <div class="top-bar">
         <a
             href="${pageContext.request.contextPath}/"
@@ -134,7 +133,6 @@
 
     <h2>Stock List</h2>
 
-    <!-- TABLE -->
     <table>
         <tr>
             <th>ID</th>
@@ -155,7 +153,6 @@
                 <td>${stock.warehouse}</td>
                 <td>${stock.quantity}</td>
 
-                <!-- STATUS -->
                 <td class="text-center">
                     <div class="form-check form-switch">
                         <input
@@ -167,10 +164,8 @@
                     </div>
                 </td>
 
-                <!-- EXPIRY -->
                 <td>${stock.expiryDate}</td>
 
-                <!-- ACTIONS -->
                 <td class="action-cell">
                     <a
                         href="${pageContext.request.contextPath}/stock/get?identifier=${stock.identifier}"
@@ -190,7 +185,6 @@
             </tr>
         </c:forEach>
 
-        <!-- EMPTY STATE -->
         <c:if test="${empty stocks}">
             <tr>
                 <td colspan="8" style="text-align:center;">
@@ -202,7 +196,6 @@
 
 </div>
 
-<!-- TOGGLE SCRIPT -->
 <script>
 document.addEventListener("change", function (e) {
     if (!e.target.classList.contains("stock-toggle")) return;

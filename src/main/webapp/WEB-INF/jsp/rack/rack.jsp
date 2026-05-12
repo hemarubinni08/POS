@@ -139,23 +139,20 @@
 
     <form action="${pageContext.request.contextPath}/rack/update" method="post">
 
-        <!-- ID -->
         <div class="form-group">
             <label>ID</label>
             <input type="text" name="id" value="${rack.id}" readonly />
         </div>
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input type="text" name="identifier" value="${rack.identifier}" readonly/>
         </div>
 
-        <!-- Name -->
-                <div class="form-group">
-                    <label>Rack Name</label>
-                    <input type="text" name="name" value="${rack.name}" />
-                </div>
+        <div class="form-group">
+            <label>Rack Name</label>
+            <input type="text" name="name" value="${rack.name}" />
+        </div>
 
         <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
@@ -178,7 +175,7 @@
         </c:forEach>
 
                 <input type="hidden" name="status" value="${rack.status}" />
-        <!-- Buttons -->
+
         <div class="btn-group">
             <button type="submit" class="btn">Update Rack</button>
             <a href="${pageContext.request.contextPath}/rack/list"

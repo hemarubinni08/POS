@@ -33,7 +33,6 @@
             font-weight: 700;
         }
 
-        /* Top actions */
         .top-actions {
             display: flex;
             justify-content: space-between;
@@ -74,7 +73,6 @@
             background-color: #b91c1c;
         }
 
-        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -119,14 +117,12 @@
 <div class="container">
     <h2>User List</h2>
 
-    <!-- TOP ACTIONS -->
     <div class="top-actions">
         <a href="${pageContext.request.contextPath}/" class="btn">
             Home
         </a>
     </div>
 
-    <!-- TABLE -->
     <table>
         <tr>
             <th>ID</th>
@@ -166,7 +162,6 @@
             </tr>
         </c:forEach>
 
-        <!-- EMPTY STATE -->
         <c:if test="${empty users}">
             <tr>
                 <td colspan="6" style="text-align:center;">

@@ -119,14 +119,12 @@
 
     <form method="post" action="${pageContext.request.contextPath}/unit/add">
 
-        <!-- Hidden ID -->
         <input
             type="hidden"
             name="id"
             value="${unitDto.id}"
         />
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -138,7 +136,6 @@
             />
         </div>
 
-        <!-- Unit Name -->
         <div class="form-group">
             <label>Unit Name</label>
             <input
@@ -150,12 +147,10 @@
             />
         </div>
 
-        <!-- Submit -->
         <button type="submit" class="btn-submit">
             Save Unit
         </button>
 
-        <!-- Back -->
         <div class="back-center">
             <a href="${pageContext.request.contextPath}/unit/list">
                 Back

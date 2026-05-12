@@ -151,7 +151,6 @@
 
     <form method="post">
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -162,7 +161,6 @@
             >
         </div>
 
-        <!-- Path -->
         <div class="form-group">
             <label>Path</label>
             <input
@@ -173,7 +171,6 @@
             >
         </div>
 
-        <!-- Roles -->
         <div class="form-group">
             <label>Assigned Roles</label>
 
@@ -195,7 +192,6 @@
             </div>
         </div>
 
-        <!-- Buttons -->
         <div class="btn-group">
             <button type="submit" class="btn btn-save">
                 Save Node

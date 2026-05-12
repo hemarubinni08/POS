@@ -120,7 +120,6 @@
 
 <div class="container">
 
-    <!-- TOP BAR -->
     <div class="top-bar">
         <a href="${pageContext.request.contextPath}/" class="btn">
             Home
@@ -133,7 +132,6 @@
 
     <h2>Shelf List</h2>
 
-    <!-- TABLE -->
     <table>
         <tr>
             <th>ID</th>
@@ -149,7 +147,6 @@
                 <td>${shelf.identifier}</td>
                 <td>${shelf.name}</td>
 
-                <!-- STATUS -->
                 <td>
                     <div class="status-cell">
                         <div class="form-check form-switch">
@@ -163,7 +160,6 @@
                     </div>
                 </td>
 
-                <!-- ACTIONS -->
                 <td class="action-cell">
                     <a href="${pageContext.request.contextPath}/shelf/get?identifier=${shelf.identifier}"
                        class="btn btn-edit">
@@ -179,7 +175,6 @@
             </tr>
         </c:forEach>
 
-        <!-- EMPTY STATE -->
         <c:if test="${empty shelfs}">
             <tr>
                 <td colspan="5" style="text-align:center;">
@@ -192,7 +187,6 @@
 
 </div>
 
-<!-- TOGGLE SCRIPT -->
 <script>
 document.addEventListener("change", function (e) {
     if (!e.target.classList.contains("shelf-toggle")) return;

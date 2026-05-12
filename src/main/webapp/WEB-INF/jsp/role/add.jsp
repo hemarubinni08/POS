@@ -132,7 +132,6 @@
 
     <form method="post" modelAttribute="roleDto">
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -143,7 +142,6 @@
             >
         </div>
 
-        <!-- Description -->
         <div class="form-group">
             <label>Description</label>
             <input
@@ -154,12 +152,10 @@
             >
         </div>
 
-        <!-- Submit -->
         <button type="submit" class="btn-submit">
             Submit
         </button>
 
-        <!-- Back -->
         <div class="back-center">
             <a href="${pageContext.request.contextPath}/role/list">
                 Back

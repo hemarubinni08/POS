@@ -117,7 +117,6 @@
         action="${pageContext.request.contextPath}/category/update"
         method="post"
     >
-        <!-- ID -->
         <div class="form-group">
             <label>ID</label>
             <input
@@ -128,7 +127,6 @@
             />
         </div>
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -139,7 +137,6 @@
             />
         </div>
 
-        <!-- Name -->
         <div class="form-group">
             <label>Category Name</label>
             <input
@@ -150,7 +147,6 @@
             />
         </div>
 
-        <!-- Super Category Dropdown -->
         <div class="form-group">
             <label>Super Category</label>
             <select name="superCategory">

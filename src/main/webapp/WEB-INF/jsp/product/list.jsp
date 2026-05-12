@@ -104,7 +104,6 @@
 
 <div class="container">
 
-    <!-- TOP BAR -->
     <div class="top-bar">
         <a href="${pageContext.request.contextPath}/" class="btn">
             Home
@@ -117,7 +116,6 @@
 
     <h2>Product List</h2>
 
-    <!-- TABLE -->
     <table>
         <tr>
             <th>ID</th>
@@ -159,7 +157,6 @@
             </tr>
         </c:forEach>
 
-        <!-- EMPTY STATE -->
         <c:if test="${empty products}">
             <tr>
                 <td colspan="10" style="text-align: center;">

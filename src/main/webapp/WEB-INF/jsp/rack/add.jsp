@@ -142,14 +142,12 @@
 
     <form method="post" action="${pageContext.request.contextPath}/rack/add">
 
-        <!-- Hidden ID (for edit support) -->
         <input
             type="hidden"
             name="id"
             value="${rackDto.id}"
         />
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -161,7 +159,6 @@
             />
         </div>
 
-        <!-- Name -->
         <div class="form-group">
             <label>Rack Name</label>
             <input
@@ -173,7 +170,6 @@
             />
         </div>
 
-        <!-- Shelfs -->
         <div class="form-group">
             <label>Shelfs</label>
 
@@ -195,12 +191,10 @@
             </div>
         </div>
 
-        <!-- Submit -->
         <button type="submit" class="btn-submit">
             Save Rack
         </button>
 
-        <!-- Back -->
         <div class="back-center">
             <a href="${pageContext.request.contextPath}/rack/list">
                 Back

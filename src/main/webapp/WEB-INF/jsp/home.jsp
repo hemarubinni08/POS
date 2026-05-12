@@ -7,13 +7,11 @@
     <meta charset="UTF-8">
     <title>Home</title>
 
-    <!-- Bootstrap -->
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
     >
 
-    <!-- Google Font -->
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
         rel="stylesheet"
@@ -26,7 +24,6 @@
             background-color: #f5f6fa;
         }
 
-        /* SIDEBAR */
         .sidebar {
             position: fixed;
             top: 0;
@@ -48,7 +45,6 @@
             letter-spacing: 1px;
         }
 
-        /* NAV LINKS (SCROLLABLE) */
         .nav-links {
             flex: 1;
             overflow-y: auto;
@@ -70,7 +66,6 @@
             padding-left: 35px;
         }
 
-        /* LOGOUT */
         .logout-btn {
             padding: 20px 25px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -80,7 +75,6 @@
             width: 100%;
         }
 
-        /* MAIN CONTENT */
         .content {
             margin-left: 240px;
             padding: 40px;
@@ -94,7 +88,6 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
 
-        /* SCROLLBAR (optional) */
         .nav-links::-webkit-scrollbar {
             width: 6px;
         }
@@ -108,7 +101,6 @@
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
     <h4>Dashboard</h4>
 
@@ -132,7 +124,6 @@
     </div>
 </div>
 
-<!-- CONTENT -->
 <div class="content">
     <div class="welcome-card">
         <h1>Welcome</h1>

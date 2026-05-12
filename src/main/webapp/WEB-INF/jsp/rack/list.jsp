@@ -109,7 +109,6 @@
 
 <div class="container">
 
-    <!-- TOP BAR -->
     <div class="top-bar">
         <a href="${pageContext.request.contextPath}/" class="btn">
             Home
@@ -122,7 +121,6 @@
 
     <h2>Rack List</h2>
 
-    <!-- TABLE -->
     <table>
         <tr>
             <th>ID</th>
@@ -139,7 +137,6 @@
                 <td>${rack.identifier}</td>
                 <td>${rack.name}</td>
 
-                <!-- Shelfs -->
                 <td>
                     <c:forEach items="${rack.shelfs}" var="rs" varStatus="status">
                         <c:forEach items="${shelfs}" var="s">
@@ -151,7 +148,6 @@
                     </c:forEach>
                 </td>
 
-                <!-- Status Toggle -->
                 <td>
                     <div class="status-cell">
                         <div class="form-check form-switch">
@@ -165,7 +161,6 @@
                     </div>
                 </td>
 
-                <!-- Actions -->
                 <td class="action-cell">
                     <a href="${pageContext.request.contextPath}/rack/get?identifier=${rack.identifier}"
                        class="btn btn-edit">
@@ -181,7 +176,6 @@
             </tr>
         </c:forEach>
 
-        <!-- Empty State -->
         <c:if test="${empty racks}">
             <tr>
                 <td colspan="6">No racks found</td>
@@ -192,7 +186,6 @@
 
 </div>
 
-<!-- TOGGLE SCRIPT -->
 <script>
 document.addEventListener("change", function (e) {
     if (!e.target.classList.contains("rack-toggle")) return;

@@ -118,15 +118,12 @@
     </c:if>
 
     <form method="post" action="${pageContext.request.contextPath}/model/add">
-
-        <!-- Hidden ID (for edit use-case) -->
         <input
             type="hidden"
             name="id"
             value="${modelDto.id}"
         />
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -138,7 +135,6 @@
             />
         </div>
 
-        <!-- Model Name -->
         <div class="form-group">
             <label>Model Name</label>
             <input

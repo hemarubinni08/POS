@@ -116,7 +116,6 @@
 
 <div class="container">
 
-    <!-- TOP BAR -->
     <div class="top-bar">
         <a href="${pageContext.request.contextPath}/" class="btn">
             Home
@@ -127,7 +126,6 @@
         </a>
     </div>
 
-    <!-- TABLE -->
     <table>
         <tr>
             <th>ID</th>

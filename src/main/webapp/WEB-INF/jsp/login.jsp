@@ -18,7 +18,6 @@
             height: 100vh;
         }
 
-        /* LEFT SECTION */
         .left {
             flex: 1;
             padding: 80px;
@@ -42,7 +41,6 @@
             max-width: 520px;
         }
 
-        /* RIGHT SECTION */
         .right {
             width: 460px;
             display: flex;
@@ -147,20 +145,17 @@
         </p>
     </div>
 
-    <!-- RIGHT SIDE -->
     <div class="right">
         <div class="form-box">
 
             <h2>Login to your account</h2>
 
-            <!-- ERROR MESSAGE -->
             <c:if test="${param.error == 'true'}">
                 <div class="error-msg">
                     Invalid username or password
                 </div>
             </c:if>
 
-            <!-- FORM -->
             <form action="${pageContext.request.contextPath}/login" method="post">
 
                 <input
@@ -183,7 +178,6 @@
 
             </form>
 
-            <!-- EXTRA -->
             <div class="extra-text">
                 Don&rsquo;t have an account?
                 <a href="${pageContext.request.contextPath}/register">

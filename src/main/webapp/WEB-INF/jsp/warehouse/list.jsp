@@ -104,7 +104,6 @@
 
 <div class="container">
 
-    <!-- TOP BAR -->
     <div class="top-bar">
         <a href="${pageContext.request.contextPath}/" class="btn">
             Home
@@ -117,7 +116,6 @@
 
     <h2>Warehouse List</h2>
 
-    <!-- TABLE -->
     <table>
         <tr>
             <th>ID</th>
@@ -144,7 +142,6 @@
                 <td>${warehouse.contactName}</td>
                 <td>${warehouse.contactNumber}</td>
 
-                <!-- ACTIONS -->
                 <td class="action-cell">
                     <a href="${pageContext.request.contextPath}/warehouse/get?identifier=${warehouse.identifier}"
                        class="btn btn-edit">
@@ -160,7 +157,6 @@
             </tr>
         </c:forEach>
 
-        <!-- EMPTY STATE -->
         <c:if test="${empty warehouses}">
             <tr>
                 <td colspan="10" style="text-align:center;">

@@ -119,7 +119,6 @@
 
     <form method="post" action="${pageContext.request.contextPath}/price/add">
 
-        <!-- Product -->
         <div class="form-group">
             <label>Product</label>
             <select name="product" required>
@@ -138,7 +137,6 @@
             </select>
         </div>
 
-        <!-- Type -->
         <div class="form-group">
             <label>Type</label>
             <select name="type" required>
@@ -166,7 +164,6 @@
             </select>
         </div>
 
-        <!-- Amount -->
         <div class="form-group">
             <label>Amount</label>
             <input
@@ -178,7 +175,6 @@
             />
         </div>
 
-        <!-- Currency -->
         <div class="form-group">
             <label>Currency</label>
             <input
@@ -190,12 +186,10 @@
             />
         </div>
 
-        <!-- Submit -->
         <button type="submit" class="btn-submit">
             Save Price
         </button>
 
-        <!-- Back -->
         <div class="back-center">
             <a href="${pageContext.request.contextPath}/price/list">
                 Back

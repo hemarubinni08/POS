@@ -96,7 +96,6 @@
             background-color: #f8fafc;
         }
 
-        /* Status column centered safely */
         .status-cell {
             display: flex;
             justify-content: center;
@@ -113,7 +112,6 @@
             margin-bottom: 0;
         }
 
-        /*  Action buttons wrapper (DO NOT apply flex on td) */
         .action-cell {
             display: flex;
             justify-content: center;

@@ -140,26 +140,24 @@
             />
         </div>
 
-        <!-- Products -->
-                <div class="form-group">
-                    <label>Product</label>
-                    <select name="product" required>
-                        <option value="">-- Select Product --</option>
+        <div class="form-group">
+            <label>Product</label>
+            <select name="product" required>
+            <option value="">-- Select Product --</option>
 
-                        <c:forEach items="${products}" var="p">
-                            <option
-                                value="${p.name}"
-                                <c:if test="${p.name eq stock.product}">
-                                    selected
-                                </c:if>
-                            >
-                                ${p.name}
-                            </option>
-                        </c:forEach>
-                    </select>
-                </div>
+                <c:forEach items="${products}" var="p">
+                <option
+                    value="${p.name}"
+                        <c:if test="${p.name eq stock.product}">
+                            selected
+                        </c:if>
+                >
+                ${p.name}
+                </option>
+                </c:forEach>
+            </select>
+        </div>
 
-        <!-- Warehouse -->
         <div class="form-group">
             <label>Warehouse</label>
             <select name="warehouse" required>
@@ -178,7 +176,6 @@
             </select>
         </div>
 
-        <!-- Quantity -->
         <div class="form-group">
             <label>Quantity</label>
             <input
@@ -189,7 +186,6 @@
             />
         </div>
 
-        <!-- Expiry Date -->
         <div class="form-group">
             <label>Expiry Date</label>
             <input
@@ -199,14 +195,13 @@
                 required
             />
         </div>
-        <!-- Hidden Status -->
+
                 <input
                     type="hidden"
                     name="status"
                     value="${stock.status}"
                 />
 
-        <!-- Buttons -->
         <div class="btn-group">
             <button type="submit" class="btn">
                 Update Stock

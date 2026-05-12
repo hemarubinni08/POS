@@ -117,14 +117,12 @@
 
     <form method="post" action="${pageContext.request.contextPath}/warehouse/add">
 
-        <!-- Hidden ID -->
         <input
             type="hidden"
             name="id"
             value="${warehouseDto.id}"
         />
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -136,7 +134,6 @@
             />
         </div>
 
-        <!-- Region -->
         <div class="form-group">
             <label>Region</label>
             <input
@@ -148,7 +145,6 @@
             />
         </div>
 
-        <!-- City -->
         <div class="form-group">
             <label>City</label>
             <input
@@ -160,7 +156,6 @@
             />
         </div>
 
-        <!-- State -->
         <div class="form-group">
             <label>State</label>
             <input
@@ -172,7 +167,6 @@
             />
         </div>
 
-        <!-- Country -->
         <div class="form-group">
             <label>Country</label>
             <input
@@ -184,7 +178,6 @@
             />
         </div>
 
-        <!-- Capacity -->
         <div class="form-group">
             <label>Capacity</label>
             <input
@@ -196,7 +189,6 @@
             />
         </div>
 
-        <!-- Contact Name -->
         <div class="form-group">
             <label>Contact Name</label>
             <input
@@ -208,7 +200,6 @@
             />
         </div>
 
-        <!-- Contact Number -->
         <div class="form-group">
             <label>Contact Number</label>
             <input
@@ -223,12 +214,10 @@
             />
         </div>
 
-        <!-- Submit -->
         <button type="submit" class="btn-submit">
             Save Warehouse
         </button>
 
-        <!-- Back -->
         <div class="back-center">
             <a href="${pageContext.request.contextPath}/warehouse/list">
                 Back

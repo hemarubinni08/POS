@@ -119,7 +119,6 @@
 
     <form action="${pageContext.request.contextPath}/model/update" method="post">
 
-        <!-- ID -->
         <div class="form-group">
             <label>ID</label>
             <input
@@ -130,7 +129,6 @@
             />
         </div>
 
-        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -141,7 +139,6 @@
             />
         </div>
 
-        <!-- Model Name -->
         <div class="form-group">
             <label>Model Name</label>
             <input
@@ -151,7 +148,6 @@
             />
         </div>
 
-        <!-- Hidden status -->
         <input
             type="hidden"
             name="status"
