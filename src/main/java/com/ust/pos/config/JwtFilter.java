@@ -28,35 +28,25 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
         String authorization = request.getHeader("Authorization");
         String token = null;
         String userName = null;
-
         try {
-
             if (authorization != null && authorization.startsWith("Bearer ")) {
                 token = authorization.substring(7);
                 userName = jwtUtility.getUsernameFromToken(token);
             }
-
             if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
                 UserDetails userDetails = userService.loadUserByUsername(userName);
-
                 if (BooleanUtils.isTrue(jwtUtility.validateToken(token, userDetails))) {
-
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
-
             filterChain.doFilter(request, response);
-
-        } catch (ExpiredJwtException e) {
+        }
+        catch (ExpiredJwtException e) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
         }
     }
