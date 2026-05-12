@@ -39,25 +39,20 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 boolean isValidToken =
                         jwtUtility.validateToken(token, userDetails);
-
                 if (isValidToken) {
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(
                                     userDetails,
                                     null,
                                     userDetails.getAuthorities());
-
                     authentication.setDetails(
                             new WebAuthenticationDetailsSource()
                                     .buildDetails(httpServletRequest));
-
                     SecurityContextHolder.getContext()
                             .setAuthentication(authentication);
                 }
             }
-
             filterChain.doFilter(httpServletRequest, httpServletResponse);
-
         } catch (ExpiredJwtException ex) {
             httpServletResponse.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,

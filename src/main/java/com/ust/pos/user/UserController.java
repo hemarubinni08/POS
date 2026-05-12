@@ -39,7 +39,6 @@ public class UserController {
     public String updatePost(Model model, Pageable pageable, @ModelAttribute UserDto userDto) {
         UserDto response = userService.update(userDto);
         if (!response.isSuccess()) {
-
             model.addAttribute("user", userDto);
             model.addAttribute("roles", roleService.findAll(pageable));
             model.addAttribute("message", response.getMessage());
@@ -50,12 +49,10 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String loggedInUser = authentication.getName();
             if (loggedInUser != null) {
-
                 userService.delete(username);
 
                 if (loggedInUser.equals(username)) {

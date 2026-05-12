@@ -43,7 +43,6 @@ public class JWTUtility implements Serializable {
         return claimsResolver.apply(claims);
     }
     // for retrieving any information from token we will need the secret key
-
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())

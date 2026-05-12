@@ -26,7 +26,6 @@ public class AddressServiceImpl implements AddressService {
     public AddressDto findByPhoneNoAndAddressType(Long phoneNo, String addressType) {
         Address address = addressRepository.
                 findByPhoneNoAndAddressType(phoneNo, addressType);
-
         return modelMapper.map(address, AddressDto.class);
     }
 
@@ -47,7 +46,6 @@ public class AddressServiceImpl implements AddressService {
             addressDto.setSuccess(false);
             return addressDto;
         }
-
         Address address = modelMapper.map(addressDto, Address.class);
         addressRepository.save(address);
         return addressDto;
@@ -64,7 +62,6 @@ public class AddressServiceImpl implements AddressService {
             addressDto.setSuccess(false);
             return addressDto;
         }
-
         modelMapper.map(addressDto, existingAddress);
         addressRepository.save(existingAddress);
 

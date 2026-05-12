@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
+
     Customer findByIdentifier(String identifier);
 
     void deleteByIdentifier(String identifier);

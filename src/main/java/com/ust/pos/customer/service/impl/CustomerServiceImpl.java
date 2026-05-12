@@ -35,13 +35,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto findByIdentifier(String identifier) {
-
         Customer customer = customerRepository.findByIdentifier(identifier);
-
         if (customer == null) {
             return null;
         }
-
         return modelMapper.map(customer, CustomerDto.class);
     }
 
@@ -62,10 +59,8 @@ public class CustomerServiceImpl implements CustomerService {
 
         addressService.save(billingAddress);
         addressService.save(shippingAddress);
-
         Customer customer = modelMapper.map(customerDto, Customer.class);
         customerRepository.save(customer);
-
         return customerDto;
     }
 
@@ -74,14 +69,11 @@ public class CustomerServiceImpl implements CustomerService {
 
         String identifier = customerDto.getIdentifier();
         Customer existingCustomer = customerRepository.findByIdentifier(identifier);
-
         if (existingCustomer == null) {
-
             customerDto.setMessage("Customer with identifier - " + identifier + " not found");
             customerDto.setSuccess(false);
             return customerDto;
         }
-
         AddressDto billingAddress = customerDto.getBillingAddress();
         AddressDto shippingAddress = customerDto.getShippingAddress();
 
@@ -89,14 +81,10 @@ public class CustomerServiceImpl implements CustomerService {
                 findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "billingAddress"));
         customerDto.setShippingAddress(addressService.
                 findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "shippingAddress"));
-
         modelMapper.map(customerDto, existingCustomer);
-
         billingAddress.setPhoneNo(customerDto.getPhoneNo());
         shippingAddress.setPhoneNo(customerDto.getPhoneNo());
-
         customerRepository.save(existingCustomer);
-
         addressService.update(billingAddress);
         addressService.update(shippingAddress);
         return customerDto;

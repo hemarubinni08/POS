@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WarehouseDto extends CommonDto {
+
     private String name;
     private long phoneNo;
     private String country;

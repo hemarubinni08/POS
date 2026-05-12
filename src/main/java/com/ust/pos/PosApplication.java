@@ -24,11 +24,11 @@ public class PosApplication {
     @Autowired
     Environment environment;
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//
-//        return new BCryptPasswordEncoder();
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+
+        return new BCryptPasswordEncoder();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(PosApplication.class, args);

@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class ProductDto extends CommonDto {
+
     private List<String> category;
     private String name;
     private String brand;

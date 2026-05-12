@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StockDto extends CommonDto {
+
     private String stockStatus;
     private String warehouse;
     private long quantity;
