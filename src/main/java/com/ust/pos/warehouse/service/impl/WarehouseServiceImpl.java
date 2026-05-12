@@ -20,6 +20,7 @@ import java.util.List;
 public class WarehouseServiceImpl implements WarehouseService {
 
     public static final RuntimeException SHELF_NOT_FOUND = new RuntimeException("Shelf not found");
+
     @Autowired
     private WarehouseRepository warehouseRepository;
 
@@ -32,7 +33,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public WarehouseDto save(WarehouseDto warehouseDto) {
-
         String identifier = warehouseDto.getIdentifier();
         Warehouse existingRole = warehouseRepository.findByIdentifier(identifier);
         if (existingRole != null) {
@@ -47,7 +47,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public WarehouseDto update(WarehouseDto warehouseDto) {
-
         String identifier = warehouseDto.getIdentifier();
         Warehouse existingRole = warehouseRepository.findByIdentifier(identifier);
         if (existingRole == null) {
@@ -71,19 +70,17 @@ public class WarehouseServiceImpl implements WarehouseService {
         Type listType = new TypeToken<List<WarehouseDto>>() {
         }.getType();
         Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
-
         return modelMapper.map(warehousePage.getContent(), listType);
     }
 
     @Override
     public void toggleStatus(String identifier) {
         Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
-
         if (warehouse == null) {
             throw SHELF_NOT_FOUND;
         }
-
         warehouse.setStatus(!warehouse.isStatus());
         warehouseRepository.save(warehouse);
     }
+
 }

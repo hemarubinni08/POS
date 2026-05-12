@@ -24,6 +24,7 @@ import java.util.Set;
 
 @Service
 public class NodeServiceImpl implements NodeService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -107,4 +108,5 @@ public class NodeServiceImpl implements NodeService {
 
         return modelMapper.map(nodePage.getContent(), listType);
     }
+
 }

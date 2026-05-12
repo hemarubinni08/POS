@@ -27,6 +27,7 @@ public class ProductController {
     public static final String MODELS = "models";
     public static final String CATEGORIES = "categories";
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
+
     @Autowired
     private ProductService productService;
 
@@ -50,7 +51,6 @@ public class ProductController {
 
     @GetMapping("/add")
     public String add(Model model, Pageable pageable) {
-
         model.addAttribute("product", new ProductDto());
         model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
         model.addAttribute(BRANDS, brandService.findAll(pageable));
@@ -58,7 +58,6 @@ public class ProductController {
         model.addAttribute(UNITS, unitService.findAll(pageable));
         model.addAttribute(SHELVES, shelfService.findAllActive());
         model.addAttribute(RACKS, racksService.findAllActive());
-
         return PRODUCT_ADD;
     }
 
@@ -70,17 +69,14 @@ public class ProductController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier, Pageable pageable) {
-
         model.addAttribute("product",
                 productService.findByIdentifier(identifier));
-
         model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
         model.addAttribute(BRANDS, brandService.findAll(pageable));
         model.addAttribute(MODELS, modelService.findAll(pageable));
         model.addAttribute(UNITS, unitService.findAll(pageable));
         model.addAttribute(SHELVES, shelfService.findAllActive());
         model.addAttribute(RACKS, racksService.findAllActive());
-
         return "product/product";
     }
 
@@ -88,7 +84,6 @@ public class ProductController {
     public String addPost(Model model,
                           @ModelAttribute("product") ProductDto productDto,
                           BindingResult bindingResult, Pageable pageable) {
-
         if (bindingResult.hasErrors()) {
             model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
             model.addAttribute(BRANDS, brandService.findAll(pageable));
@@ -98,36 +93,28 @@ public class ProductController {
             model.addAttribute(RACKS, racksService.findAllActive());
             return PRODUCT_ADD;
         }
-
         ProductDto response = productService.save(productDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return PRODUCT_ADD;
         }
-
         return REDIRECT_PRODUCT_LIST;
     }
 
     @PostMapping("/update")
     public String updatePost(Model model,
                              @ModelAttribute("product") ProductDto productDto, Pageable pageable) {
-
         ProductDto response = productService.update(productDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-
             model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
             model.addAttribute(BRANDS, brandService.findAll(pageable));
             model.addAttribute(MODELS, modelService.findAll(pageable));
             model.addAttribute(UNITS, unitService.findAll(pageable));
             model.addAttribute(SHELVES, shelfService.findAllActive());
             model.addAttribute(RACKS, racksService.findAllActive());
-
             return "product/product";
         }
-
         return REDIRECT_PRODUCT_LIST;
     }
 
@@ -142,5 +129,6 @@ public class ProductController {
         productService.toggleStatus(identifier);
         return REDIRECT_PRODUCT_LIST;
     }
+
 }
 

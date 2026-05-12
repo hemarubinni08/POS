@@ -16,9 +16,7 @@ public class PosUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         UserDto userDto = userService.findByUserName(username);
-
         if (userDto == null) {
             throw new UsernameNotFoundException("User not found: " + username);
         }
@@ -27,4 +25,5 @@ public class PosUserDetailsService implements UserDetailsService {
                 .password(userDto.getPassword())
                 .build();
     }
+
 }

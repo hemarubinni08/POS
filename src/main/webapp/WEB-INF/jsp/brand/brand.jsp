@@ -80,10 +80,8 @@
                        modelAttribute="brand"
                        enctype="multipart/form-data">
 
-                <!-- Hidden ID -->
                 <form:hidden path="id"/>
 
-                <!-- Brand Name -->
                 <div class="mb-3">
                     <label>Brand Name</label>
                     <form:input path="identifier"
@@ -91,7 +89,6 @@
                                 required="true"/>
                 </div>
 
-                <!-- Description -->
                 <div class="mb-3">
                     <label>Description</label>
                     <form:textarea path="description"
@@ -100,7 +97,6 @@
                                    placeholder="Describe the brand"/>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/brand/list"
                        class="btn btn-outline-secondary">

@@ -38,9 +38,7 @@ public class NodeController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute NodeDto userDto, Pageable pageable) {
-
         NodeDto response = nodeService.save(userDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("error", response.getMessage());
             model.addAttribute(ROLES, roleService.findAll(pageable));

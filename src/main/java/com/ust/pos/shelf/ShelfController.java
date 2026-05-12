@@ -15,6 +15,7 @@ public class ShelfController {
 
     public static final String SHELF = "shelf";
     public static final String REDIRECT_SHELF_LIST = "redirect:/shelf/list";
+
     @Autowired
     private ShelfService shelfService;
 
@@ -27,15 +28,12 @@ public class ShelfController {
     @PostMapping("/add")
     public String addPost(Model model,
                           @ModelAttribute(SHELF) ShelfDto shelfDto) {
-
         ShelfDto response = shelfService.save(shelfDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(SHELF, shelfDto);
             return "shelf/add";
         }
-
         return REDIRECT_SHELF_LIST;
     }
 
@@ -55,14 +53,11 @@ public class ShelfController {
     @PostMapping("/update")
     public String updatePost(Model model,
                              @ModelAttribute(SHELF) ShelfDto shelfDto) {
-
         ShelfDto response = shelfService.update(shelfDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "shelf/shelf";
         }
-
         return REDIRECT_SHELF_LIST;
     }
 

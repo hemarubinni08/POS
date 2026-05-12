@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Stock extends CommonFields {
-
     @Column(nullable = false)
     private Long productId;
     @Column(nullable = false)
@@ -19,6 +18,5 @@ public class Stock extends CommonFields {
     private Integer quantity;
     private Integer minimumStock;
     private boolean status;
-
 }
 

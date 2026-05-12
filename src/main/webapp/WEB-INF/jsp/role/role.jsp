@@ -10,11 +10,9 @@
     <meta charset="UTF-8">
     <title>Edit Role</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -64,19 +62,16 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header text-center">
     <h4 class="mb-0">
         <i class="bi bi-person-badge me-2"></i> Edit Role
     </h4>
 </div>
 
-<!-- FORM CARD -->
 <div class="form-wrapper">
     <div class="card shadow-sm">
         <div class="card-body">
 
-            <!-- Message -->
             <c:if test="${not empty message}">
                 <div class="alert alert-info text-center">
                     ${message}
@@ -87,10 +82,8 @@
                        action="${pageContext.request.contextPath}/role/update"
                        modelAttribute="role">
 
-                <!-- Hidden ID -->
                 <form:hidden path="id"/>
 
-                <!-- Role Identifier (Readonly) -->
                 <div class="mb-3">
                     <label>Role Identifier</label>
                     <form:input path="identifier"
@@ -101,7 +94,6 @@
                     </small>
                 </div>
 
-                <!-- Description -->
                 <div class="mb-3">
                     <label>Description</label>
                     <form:textarea path="description"
@@ -110,7 +102,6 @@
                                    placeholder="Update role description"/>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/role/list"
                        class="btn btn-outline-secondary">

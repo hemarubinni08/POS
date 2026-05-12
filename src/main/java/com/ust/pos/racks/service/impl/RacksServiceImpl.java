@@ -17,7 +17,9 @@ import java.util.List;
 
 @Service
 public class RacksServiceImpl implements RacksService {
+
     public static final RuntimeException SHELF_NOT_FOUND = new RuntimeException("Shelf not found");
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -55,7 +57,6 @@ public class RacksServiceImpl implements RacksService {
         modelMapper.map(racksDto, existingRacks);
         racksRepository.save(existingRacks);
         return racksDto;
-
     }
 
     @Override
@@ -69,18 +70,15 @@ public class RacksServiceImpl implements RacksService {
         Type listType = new TypeToken<List<RacksDto>>() {
         }.getType();
         Page<Racks> racksPage = racksRepository.findAll(pageable);
-
         return modelMapper.map(racksPage.getContent(), listType);
     }
 
     @Override
     public void toggleStatus(String identifier) {
         Racks racks = racksRepository.findByIdentifier(identifier);
-
         if (racks == null) {
             throw SHELF_NOT_FOUND;
         }
-
         racks.setStatus(!racks.isStatus());
         racksRepository.save(racks);
     }
@@ -92,4 +90,5 @@ public class RacksServiceImpl implements RacksService {
                 .map(racks -> modelMapper.map(racks, RacksDto.class))
                 .toList();
     }
+
 }

@@ -17,10 +17,6 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class ApiUserController extends BaseController {
 
-    public static final String MESSAGE = "message";
-    public static final String ROLES = "roles";
-    public static final String USER_USER = "user/user";
-
     @Autowired
     private UserService userService;
 
@@ -62,4 +58,5 @@ public class ApiUserController extends BaseController {
         }
         return true;
     }
+
 }

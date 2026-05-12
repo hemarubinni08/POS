@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ProductService {
-
     ProductDto findByIdentifier(String identifier);
 
     ProductDto save(ProductDto productDto);
@@ -20,5 +19,4 @@ public interface ProductService {
     void toggleStatus(String identifier);
 
     List<ProductDto> findAllActive();
-
 }

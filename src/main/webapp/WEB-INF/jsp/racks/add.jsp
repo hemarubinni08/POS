@@ -8,11 +8,9 @@
     <meta charset="UTF-8">
     <title>Add Rack</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -63,14 +61,12 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header">
     <h4 class="mb-0">
         <i class="bi bi-columns-gap me-2"></i> Add Rack
     </h4>
 </div>
 
-<!-- FORM CARD -->
 <div class="form-wrapper">
     <div class="card shadow-sm">
         <div class="card-body">
@@ -85,7 +81,6 @@
             <form action="${pageContext.request.contextPath}/racks/add"
                   method="post">
 
-                <!-- Rack Name -->
                 <div class="mb-3">
                     <label>Rack Name</label>
                     <input type="text"
@@ -95,7 +90,6 @@
                            required>
                 </div>
 
-                <!-- Shelf Selection -->
                 <div class="mb-3">
                     <label>Assign Shelf</label>
                     <select name="shelfIdentifier"
@@ -116,7 +110,6 @@
                     </c:if>
                 </div>
 
-                <!-- Rack Status -->
                 <div class="mb-3">
                     <label>Rack Status</label>
                     <select name="status"
@@ -127,7 +120,6 @@
                     </select>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/racks/list"
                        class="btn btn-outline-secondary">

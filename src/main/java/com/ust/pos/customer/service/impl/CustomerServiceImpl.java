@@ -19,7 +19,6 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -36,13 +35,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto findByIdentifierWithAddressDto(String phoneNo) {
-
         Customer customer = customerRepository.findByPhoneNo(phoneNo);
-
         CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
-
         List<AddressDto> addressDtoList = addressService.findAllByPhoneNo(phoneNo);
-
         if (addressDtoList != null) {
             if (addressDtoList.isEmpty()) {
                 customerDto.setBillingAddress(addressDtoList.get(0));
@@ -51,7 +46,6 @@ public class CustomerServiceImpl implements CustomerService {
                 customerDto.setShippingAddress(addressDtoList.get(1));
             }
         }
-
         return customerDto;
     }
 
@@ -130,8 +124,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<CustomerDto> findIfTrue() {
         Type listType = new TypeToken<List<CustomerDto>>() {
-
         }.getType();
         return modelMapper.map(customerRepository.findByStatusIsTrue(), listType);
     }
+
 }

@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ShelfService {
-
     ShelfDto findByIdentifier(String identifier);
 
     ShelfDto save(ShelfDto shelfDto);
@@ -20,5 +19,4 @@ public interface ShelfService {
     void toggleStatus(String identifier);
 
     List<ShelfDto> findAllActive();
-
 }

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/racks")
 public class RacksController {
+
     public static final String SHELFS = "shelfs";
     public static final String REDIRECT_RACKS_LIST = "redirect:/racks/list";
+
     @Autowired
     private RacksService racksService;
 
@@ -31,18 +33,14 @@ public class RacksController {
     @PostMapping("/add")
     public String addPost(Model model,
                           @ModelAttribute("rack") RacksDto racksDto) {
-
         RacksDto response = racksService.save(racksDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("racks", racksDto);
             model.addAttribute(SHELFS, shelfService.findAllActive());
             return "racks/add";
         }
-
         return REDIRECT_RACKS_LIST;
-
     }
 
     @GetMapping("/list")
@@ -63,15 +61,12 @@ public class RacksController {
     @PostMapping("/update")
     public String updatePost(Model model,
                              @ModelAttribute("rack") RacksDto racksDto) {
-
         RacksDto response = racksService.update(racksDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(SHELFS, shelfService.findAllActive());
             return "racks/racks";
         }
-
         return REDIRECT_RACKS_LIST;
     }
 

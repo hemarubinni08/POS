@@ -27,7 +27,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto save(BrandDto brandDto) {
-
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
         if (existingBrand != null) {
@@ -42,7 +41,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto update(BrandDto brandDto) {
-
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
         if (existingBrand == null) {

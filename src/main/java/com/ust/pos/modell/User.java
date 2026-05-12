@@ -11,7 +11,6 @@ import java.util.List;
 @Setter
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User extends CommonFields {
-
     private String username;
     private String name;
     private String phoneNo;
@@ -23,6 +22,5 @@ public class User extends CommonFields {
     )
     @Column(name = "role")
     private List<String> roles;
-
     private String password;
 }

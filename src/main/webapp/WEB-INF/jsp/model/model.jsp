@@ -6,11 +6,9 @@
 <head>
     <title>Edit Model</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -60,19 +58,16 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header text-center">
     <h4 class="mb-0">
         <i class="bi bi-box-seam me-2"></i> Edit Model
     </h4>
 </div>
 
-<!-- FORM CARD -->
 <div class="form-wrapper">
     <div class="card shadow-sm">
         <div class="card-body">
 
-            <!-- Error Message -->
             <c:if test="${not empty message}">
                 <div class="alert alert-danger text-center">
                     ${message}
@@ -81,10 +76,8 @@
 
             <form action="${pageContext.request.contextPath}/model/update" method="post">
 
-                <!-- Hidden ID -->
                 <input type="hidden" name="id" value="${model.id}"/>
 
-                <!-- Model Name (readonly) -->
                 <div class="mb-3">
                     <label>Model Name</label>
                     <input type="text"
@@ -94,7 +87,6 @@
                            readonly>
                 </div>
 
-                <!-- Status -->
                 <div class="mb-3">
                     <label>Status</label>
                     <select name="status" class="form-select" required>
@@ -103,7 +95,6 @@
                     </select>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/model/list"
                        class="btn btn-outline-secondary">

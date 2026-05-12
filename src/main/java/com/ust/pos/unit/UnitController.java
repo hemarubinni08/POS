@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class UnitController {
 
     public static final String REDIRECT_UNIT_LIST = "redirect:/unit/list";
+
     @Autowired
     private UnitService unitService;
 
@@ -25,15 +26,12 @@ public class UnitController {
     @PostMapping("/add")
     public String addPost(Model model,
                           @ModelAttribute("unit") UnitDto unitDto) {
-
         UnitDto response = unitService.save(unitDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("unit", unitDto);
             return "unit/add";
         }
-
         return REDIRECT_UNIT_LIST;
     }
 
@@ -53,14 +51,11 @@ public class UnitController {
     @PostMapping("/update")
     public String updatePost(Model model,
                              @ModelAttribute("unit") UnitDto unitDto) {
-
         UnitDto response = unitService.update(unitDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "unit/unit";
         }
-
         return REDIRECT_UNIT_LIST;
     }
 
@@ -75,4 +70,5 @@ public class UnitController {
         unitService.toggleStatus(identifier);
         return REDIRECT_UNIT_LIST;
     }
+
 }

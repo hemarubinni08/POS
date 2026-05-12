@@ -8,11 +8,9 @@
     <meta charset="UTF-8">
     <title>POS Dashboard</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -23,7 +21,6 @@
             margin: 0;
         }
 
-        /* ===== TOP NAVBAR ===== */
         .navbar-custom {
             background: linear-gradient(to right, #0f766e, #134e4a);
             height: 56px;
@@ -34,7 +31,6 @@
             color: #ffffff !important;
         }
 
-        /* ===== SIDEBAR ===== */
         .sidebar {
             width: 260px;
             background: #020617;
@@ -91,7 +87,6 @@
             color: white;
         }
 
-        /* ===== MAIN CONTENT ===== */
         .main-content {
             margin-left: 260px;
             margin-top: 56px;
@@ -110,7 +105,6 @@
             padding: 30px;
         }
 
-        /* Toggle button */
         .toggle-btn {
             border: none;
             background: transparent;

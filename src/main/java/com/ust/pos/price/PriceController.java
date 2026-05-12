@@ -15,8 +15,10 @@ public class PriceController {
 
     public static final String REDIRECT_PRICE_LIST = "redirect:/price/list";
     public static final String PRODUCTS = "products";
+
     @Autowired
     private PriceService priceService;
+
     @Autowired
     private ProductService productService;
 
@@ -30,18 +32,14 @@ public class PriceController {
     @PostMapping("/add")
     public String addPost(Model model,
                           @ModelAttribute("price") PriceDto priceDto, Pageable pageable) {
-
         PriceDto response = priceService.save(priceDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("product", priceDto);
             model.addAttribute(PRODUCTS, productService.findAll(pageable));
             return "price/add";
         }
-
         return REDIRECT_PRICE_LIST;
-
     }
 
     @GetMapping("/list")
@@ -62,15 +60,12 @@ public class PriceController {
     @PostMapping("/update")
     public String updatePost(Model model,
                              @ModelAttribute("price") PriceDto priceDto, Pageable pageable) {
-
         PriceDto response = priceService.update(priceDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(PRODUCTS, productService.findAll(pageable));
             return "price/price";
         }
-
         return REDIRECT_PRICE_LIST;
     }
 

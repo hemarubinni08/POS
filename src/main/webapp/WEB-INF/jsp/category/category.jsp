@@ -20,7 +20,6 @@
             color: #1e293b;
         }
 
-        /* Common Header */
         .page-header {
             background: linear-gradient(to right, #0f766e, #134e4a);
             color: #ffffff;
@@ -100,10 +99,8 @@
                        method="post"
                        modelAttribute="category">
 
-                <!-- Hidden ID -->
                 <form:hidden path="id"/>
 
-                <!-- Category Name -->
                 <div class="mb-3">
                     <label>Category Name</label>
                     <form:input path="identifier"
@@ -114,7 +111,6 @@
                     </div>
                 </div>
 
-                <!-- Super Category -->
                 <div class="mb-4">
                     <label>Super Category</label>
                     <form:select path="superCategory" cssClass="form-select">
@@ -133,7 +129,6 @@
                     </div>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/category/list"
                        class="btn btn-outline-secondary">

@@ -6,11 +6,9 @@
 <head>
     <title>Price Management</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -45,7 +43,6 @@
 
 <body class="container py-4">
 
-<!-- ================= HEADER ================= -->
 <div class="page-header d-flex justify-content-between align-items-center">
     <h4 class="mb-0">
         <i class="bi bi-currency-rupee me-2"></i> Price Management
@@ -64,7 +61,6 @@
     </div>
 </div>
 
-<!-- ================= TABLE ================= -->
 <div class="card shadow-sm">
     <div class="card-body">
 
@@ -109,7 +105,6 @@
                 </tr>
             </c:forEach>
 
-            <!-- EMPTY STATE -->
             <c:if test="${empty prices}">
                 <tr>
                     <td colspan="5" class="text-center text-muted py-4">

@@ -6,9 +6,8 @@
 <head>
     <title>Customer Management</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
@@ -33,7 +32,6 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header d-flex justify-content-between align-items-center">
     <h4 class="mb-0">
         <i class="bi bi-people-fill me-2"></i> Customer Management
@@ -52,7 +50,6 @@
     </div>
 </div>
 
-<!-- TABLE CARD -->
 <div class="card shadow-sm">
     <div class="card-body">
 
@@ -96,7 +93,6 @@
                 </tr>
             </c:forEach>
 
-            <!-- EMPTY STATE -->
             <c:if test="${empty customers}">
                 <tr>
                     <td colspan="8" class="text-center text-muted">

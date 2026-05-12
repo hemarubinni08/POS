@@ -14,6 +14,7 @@ public class WarehouseController {
 
     public static final String WAREHOUSE = "warehouse";
     public static final String REDIRECT_WAREHOUSE_LIST = "redirect:/warehouse/list";
+
     @Autowired
     private WarehouseService warehouseService;
 
@@ -26,15 +27,12 @@ public class WarehouseController {
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute(WAREHOUSE) WarehouseDto warehouseDto) {
         WarehouseDto response = warehouseService.save(warehouseDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(WAREHOUSE, warehouseDto);
             return "warehouse/add";
         }
-
         return REDIRECT_WAREHOUSE_LIST;
-
     }
 
     @GetMapping("/list")
@@ -53,12 +51,10 @@ public class WarehouseController {
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute WarehouseDto warehouseDto) {
         WarehouseDto response = warehouseService.update(warehouseDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "warehouse/warehouse";
         }
-
         return REDIRECT_WAREHOUSE_LIST;
     }
 
@@ -73,5 +69,6 @@ public class WarehouseController {
         warehouseService.toggleStatus(identifier);
         return REDIRECT_WAREHOUSE_LIST;
     }
+
 }
 

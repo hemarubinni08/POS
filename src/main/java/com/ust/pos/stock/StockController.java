@@ -29,18 +29,15 @@ public class StockController {
 
     @GetMapping("/add")
     public String add(Model model, Pageable pageable) {
-
         model.addAttribute("stock", new StockDto());
         model.addAttribute(PRODUCTS, productService.findAll(pageable));
         model.addAttribute(WAREHOUSES, warehouseService.findAll(pageable));
-
         return "stock/add";
     }
 
     @PostMapping("/add")
     public String addPost(Model model,
                           @ModelAttribute("stock") StockDto stockDto, Pageable pageable) {
-
         try {
             stockService.save(stockDto);
             return REDIRECT_STOCK_LIST;
@@ -54,26 +51,22 @@ public class StockController {
 
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
-
         model.addAttribute("stocks", stockService.findAll(pageable));
         return "stock/list";
     }
 
     @GetMapping("/get")
     public String edit(@RequestParam Long id, Model model, Pageable pageable) {
-
         StockDto stock = stockService.findById(id);
         model.addAttribute("stock", stock);
         model.addAttribute(PRODUCTS, productService.findAll(pageable));
         model.addAttribute(WAREHOUSES, warehouseService.findAll(pageable));
-
         return "stock/stock";
     }
 
     @PostMapping("/update")
     public String updatePost(Model model,
                              @ModelAttribute("stock") StockDto stockDto, Pageable pageable) {
-
         try {
             stockService.update(stockDto);
             return REDIRECT_STOCK_LIST;
@@ -87,8 +80,8 @@ public class StockController {
 
     @GetMapping("/delete")
     public String delete(@RequestParam Long id) {
-
         stockService.delete(id);
         return REDIRECT_STOCK_LIST;
     }
+
 }

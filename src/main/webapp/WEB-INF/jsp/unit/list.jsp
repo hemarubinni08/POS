@@ -6,11 +6,9 @@
 <head>
     <title>Unit Management</title>
 
-    <!-- Bootstrap 5 -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -19,7 +17,6 @@
             background-color: #f7f9fc;
         }
 
-        /* Header */
         .page-header {
             background: linear-gradient(to right, #0f766e, #134e4a);
             color: #ffffff;
@@ -35,7 +32,6 @@
             vertical-align: middle;
         }
 
-        /* Toggle Switch */
         .switch {
             position: relative;
             display: inline-block;
@@ -83,7 +79,6 @@
 
 <body class="container py-4">
 
-<!-- ================= HEADER ================= -->
 <div class="page-header d-flex justify-content-between align-items-center">
     <h4 class="mb-0">
         <i class="bi bi-rulers me-2"></i> Unit Management
@@ -102,7 +97,6 @@
     </div>
 </div>
 
-<!-- ================= TABLE ================= -->
 <div class="card shadow-sm">
     <div class="card-body">
 
@@ -158,7 +152,6 @@
                 </tr>
             </c:forEach>
 
-            <!-- EMPTY STATE -->
             <c:if test="${empty units}">
                 <tr>
                     <td colspan="4" class="text-center text-muted py-4">

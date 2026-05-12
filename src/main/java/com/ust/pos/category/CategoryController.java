@@ -71,4 +71,5 @@ public class CategoryController {
         }
         return REDIRECT_CATEGORY_LIST;
     }
+
 }

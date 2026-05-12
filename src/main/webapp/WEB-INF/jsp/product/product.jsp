@@ -6,12 +6,9 @@
 <html>
 <head>
     <title>Edit Product</title>
-
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -62,19 +59,16 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header">
     <h4 class="mb-0">
         <i class="bi bi-box-seam me-2"></i> Edit Product
     </h4>
 </div>
 
-<!-- FORM CARD -->
 <div class="form-wrapper">
     <div class="card shadow-sm">
         <div class="card-body">
 
-            <!-- Error Message -->
             <c:if test="${not empty message}">
                 <div class="alert alert-danger text-center">
                     ${message}
@@ -85,10 +79,8 @@
                        action="${pageContext.request.contextPath}/product/update"
                        modelAttribute="product">
 
-                <!-- Hidden ID -->
                 <form:hidden path="id"/>
 
-                <!-- Identifier -->
                 <div class="mb-3">
                     <label>Product Identifier</label>
                     <form:input path="identifier"
@@ -96,7 +88,6 @@
                                 readonly="true"/>
                 </div>
 
-                <!-- Category -->
                 <div class="mb-3">
                     <label>Category</label>
                     <form:select path="category" cssClass="form-select" required="true">
@@ -109,7 +100,6 @@
                     </form:select>
                 </div>
 
-                <!-- Brand -->
                 <div class="mb-3">
                     <label>Brand</label>
                     <form:select path="brand" cssClass="form-select" required="true">
@@ -122,7 +112,6 @@
                     </form:select>
                 </div>
 
-                <!-- Model -->
                 <div class="mb-3">
                     <label>Model</label>
                     <form:select path="model" cssClass="form-select" required="true">
@@ -135,7 +124,6 @@
                     </form:select>
                 </div>
 
-                <!-- Unit -->
                 <div class="mb-3">
                     <label>Unit</label>
                     <form:select path="unit" cssClass="form-select" required="true">
@@ -148,7 +136,6 @@
                     </form:select>
                 </div>
 
-                <!-- Quantity -->
                 <div class="mb-3">
                     <label>Quantity</label>
                     <form:input path="quantity"
@@ -158,7 +145,6 @@
                                 required="true"/>
                 </div>
 
-                <!-- Status -->
                 <div class="mb-3">
                     <label>Status</label>
                     <form:select path="status" cssClass="form-select">
@@ -167,7 +153,6 @@
                     </form:select>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/product/list"
                        class="btn btn-outline-secondary">

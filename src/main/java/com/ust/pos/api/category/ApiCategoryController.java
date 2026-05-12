@@ -14,8 +14,6 @@ import java.util.List;
 @RequestMapping("/api/category")
 public class ApiCategoryController extends BaseController {
 
-    public static final String REDIRECT_CATEGORY_LIST = "redirect:/category/list";
-
     @Autowired
     private CategoryService categoryService;
 
@@ -54,4 +52,5 @@ public class ApiCategoryController extends BaseController {
     public List<CategoryDto> findChildCategories() {
         return categoryService.findChildCategories();
     }
+
 }

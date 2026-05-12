@@ -6,10 +6,8 @@
 <head>
     <title>Model Management</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
@@ -31,7 +29,6 @@
 
         .action-btns a { margin-right: 6px; }
 
-        /* Toggle Switch */
         .switch {
             position: relative;
             display: inline-block;
@@ -73,7 +70,6 @@
 
 <body class="container py-4">
 
-<!-- ================= HEADER ================= -->
 <div class="page-header d-flex justify-content-between align-items-center">
     <h4 class="mb-0">
         <i class="bi bi-diagram-3-fill me-2"></i> Model Management
@@ -92,7 +88,6 @@
     </div>
 </div>
 
-<!-- ================= TABLE ================= -->
 <div class="card shadow-sm">
     <div class="card-body">
 
@@ -142,7 +137,6 @@
                 </tr>
             </c:forEach>
 
-            <!-- Empty State -->
             <c:if test="${empty models}">
                 <tr>
                     <td colspan="4" class="text-center text-muted py-4">

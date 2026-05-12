@@ -19,6 +19,7 @@ import java.util.List;
 public class UnitServiceImpl implements UnitService {
 
     public static final RuntimeException RUNTIME_EXCEPTION = new RuntimeException("Unit not found");
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -72,18 +73,15 @@ public class UnitServiceImpl implements UnitService {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
         Page<Unit> unitPage = unitRepository.findAll(pageable);
-
         return modelMapper.map(unitPage.getContent(), listType);
     }
 
     @Override
     public void toggleStatus(String identifier) {
         Unit unit = unitRepository.findByIdentifier(identifier);
-
         if (unit == null) {
             throw RUNTIME_EXCEPTION;
         }
-
         unit.setStatus(!unit.isStatus());
         unitRepository.save(unit);
     }

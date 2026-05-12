@@ -19,6 +19,7 @@ import java.util.List;
 public class ModelServiceImpl implements ModelService {
 
     public static final RuntimeException MODEL_NOT_FOUND = new RuntimeException("model not found");
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -72,18 +73,17 @@ public class ModelServiceImpl implements ModelService {
         Type listType = new TypeToken<List<ModelDto>>() {
         }.getType();
         Page<Model> modelPage = modelRepository.findAll(pageable);
-
         return modelMapper.map(modelPage.getContent(), listType);
     }
 
     @Override
     public void toggleStatus(String identifier) {
         Model model = modelRepository.findByIdentifier(identifier);
-
         if (model == null) {
             throw MODEL_NOT_FOUND;
         }
         model.setStatus(!model.isStatus());
         modelRepository.save(model);
     }
+
 }

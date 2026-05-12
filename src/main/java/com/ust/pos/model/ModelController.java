@@ -14,6 +14,7 @@ public class ModelController {
 
     public static final String REDIRECT_MODEL_LIST = "redirect:/model/list";
     public static final String MODEL = "model";
+
     @Autowired
     private ModelService modelService;
 
@@ -26,15 +27,12 @@ public class ModelController {
     @PostMapping("/add")
     public String addPost(Model model,
                           @ModelAttribute(MODEL) ModelDto modelDto) {
-
         ModelDto response = modelService.save(modelDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(MODEL, modelDto);
             return "model/add";
         }
-
         return REDIRECT_MODEL_LIST;
     }
 
@@ -55,7 +53,6 @@ public class ModelController {
     public String updatePost(Model model,
                              @ModelAttribute(MODEL) ModelDto modelDto) {
         ModelDto response = modelService.update(modelDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "model/model";
@@ -74,4 +71,5 @@ public class ModelController {
         modelService.toggleStatus(identifier);
         return REDIRECT_MODEL_LIST;
     }
+
 }

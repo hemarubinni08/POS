@@ -17,13 +17,11 @@ public class ApiCustomerController extends BaseController {
     @Autowired
     private CustomerService customerService;
 
-    // ✅ ADD
     @PostMapping("/add")
     public CustomerDto addPost(@RequestBody CustomerDto customerDto) {
         return customerService.save(customerDto);
     }
 
-    // ✅ LIST (Better: use @PostMapping instead of @GetMapping for body)
     @PostMapping("/list")
     public List<CustomerDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(
@@ -35,19 +33,16 @@ public class ApiCustomerController extends BaseController {
         return customerService.findAll(pageable);
     }
 
-    // ✅ GET (Fixed method call ✅)
     @GetMapping("/get")
     public CustomerDto get(@RequestParam String identifier) {
         return customerService.findByIdentifierWithAddressDto(identifier);
     }
 
-    // ✅ UPDATE
     @PostMapping("/update")
     public CustomerDto updatePost(@RequestBody CustomerDto customerDto) {
         return customerService.update(customerDto);
     }
 
-    // ✅ DELETE
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
@@ -58,9 +53,9 @@ public class ApiCustomerController extends BaseController {
         }
     }
 
-    // ✅ TOGGLE STATUS (Added for completeness - same as MVC)
     @PostMapping("/toggle-status")
     public void toggle(@RequestParam String identifier) {
         customerService.toggleStatus(identifier);
     }
+
 }

@@ -15,8 +15,6 @@ import java.util.List;
 @RequestMapping("/api/product")
 public class ApiProductController extends BaseController {
 
-    public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
-
     @Autowired
     private ProductService productService;
 
@@ -41,7 +39,6 @@ public class ApiProductController extends BaseController {
 
     @PostMapping("/update")
     public ProductDto updatePost(@RequestBody ProductDto productDto) {
-
         return productService.update(productDto);
     }
 
@@ -64,4 +61,5 @@ public class ApiProductController extends BaseController {
             return false;
         }
     }
+
 }

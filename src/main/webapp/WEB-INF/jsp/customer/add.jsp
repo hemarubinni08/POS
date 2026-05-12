@@ -7,9 +7,8 @@
 <head>
     <title>Add Customer</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
@@ -37,7 +36,6 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header d-flex justify-content-between align-items-center">
     <h4 class="mb-0">
         <i class="bi bi-person-plus-fill me-2"></i> Add Customer
@@ -49,11 +47,9 @@
     </a>
 </div>
 
-<!-- FORM CARD -->
 <div class="card shadow-sm">
     <div class="card-body">
 
-        <!-- ERROR MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
@@ -64,7 +60,6 @@
                    modelAttribute="customerDto"
                    action="${pageContext.request.contextPath}/customer/add">
 
-            <!-- CUSTOMER DETAILS -->
             <div class="section-title">Customer Details</div>
 
             <div class="row mb-3">
@@ -79,7 +74,6 @@
                 </div>
             </div>
 
-            <!-- FINANCIAL DETAILS -->
             <div class="section-title">Financial Details</div>
 
             <div class="row mb-3">
@@ -109,7 +103,6 @@
                 </div>
             </div>
 
-            <!-- BILLING ADDRESS -->
             <div class="section-title">Billing Address</div>
             <form:hidden path="billingAddress.addressType" value="Billing"/>
 
@@ -139,7 +132,6 @@
                 </div>
             </div>
 
-            <!-- SHIPPING ADDRESS -->
             <div class="section-title">Shipping Address</div>
             <form:hidden path="shippingAddress.addressType" value="Shipping"/>
 
@@ -169,7 +161,6 @@
                 </div>
             </div>
 
-            <!-- BUTTONS -->
             <div class="text-center">
                 <a href="${pageContext.request.contextPath}/customer/list"
                    class="btn btn-secondary">

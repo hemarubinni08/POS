@@ -8,11 +8,9 @@
     <meta charset="UTF-8">
     <title>Add Category</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -22,7 +20,6 @@
             color: #1e293b;
         }
 
-        /* Common header */
         .page-header {
             background: linear-gradient(to right, #0f766e, #134e4a);
             color: #ffffff;
@@ -86,7 +83,6 @@
     <div class="card card-custom">
         <div class="card-body p-4">
 
-            <!-- Error Message -->
             <c:if test="${not empty message}">
                 <div class="alert alert-danger text-center">
                     <i class="bi bi-exclamation-triangle me-1"></i>
@@ -98,7 +94,6 @@
                        method="post"
                        modelAttribute="category">
 
-                <!-- Category Name -->
                 <div class="mb-3">
                     <label>Category Name</label>
                     <form:input path="identifier"
@@ -110,7 +105,6 @@
                     </div>
                 </div>
 
-                <!-- Super Category -->
                 <div class="mb-4">
                     <label>Super Category (Optional)</label>
                     <form:select path="superCategory" cssClass="form-select">
@@ -126,7 +120,6 @@
                     </div>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/category/list"
                        class="btn btn-outline-secondary">

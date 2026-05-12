@@ -19,7 +19,6 @@
             background-color: #f7f9fc;
         }
 
-        /* Common header */
         .page-header {
             background: linear-gradient(to right, #0f766e, #134e4a);
             color: #ffffff;
@@ -134,7 +133,6 @@
     <div class="card shadow-sm">
         <div class="card-body">
 
-            <!-- Error message -->
             <c:if test="${not empty error}">
                 <div class="alert alert-danger text-center">
                     ${error}
@@ -144,7 +142,6 @@
             <form action="${pageContext.request.contextPath}/node/add"
                   method="post">
 
-                <!-- Identifier -->
                 <div class="mb-3">
                     <label>Node Identifier</label>
                     <input type="text"
@@ -154,7 +151,6 @@
                            required>
                 </div>
 
-                <!-- Path -->
                 <div class="mb-3">
                     <label>Node Path</label>
                     <input type="text"
@@ -164,7 +160,6 @@
                            required>
                 </div>
 
-                <!-- Roles -->
                 <div class="mb-3">
                     <label>Assign Roles</label>
 
@@ -197,7 +192,6 @@
                     </div>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/node/list"
                        class="btn btn-outline-secondary">
@@ -214,6 +208,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

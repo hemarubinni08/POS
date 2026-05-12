@@ -17,6 +17,7 @@ import java.util.List;
 
 @Service
 public class PriceServiceImpl implements PriceService {
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -68,7 +69,6 @@ public class PriceServiceImpl implements PriceService {
         Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
         Page<Price> pricePage = priceRepository.findAll(pageable);
-
         return modelMapper.map(pricePage.getContent(), listType);
     }
 

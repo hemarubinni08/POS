@@ -6,11 +6,9 @@
 <head>
     <title>Add Unit</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -60,19 +58,16 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header text-center">
     <h4 class="mb-0">
         <i class="bi bi-rulers me-2"></i> Add Unit
     </h4>
 </div>
 
-<!-- FORM CARD -->
 <div class="form-wrapper">
     <div class="card shadow-sm">
         <div class="card-body">
 
-            <!-- Error Message -->
             <c:if test="${not empty message}">
                 <div class="alert alert-danger text-center">
                     ${message}
@@ -81,7 +76,6 @@
 
             <form action="${pageContext.request.contextPath}/unit/add" method="post">
 
-                <!-- Unit Name -->
                 <div class="mb-3">
                     <label>Unit Name</label>
                     <input type="text"
@@ -99,7 +93,6 @@
                     </select>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/unit/list"
                        class="btn btn-outline-secondary">

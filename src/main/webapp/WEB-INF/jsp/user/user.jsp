@@ -6,11 +6,9 @@
 <head>
     <title>Update User</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -61,19 +59,16 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header">
     <h4 class="mb-0">
         <i class="bi bi-person-check me-2"></i> Update User
     </h4>
 </div>
 
-<!-- FORM CARD -->
 <div class="form-wrapper">
     <div class="card shadow-sm">
         <div class="card-body">
 
-            <!-- Error Message -->
             <c:if test="${not empty message}">
                 <div class="alert alert-danger text-center">
                     ${message}
@@ -82,11 +77,9 @@
 
             <form action="${pageContext.request.contextPath}/user/update" method="post">
 
-                <!-- Required hidden fields -->
                 <input type="hidden" name="oldUsername" value="${user.username}">
                 <input type="hidden" name="id" value="${user.id}">
 
-                <!-- Name -->
                 <div class="mb-3">
                     <label>Name</label>
                     <input type="text"
@@ -96,7 +89,6 @@
                            required>
                 </div>
 
-                <!-- Email -->
                 <div class="mb-3">
                     <label>Email</label>
                     <input type="email"
@@ -106,7 +98,6 @@
                            required>
                 </div>
 
-                <!-- Phone -->
                 <div class="mb-3">
                     <label>Phone Number</label>
                     <input type="text"
@@ -116,7 +107,6 @@
                            required>
                 </div>
 
-                <!-- Roles -->
                 <div class="mb-3">
                     <label>Assign Roles</label>
                     <select name="roles"
@@ -139,7 +129,6 @@
                     </small>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/user/list"
                        class="btn btn-outline-secondary">

@@ -26,6 +26,7 @@ import javax.sql.DataSource;
 
 @ComponentScan({"com.ust.pos.web.controller", "com.ust.pos"})
 public class PosApplication {
+
     @Autowired
     Environment environment;
 

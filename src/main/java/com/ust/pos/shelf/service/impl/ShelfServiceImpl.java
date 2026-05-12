@@ -19,6 +19,7 @@ import java.util.List;
 public class ShelfServiceImpl implements ShelfService {
 
     public static final RuntimeException SHELF_NOT_FOUND = new RuntimeException("Shelf not found");
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -69,18 +70,15 @@ public class ShelfServiceImpl implements ShelfService {
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
         Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
-
         return modelMapper.map(shelfPage.getContent(), listType);
     }
 
     @Override
     public void toggleStatus(String identifier) {
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
-
         if (shelf == null) {
             throw SHELF_NOT_FOUND;
         }
-
         shelf.setStatus(!shelf.isStatus());
         shelfRepository.save(shelf);
     }

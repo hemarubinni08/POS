@@ -21,7 +21,6 @@
             align-items: center;
         }
 
-        /* ⬅ BACK BUTTON */
         .back-btn {
             position: fixed;
             top: 20px;

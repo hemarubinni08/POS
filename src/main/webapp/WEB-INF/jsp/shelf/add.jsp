@@ -7,11 +7,9 @@
 <head>
     <title>Add Shelf</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -62,19 +60,16 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header">
     <h4 class="mb-0">
         <i class="bi bi-layout-text-window-reverse me-2"></i> Add Shelf
     </h4>
 </div>
 
-<!-- FORM CARD -->
 <div class="form-wrapper">
     <div class="card shadow-sm">
         <div class="card-body">
 
-            <!-- Error Message -->
             <c:if test="${not empty message}">
                 <div class="alert alert-danger text-center">
                     ${message}
@@ -85,10 +80,8 @@
                        action="${pageContext.request.contextPath}/shelf/add"
                        modelAttribute="shelf">
 
-                <!-- Hidden ID (safe even for add) -->
                 <form:hidden path="id"/>
 
-                <!-- Shelf Name -->
                 <div class="mb-3">
                     <label>Shelf Name</label>
                     <form:input path="identifier"
@@ -97,7 +90,6 @@
                                 required="true"/>
                 </div>
 
-                <!-- Status -->
                 <div class="mb-3">
                     <label>Status</label>
                     <form:select path="status" cssClass="form-select" required="true">
@@ -106,7 +98,6 @@
                     </form:select>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/shelf/list"
                        class="btn btn-outline-secondary">

@@ -6,11 +6,9 @@
 <head>
     <title>Update Price</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -60,14 +58,12 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header text-center">
     <h4 class="mb-0">
         <i class="bi bi-currency-rupee me-2"></i> Update Price
     </h4>
 </div>
 
-<!-- FORM CARD -->
 <div class="form-wrapper">
     <div class="card shadow-sm">
         <div class="card-body">
@@ -76,11 +72,9 @@
                        action="${pageContext.request.contextPath}/price/update"
                        modelAttribute="price">
 
-                <!-- Hidden Fields -->
                 <form:hidden path="id"/>
                 <form:hidden path="identifier"/>
 
-                <!-- Identifier (Readonly) -->
                 <div class="mb-3">
                     <label>Product</label>
                     <input type="text"
@@ -89,7 +83,6 @@
                            readonly>
                 </div>
 
-                <!-- Cost Price -->
                 <div class="mb-3">
                     <label>Cost Price</label>
                     <form:input path="costPrice"
@@ -100,7 +93,6 @@
                                 placeholder="Enter cost price"/>
                 </div>
 
-                <!-- Price Type -->
                 <div class="mb-3">
                     <label>Price Type</label>
                     <form:select path="type"
@@ -111,7 +103,6 @@
                     </form:select>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/price/list"
                        class="btn btn-outline-secondary">

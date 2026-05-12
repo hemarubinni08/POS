@@ -9,11 +9,9 @@
     <meta charset="UTF-8">
     <title>Edit Node</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -48,7 +46,6 @@
             border-radius: 8px;
         }
 
-        /* === Custom Roles Dropdown === */
         .dropdown-box {
             position: relative;
         }
@@ -129,19 +126,16 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header">
     <h4 class="mb-0">
         <i class="bi bi-diagram-3-fill me-2"></i> Edit Node
     </h4>
 </div>
 
-<!-- FORM CARD -->
 <div class="form-wrapper">
     <div class="card shadow-sm">
         <div class="card-body">
 
-            <!-- Info / Error Messages -->
             <c:if test="${not empty message}">
                 <div class="alert alert-info text-center">
                     ${message}
@@ -159,10 +153,8 @@
                            method="post"
                            modelAttribute="node">
 
-                    <!-- Hidden ID -->
                     <form:hidden path="id"/>
 
-                    <!-- Identifier (Read‑only) -->
                     <div class="mb-3">
                         <label>Node Identifier</label>
                         <form:input path="identifier"
@@ -170,7 +162,6 @@
                                     readonly="true"/>
                     </div>
 
-                    <!-- Path -->
                     <div class="mb-3">
                         <label>Node Path</label>
                         <form:input path="path"
@@ -178,7 +169,6 @@
                                     required="true"/>
                     </div>
 
-                    <!-- Roles -->
                     <div class="mb-3">
                         <label>Assign Roles</label>
 
@@ -216,7 +206,6 @@
                         </div>
                     </div>
 
-                    <!-- Buttons -->
                     <div class="d-flex justify-content-end gap-2 mt-4">
                         <a href="${pageContext.request.contextPath}/node/list"
                            class="btn btn-outline-secondary">

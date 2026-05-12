@@ -43,7 +43,6 @@ public class ApiStockController extends BaseController {
 
     @PostMapping("/update")
     public StockDto updatePost(@RequestBody StockDto stockDto) {
-
         return stockService.update(stockDto);
     }
 
@@ -57,4 +56,5 @@ public class ApiStockController extends BaseController {
         }
         return true;
     }
+
 }

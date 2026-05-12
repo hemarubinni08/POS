@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface RacksService {
-
     RacksDto findByIdentifier(String identifier);
 
     RacksDto save(RacksDto racksDto);
@@ -21,5 +20,4 @@ public interface RacksService {
     void toggleStatus(String identifier);
 
     List<RacksDto> findAllActive();
-
 }

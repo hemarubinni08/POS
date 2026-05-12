@@ -6,7 +6,6 @@
 <head>
     <title>Add Stock</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -56,17 +55,14 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header text-center">
     <h4 class="mb-0">Add Stock</h4>
 </div>
 
-<!-- FORM -->
 <div class="form-wrapper">
     <div class="card shadow-sm">
         <div class="card-body">
 
-            <!-- ERROR MESSAGE -->
             <c:if test="${not empty message}">
                 <div class="alert alert-danger text-center">
                     ${message}
@@ -78,12 +74,10 @@
                   class="needs-validation"
                   novalidate>
 
-                <!-- CSRF -->
                 <input type="hidden"
                        name="${_csrf.parameterName}"
                        value="${_csrf.token}" />
 
-                <!-- Product -->
                 <div class="mb-3">
                     <label>Product</label>
                     <select name="productId"
@@ -100,7 +94,6 @@
                     </select>
                 </div>
 
-                <!-- Warehouse -->
                 <div class="mb-3">
                     <label>Warehouse</label>
                     <select name="warehouseId"
@@ -117,7 +110,6 @@
                     </select>
                 </div>
 
-                <!-- Stock Code (UI preview only) -->
                 <div class="mb-3">
                     <label>Stock Code</label>
                     <input type="text"
@@ -129,7 +121,6 @@
                     </small>
                 </div>
 
-                <!-- Quantity -->
                 <div class="mb-3">
                     <label>Quantity</label>
                     <input type="number"
@@ -140,7 +131,6 @@
                            required>
                 </div>
 
-                <!-- Minimum Stock -->
                 <div class="mb-3">
                     <label>Minimum Stock</label>
                     <input type="number"
@@ -151,7 +141,6 @@
                            required>
                 </div>
 
-                <!-- Stock Level -->
                 <div class="mb-3">
                     <label>Stock Level</label>
                     <input type="text"
@@ -160,7 +149,6 @@
                            readonly>
                 </div>
 
-                <!-- Buttons -->
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="${pageContext.request.contextPath}/stock/list"
                        class="btn btn-outline-secondary">
@@ -177,7 +165,6 @@
     </div>
 </div>
 
-<!-- SCRIPT -->
 <script>
 (() => {
 

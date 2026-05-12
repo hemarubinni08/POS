@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-
 public class Customer extends CommonFields {
     private String customerName;
     @Column(name = "phone_no", unique = true, nullable = false)

@@ -6,11 +6,9 @@
 <head>
     <title>User Management</title>
 
-    <!-- Bootstrap 5 -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -57,7 +55,6 @@
 
 <body class="container py-4">
 
-<!-- ================= HEADER ================= -->
 <div class="page-header d-flex justify-content-between align-items-center">
     <h4 class="mb-0">
         <i class="bi bi-people-fill me-2"></i> User Management
@@ -76,7 +73,6 @@
     </div>
 </div>
 
-<!-- ================= TABLE ================= -->
 <div class="card shadow-sm">
     <div class="card-body">
 
@@ -102,13 +98,10 @@
                         </a>
                     </td>
 
-                    <!-- Name -->
                     <td>${user.name}</td>
 
-                    <!-- Phone -->
                     <td>${user.phoneNo}</td>
 
-                    <!-- Roles -->
                     <td>
                         <c:forEach var="role" items="${user.roles}">
                             <span class="badge bg-secondary role-badge">
@@ -117,7 +110,6 @@
                         </c:forEach>
                     </td>
 
-                    <!-- Actions -->
                     <td class="text-center action-btns">
                         <a href="${pageContext.request.contextPath}/user/get?username=${user.username}"
                            class="btn btn-sm btn-outline-primary"
@@ -135,7 +127,6 @@
                 </tr>
             </c:forEach>
 
-            <!-- EMPTY STATE -->
             <c:if test="${empty users}">
                 <tr>
                     <td colspan="5" class="text-center text-muted py-4">

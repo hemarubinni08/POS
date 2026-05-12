@@ -6,11 +6,9 @@
 <head>
     <title>Node List</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -52,7 +50,6 @@
 
 <body class="container py-4">
 
-<!-- HEADER -->
 <div class="page-header d-flex justify-content-between align-items-center">
     <h4 class="mb-0">
         <i class="bi bi-diagram-3-fill me-2"></i> Node Management
@@ -71,7 +68,6 @@
     </div>
 </div>
 
-<!-- TABLE CARD -->
 <div class="card shadow-sm">
     <div class="card-body">
 

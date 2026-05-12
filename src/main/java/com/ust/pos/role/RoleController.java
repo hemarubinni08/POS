@@ -35,16 +35,13 @@ public class RoleController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute RoleDto userDto) {
-
         if (userDto.getIdentifier() == null || userDto.getIdentifier().trim().isEmpty()) {
             model.addAttribute(MESSAGE, "Role Identifier is mandatory");
             model.addAttribute(ROLES, roleService.findAll(null));
             return ROLE_ADD;
         }
         userDto.setIdentifier(userDto.getIdentifier().trim().toUpperCase());
-
         RoleDto response = roleService.save(userDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(ROLES, roleService.findAll(null));
@@ -74,4 +71,5 @@ public class RoleController {
         roleService.delete(identifier);
         return REDIRECT_ROLE_LIST;
     }
+
 }

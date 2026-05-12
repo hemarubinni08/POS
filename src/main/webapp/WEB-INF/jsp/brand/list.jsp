@@ -6,11 +6,9 @@
 <head>
     <title>Brand Management</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -107,7 +105,6 @@
                 </tr>
             </c:forEach>
 
-            <!-- EMPTY STATE -->
             <c:if test="${empty brands}">
                 <tr>
                     <td colspan="4" class="text-center text-muted py-4">

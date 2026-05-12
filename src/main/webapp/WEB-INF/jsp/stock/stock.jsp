@@ -6,11 +6,9 @@
 <head>
     <title>Update Stock</title>
 
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -44,7 +42,6 @@
 
 <body class="container py-4">
 
-<!-- ================= HEADER ================= -->
 <div class="page-header d-flex justify-content-between align-items-center">
     <h4 class="mb-0">
         <i class="bi bi-pencil-square me-2"></i> Update Stock
@@ -56,11 +53,9 @@
     </a>
 </div>
 
-<!-- ================= FORM ================= -->
 <div class="card shadow-sm">
     <div class="card-body">
 
-        <!-- ERROR MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
@@ -73,12 +68,10 @@
               class="needs-validation"
               novalidate>
 
-            <!-- CSRF -->
             <input type="hidden"
                    name="${_csrf.parameterName}"
                    value="${_csrf.token}" />
 
-            <!-- REQUIRED HIDDEN FIELDS -->
             <input type="hidden" name="id" value="${stock.id}">
             <input type="hidden" name="productId" value="${stock.productId}">
             <input type="hidden" name="warehouseId" value="${stock.warehouseId}">
@@ -86,7 +79,6 @@
 
             <div class="row g-3">
 
-                <!-- PRODUCT -->
                 <div class="col-md-6">
                     <label class="form-label">Product</label>
                     <input type="text"
@@ -95,7 +87,6 @@
                            readonly>
                 </div>
 
-                <!-- WAREHOUSE -->
                 <div class="col-md-6">
                     <label class="form-label">Warehouse</label>
                     <input type="text"
@@ -104,7 +95,6 @@
                            readonly>
                 </div>
 
-                <!-- STOCK CODE -->
                 <div class="col-md-12">
                     <label class="form-label">Stock Code</label>
                     <input type="text"
@@ -113,7 +103,6 @@
                            readonly>
                 </div>
 
-                <!-- QUANTITY -->
                 <div class="col-md-4">
                     <label class="form-label">Quantity</label>
                     <input type="number"
@@ -128,7 +117,6 @@
                     </div>
                 </div>
 
-                <!-- MINIMUM STOCK -->
                 <div class="col-md-4">
                     <label class="form-label">Minimum Stock</label>
                     <input type="number"
@@ -143,7 +131,6 @@
                     </div>
                 </div>
 
-                <!-- STOCK LEVEL -->
                 <div class="col-md-4">
                     <label class="form-label">Stock Level</label>
                     <input type="text"
@@ -154,7 +141,6 @@
 
             </div>
 
-            <!-- ACTION BUTTONS -->
             <div class="mt-4 d-flex justify-content-end gap-2">
                 <a href="${pageContext.request.contextPath}/stock/list"
                    class="btn btn-secondary">
@@ -170,7 +156,6 @@
     </div>
 </div>
 
-<!-- ================= SCRIPT ================= -->
 <script>
 (() => {
     const quantity = document.getElementById("quantity");

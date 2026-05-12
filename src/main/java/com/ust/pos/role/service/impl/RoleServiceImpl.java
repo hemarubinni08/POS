@@ -60,7 +60,6 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public void delete(String identifier) {
-
         roleRepository.deleteByIdentifier(identifier);
     }
 
@@ -69,7 +68,7 @@ public class RoleServiceImpl implements RoleService {
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
         Page<Role> rolePage = roleRepository.findAll(pageable);
-
         return modelMapper.map(rolePage.getContent(), listType);
     }
+
 }

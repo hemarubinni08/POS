@@ -17,7 +17,9 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
     public static final RuntimeException PRODUCT_NOT_FOUND = new RuntimeException("product not found");
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -55,7 +57,6 @@ public class ProductServiceImpl implements ProductService {
         modelMapper.map(productDto, existingProduct);
         productRepository.save(existingProduct);
         return productDto;
-
     }
 
     @Override
@@ -69,18 +70,15 @@ public class ProductServiceImpl implements ProductService {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         Page<Product> productPage = productRepository.findAll(pageable);
-
         return modelMapper.map(productPage.getContent(), listType);
     }
 
     @Override
     public void toggleStatus(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
-
         if (product == null) {
             throw PRODUCT_NOT_FOUND;
         }
-
         product.setStatus(!product.getStatus());
         productRepository.save(product);
     }
@@ -92,4 +90,5 @@ public class ProductServiceImpl implements ProductService {
                 .map(product -> modelMapper.map(product, ProductDto.class))
                 .toList();
     }
+
 }
