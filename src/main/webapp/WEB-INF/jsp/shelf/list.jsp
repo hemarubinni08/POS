@@ -42,7 +42,6 @@
     <div class="container-fluid">
 
         <span class="navbar-brand fw-bold">Shelf Management</span>
-
         <div class="d-flex gap-2">
 
             <a href="${pageContext.request.contextPath}/"
@@ -95,12 +94,12 @@
 
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/shelf/edit?identifier=${s.identifier}"
-                               class="btn btn-sm btn-outline-primary me-2">
+                              class="btn btn-sm btn-outline-primary me-2">
                                 Update
                             </a>
 
                             <a href="${pageContext.request.contextPath}/shelf/delete?identifier=${s.identifier}"
-                               class="btn btn-sm btn-outline-danger"
+                              class="btn btn-sm btn-outline-danger"
                                onclick="return confirm('Delete this shelf?');">
                                 Delete
                             </a>
