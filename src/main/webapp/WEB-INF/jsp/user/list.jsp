@@ -207,9 +207,6 @@
         <div class="content-body">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2>User Administration</h2>
-                <a href="${pageContext.request.contextPath}/register" class="btn-register">
-                    + Add New User
-                </a>
             </div>
 
             <table>
@@ -229,7 +226,7 @@
                         <c:when test="${not empty users}">
                             <c:forEach var="user" items="${users}">
                                 <tr>
-                                    <td style="font-weight: 600; color: #6B7280;">#${user.id}</td>
+                                    <td style="font-weight: 600; color: #6B7280;">${user.id}</td>
                                     <td>${user.name}</td>
                                     <td>${user.username}</td>
                                     <td>${user.phoneNo}</td>

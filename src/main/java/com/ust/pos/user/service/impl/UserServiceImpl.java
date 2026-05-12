@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,27 +41,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto save(UserDto userDto) {
-        UserDto responseDto = new UserDto();
         String username = userDto.getUsername();
         User existingUser = userRepository.findByUsername(username);
         if (existingUser != null) {
-            responseDto.setSuccess(false);
-            responseDto.setMessage("Sorry! That Email already exists.");
-            return responseDto;
+            userDto.setSuccess(false);
+            userDto.setMessage("Sorry! That Email already exists.");
+            return userDto;
         }
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
-        responseDto.setSuccess(true);
-        responseDto.setMessage("User registered successfully");
-        return responseDto;
+        userDto.setSuccess(true);
+        userDto.setMessage("User registered successfully");
+        return userDto;
+    }
+
+    @Override
+    public List<UserDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<UserDto>>() {
+        }.getType();
+        Page<User> userPage = userRepository.findAll(pageable);
+        return modelMapper.map(userPage.getContent(), listType);
     }
 
     @Override
     public UserDto update(UserDto userDto) {
         String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
-
         if (userOptional.isEmpty()) {
             userDto.setMessage("User with username/email - " + userDto.getUsername() + " not found");
             userDto.setSuccess(false);
@@ -67,29 +75,28 @@ public class UserServiceImpl implements UserService {
         } else {
             User existingUser = userOptional.get();
             if (!username.equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(username) != null) {
-                    userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
-                    userDto.setSuccess(false);
-                    return userDto;
-
+                userDto.setMessage("User with username/email - " + userDto.getUsername() + " already exists");
+                userDto.setSuccess(false);
+                return userDto;
             }
             modelMapper.map(userDto, existingUser);
             userRepository.save(existingUser);
         }
-
         userDto.setSuccess(true);
         userDto.setMessage("User updated successfully");
         return userDto;
     }
 
     @Override
-    public void delete(String username) {
-        userRepository.deleteByUsername(username);
+    public UserDto toggleStatus(String username) {
+        User user = userRepository.findByUsername(username);
+        user.setStatus(!user.isStatus());
+        userRepository.save(user);
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override
-    public List<UserDto> findAll() {
-        Type listType = new TypeToken<List<UserDto>>() {
-        }.getType();
-        return modelMapper.map(userRepository.findAll(), listType);
+    public void delete(String username) {
+        userRepository.deleteByUsername(username);
     }
 }
