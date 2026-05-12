@@ -35,7 +35,7 @@ class WarehouseServiceTest {
 
     @Test
     void saveTest() {
-        //request data
+
         WarehouseDto warehouseDto = new WarehouseDto();
         warehouseDto.setIdentifier("Admin");
 
@@ -53,7 +53,7 @@ class WarehouseServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
+
         WarehouseDto warehouseDto = new WarehouseDto();
         warehouseDto.setIdentifier("Admin");
         Warehouse warehouse = new Warehouse();

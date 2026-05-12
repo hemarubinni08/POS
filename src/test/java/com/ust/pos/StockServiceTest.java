@@ -35,7 +35,7 @@ class StockServiceTest {
 
     @Test
     void saveTest() {
-        // request data
+
         StockDto stockDto = new StockDto();
         stockDto.setProduct("P1");
         stockDto.setWarehouse("W1");
@@ -56,7 +56,7 @@ class StockServiceTest {
 
     @Test
     void saveTestFailure() {
-        // request data
+
         StockDto stockDto = new StockDto();
         stockDto.setProduct("P1");
         stockDto.setWarehouse("W1");

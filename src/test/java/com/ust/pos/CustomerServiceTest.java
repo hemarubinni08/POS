@@ -46,6 +46,7 @@ class CustomerServiceTest {
 
     @BeforeEach
     void setUp() {
+
         AddressDto billing = new AddressDto();
         billing.setAddressType("billingAddress");
 
@@ -65,6 +66,7 @@ class CustomerServiceTest {
 
     @Test
     void testFindByIdentifier_Found() {
+
         when(customerRepository.findByIdentifier("CUST123")).thenReturn(customer);
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
 
@@ -76,6 +78,7 @@ class CustomerServiceTest {
 
     @Test
     void testFindByIdentifier_NotFound() {
+
         when(customerRepository.findByIdentifier("CUST123")).thenReturn(null);
 
         CustomerDto result = customerService.findByIdentifier("CUST123");
@@ -85,6 +88,7 @@ class CustomerServiceTest {
 
     @Test
     void testSave_WhenCustomerAlreadyExists() {
+
         when(customerRepository.findByIdentifier("CUST123")).thenReturn(customer);
 
         CustomerDto result = customerService.save(customerDto);
@@ -96,6 +100,7 @@ class CustomerServiceTest {
 
     @Test
     void testSave_NewCustomer() {
+
         when(customerRepository.findByIdentifier("CUST123")).thenReturn(null);
         when(modelMapper.map(customerDto, Customer.class)).thenReturn(customer);
 
@@ -109,6 +114,7 @@ class CustomerServiceTest {
 
     @Test
     void testUpdate_CustomerNotFound() {
+
         when(customerRepository.findByIdentifier("CUST123")).thenReturn(null);
 
         CustomerDto result = customerService.update(customerDto);
@@ -148,6 +154,7 @@ class CustomerServiceTest {
 
     @Test
     void testDelete() {
+
         doNothing().when(customerRepository).deleteByIdentifier("CUST123");
         doNothing().when(addressService).deleteByPhone(9876543210L);
 

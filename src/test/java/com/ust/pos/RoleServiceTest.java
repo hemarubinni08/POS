@@ -35,7 +35,7 @@ class RoleServiceTest {
 
     @Test
     void saveTest() {
-        //request data
+
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
 
@@ -53,7 +53,7 @@ class RoleServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
+
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
         Role role = new Role();
@@ -70,6 +70,7 @@ class RoleServiceTest {
 
     @Test
     void findByIdentifierTest() {
+
         Role role = new Role();
         role.setIdentifier("Admin");
 
@@ -86,6 +87,7 @@ class RoleServiceTest {
 
     @Test
     void updateTest() {
+
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
 
@@ -104,6 +106,7 @@ class RoleServiceTest {
 
     @Test
     void updateTestFailure() {
+
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
 

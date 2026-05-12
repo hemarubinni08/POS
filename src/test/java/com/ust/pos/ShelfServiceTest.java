@@ -34,7 +34,7 @@ class ShelfServiceTest {
 
     @Test
     void saveTest() {
-        //request data
+
         ShelfDto shelfDto = new ShelfDto();
         shelfDto.setIdentifier("Admin");
 
@@ -52,7 +52,7 @@ class ShelfServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
+
         ShelfDto shelfDto = new ShelfDto();
         shelfDto.setIdentifier("Admin");
         Shelf shelf = new Shelf();

@@ -35,7 +35,7 @@ class CategoryServiceTest {
 
     @Test
     void saveTest() {
-        //request data
+
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setIdentifier("Admin");
 
@@ -53,7 +53,7 @@ class CategoryServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
+
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setIdentifier("Admin");
         Category category = new Category();

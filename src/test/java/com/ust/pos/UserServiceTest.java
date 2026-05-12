@@ -39,7 +39,7 @@ class UserServiceTest {
 
     @Test
     void saveTest() {
-        // request data
+
         UserDto userDto = new UserDto();
         userDto.setUsername("Admin");
         userDto.setPassword("123"); // ✅ REQUIRED
@@ -61,7 +61,7 @@ class UserServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
+
         UserDto userDto = new UserDto();
         userDto.setUsername("Admin");
         User user = new User();

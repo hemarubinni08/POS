@@ -34,7 +34,7 @@ class ModelServiceTest {
 
     @Test
     void saveTest() {
-        //request data
+
         ModelDto modelDto = new ModelDto();
         modelDto.setIdentifier("Admin");
 
@@ -52,7 +52,7 @@ class ModelServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
+
         ModelDto modelDto = new ModelDto();
         modelDto.setIdentifier("Admin");
         Model model = new Model();

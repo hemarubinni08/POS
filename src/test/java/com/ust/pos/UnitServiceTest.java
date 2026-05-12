@@ -35,7 +35,7 @@ class UnitServiceTest {
 
     @Test
     void saveTest() {
-        //request data
+
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("Admin");
 
@@ -53,7 +53,7 @@ class UnitServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
+
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("Admin");
         Unit unit = new Unit();

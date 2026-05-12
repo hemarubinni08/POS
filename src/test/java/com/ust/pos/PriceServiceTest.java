@@ -34,7 +34,7 @@ class PriceServiceTest {
 
     @Test
     void saveTest() {
-        // request data
+
         PriceDto priceDto = new PriceDto();
         priceDto.setProduct("P1");
         priceDto.setPriceType("T1");
@@ -55,7 +55,7 @@ class PriceServiceTest {
 
     @Test
     void saveTestFailure() {
-        // request data
+
         PriceDto priceDto = new PriceDto();
         priceDto.setProduct("P1");
         priceDto.setPriceType("T1");

@@ -35,7 +35,7 @@ class ProductServiceTest {
 
     @Test
     void saveTest() {
-        //request data
+
         ProductDto productDto = new ProductDto();
         productDto.setIdentifier("Admin");
 
@@ -53,7 +53,7 @@ class ProductServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
+
         ProductDto productDto = new ProductDto();
         productDto.setIdentifier("Admin");
         Product product = new Product();

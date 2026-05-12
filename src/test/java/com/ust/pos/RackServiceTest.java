@@ -35,7 +35,7 @@ class RackServiceTest {
 
     @Test
     void saveTest() {
-        //request data
+
         RackDto rackDto = new RackDto();
         rackDto.setIdentifier("Admin");
 
@@ -53,7 +53,7 @@ class RackServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
+
         RackDto rackDto = new RackDto();
         rackDto.setIdentifier("Admin");
         Rack rack = new Rack();

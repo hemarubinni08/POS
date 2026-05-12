@@ -35,7 +35,7 @@ class BrandServiceTest {
 
     @Test
     void saveTest() {
-        //request data
+
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("Admin");
 
@@ -53,7 +53,7 @@ class BrandServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
+
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("Admin");
         Brand brand = new Brand();
