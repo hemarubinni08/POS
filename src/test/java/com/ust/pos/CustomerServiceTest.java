@@ -1,7 +1,6 @@
-package com.ust.pos;
+package com.ust.pos.customer.service.impl;
 
 import com.ust.pos.address.service.AddressService;
-import com.ust.pos.customer.service.impl.CustomerServiceImpl;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.model.Customer;
@@ -53,9 +52,23 @@ class CustomerServiceTest {
 
         CustomerDto response = customerService.findByIdentifier("CUST1");
 
+        Assertions.assertNotNull(response);
+
         Assertions.assertEquals("CUST1", response.getIdentifier());
 
         Mockito.verify(customerRepository).findByIdentifier("CUST1");
+    }
+
+    @Test
+    void findByIdentifierNullTest() {
+
+        Mockito.when(customerRepository.findByIdentifier("CUST1")).thenReturn(null);
+
+        Mockito.when(modelMapper.map(null, CustomerDto.class)).thenReturn(null);
+
+        CustomerDto response = customerService.findByIdentifier("CUST1");
+
+        Assertions.assertNull(response);
     }
 
     @Test
@@ -89,11 +102,89 @@ class CustomerServiceTest {
     }
 
     @Test
+    void findByIdentifierWithOnlyBillingAddressTest() {
+
+        Customer customer = new Customer();
+        customer.setIdentifier("CUST1");
+
+        CustomerDto dto = new CustomerDto();
+
+        AddressDto billing = new AddressDto();
+        billing.setAddressType("Billing");
+
+        Mockito.when(customerRepository.findByIdentifier("CUST1")).thenReturn(customer);
+
+        Mockito.when(modelMapper.map(customer, CustomerDto.class)).thenReturn(dto);
+
+        Mockito.when(addressService.findAllByPhoneNo("CUST1")).thenReturn(List.of(billing));
+
+        CustomerDto response = customerService.findByIdentifierWithAddressDto("CUST1");
+
+        Assertions.assertNotNull(response.getBillingAddress());
+
+        Assertions.assertNotNull(response.getShippingAddress());
+    }
+
+    @Test
+    void findByIdentifierWithOnlyShippingAddressTest() {
+
+        Customer customer = new Customer();
+        customer.setIdentifier("CUST1");
+
+        CustomerDto dto = new CustomerDto();
+
+        AddressDto shipping = new AddressDto();
+        shipping.setAddressType("Shipping");
+
+        Mockito.when(customerRepository.findByIdentifier("CUST1")).thenReturn(customer);
+
+        Mockito.when(modelMapper.map(customer, CustomerDto.class)).thenReturn(dto);
+
+        Mockito.when(addressService.findAllByPhoneNo("CUST1")).thenReturn(List.of(shipping));
+
+        CustomerDto response = customerService.findByIdentifierWithAddressDto("CUST1");
+
+        Assertions.assertNotNull(response.getBillingAddress());
+
+        Assertions.assertNotNull(response.getShippingAddress());
+    }
+
+    @Test
+    void findByIdentifierWithNoAddressesTest() {
+
+        Customer customer = new Customer();
+        customer.setIdentifier("CUST1");
+
+        CustomerDto dto = new CustomerDto();
+
+        Mockito.when(customerRepository.findByIdentifier("CUST1")).thenReturn(customer);
+
+        Mockito.when(modelMapper.map(customer, CustomerDto.class)).thenReturn(dto);
+
+        Mockito.when(addressService.findAllByPhoneNo("CUST1")).thenReturn(List.of());
+
+        CustomerDto response = customerService.findByIdentifierWithAddressDto("CUST1");
+
+        Assertions.assertNotNull(response.getBillingAddress());
+
+        Assertions.assertNotNull(response.getShippingAddress());
+    }
+
+    @Test
     void findByIdentifierWithAddressDtoNotFoundTest() {
 
         Mockito.when(customerRepository.findByIdentifier("CUST1")).thenReturn(null);
 
-        Assertions.assertThrows(ResponseStatusException.class, () -> customerService.findByIdentifierWithAddressDto("CUST1"));
+        try {
+
+            customerService.findByIdentifierWithAddressDto("CUST1");
+
+            Assertions.fail();
+
+        } catch (ResponseStatusException ex) {
+
+            Assertions.assertEquals(404, ex.getStatusCode().value());
+        }
     }
 
     @Test
@@ -101,6 +192,7 @@ class CustomerServiceTest {
 
         CustomerDto dto = new CustomerDto();
         dto.setIdentifier("CUST1");
+
         dto.setBillingAddress(new AddressDto());
         dto.setShippingAddress(new AddressDto());
 
@@ -122,20 +214,66 @@ class CustomerServiceTest {
     }
 
     @Test
+    void saveAddressIdentifierAssignmentTest() {
+
+        CustomerDto dto = new CustomerDto();
+        dto.setIdentifier("CUST1");
+
+        dto.setBillingAddress(new AddressDto());
+        dto.setShippingAddress(new AddressDto());
+
+        Customer customer = new Customer();
+
+        Mockito.when(customerRepository.findByIdentifier("CUST1")).thenReturn(null);
+
+        Mockito.when(modelMapper.map(dto, Customer.class)).thenReturn(customer);
+
+        Mockito.when(modelMapper.map(Mockito.any(AddressDto.class), Mockito.eq(AddressDto.class))).thenReturn(new AddressDto());
+
+        customerService.save(dto);
+
+        Mockito.verify(addressService, Mockito.times(2)).save(Mockito.any(AddressDto.class));
+    }
+
+    @Test
+    void saveAddressValuesVerificationTest() {
+
+        CustomerDto dto = new CustomerDto();
+        dto.setIdentifier("CUST1");
+
+        dto.setBillingAddress(new AddressDto());
+        dto.setShippingAddress(new AddressDto());
+
+        Customer customer = new Customer();
+
+        Mockito.when(customerRepository.findByIdentifier("CUST1")).thenReturn(null);
+
+        Mockito.when(modelMapper.map(dto, Customer.class)).thenReturn(customer);
+
+        Mockito.when(modelMapper.map(Mockito.any(AddressDto.class), Mockito.eq(AddressDto.class))).thenReturn(new AddressDto());
+
+        customerService.save(dto);
+
+        Mockito.verify(addressService, Mockito.atLeastOnce()).save(Mockito.any(AddressDto.class));
+    }
+
+    @Test
     void saveDuplicateTest() {
 
         CustomerDto dto = new CustomerDto();
         dto.setIdentifier("CUST1");
 
-        Customer existing = new Customer();
+        Customer existingCustomer = new Customer();
 
-        Mockito.when(customerRepository.findByIdentifier("CUST1")).thenReturn(existing);
+        Mockito.when(customerRepository.findByIdentifier("CUST1")).thenReturn(existingCustomer);
 
         CustomerDto response = customerService.save(dto);
 
         Assertions.assertFalse(response.isSuccess());
 
         Assertions.assertEquals("Customer with identifier - CUST1 already exists", response.getMessage());
+
+        Mockito.verify(customerRepository, Mockito.never()).save(Mockito.any());
     }
 
     @Test
@@ -173,6 +311,33 @@ class CustomerServiceTest {
     }
 
     @Test
+    void updateShippingOnlyTest() {
+
+        CustomerDto dto = new CustomerDto();
+        dto.setIdentifier("CUST1");
+
+        dto.setBillingAddress(new AddressDto());
+
+        AddressDto shipping = new AddressDto();
+        shipping.setAddressType("Shipping");
+        shipping.setIdentifier("CUST1_Shipping");
+
+        dto.setShippingAddress(new AddressDto());
+
+        Customer customer = new Customer();
+
+        Mockito.when(customerRepository.findByIdentifier("CUST1")).thenReturn(customer);
+
+        Mockito.when(addressService.findAllByPhoneNo("CUST1")).thenReturn(List.of(shipping));
+
+        CustomerDto response = customerService.update(dto);
+
+        Assertions.assertEquals("CUST1", response.getIdentifier());
+
+        Mockito.verify(addressService).update(Mockito.any(AddressDto.class));
+    }
+
+    @Test
     void updateNotFoundTest() {
 
         CustomerDto dto = new CustomerDto();
@@ -185,6 +350,8 @@ class CustomerServiceTest {
         Assertions.assertFalse(response.isSuccess());
 
         Assertions.assertEquals("Customer with identifier - CUST1 not found", response.getMessage());
+
+        Mockito.verify(customerRepository, Mockito.never()).save(Mockito.any());
     }
 
     @Test
@@ -215,6 +382,7 @@ class CustomerServiceTest {
         dto.setIdentifier("CUST1");
 
         List<Customer> customers = List.of(customer);
+
         List<CustomerDto> dtos = List.of(dto);
 
         Page<Customer> customerPage = new PageImpl<>(customers);
@@ -231,7 +399,23 @@ class CustomerServiceTest {
     }
 
     @Test
-    void toggleStatusTest() {
+    void findAllEmptyTest() {
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Page<Customer> customerPage = new PageImpl<>(List.of());
+
+        Mockito.when(customerRepository.findAll(pageable)).thenReturn(customerPage);
+
+        Mockito.when(modelMapper.map(Mockito.eq(List.of()), Mockito.any(Type.class))).thenReturn(List.of());
+
+        List<CustomerDto> response = customerService.findAll(pageable);
+
+        Assertions.assertTrue(response.isEmpty());
+    }
+
+    @Test
+    void toggleStatusTrueToFalseTest() {
 
         Customer customer = new Customer();
         customer.setIdentifier("CUST1");
@@ -253,6 +437,37 @@ class CustomerServiceTest {
         CustomerDto response = customerService.toggleStatus("CUST1");
 
         Assertions.assertEquals("CUST1", response.getIdentifier());
+
+        Assertions.assertFalse(customer.isStatus());
+
+        Mockito.verify(customerRepository).save(customer);
+    }
+
+    @Test
+    void toggleStatusFalseToTrueTest() {
+
+        Customer customer = new Customer();
+        customer.setIdentifier("CUST1");
+        customer.setStatus(false);
+
+        Customer updated = new Customer();
+        updated.setIdentifier("CUST1");
+        updated.setStatus(true);
+
+        CustomerDto dto = new CustomerDto();
+        dto.setIdentifier("CUST1");
+
+        Mockito.when(customerRepository.findByIdentifier("CUST1")).thenReturn(customer);
+
+        Mockito.when(customerRepository.save(customer)).thenReturn(updated);
+
+        Mockito.when(modelMapper.map(updated, CustomerDto.class)).thenReturn(dto);
+
+        CustomerDto response = customerService.toggleStatus("CUST1");
+
+        Assertions.assertEquals("CUST1", response.getIdentifier());
+
+        Assertions.assertTrue(customer.isStatus());
 
         Mockito.verify(customerRepository).save(customer);
     }

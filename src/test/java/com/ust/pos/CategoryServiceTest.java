@@ -69,10 +69,6 @@ class CategoryServiceTest {
         dto.setIdentifier("CAT1");
         dto.setSuperCategory("SUPER");
 
-        Category category = new Category();
-        category.setIdentifier("CAT1");
-        category.setSuperCategory("SUPER");
-
         CategoryDto mappedDto = new CategoryDto();
         mappedDto.setIdentifier("CAT1");
         mappedDto.setSuccess(true);
@@ -88,6 +84,48 @@ class CategoryServiceTest {
         Assertions.assertEquals("CAT1", response.getIdentifier());
 
         Mockito.verify(categoryRepository).save(Mockito.any(Category.class));
+    }
+
+    @Test
+    void saveWithNullSuperCategoryTest() {
+
+        CategoryDto dto = new CategoryDto();
+        dto.setIdentifier("CAT1");
+        dto.setSuperCategory(null);
+
+        CategoryDto mappedDto = new CategoryDto();
+        mappedDto.setIdentifier("CAT1");
+
+        Mockito.when(categoryRepository.findByIdentifier("CAT1")).thenReturn(null);
+
+        Mockito.when(modelMapper.map(Mockito.any(Category.class), Mockito.eq(CategoryDto.class))).thenReturn(mappedDto);
+
+        CategoryDto response = categoryService.save(dto);
+
+        Assertions.assertNotNull(response);
+
+        Mockito.verify(categoryRepository).save(Mockito.argThat(category -> category.getSuperCategory() == null));
+    }
+
+    @Test
+    void saveWithBlankSuperCategoryTest() {
+
+        CategoryDto dto = new CategoryDto();
+        dto.setIdentifier("CAT1");
+        dto.setSuperCategory("   ");
+
+        CategoryDto mappedDto = new CategoryDto();
+        mappedDto.setIdentifier("CAT1");
+
+        Mockito.when(categoryRepository.findByIdentifier("CAT1")).thenReturn(null);
+
+        Mockito.when(modelMapper.map(Mockito.any(Category.class), Mockito.eq(CategoryDto.class))).thenReturn(mappedDto);
+
+        CategoryDto response = categoryService.save(dto);
+
+        Assertions.assertNotNull(response);
+
+        Mockito.verify(categoryRepository).save(Mockito.argThat(category -> category.getSuperCategory() == null));
     }
 
     @Test
@@ -128,6 +166,54 @@ class CategoryServiceTest {
         CategoryDto response = categoryService.update(dto);
 
         Assertions.assertTrue(response.isSuccess());
+
+        Mockito.verify(categoryRepository).save(category);
+    }
+
+    @Test
+    void updateWithNullSuperCategoryTest() {
+
+        CategoryDto dto = new CategoryDto();
+        dto.setIdentifier("CAT1");
+        dto.setSuperCategory(null);
+
+        Category category = new Category();
+        category.setIdentifier("CAT1");
+        category.setSuperCategory("OLD");
+
+        CategoryDto mappedDto = new CategoryDto();
+
+        Mockito.when(categoryRepository.findByIdentifier("CAT1")).thenReturn(category);
+
+        Mockito.when(modelMapper.map(category, CategoryDto.class)).thenReturn(mappedDto);
+
+        categoryService.update(dto);
+
+        Assertions.assertNull(category.getSuperCategory());
+
+        Mockito.verify(categoryRepository).save(category);
+    }
+
+    @Test
+    void updateWithBlankSuperCategoryTest() {
+
+        CategoryDto dto = new CategoryDto();
+        dto.setIdentifier("CAT1");
+        dto.setSuperCategory("   ");
+
+        Category category = new Category();
+        category.setIdentifier("CAT1");
+        category.setSuperCategory("OLD");
+
+        CategoryDto mappedDto = new CategoryDto();
+
+        Mockito.when(categoryRepository.findByIdentifier("CAT1")).thenReturn(category);
+
+        Mockito.when(modelMapper.map(category, CategoryDto.class)).thenReturn(mappedDto);
+
+        categoryService.update(dto);
+
+        Assertions.assertNull(category.getSuperCategory());
 
         Mockito.verify(categoryRepository).save(category);
     }
@@ -210,7 +296,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void toggleStatusTest() {
+    void toggleStatusTrueToFalseTest() {
 
         Category category = new Category();
         category.setIdentifier("CAT1");
@@ -227,6 +313,32 @@ class CategoryServiceTest {
         CategoryDto response = categoryService.toggleStatus("CAT1");
 
         Assertions.assertEquals("CAT1", response.getIdentifier());
+
+        Assertions.assertFalse(category.isStatus());
+
+        Mockito.verify(categoryRepository).save(category);
+    }
+
+    @Test
+    void toggleStatusFalseToTrueTest() {
+
+        Category category = new Category();
+        category.setIdentifier("CAT1");
+        category.setSuperCategory("SUPER");
+        category.setStatus(false);
+
+        CategoryDto dto = new CategoryDto();
+        dto.setIdentifier("CAT1");
+
+        Mockito.when(categoryRepository.findByIdentifier("CAT1")).thenReturn(category);
+
+        Mockito.when(modelMapper.map(category, CategoryDto.class)).thenReturn(dto);
+
+        CategoryDto response = categoryService.toggleStatus("CAT1");
+
+        Assertions.assertEquals("CAT1", response.getIdentifier());
+
+        Assertions.assertTrue(category.isStatus());
 
         Mockito.verify(categoryRepository).save(category);
     }
@@ -265,20 +377,25 @@ class CategoryServiceTest {
     @Test
     void findIfTrueTest() {
 
-        Category category = new Category();
-        category.setIdentifier("CAT1");
-        category.setStatus(true);
-        category.setSuperCategory("SUPER");
+        Category category1 = new Category();
+        category1.setIdentifier("CAT1");
+        category1.setStatus(true);
+        category1.setSuperCategory("SUPER");
+
+        Category category2 = new Category();
+        category2.setIdentifier("CAT2");
+        category2.setStatus(false);
+        category2.setSuperCategory("SUPER");
 
         CategoryDto dto = new CategoryDto();
         dto.setIdentifier("CAT1");
 
-        List<Category> categories = List.of(category);
+        List<Category> categories = List.of(category1, category2);
         List<CategoryDto> dtos = List.of(dto);
 
         Mockito.when(categoryRepository.findBySuperCategoryIsNotNull()).thenReturn(categories);
 
-        Mockito.when(modelMapper.map(Mockito.eq(categories), Mockito.any(Type.class))).thenReturn(dtos);
+        Mockito.when(modelMapper.map(Mockito.anyList(), Mockito.any(Type.class))).thenReturn(dtos);
 
         List<CategoryDto> response = categoryService.findIfTrue();
 

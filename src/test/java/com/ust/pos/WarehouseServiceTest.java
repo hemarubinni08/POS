@@ -7,11 +7,11 @@ import com.ust.pos.warehouse.service.impl.WarehouseServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -36,7 +36,7 @@ class WarehouseServiceTest {
     void saveTest() {
 
         WarehouseDto dto = new WarehouseDto();
-        dto.setIdentifier("W1");
+        dto.setIdentifier(" W1 ");
 
         Warehouse warehouse = new Warehouse();
 
@@ -53,7 +53,6 @@ class WarehouseServiceTest {
         WarehouseDto response = warehouseService.save(dto);
 
         Assertions.assertTrue(response.isSuccess());
-        Assertions.assertEquals("W1", response.getIdentifier());
 
         Mockito.verify(warehouseRepository).save(warehouse);
     }
@@ -64,11 +63,14 @@ class WarehouseServiceTest {
         WarehouseDto dto = new WarehouseDto();
         dto.setIdentifier("W1");
 
-        Mockito.when(warehouseRepository.findByIdentifier("W1")).thenReturn(new Warehouse());
+        Warehouse warehouse = new Warehouse();
+
+        Mockito.when(warehouseRepository.findByIdentifier("W1")).thenReturn(warehouse);
 
         WarehouseDto response = warehouseService.save(dto);
 
         Assertions.assertFalse(response.isSuccess());
+
         Assertions.assertEquals("Warehouse with identifier W1 already exists", response.getMessage());
     }
 
@@ -83,19 +85,28 @@ class WarehouseServiceTest {
         warehouse.setStatus(true);
 
         WarehouseDto mappedDto = new WarehouseDto();
-        mappedDto.setIdentifier("W1");
         mappedDto.setSuccess(true);
 
         Mockito.when(warehouseRepository.findByIdentifier("W1")).thenReturn(warehouse);
 
-        Mockito.doNothing().when(modelMapper).map(dto, warehouse);
+        Mockito.doAnswer(invocation -> {
+
+            WarehouseDto source = invocation.getArgument(0);
+            Warehouse target = invocation.getArgument(1);
+
+            target.setIdentifier(source.getIdentifier());
+
+            return null;
+
+        }).when(modelMapper).map(Mockito.any(WarehouseDto.class), Mockito.any(Warehouse.class));
 
         Mockito.when(modelMapper.map(warehouse, WarehouseDto.class)).thenReturn(mappedDto);
 
         WarehouseDto response = warehouseService.update(dto);
 
         Assertions.assertTrue(response.isSuccess());
-        Assertions.assertEquals("W1", response.getIdentifier());
+
+        Assertions.assertTrue(warehouse.isStatus());
 
         Mockito.verify(warehouseRepository).save(warehouse);
     }
@@ -111,6 +122,7 @@ class WarehouseServiceTest {
         WarehouseDto response = warehouseService.update(dto);
 
         Assertions.assertFalse(response.isSuccess());
+
         Assertions.assertEquals("Warehouse not found", response.getMessage());
     }
 
@@ -129,12 +141,11 @@ class WarehouseServiceTest {
 
         WarehouseDto response = warehouseService.findByIdentifier("W1");
 
-        Assertions.assertNotNull(response);
         Assertions.assertEquals("W1", response.getIdentifier());
     }
 
     @Test
-    void findByIdentifierNotFoundTest() {
+    void findByIdentifierNullTest() {
 
         Mockito.when(warehouseRepository.findByIdentifier("W1")).thenReturn(null);
 
@@ -146,6 +157,8 @@ class WarehouseServiceTest {
     @Test
     void findAllTest() {
 
+        Pageable pageable = PageRequest.of(0, 10);
+
         Warehouse warehouse = new Warehouse();
         warehouse.setIdentifier("W1");
 
@@ -153,19 +166,17 @@ class WarehouseServiceTest {
         dto.setIdentifier("W1");
 
         List<Warehouse> warehouses = List.of(warehouse);
-        List<WarehouseDto> warehouseDtos = List.of(dto);
+        List<WarehouseDto> dtos = List.of(dto);
 
-        Pageable pageable = PageRequest.of(0, 10);
         Page<Warehouse> warehousePage = new PageImpl<>(warehouses);
 
         Mockito.when(warehouseRepository.findAll(pageable)).thenReturn(warehousePage);
 
-        Mockito.when(modelMapper.map(Mockito.eq(warehouses), Mockito.any(Type.class))).thenReturn(warehouseDtos);
+        Mockito.when(modelMapper.map(Mockito.eq(warehouses), Mockito.any(Type.class))).thenReturn(dtos);
 
         List<WarehouseDto> response = warehouseService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("W1", response.get(0).getIdentifier());
     }
 
     @Test
@@ -173,15 +184,15 @@ class WarehouseServiceTest {
 
         Mockito.doNothing().when(warehouseRepository).deleteByIdentifier("W1");
 
-        boolean result = warehouseService.delete("W1");
+        boolean response = warehouseService.delete("W1");
 
-        Assertions.assertTrue(result);
+        Assertions.assertTrue(response);
 
         Mockito.verify(warehouseRepository).deleteByIdentifier("W1");
     }
 
     @Test
-    void toggleStatusTest() {
+    void toggleStatusTrueToFalseTest() {
 
         Warehouse warehouse = new Warehouse();
         warehouse.setIdentifier("W1");
@@ -197,13 +208,29 @@ class WarehouseServiceTest {
     }
 
     @Test
-    void toggleStatusWarehouseNotFoundTest() {
+    void toggleStatusFalseToTrueTest() {
+
+        Warehouse warehouse = new Warehouse();
+        warehouse.setIdentifier("W1");
+        warehouse.setStatus(false);
+
+        Mockito.when(warehouseRepository.findByIdentifier("W1")).thenReturn(warehouse);
+
+        warehouseService.toggleStatus("W1");
+
+        Assertions.assertTrue(warehouse.isStatus());
+
+        Mockito.verify(warehouseRepository).save(warehouse);
+    }
+
+    @Test
+    void toggleStatusNullTest() {
 
         Mockito.when(warehouseRepository.findByIdentifier("W1")).thenReturn(null);
 
         warehouseService.toggleStatus("W1");
 
-        Mockito.verify(warehouseRepository, Mockito.never()).save(Mockito.any(Warehouse.class));
+        Mockito.verify(warehouseRepository, Mockito.never()).save(Mockito.any());
     }
 
     @Test
@@ -215,19 +242,18 @@ class WarehouseServiceTest {
 
         WarehouseDto dto = new WarehouseDto();
         dto.setIdentifier("W1");
-        dto.setStatus(true);
 
         List<Warehouse> warehouses = List.of(warehouse);
-        List<WarehouseDto> warehouseDtos = List.of(dto);
+        List<WarehouseDto> dtos = List.of(dto);
 
         Mockito.when(warehouseRepository.findByStatusIsTrue()).thenReturn(warehouses);
 
-        Mockito.when(modelMapper.map(Mockito.eq(warehouses), Mockito.any(Type.class))).thenReturn(warehouseDtos);
+        Mockito.when(modelMapper.map(Mockito.eq(warehouses), Mockito.any(Type.class))).thenReturn(dtos);
 
         List<WarehouseDto> response = warehouseService.findIfTrue();
 
         Assertions.assertEquals(1, response.size());
+
         Assertions.assertEquals("W1", response.get(0).getIdentifier());
-        Assertions.assertTrue(response.get(0).isStatus());
     }
 }

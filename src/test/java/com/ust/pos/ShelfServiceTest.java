@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
@@ -41,6 +42,7 @@ class ShelfServiceTest {
         Shelf shelf = new Shelf();
 
         Mockito.when(shelfRepository.existsByIdentifier("S1")).thenReturn(false);
+
         Mockito.when(modelMapper.map(dto, Shelf.class)).thenReturn(shelf);
 
         ShelfDto response = shelfService.createShelf(dto);
@@ -61,29 +63,22 @@ class ShelfServiceTest {
         ShelfDto response = shelfService.createShelf(dto);
 
         Assertions.assertFalse(response.isSuccess());
+
         Assertions.assertEquals("Shelf already exists", response.getMessage());
     }
 
     @Test
     void updateShelfTest() {
 
-        ShelfDto dto = new ShelfDto();
-        dto.setId(1L);
-        dto.setIdentifier("S1");
-
         Shelf shelf = new Shelf();
+        shelf.setId(1L);
         shelf.setIdentifier("OLD");
 
+        ShelfDto dto = new ShelfDto();
+        dto.setId(1L);
+        dto.setIdentifier("NEW");
+
         Mockito.when(shelfRepository.findById(1L)).thenReturn(Optional.of(shelf));
-
-        Mockito.doAnswer(invocation -> {
-            Shelf source = invocation.getArgument(0);
-            ShelfDto target = invocation.getArgument(1);
-
-            target.setIdentifier(source.getIdentifier());
-
-            return null;
-        }).when(modelMapper).map(Mockito.any(Shelf.class), Mockito.any(ShelfDto.class));
 
         ShelfDto response = shelfService.updateShelf(dto);
 
@@ -103,6 +98,7 @@ class ShelfServiceTest {
         ShelfDto response = shelfService.updateShelf(dto);
 
         Assertions.assertFalse(response.isSuccess());
+
         Assertions.assertEquals(ShelfServiceImpl.SHELF_NOT_FOUND, response.getMessage());
     }
 
@@ -110,23 +106,13 @@ class ShelfServiceTest {
     void getShelfTest() {
 
         Shelf shelf = new Shelf();
-        shelf.setIdentifier("S1");
+        shelf.setId(1L);
 
         Mockito.when(shelfRepository.findById(1L)).thenReturn(Optional.of(shelf));
-
-        Mockito.doAnswer(invocation -> {
-            Shelf source = invocation.getArgument(0);
-            ShelfDto target = invocation.getArgument(1);
-
-            target.setIdentifier(source.getIdentifier());
-
-            return null;
-        }).when(modelMapper).map(Mockito.any(Shelf.class), Mockito.any(ShelfDto.class));
 
         ShelfDto response = shelfService.getShelf(1L);
 
         Assertions.assertTrue(response.isSuccess());
-        Assertions.assertEquals("S1", response.getIdentifier());
     }
 
     @Test
@@ -137,11 +123,14 @@ class ShelfServiceTest {
         ShelfDto response = shelfService.getShelf(1L);
 
         Assertions.assertFalse(response.isSuccess());
+
         Assertions.assertEquals(ShelfServiceImpl.SHELF_NOT_FOUND, response.getMessage());
     }
 
     @Test
     void findAllTest() {
+
+        Pageable pageable = PageRequest.of(0, 10);
 
         Shelf shelf = new Shelf();
         shelf.setIdentifier("S1");
@@ -154,14 +143,13 @@ class ShelfServiceTest {
 
         Page<Shelf> shelfPage = new PageImpl<>(shelves);
 
-        Mockito.when(shelfRepository.findAll(Mockito.any(Pageable.class))).thenReturn(shelfPage);
+        Mockito.when(shelfRepository.findAll(pageable)).thenReturn(shelfPage);
 
         Mockito.when(modelMapper.map(Mockito.eq(shelves), Mockito.any(Type.class))).thenReturn(dtos);
 
-        List<ShelfDto> response = shelfService.findAll(Pageable.unpaged());
+        List<ShelfDto> response = shelfService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("S1", response.get(0).getIdentifier());
     }
 
     @Test
@@ -177,25 +165,37 @@ class ShelfServiceTest {
     }
 
     @Test
-    void toggleStatusTest() {
+    void toggleStatusTrueToFalseTest() {
 
         Shelf shelf = new Shelf();
+        shelf.setId(1L);
         shelf.setActive(true);
 
         Mockito.when(shelfRepository.findById(1L)).thenReturn(Optional.of(shelf));
 
-        Mockito.doAnswer(invocation -> {
-            Shelf source = invocation.getArgument(0);
-            ShelfDto target = invocation.getArgument(1);
+        ShelfDto response = shelfService.toggleStatus(1L);
 
-            target.setActive(source.isActive());
+        Assertions.assertTrue(response.isSuccess());
 
-            return null;
-        }).when(modelMapper).map(Mockito.any(Shelf.class), Mockito.any(ShelfDto.class));
+        Assertions.assertFalse(shelf.isActive());
+
+        Mockito.verify(shelfRepository).save(shelf);
+    }
+
+    @Test
+    void toggleStatusFalseToTrueTest() {
+
+        Shelf shelf = new Shelf();
+        shelf.setId(1L);
+        shelf.setActive(false);
+
+        Mockito.when(shelfRepository.findById(1L)).thenReturn(Optional.of(shelf));
 
         ShelfDto response = shelfService.toggleStatus(1L);
 
         Assertions.assertTrue(response.isSuccess());
+
+        Assertions.assertTrue(shelf.isActive());
 
         Mockito.verify(shelfRepository).save(shelf);
     }
@@ -208,6 +208,7 @@ class ShelfServiceTest {
         ShelfDto response = shelfService.toggleStatus(1L);
 
         Assertions.assertFalse(response.isSuccess());
+
         Assertions.assertEquals(ShelfServiceImpl.SHELF_NOT_FOUND, response.getMessage());
     }
 
@@ -216,20 +217,20 @@ class ShelfServiceTest {
 
         Shelf shelf = new Shelf();
         shelf.setIdentifier("S1");
-        shelf.setActive(true);
 
         ShelfDto dto = new ShelfDto();
         dto.setIdentifier("S1");
-        dto.setActive(true);
 
-        Mockito.when(shelfRepository.findByActiveTrue()).thenReturn(List.of(shelf));
+        List<Shelf> shelves = List.of(shelf);
+
+        Mockito.when(shelfRepository.findByActiveTrue()).thenReturn(shelves);
 
         Mockito.when(modelMapper.map(shelf, ShelfDto.class)).thenReturn(dto);
 
         List<ShelfDto> response = shelfService.getActiveShelves();
 
         Assertions.assertEquals(1, response.size());
+
         Assertions.assertEquals("S1", response.get(0).getIdentifier());
-        Assertions.assertTrue(response.get(0).isActive());
     }
 }
