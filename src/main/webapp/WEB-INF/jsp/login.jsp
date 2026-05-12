@@ -17,16 +17,14 @@
             height: 100vh;
         }
 
-        /* ===== CARD ===== */
         .login-card {
             background: #f3efe9;
             width: 360px;
             padding: 35px 30px;
             border-radius: 4px;
-            text-align: left; /* LEFT ALIGN FIX */
+            text-align: left;
         }
 
-        /* TITLE */
         .app-title {
             font-size: 12px;
             font-weight: 700;
@@ -42,7 +40,6 @@
             color: #2f2f2f;
         }
 
-        /* FORM */
         .form-group {
             margin-bottom: 18px;
         }
@@ -61,7 +58,7 @@
             padding: 10px 0;
             border: none;
             border-bottom: 2px solid #cfcfcf;
-            background: transparent;
+            background: #f3efe9; /* SAME CREAM COLOR */
             font-size: 14px;
             outline: none;
             color: #2f2f2f;
@@ -69,9 +66,18 @@
 
         input:focus {
             border-bottom: 2px solid #3f3f3f;
+            background: #f3efe9; /* KEEP CREAM ON FOCUS */
         }
 
-        /* LOGIN BUTTON */
+        /* REMOVE WHITE AUTOFILL BG */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #f3efe9 inset !important;
+            -webkit-text-fill-color: #2f2f2f !important;
+        }
+
         .login-btn {
             width: 100%;
             box-sizing: border-box;
@@ -79,14 +85,13 @@
             margin-top: 15px;
             background: #3f3f3f;
             color: #ffffff;
-            border: 2px solid #3f3f3f; /* SAME BORDER ALWAYS */
+            border: 2px solid #3f3f3f;
             font-weight: 700;
             letter-spacing: 1px;
             cursor: pointer;
             transition: 0.3s;
         }
 
-        /* NO SIZE CHANGE NOW */
         .login-btn:hover {
             background: transparent;
             color: #3f3f3f;
@@ -100,7 +105,6 @@
             font-size: 11px;
         }
 
-        /* REGISTER */
         .register-btn {
             width: 100%;
             box-sizing: border-box;
@@ -118,7 +122,6 @@
             color: #ffffff;
         }
 
-        /* MESSAGES */
         .error-message {
             margin-top: 12px;
             padding: 8px;
