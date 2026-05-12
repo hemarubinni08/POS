@@ -1,144 +1,176 @@
-<%@ page language="java"
-         contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+<meta charset="UTF-8">
+<title>Brand List</title>
 
-    <meta charset="UTF-8">
-    <title>Edit Rack</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+<style>
+body {
+    background-color: #E9EEF5;
+    min-height: 100vh;
+}
 
-    <style>
+.card {
+    border-radius: 16px;
+}
 
-        body {
-            background-color: #E9EEF5;
-            min-height: 100vh;
-        }
+.btn {
+    border-radius: 10px;
+}
 
-        .card {
-            border-radius: 16px;
-        }
+.table th,
+.table td {
+    vertical-align: middle;
+}
 
-        .form-control,
-        .form-select {
-            border-radius: 10px;
-        }
-
-        .btn {
-            border-radius: 10px;
-        }
-
-        .shelf-box {
-            max-height: 180px;
-            overflow-y: auto;
-            border: 1px solid #ced4da;
-            border-radius: 10px;
-            padding: 10px;
-            background: #fff;
-        }
-
-    </style>
+.form-switch .form-check-input {
+    width: 45px;
+    height: 22px;
+    cursor: pointer;
+}
+</style>
 
 </head>
 
 <body>
 
 <nav class="navbar navbar-dark bg-dark shadow">
+
     <div class="container-fluid">
+
         <span class="navbar-brand fw-bold">
-            Rack Management
+            Brand Management
         </span>
-        <a href="${pageContext.request.contextPath}/rack/list"
-           class="btn btn-outline-light btn-sm">
-            Back
-        </a>
+
+        <div class="d-flex gap-2">
+
+            <a href="/"
+               class="btn btn-outline-light btn-sm">
+                Home
+            </a>
+
+            <a href="/brand/add"
+               class="btn btn-light btn-sm fw-semibold">
+                + Add Brand
+            </a>
+
+        </div>
+
     </div>
+
 </nav>
 
-<div class="container d-flex justify-content-center align-items-center"
-     style="min-height: 100vh;">
-    <div class="card shadow p-4" style="width: 500px;">
-        <h3 class="text-center mb-4 fw-bold">Edit Rack</h3>
-        <c:if test="${not empty message}">
-            <div class="alert alert-danger text-center">
-                ${message}
-            </div>
-        </c:if>
-        <form:form method="post"
-                   action="${pageContext.request.contextPath}/rack/update"
-                   modelAttribute="rackDto"
-                   id="rackForm">
-            <form:hidden path="identifier"/>
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Rack Name</label>
-                <form:input path="name" cssClass="form-control" readonly="true"/>
-            </div>
-            <div class="mb-4">
-                <label class="form-label fw-semibold">
-                    Shelves <span class="text-danger">*</span>
-                </label>
-                <div class="shelf-box">
-                    <c:forEach var="s" items="${shelves}">
-                        <div class="form-check">
-                            <form:checkbox path="shelfIdentifiers"
-                                           value="${s.identifier}"
-                                           cssClass="form-check-input shelf-check"/>
-                            <label class="form-check-label">
-                                ${s.name}
-                            </label>
-                        </div>
+<div class="container mt-5">
+
+    <div class="card shadow p-3">
+
+        <h3 class="fw-bold mb-3 text-center">
+            Brand List
+        </h3>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover table-striped mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+                        <th>Identifier</th>
+                        <th>Brand Name</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <c:if test="${empty brands}">
+
+                        <tr>
+
+                            <td colspan="5"
+                                class="text-center py-4 text-muted">
+                                No brands found.
+                            </td>
+
+                        </tr>
+
+                    </c:if>
+
+                    <c:forEach items="${brands}" var="brand">
+
+                        <tr>
+
+                            <td class="fw-semibold">
+                                ${brand.identifier}
+                            </td>
+
+                            <td>
+                                ${brand.brandName}
+                            </td>
+
+                            <td>
+                                ${brand.description}
+                            </td>
+
+                            <td class="text-center">
+
+                                <div class="form-check form-switch">
+
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           onclick="toggleBrand('${brand.identifier}')"
+                                           <c:if test="${brand.status}">checked</c:if>/>
+
+                                </div>
+
+                            </td>
+
+                            <td class="text-center">
+
+                                <a href="/brand/get?identifier=${brand.identifier}"
+                                   class="btn btn-sm btn-outline-primary me-2">
+                                    Update
+                                </a>
+
+                                <a href="/brand/delete?identifier=${brand.identifier}"
+                                   class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('Are you sure you want to delete this brand?');">
+                                    Delete
+                                </a>
+
+                            </td>
+
+                        </tr>
+
                     </c:forEach>
-                </div>
-                <small id="shelfError" class="text-danger d-none">
-                    Please select at least one shelf
-                </small>
-            </div>
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Status</label>
-                <form:select path="status" cssClass="form-select">
-                    <form:option value="true">Active</form:option>
-                    <form:option value="false">Inactive</form:option>
-                </form:select>
-            </div>
-            <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary w-100">
-                    Update Rack
-                </button>
-                <a href="${pageContext.request.contextPath}/rack/list"
-                   class="btn btn-outline-secondary w-100">
-                    Cancel
-                </a>
-            </div>
-        </form:form>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </div>
+
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const checks = document.querySelectorAll(".shelf-check");
-    const error = document.getElementById("shelfError");
-    const form = document.getElementById("rackForm");
-    function validate() {
-        let ok = Array.from(checks).some(c => c.checked);
-        error.classList.toggle("d-none", ok);
-        return ok;
-    }
-    checks.forEach(c => c.addEventListener("change", validate));
-    form.addEventListener("submit", function (e) {
-        if (!validate()) {
-            e.preventDefault();
-        }
-    });
-});
-
+function toggleBrand(identifier) {
+    window.location.href =
+        "/brand/toggleStatus?identifier=" + identifier;
+}
 </script>
+
 </body>
+
 </html>
