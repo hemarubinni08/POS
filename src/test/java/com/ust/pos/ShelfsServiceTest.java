@@ -158,4 +158,20 @@ class ShelfsServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
+
+    @Test
+    void findAllForHomeTest() {
+        Shelfs shelfs = new Shelfs();
+        ShelfsDto shelfsDto = new ShelfsDto();
+
+        List<Shelfs> shelfsList = List.of(shelfs);
+        List<ShelfsDto> shelfsDtoList = List.of(shelfsDto);
+
+        Mockito.when(shelfsRepository.findAll()).thenReturn(shelfsList);
+        Mockito.when(modelMapper.map(Mockito.eq(shelfsList), Mockito.any(java.lang.reflect.Type.class))).thenReturn(shelfsDtoList);
+
+        List<ShelfsDto> response = shelfsService.findAllForHome();
+
+        Assertions.assertEquals(1, response.size());
+    }
 }

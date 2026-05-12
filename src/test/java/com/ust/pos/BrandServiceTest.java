@@ -158,4 +158,20 @@ class BrandServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
+
+    @Test
+    void findAllForHomeTest() {
+        Brand brand = new Brand();
+        BrandDto brandDto = new BrandDto();
+
+        List<Brand> brandList = List.of(brand);
+        List<BrandDto> brandDtoList = List.of(brandDto);
+
+        Mockito.when(brandRepository.findAll()).thenReturn(brandList);
+        Mockito.when(modelMapper.map(Mockito.eq(brandList), Mockito.any(java.lang.reflect.Type.class))).thenReturn(brandDtoList);
+
+        List<BrandDto> response = brandService.findAllForHome();
+
+        Assertions.assertEquals(1, response.size());
+    }
 }
