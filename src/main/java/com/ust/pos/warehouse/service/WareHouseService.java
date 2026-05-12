@@ -8,17 +8,13 @@ import java.util.List;
 
 @Transactional
 public interface WareHouseService {
+
     WareHouseDto save(WareHouseDto wareHouseDto);
-
     WareHouseDto update(WareHouseDto wareHouseDto);
-
     boolean delete(String identifier);
-
     List<WareHouseDto> findAll(Pageable pageable);
-
     WareHouseDto findByIdentifier(String identifier);
-
     List<WareHouseDto> findIfTrue();
-
     WareHouseDto toggleStatus(String identifier);
+
 }

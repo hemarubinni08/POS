@@ -1,7 +1,6 @@
 package com.ust.pos.unit.service.impl;
 
 import com.ust.pos.dto.UnitDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
 import com.ust.pos.unit.service.UnitService;
@@ -17,6 +16,7 @@ import java.util.List;
 
 @Service
 public class UnitServiceImpl implements UnitService {
+
     @Autowired
     private UnitRepository unitRepository;
 

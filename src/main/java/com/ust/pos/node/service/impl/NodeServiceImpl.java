@@ -1,7 +1,10 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.model.*;
+import com.ust.pos.model.Node;
+import com.ust.pos.model.NodeRepository;
+import com.ust.pos.model.User;
+import com.ust.pos.model.UserRepository;
 import com.ust.pos.node.service.NodeService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -20,6 +23,7 @@ import java.util.Set;
 
 @Service
 public class NodeServiceImpl implements NodeService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -39,6 +43,7 @@ public class NodeServiceImpl implements NodeService {
         }
         return nodeDtos;
     }
+
     private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesStr = new HashSet<>();
@@ -54,9 +59,6 @@ public class NodeServiceImpl implements NodeService {
             nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
         }
     }
-
-
-
 
     @Override
     public NodeDto findByIdentifier(String identifier) {
@@ -101,13 +103,13 @@ public class NodeServiceImpl implements NodeService {
     public List<NodeDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
-        Page<Node> nodePage=nodeRepository.findAll(pageable);
+        Page<Node> nodePage = nodeRepository.findAll(pageable);
         return modelMapper.map(nodePage.getContent(), listType);
     }
 
     @Override
     public List<NodeDto> findIfTrue() {
-        Type listType = new TypeToken<List<NodeDto>>(){
+        Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
         return modelMapper.map(nodeRepository.findByStatusIsTrue(), listType);
     }
@@ -117,7 +119,6 @@ public class NodeServiceImpl implements NodeService {
         Node node = nodeRepository.findByIdentifier(identifier);
         node.setStatus(!node.isStatus());
         nodeRepository.save(node);
-        return modelMapper.map(node,NodeDto.class);
+        return modelMapper.map(node, NodeDto.class);
     }
-
 }

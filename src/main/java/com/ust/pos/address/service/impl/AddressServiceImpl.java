@@ -4,7 +4,6 @@ import com.ust.pos.address.service.AddressService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.model.Address;
 import com.ust.pos.model.AddressRepository;
-import com.ust.pos.model.Brand;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +65,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public boolean delete(String phoneNo) {
-        List<Address>  address = addressRepository.findAllByPhoneNo(phoneNo);
+        List<Address> address = addressRepository.findAllByPhoneNo(phoneNo);
         addressRepository.deleteAll(address);
         return true;
     }
@@ -75,8 +74,7 @@ public class AddressServiceImpl implements AddressService {
     public List<AddressDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<AddressDto>>() {
         }.getType();
-        Page<Address> addressPage=addressRepository.findAll(pageable);
+        Page<Address> addressPage = addressRepository.findAll(pageable);
         return modelMapper.map(addressPage.getContent(), listType);
     }
-
 }

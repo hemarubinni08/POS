@@ -9,8 +9,6 @@
 
     <style>
 
-        /* ===== BODY ===== */
-
         body {
             margin: 0;
             font-family: "Inter", sans-serif;
@@ -22,16 +20,12 @@
             padding: 30px 0;
         }
 
-        /* ===== CARD ===== */
-
         .product-card {
             background: #f3efe9;
             width: 470px;
             padding: 42px;
             box-sizing: border-box;
         }
-
-        /* ===== BACK BUTTON ===== */
 
         .back-btn {
             display: inline-block;
@@ -47,16 +41,12 @@
             opacity: 0.7;
         }
 
-        /* ===== TITLE ===== */
-
         h2 {
             margin: 0 0 34px;
             font-size: 26px;
             font-weight: 700;
             color: #2f2f2f;
         }
-
-        /* ===== FORM ===== */
 
         .form-group {
             margin-bottom: 28px;
@@ -84,8 +74,6 @@
             font-family: "Inter", sans-serif;
         }
 
-        /* ===== MULTI SELECT ===== */
-
         select[multiple] {
             height: 120px;
             border: 3px solid #cfcfcf;
@@ -103,15 +91,11 @@
             border-color: #3f3f3f;
         }
 
-        /* ===== HINT ===== */
-
         .hint {
             font-size: 12px;
             color: #7a7a7a;
             margin-top: 8px;
         }
-
-        /* ===== AUTOFILL FIX ===== */
 
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
@@ -123,8 +107,6 @@
             transition: background-color 5000s ease-in-out 0s;
 
         }
-
-        /* ===== BUTTON ===== */
 
         .add-btn {
             width: 100%;
@@ -145,8 +127,6 @@
             color: #3f3f3f;
         }
 
-        /* ===== ERROR ===== */
-
         .error-message {
             margin-top: 16px;
             padding: 12px;
@@ -163,8 +143,6 @@
 
 <div class="product-card">
 
-    <!-- ===== BACK ===== -->
-
     <a href="${pageContext.request.contextPath}/product/list"
        class="back-btn">
 
@@ -172,11 +150,7 @@
 
     </a>
 
-    <!-- ===== TITLE ===== -->
-
     <h2>Add Product</h2>
-
-    <!-- ===== ERROR ===== -->
 
     <c:if test="${not empty message}">
 
@@ -188,14 +162,10 @@
 
     </c:if>
 
-    <!-- ===== FORM ===== -->
-
     <form:form
             action="${pageContext.request.contextPath}/product/add"
             method="post"
             modelAttribute="productDto">
-
-        <!-- ===== PRODUCT NAME ===== -->
 
         <div class="form-group">
 
@@ -206,8 +176,6 @@
                     required="true"/>
 
         </div>
-
-        <!-- ===== CATEGORY ===== -->
 
         <div class="form-group">
 
@@ -236,8 +204,6 @@
 
         </div>
 
-        <!-- ===== BRAND ===== -->
-
         <div class="form-group">
 
             <label>BRAND</label>
@@ -257,8 +223,6 @@
             </form:select>
 
         </div>
-
-        <!-- ===== UNIT ===== -->
 
         <div class="form-group">
 
@@ -280,8 +244,6 @@
 
         </div>
 
-        <!-- ===== MODEL ===== -->
-
         <div class="form-group">
 
             <label>MODEL</label>
@@ -302,8 +264,6 @@
 
         </div>
 
-        <!-- ===== SKU ===== -->
-
         <div class="form-group">
 
             <label>SKU CODE</label>
@@ -314,8 +274,6 @@
                     required="true"/>
 
         </div>
-
-        <!-- ===== BUTTON ===== -->
 
         <button type="submit"
                 class="add-btn">

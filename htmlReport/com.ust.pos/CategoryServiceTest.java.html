@@ -26,222 +26,198 @@ import java.util.List;
     @Mock
     private CategoryRepository categoryRepository;
 
-    // ✅ Use real ModelMapper to avoid generic issues
-<span class="fc" id="L30">    @Spy</span>
+<span class="fc" id="L29">    @Spy</span>
     private ModelMapper modelMapper = new ModelMapper();
 
     @InjectMocks
     private CategoryServiceImpl categoryService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     void saveTest() {
-<span class="fc" id="L40">        CategoryDto dto = new CategoryDto();</span>
-<span class="fc" id="L41">        dto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L37">        CategoryDto dto = new CategoryDto();</span>
+<span class="fc" id="L38">        dto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L43">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
-<span class="fc" id="L44">        Mockito.when(categoryRepository.save(Mockito.any(Category.class)))</span>
-<span class="fc" id="L45">                .thenReturn(new Category());</span>
+<span class="fc" id="L40">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc" id="L41">        Mockito.when(categoryRepository.save(Mockito.any(Category.class)))</span>
+<span class="fc" id="L42">                .thenReturn(new Category());</span>
 
-<span class="fc" id="L47">        CategoryDto response = categoryService.save(dto);</span>
+<span class="fc" id="L44">        CategoryDto response = categoryService.save(dto);</span>
 
-<span class="fc" id="L49">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
-<span class="fc" id="L50">        Assertions.assertTrue(response.isSuccess());</span>
-<span class="fc" id="L51">    }</span>
+<span class="fc" id="L46">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L47">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L48">    }</span>
 
     @Test
     void saveTestFailure() {
-<span class="fc" id="L55">        CategoryDto dto = new CategoryDto();</span>
-<span class="fc" id="L56">        dto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L52">        CategoryDto dto = new CategoryDto();</span>
+<span class="fc" id="L53">        dto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L58">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L59">                .thenReturn(new Category());</span>
+<span class="fc" id="L55">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L56">                .thenReturn(new Category());</span>
 
-<span class="fc" id="L61">        CategoryDto response = categoryService.save(dto);</span>
+<span class="fc" id="L58">        CategoryDto response = categoryService.save(dto);</span>
 
-<span class="fc" id="L63">        Assertions.assertFalse(response.isSuccess());</span>
-<span class="fc" id="L64">    }</span>
-
-    /* ===================== FIND ===================== */
+<span class="fc" id="L60">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L61">    }</span>
 
     @Test
     void findByIdentifierTest() {
-<span class="fc" id="L70">        Category category = new Category();</span>
-<span class="fc" id="L71">        category.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L65">        Category category = new Category();</span>
+<span class="fc" id="L66">        category.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L73">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L74">                .thenReturn(category);</span>
+<span class="fc" id="L68">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L69">                .thenReturn(category);</span>
 
-<span class="fc" id="L76">        CategoryDto response = categoryService.findByIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L71">        CategoryDto response = categoryService.findByIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L78">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
-<span class="fc" id="L79">    }</span>
-
-    /* ===================== UPDATE ===================== */
+<span class="fc" id="L73">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L74">    }</span>
 
     @Test
     void updateTest() {
-<span class="fc" id="L85">        Category category = new Category();</span>
-<span class="fc" id="L86">        category.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L78">        Category category = new Category();</span>
+<span class="fc" id="L79">        category.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L88">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L89">                .thenReturn(category);</span>
-<span class="fc" id="L90">        Mockito.when(categoryRepository.save(category)).thenReturn(category);</span>
+<span class="fc" id="L81">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L82">                .thenReturn(category);</span>
+<span class="fc" id="L83">        Mockito.when(categoryRepository.save(category)).thenReturn(category);</span>
 
-<span class="fc" id="L92">        CategoryDto dto = new CategoryDto();</span>
-<span class="fc" id="L93">        dto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L85">        CategoryDto dto = new CategoryDto();</span>
+<span class="fc" id="L86">        dto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L95">        CategoryDto response = categoryService.update(dto);</span>
+<span class="fc" id="L88">        CategoryDto response = categoryService.update(dto);</span>
 
-<span class="fc" id="L97">        Assertions.assertTrue(response.isSuccess());</span>
-<span class="fc" id="L98">    }</span>
+<span class="fc" id="L90">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L91">    }</span>
 
     @Test
     void updateTestFailure() {
-<span class="fc" id="L102">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L103">                .thenReturn(null);</span>
+<span class="fc" id="L95">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L96">                .thenReturn(null);</span>
 
-<span class="fc" id="L105">        CategoryDto dto = new CategoryDto();</span>
-<span class="fc" id="L106">        dto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L98">        CategoryDto dto = new CategoryDto();</span>
+<span class="fc" id="L99">        dto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L108">        CategoryDto response = categoryService.update(dto);</span>
+<span class="fc" id="L101">        CategoryDto response = categoryService.update(dto);</span>
 
-<span class="fc" id="L110">        Assertions.assertFalse(response.isSuccess());</span>
-<span class="fc" id="L111">    }</span>
-
-    /* ===================== DELETE ===================== */
+<span class="fc" id="L103">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L104">    }</span>
 
     @Test
     void deleteTest() {
-<span class="fc" id="L117">        Mockito.doNothing().when(categoryRepository)</span>
-<span class="fc" id="L118">                .deleteByIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L108">        Mockito.doNothing().when(categoryRepository)</span>
+<span class="fc" id="L109">                .deleteByIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L120">        boolean response = categoryService.delete(&quot;Admin&quot;);</span>
+<span class="fc" id="L111">        boolean response = categoryService.delete(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L122">        Assertions.assertTrue(response);</span>
-<span class="fc" id="L123">    }</span>
-
-    /* ===================== FIND ALL ===================== */
+<span class="fc" id="L113">        Assertions.assertTrue(response);</span>
+<span class="fc" id="L114">    }</span>
 
     @Test
     void findAllTest() {
-<span class="fc" id="L129">        Category category = new Category();</span>
-<span class="fc" id="L130">        category.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L118">        Category category = new Category();</span>
+<span class="fc" id="L119">        category.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L132">        List&lt;Category&gt; categories = List.of(category);</span>
+<span class="fc" id="L121">        List&lt;Category&gt; categories = List.of(category);</span>
 
-<span class="fc" id="L134">        Page&lt;Category&gt; categoryPage =</span>
-<span class="fc" id="L135">                new PageImpl&lt;&gt;(categories, PageRequest.of(0, 2), categories.size());</span>
+<span class="fc" id="L123">        Page&lt;Category&gt; categoryPage =</span>
+<span class="fc" id="L124">                new PageImpl&lt;&gt;(categories, PageRequest.of(0, 2), categories.size());</span>
 
-<span class="fc" id="L137">        Pageable pageable = PageRequest.of(0, 50);</span>
+<span class="fc" id="L126">        Pageable pageable = PageRequest.of(0, 50);</span>
 
-<span class="fc" id="L139">        Mockito.when(categoryRepository.findAll(pageable))</span>
-<span class="fc" id="L140">                .thenReturn(categoryPage);</span>
+<span class="fc" id="L128">        Mockito.when(categoryRepository.findAll(pageable))</span>
+<span class="fc" id="L129">                .thenReturn(categoryPage);</span>
 
-<span class="fc" id="L142">        List&lt;CategoryDto&gt; response = categoryService.findAll(pageable);</span>
+<span class="fc" id="L131">        List&lt;CategoryDto&gt; response = categoryService.findAll(pageable);</span>
 
-<span class="fc" id="L144">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L145">    }</span>
-
-    /* ===================== FIND TRUE ===================== */
+<span class="fc" id="L133">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L134">    }</span>
 
     @Test
     void findByStatusTest() {
-<span class="fc" id="L151">        Category category = new Category();</span>
-<span class="fc" id="L152">        category.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L138">        Category category = new Category();</span>
+<span class="fc" id="L139">        category.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L154">        Mockito.when(categoryRepository.findByStatusIsTrue())</span>
-<span class="fc" id="L155">                .thenReturn(List.of(category));</span>
+<span class="fc" id="L141">        Mockito.when(categoryRepository.findByStatusIsTrue())</span>
+<span class="fc" id="L142">                .thenReturn(List.of(category));</span>
 
-<span class="fc" id="L157">        List&lt;CategoryDto&gt; response = categoryService.findIfTrue();</span>
+<span class="fc" id="L144">        List&lt;CategoryDto&gt; response = categoryService.findIfTrue();</span>
 
-<span class="fc" id="L159">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L160">    }</span>
-
-    /* ===================== TOGGLE ===================== */
+<span class="fc" id="L146">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L147">    }</span>
 
     @Test
     void toggleTestActive() {
-<span class="fc" id="L166">        Category category = new Category();</span>
-<span class="fc" id="L167">        category.setStatus(false);</span>
+<span class="fc" id="L151">        Category category = new Category();</span>
+<span class="fc" id="L152">        category.setStatus(false);</span>
 
-<span class="fc" id="L169">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L170">                .thenReturn(category);</span>
+<span class="fc" id="L154">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L155">                .thenReturn(category);</span>
 
-<span class="fc" id="L172">        CategoryDto response = categoryService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L157">        CategoryDto response = categoryService.toggleStatus(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L174">        Assertions.assertTrue(response.isStatus());</span>
-<span class="fc" id="L175">    }</span>
+<span class="fc" id="L159">        Assertions.assertTrue(response.isStatus());</span>
+<span class="fc" id="L160">    }</span>
 
     @Test
     void toggleTestInactive() {
-<span class="fc" id="L179">        Category category = new Category();</span>
-<span class="fc" id="L180">        category.setStatus(true);</span>
+<span class="fc" id="L164">        Category category = new Category();</span>
+<span class="fc" id="L165">        category.setStatus(true);</span>
 
-<span class="fc" id="L182">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L183">                .thenReturn(category);</span>
+<span class="fc" id="L167">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;))</span>
+<span class="fc" id="L168">                .thenReturn(category);</span>
 
-<span class="fc" id="L185">        CategoryDto response = categoryService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L170">        CategoryDto response = categoryService.toggleStatus(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L187">        Assertions.assertFalse(response.isStatus());</span>
-<span class="fc" id="L188">    }</span>
-
-    /* ===================== SUPER CATEGORY ===================== */
+<span class="fc" id="L172">        Assertions.assertFalse(response.isStatus());</span>
+<span class="fc" id="L173">    }</span>
 
     @Test
     void findBySuperCategoryNotNullTest() {
-<span class="fc" id="L194">        Category category = new Category();</span>
-<span class="fc" id="L195">        category.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L177">        Category category = new Category();</span>
+<span class="fc" id="L178">        category.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L197">        Mockito.when(categoryRepository.findByStatusTrueAndSuperCategoryIsNot(&quot;&quot;))</span>
-<span class="fc" id="L198">                .thenReturn(List.of(category));</span>
+<span class="fc" id="L180">        Mockito.when(categoryRepository.findByStatusTrueAndSuperCategoryIsNot(&quot;&quot;))</span>
+<span class="fc" id="L181">                .thenReturn(List.of(category));</span>
 
-<span class="fc" id="L200">        List&lt;CategoryDto&gt; response = categoryService.findBySuperCategoryNotNull();</span>
+<span class="fc" id="L183">        List&lt;CategoryDto&gt; response = categoryService.findBySuperCategoryNotNull();</span>
 
-<span class="fc" id="L202">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L203">    }</span>
-
-    /* ===================== FIND ALL ACTIVE (NEW METHOD) ===================== */
+<span class="fc" id="L185">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L186">    }</span>
 
     @Test
     void findAllActiveTest() {
+<span class="fc" id="L190">        Category valid = new Category();</span>
+<span class="fc" id="L191">        valid.setIdentifier(&quot;Valid&quot;);</span>
+<span class="fc" id="L192">        valid.setSuperCategory(&quot;Parent&quot;);</span>
+<span class="fc" id="L193">        valid.setStatus(true);</span>
+<span class="fc" id="L194">        Category nullSuper = new Category();</span>
+<span class="fc" id="L195">        nullSuper.setSuperCategory(null);</span>
+<span class="fc" id="L196">        nullSuper.setStatus(true);</span>
+<span class="fc" id="L197">        Category emptySuper = new Category();</span>
+<span class="fc" id="L198">        emptySuper.setSuperCategory(&quot; &quot;);</span>
+<span class="fc" id="L199">        emptySuper.setStatus(true);</span>
 
-        // ✅ Valid case (included)
-<span class="fc" id="L211">        Category valid = new Category();</span>
-<span class="fc" id="L212">        valid.setIdentifier(&quot;Valid&quot;);</span>
-<span class="fc" id="L213">        valid.setSuperCategory(&quot;Parent&quot;);</span>
-<span class="fc" id="L214">        valid.setStatus(true);</span>
-<span class="fc" id="L215">        Category nullSuper = new Category();</span>
-<span class="fc" id="L216">        nullSuper.setSuperCategory(null);</span>
-<span class="fc" id="L217">        nullSuper.setStatus(true);</span>
-<span class="fc" id="L218">        Category emptySuper = new Category();</span>
-<span class="fc" id="L219">        emptySuper.setSuperCategory(&quot; &quot;);</span>
-<span class="fc" id="L220">        emptySuper.setStatus(true);</span>
+<span class="fc" id="L201">        Category inactive = new Category();</span>
+<span class="fc" id="L202">        inactive.setSuperCategory(&quot;Parent&quot;);</span>
+<span class="fc" id="L203">        inactive.setStatus(false);</span>
 
+<span class="fc" id="L205">        Mockito.when(categoryRepository.findAll())</span>
+<span class="fc" id="L206">                .thenReturn(List.of(valid, nullSuper, emptySuper, inactive));</span>
 
-<span class="fc" id="L223">        Category inactive = new Category();</span>
-<span class="fc" id="L224">        inactive.setSuperCategory(&quot;Parent&quot;);</span>
-<span class="fc" id="L225">        inactive.setStatus(false);</span>
+<span class="fc" id="L208">        List&lt;CategoryDto&gt; response = categoryService.findAllActive();</span>
 
-<span class="fc" id="L227">        Mockito.when(categoryRepository.findAll())</span>
-<span class="fc" id="L228">                .thenReturn(List.of(valid, nullSuper, emptySuper, inactive));</span>
-
-<span class="fc" id="L230">        List&lt;CategoryDto&gt; response = categoryService.findAllActive();</span>
-
-<span class="fc" id="L232">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L233">        Assertions.assertEquals(&quot;Valid&quot;, response.get(0).getIdentifier());</span>
-<span class="fc" id="L234">    }</span>
-
-    /* ===================== EMPTY LIST EDGE CASE ===================== */
+<span class="fc" id="L210">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L211">        Assertions.assertEquals(&quot;Valid&quot;, response.get(0).getIdentifier());</span>
+<span class="fc" id="L212">    }</span>
 
     @Test
     void findAllActiveEmptyTest() {
-<span class="fc" id="L240">        Mockito.when(categoryRepository.findAll()).thenReturn(List.of());</span>
+<span class="fc" id="L216">        Mockito.when(categoryRepository.findAll()).thenReturn(List.of());</span>
 
-<span class="fc" id="L242">        List&lt;CategoryDto&gt; response = categoryService.findAllActive();</span>
+<span class="fc" id="L218">        List&lt;CategoryDto&gt; response = categoryService.findAllActive();</span>
 
-<span class="fc" id="L244">        Assertions.assertTrue(response.isEmpty());</span>
-<span class="fc" id="L245">    }</span>
+<span class="fc" id="L220">        Assertions.assertTrue(response.isEmpty());</span>
+<span class="fc" id="L221">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Setter
 @Entity
 public class Price extends CommonFields {
+
     private BigDecimal mrp;
     private BigDecimal sellingPrice;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

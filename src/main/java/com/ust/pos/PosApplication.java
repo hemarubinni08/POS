@@ -18,8 +18,10 @@ import javax.sql.DataSource;
 @SpringBootApplication
 @ComponentScan({"com.ust.pos.web.controller", "com.ust.pos"})
 public class PosApplication {
+
     @Autowired
     Environment environment;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -51,10 +53,9 @@ public class PosApplication {
         ds.setUsername(environment.getProperty("spring.datasource.username"));
         ds.setPassword(environment.getProperty("spring.datasource.password"));
         String property = environment.getProperty("spring.datasource.driver-class-name");
-        if(property!=null){
+        if (property != null) {
             ds.setDriverClassName(property);
         }
         return ds;
     }
-
 }

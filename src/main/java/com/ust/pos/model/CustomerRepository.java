@@ -7,8 +7,7 @@ import java.util.List;
 public interface CustomerRepository extends JpaRepository<Customer,Long> {
 
     Customer findByIdentifier(String identifier);
-
     void deleteByIdentifier(String identifier);
-
     List<Customer> findByStatusIsTrue();
+
 }

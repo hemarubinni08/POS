@@ -7,7 +7,6 @@ import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,41 +21,40 @@ public class UserApiController extends BaseController {
     @Autowired
     private RoleService roleService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return userService.findAll(pageable);
     }
 
     @GetMapping("/get")
-    public UserDto update( @RequestParam String username) {
+    public UserDto update(@RequestParam String username) {
         return userService.findByUserName(username);
 
     }
 
     @PostMapping("/update")
-    public UserDto updatePost( @RequestBody UserDto userDto) {
+    public UserDto updatePost(@RequestBody UserDto userDto) {
         return userService.update(userDto);
     }
 
     @GetMapping("/delete")
-    public boolean delete( @RequestParam String username) {
-        try{ userService.delete(username);}
-        catch(Exception e){
-            return false;}
+    public boolean delete(@RequestParam String username) {
+        try {
+            userService.delete(username);
+        } catch (Exception e) {
+            return false;
+        }
         return true;
     }
 
     @PostMapping("/toggle-status")
-    public UserDto toggle(@RequestParam String identifier){
-
+    public UserDto toggle(@RequestParam String identifier) {
         return userService.toggleStatus(identifier);
     }
 
-
     @GetMapping("/findByStatus")
     public List<UserDto> findByStatus() {
-
         return userService.findIfTrue();
     }
 }

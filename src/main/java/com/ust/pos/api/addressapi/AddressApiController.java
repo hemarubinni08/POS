@@ -17,14 +17,14 @@ public class AddressApiController extends BaseController {
     @Autowired
     private AddressService addressService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<AddressDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return addressService.findAll(pageable);
     }
 
     @PostMapping("/add")
-    public AddressDto addPost( @RequestBody AddressDto addressDto) {
+    public AddressDto addPost(@RequestBody AddressDto addressDto) {
         return addressService.save(addressDto);
     }
 
@@ -40,16 +40,16 @@ public class AddressApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{ addressService.delete(identifier);}
-        catch(Exception e){
+        try {
+            addressService.delete(identifier);
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
 
     @GetMapping("/findByAllPhoneNo")
-    public List<AddressDto> findAllByPhoneNo(@RequestParam String phoneNo ) {
+    public List<AddressDto> findAllByPhoneNo(@RequestParam String phoneNo) {
         return addressService.findAllByPhoneNo(phoneNo);
     }
-
 }

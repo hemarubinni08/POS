@@ -16,6 +16,7 @@ import java.util.List;
 
 @Service
 public class RacksServiceImpl implements RacksService {
+
     @Autowired
     private RacksRepository racksRepository;
 
@@ -29,10 +30,10 @@ public class RacksServiceImpl implements RacksService {
 
     @Override
     public RacksDto toggleStatus(String identifier) {
-        Racks racks=racksRepository.findByIdentifier(identifier);
+        Racks racks = racksRepository.findByIdentifier(identifier);
         racks.setStatus(!racks.isStatus());
         racksRepository.save(racks);
-        return   modelMapper.map(racks, RacksDto.class);
+        return modelMapper.map(racks, RacksDto.class);
     }
 
     @Override
@@ -74,13 +75,13 @@ public class RacksServiceImpl implements RacksService {
     public List<RacksDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<RacksDto>>() {
         }.getType();
-        Page<Racks> racksPage=racksRepository.findAll(pageable);
+        Page<Racks> racksPage = racksRepository.findAll(pageable);
         return modelMapper.map(racksPage.getContent(), listType);
     }
 
     @Override
     public List<RacksDto> findIfTrue() {
-        Type listType = new TypeToken<List<RacksDto>>(){
+        Type listType = new TypeToken<List<RacksDto>>() {
         }.getType();
         return modelMapper.map(racksRepository.findByStatusIsTrue(), listType);
     }

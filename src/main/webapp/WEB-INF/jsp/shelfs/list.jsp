@@ -8,8 +8,6 @@
 
     <style>
 
-        /* ===== BODY ===== */
-
         body {
             margin: 0;
             font-family: "Inter", sans-serif;
@@ -20,16 +18,12 @@
             align-items: center;
         }
 
-        /* ===== PAGE WRAPPER ===== */
-
         .page-wrapper {
             width: 980px;
             background: #f3efe9;
             padding: 34px 42px;
             box-sizing: border-box;
         }
-
-        /* ===== HEADER ===== */
 
         .top-section {
             display: flex;
@@ -44,8 +38,6 @@
             color: #2f2f2f;
             margin: 0;
         }
-
-        /* ===== BUTTONS ===== */
 
         .top-actions {
             display: flex;
@@ -90,8 +82,6 @@
             color: #ffffff;
         }
 
-        /* ===== TABLE ===== */
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -113,8 +103,6 @@
             font-size: 14px;
             vertical-align: middle;
         }
-
-        /* ===== TOGGLE ===== */
 
         .switch {
             display: flex;
@@ -171,8 +159,6 @@
             display: none;
         }
 
-        /* ===== ACTION BUTTONS ===== */
-
         .action-buttons {
             display: flex;
             align-items: center;
@@ -221,8 +207,6 @@
 
 <div class="page-wrapper">
 
-    <!-- ===== HEADER ===== -->
-
     <div class="top-section">
 
         <h2 class="page-title">
@@ -249,8 +233,6 @@
 
     </div>
 
-    <!-- ===== TABLE ===== -->
-
     <table>
 
         <thead>
@@ -276,8 +258,6 @@
 
                 <td>${s.identifier}</td>
 
-                <!-- ===== STATUS ===== -->
-
                 <td>
 
                     <label class="switch">
@@ -291,8 +271,6 @@
                     </label>
 
                 </td>
-
-                <!-- ===== ACTIONS ===== -->
 
                 <td>
 

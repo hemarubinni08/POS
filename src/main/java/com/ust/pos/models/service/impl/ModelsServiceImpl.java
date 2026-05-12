@@ -1,7 +1,6 @@
 package com.ust.pos.models.service.impl;
 
 import com.ust.pos.dto.ModelsDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Models;
 import com.ust.pos.model.ModelsRepository;
 import com.ust.pos.models.service.ModelsService;
@@ -31,10 +30,10 @@ public class ModelsServiceImpl implements ModelsService {
 
     @Override
     public ModelsDto toggleStatus(String identifier) {
-        Models models=modelsRepository.findByIdentifier(identifier);
+        Models models = modelsRepository.findByIdentifier(identifier);
         models.setStatus(!models.isStatus());
         modelsRepository.save(models);
-        return modelMapper.map(models,ModelsDto.class);
+        return modelMapper.map(models, ModelsDto.class);
     }
 
     @Override
@@ -76,15 +75,14 @@ public class ModelsServiceImpl implements ModelsService {
     public List<ModelsDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ModelsDto>>() {
         }.getType();
-        Page<Models> modelsPage=modelsRepository.findAll(pageable);
+        Page<Models> modelsPage = modelsRepository.findAll(pageable);
         return modelMapper.map(modelsPage.getContent(), listType);
     }
 
     @Override
     public List<ModelsDto> findIfTrue() {
-        Type listType = new TypeToken<List<ModelsDto>>(){
+        Type listType = new TypeToken<List<ModelsDto>>() {
         }.getType();
         return modelMapper.map(modelsRepository.findByStatusIsTrue(), listType);
     }
-
 }

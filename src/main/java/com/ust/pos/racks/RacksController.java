@@ -13,22 +13,26 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/racks")
 public class RacksController extends BaseController {
+
     public static final String REDIRECT_RACKS_LIST = "redirect:/racks/list";
     public static final String SHELVES = "shelves";
+
     @Autowired
     private RacksService racksService;
+
     @Autowired
     private ShelfsService shelfsService;
+
     @GetMapping("/list")
     public String home(Model model) {
-        PaginationDto paginationDto=new PaginationDto();
+        PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("rackss", racksService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "racks/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute RacksDto racksDto) {
-        model.addAttribute(SHELVES,shelfsService.findIfTrue());
+        model.addAttribute(SHELVES, shelfsService.findIfTrue());
         return "racks/add";
     }
 
@@ -37,7 +41,7 @@ public class RacksController extends BaseController {
         RacksDto response = racksService.save(racksDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute(SHELVES,shelfsService.findIfTrue());
+            model.addAttribute(SHELVES, shelfsService.findIfTrue());
             return "racks/add";
         }
         return REDIRECT_RACKS_LIST;
@@ -47,7 +51,7 @@ public class RacksController extends BaseController {
     public String update(Model model, @RequestParam String identifier) {
         RacksDto response = racksService.findByIdentifier(identifier);
         model.addAttribute("racks", response);
-        model.addAttribute(SHELVES,shelfsService.findIfTrue());
+        model.addAttribute(SHELVES, shelfsService.findIfTrue());
         return "racks/racks";
     }
 
@@ -57,7 +61,7 @@ public class RacksController extends BaseController {
         if (!response.isSuccess()) {
             model.addAttribute("racks", response);
             model.addAttribute("message", response.getMessage());
-            model.addAttribute(SHELVES,shelfsService.findIfTrue());
+            model.addAttribute(SHELVES, shelfsService.findIfTrue());
             return "racks/racks";
         }
         return REDIRECT_RACKS_LIST;
@@ -71,7 +75,7 @@ public class RacksController extends BaseController {
 
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
+    public void toggle(Model model, @RequestParam String identifier) {
         racksService.toggleStatus(identifier);
     }
 }

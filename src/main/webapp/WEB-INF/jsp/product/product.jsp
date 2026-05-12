@@ -9,8 +9,6 @@
 
     <style>
 
-        /* ===== BODY ===== */
-
         body {
             margin: 0;
             font-family: "Inter", sans-serif;
@@ -22,16 +20,12 @@
             padding: 30px 0;
         }
 
-        /* ===== CARD ===== */
-
         .brand-card {
             background: #f3efe9;
             width: 470px;
             padding: 42px;
             box-sizing: border-box;
         }
-
-        /* ===== BACK BUTTON ===== */
 
         .back-btn {
             display: inline-block;
@@ -47,16 +41,12 @@
             opacity: 0.7;
         }
 
-        /* ===== TITLE ===== */
-
         h2 {
             margin: 0 0 34px;
             font-size: 26px;
             font-weight: 700;
             color: #2f2f2f;
         }
-
-        /* ===== FORM ===== */
 
         .form-group {
             margin-bottom: 28px;
@@ -112,14 +102,10 @@
             border: 3px solid #3f3f3f;
         }
 
-        /* ===== READONLY INPUT ===== */
-
         input[readonly] {
             color: #7a7a7a;
             cursor: not-allowed;
         }
-
-        /* ===== HINT ===== */
 
         .hint {
             font-size: 11px;
@@ -127,8 +113,6 @@
             margin-top: 8px;
             letter-spacing: 1px;
         }
-
-        /* ===== AUTOFILL FIX ===== */
 
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
@@ -140,8 +124,6 @@
             transition: background-color 5000s ease-in-out 0s;
 
         }
-
-        /* ===== BUTTON ===== */
 
         .update-btn {
             width: 100%;
@@ -162,8 +144,6 @@
             color: #3f3f3f;
         }
 
-        /* ===== ERROR ===== */
-
         .error-message {
             margin-top: 16px;
             padding: 12px;
@@ -180,8 +160,6 @@
 
 <div class="brand-card">
 
-    <!-- ===== BACK ===== -->
-
     <a href="${pageContext.request.contextPath}/product/list"
        class="back-btn">
 
@@ -189,11 +167,7 @@
 
     </a>
 
-    <!-- ===== TITLE ===== -->
-
     <h2>Edit Product</h2>
-
-    <!-- ===== ERROR ===== -->
 
     <c:if test="${not empty message}">
 
@@ -205,16 +179,12 @@
 
     </c:if>
 
-    <!-- ===== FORM ===== -->
-
     <form:form
             action="${pageContext.request.contextPath}/product/update"
             method="post"
             modelAttribute="product">
 
         <form:hidden path="id"/>
-
-        <!-- ===== PRODUCT NAME ===== -->
 
         <div class="form-group">
 
@@ -225,8 +195,6 @@
                     readonly="true"/>
 
         </div>
-
-        <!-- ===== CATEGORY ===== -->
 
         <div class="form-group">
 
@@ -254,8 +222,6 @@
 
         </div>
 
-        <!-- ===== BRAND ===== -->
-
         <div class="form-group">
 
             <label>BRAND</label>
@@ -275,8 +241,6 @@
             </form:select>
 
         </div>
-
-        <!-- ===== UNIT ===== -->
 
         <div class="form-group">
 
@@ -298,8 +262,6 @@
 
         </div>
 
-        <!-- ===== MODEL ===== -->
-
         <div class="form-group">
 
             <label>MODEL</label>
@@ -320,8 +282,6 @@
 
         </div>
 
-        <!-- ===== SKU ===== -->
-
         <div class="form-group">
 
             <label>SKU CODE</label>
@@ -331,8 +291,6 @@
                     readonly="true"/>
 
         </div>
-
-        <!-- ===== BUTTON ===== -->
 
         <button type="submit"
                 class="update-btn">

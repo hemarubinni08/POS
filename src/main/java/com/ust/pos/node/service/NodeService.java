@@ -8,21 +8,14 @@ import java.util.List;
 
 @Transactional
 public interface NodeService {
+
     List<NodeDto> getNodesForRoles();
-
     NodeDto save(NodeDto nodeDto);
-
     NodeDto update(NodeDto nodeDto);
-
     boolean delete(String identifier);
-
     List<NodeDto> findAll(Pageable pageable);
-
     NodeDto findByIdentifier(String identifier);
-
     NodeDto toggleStatus(String identifier);
-
     List<NodeDto> findIfTrue();
-
 
 }

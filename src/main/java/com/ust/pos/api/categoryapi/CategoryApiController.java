@@ -17,9 +17,9 @@ public class CategoryApiController extends BaseController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return categoryService.findAll(pageable);
     }
 
@@ -30,8 +30,8 @@ public class CategoryApiController extends BaseController {
 
     @GetMapping("/get")
     public CategoryDto update(@RequestParam String identifier) {
-        return  categoryService.findByIdentifier(identifier); }
-
+        return categoryService.findByIdentifier(identifier);
+    }
 
     @PostMapping("/update")
     public CategoryDto updatePost(@RequestBody CategoryDto categoryDto) {
@@ -40,23 +40,27 @@ public class CategoryApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{ categoryService.delete(identifier);}
-        catch(Exception e){
-            return false;}
-        return true;}
+        try {
+            categoryService.delete(identifier);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 
     @GetMapping("/getBySuperCategoryNotNull")
     public List<CategoryDto> superCategoryNotNull() {
         return categoryService.findBySuperCategoryNotNull();
     }
+
     @PostMapping("/toggle-status")
-    public CategoryDto toggle(@RequestParam String identifier){
-        return  categoryService.toggleStatus(identifier);}
+    public CategoryDto toggle(@RequestParam String identifier) {
+        return categoryService.toggleStatus(identifier);
+    }
 
     @GetMapping("/findByStatus")
     public List<CategoryDto> findByStatus() {
 
         return categoryService.findIfTrue();
     }
-
 }

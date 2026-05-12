@@ -19,12 +19,16 @@ public class TokenGenerationController {
 
     @Autowired
     UserDetailsService userDetailsService;
+
     @Autowired
     private AuthenticationProvider authenticationProvider;
+
     @Autowired
     private JWTUtility jwtUtility;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private UserService userService;
 

@@ -27,220 +27,171 @@ import static org.mockito.Mockito.lenient;
 <span class="fc" id="L27">class UserServiceTest {</span>
 
     @Mock
+    PasswordEncoder passwordEncoder;
+    @Mock
     private UserRepository userRepository;
-
     @Mock
     private ModelMapper modelMapper;
-
     @InjectMocks
     private UserServiceImpl userService;
 
-    @Mock
-    PasswordEncoder passwordEncoder;
-
-    /* ===================== SAVE ===================== */
-
     @Test
     void saveTest() {
-<span class="fc" id="L45">        UserDto userDto = new UserDto();</span>
-<span class="fc" id="L46">        userDto.setUsername(&quot;Admin&quot;);</span>
-<span class="fc" id="L47">        userDto.setPassword(&quot;srujan&quot;);</span>
 
+<span class="fc" id="L41">        UserDto userDto = new UserDto();</span>
+<span class="fc" id="L42">        userDto.setUsername(&quot;Admin&quot;);</span>
+<span class="fc" id="L43">        userDto.setPassword(&quot;srujan&quot;);</span>
+<span class="fc" id="L44">        Mockito.when(userRepository.findByUsername(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc" id="L45">        User user = new User();</span>
+<span class="fc" id="L46">        Mockito.when(modelMapper.map(userDto, User.class)).thenReturn(user);</span>
+<span class="fc" id="L47">        Mockito.when(userRepository.save(user)).thenReturn(user);</span>
+<span class="fc" id="L48">        UserDto response = userService.save(userDto);</span>
+<span class="fc" id="L49">        Assertions.assertEquals(&quot;Admin&quot;, response.getUsername());</span>
+<span class="fc" id="L50">        Assertions.assertTrue(response.isSuccess());</span>
 
-<span class="fc" id="L50">        Mockito.when(userRepository.findByUsername(&quot;Admin&quot;)).thenReturn(null);</span>
-<span class="fc" id="L51">        User user=new User();</span>
-<span class="fc" id="L52">        Mockito.when(modelMapper.map(userDto, User.class)).thenReturn(user);</span>
-<span class="fc" id="L53">        Mockito.when(userRepository.save(user)).thenReturn(user);</span>
-
-<span class="fc" id="L55">        UserDto response = userService.save(userDto);</span>
-
-<span class="fc" id="L57">        Assertions.assertEquals(&quot;Admin&quot;, response.getUsername());</span>
-<span class="fc" id="L58">        Assertions.assertTrue(response.isSuccess());</span>
-<span class="fc" id="L59">    }</span>
+<span class="fc" id="L52">    }</span>
 
     @Test
     void saveTestFailure() {
-<span class="fc" id="L63">        UserDto userDto = new UserDto();</span>
-<span class="fc" id="L64">        userDto.setUsername(&quot;Admin&quot;);</span>
 
+<span class="fc" id="L57">        UserDto userDto = new UserDto();</span>
+<span class="fc" id="L58">        userDto.setUsername(&quot;Admin&quot;);</span>
+<span class="fc" id="L59">        User existingUser = new User();</span>
+<span class="fc" id="L60">        existingUser.setUsername(&quot;Admin&quot;);</span>
+<span class="fc" id="L61">        Mockito.when(userRepository.findByUsername(&quot;Admin&quot;)).thenReturn(existingUser);</span>
+<span class="fc" id="L62">        UserDto response = userService.save(userDto);</span>
+<span class="fc" id="L63">        Assertions.assertFalse(response.isSuccess());</span>
 
-<span class="fc" id="L67">        User existingUser = new User();</span>
-<span class="fc" id="L68">        existingUser.setUsername(&quot;Admin&quot;);</span>
-
-
-<span class="fc" id="L71">        Mockito.when(userRepository.findByUsername(&quot;Admin&quot;))</span>
-<span class="fc" id="L72">                .thenReturn(existingUser);</span>
-
-<span class="fc" id="L74">        UserDto response = userService.save(userDto);</span>
-
-<span class="fc" id="L76">        Assertions.assertFalse(response.isSuccess());</span>
-<span class="fc" id="L77">    }</span>
-
-    /* ===================== FIND BY IDENTIFIER ===================== */
+<span class="fc" id="L65">    }</span>
 
     @Test
     void findByUserNameTest() {
-<span class="fc" id="L83">        User user = new User();</span>
-<span class="fc" id="L84">        user.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L86">        UserDto userDto = new UserDto();</span>
-<span class="fc" id="L87">        userDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L70">        User user = new User();</span>
+<span class="fc" id="L71">        user.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L72">        UserDto userDto = new UserDto();</span>
+<span class="fc" id="L73">        userDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L74">        Mockito.when(userRepository.findByUsername(&quot;Admin&quot;)).thenReturn(user);</span>
+<span class="fc" id="L75">        Mockito.when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);</span>
+<span class="fc" id="L76">        UserDto response = userService.findByUserName(&quot;Admin&quot;);</span>
+<span class="fc" id="L77">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
 
-<span class="fc" id="L89">        Mockito.when(userRepository.findByUsername(&quot;Admin&quot;)).thenReturn(user);</span>
-<span class="fc" id="L90">        Mockito.when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);</span>
-
-<span class="fc" id="L92">        UserDto response = userService.findByUserName(&quot;Admin&quot;);</span>
-
-<span class="fc" id="L94">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
-<span class="fc" id="L95">    }</span>
-
-    /* ===================== UPDATE ===================== */
+<span class="fc" id="L79">    }</span>
 
     @Test
     void updateTest() {
-<span class="fc" id="L101">        UserDto userDto = new UserDto();</span>
-<span class="fc" id="L102">        userDto.setId(1L);</span>
-<span class="fc" id="L103">        userDto.setUsername(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L105">        User existingUser = new User();</span>
-<span class="fc" id="L106">        existingUser.setId(1L);</span>
-<span class="fc" id="L107">        existingUser.setUsername(&quot;Admin&quot;);</span>
+<span class="fc" id="L84">        UserDto userDto = new UserDto();</span>
+<span class="fc" id="L85">        userDto.setId(1L);</span>
+<span class="fc" id="L86">        userDto.setUsername(&quot;Admin&quot;);</span>
+<span class="fc" id="L87">        User existingUser = new User();</span>
+<span class="fc" id="L88">        existingUser.setId(1L);</span>
+<span class="fc" id="L89">        existingUser.setUsername(&quot;Admin&quot;);</span>
+<span class="fc" id="L90">        Mockito.when(userRepository.findById(1L)).thenReturn(java.util.Optional.of(existingUser));</span>
+<span class="fc" id="L91">        Mockito.doNothing().when(modelMapper).map(userDto, existingUser);</span>
+<span class="fc" id="L92">        Mockito.when(userRepository.save(existingUser)).thenReturn(existingUser);</span>
+<span class="fc" id="L93">        UserDto response = userService.update(userDto);</span>
+<span class="fc" id="L94">        Assertions.assertEquals(&quot;Admin&quot;, response.getUsername());</span>
+<span class="fc" id="L95">        Assertions.assertTrue(response.isSuccess());</span>
 
-<span class="fc" id="L109">        Mockito.when(userRepository.findById(1L))</span>
-<span class="fc" id="L110">                .thenReturn(java.util.Optional.of(existingUser));</span>
-
-<span class="fc" id="L112">        Mockito.doNothing().when(modelMapper)</span>
-<span class="fc" id="L113">                .map(userDto, existingUser);</span>
-
-<span class="fc" id="L115">        Mockito.when(userRepository.save(existingUser))</span>
-<span class="fc" id="L116">                .thenReturn(existingUser);</span>
-
-<span class="fc" id="L118">        UserDto response = userService.update(userDto);</span>
-
-<span class="fc" id="L120">        Assertions.assertEquals(&quot;Admin&quot;, response.getUsername());</span>
-<span class="fc" id="L121">        Assertions.assertTrue(response.isSuccess());</span>
-<span class="fc" id="L122">    }</span>
-
+<span class="fc" id="L97">    }</span>
 
     @Test
     void updateTestFailure() {
-<span class="fc" id="L127">        UserDto userDto = new UserDto();</span>
-<span class="fc" id="L128">        userDto.setId(1L);</span>
 
-<span class="fc" id="L130">        Mockito.when(userRepository.findById(1L))</span>
-<span class="fc" id="L131">                .thenReturn(java.util.Optional.empty());</span>
-
-<span class="fc" id="L133">        UserDto response = userService.update(userDto);</span>
-
-<span class="fc" id="L135">        Assertions.assertFalse(response.isSuccess());</span>
-<span class="fc" id="L136">    }</span>
-
-    /* ===================== DELETE ===================== */
+<span class="fc" id="L102">        UserDto userDto = new UserDto();</span>
+<span class="fc" id="L103">        userDto.setId(1L);</span>
+<span class="fc" id="L104">        Mockito.when(userRepository.findById(1L)).thenReturn(java.util.Optional.empty());</span>
+<span class="fc" id="L105">        UserDto response = userService.update(userDto);</span>
+<span class="fc" id="L106">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L107">    }</span>
 
     @Test
     void deleteTest() {
-<span class="fc" id="L142">        User user = new User();</span>
-<span class="fc" id="L143">        user.setUsername(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L145">        UserDto userDto = new UserDto();</span>
-<span class="fc" id="L146">        userDto.setUsername(&quot;Admin&quot;);</span>
+<span class="fc" id="L112">        User user = new User();</span>
+<span class="fc" id="L113">        user.setUsername(&quot;Admin&quot;);</span>
+<span class="fc" id="L114">        UserDto userDto = new UserDto();</span>
+<span class="fc" id="L115">        userDto.setUsername(&quot;Admin&quot;);</span>
+<span class="fc" id="L116">        Authentication authentication = Mockito.mock(Authentication.class);</span>
+<span class="fc" id="L117">        Mockito.when(authentication.getName()).thenReturn(&quot;OtherUser&quot;);</span>
+<span class="fc" id="L118">        SecurityContextHolder.getContext().setAuthentication(authentication);</span>
+<span class="fc" id="L119">        lenient().when(userRepository.findByUsername(&quot;Admin&quot;)).thenReturn(user);</span>
+<span class="fc" id="L120">        lenient().when(modelMapper.map(</span>
+<span class="fc" id="L121">                Mockito.any(User.class),</span>
+<span class="fc" id="L122">                Mockito.eq(UserDto.class)</span>
+<span class="fc" id="L123">        )).thenReturn(userDto);</span>
+<span class="fc" id="L124">        UserDto response = userService.delete(&quot;Admin&quot;);</span>
+<span class="fc" id="L125">        Assertions.assertEquals(&quot;Admin&quot;, response.getUsername());</span>
 
-<span class="fc" id="L148">        Authentication authentication = Mockito.mock(Authentication.class);</span>
-<span class="fc" id="L149">        Mockito.when(authentication.getName()).thenReturn(&quot;OtherUser&quot;);</span>
-
-<span class="fc" id="L151">        SecurityContextHolder.getContext().setAuthentication(authentication);</span>
-
-<span class="fc" id="L153">        lenient().when(userRepository.findByUsername(&quot;Admin&quot;))</span>
-<span class="fc" id="L154">                .thenReturn(user);</span>
-
-<span class="fc" id="L156">        lenient().when(modelMapper.map(</span>
-<span class="fc" id="L157">                Mockito.any(User.class),</span>
-<span class="fc" id="L158">                Mockito.eq(UserDto.class)</span>
-<span class="fc" id="L159">        )).thenReturn(userDto);</span>
-
-<span class="fc" id="L161">        UserDto response = userService.delete(&quot;Admin&quot;);</span>
-
-<span class="fc" id="L163">        Assertions.assertEquals(&quot;Admin&quot;, response.getUsername());</span>
-<span class="fc" id="L164">    }</span>
-
-    /* ===================== FIND ALL ===================== */
+<span class="fc" id="L127">    }</span>
 
     @Test
     void findAllTest() {
-<span class="fc" id="L170">        User user = new User();</span>
-<span class="fc" id="L171">        user.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L173">        UserDto userDto = new UserDto();</span>
-<span class="fc" id="L174">        userDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L132">        User user = new User();</span>
+<span class="fc" id="L133">        user.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L134">        UserDto userDto = new UserDto();</span>
+<span class="fc" id="L135">        userDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L136">        List&lt;User&gt; users = List.of(user);</span>
+<span class="fc" id="L137">        List&lt;UserDto&gt; userDtos = List.of(userDto);</span>
+<span class="fc" id="L138">        Page&lt;User&gt; userPage = new PageImpl&lt;&gt;(users, PageRequest.of(0, 2), users.size());</span>
+<span class="fc" id="L139">        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList&lt;&gt;()));</span>
+<span class="fc" id="L140">        Mockito.when(userRepository.findAll(pageable)).thenReturn(userPage);</span>
+<span class="fc" id="L141">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L142">                Mockito.eq(users),</span>
+<span class="fc" id="L143">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L144">        )).thenReturn(userDtos);</span>
+<span class="fc" id="L145">        List&lt;UserDto&gt; response = userService.findAll(pageable);</span>
+<span class="fc" id="L146">        Assertions.assertEquals(1, response.size());</span>
 
-<span class="fc" id="L176">        List&lt;User&gt; users = List.of(user);</span>
-<span class="fc" id="L177">        List&lt;UserDto&gt; userDtos = List.of(userDto);</span>
-
-<span class="fc" id="L179">        Page&lt;User&gt; userPage =</span>
-<span class="fc" id="L180">                new PageImpl&lt;&gt;(users, PageRequest.of(0, 2), users.size());</span>
-
-<span class="fc" id="L182">        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList&lt;&gt;()));</span>
-
-<span class="fc" id="L184">        Mockito.when(userRepository.findAll(pageable)).thenReturn(userPage);</span>
-<span class="fc" id="L185">        Mockito.when(modelMapper.map(</span>
-<span class="fc" id="L186">                Mockito.eq(users),</span>
-<span class="fc" id="L187">                Mockito.any(java.lang.reflect.Type.class)</span>
-<span class="fc" id="L188">        )).thenReturn(userDtos);</span>
-
-<span class="fc" id="L190">        List&lt;UserDto&gt; response = userService.findAll(pageable);</span>
-
-<span class="fc" id="L192">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L193">    }</span>
-
+<span class="fc" id="L148">    }</span>
 
     @Test
-    void findByStatusTest(){
-<span class="fc" id="L198">        User user = new User();</span>
-<span class="fc" id="L199">        user.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L200">        UserDto userDto = new UserDto();</span>
-<span class="fc" id="L201">        userDto.setIdentifier(&quot;Admin&quot;);</span>
+    void findByStatusTest() {
 
-<span class="fc" id="L203">        List&lt;User&gt; users = List.of(user);</span>
-<span class="fc" id="L204">        List&lt;UserDto&gt; userDtos = List.of(userDto);</span>
+<span class="fc" id="L153">        User user = new User();</span>
+<span class="fc" id="L154">        user.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L155">        UserDto userDto = new UserDto();</span>
+<span class="fc" id="L156">        userDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L157">        List&lt;User&gt; users = List.of(user);</span>
+<span class="fc" id="L158">        List&lt;UserDto&gt; userDtos = List.of(userDto);</span>
+<span class="fc" id="L159">        Mockito.when(userRepository.findByStatusIsTrue()).thenReturn(users);</span>
+<span class="fc" id="L160">        Mockito.when(modelMapper.map(</span>
+<span class="fc" id="L161">                Mockito.eq(users),</span>
+<span class="fc" id="L162">                Mockito.any(java.lang.reflect.Type.class)</span>
+<span class="fc" id="L163">        )).thenReturn(userDtos);</span>
+<span class="fc" id="L164">        List&lt;UserDto&gt; response = userService.findIfTrue();</span>
+<span class="fc" id="L165">        Assertions.assertEquals(1, response.size());</span>
 
-<span class="fc" id="L206">        Mockito.when(userRepository.findByStatusIsTrue()).thenReturn(users);</span>
-<span class="fc" id="L207">        Mockito.when(modelMapper.map(</span>
-<span class="fc" id="L208">                Mockito.eq(users),</span>
-<span class="fc" id="L209">                Mockito.any(java.lang.reflect.Type.class)</span>
-<span class="fc" id="L210">        )).thenReturn(userDtos);</span>
-
-<span class="fc" id="L212">        List&lt;UserDto&gt; response = userService.findIfTrue();</span>
-
-<span class="fc" id="L214">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L215">    }</span>
+<span class="fc" id="L167">    }</span>
 
     @Test
-    void toggleTestActive(){
+    void toggleTestActive() {
 
-<span class="fc" id="L220">        User user = new User();</span>
-<span class="fc" id="L221">        user.setStatus(false);</span>
-<span class="fc" id="L222">        UserDto userDto = new UserDto();</span>
-<span class="fc" id="L223">        userDto.setStatus(true);</span>
-<span class="fc" id="L224">        Mockito.when(userRepository.findByUsername(&quot;Admin&quot;)).thenReturn(user);</span>
-<span class="fc" id="L225">        Mockito.when(modelMapper.map(user,UserDto.class)).thenReturn(userDto);</span>
-<span class="fc" id="L226">        UserDto response = userService.toggleStatus(&quot;Admin&quot;);</span>
-<span class="fc" id="L227">        Assertions.assertTrue(response.isStatus());</span>
+<span class="fc" id="L172">        User user = new User();</span>
+<span class="fc" id="L173">        user.setStatus(false);</span>
+<span class="fc" id="L174">        UserDto userDto = new UserDto();</span>
+<span class="fc" id="L175">        userDto.setStatus(true);</span>
+<span class="fc" id="L176">        Mockito.when(userRepository.findByUsername(&quot;Admin&quot;)).thenReturn(user);</span>
+<span class="fc" id="L177">        Mockito.when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);</span>
+<span class="fc" id="L178">        UserDto response = userService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L179">        Assertions.assertTrue(response.isStatus());</span>
 
-<span class="fc" id="L229">    }</span>
+<span class="fc" id="L181">    }</span>
 
     @Test
-    void toggleTestInactive(){
+    void toggleTestInactive() {
 
-<span class="fc" id="L234">        User user = new User();</span>
-<span class="fc" id="L235">        user.setStatus(true);</span>
-<span class="fc" id="L236">        UserDto userDto = new UserDto();</span>
-<span class="fc" id="L237">        userDto.setStatus(false);</span>
-<span class="fc" id="L238">        Mockito.when(userRepository.findByUsername(&quot;Admin&quot;)).thenReturn(user);</span>
-<span class="fc" id="L239">        Mockito.when(modelMapper.map(user,UserDto.class)).thenReturn(userDto);</span>
-<span class="fc" id="L240">        UserDto response = userService.toggleStatus(&quot;Admin&quot;);</span>
-<span class="fc" id="L241">        Assertions.assertFalse(response.isStatus());</span>
+<span class="fc" id="L186">        User user = new User();</span>
+<span class="fc" id="L187">        user.setStatus(true);</span>
+<span class="fc" id="L188">        UserDto userDto = new UserDto();</span>
+<span class="fc" id="L189">        userDto.setStatus(false);</span>
+<span class="fc" id="L190">        Mockito.when(userRepository.findByUsername(&quot;Admin&quot;)).thenReturn(user);</span>
+<span class="fc" id="L191">        Mockito.when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);</span>
+<span class="fc" id="L192">        UserDto response = userService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L193">        Assertions.assertFalse(response.isStatus());</span>
 
-<span class="fc" id="L243">    }</span>
-
+<span class="fc" id="L195">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

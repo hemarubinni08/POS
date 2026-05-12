@@ -13,17 +13,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/brand")
 public class BrandApiController extends BaseController {
+
     @Autowired
     private BrandService brandService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<BrandDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return brandService.findAll(pageable);
     }
 
     @PostMapping("/add")
-    public BrandDto addPost( @RequestBody BrandDto brandDto) {
+    public BrandDto addPost(@RequestBody BrandDto brandDto) {
         return brandService.save(brandDto);
     }
 
@@ -39,16 +40,18 @@ public class BrandApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{ brandService.delete(identifier);}
-        catch(Exception e){
+        try {
+            brandService.delete(identifier);
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
 
     @PostMapping("/toggle-status")
-    public BrandDto toggle(@RequestParam String identifier){
-        return  brandService.toggleStatus(identifier);}
+    public BrandDto toggle(@RequestParam String identifier) {
+        return brandService.toggleStatus(identifier);
+    }
 
     @GetMapping("/findByStatus")
     public List<BrandDto> findByStatus() {

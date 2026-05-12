@@ -61,8 +61,10 @@ public class UserController extends BaseController {
         }
         return "redirect:/user/list";
     }
+
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
-        userService.toggleStatus(identifier);}
+    public void toggle(Model model, @RequestParam String identifier) {
+        userService.toggleStatus(identifier);
+    }
 }

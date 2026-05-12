@@ -14,12 +14,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/price")
 public class PriceApiController extends BaseController {
+
     @Autowired
     private PriceService priceService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<PriceDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return priceService.findAll(pageable);
     }
 
@@ -40,22 +41,21 @@ public class PriceApiController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(Model model, @RequestParam String identifier) {
-        try{ priceService.delete(identifier);}
-        catch (Exception e){
+        try {
+            priceService.delete(identifier);
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
-    @PostMapping("/toggle-status")
-    public PriceDto toggle(@RequestParam String identifier){
 
+    @PostMapping("/toggle-status")
+    public PriceDto toggle(@RequestParam String identifier) {
         return priceService.toggleStatus(identifier);
     }
 
-
     @GetMapping("/findByStatus")
     public List<PriceDto> findByStatus() {
-
         return priceService.findIfTrue();
     }
 }

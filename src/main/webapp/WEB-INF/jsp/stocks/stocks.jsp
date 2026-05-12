@@ -9,8 +9,6 @@
 
     <style>
 
-        /* ===== BODY ===== */
-
         body {
             margin: 0;
             font-family: "Inter", sans-serif;
@@ -23,16 +21,12 @@
             box-sizing: border-box;
         }
 
-        /* ===== CARD ===== */
-
         .brand-card {
             background: #f3efe9;
             width: 470px;
             padding: 42px;
             box-sizing: border-box;
         }
-
-        /* ===== BACK BUTTON ===== */
 
         .back-btn {
             display: inline-block;
@@ -48,16 +42,12 @@
             opacity: 0.7;
         }
 
-        /* ===== TITLE ===== */
-
         h2 {
             margin: 0 0 34px;
             font-size: 26px;
             font-weight: 700;
             color: #2f2f2f;
         }
-
-        /* ===== FORM ===== */
 
         .form-group {
             margin-bottom: 28px;
@@ -96,15 +86,11 @@
             border-bottom: 3px solid #3f3f3f;
         }
 
-        /* ===== READONLY ===== */
-
         input[readonly],
         select:disabled {
             color: #7a7a7a;
             cursor: not-allowed;
         }
-
-        /* ===== AUTOFILL FIX ===== */
 
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
@@ -117,8 +103,6 @@
             transition: background-color 5000s ease-in-out 0s;
 
         }
-
-        /* ===== BUTTON ===== */
 
         .update-btn {
             width: 100%;
@@ -139,8 +123,6 @@
             color: #3f3f3f;
         }
 
-        /* ===== ERROR ===== */
-
         .error-message {
             margin-bottom: 20px;
             padding: 12px;
@@ -157,8 +139,6 @@
 
 <div class="brand-card">
 
-    <!-- ===== BACK ===== -->
-
     <a href="${pageContext.request.contextPath}/stocks/list"
        class="back-btn">
 
@@ -166,11 +146,7 @@
 
     </a>
 
-    <!-- ===== TITLE ===== -->
-
     <h2>Edit Stock</h2>
-
-    <!-- ===== ERROR ===== -->
 
     <c:if test="${not empty message}">
 
@@ -182,16 +158,12 @@
 
     </c:if>
 
-    <!-- ===== FORM ===== -->
-
     <form:form
             action="${pageContext.request.contextPath}/stocks/update"
             method="post"
             modelAttribute="stocks">
 
         <form:hidden path="id"/>
-
-        <!-- ===== PRODUCT ===== -->
 
         <div class="form-group">
 
@@ -215,8 +187,6 @@
 
         </div>
 
-        <!-- ===== AVAILABLE STOCK ===== -->
-
         <div class="form-group">
 
             <label>AVAILABLE STOCK</label>
@@ -229,8 +199,6 @@
 
         </div>
 
-        <!-- ===== INCOMING STOCK ===== -->
-
         <div class="form-group">
 
             <label>INCOMING STOCK</label>
@@ -242,8 +210,6 @@
 
         </div>
 
-        <!-- ===== OUTGOING STOCK ===== -->
-
         <div class="form-group">
 
             <label>OUTGOING STOCK</label>
@@ -254,8 +220,6 @@
                     min="0"/>
 
         </div>
-
-        <!-- ===== PRODUCT STATUS ===== -->
 
         <div class="form-group">
 
@@ -297,8 +261,6 @@
 
         </div>
 
-        <!-- ===== WAREHOUSE ===== -->
-
         <div class="form-group">
 
             <label>WAREHOUSE</label>
@@ -324,8 +286,6 @@
             </form:select>
 
         </div>
-
-        <!-- ===== BUTTON ===== -->
 
         <button type="submit"
                 class="update-btn">

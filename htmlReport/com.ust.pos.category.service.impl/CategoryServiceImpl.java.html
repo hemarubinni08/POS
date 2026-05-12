@@ -3,7 +3,6 @@
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.ShelfsDto;
-import com.ust.pos.model.Brand;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import org.modelmapper.ModelMapper;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 <span class="fc" id="L20">public class CategoryServiceImpl implements CategoryService {</span>
 
@@ -68,7 +68,7 @@ import java.util.List;
     public List&lt;CategoryDto&gt; findAll(Pageable pageable) {
 <span class="fc" id="L69">        Type listType = new TypeToken&lt;List&lt;CategoryDto&gt;&gt;() {</span>
 <span class="fc" id="L70">        }.getType();</span>
-<span class="fc" id="L71">        Page&lt;Category&gt; categoryPage=categoryRepository.findAll(pageable);</span>
+<span class="fc" id="L71">        Page&lt;Category&gt; categoryPage = categoryRepository.findAll(pageable);</span>
 <span class="fc" id="L72">        return modelMapper.map(categoryPage.getContent(), listType);</span>
     }
 
@@ -81,36 +81,37 @@ import java.util.List;
 
     @Override
     public CategoryDto toggleStatus(String identifier) {
-<span class="fc" id="L84">        Category category=categoryRepository.findByIdentifier(identifier);</span>
+<span class="fc" id="L84">        Category category = categoryRepository.findByIdentifier(identifier);</span>
 <span class="fc bfc" id="L85" title="All 2 branches covered.">        category.setStatus(!category.isStatus());</span>
 <span class="fc" id="L86">        categoryRepository.save(category);</span>
-<span class="fc" id="L87">        return modelMapper.map(category,CategoryDto.class);</span>
+<span class="fc" id="L87">        return modelMapper.map(category, CategoryDto.class);</span>
     }
 
     @Override
     public List&lt;CategoryDto&gt; findIfTrue() {
-<span class="fc" id="L92">        Type listType = new TypeToken&lt;List&lt;ShelfsDto&gt;&gt;(){</span>
+<span class="fc" id="L92">        Type listType = new TypeToken&lt;List&lt;ShelfsDto&gt;&gt;() {</span>
 <span class="fc" id="L93">        }.getType();</span>
 <span class="fc" id="L94">        return modelMapper.map(categoryRepository.findByStatusIsTrue(), listType);</span>
     }
+
     @Override
     public List&lt;CategoryDto&gt; findAllActive() {
-<span class="fc" id="L98">        List&lt;Category&gt; categories = categoryRepository.findAll();</span>
-<span class="fc" id="L99">        List&lt;CategoryDto&gt; activeAssignableCategories = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L99">        List&lt;Category&gt; categories = categoryRepository.findAll();</span>
+<span class="fc" id="L100">        List&lt;CategoryDto&gt; activeAssignableCategories = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L101" title="All 2 branches covered.">        for (Category category : categories) {</span>
-<span class="fc" id="L102">            String superCategory = category.getSuperCategory();</span>
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        for (Category category : categories) {</span>
+<span class="fc" id="L103">            String superCategory = category.getSuperCategory();</span>
 
-<span class="fc bfc" id="L104" title="All 4 branches covered.">            if (superCategory != null &amp;&amp; !superCategory.trim().isEmpty()</span>
-<span class="fc bfc" id="L105" title="All 2 branches covered.">                    &amp;&amp; category.isStatus()) {</span>
+<span class="fc bfc" id="L105" title="All 4 branches covered.">            if (superCategory != null &amp;&amp; !superCategory.trim().isEmpty()</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">                    &amp;&amp; category.isStatus()) {</span>
 
-<span class="fc" id="L107">                activeAssignableCategories.add(</span>
-<span class="fc" id="L108">                        modelMapper.map(category, CategoryDto.class)</span>
+<span class="fc" id="L108">                activeAssignableCategories.add(</span>
+<span class="fc" id="L109">                        modelMapper.map(category, CategoryDto.class)</span>
                 );
             }
-<span class="fc" id="L111">        }</span>
+<span class="fc" id="L112">        }</span>
 
-<span class="fc" id="L113">        return activeAssignableCategories;</span>
+<span class="fc" id="L114">        return activeAssignableCategories;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

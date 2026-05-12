@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/customer")
 public class CustomerController extends BaseController {
+
     public static final String REDIRECT_CUSTOMER_LIST = "redirect:/customer/list";
+
     @Autowired
     private CustomerService customerService;
+
     @Autowired
     private ShelfsService shelfsService;
 

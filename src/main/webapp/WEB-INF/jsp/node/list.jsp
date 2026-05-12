@@ -8,8 +8,6 @@
 
     <style>
 
-        /* ===== BODY ===== */
-
         body {
             margin: 0;
             font-family: "Inter", sans-serif;
@@ -20,16 +18,12 @@
             align-items: center;
         }
 
-        /* ===== PAGE WRAPPER ===== */
-
         .page-wrapper {
             width: 1100px;
             background: #f3efe9;
             padding: 34px 42px;
             box-sizing: border-box;
         }
-
-        /* ===== HEADER ===== */
 
         .top-section {
             display: flex;
@@ -44,8 +38,6 @@
             color: #2f2f2f;
             margin: 0;
         }
-
-        /* ===== BUTTONS ===== */
 
         .top-actions {
             display: flex;
@@ -90,8 +82,6 @@
             color: #ffffff;
         }
 
-        /* ===== TABLE ===== */
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -114,13 +104,9 @@
             vertical-align: middle;
         }
 
-        /* ===== ROLES ===== */
-
         .roles {
             line-height: 1.7;
         }
-
-        /* ===== ACTION BUTTONS ===== */
 
         .action-buttons {
             display: flex;
@@ -162,8 +148,6 @@
             color: #ffffff;
         }
 
-        /* ===== EMPTY ===== */
-
         .empty {
             text-align: center;
             padding: 28px;
@@ -178,8 +162,6 @@
 <body>
 
 <div class="page-wrapper">
-
-    <!-- ===== HEADER ===== -->
 
     <div class="top-section">
 
@@ -206,8 +188,6 @@
         </div>
 
     </div>
-
-    <!-- ===== TABLE ===== -->
 
     <c:choose>
 
@@ -259,8 +239,6 @@
                             </c:forEach>
 
                         </td>
-
-                        <!-- ===== ACTIONS ===== -->
 
                         <td>
 

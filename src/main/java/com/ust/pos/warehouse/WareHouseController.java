@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/wareHouse")
 public class WareHouseController extends BaseController {
+
     public static final String REDIRECT_WAREHOUSE_LIST = "redirect:/wareHouse/list";
+
     @Autowired
     private WareHouseService wareHouseService;
 
@@ -62,9 +64,9 @@ public class WareHouseController extends BaseController {
         return REDIRECT_WAREHOUSE_LIST;
     }
 
-
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
-        wareHouseService.toggleStatus(identifier);}
+    public void toggle(Model model, @RequestParam String identifier) {
+        wareHouseService.toggleStatus(identifier);
+    }
 }

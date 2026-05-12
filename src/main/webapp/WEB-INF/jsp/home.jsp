@@ -15,8 +15,6 @@
             color: #2f2f2f;
         }
 
-        /* ===== TOP BAR ===== */
-
         .topbar {
             height: 56px;
             background-color: #e2d8cb;
@@ -62,8 +60,6 @@
             color: #2f2f2f;
         }
 
-        /* ===== LOGOUT BUTTON ===== */
-
         .logout-btn {
             background: #3f3f3f;
             color: #fff;
@@ -80,8 +76,6 @@
             color: #3f3f3f;
             transform: scale(1.04);
         }
-
-        /* ===== SIDEBAR ===== */
 
         .sidebar {
             position: fixed;
@@ -100,8 +94,6 @@
             left: 0;
         }
 
-        /* ===== SIDEBAR TITLES ===== */
-
         .sidebar-title {
             padding: 18px 20px 8px;
             font-size: 11px;
@@ -109,8 +101,6 @@
             letter-spacing: 1.5px;
             color: #8b8b8b;
         }
-
-        /* ===== SIDEBAR LINKS ===== */
 
         .sidebar a {
             display: block;
@@ -132,14 +122,10 @@
             box-shadow: inset 0 0 8px rgba(0,0,0,0.05);
         }
 
-        /* ===== ACTIVE DASHBOARD ===== */
-
         .dashboard-link {
             background: #e7e2db;
             border-left: 3px solid #3f3f3f !important;
         }
-
-        /* ===== CONTENT ===== */
 
         .content {
             margin-top: 56px;
@@ -150,8 +136,6 @@
         .content.shifted {
             margin-left: 240px;
         }
-
-        /* ===== CARD ===== */
 
         .card {
             background: #f3efe9;
@@ -180,8 +164,6 @@
             line-height: 1.7;
         }
 
-        /* ===== SCROLLBAR ===== */
-
         .sidebar::-webkit-scrollbar {
             width: 6px;
         }
@@ -205,8 +187,6 @@
 </head>
 
 <body>
-
-<!-- ===== TOP BAR ===== -->
 
 <div class="topbar">
 
@@ -234,11 +214,7 @@
 
 </div>
 
-<!-- ===== SIDEBAR ===== -->
-
 <div class="sidebar" id="sidebar">
-
-    <!-- CORE NAVIGATION -->
 
     <div class="sidebar-title">
         CORE NAVIGATION
@@ -248,8 +224,6 @@
        class="dashboard-link">
         Home Dashboard
     </a>
-
-    <!-- MANAGEMENT MODULES -->
 
     <div class="sidebar-title">
         MANAGEMENT MODULES
@@ -264,8 +238,6 @@
     </c:forEach>
 
 </div>
-
-<!-- ===== CONTENT ===== -->
 
 <div class="content" id="content">
 

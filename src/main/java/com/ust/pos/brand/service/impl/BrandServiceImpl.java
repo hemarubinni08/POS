@@ -16,6 +16,7 @@ import java.util.List;
 
 @Service
 public class BrandServiceImpl implements BrandService {
+
     @Autowired
     private BrandRepository brandRepository;
 
@@ -74,13 +75,13 @@ public class BrandServiceImpl implements BrandService {
     public List<BrandDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
-        Page<Brand> brandPage=brandRepository.findAll(pageable);
+        Page<Brand> brandPage = brandRepository.findAll(pageable);
         return modelMapper.map(brandPage.getContent(), listType);
     }
 
     @Override
     public List<BrandDto> findIfTrue() {
-        Type listType = new TypeToken<List<BrandDto>>(){
+        Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
         return modelMapper.map(brandRepository.findByStatusIsTrue(), listType);
     }

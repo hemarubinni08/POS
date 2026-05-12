@@ -9,8 +9,6 @@
 
     <style>
 
-        /* ===== BODY ===== */
-
         body {
             margin: 0;
             font-family: "Inter", sans-serif;
@@ -21,16 +19,12 @@
             height: 100vh;
         }
 
-        /* ===== CARD ===== */
-
         .brand-card {
             background: #f3efe9;
             width: 470px;
             padding: 42px;
             box-sizing: border-box;
         }
-
-        /* ===== BACK BUTTON ===== */
 
         .back-btn {
             display: inline-block;
@@ -46,16 +40,12 @@
             opacity: 0.7;
         }
 
-        /* ===== TITLE ===== */
-
         h2 {
             margin: 0 0 34px;
             font-size: 26px;
             font-weight: 700;
             color: #2f2f2f;
         }
-
-        /* ===== FORM ===== */
 
         .form-group {
             margin-bottom: 28px;
@@ -94,8 +84,6 @@
             border-bottom: 3px solid #3f3f3f;
         }
 
-        /* ===== AUTOFILL FIX ===== */
-
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
         input:-webkit-autofill:focus,
@@ -106,8 +94,6 @@
             transition: background-color 5000s ease-in-out 0s;
 
         }
-
-        /* ===== BUTTON ===== */
 
         .add-btn {
             width: 100%;
@@ -128,8 +114,6 @@
             color: #3f3f3f;
         }
 
-        /* ===== ERROR ===== */
-
         .error-message {
             margin-top: 16px;
             padding: 12px;
@@ -146,8 +130,6 @@
 
 <div class="brand-card">
 
-    <!-- ===== BACK ===== -->
-
     <a href="${pageContext.request.contextPath}/brand/list"
        class="back-btn">
 
@@ -155,11 +137,7 @@
 
     </a>
 
-    <!-- ===== TITLE ===== -->
-
     <h2>Add Brand</h2>
-
-    <!-- ===== ERROR ===== -->
 
     <c:if test="${not empty message}">
 
@@ -171,14 +149,10 @@
 
     </c:if>
 
-    <!-- ===== FORM ===== -->
-
     <form:form
             action="${pageContext.request.contextPath}/brand/add"
             method="post"
             modelAttribute="brandDto">
-
-        <!-- ===== BRAND NAME ===== -->
 
         <div class="form-group">
 
@@ -190,8 +164,6 @@
 
         </div>
 
-        <!-- ===== DESCRIPTION ===== -->
-
         <div class="form-group">
 
             <label>DESCRIPTION</label>
@@ -201,8 +173,6 @@
                     rows="1"/>
 
         </div>
-
-        <!-- ===== BUTTON ===== -->
 
         <button type="submit"
                 class="add-btn">

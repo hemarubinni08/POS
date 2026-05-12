@@ -16,8 +16,10 @@ import org.springframework.data.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @ExtendWith(MockitoExtension.class)
 class ModelsServiceTest {
+
     @Mock
     private ModelsRepository modelsRepository;
 
@@ -27,21 +29,15 @@ class ModelsServiceTest {
     @InjectMocks
     private ModelsServiceImpl modelsService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     void saveTest() {
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("Admin");
-
-
         Mockito.when(modelsRepository.findByIdentifier("Admin")).thenReturn(null);
-        Models models=new Models();
+        Models models = new Models();
         Mockito.when(modelMapper.map(modelsDto, Models.class)).thenReturn(models);
         Mockito.when(modelsRepository.save(models)).thenReturn(models);
-
         ModelsDto response = modelsService.save(modelsDto);
-
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertTrue(response.isSuccess());
     }
@@ -50,55 +46,37 @@ class ModelsServiceTest {
     void saveTestFailure() {
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("Admin");
-
-
         Models existingModels = new Models();
         existingModels.setIdentifier("Admin");
-
-
         Mockito.when(modelsRepository.findByIdentifier("Admin"))
                 .thenReturn(existingModels);
-
         ModelsDto response = modelsService.save(modelsDto);
-
         Assertions.assertFalse(response.isSuccess());
     }
-
-    /* ===================== FIND BY IDENTIFIER ===================== */
 
     @Test
     void findByIdentifierTest() {
         Models models = new Models();
         models.setIdentifier("Admin");
-
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("Admin");
-
         Mockito.when(modelsRepository.findByIdentifier("Admin")).thenReturn(models);
         Mockito.when(modelMapper.map(models, ModelsDto.class)).thenReturn(modelsDto);
-
         ModelsDto response = modelsService.findByIdentifier("Admin");
-
         Assertions.assertEquals("Admin", response.getIdentifier());
     }
-
-    /* ===================== UPDATE ===================== */
 
     @Test
     void updateTest() {
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("Admin");
-
         Models existingModels = new Models();
         existingModels.setIdentifier("Admin");
-
         Mockito.when(modelsRepository.findByIdentifier("Admin"))
                 .thenReturn(existingModels);
         Mockito.when(modelsRepository.save(existingModels))
                 .thenReturn(existingModels);
-
         ModelsDto response = modelsService.update(modelsDto);
-
         Assertions.assertTrue(response.isSuccess());
     }
 
@@ -106,30 +84,19 @@ class ModelsServiceTest {
     void updateTestFailure() {
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("Admin");
-
         Mockito.when(modelsRepository.findByIdentifier("Admin"))
                 .thenReturn(null);
-
         ModelsDto response = modelsService.update(modelsDto);
-
         Assertions.assertFalse(response.isSuccess());
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     void deleteTest() {
         Mockito.doNothing().when(modelsRepository)
                 .deleteByIdentifier("Admin");
-
         boolean response = modelsService.delete("Admin");
-
         Assertions.assertEquals(true, response);
-
-
     }
-
-    /* ===================== FIND ALL ===================== */
 
     @Test
     void findAllTest() {
@@ -152,51 +119,43 @@ class ModelsServiceTest {
     }
 
     @Test
-    void findByStatusTest(){
+    void findByStatusTest() {
         Models models = new Models();
         models.setIdentifier("Admin");
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("Admin");
-
         List<Models> modelss = List.of(models);
         List<ModelsDto> modelsDtos = List.of(modelsDto);
-
         Mockito.when(modelsRepository.findByStatusIsTrue()).thenReturn(modelss);
         Mockito.when(modelMapper.map(
                 Mockito.eq(modelss),
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(modelsDtos);
-
         List<ModelsDto> response = modelsService.findIfTrue();
-
         Assertions.assertEquals(1, response.size());
     }
 
     @Test
-    void toggleTestActive(){
-
+    void toggleTestActive() {
         Models models = new Models();
         models.setStatus(false);
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setStatus(true);
         Mockito.when(modelsRepository.findByIdentifier("Admin")).thenReturn(models);
-        Mockito.when(modelMapper.map(models,ModelsDto.class)).thenReturn(modelsDto);
+        Mockito.when(modelMapper.map(models, ModelsDto.class)).thenReturn(modelsDto);
         ModelsDto response = modelsService.toggleStatus("Admin");
         Assertions.assertTrue(response.isStatus());
-
     }
 
     @Test
-    void toggleTestInactive(){
-
+    void toggleTestInactive() {
         Models models = new Models();
         models.setStatus(true);
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setStatus(false);
         Mockito.when(modelsRepository.findByIdentifier("Admin")).thenReturn(models);
-        Mockito.when(modelMapper.map(models,ModelsDto.class)).thenReturn(modelsDto);
+        Mockito.when(modelMapper.map(models, ModelsDto.class)).thenReturn(modelsDto);
         ModelsDto response = modelsService.toggleStatus("Admin");
         Assertions.assertFalse(response.isStatus());
-
     }
 }

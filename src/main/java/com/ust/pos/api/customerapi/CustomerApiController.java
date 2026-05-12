@@ -6,7 +6,6 @@ import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.shelfs.service.ShelfsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.data.autoconfigure.web.DataWebProperties;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +15,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerApiController extends BaseController {
+
     @Autowired
     private CustomerService customerService;
+
     @Autowired
     private ShelfsService shelfsService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<CustomerDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return customerService.findAll(pageable);
     }
 

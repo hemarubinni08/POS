@@ -13,8 +13,6 @@
             box-sizing: border-box;
         }
 
-        /* ===== BODY ===== */
-
         body {
             margin: 0;
             font-family: "Inter", sans-serif;
@@ -22,16 +20,12 @@
             padding: 40px 0;
         }
 
-        /* ===== CARD ===== */
-
         .customer-card {
             width: 1100px;
             margin: auto;
             background: #f3efe9;
             padding: 42px;
         }
-
-        /* ===== BACK BUTTON ===== */
 
         .back-btn {
             display: inline-block;
@@ -47,16 +41,12 @@
             opacity: 0.7;
         }
 
-        /* ===== TITLE ===== */
-
         h2 {
             margin: 0 0 34px;
             font-size: 26px;
             font-weight: 700;
             color: #2f2f2f;
         }
-
-        /* ===== SECTION ===== */
 
         .section {
             margin-bottom: 36px;
@@ -70,8 +60,6 @@
             margin-bottom: 24px;
         }
 
-        /* ===== GRID ===== */
-
         .grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -83,8 +71,6 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 26px;
         }
-
-        /* ===== FORM ===== */
 
         .form-group {
             margin-bottom: 10px;
@@ -123,8 +109,6 @@
             color: #2f2f2f;
         }
 
-        /* ===== AUTOFILL FIX ===== */
-
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
         input:-webkit-autofill:focus {
@@ -134,8 +118,6 @@
             transition: background-color 5000s ease-in-out 0s;
 
         }
-
-        /* ===== BUTTON ===== */
 
         .submit-btn {
             width: 100%;
@@ -156,8 +138,6 @@
             color: #3f3f3f;
         }
 
-        /* ===== RESPONSIVE ===== */
-
         @media (max-width: 1150px) {
 
             .customer-card {
@@ -174,8 +154,6 @@
 
 <div class="customer-card">
 
-    <!-- ===== BACK ===== -->
-
     <a href="${pageContext.request.contextPath}/customer/list"
        class="back-btn">
 
@@ -183,17 +161,11 @@
 
     </a>
 
-    <!-- ===== TITLE ===== -->
-
     <h2>Add Customer</h2>
-
-    <!-- ===== FORM ===== -->
 
     <form:form method="post"
                action="${pageContext.request.contextPath}/customer/add"
                modelAttribute="customerDto">
-
-        <!-- ===== CUSTOMER DETAILS ===== -->
 
         <div class="section">
 
@@ -318,8 +290,6 @@
 
         </div>
 
-        <!-- ===== BILLING ADDRESS ===== -->
-
         <div class="section">
 
             <div class="section-title">
@@ -377,8 +347,6 @@
 
         </div>
 
-        <!-- ===== SHIPPING ADDRESS ===== -->
-
         <div class="section">
 
             <div class="section-title">
@@ -435,8 +403,6 @@
             </div>
 
         </div>
-
-        <!-- ===== BUTTON ===== -->
 
         <button type="submit"
                 class="submit-btn">

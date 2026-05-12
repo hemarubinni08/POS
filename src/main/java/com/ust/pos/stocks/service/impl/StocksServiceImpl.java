@@ -2,7 +2,6 @@ package com.ust.pos.stocks.service.impl;
 
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.StocksDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Stocks;
 import com.ust.pos.model.StocksRepository;
 import com.ust.pos.product.service.ProductService;
@@ -19,6 +18,7 @@ import java.util.List;
 
 @Service
 public class StocksServiceImpl implements StocksService {
+
     @Autowired
     private StocksRepository stocksRepository;
 
@@ -27,7 +27,6 @@ public class StocksServiceImpl implements StocksService {
 
     @Autowired
     private ProductService productService;
-
 
     @Override
     public StocksDto findByIdentifier(String identifier) {
@@ -93,5 +92,4 @@ public class StocksServiceImpl implements StocksService {
         stocksRepository.save(stocks);
         return modelMapper.map(stocks, StocksDto.class);
     }
-
 }

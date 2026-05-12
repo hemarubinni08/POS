@@ -8,8 +8,6 @@
 
     <style>
 
-        /* ===== BODY ===== */
-
         body {
             margin: 0;
             font-family: "Inter", sans-serif;
@@ -20,16 +18,12 @@
             align-items: center;
         }
 
-        /* ===== PAGE WRAPPER ===== */
-
         .page-wrapper {
             width: 1100px;
             background: #f3efe9;
             padding: 34px 42px;
             box-sizing: border-box;
         }
-
-        /* ===== HEADER ===== */
 
         .top-section {
             display: flex;
@@ -44,8 +38,6 @@
             color: #2f2f2f;
             margin: 0;
         }
-
-        /* ===== BUTTONS ===== */
 
         .top-actions {
             display: flex;
@@ -90,8 +82,6 @@
             color: #ffffff;
         }
 
-        /* ===== TABLE ===== */
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -113,8 +103,6 @@
             font-size: 14px;
             vertical-align: middle;
         }
-
-        /* ===== ACTION BUTTONS ===== */
 
         .action-buttons {
             display: flex;
@@ -156,8 +144,6 @@
             color: #ffffff;
         }
 
-        /* ===== EMPTY ===== */
-
         .empty {
             text-align: center;
             padding: 28px;
@@ -172,8 +158,6 @@
 <body>
 
 <div class="page-wrapper">
-
-    <!-- ===== HEADER ===== -->
 
     <div class="top-section">
 
@@ -200,8 +184,6 @@
         </div>
 
     </div>
-
-    <!-- ===== TABLE ===== -->
 
     <c:if test="${empty prices}">
 
@@ -244,8 +226,6 @@
                     <td>${price.sellingPrice}</td>
 
                     <td>${price.effectiveFrom}</td>
-
-                    <!-- ===== ACTIONS ===== -->
 
                     <td>
 

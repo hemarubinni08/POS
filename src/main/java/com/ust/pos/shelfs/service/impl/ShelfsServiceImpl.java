@@ -1,7 +1,6 @@
 package com.ust.pos.shelfs.service.impl;
 
 import com.ust.pos.dto.ShelfsDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Shelfs;
 import com.ust.pos.model.ShelfsRepository;
 import com.ust.pos.shelfs.service.ShelfsService;
@@ -17,6 +16,7 @@ import java.util.List;
 
 @Service
 public class ShelfsServiceImpl implements ShelfsService {
+
     @Autowired
     private ShelfsRepository shelfsRepository;
 
@@ -33,12 +33,12 @@ public class ShelfsServiceImpl implements ShelfsService {
         Shelfs shelfs = shelfsRepository.findByIdentifier(identifier);
         shelfs.setStatus(!shelfs.isStatus());
         shelfsRepository.save(shelfs);
-        return modelMapper.map(shelfs,ShelfsDto.class);
+        return modelMapper.map(shelfs, ShelfsDto.class);
     }
 
     @Override
     public List<ShelfsDto> findIfTrue() {
-        Type listType = new TypeToken<List<ShelfsDto>>(){
+        Type listType = new TypeToken<List<ShelfsDto>>() {
         }.getType();
         return modelMapper.map(shelfsRepository.findByStatusIsTrue(), listType);
     }
@@ -82,7 +82,7 @@ public class ShelfsServiceImpl implements ShelfsService {
     public List<ShelfsDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ShelfsDto>>() {
         }.getType();
-        Page<Shelfs> shelfsPage=shelfsRepository.findAll(pageable);
+        Page<Shelfs> shelfsPage = shelfsRepository.findAll(pageable);
         return modelMapper.map(shelfsPage.getContent(), listType);
     }
 }

@@ -9,8 +9,6 @@
 
     <style>
 
-        /* ===== BODY ===== */
-
         body {
             margin: 0;
             font-family: "Inter", sans-serif;
@@ -21,16 +19,12 @@
             height: 100vh;
         }
 
-        /* ===== CARD ===== */
-
         .category-card {
             background: #f3efe9;
             width: 470px;
             padding: 42px;
             box-sizing: border-box;
         }
-
-        /* ===== BACK BUTTON ===== */
 
         .back-btn {
             display: inline-block;
@@ -46,16 +40,12 @@
             opacity: 0.7;
         }
 
-        /* ===== TITLE ===== */
-
         h2 {
             margin: 0 0 34px;
             font-size: 26px;
             font-weight: 700;
             color: #2f2f2f;
         }
-
-        /* ===== FORM ===== */
 
         .form-group {
             margin-bottom: 28px;
@@ -89,21 +79,15 @@
             border-bottom: 3px solid #3f3f3f;
         }
 
-        /* ===== READONLY INPUT ===== */
-
         input[readonly] {
             color: #7a7a7a;
             cursor: not-allowed;
         }
 
-        /* ===== SELECT OPTION ===== */
-
         option {
             background: #f3efe9;
             color: #2f2f2f;
         }
-
-        /* ===== AUTOFILL FIX ===== */
 
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
@@ -114,8 +98,6 @@
             transition: background-color 5000s ease-in-out 0s;
 
         }
-
-        /* ===== BUTTON ===== */
 
         .update-btn {
             width: 100%;
@@ -136,8 +118,6 @@
             color: #3f3f3f;
         }
 
-        /* ===== ERROR ===== */
-
         .error {
             margin-top: 16px;
             padding: 12px;
@@ -154,8 +134,6 @@
 
 <div class="category-card">
 
-    <!-- ===== BACK ===== -->
-
     <a href="${pageContext.request.contextPath}/category/list"
        class="back-btn">
 
@@ -163,11 +141,7 @@
 
     </a>
 
-    <!-- ===== TITLE ===== -->
-
     <h2>Edit Category</h2>
-
-    <!-- ===== ERROR ===== -->
 
     <c:if test="${not empty message}">
 
@@ -179,16 +153,12 @@
 
     </c:if>
 
-    <!-- ===== FORM ===== -->
-
     <form:form
             action="${pageContext.request.contextPath}/category/update"
             method="post"
             modelAttribute="category">
 
         <form:hidden path="id"/>
-
-        <!-- ===== CATEGORY NAME ===== -->
 
         <div class="form-group">
 
@@ -199,8 +169,6 @@
                     readonly="true"/>
 
         </div>
-
-        <!-- ===== SUPER CATEGORY ===== -->
 
         <div class="form-group">
 
@@ -225,8 +193,6 @@
             </form:select>
 
         </div>
-
-        <!-- ===== BUTTON ===== -->
 
         <button type="submit"
                 class="update-btn">

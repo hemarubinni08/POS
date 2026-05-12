@@ -1,8 +1,8 @@
 package com.ust.pos.category;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.category.service.CategoryService;
+import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/category")
 public class CategoryController extends BaseController {
+
     public static final String REDIRECT_CATEGORY_LIST = "redirect:/category/list";
     public static final String CATEGORIES = "categories";
 
@@ -71,9 +72,10 @@ public class CategoryController extends BaseController {
         categoryService.delete(identifier);
         return REDIRECT_CATEGORY_LIST;
     }
+
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
+    public void toggle(Model model, @RequestParam String identifier) {
         categoryService.toggleStatus(identifier);
     }
 }

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/node")
 public class NodeController extends BaseController {
+
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     public static final String ROLES = "roles";
+
     @Autowired
     RoleService roleService;
 
@@ -72,6 +74,7 @@ public class NodeController extends BaseController {
 
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
-        nodeService.toggleStatus(identifier);}
+    public void toggle(Model model, @RequestParam String identifier) {
+        nodeService.toggleStatus(identifier);
+    }
 }

@@ -9,8 +9,6 @@
 
     <style>
 
-        /* ===== BODY ===== */
-
         body {
             margin: 0;
             font-family: "Inter", sans-serif;
@@ -23,8 +21,6 @@
             overflow-y: auto;
         }
 
-        /* ===== CARD ===== */
-
         .register-card {
             background: #f3efe9;
             width: 380px;
@@ -33,8 +29,6 @@
             text-align: left;
             margin: 20px 0;
         }
-
-        /* ===== TITLE ===== */
 
         .app-title {
             font-size: 12px;
@@ -51,8 +45,6 @@
             color: #2f2f2f;
         }
 
-        /* ===== BACK BUTTON ===== */
-
         .back-btn {
             display: inline-block;
             margin-bottom: 14px;
@@ -66,8 +58,6 @@
         .back-btn:hover {
             opacity: 0.7;
         }
-
-        /* ===== FORM ===== */
 
         .form-group {
             margin-bottom: 14px;
@@ -99,13 +89,9 @@
             border-bottom: 2px solid #3f3f3f;
         }
 
-        /* ===== ROLES BOX ===== */
-
         select[multiple] {
             height: 90px;
         }
-
-        /* ===== REGISTER BUTTON ===== */
 
         .register-btn {
             width: 100%;
@@ -126,8 +112,6 @@
             color: #3f3f3f;
         }
 
-        /* ===== ERROR MESSAGE ===== */
-
         .error-message {
             margin-bottom: 14px;
             padding: 8px;
@@ -144,14 +128,10 @@
 
 <div class="register-card">
 
-    <!-- ===== BACK BUTTON ===== -->
-
     <a href="${pageContext.request.contextPath}/login"
        class="back-btn">
          ᐸ BACK
     </a>
-
-    <!-- ===== TITLE ===== -->
 
     <div class="app-title">
         POS APPLICATION
@@ -159,21 +139,15 @@
 
     <h2>Register</h2>
 
-    <!-- ===== ERROR MESSAGE ===== -->
-
     <c:if test="${not empty message}">
         <div class="error-message">
             ${message}
         </div>
     </c:if>
 
-    <!-- ===== REGISTRATION FORM ===== -->
-
     <form:form action="${pageContext.request.contextPath}/register"
                method="post"
                modelAttribute="userDto">
-
-        <!-- NAME -->
 
         <div class="form-group">
 
@@ -184,8 +158,6 @@
                     required="true"/>
 
         </div>
-
-        <!-- EMAIL -->
 
         <div class="form-group">
 
@@ -198,8 +170,6 @@
                     placeholder="example@mail.com"/>
 
         </div>
-
-        <!-- ROLES -->
 
         <div class="form-group">
 
@@ -219,8 +189,6 @@
 
         </div>
 
-        <!-- PHONE NUMBER -->
-
         <div class="form-group">
 
             <label>PHONE NUMBER</label>
@@ -236,8 +204,6 @@
 
         </div>
 
-        <!-- PASSWORD -->
-
         <div class="form-group">
 
             <label>PASSWORD</label>
@@ -248,8 +214,6 @@
                     minlength="6"/>
 
         </div>
-
-        <!-- BUTTON -->
 
         <button type="submit"
                 class="register-btn">

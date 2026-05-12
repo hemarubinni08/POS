@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PriceServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos.price.service.impl</a> &gt; <span class="el_source">PriceServiceImpl.java</span></div><h1>PriceServiceImpl.java</h1><pre class="source lang-java linenums">package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
@@ -16,7 +15,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-<span class="fc" id="L19">public class PriceServiceImpl implements PriceService {</span>
+<span class="fc" id="L18">public class PriceServiceImpl implements PriceService {</span>
     @Autowired
     private PriceRepository priceRepository;
 
@@ -25,57 +24,58 @@ import java.util.List;
 
     @Override
     public PriceDto findByIdentifier(String identifier) {
-<span class="fc" id="L28">        return modelMapper.map(priceRepository.findByIdentifier(identifier), PriceDto.class);</span>
+<span class="fc" id="L27">        return modelMapper.map(priceRepository.findByIdentifier(identifier), PriceDto.class);</span>
     }
 
     @Override
     public PriceDto save(PriceDto priceDto) {
-<span class="fc" id="L33">        String identifier = priceDto.getIdentifier();</span>
-<span class="fc" id="L34">        Price existingPrice = priceRepository.findByIdentifier(identifier);</span>
-<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (existingPrice != null) {</span>
-<span class="fc" id="L36">            priceDto.setMessage(&quot;Price with identifier - &quot; + identifier + &quot; already exists&quot;);</span>
-<span class="fc" id="L37">            priceDto.setSuccess(false);</span>
-<span class="fc" id="L38">            return priceDto;</span>
+<span class="fc" id="L32">        String identifier = priceDto.getIdentifier();</span>
+<span class="fc" id="L33">        Price existingPrice = priceRepository.findByIdentifier(identifier);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (existingPrice != null) {</span>
+<span class="fc" id="L35">            priceDto.setMessage(&quot;Price with identifier - &quot; + identifier + &quot; already exists&quot;);</span>
+<span class="fc" id="L36">            priceDto.setSuccess(false);</span>
+<span class="fc" id="L37">            return priceDto;</span>
         }
-<span class="fc" id="L40">        Price price = modelMapper.map(priceDto, Price.class);</span>
-<span class="fc" id="L41">        priceRepository.save(price);</span>
-<span class="fc" id="L42">        return priceDto;</span>
+<span class="fc" id="L39">        Price price = modelMapper.map(priceDto, Price.class);</span>
+<span class="fc" id="L40">        priceRepository.save(price);</span>
+<span class="fc" id="L41">        return priceDto;</span>
     }
 
     @Override
     public PriceDto update(PriceDto priceDto) {
-<span class="fc" id="L47">        String identifier = priceDto.getIdentifier();</span>
-<span class="fc" id="L48">        Price existingPrice = priceRepository.findByIdentifier(identifier);</span>
-<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (existingPrice == null) {</span>
-<span class="fc" id="L50">            priceDto.setMessage(&quot;Price with identifier - &quot; + identifier + &quot; not found&quot;);</span>
-<span class="fc" id="L51">            priceDto.setSuccess(false);</span>
-<span class="fc" id="L52">            return priceDto;</span>
+<span class="fc" id="L46">        String identifier = priceDto.getIdentifier();</span>
+<span class="fc" id="L47">        Price existingPrice = priceRepository.findByIdentifier(identifier);</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (existingPrice == null) {</span>
+<span class="fc" id="L49">            priceDto.setMessage(&quot;Price with identifier - &quot; + identifier + &quot; not found&quot;);</span>
+<span class="fc" id="L50">            priceDto.setSuccess(false);</span>
+<span class="fc" id="L51">            return priceDto;</span>
         }
-<span class="fc" id="L54">        modelMapper.map(priceDto, existingPrice);</span>
-<span class="fc" id="L55">        priceRepository.save(existingPrice);</span>
-<span class="fc" id="L56">        return priceDto;</span>
+<span class="fc" id="L53">        modelMapper.map(priceDto, existingPrice);</span>
+<span class="fc" id="L54">        priceRepository.save(existingPrice);</span>
+<span class="fc" id="L55">        return priceDto;</span>
     }
 
     @Override
     public boolean delete(String identifier) {
-<span class="fc" id="L61">        priceRepository.deleteByIdentifier(identifier);</span>
-<span class="fc" id="L62">        return true;</span>
+<span class="fc" id="L60">        priceRepository.deleteByIdentifier(identifier);</span>
+<span class="fc" id="L61">        return true;</span>
     }
 
     @Override
     public List&lt;PriceDto&gt; findAll(Pageable pageable) {
-<span class="fc" id="L67">        Type listType = new TypeToken&lt;List&lt;PriceDto&gt;&gt;() {</span>
-<span class="fc" id="L68">        }.getType();</span>
-<span class="fc" id="L69">        Page&lt;Price&gt; customerPage=priceRepository.findAll(pageable);</span>
-<span class="fc" id="L70">        return modelMapper.map(customerPage.getContent(), listType);</span>
+<span class="fc" id="L66">        Type listType = new TypeToken&lt;List&lt;PriceDto&gt;&gt;() {</span>
+<span class="fc" id="L67">        }.getType();</span>
+<span class="fc" id="L68">        Page&lt;Price&gt; customerPage = priceRepository.findAll(pageable);</span>
+<span class="fc" id="L69">        return modelMapper.map(customerPage.getContent(), listType);</span>
     }
 
     @Override
     public List&lt;PriceDto&gt; findIfTrue() {
-<span class="fc" id="L75">        Type listType = new TypeToken&lt;List&lt;PriceDto&gt;&gt;(){</span>
-<span class="fc" id="L76">        }.getType();</span>
-<span class="fc" id="L77">        return modelMapper.map(priceRepository.findByStatusIsTrue(), listType);</span>
+<span class="fc" id="L74">        Type listType = new TypeToken&lt;List&lt;PriceDto&gt;&gt;() {</span>
+<span class="fc" id="L75">        }.getType();</span>
+<span class="fc" id="L76">        return modelMapper.map(priceRepository.findByStatusIsTrue(), listType);</span>
     }
+
     @Override
     public PriceDto toggleStatus(String identifier) {
 <span class="fc" id="L81">        Price price = priceRepository.findByIdentifier(identifier);</span>

@@ -17,16 +17,15 @@ import org.springframework.stereotype.Service;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-<span class="nc" id="L20">        UserDto userDto = userService.findByUserName(username);</span>
-
-<span class="nc bnc" id="L22" title="All 2 branches missed.">        if (userDto == null) {</span>
-<span class="nc" id="L23">            throw new UsernameNotFoundException(&quot;User not found: &quot; + username);</span>
+<span class="fc" id="L20">        UserDto userDto = userService.findByUserName(username);</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        if (userDto == null) {</span>
+<span class="fc" id="L22">            throw new UsernameNotFoundException(&quot;User not found: &quot; + username);</span>
         }
+<span class="fc" id="L24">        return org.springframework.security.core.userdetails.User</span>
+<span class="fc" id="L25">                .withUsername(userDto.getUsername())</span>
+<span class="fc" id="L26">                .password(userDto.getPassword())</span>
+<span class="fc" id="L27">                .build();</span>
 
-<span class="nc" id="L26">        return org.springframework.security.core.userdetails.User</span>
-<span class="nc" id="L27">                .withUsername(userDto.getUsername())</span>
-<span class="nc" id="L28">                .password(userDto.getPassword())</span>
-<span class="nc" id="L29">                .build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

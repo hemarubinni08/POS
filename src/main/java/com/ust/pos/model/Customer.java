@@ -8,10 +8,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Customer extends CommonFields {
+
     private String customerName;
     private String email;
     private String partyType;
     private Double credit;
     private Double creditLimit;
     private String creditType;
+
 }

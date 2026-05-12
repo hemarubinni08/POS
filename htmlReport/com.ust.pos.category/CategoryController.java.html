@@ -71,10 +71,11 @@ import org.springframework.web.bind.annotation.*;
 <span class="nc" id="L71">        categoryService.delete(identifier);</span>
 <span class="nc" id="L72">        return REDIRECT_CATEGORY_LIST;</span>
     }
+
     @PostMapping(&quot;/toggle-status&quot;)
     @ResponseBody
     public void toggle(Model model,@RequestParam String identifier){
-<span class="nc" id="L77">        categoryService.toggleStatus(identifier);</span>
-<span class="nc" id="L78">    }</span>
+<span class="nc" id="L78">        categoryService.toggleStatus(identifier);</span>
+<span class="nc" id="L79">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

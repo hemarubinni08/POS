@@ -3,7 +3,6 @@ package com.ust.pos.category.service.impl;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.ShelfsDto;
-import com.ust.pos.model.Brand;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import org.modelmapper.ModelMapper;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -68,7 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-        Page<Category> categoryPage=categoryRepository.findAll(pageable);
+        Page<Category> categoryPage = categoryRepository.findAll(pageable);
         return modelMapper.map(categoryPage.getContent(), listType);
     }
 
@@ -81,26 +81,25 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto toggleStatus(String identifier) {
-        Category category=categoryRepository.findByIdentifier(identifier);
+        Category category = categoryRepository.findByIdentifier(identifier);
         category.setStatus(!category.isStatus());
         categoryRepository.save(category);
-        return modelMapper.map(category,CategoryDto.class);
+        return modelMapper.map(category, CategoryDto.class);
     }
 
     @Override
     public List<CategoryDto> findIfTrue() {
-        Type listType = new TypeToken<List<ShelfsDto>>(){
+        Type listType = new TypeToken<List<ShelfsDto>>() {
         }.getType();
         return modelMapper.map(categoryRepository.findByStatusIsTrue(), listType);
     }
+
     @Override
     public List<CategoryDto> findAllActive() {
         List<Category> categories = categoryRepository.findAll();
         List<CategoryDto> activeAssignableCategories = new ArrayList<>();
-
         for (Category category : categories) {
             String superCategory = category.getSuperCategory();
-
             if (superCategory != null && !superCategory.trim().isEmpty()
                     && category.isStatus()) {
 
@@ -109,7 +108,6 @@ public class CategoryServiceImpl implements CategoryService {
                 );
             }
         }
-
         return activeAssignableCategories;
     }
 }

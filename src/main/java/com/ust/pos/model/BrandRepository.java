@@ -7,10 +7,9 @@ import java.util.List;
 
 @Repository
 public interface BrandRepository extends JpaRepository<Brand,Long> {
+
     Brand findByIdentifier(String identifier);
-
     void deleteByIdentifier(String identifier);
-
     List<Brand> findByStatusIsTrue();
 
 }

@@ -1,7 +1,6 @@
 package com.ust.pos.product.service.impl;
 
 import com.ust.pos.dto.ProductDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -17,6 +16,7 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto findByIdentifier(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
-        return modelMapper.map(product,ProductDto.class);
+        return modelMapper.map(product, ProductDto.class);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
         String identifier = productDto.getIdentifier();
         Long skuCode = productDto.getSkuCode();
         Product existingProduct = productRepository.findByIdentifier(identifier);
-        Product existingSku= productRepository.findBySkuCode(skuCode);
+        Product existingSku = productRepository.findBySkuCode(skuCode);
         if (existingProduct != null) {
             productDto.setMessage("Product with identifier - " + identifier + " already exists");
             productDto.setSuccess(false);
@@ -76,9 +76,10 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
-        Page<Product> productPage=productRepository.findAll(pageable);
+        Page<Product> productPage = productRepository.findAll(pageable);
         return modelMapper.map(productPage.getContent(), listType);
     }
+
     @Override
     public ProductDto toggleStatus(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
@@ -89,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findIfTrue() {
-        Type listType = new TypeToken<List<ProductDto>>(){
+        Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         return modelMapper.map(productRepository.findByStatusIsTrue(), listType);
     }

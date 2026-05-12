@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/shelfs")
-public class ShelfsController extends BaseController{
+public class ShelfsController extends BaseController {
+
     public static final String REDIRECT_SHELFS_LIST = "redirect:/shelfs/list";
+
     @Autowired
     private ShelfsService shelfsService;
 
@@ -64,7 +66,7 @@ public class ShelfsController extends BaseController{
 
     @PostMapping("toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
+    public void toggle(Model model, @RequestParam String identifier) {
         shelfsService.toggleStatus(identifier);
     }
 }

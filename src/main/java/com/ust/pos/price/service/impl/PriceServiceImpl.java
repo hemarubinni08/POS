@@ -1,7 +1,6 @@
 package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
@@ -17,6 +16,7 @@ import java.util.List;
 
 @Service
 public class PriceServiceImpl implements PriceService {
+
     @Autowired
     private PriceRepository priceRepository;
 
@@ -66,16 +66,17 @@ public class PriceServiceImpl implements PriceService {
     public List<PriceDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
-        Page<Price> customerPage=priceRepository.findAll(pageable);
+        Page<Price> customerPage = priceRepository.findAll(pageable);
         return modelMapper.map(customerPage.getContent(), listType);
     }
 
     @Override
     public List<PriceDto> findIfTrue() {
-        Type listType = new TypeToken<List<PriceDto>>(){
+        Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
         return modelMapper.map(priceRepository.findByStatusIsTrue(), listType);
     }
+
     @Override
     public PriceDto toggleStatus(String identifier) {
         Price price = priceRepository.findByIdentifier(identifier);

@@ -1,8 +1,8 @@
 package com.ust.pos.brand;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.brand.service.BrandService;
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/brand")
 public class BrandController extends BaseController {
     public static final String REDIRECT_BRAND_LIST = "redirect:/brand/list";
+
     @Autowired
     private BrandService brandService;
 
@@ -64,6 +65,7 @@ public class BrandController extends BaseController {
 
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
-        brandService.toggleStatus(identifier);}
+    public void toggle(Model model, @RequestParam String identifier) {
+        brandService.toggleStatus(identifier);
+    }
 }

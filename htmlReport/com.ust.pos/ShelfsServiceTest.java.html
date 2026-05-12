@@ -28,182 +28,150 @@ import java.util.List;
     @InjectMocks
     private ShelfsServiceImpl shelfsService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     void saveTest() {
-<span class="fc" id="L35">        ShelfsDto shelfsDto = new ShelfsDto();</span>
-<span class="fc" id="L36">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L33">        ShelfsDto shelfsDto = new ShelfsDto();</span>
+<span class="fc" id="L34">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
 
+<span class="fc" id="L36">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc" id="L37">        Shelfs shelfs = new Shelfs();</span>
+<span class="fc" id="L38">        Mockito.when(modelMapper.map(shelfsDto, Shelfs.class)).thenReturn(shelfs);</span>
+<span class="fc" id="L39">        Mockito.when(shelfsRepository.save(shelfs)).thenReturn(shelfs);</span>
 
-<span class="fc" id="L39">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
-<span class="fc" id="L40">        Shelfs shelfs=new Shelfs();</span>
-<span class="fc" id="L41">        Mockito.when(modelMapper.map(shelfsDto, Shelfs.class)).thenReturn(shelfs);</span>
-<span class="fc" id="L42">        Mockito.when(shelfsRepository.save(shelfs)).thenReturn(shelfs);</span>
+<span class="fc" id="L41">        ShelfsDto response = shelfsService.save(shelfsDto);</span>
 
-<span class="fc" id="L44">        ShelfsDto response = shelfsService.save(shelfsDto);</span>
-
-<span class="fc" id="L46">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
-<span class="fc" id="L47">        Assertions.assertTrue(response.isSuccess());</span>
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L43">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L44">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L45">    }</span>
 
     @Test
     void saveTestFailure() {
-<span class="fc" id="L52">        ShelfsDto shelfsDto = new ShelfsDto();</span>
-<span class="fc" id="L53">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L49">        ShelfsDto shelfsDto = new ShelfsDto();</span>
+<span class="fc" id="L50">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
 
+<span class="fc" id="L52">        Shelfs existingShelfs = new Shelfs();</span>
+<span class="fc" id="L53">        existingShelfs.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L56">        Shelfs existingShelfs = new Shelfs();</span>
-<span class="fc" id="L57">        existingShelfs.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L55">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(existingShelfs);</span>
 
+<span class="fc" id="L57">        ShelfsDto response = shelfsService.save(shelfsDto);</span>
 
-<span class="fc" id="L60">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L61">                .thenReturn(existingShelfs);</span>
-
-<span class="fc" id="L63">        ShelfsDto response = shelfsService.save(shelfsDto);</span>
-
-<span class="fc" id="L65">        Assertions.assertFalse(response.isSuccess());</span>
-<span class="fc" id="L66">    }</span>
-
-    /* ===================== FIND BY IDENTIFIER ===================== */
+<span class="fc" id="L59">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L60">    }</span>
 
     @Test
     void findByIdentifierTest() {
-<span class="fc" id="L72">        Shelfs shelfs = new Shelfs();</span>
-<span class="fc" id="L73">        shelfs.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L64">        Shelfs shelfs = new Shelfs();</span>
+<span class="fc" id="L65">        shelfs.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L75">        ShelfsDto shelfsDto = new ShelfsDto();</span>
-<span class="fc" id="L76">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L67">        ShelfsDto shelfsDto = new ShelfsDto();</span>
+<span class="fc" id="L68">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L78">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(shelfs);</span>
-<span class="fc" id="L79">        Mockito.when(modelMapper.map(shelfs, ShelfsDto.class)).thenReturn(shelfsDto);</span>
+<span class="fc" id="L70">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(shelfs);</span>
+<span class="fc" id="L71">        Mockito.when(modelMapper.map(shelfs, ShelfsDto.class)).thenReturn(shelfsDto);</span>
 
-<span class="fc" id="L81">        ShelfsDto response = shelfsService.findByIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L73">        ShelfsDto response = shelfsService.findByIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L83">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
-<span class="fc" id="L84">    }</span>
-
-    /* ===================== UPDATE ===================== */
+<span class="fc" id="L75">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
+<span class="fc" id="L76">    }</span>
 
     @Test
     void updateTest() {
-<span class="fc" id="L90">        ShelfsDto shelfsDto = new ShelfsDto();</span>
-<span class="fc" id="L91">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L80">        ShelfsDto shelfsDto = new ShelfsDto();</span>
+<span class="fc" id="L81">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L93">        Shelfs existingShelfs = new Shelfs();</span>
-<span class="fc" id="L94">        existingShelfs.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L83">        Shelfs existingShelfs = new Shelfs();</span>
+<span class="fc" id="L84">        existingShelfs.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L96">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L97">                .thenReturn(existingShelfs);</span>
-<span class="fc" id="L98">        Mockito.when(shelfsRepository.save(existingShelfs))</span>
-<span class="fc" id="L99">                .thenReturn(existingShelfs);</span>
+<span class="fc" id="L86">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(existingShelfs);</span>
+<span class="fc" id="L87">        Mockito.when(shelfsRepository.save(existingShelfs)).thenReturn(existingShelfs);</span>
 
-<span class="fc" id="L101">        ShelfsDto response = shelfsService.update(shelfsDto);</span>
+<span class="fc" id="L89">        ShelfsDto response = shelfsService.update(shelfsDto);</span>
 
-<span class="fc" id="L103">        Assertions.assertTrue(response.isSuccess());</span>
-<span class="fc" id="L104">    }</span>
+<span class="fc" id="L91">        Assertions.assertTrue(response.isSuccess());</span>
+<span class="fc" id="L92">    }</span>
 
     @Test
     void updateTestFailure() {
-<span class="fc" id="L108">        ShelfsDto shelfsDto = new ShelfsDto();</span>
-<span class="fc" id="L109">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L96">        ShelfsDto shelfsDto = new ShelfsDto();</span>
+<span class="fc" id="L97">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L111">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;))</span>
-<span class="fc" id="L112">                .thenReturn(null);</span>
+<span class="fc" id="L99">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
 
-<span class="fc" id="L114">        ShelfsDto response = shelfsService.update(shelfsDto);</span>
+<span class="fc" id="L101">        ShelfsDto response = shelfsService.update(shelfsDto);</span>
 
-<span class="fc" id="L116">        Assertions.assertFalse(response.isSuccess());</span>
-<span class="fc" id="L117">    }</span>
-
-    /* ===================== DELETE ===================== */
+<span class="fc" id="L103">        Assertions.assertFalse(response.isSuccess());</span>
+<span class="fc" id="L104">    }</span>
 
     @Test
     void deleteTest() {
-<span class="fc" id="L123">        Mockito.doNothing().when(shelfsRepository)</span>
-<span class="fc" id="L124">                .deleteByIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L108">        Mockito.doNothing().when(shelfsRepository).deleteByIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L126">        boolean response = shelfsService.delete(&quot;Admin&quot;);</span>
+<span class="fc" id="L110">        boolean response = shelfsService.delete(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L128">        Assertions.assertEquals(true, response);</span>
-
-
-<span class="fc" id="L131">    }</span>
-
-    /* ===================== FIND ALL ===================== */
+<span class="fc" id="L112">        Assertions.assertEquals(true, response);</span>
+<span class="fc" id="L113">    }</span>
 
     @Test
     void findAllTest() {
+<span class="fc" id="L117">        Shelfs shelfs = new Shelfs();</span>
+<span class="fc" id="L118">        shelfs.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L120">        ShelfsDto shelfsDto = new ShelfsDto();</span>
+<span class="fc" id="L121">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
+
+<span class="fc" id="L123">        List&lt;Shelfs&gt; shelfss = List.of(shelfs);</span>
+<span class="fc" id="L124">        List&lt;ShelfsDto&gt; shelfsDtos = List.of(shelfsDto);</span>
+<span class="fc" id="L125">        Page&lt;Shelfs&gt; shelfsPage = new PageImpl&lt;&gt;(shelfss, PageRequest.of(0, 2), shelfss.size());</span>
+<span class="fc" id="L126">        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList&lt;&gt;()));</span>
+<span class="fc" id="L127">        Mockito.when(shelfsRepository.findAll(pageable)).thenReturn(shelfsPage);</span>
+<span class="fc" id="L128">        Mockito.when(modelMapper.map(Mockito.eq(shelfss), Mockito.any(java.lang.reflect.Type.class))).thenReturn(shelfsDtos);</span>
+
+<span class="fc" id="L130">        List&lt;ShelfsDto&gt; response = shelfsService.findAll(pageable);</span>
+
+<span class="fc" id="L132">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L133">    }</span>
+
+    @Test
+    void findByStatusTest() {
 <span class="fc" id="L137">        Shelfs shelfs = new Shelfs();</span>
 <span class="fc" id="L138">        shelfs.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L139">        ShelfsDto shelfsDto = new ShelfsDto();</span>
+<span class="fc" id="L140">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
 
-<span class="fc" id="L140">        ShelfsDto shelfsDto = new ShelfsDto();</span>
-<span class="fc" id="L141">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
+<span class="fc" id="L142">        List&lt;Shelfs&gt; shelfss = List.of(shelfs);</span>
+<span class="fc" id="L143">        List&lt;ShelfsDto&gt; shelfsDtos = List.of(shelfsDto);</span>
 
-<span class="fc" id="L143">        List&lt;Shelfs&gt; shelfss = List.of(shelfs);</span>
-<span class="fc" id="L144">        List&lt;ShelfsDto&gt; shelfsDtos = List.of(shelfsDto);</span>
-<span class="fc" id="L145">        Page&lt;Shelfs&gt; shelfsPage =</span>
-<span class="fc" id="L146">                new PageImpl&lt;&gt;(shelfss, PageRequest.of(0, 2), shelfss.size());</span>
-<span class="fc" id="L147">        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList&lt;&gt;()));</span>
-<span class="fc" id="L148">        Mockito.when(shelfsRepository.findAll(pageable)).thenReturn(shelfsPage);</span>
-<span class="fc" id="L149">        Mockito.when(modelMapper.map(</span>
-<span class="fc" id="L150">                Mockito.eq(shelfss),</span>
-<span class="fc" id="L151">                Mockito.any(java.lang.reflect.Type.class)</span>
-<span class="fc" id="L152">        )).thenReturn(shelfsDtos);</span>
+<span class="fc" id="L145">        Mockito.when(shelfsRepository.findByStatusIsTrue()).thenReturn(shelfss);</span>
+<span class="fc" id="L146">        Mockito.when(modelMapper.map(Mockito.eq(shelfss), Mockito.any(java.lang.reflect.Type.class))).thenReturn(shelfsDtos);</span>
 
-<span class="fc" id="L154">        List&lt;ShelfsDto&gt; response = shelfsService.findAll(pageable);</span>
+<span class="fc" id="L148">        List&lt;ShelfsDto&gt; response = shelfsService.findIfTrue();</span>
 
-<span class="fc" id="L156">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L157">    }</span>
-
+<span class="fc" id="L150">        Assertions.assertEquals(1, response.size());</span>
+<span class="fc" id="L151">    }</span>
 
     @Test
-    void findByStatusTest(){
-<span class="fc" id="L162">        Shelfs shelfs = new Shelfs();</span>
-<span class="fc" id="L163">        shelfs.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L164">        ShelfsDto shelfsDto = new ShelfsDto();</span>
-<span class="fc" id="L165">        shelfsDto.setIdentifier(&quot;Admin&quot;);</span>
-
-<span class="fc" id="L167">        List&lt;Shelfs&gt; shelfss = List.of(shelfs);</span>
-<span class="fc" id="L168">        List&lt;ShelfsDto&gt; shelfsDtos = List.of(shelfsDto);</span>
-
-<span class="fc" id="L170">        Mockito.when(shelfsRepository.findByStatusIsTrue()).thenReturn(shelfss);</span>
-<span class="fc" id="L171">        Mockito.when(modelMapper.map(</span>
-<span class="fc" id="L172">                Mockito.eq(shelfss),</span>
-<span class="fc" id="L173">                Mockito.any(java.lang.reflect.Type.class)</span>
-<span class="fc" id="L174">        )).thenReturn(shelfsDtos);</span>
-
-<span class="fc" id="L176">        List&lt;ShelfsDto&gt; response = shelfsService.findIfTrue();</span>
-
-<span class="fc" id="L178">        Assertions.assertEquals(1, response.size());</span>
-<span class="fc" id="L179">    }</span>
+    void toggleTestActive() {
+<span class="fc" id="L155">        Shelfs shelfs = new Shelfs();</span>
+<span class="fc" id="L156">        shelfs.setStatus(false);</span>
+<span class="fc" id="L157">        ShelfsDto shelfsDto = new ShelfsDto();</span>
+<span class="fc" id="L158">        shelfsDto.setStatus(true);</span>
+<span class="fc" id="L159">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(shelfs);</span>
+<span class="fc" id="L160">        Mockito.when(modelMapper.map(shelfs, ShelfsDto.class)).thenReturn(shelfsDto);</span>
+<span class="fc" id="L161">        ShelfsDto response = shelfsService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L162">        Assertions.assertTrue(response.isStatus());</span>
+<span class="fc" id="L163">    }</span>
 
     @Test
-    void toggleTestActive(){
-
-<span class="fc" id="L184">        Shelfs shelfs = new Shelfs();</span>
-<span class="fc" id="L185">        shelfs.setStatus(false);</span>
-<span class="fc" id="L186">        ShelfsDto shelfsDto = new ShelfsDto();</span>
-<span class="fc" id="L187">        shelfsDto.setStatus(true);</span>
-<span class="fc" id="L188">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(shelfs);</span>
-<span class="fc" id="L189">        Mockito.when(modelMapper.map(shelfs,ShelfsDto.class)).thenReturn(shelfsDto);</span>
-<span class="fc" id="L190">        ShelfsDto response = shelfsService.toggleStatus(&quot;Admin&quot;);</span>
-<span class="fc" id="L191">        Assertions.assertTrue(response.isStatus());</span>
-
-<span class="fc" id="L193">    }</span>
-
-    @Test
-    void toggleTestInactive(){
-
-<span class="fc" id="L198">        Shelfs shelfs = new Shelfs();</span>
-<span class="fc" id="L199">        shelfs.setStatus(true);</span>
-<span class="fc" id="L200">        ShelfsDto shelfsDto = new ShelfsDto();</span>
-<span class="fc" id="L201">        shelfsDto.setStatus(false);</span>
-<span class="fc" id="L202">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(shelfs);</span>
-<span class="fc" id="L203">        Mockito.when(modelMapper.map(shelfs,ShelfsDto.class)).thenReturn(shelfsDto);</span>
-<span class="fc" id="L204">        ShelfsDto response = shelfsService.toggleStatus(&quot;Admin&quot;);</span>
-<span class="fc" id="L205">        Assertions.assertFalse(response.isStatus());</span>
-
-<span class="fc" id="L207">    }</span>
+    void toggleTestInactive() {
+<span class="fc" id="L167">        Shelfs shelfs = new Shelfs();</span>
+<span class="fc" id="L168">        shelfs.setStatus(true);</span>
+<span class="fc" id="L169">        ShelfsDto shelfsDto = new ShelfsDto();</span>
+<span class="fc" id="L170">        shelfsDto.setStatus(false);</span>
+<span class="fc" id="L171">        Mockito.when(shelfsRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(shelfs);</span>
+<span class="fc" id="L172">        Mockito.when(modelMapper.map(shelfs, ShelfsDto.class)).thenReturn(shelfsDto);</span>
+<span class="fc" id="L173">        ShelfsDto response = shelfsService.toggleStatus(&quot;Admin&quot;);</span>
+<span class="fc" id="L174">        Assertions.assertFalse(response.isStatus());</span>
+<span class="fc" id="L175">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

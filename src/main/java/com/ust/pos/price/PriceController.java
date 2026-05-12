@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/price")
-public class PriceController extends BaseController{
+public class PriceController extends BaseController {
+
     public static final String REDIRECT_PRICE_LIST = "redirect:/price/list";
+
     @Autowired
     private PriceService priceService;
+
     @Autowired
     private ProductService productService;
 
@@ -28,7 +31,7 @@ public class PriceController extends BaseController{
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute PriceDto priceDto) {
-        model.addAttribute("products",productService.findIfTrue());
+        model.addAttribute("products", productService.findIfTrue());
         return "price/add";
     }
 
@@ -65,8 +68,10 @@ public class PriceController extends BaseController{
         priceService.delete(identifier);
         return REDIRECT_PRICE_LIST;
     }
+
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
-        priceService.toggleStatus(identifier);}
+    public void toggle(Model model, @RequestParam String identifier) {
+        priceService.toggleStatus(identifier);
+    }
 }

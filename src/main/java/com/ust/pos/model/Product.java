@@ -10,9 +10,11 @@ import java.util.List;
 @Getter
 @Setter
 public class Product extends CommonFields{
+
     private List<String> category;
     private Long skuCode;
     private String brand;
     private String unit;
     private String model;
+
 }

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/models")
 public class ModelsController extends BaseController {
+
     public static final String REDIRECT_MODELS_LIST = "redirect:/models/list";
+
     @Autowired
     private ModelsService modelsService;
 
@@ -64,9 +66,7 @@ public class ModelsController extends BaseController {
 
     @PostMapping("/toggle-status")
     @ResponseBody
-    public void toggle(Model model,@RequestParam String identifier){
+    public void toggle(Model model, @RequestParam String identifier) {
         modelsService.toggleStatus(identifier);
     }
-
-
 }

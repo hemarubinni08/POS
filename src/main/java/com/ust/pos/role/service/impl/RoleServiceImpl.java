@@ -1,7 +1,6 @@
 package com.ust.pos.role.service.impl;
 
 import com.ust.pos.dto.RoleDto;
-import com.ust.pos.model.Customer;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
 import com.ust.pos.role.service.RoleService;
@@ -85,5 +84,4 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.save(role);
         return modelMapper.map(role,RoleDto.class);
     }
-
 }

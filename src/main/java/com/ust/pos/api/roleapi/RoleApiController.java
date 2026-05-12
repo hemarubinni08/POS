@@ -17,49 +17,44 @@ public class RoleApiController extends BaseController {
     @Autowired
     private RoleService roleService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<RoleDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return roleService.findAll(pageable);
     }
 
     @PostMapping("/add")
     public RoleDto addPost(@RequestBody RoleDto roleDto) {
         return roleService.save(roleDto);
-
     }
 
     @GetMapping("/get")
     public RoleDto update(@RequestParam String identifier) {
         return roleService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public RoleDto updatePost(@RequestBody RoleDto roleDto) {
-        return  roleService.update(roleDto);
-
+        return roleService.update(roleDto);
     }
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-        try{  roleService.delete(identifier);}
-        catch(Exception e){
+        try {
+            roleService.delete(identifier);
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
 
     @PostMapping("/toggle-status")
-    public RoleDto toggle(@RequestParam String identifier){
-
+    public RoleDto toggle(@RequestParam String identifier) {
         return roleService.toggleStatus(identifier);
     }
 
-
     @GetMapping("/findByStatus")
     public List<RoleDto> findByStatus() {
-
         return roleService.findIfTrue();
     }
 }
