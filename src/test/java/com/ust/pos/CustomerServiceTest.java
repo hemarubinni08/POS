@@ -1,6 +1,7 @@
-package com.ust.pos.customer.service.impl;
+package com.ust.pos;
 
 import com.ust.pos.address.service.AddressService;
+import com.ust.pos.customer.service.impl.CustomerServiceImpl;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.model.Customer;
