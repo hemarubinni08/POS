@@ -29,7 +29,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Price Management</span>
@@ -46,23 +45,19 @@
     </div>
 </nav>
 
-<!-- MAIN -->
 <div class="container mt-5">
 
     <div class="card shadow p-3">
 
         <h3 class="fw-bold mb-3 text-center">Price List</h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-info text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- TABLE -->
         <div class="table-responsive">
-
             <table class="table table-hover table-striped mb-0">
 
                 <thead class="table-dark">
@@ -79,7 +74,6 @@
                 <tbody>
 
                 <c:choose>
-
                     <c:when test="${empty prices}">
                         <tr>
                             <td colspan="6" class="text-center py-4 text-muted">
@@ -89,7 +83,6 @@
                     </c:when>
 
                     <c:otherwise>
-
                         <c:forEach var="p" items="${prices}">
                             <tr>
 
@@ -111,22 +104,14 @@
                                        onclick="return confirm('Are you sure you want to delete this price?');">
                                         Delete
                                     </a>
-
                                 </td>
-
                             </tr>
                         </c:forEach>
-
                     </c:otherwise>
-
                 </c:choose>
-
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
 
 </div>

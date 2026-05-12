@@ -39,14 +39,11 @@
     </div>
 </nav>
 
-<!-- MAIN -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
 
     <div class="card shadow p-4" style="width: 450px;">
-
         <h3 class="text-center mb-4 fw-bold">Edit Price</h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
@@ -57,10 +54,7 @@
                    action="${pageContext.request.contextPath}/price/update"
                    modelAttribute="priceDto">
 
-            <!-- IDENTIFIER (hidden) -->
             <form:hidden path="identifier"/>
-
-            <!-- PRODUCT NAME (MANDATORY DISPLAY FIELD) -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Product Name</label>
 
@@ -70,8 +64,6 @@
                        readonly
                        required>
             </div>
-
-            <!-- COST PRICE -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Cost Price</label>
                 <form:input path="costPrice"
@@ -81,7 +73,6 @@
                             required="required"/>
             </div>
 
-            <!-- MRP -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">MRP</label>
                 <form:input path="mrp"
@@ -91,7 +82,6 @@
                             required="required"/>
             </div>
 
-            <!-- SELLING PRICE -->
             <div class="mb-4">
                 <label class="form-label fw-semibold">Selling Price</label>
                 <form:input path="sellingPrice"
@@ -101,7 +91,6 @@
                             required="required"/>
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary w-100">
                     Update

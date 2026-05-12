@@ -46,25 +46,21 @@
 
         <h3 class="text-center mb-4 fw-bold">Edit Model</h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- NOT FOUND -->
         <c:if test="${empty model}">
             <div class="alert alert-danger text-center">
                 Model not found
             </div>
         </c:if>
 
-        <!-- FORM -->
         <c:if test="${not empty model}">
             <form action="${pageContext.request.contextPath}/models/update" method="post">
 
-                <!-- IDENTIFIER -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Identifier</label>
                     <input type="text"
@@ -74,7 +70,6 @@
                     <input type="hidden" name="identifier" value="${model.identifier}"/>
                 </div>
 
-                <!-- MODEL NAME -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Model Name</label>
                     <input type="text"
@@ -83,14 +78,10 @@
                            readonly>
                 </div>
 
-               <!-- STATUS DROPDOWN -->
                <div class="mb-4">
                    <label class="form-label fw-semibold">Status</label>
-
                    <select class="form-control" name="status" required>
-
                        <option value="">-- Select Status --</option>
-
                        <option value="true"
                            <c:if test="${model.status == 'true'}">selected</c:if>>
                            Active
@@ -104,7 +95,6 @@
                    </select>
                </div>
 
-                <!-- BUTTONS -->
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary w-100">
                         Update
