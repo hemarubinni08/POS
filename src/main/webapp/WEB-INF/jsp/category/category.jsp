@@ -29,7 +29,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Category Management</span>
@@ -37,24 +36,20 @@
     </div>
 </nav>
 
-<!-- MAIN -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
 
     <div class="card shadow p-4" style="width: 500px;">
 
         <h3 class="text-center mb-4 fw-bold">Update Category</h3>
 
-        <!-- ERROR MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- FORM -->
         <form action="/category/update" method="post">
 
-            <!-- IDENTIFIER (READONLY) -->
             <div class="mb-3">
                 <label class="form-label">Identifier</label>
                 <input type="text"
@@ -64,7 +59,6 @@
                        readonly>
             </div>
 
-            <!-- NAME -->
             <div class="mb-3">
                 <label class="form-label">Name</label>
                 <input type="text"
@@ -74,7 +68,6 @@
                        readonly>
             </div>
 
-            <!-- SUPER CATEGORY -->
             <div class="mb-4">
                 <label class="form-label">Super Category</label>
 
@@ -90,7 +83,6 @@
                 </select>
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary w-100">
                     Update

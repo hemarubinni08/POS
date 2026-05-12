@@ -30,11 +30,11 @@ public class UserController {
     }
 
     @GetMapping("/get")
-    public String getUser(Model model, @RequestParam String username,Pageable pageable) {
+    public String getUser(Model model, @RequestParam String username, Pageable pageable) {
         UserDto userDto = userService.findByUserName(username);
         if (userDto == null) {
             model.addAttribute("message", "User not found");
-        }else {
+        } else {
             userDto.setOldUsername(userDto.getUsername());
             model.addAttribute("userDto", userDto);
             model.addAttribute("roles", roleService.findAll(pageable));
@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String updateUser(Model model, @ModelAttribute("userDto") UserDto userDto,Pageable pageable) {
+    public String updateUser(Model model, @ModelAttribute("userDto") UserDto userDto, Pageable pageable) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String loggedInUser = authentication.getName();
@@ -58,7 +58,6 @@ public class UserController {
                 return "redirect:/login";
             }
         }
-
         return "redirect:/user/list";
     }
 

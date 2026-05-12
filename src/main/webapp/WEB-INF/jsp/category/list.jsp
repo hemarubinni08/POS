@@ -32,7 +32,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Category Management</span>
@@ -44,7 +43,6 @@
     </div>
 </nav>
 
-<!-- MAIN -->
 <div class="container mt-5">
 
     <div class="card shadow p-3">
@@ -67,7 +65,6 @@
 
                 <tbody>
 
-                <!-- EMPTY STATE -->
                 <c:if test="${empty categories}">
                     <tr>
                         <td colspan="5" class="text-center py-4 text-muted">
@@ -76,23 +73,15 @@
                     </tr>
                 </c:if>
 
-                <!-- DATA -->
                 <c:forEach items="${categories}" var="cat">
                     <tr>
-
                         <td>${cat.id}</td>
-
-                        <!-- IDENTIFIER -->
                         <td class="fw-semibold">
                             ${cat.identifier}
                         </td>
-
-                        <!-- NAME -->
                         <td>
                             ${cat.name}
                         </td>
-
-                        <!-- SUPER CATEGORY -->
                         <td>
                             <c:choose>
                                 <c:when test="${empty cat.superCategoryIdentifier}">
@@ -103,14 +92,11 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-
-                        <!-- ACTIONS -->
                         <td class="text-center">
                             <a href="/category/get?identifier=${cat.identifier}"
                                class="btn btn-sm btn-outline-primary me-2">
                                 Update
                             </a>
-
                             <a href="/category/delete?identifier=${cat.identifier}"
                                class="btn btn-sm btn-outline-danger"
                                onclick="return confirm('Are you sure you want to delete this category?');">
