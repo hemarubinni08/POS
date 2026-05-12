@@ -1,4 +1,4 @@
-package com.ust.pos.category.impl;
+package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;

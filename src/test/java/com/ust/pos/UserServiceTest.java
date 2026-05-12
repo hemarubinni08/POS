@@ -5,7 +5,6 @@ import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,16 +12,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -31,202 +28,279 @@ class UserServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private PasswordEncoder passwordEncoder;
 
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private ModelMapper modelMapper;
 
     @InjectMocks
     private UserServiceImpl userService;
 
-    private User user;
-    private UserDto userDto;
+    /* ===================== FIND BY USERNAME ===================== */
 
-    @BeforeEach
-    void setUp() {
-        user = new User();
-        user.setUsername("john");
-        user.setIdentifier("U001");
-        user.setPassword("encodedPwd");
-        user.setStatus(true);
+    @Test
+    void findByUserNameTest() {
+        User user = new User();
+        user.setUsername("admin@test.com");
 
-        // ✅ MUTABLE LIST (TEST FIX)
-        user.setRoles(new ArrayList<>(List.of("ADMIN")));
+        UserDto userDto = new UserDto();
+        userDto.setUsername("admin@test.com");
 
-        userDto = new UserDto();
-        userDto.setUsername("john");
-        userDto.setIdentifier("U001");
-        userDto.setPassword("plainPwd");
+        Mockito.when(userRepository.findByUsername("admin@test.com")).thenReturn(user);
+        Mockito.when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
 
-        // ✅ MUTABLE LIST (TEST FIX)
+        UserDto response = userService.findByUserName("admin@test.com");
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals("admin@test.com", response.getUsername());
+    }
+
+    @Test
+    void findByUserNameNotFoundTest() {
+        Mockito.when(userRepository.findByUsername("unknown@test.com")).thenReturn(null);
+
+        UserDto response = userService.findByUserName("unknown@test.com");
+
+        Assertions.assertNull(response);
+    }
+
+    /* ===================== SAVE ===================== */
+
+    @Test
+    void saveTest() {
+        UserDto userDto = new UserDto();
+        userDto.setUsername("admin@test.com");
+        userDto.setPassword("123456");
+
+        Mockito.when(userRepository.findByUsername("admin@test.com")).thenReturn(null);
+
+        User user = new User();
+        Mockito.when(modelMapper.map(userDto, User.class)).thenReturn(user);
+        Mockito.when(passwordEncoder.encode("123456")).thenReturn("hashedpassword");
+
+        UserDto response = userService.save(userDto);
+
+        // Repository must have been called with the mapped user
+        Mockito.verify(userRepository).save(user);
+        // Encoded password must be set on the entity
+        Assertions.assertEquals("hashedpassword", user.getPassword());
+        Assertions.assertNotNull(response);
+    }
+
+    @Test
+    void saveTestFailure() {
+        UserDto userDto = new UserDto();
+        userDto.setUsername("admin@test.com");
+
+        User existingUser = new User();
+        Mockito.when(userRepository.findByUsername("admin@test.com")).thenReturn(existingUser);
+
+        UserDto response = userService.save(userDto);
+
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertNotNull(response.getMessage());
+        // Confirm the message contains the constant prefix + username
+        Assertions.assertTrue(response.getMessage()
+                .contains(UserServiceImpl.USER_WITH_USERNAME_EMAIL));
+        Assertions.assertTrue(response.getMessage().contains("admin@test.com"));
+    }
+
+    /* ===================== UPDATE ===================== */
+
+    @Test
+    void updateTest() {
+        UserDto userDto = new UserDto();
+        userDto.setUsername("admin@test.com");
+        userDto.setRoles(new ArrayList<>(List.of("ADMIN")));   // non-empty roles
+
+        User existingUser = new User();
+        existingUser.setUsername("admin@test.com");
+        existingUser.setRoles(new ArrayList<>(List.of("USER")));
+
+        Mockito.when(userRepository.findByUsername("admin@test.com")).thenReturn(existingUser);
+
+        UserDto response = userService.update(userDto);
+
+        Assertions.assertTrue(response.isSuccess());
+        Assertions.assertEquals("User updated successfully", response.getMessage());
+        Mockito.verify(userRepository).save(existingUser);
+    }
+
+    @Test
+    void updateTestNotFound() {
+        UserDto userDto = new UserDto();
+        userDto.setUsername("unknown@test.com");
+
+        Mockito.when(userRepository.findByUsername("unknown@test.com")).thenReturn(null);
+
+        UserDto response = userService.update(userDto);
+
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertEquals("User not found", response.getMessage());
+    }
+
+    // Covers the branch: userDto.getRoles() == null  →  existingRoles added back
+    @Test
+    void updateTestNullRoles() {
+        UserDto userDto = new UserDto();
+        userDto.setUsername("admin@test.com");
+        userDto.setRoles(null);                                 // null roles
+
+        User existingUser = new User();
+        existingUser.setUsername("admin@test.com");
+        existingUser.setRoles(new ArrayList<>(List.of("USER")));
+
+        Mockito.when(userRepository.findByUsername("admin@test.com")).thenReturn(existingUser);
+
+        UserDto response = userService.update(userDto);
+
+        Assertions.assertTrue(response.isSuccess());
+        // Existing roles must have been preserved / added back
+        Assertions.assertTrue(existingUser.getRoles().contains("USER"));
+    }
+
+    // Covers the branch: userDto.getRoles().isEmpty()  →  existingRoles added back
+    @Test
+    void updateTestEmptyRoles() {
+        UserDto userDto = new UserDto();
+        userDto.setUsername("admin@test.com");
+        userDto.setRoles(new ArrayList<>());                    // empty list
+
+        User existingUser = new User();
+        existingUser.setUsername("admin@test.com");
+        existingUser.setRoles(new ArrayList<>(List.of("USER")));
+
+        Mockito.when(userRepository.findByUsername("admin@test.com")).thenReturn(existingUser);
+
+        UserDto response = userService.update(userDto);
+
+        Assertions.assertTrue(response.isSuccess());
+        Assertions.assertTrue(existingUser.getRoles().contains("USER"));
+    }
+
+    // Covers the inner-if branch:
+    //   !existingUser.getUsername().equalsIgnoreCase(userDto.getUsername())
+    //   AND emailCheck != null  →  duplicate-email failure
+    @Test
+    void updateTestDuplicateUsernameOnDifferentCase() {
+        // dto username in UPPER case so equalsIgnoreCase("ADMIN@TEST.COM") on
+        // existingUser.getUsername() ("admin@test.com") returns true  →
+        // the inner branch is NOT entered (equalsIgnoreCase is true, condition is false).
+        // To actually enter the inner branch we need the stored username to differ.
+        UserDto userDto = new UserDto();
+        userDto.setUsername("newname@test.com");
         userDto.setRoles(new ArrayList<>(List.of("ADMIN")));
+
+        // First findByUsername call (outer lookup) returns a user whose username
+        // does NOT match the dto username (case-insensitively) so the inner check fires.
+        User existingUser = new User();
+        existingUser.setUsername("oldname@test.com");          // differs from dto username
+
+        // Second findByUsername call (email-conflict check) also returns a user,
+        // meaning "newname@test.com" is already taken.
+        User conflictUser = new User();
+        conflictUser.setUsername("newname@test.com");
+
+        Mockito.when(userRepository.findByUsername("newname@test.com"))
+                .thenReturn(existingUser)           // 1st call – outer lookup
+                .thenReturn(conflictUser);          // 2nd call – inner email check
+
+        UserDto response = userService.update(userDto);
+
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertTrue(response.getMessage().contains("newname@test.com"));
     }
 
-    /* ================= FIND BY USERNAME ================= */
+    /* ===================== DELETE ===================== */
 
     @Test
-    void findByUserName_found() {
-        when(userRepository.findByUsername("john")).thenReturn(user);
-        when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
+    void deleteTest() {
+        userService.delete("admin@test.com");
 
-        UserDto result = userService.findByUserName("john");
-
-        assertNotNull(result);
-        assertEquals("john", result.getUsername());
+        Mockito.verify(userRepository, Mockito.times(1))
+                .deleteByUsername("admin@test.com");
     }
 
-    @Test
-    void findByUserName_notFound() {
-        when(userRepository.findByUsername("john")).thenReturn(null);
-
-        UserDto result = userService.findByUserName("john");
-
-        assertNull(result);
-    }
-
-    /* ================= SAVE ================= */
-
-    @Test
-    void save_success() {
-        when(userRepository.findByUsername("john")).thenReturn(null);
-        when(modelMapper.map(userDto, User.class)).thenReturn(user);
-        when(passwordEncoder.encode("plainPwd")).thenReturn("encodedPwd");
-
-        UserDto result = userService.save(userDto);
-
-        verify(passwordEncoder).encode("plainPwd");
-        verify(userRepository).save(user);
-        assertEquals("john", result.getUsername());
-    }
-
-    @Test
-    void save_duplicate() {
-        when(userRepository.findByUsername("john")).thenReturn(user);
-
-        UserDto result = userService.save(userDto);
-
-        assertFalse(result.isSuccess());
-        assertTrue(result.getMessage().contains("already exists"));
-    }
-
-    /* ================= UPDATE ================= */
-
-    @Test
-    void update_success_withRoles() {
-        when(userRepository.findByUsername("john")).thenReturn(user);
-
-        UserDto result = userService.update(userDto);
-
-        verify(modelMapper).map(userDto, user);
-        verify(userRepository).save(user);
-        assertTrue(result.isSuccess());
-    }
-
-    @Test
-    void update_userNotFound() {
-        when(userRepository.findByUsername("john")).thenReturn(null);
-
-        UserDto result = userService.update(userDto);
-
-        assertFalse(result.isSuccess());
-        assertEquals("User not found", result.getMessage());
-    }
-
-    @Test
-    void update_preserveRoles_whenRolesNull() {
-        when(userRepository.findByUsername("john")).thenReturn(user);
-
-        userDto.setRoles(null); // ✅ triggers branch
-
-        UserDto result = userService.update(userDto);
-
-        assertTrue(result.isSuccess());
-        assertTrue(user.getRoles().contains("ADMIN"));
-    }
-
-    @Test
-    void update_preserveRoles_whenRolesEmpty() {
-        when(userRepository.findByUsername("john")).thenReturn(user);
-
-        userDto.setRoles(new ArrayList<>()); // ✅ mutable empty list
-
-        UserDto result = userService.update(userDto);
-
-        assertTrue(result.isSuccess());
-        assertTrue(user.getRoles().contains("ADMIN"));
-    }
-
-    /* ================= DELETE ================= */
-
-    @Test
-    void delete_user() {
-        doNothing().when(userRepository).deleteByUsername("john");
-
-        userService.delete("john");
-
-        verify(userRepository).deleteByUsername("john");
-    }
-
-    /* ================= FIND ALL ================= */
+    /* ===================== FIND ALL ===================== */
 
     @Test
     void findAllTest() {
-        User user1 = new User();
-        user1.setIdentifier("Admin");
+        User user = new User();
+        UserDto userDto = new UserDto();
+        List<User> users = List.of(user);
+        List<UserDto> userDtos = List.of(userDto);
 
-        UserDto userDto1 = new UserDto();
-        userDto1.setIdentifier("Admin");
-
-        List<User> users = List.of(user1);
-        List<UserDto> userDtos = List.of(userDto1);
-
-        Page<User> userPage = new PageImpl<>(users, PageRequest.of(0, 2), users.size());
-
-        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<User> userPage = new PageImpl<>(users);
 
         Mockito.when(userRepository.findAll(pageable)).thenReturn(userPage);
-        Mockito.when(modelMapper.map(Mockito.eq(users), Mockito.any(java.lang.reflect.Type.class))).thenReturn(userDtos);
+        Mockito.when(modelMapper.map(
+                Mockito.eq(users),
+                Mockito.any(java.lang.reflect.Type.class)
+        )).thenReturn(userDtos);
 
         List<UserDto> response = userService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }
 
-    /* ================= TOGGLE STATUS ================= */
+    /* ===================== TOGGLE STATUS ===================== */
 
+    // status starts false → toggled to true
     @Test
-    void toggleStatus_trueToFalse() {
-        when(userRepository.findByIdentifier("U001")).thenReturn(user);
-        when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
-
-        userService.toggleStatus("U001");
-
-        assertFalse(user.isStatus());
-    }
-
-    @Test
-    void toggleStatus_falseToTrue() {
+    void toggleStatusFalseToTrueTest() {
+        User user = new User();
         user.setStatus(false);
 
-        when(userRepository.findByIdentifier("U001")).thenReturn(user);
-        when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
+        UserDto userDto = new UserDto();
+        userDto.setStatus(true);
 
-        userService.toggleStatus("U001");
+        Mockito.when(userRepository.findByIdentifier("admin-identifier")).thenReturn(user);
+        Mockito.when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
 
-        assertTrue(user.isStatus());
+        UserDto response = userService.toggleStatus("admin-identifier");
+
+        Assertions.assertTrue(user.isStatus());           // entity was flipped
+        Mockito.verify(userRepository).save(user);
+        Assertions.assertTrue(response.isStatus());       // dto reflects new state
     }
 
-    /* ================= FIND ACTIVE ================= */
+    // status starts true → toggled to false
+    @Test
+    void toggleStatusTrueToFalseTest() {
+        User user = new User();
+        user.setStatus(true);
+
+        UserDto userDto = new UserDto();
+        userDto.setStatus(false);
+
+        Mockito.when(userRepository.findByIdentifier("admin-identifier")).thenReturn(user);
+        Mockito.when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
+
+        UserDto response = userService.toggleStatus("admin-identifier");
+
+        Assertions.assertFalse(user.isStatus());          // entity was flipped
+        Mockito.verify(userRepository).save(user);
+        Assertions.assertFalse(response.isStatus());
+    }
+
+    /* ===================== FIND IF TRUE ===================== */
 
     @Test
-    void findIfTrue_activeUsers() {
-        when(userRepository.findByStatusIsTrue()).thenReturn(List.of(user));
-        when(modelMapper.map(any(), any(Type.class)))
-                .thenReturn(List.of(userDto));
+    void findIfTrueTest() {
+        User user = new User();
+        UserDto userDto = new UserDto();
+        List<User> users = List.of(user);
+        List<UserDto> userDtos = List.of(userDto);
 
-        List<UserDto> result = userService.findIfTrue();
+        Mockito.when(userRepository.findByStatusIsTrue()).thenReturn(users);
+        Mockito.when(modelMapper.map(
+                Mockito.eq(users),
+                Mockito.any(java.lang.reflect.Type.class)
+        )).thenReturn(userDtos);
 
-        assertEquals(1, result.size());
+        List<UserDto> response = userService.findIfTrue();
+
+        Assertions.assertEquals(1, response.size());
     }
-
 }

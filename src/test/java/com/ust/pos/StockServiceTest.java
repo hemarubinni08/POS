@@ -55,7 +55,8 @@ class StockServiceTest {
         stockDto.setStatus(true);
     }
 
-    //  save – success
+    /* ===================== SAVE ===================== */
+
     @Test
     void save_shouldSaveStock_whenNotExists() {
         when(stockRepository.findByIdentifier(anyString())).thenReturn(null);
@@ -65,10 +66,8 @@ class StockServiceTest {
 
         verify(stockRepository).save(stock);
         assertTrue(result.getIdentifier().startsWith("STK_"));
-        assertTrue(result.isSuccess() || !false); // service doesn't explicitly set success=true
     }
 
-    // save – duplicate
     @Test
     void save_shouldFail_whenStockExists() {
         when(stockRepository.findByIdentifier(anyString())).thenReturn(stock);
@@ -80,9 +79,14 @@ class StockServiceTest {
         verify(stockRepository, never()).save(any());
     }
 
-    //  update – success
+    /* ===================== UPDATE ===================== */
+
+    // Happy path: identifier unchanged → equalsIgnoreCase true → inner-if skipped → save
     @Test
-    void update_shouldUpdateStock_whenExists() {
+    void update_shouldUpdateStock_whenExists_sameIdentifier() {
+        // existingStock.identifier == stockDto.identifier  →  line 55 condition FALSE
+        // so the duplicate-check block (lines 56-61) is entirely skipped
+        stock.setIdentifier("STK_P001_W001");           // same as stockDto
         when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
 
         StockDto result = stockService.update(stockDto);
@@ -92,7 +96,7 @@ class StockServiceTest {
         assertEquals("STK_P001_W001", result.getIdentifier());
     }
 
-    //  update – stock not found
+    // Stock not found → empty Optional branch
     @Test
     void update_shouldFail_whenStockNotFound() {
         when(stockRepository.findById(1L)).thenReturn(Optional.empty());
@@ -104,30 +108,45 @@ class StockServiceTest {
         verify(stockRepository, never()).save(any());
     }
 
-    // update – duplicate identifier
+    // LINE 57 TRUE branch: identifier changed AND duplicate found → failure
     @Test
     void update_shouldFail_whenDuplicateIdentifierExists() {
+        stock.setIdentifier("STK_P001_W001");            // existing has old identifier
+        stockDto.setIdentifier("STK_DUPLICATE");         // dto carries a NEW identifier
 
         Stock duplicate = new Stock();
-        duplicate.setIdentifier("STK_DUPLICATE");
+        duplicate.setIdentifier("STK_DUPLICATE");        // already taken by another record
 
         when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
-
-        //  Change identifier to a NEW value
-        stockDto.setIdentifier("STK_DUPLICATE");
-
-        when(stockRepository.findByIdentifier("STK_DUPLICATE"))
-                .thenReturn(duplicate);
+        when(stockRepository.findByIdentifier("STK_DUPLICATE")).thenReturn(duplicate);
 
         StockDto result = stockService.update(stockDto);
 
         assertFalse(result.isSuccess());
         assertTrue(result.getMessage().contains("already exists"));
-
         verify(stockRepository, never()).save(any());
     }
 
-    //  deleteByIdentifier
+    // LINE 57 FALSE branch: identifier changed BUT no duplicate found → save proceeds
+    @Test
+    void update_shouldSucceed_whenIdentifierChangedAndNoDuplicate() {
+        stock.setIdentifier("STK_P001_W001");            // existing identifier
+        stockDto.setIdentifier("STK_NEW_IDENTIFIER");    // new identifier (different)
+
+        when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
+        // duplicate check returns null → no conflict → line 57 evaluates to FALSE
+        when(stockRepository.findByIdentifier("STK_NEW_IDENTIFIER")).thenReturn(null);
+
+        StockDto result = stockService.update(stockDto);
+
+        // save must still be called since there is no duplicate
+        verify(modelMapper).map(stockDto, stock);
+        verify(stockRepository).save(stock);
+        assertNotNull(result);
+    }
+
+    /* ===================== DELETE ===================== */
+
     @Test
     void deleteByIdentifier_shouldDeleteStock() {
         doNothing().when(stockRepository).deleteByIdentifier("STK_P001_W001");
@@ -137,7 +156,8 @@ class StockServiceTest {
         verify(stockRepository).deleteByIdentifier("STK_P001_W001");
     }
 
-    //  findByIdentifier
+    /* ===================== FIND BY IDENTIFIER ===================== */
+
     @Test
     void findByIdentifier_shouldReturnStockDto() {
         when(stockRepository.findByIdentifier("STK_P001_W001")).thenReturn(stock);
@@ -149,49 +169,71 @@ class StockServiceTest {
         assertEquals("STK_P001_W001", result.getIdentifier());
     }
 
-    //  findAll
+    /* ===================== FIND ALL ===================== */
+
     @Test
     void findAllTest() {
-        Stock stock1 = new Stock();
-        stock1.setIdentifier("Admin");
-
-        StockDto stockDto1 = new StockDto();
-        stockDto1.setIdentifier("Admin");
-
         List<Stock> stocks = List.of(stock);
         List<StockDto> stockDtos = List.of(stockDto);
 
         Page<Stock> stockPage = new PageImpl<>(stocks, PageRequest.of(0, 2), stocks.size());
-
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
 
         Mockito.when(stockRepository.findAll(pageable)).thenReturn(stockPage);
-        Mockito.when(modelMapper.map(Mockito.eq(stocks), Mockito.any(java.lang.reflect.Type.class))).thenReturn(stockDtos);
+        Mockito.when(modelMapper.map(
+                Mockito.eq(stocks),
+                Mockito.any(java.lang.reflect.Type.class))
+        ).thenReturn(stockDtos);
 
         List<StockDto> response = stockService.findAll(pageable);
 
         Assertions.assertEquals(1, response.size());
     }
 
-    //  toggleStatus
+    /* ===================== TOGGLE STATUS ===================== */
+
+    // LINE 92: status true → false  (!true == false)
     @Test
-    void toggleStatus_shouldToggleStockStatus() {
+    void toggleStatus_shouldFlipTrueToFalse() {
+        stock.setStatus(true);
+
+        StockDto toggledDto = new StockDto();
+        toggledDto.setStatus(false);
+
         when(stockRepository.findByIdentifier("STK_P001_W001")).thenReturn(stock);
-        when(modelMapper.map(stock, StockDto.class)).thenReturn(stockDto);
+        when(modelMapper.map(stock, StockDto.class)).thenReturn(toggledDto);
 
         StockDto result = stockService.toggleStatus("STK_P001_W001");
 
-        assertFalse(stock.isStatus());
+        assertFalse(stock.isStatus());          // entity flipped true → false
         verify(stockRepository).save(stock);
-        assertNotNull(result);
+        assertFalse(result.isStatus());
     }
 
-    //  findIfTrue
+    // LINE 92: status false → true  (!false == true)
+    @Test
+    void toggleStatus_shouldFlipFalseToTrue() {
+        stock.setStatus(false);
+
+        StockDto toggledDto = new StockDto();
+        toggledDto.setStatus(true);
+
+        when(stockRepository.findByIdentifier("STK_P001_W001")).thenReturn(stock);
+        when(modelMapper.map(stock, StockDto.class)).thenReturn(toggledDto);
+
+        StockDto result = stockService.toggleStatus("STK_P001_W001");
+
+        assertTrue(stock.isStatus());           // entity flipped false → true
+        verify(stockRepository).save(stock);
+        assertTrue(result.isStatus());
+    }
+
+    /* ===================== FIND IF TRUE ===================== */
+
     @Test
     void findIfTrue_shouldReturnActiveStocks() {
         when(stockRepository.findByStatusIsTrue()).thenReturn(List.of(stock));
-        when(modelMapper.map(any(), any(Type.class)))
-                .thenReturn(List.of(stockDto));
+        when(modelMapper.map(any(), any(Type.class))).thenReturn(List.of(stockDto));
 
         List<StockDto> result = stockService.findIfTrue();
 
