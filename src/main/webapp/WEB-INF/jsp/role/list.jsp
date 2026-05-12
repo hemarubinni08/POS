@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,13 +111,20 @@
 
 <div class="container">
 
+    <!-- TOP BAR -->
     <div class="top-bar">
-        <a href="${pageContext.request.contextPath}/" class="btn">Home</a>
-        <a href="${pageContext.request.contextPath}/role/add" class="btn">+ Add Role</a>
+        <a href="${pageContext.request.contextPath}/" class="btn">
+            Home
+        </a>
+
+        <a href="${pageContext.request.contextPath}/role/add" class="btn">
+            + Add Role
+        </a>
     </div>
 
     <h2>Roles List</h2>
 
+    <!-- TABLE -->
     <table>
         <tr>
             <th>ID</th>
@@ -130,17 +138,36 @@
                 <td>${role.id}</td>
                 <td>${role.identifier}</td>
                 <td>${role.description}</td>
+
                 <td class="action-cell">
                     <div class="action-buttons">
-                        <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
-                           class="btn btn-edit">Edit</a>
+                        <a
+                            href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
+                            class="btn btn-edit"
+                        >
+                            Edit
+                        </a>
 
-                        <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
-                           class="btn btn-delete">Delete</a>
+                        <a
+                            href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
+                            class="btn btn-delete"
+                            onclick="return confirm('Are you sure you want to delete this role?');"
+                        >
+                            Delete
+                        </a>
                     </div>
                 </td>
             </tr>
         </c:forEach>
+
+        <!-- EMPTY STATE -->
+        <c:if test="${empty roles}">
+            <tr>
+                <td colspan="4" class="text-center">
+                    No roles found
+                </td>
+            </tr>
+        </c:if>
     </table>
 
 </div>

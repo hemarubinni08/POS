@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,6 +65,11 @@
             box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.15);
         }
 
+        .btn-group {
+            margin-top: 20px;
+            text-align: center;
+        }
+
         .btn {
             padding: 10px 16px;
             border-radius: 6px;
@@ -81,11 +87,6 @@
             box-shadow: 0 6px 18px rgba(15, 23, 42, 0.35);
         }
 
-        .btn-group {
-            margin-top: 20px;
-            text-align: center;
-        }
-
         .back-btn {
             margin-left: 12px;
             text-decoration: none;
@@ -98,7 +99,6 @@
             background-color: #cbd5e1;
             color: #0f172a;
         }
-
     </style>
 </head>
 
@@ -109,6 +109,7 @@
 
     <form action="${pageContext.request.contextPath}/role/update" method="post">
 
+        <!-- ID -->
         <div class="form-group">
             <label>ID</label>
             <input
@@ -119,6 +120,7 @@
             />
         </div>
 
+        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
             <input
@@ -129,23 +131,27 @@
             />
         </div>
 
+        <!-- Description -->
         <div class="form-group">
-                    <label>Description</label>
-                    <input
-                        type="text"
-                        name="description"
-                        value="${role.description}"
-                        required
-                    />
-                </div>
+            <label>Description</label>
+            <input
+                type="text"
+                name="description"
+                value="${role.description}"
+                required
+            />
+        </div>
 
+        <!-- Buttons -->
         <div class="btn-group">
             <button type="submit" class="btn">
                 Update Role
             </button>
 
-            <a href="${pageContext.request.contextPath}/role/list"
-               class="btn back-btn">
+            <a
+                href="${pageContext.request.contextPath}/role/list"
+                class="btn back-btn"
+            >
                 Back
             </a>
         </div>

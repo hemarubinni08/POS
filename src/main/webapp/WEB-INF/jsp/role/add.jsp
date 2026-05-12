@@ -108,13 +108,13 @@
         }
 
         .message {
-                            margin-bottom: 16px;
-                            padding: 10px;
-                            border-radius: 6px;
-                            background-color: #e0f2fe;
-                            color: #0369a1;
-                            text-align: center;
-                            font-size: 13px;
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            text-align: center;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -125,33 +125,41 @@
     <h2>Add Role</h2>
 
     <c:if test="${not empty message}">
-                        <div class="message">
-                            ${message}
-                        </div>
-                    </c:if>
+        <div class="message">
+            ${message}
+        </div>
+    </c:if>
 
     <form method="post" modelAttribute="roleDto">
 
+        <!-- Identifier -->
         <div class="form-group">
             <label>Identifier</label>
-            <input type="text"
-                   name="identifier"
-                   placeholder="Enter role identifier"
-                   required>
+            <input
+                type="text"
+                name="identifier"
+                placeholder="Enter role identifier"
+                required
+            >
         </div>
 
+        <!-- Description -->
         <div class="form-group">
-                    <label>Description</label>
-                    <input type="text"
-                           name="description"
-                           placeholder="Enter role description"
-                           required>
-                </div>
+            <label>Description</label>
+            <input
+                type="text"
+                name="description"
+                placeholder="Enter role description"
+                required
+            >
+        </div>
 
+        <!-- Submit -->
         <button type="submit" class="btn-submit">
             Submit
         </button>
 
+        <!-- Back -->
         <div class="back-center">
             <a href="${pageContext.request.contextPath}/role/list">
                 Back

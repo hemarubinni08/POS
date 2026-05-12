@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,7 @@
             height: 100vh;
         }
 
+        /* LEFT SECTION */
         .left {
             flex: 1;
             padding: 80px;
@@ -40,6 +42,7 @@
             max-width: 520px;
         }
 
+        /* RIGHT SECTION */
         .right {
             width: 460px;
             display: flex;
@@ -128,7 +131,6 @@
         .extra-text a:hover {
             text-decoration: underline;
         }
-
     </style>
 </head>
 
@@ -136,6 +138,7 @@
 
 <div class="main">
 
+    <!-- LEFT SIDE -->
     <div class="left">
         <h1>POS MADE SIMPLE</h1>
 
@@ -144,22 +147,35 @@
         </p>
     </div>
 
+    <!-- RIGHT SIDE -->
     <div class="right">
         <div class="form-box">
 
             <h2>Login to your account</h2>
 
+            <!-- ERROR MESSAGE -->
             <c:if test="${param.error == 'true'}">
                 <div class="error-msg">
                     Invalid username or password
                 </div>
             </c:if>
 
+            <!-- FORM -->
             <form action="${pageContext.request.contextPath}/login" method="post">
 
-                <input type="text" name="username" placeholder="Enter username" required>
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter username"
+                    required
+                >
 
-                <input type="password" name="password" placeholder="Enter password" required>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter password"
+                    required
+                >
 
                 <button type="submit" class="btn-login">
                     Sign In
@@ -167,8 +183,9 @@
 
             </form>
 
+            <!-- EXTRA -->
             <div class="extra-text">
-                Don’t have an account?
+                Don&rsquo;t have an account?
                 <a href="${pageContext.request.contextPath}/register">
                     Register here
                 </a>

@@ -83,6 +83,28 @@
         .form-group {
             margin-bottom: 16px;
         }
+        .checkbox-group {
+            margin-top: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            font-size: 14px;
+            cursor: pointer;
+        }
 
         label {
             font-size: 12px;
@@ -222,16 +244,25 @@
                            required>
                 </div>
 
-                <div class="form-group">
-                    <label>Assigned Roles</label>
-                    <select name="roles" multiple>
-                        <c:forEach items="${roles}" var="role">
-                            <option value="${role.identifier}">
-                                ${role.identifier}
-                            </option>
-                        </c:forEach>
-                    </select>
-                </div>
+               <div class="form-group">
+                   <label>Assigned Roles</label>
+
+                   <div class="checkbox-group">
+                       <c:forEach items="${roles}" var="role">
+                           <div class="checkbox-item">
+                               <input type="checkbox"
+                                      id="role_${role.identifier}"
+                                      name="roles"
+                                      value="${role.identifier}" />
+
+                               <label for="role_${role.identifier}">
+                                   ${role.identifier}
+                               </label>
+                           </div>
+                       </c:forEach>
+                   </div>
+               </div>
+
 
                 <div class="btn-group">
                     <button type="submit" class="btn btn-submit">
