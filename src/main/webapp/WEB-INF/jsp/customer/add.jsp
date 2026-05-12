@@ -67,7 +67,6 @@
 
 <div class="container mt-4">
 
-    <!-- ✅ HEADER -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <h4 class="mb-0">Add Customer</h4>
 
@@ -84,7 +83,6 @@
         </div>
     </div>
 
-    <!-- ✅ CARD -->
     <div class="card shadow p-4">
 
         <c:if test="${not empty message}">
@@ -95,7 +93,6 @@
                    modelAttribute="customerDto"
                    action="${pageContext.request.contextPath}/customer/add">
 
-            <!-- ✅ CUSTOMER -->
             <div class="section-title">Customer Details</div>
 
             <div class="row g-3">
@@ -110,7 +107,6 @@
                 </div>
             </div>
 
-            <!-- ✅ FINANCIAL -->
             <div class="section-title">Financial Details</div>
 
             <div class="row g-3">
@@ -140,7 +136,6 @@
                 </div>
             </div>
 
-            <!-- ✅ BILLING -->
             <div class="section-title">Billing Address</div>
 
             <div class="row g-3">
@@ -172,7 +167,6 @@
                 </div>
             </div>
 
-            <!-- ✅ SHIPPING -->
             <div class="section-title d-flex justify-content-between align-items-center">
                 Shipping Address
 
@@ -211,7 +205,6 @@
                 </div>
             </div>
 
-            <!-- ✅ BUTTONS -->
             <div class="text-center mt-4">
                 <a href="${pageContext.request.contextPath}/customer/list"
                    class="btn btn-secondary btn-custom">

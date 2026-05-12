@@ -26,7 +26,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public WarehouseDto findByIdentifier(String identifier) {
-
         Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
         WarehouseDto response = new WarehouseDto();
 
@@ -38,13 +37,11 @@ public class WarehouseServiceImpl implements WarehouseService {
 
         response = modelMapper.map(warehouse, WarehouseDto.class);
         response.setSuccess(true);
-
         return response;
     }
 
     @Override
     public WarehouseDto save(WarehouseDto warehouseDto) {
-
         String identifier = warehouseDto.getIdentifier();
         Warehouse existingWarehouse = warehouseRepository.findByIdentifier(identifier);
 
@@ -61,7 +58,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public WarehouseDto update(WarehouseDto warehouseDto) {
-
         String identifier = warehouseDto.getIdentifier();
         Warehouse existingWarehouse = warehouseRepository.findByIdentifier(identifier);
 
@@ -84,7 +80,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<WarehouseDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<WarehouseDto>>() {
         }.getType();
         Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
@@ -93,7 +88,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public void toggleStatus(String identifier) {
-
         Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
 
         if (warehouse == null) {

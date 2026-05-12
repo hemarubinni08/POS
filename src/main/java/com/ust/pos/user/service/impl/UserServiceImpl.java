@@ -30,21 +30,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByUserName(String username) {
-
         User user = userRepository.findByUsername(username);
 
         if (user == null) {
             return null;
         }
-
         return modelMapper.map(user, UserDto.class);
     }
 
     @Override
     public UserDto save(UserDto userDto) {
-
-        User existingUser =
-                userRepository.findByUsername(userDto.getUsername());
+        User existingUser = userRepository.findByUsername(userDto.getUsername());
 
         if (existingUser != null) {
             userDto.setMessage(
@@ -55,9 +51,7 @@ public class UserServiceImpl implements UserService {
 
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
         userRepository.save(user);
-
         userDto.setSuccess(true);
         userDto.setMessage("User created successfully");
         return userDto;
@@ -65,9 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(String oldUsername, UserDto userDto) {
-
-        User existingUser =
-                userRepository.findByUsername(oldUsername);
+        User existingUser = userRepository.findByUsername(oldUsername);
 
         if (existingUser == null) {
             userDto.setMessage("User not found");
@@ -77,8 +69,7 @@ public class UserServiceImpl implements UserService {
 
         if (!oldUsername.equalsIgnoreCase(userDto.getUsername())) {
 
-            User emailCheck =
-                    userRepository.findByUsername(userDto.getUsername());
+            User emailCheck = userRepository.findByUsername(userDto.getUsername());
 
             if (emailCheck != null) {
                 userDto.setMessage(
@@ -92,9 +83,7 @@ public class UserServiceImpl implements UserService {
         existingUser.setUsername(userDto.getUsername());
         existingUser.setPhoneNo(userDto.getPhoneNo());
         existingUser.setRoles(userDto.getRoles());
-
         userRepository.save(existingUser);
-
         userDto.setSuccess(true);
         userDto.setMessage("User updated successfully");
         return userDto;

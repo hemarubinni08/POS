@@ -6,11 +6,9 @@
 <head>
     <title>Edit Unit</title>
 
-    <!-- ✅ Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-    <!-- ✅ Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -52,23 +50,19 @@
 
                 <div class="card-body">
 
-                    <!-- ✅ Backend Error (duplicate / other) -->
                     <c:if test="${not empty message}">
                         <div class="alert alert-danger text-center">
                             ${message}
                         </div>
                     </c:if>
 
-                    <!-- ✅ FORM -->
                     <form method="post"
                           action="${pageContext.request.contextPath}/unit/update"
                           class="needs-validation"
                           novalidate>
 
-                        <!-- Hidden ID -->
                         <input type="hidden" name="id" value="${unit.id}" />
 
-                        <!-- Unit Name -->
                         <div class="mb-3">
                             <label class="form-label">Unit Name</label>
                             <input type="text"
@@ -78,7 +72,6 @@
                                    readonly>
                         </div>
 
-                        <!-- Status -->
                         <div class="mb-4">
                             <label class="form-label">Status</label>
                             <select name="status" class="form-select" required>
@@ -97,7 +90,6 @@
                             </div>
                         </div>
 
-                        <!-- Buttons -->
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success">
                                 <i class="bi bi-check-circle"></i> Update Unit
@@ -118,7 +110,6 @@
     </div>
 </div>
 
-<!-- ✅ Bootstrap Validation Script -->
 <script>
 (() => {
     'use strict';

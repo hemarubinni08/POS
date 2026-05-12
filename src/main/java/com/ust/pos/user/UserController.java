@@ -32,9 +32,7 @@ public class UserController {
 
     @GetMapping("/get")
     public String update(Model model, Pageable pageable, @RequestParam String username) {
-
         UserDto response = userService.findByUserName(username);
-
         model.addAttribute("user", response);
         model.addAttribute(ROLES, roleService.findAll(pageable));
 
@@ -44,7 +42,6 @@ public class UserController {
 
     @PostMapping("/update")
     public String updatePost(Model model, Pageable pageable, @ModelAttribute UserDto userDto, @RequestParam String oldUsername) {
-
         UserDto existingUser = userService.findByUserName(oldUsername);
 
         if (existingUser == null) {
@@ -78,8 +75,8 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication != null) {
             String loggedInUser = authentication.getName();
             if (loggedInUser != null) {

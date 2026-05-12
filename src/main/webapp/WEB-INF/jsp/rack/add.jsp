@@ -8,11 +8,9 @@
     <meta charset="UTF-8">
     <title>Add Rack</title>
 
-    <!-- ✅ Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-    <!-- ✅ Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -73,20 +71,17 @@
 
                 <div class="card-body">
 
-                    <!-- ✅ Error Message -->
                     <c:if test="${not empty message}">
                         <div class="alert alert-danger">
                             ${message}
                         </div>
                     </c:if>
 
-                    <!-- ✅ FORM -->
                     <form action="${pageContext.request.contextPath}/rack/add"
                           method="post"
                           class="needs-validation"
                           novalidate>
 
-                        <!-- ✅ Rack Name -->
                         <div class="mb-3">
                             <label class="form-label">Rack Name</label>
                             <input type="text"
@@ -100,7 +95,6 @@
                             </div>
                         </div>
 
-                        <!-- ✅ Shelf -->
                         <div class="mb-3">
                             <label class="form-label">Assign Shelf</label>
                             <select name="shelfIdentifier"
@@ -126,7 +120,6 @@
                             </c:if>
                         </div>
 
-                        <!-- ✅ Status -->
                         <div class="mb-4">
                             <label class="form-label">Rack Status</label>
                             <select name="status"
@@ -141,13 +134,11 @@
                             </div>
                         </div>
 
-                        <!-- ✅ Buttons -->
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success">
                                 <i class="bi bi-check-circle"></i> Save Rack
                             </button>
 
-                            <!-- ✅ CANCEL WORKS -->
                             <a href="${pageContext.request.contextPath}/rack/list"
                                class="btn btn-secondary">
                                 Cancel

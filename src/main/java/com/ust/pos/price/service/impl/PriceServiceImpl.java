@@ -32,7 +32,6 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto save(PriceDto priceDto) {
-
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);
 
@@ -44,13 +43,11 @@ public class PriceServiceImpl implements PriceService {
 
         Price price = modelMapper.map(priceDto, Price.class);
         priceRepository.save(price);
-
         return priceDto;
     }
 
     @Override
     public PriceDto update(PriceDto priceDto) {
-
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);
 
@@ -62,7 +59,6 @@ public class PriceServiceImpl implements PriceService {
 
         modelMapper.map(priceDto, existingPrice);
         priceRepository.save(existingPrice);
-
         return priceDto;
     }
 
@@ -74,7 +70,6 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public List<PriceDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
         Page<Price> pricePage = priceRepository.findAll(pageable);

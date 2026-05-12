@@ -37,9 +37,7 @@ public class RackController {
     }
 
     @PostMapping("/add")
-    public String addPost(@ModelAttribute RackDto rackDto,
-                          RedirectAttributes redirectAttributes) {
-
+    public String addPost(@ModelAttribute RackDto rackDto, RedirectAttributes redirectAttributes) {
         RackDto response = rackService.save(rackDto);
 
         if (!response.isSuccess()) {
@@ -47,20 +45,18 @@ public class RackController {
                     "errorMessage",
                     response.getMessage()
             );
-            return "redirect:/rack/add"; // ✅ different return for failure
+            return "redirect:/rack/add";
         }
 
         redirectAttributes.addFlashAttribute(
                 SUCCESS_MESSAGE,
                 "Rack added successfully"
         );
-
-        return REDIRECT_LIST; // ✅ success path
+        return REDIRECT_LIST;
     }
 
     @GetMapping("/get")
     public String get(Model model, @RequestParam String identifier) {
-
         model.addAttribute("rack", rackService.findByIdentifier(identifier));
         model.addAttribute("shelves", shelfService.findAllActive());
 
@@ -68,9 +64,7 @@ public class RackController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute RackDto rackDto,
-                         RedirectAttributes redirectAttributes) {
-
+    public String update(@ModelAttribute RackDto rackDto, RedirectAttributes redirectAttributes) {
         RackDto response = rackService.update(rackDto);
 
         if (!response.isSuccess()) {
@@ -94,11 +88,9 @@ public class RackController {
 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier, RedirectAttributes redirectAttributes) {
-
         rackService.delete(identifier);
         redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, "Rack deleted successfully"
         );
-
         return REDIRECT_LIST;
     }
 }

@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +33,6 @@ class WarehouseServiceTest {
 
     @Test
     void saveTest() {
-
         WarehouseDto dto = new WarehouseDto();
         dto.setIdentifier("WH1");
         when(warehouseRepository.findByIdentifier("WH1")).thenReturn(null);
@@ -47,7 +45,6 @@ class WarehouseServiceTest {
 
     @Test
     void saveFailureTest() {
-
         WarehouseDto dto = new WarehouseDto();
         dto.setIdentifier("WH1");
         when(warehouseRepository.findByIdentifier("WH1")).thenReturn(new Warehouse());
@@ -58,7 +55,6 @@ class WarehouseServiceTest {
 
     @Test
     void findByIdentifierTest() {
-
         Warehouse entity = new Warehouse();
         entity.setIdentifier("WH1");
         WarehouseDto dto = new WarehouseDto();
@@ -72,7 +68,6 @@ class WarehouseServiceTest {
 
     @Test
     void findByIdentifierFailureTest() {
-
         when(warehouseRepository.findByIdentifier("WH1")).thenReturn(null);
         WarehouseDto response = warehouseService.findByIdentifier("WH1");
         Assertions.assertFalse(response.isSuccess());
@@ -81,7 +76,6 @@ class WarehouseServiceTest {
 
     @Test
     void updateTest() {
-
         WarehouseDto dto = new WarehouseDto();
         dto.setIdentifier("WH1");
         Warehouse entity = new Warehouse();
@@ -94,7 +88,6 @@ class WarehouseServiceTest {
 
     @Test
     void updateFailureTest() {
-
         WarehouseDto dto = new WarehouseDto();
         dto.setIdentifier("WH1");
         when(warehouseRepository.findByIdentifier("WH1")).thenReturn(null);
@@ -104,20 +97,17 @@ class WarehouseServiceTest {
 
     @Test
     void deleteTest() {
-
         warehouseService.delete("WH1");
         verify(warehouseRepository).deleteByIdentifier("WH1");
     }
 
     @Test
     void findAllActiveTest() {
-
         Warehouse warehouse = new Warehouse();
         warehouse.setIdentifier("W1");
         WarehouseDto dto = new WarehouseDto();
         dto.setIdentifier("W1");
         List<Warehouse> list = List.of(warehouse);
-
         when(warehouseRepository.findByStatusTrue()).thenReturn(list);
         when(modelMapper.map(warehouse, WarehouseDto.class)).thenReturn(dto);
         List<WarehouseDto> result = warehouseService.findAllActive();
@@ -129,7 +119,6 @@ class WarehouseServiceTest {
 
     @Test
     void toggleStatusTrueToFalseTest() {
-
         Warehouse entity = new Warehouse();
         entity.setIdentifier("WH1");
         entity.setStatus(true);
@@ -142,7 +131,6 @@ class WarehouseServiceTest {
 
     @Test
     void toggleStatusFalseToTrueTest() {
-
         Warehouse entity = new Warehouse();
         entity.setIdentifier("WH1");
         entity.setStatus(false);
@@ -153,7 +141,6 @@ class WarehouseServiceTest {
 
     @Test
     void toggleStatusNullTest() {
-
         Warehouse entity = new Warehouse();
         entity.setIdentifier("WH1");
         entity.setStatus(null);
@@ -164,7 +151,6 @@ class WarehouseServiceTest {
 
     @Test
     void toggleStatusFailureTest() {
-
         when(warehouseRepository.findByIdentifier("WH1")).thenReturn(null);
         RuntimeException ex = Assertions.assertThrows(RuntimeException.class, () -> {
             warehouseService.toggleStatus("WH1");
@@ -174,7 +160,6 @@ class WarehouseServiceTest {
 
     @Test
     void findAllTest() {
-
         Warehouse warehouse = new Warehouse();
         warehouse.setIdentifier("Admin");
         WarehouseDto warehouseDto = new WarehouseDto();

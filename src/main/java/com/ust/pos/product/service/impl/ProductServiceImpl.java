@@ -35,7 +35,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto save(ProductDto productDto) {
-
         String identifier = productDto.getIdentifier();
         Product existingProduct = productRepository.findByIdentifier(identifier);
 
@@ -47,13 +46,11 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = modelMapper.map(productDto, Product.class);
         productRepository.save(product);
-
         return productDto;
     }
 
     @Override
     public ProductDto update(ProductDto productDto) {
-
         String identifier = productDto.getIdentifier();
         Product existingProduct = productRepository.findByIdentifier(identifier);
 
@@ -66,7 +63,6 @@ public class ProductServiceImpl implements ProductService {
 
         modelMapper.map(productDto, existingProduct);
         productRepository.save(existingProduct);
-
         return productDto;
     }
 
@@ -78,7 +74,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         Page<Product> productPage = productRepository.findAll(pageable);
@@ -89,7 +84,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void toggleStatus(String identifier) {
-
         Product product = productRepository.findByIdentifier(identifier);
 
         if (product == null) {

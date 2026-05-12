@@ -6,11 +6,9 @@
 <head>
     <title>Rack Management</title>
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -21,7 +19,6 @@
             color: #2e2e2e;
         }
 
-        /* Header */
         .page-header {
             background-color: #000;
             padding: 14px 20px;
@@ -86,7 +83,6 @@
 
 <div class="container mt-4">
 
-    <!-- HEADER -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <h3>Rack Management</h3>
 
@@ -103,7 +99,6 @@
         </div>
     </div>
 
-    <!-- SUCCESS / ERROR -->
     <c:if test="${not empty successMessage}">
         <div class="alert alert-success text-center fw-semibold">
             ${successMessage}
@@ -116,7 +111,6 @@
         </div>
     </c:if>
 
-    <!-- TABLE CARD -->
     <div class="card shadow">
         <div class="card-body p-0">
 
@@ -138,7 +132,6 @@
                             <td>${rack.id}</td>
                             <td class="fw-semibold">${rack.identifier}</td>
 
-                            <!-- Shelves -->
                             <td>
                                 <c:if test="${empty rack.shelfs}">
                                     <span class="text-muted">No shelves</span>
@@ -148,7 +141,6 @@
                                 </c:forEach>
                             </td>
 
-                            <!-- STATUS TOGGLE (UNCHANGED LOGIC) -->
                             <td>
                                 <form method="post"
                                       action="${pageContext.request.contextPath}/rack/update"
@@ -173,7 +165,6 @@
                                 </form>
                             </td>
 
-                            <!-- ACTIONS -->
                             <td class="text-center">
                                 <a href="${pageContext.request.contextPath}/rack/get?identifier=${rack.identifier}"
                                    class="action-icon edit-icon">

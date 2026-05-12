@@ -31,7 +31,6 @@ class ShelfServiceTest {
 
     @Test
     void saveTest() {
-
         ShelfDto dto = new ShelfDto();
         dto.setIdentifier("S1");
         Mockito.when(shelfRepository.findByIdentifier("S1")).thenReturn(null);
@@ -45,7 +44,6 @@ class ShelfServiceTest {
 
     @Test
     void saveTestFailure() {
-
         ShelfDto dto = new ShelfDto();
         dto.setIdentifier("S1");
         Mockito.when(shelfRepository.findByIdentifier("S1")).thenReturn(new Shelf());
@@ -56,7 +54,6 @@ class ShelfServiceTest {
 
     @Test
     void findByIdentifierTest() {
-
         Shelf entity = new Shelf();
         entity.setIdentifier("S1");
         ShelfDto dto = new ShelfDto();
@@ -69,7 +66,6 @@ class ShelfServiceTest {
 
     @Test
     void updateTest() {
-
         ShelfDto dto = new ShelfDto();
         dto.setIdentifier("S1");
         Shelf existing = new Shelf();
@@ -82,7 +78,6 @@ class ShelfServiceTest {
 
     @Test
     void updateTestFailure() {
-
         ShelfDto dto = new ShelfDto();
         dto.setIdentifier("S1");
         Mockito.when(shelfRepository.findByIdentifier("S1")).thenReturn(null);
@@ -93,14 +88,12 @@ class ShelfServiceTest {
 
     @Test
     void deleteTest() {
-
         shelfService.delete("S1");
         Mockito.verify(shelfRepository).deleteByIdentifier("S1");
     }
 
     @Test
     void findAllTest() {
-
         Shelf shelf = new Shelf();
         shelf.setIdentifier("Admin");
         ShelfDto shelfDto = new ShelfDto();
@@ -117,7 +110,6 @@ class ShelfServiceTest {
 
     @Test
     void findAllActiveTest() {
-
         Shelf entity = new Shelf();
         entity.setIdentifier("S1");
         ShelfDto dto = new ShelfDto();
@@ -131,7 +123,6 @@ class ShelfServiceTest {
 
     @Test
     void toggleStatus_trueToFalse() {
-
         Shelf entity = new Shelf();
         entity.setIdentifier("S1");
         entity.setStatus(true);
@@ -143,7 +134,6 @@ class ShelfServiceTest {
 
     @Test
     void toggleStatus_falseToTrue() {
-
         Shelf entity = new Shelf();
         entity.setIdentifier("S1");
         entity.setStatus(false);
@@ -155,7 +145,6 @@ class ShelfServiceTest {
 
     @Test
     void toggleStatusFailureTest() {
-
         Mockito.when(shelfRepository.findByIdentifier("S1")).thenReturn(null);
         RuntimeException ex = Assertions.assertThrows(RuntimeException.class, () -> shelfService.toggleStatus("S1")
         );

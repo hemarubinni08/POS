@@ -91,7 +91,7 @@
             </div>
 
             <div class="d-grid gap-2 mt-4">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-success">
                     <i class="bi bi-save me-1"></i> Save Category
                 </button>
 

@@ -32,7 +32,6 @@ public class RackServiceImpl implements RackService {
 
     @Override
     public RackDto save(RackDto rackDto) {
-
         String identifier = rackDto.getIdentifier();
         Rack existingRack = rackRepository.findByIdentifier(identifier);
 
@@ -44,13 +43,11 @@ public class RackServiceImpl implements RackService {
 
         Rack rack = modelMapper.map(rackDto, Rack.class);
         rackRepository.save(rack);
-
         return rackDto;
     }
 
     @Override
     public RackDto update(RackDto rackDto) {
-
         String identifier = rackDto.getIdentifier();
         Rack existingRack = rackRepository.findByIdentifier(identifier);
 
@@ -62,7 +59,6 @@ public class RackServiceImpl implements RackService {
 
         modelMapper.map(rackDto, existingRack);
         rackRepository.save(existingRack);
-
         return rackDto;
     }
 
@@ -74,7 +70,6 @@ public class RackServiceImpl implements RackService {
 
     @Override
     public List<RackDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
         Page<Rack> rackPage = rackRepository.findAll(pageable);

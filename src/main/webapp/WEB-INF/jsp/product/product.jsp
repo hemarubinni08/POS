@@ -6,11 +6,9 @@
 <head>
     <title>Edit Product</title>
 
-    <!-- ✅ Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- ✅ Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -57,28 +55,24 @@
 
     <div class="card-body">
 
-        <!-- ✅ Error message -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- ✅ FORM START -->
         <form:form method="post"
                    action="${pageContext.request.contextPath}/product/update"
                    modelAttribute="product">
 
             <form:hidden path="id"/>
 
-            <!-- Identifier -->
             <div class="mb-3">
                 <label>Identifier *</label>
                 <form:input path="identifier"
                             cssClass="form-control readonly-field"/>
             </div>
 
-            <!-- Category -->
             <div class="mb-3">
                 <label>Category *</label>
                 <form:select path="category" cssClass="form-select">
@@ -91,7 +85,6 @@
                 </form:select>
             </div>
 
-            <!-- Brand -->
             <div class="mb-3">
                 <label>Brand *</label>
                 <form:select path="brand" cssClass="form-select">
@@ -104,7 +97,6 @@
                 </form:select>
             </div>
 
-            <!-- Model -->
             <div class="mb-3">
                 <label>Model *</label>
                 <form:select path="model" cssClass="form-select">
@@ -117,7 +109,6 @@
                 </form:select>
             </div>
 
-            <!-- Unit -->
             <div class="mb-3">
                 <label>Unit *</label>
                 <form:select path="unit" cssClass="form-select">
@@ -130,7 +121,6 @@
                 </form:select>
             </div>
 
-            <!-- Quantity -->
             <div class="mb-3">
                 <label>Quantity *</label>
                 <form:input path="quantity"
@@ -138,7 +128,6 @@
                             cssClass="form-control"/>
             </div>
 
-            <!-- Status -->
             <div class="mb-3">
                 <label>Status *</label><br/>
 
@@ -151,7 +140,6 @@
                 </label>
             </div>
 
-            <!-- Buttons -->
             <div class="d-grid gap-2 mt-4">
                 <button type="submit" class="btn btn-success">
                     <i class="bi bi-save me-1"></i> Update Product
@@ -164,7 +152,6 @@
             </div>
 
         </form:form>
-        <!-- ✅ FORM END -->
 
     </div>
 </div>

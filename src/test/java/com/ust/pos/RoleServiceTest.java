@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,6 @@ class RoleServiceTest {
 
     @Test
     void saveTest() {
-
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
         Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(null);
@@ -46,7 +44,6 @@ class RoleServiceTest {
 
     @Test
     void saveTestFailure() {
-
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
         Role role = new Role();
@@ -60,7 +57,6 @@ class RoleServiceTest {
 
     @Test
     void findByIdentifierTest() {
-
         Role role = new Role();
         role.setIdentifier("Admin");
         RoleDto roleDto = new RoleDto();
@@ -73,7 +69,6 @@ class RoleServiceTest {
 
     @Test
     void updateTest() {
-
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
         Role existingRole = new Role();
@@ -86,7 +81,6 @@ class RoleServiceTest {
 
     @Test
     void updateTestFailure() {
-
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
         Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(null);
@@ -96,7 +90,6 @@ class RoleServiceTest {
 
     @Test
     void deleteTest() {
-
         Mockito.doNothing().when(roleRepository).deleteByIdentifier("Admin");
         roleService.delete("Admin");
         Mockito.verify(roleRepository).deleteByIdentifier("Admin");

@@ -30,7 +30,6 @@ public class ApiProductController extends BaseController {
 
     @GetMapping("/get")
     public ProductDto update(@RequestParam String identifier) {
-
         return productService.findByIdentifier(identifier);
     }
 

@@ -6,11 +6,9 @@
 <head>
     <title>Warehouse List</title>
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -48,7 +46,6 @@
             font-weight: 600;
         }
 
-        /* ✅ SAME TOGGLE AS UNIT */
         .switch {
             position: relative;
             display: inline-block;
@@ -81,7 +78,7 @@
         }
 
         input:checked + .slider {
-            background-color: #198754;
+            background-color: blue;
         }
 
         input:checked + .slider:before {
@@ -118,7 +115,6 @@
 
 <div class="container mt-4">
 
-    <!-- Header -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <h3>Warehouse List</h3>
 
@@ -135,7 +131,6 @@
         </div>
     </div>
 
-    <!-- Table -->
     <div class="card shadow">
         <div class="card-body p-0">
 
@@ -157,7 +152,6 @@
                         <td>${w.location}</td>
                         <td>${w.capacity}</td>
 
-                        <!-- ✅ SAME STATUS TOGGLE AS UNIT -->
                         <td>
                             <a href="${pageContext.request.contextPath}/warehouse/toggle?identifier=${w.identifier}"
                                onclick="return confirm('Change warehouse status?')"

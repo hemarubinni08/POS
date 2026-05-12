@@ -61,7 +61,6 @@
             </div>
         </c:if>
 
-        <!-- ✅ FIXED FORM -->
         <form:form method="post"
                    action="${pageContext.request.contextPath}/product/add"
                    modelAttribute="product">

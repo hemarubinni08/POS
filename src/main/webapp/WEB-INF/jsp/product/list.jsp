@@ -6,11 +6,9 @@
 <head>
     <title>Product Management</title>
 
-    <!-- ✅ Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-    <!-- ✅ Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -80,7 +78,6 @@
 
 <div class="container mt-4">
 
-    <!-- ✅ Header -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <h3>Product Management</h3>
 
@@ -97,7 +94,6 @@
         </div>
     </div>
 
-    <!-- ✅ Table -->
     <div class="card shadow">
         <div class="card-body p-0">
 
@@ -126,7 +122,6 @@
                         <td>${p.model}</td>
                         <td>${p.unit}</td>
 
-                        <!-- ✅ WORKING TOGGLE -->
                         <td class="text-center">
                             <form action="${pageContext.request.contextPath}/product/toggle"
                                   method="get">
@@ -145,7 +140,6 @@
                             </form>
                         </td>
 
-                        <!-- ✅ Actions -->
                         <td class="text-center">
 
                             <a href="${pageContext.request.contextPath}/product/get?identifier=${p.identifier}"

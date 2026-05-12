@@ -26,7 +26,6 @@ public class BrandController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute(BRAND) BrandDto brandDto) {
-
         BrandDto response = brandService.save(brandDto);
 
         if (!response.isSuccess()) {
@@ -45,7 +44,6 @@ public class BrandController {
 
     @GetMapping("/get")
     public String get(Model model, @RequestParam("identifier") String identifier) {
-
         BrandDto brandDto = brandService.findByIdentifier(identifier);
 
         if (brandDto == null) {
@@ -59,7 +57,6 @@ public class BrandController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute(BRAND) BrandDto brandDto) {
-
         BrandDto response = brandService.update(brandDto);
 
         if (!response.isSuccess()) {

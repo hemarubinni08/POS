@@ -51,7 +51,7 @@
         .slider {
             position: absolute;
             inset: 0;
-            background-color: #dc3545;
+            background-color: grey;
             border-radius: 24px;
             transition: .3s;
         }
@@ -69,7 +69,7 @@
         }
 
         input:checked + .slider {
-            background-color: #198754;
+            background-color: blue;
         }
 
         input:checked + .slider:before {

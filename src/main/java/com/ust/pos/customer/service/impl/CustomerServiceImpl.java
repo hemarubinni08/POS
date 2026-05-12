@@ -36,7 +36,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto findByIdentifierWithAddressDto(String phoneNo) {
-
         Customer customer = customerRepository.findByPhoneNo(phoneNo);
         CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
         List<AddressDto> addressDtoList = addressService.findAllByPhoneNo(phoneNo);
@@ -55,7 +54,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto save(CustomerDto customerDto) {
-
         String identifier = customerDto.getIdentifier();
         Customer existingCustomer = customerRepository.findById(identifier);
 
@@ -85,7 +83,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto update(CustomerDto customerDto) {
-
         Customer existingCustomer = customerRepository.findByPhoneNo(customerDto.getPhoneNo());
 
         if (existingCustomer == null) {
@@ -120,7 +117,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
         Page<Customer> customerPage = customerRepository.findAll(pageable);
@@ -129,7 +125,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto toggleStatus(String identifier) {
-
         Customer customer = customerRepository.findById(identifier);
         customer.setStatus(!customer.getStatus());
         customerRepository.save(customer);
@@ -138,7 +133,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDto> findIfTrue() {
-
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
         return modelMapper.map(

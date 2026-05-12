@@ -6,7 +6,6 @@
 <head>
     <title>Stock Management</title>
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
@@ -21,7 +20,6 @@
             color: #2e2e2e;
         }
 
-        /* Header */
         .page-header {
             background-color: #000;
             padding: 14px 20px;
@@ -99,7 +97,6 @@
 
 <div class="container mt-4">
 
-    <!-- HEADER -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <h3>Stock Management</h3>
 
@@ -116,7 +113,6 @@
         </div>
     </div>
 
-    <!-- TABLE -->
     <div class="card shadow">
         <div class="card-body p-0">
 
@@ -136,7 +132,6 @@
                 <tbody>
                 <c:forEach items="${stocks}" var="s">
 
-                    <!-- ✅ IDENTIFIER (unchanged) -->
                     <c:set var="stockIdentifier"
                            value="STK-${s.productIdentifier}-${s.warehouseIdentifier}" />
 
@@ -147,7 +142,6 @@
                         <td>${s.quantity}</td>
                         <td>${s.minimumStock}</td>
 
-                        <!-- ✅ STATUS (LOGIC UNCHANGED) -->
                         <td>
                             <c:choose>
                                 <c:when test="${s.quantity == 0}">
@@ -162,7 +156,6 @@
                             </c:choose>
                         </td>
 
-                        <!-- ✅ ACTIONS -->
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/stock/get?id=${s.id}"
                                class="action-icon edit-icon" title="Edit">

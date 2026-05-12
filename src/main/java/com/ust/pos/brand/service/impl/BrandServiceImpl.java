@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -27,7 +26,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto save(BrandDto brandDto) {
-
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
         if (existingBrand != null) {
@@ -42,7 +40,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto update(BrandDto brandDto) {
-
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
         if (existingBrand == null) {

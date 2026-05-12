@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +26,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
-
         if (categoryRepository.findByIdentifier(categoryDto.getIdentifier()) != null) {
             categoryDto.setSuccess(false);
             categoryDto.setMessage("Category already exists");
@@ -50,7 +48,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto update(CategoryDto categoryDto) {
-
         Optional<Category> optional = categoryRepository.findById(categoryDto.getId());
 
         if (optional.isEmpty()) {
@@ -84,7 +81,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void deleteByIdentifier(String identifier) {
-
         if (categoryRepository.existsBySuperCategory(identifier)) {
             throw new IllegalStateException(
                     "Cannot delete category. It is used as a super category."

@@ -6,11 +6,9 @@
 <head>
     <title>Update Price</title>
 
-    <!-- ✅ Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
 
-    <!-- ✅ Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
 
@@ -75,7 +73,6 @@
 
     <div class="card-body">
 
-        <!-- ✅ FIXED SPRING FORM -->
         <form:form method="post"
                    action="${pageContext.request.contextPath}/price/update"
                    modelAttribute="price">
@@ -118,7 +115,7 @@
 
             <!-- Buttons -->
             <div class="d-grid gap-2 mt-4">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-success">
                     <i class="bi bi-save me-1"></i> Update Price
                 </button>
 
@@ -133,7 +130,6 @@
     </div>
 </div>
 
-<!-- ✅ Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

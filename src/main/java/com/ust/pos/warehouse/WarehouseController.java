@@ -26,7 +26,6 @@ public class WarehouseController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute(WAREHOUSE) WarehouseDto warehouseDto) {
-
         WarehouseDto response = warehouseService.save(warehouseDto);
 
         if (!response.isSuccess()) {
@@ -46,7 +45,6 @@ public class WarehouseController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         WarehouseDto response = warehouseService.findByIdentifier(identifier);
         model.addAttribute(WAREHOUSE, response);
         return "warehouse/warehouse";
@@ -54,7 +52,6 @@ public class WarehouseController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute WarehouseDto warehouseDto) {
-
         WarehouseDto response = warehouseService.update(warehouseDto);
 
         if (!response.isSuccess()) {

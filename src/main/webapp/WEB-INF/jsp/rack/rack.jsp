@@ -7,11 +7,9 @@
 <head>
     <title>Edit Rack</title>
 
-    <!-- ✅ Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-    <!-- ✅ Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -51,22 +49,18 @@
 
     <div class="card-body">
 
-        <!-- ✅ ERROR MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- ✅ FORM (UNCHANGED LOGIC) -->
         <form:form action="${pageContext.request.contextPath}/rack/update"
                    method="post"
                    modelAttribute="rack">
 
-            <!-- ✅ Hidden ID -->
             <form:hidden path="id"/>
 
-            <!-- ✅ Rack Name (readonly) -->
             <div class="mb-3">
                 <label class="form-label">Rack Name</label>
                 <form:input path="identifier"
@@ -74,7 +68,6 @@
                             readonly="true"/>
             </div>
 
-            <!-- ✅ Shelves -->
             <div class="mb-3">
                 <label class="form-label">Select Shelves</label>
                 <form:select path="shelfs"
@@ -89,7 +82,6 @@
                 </form:select>
             </div>
 
-            <!-- ✅ Status -->
             <div class="mb-4">
                 <label class="form-label">Status</label>
                 <form:select path="status" cssClass="form-select">
@@ -98,13 +90,11 @@
                 </form:select>
             </div>
 
-            <!-- ✅ Buttons (UPDATED POSITION) -->
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-success">
                     <i class="bi bi-check-circle"></i> Update Rack
                 </button>
 
-                <!-- ✅ Back below update -->
                 <a href="${pageContext.request.contextPath}/rack/list"
                    class="btn btn-secondary">
                     Back

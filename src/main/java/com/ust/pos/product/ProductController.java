@@ -57,7 +57,6 @@ public class ProductController {
 
     @GetMapping("/get")
     public String update(Model model, Pageable pageable, @RequestParam String identifier) {
-
         model.addAttribute("product", productService.findByIdentifier(identifier));
         model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
         model.addAttribute(BRANDS, brandService.findAll(pageable));
@@ -69,7 +68,6 @@ public class ProductController {
 
     @PostMapping("/add")
     public String addPost(Model model, Pageable pageable, @ModelAttribute("product") ProductDto productDto) {
-
         ProductDto response = productService.save(productDto);
 
         if (!response.isSuccess()) {
@@ -87,7 +85,6 @@ public class ProductController {
 
     @PostMapping("/update")
     public String updatePost(Model model, Pageable pageable, @ModelAttribute("product") ProductDto productDto) {
-
         ProductDto response = productService.update(productDto);
 
         if (!response.isSuccess()) {

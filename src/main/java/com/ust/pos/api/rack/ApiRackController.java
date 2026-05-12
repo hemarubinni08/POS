@@ -31,21 +31,18 @@ public class ApiRackController extends BaseController {
 
     @PostMapping("/add")
     public RackDto addPost(@RequestBody RackDto rackDto) {
-
         return rackService.save(rackDto);
 
     }
 
     @GetMapping("/get")
     public RackDto get(@RequestParam String identifier) {
-
         return rackService.findByIdentifier(identifier);
 
     }
 
     @PostMapping("/update")
     public RackDto update(@RequestBody RackDto rackDto) {
-
         return rackService.update(rackDto);
 
     }

@@ -6,7 +6,6 @@
 <head>
     <title>Update Stock</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
@@ -33,21 +32,17 @@
 
     <h4 class="text-center mb-3">Edit Stock</h4>
 
-    <!-- ✅ ERROR -->
     <c:if test="${not empty message}">
         <div class="alert alert-danger text-center">
             ${message}
         </div>
     </c:if>
 
-    <!-- ✅ FORM -->
     <form method="post"
           action="${pageContext.request.contextPath}/stock/update">
 
-        <!-- ✅ ID -->
         <input type="hidden" name="id" value="${stock.id}" />
 
-        <!-- PRODUCT -->
         <div class="mb-3">
             <label>Product</label>
             <input class="form-control"
@@ -58,7 +53,6 @@
                    value="${stock.productIdentifier}">
         </div>
 
-        <!-- WAREHOUSE -->
         <div class="mb-3">
             <label>Warehouse</label>
             <input class="form-control"
@@ -69,7 +63,6 @@
                    value="${stock.warehouseIdentifier}">
         </div>
 
-        <!-- STOCK CODE -->
         <div class="mb-3">
             <label>Stock Code</label>
             <input class="form-control"
@@ -77,7 +70,6 @@
                    readonly>
         </div>
 
-        <!-- QUANTITY -->
         <div class="mb-3">
             <label>Quantity</label>
             <input type="number"
@@ -88,7 +80,6 @@
                    required>
         </div>
 
-        <!-- MINIMUM -->
         <div class="mb-3">
             <label>Minimum Stock</label>
             <input type="number"
@@ -99,7 +90,6 @@
                    required>
         </div>
 
-        <!-- STATUS -->
         <div class="mb-3">
             <label>Status</label>
             <input type="text"
@@ -108,7 +98,6 @@
                    readonly>
         </div>
 
-        <!-- BUTTONS -->
         <div class="d-grid gap-2">
             <button type="submit" class="btn btn-success">
                 Update

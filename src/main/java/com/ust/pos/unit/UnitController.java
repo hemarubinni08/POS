@@ -25,7 +25,6 @@ public class UnitController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute("unit") UnitDto unitDto) {
-
         UnitDto response = unitService.save(unitDto);
 
         if (!response.isSuccess()) {
@@ -45,7 +44,6 @@ public class UnitController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         UnitDto response = unitService.findByIdentifier(identifier);
         model.addAttribute("unit", response);
 
@@ -54,7 +52,6 @@ public class UnitController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute("unit") UnitDto unitDto) {
-
         UnitDto response = unitService.update(unitDto);
 
         if (!response.isSuccess()) {

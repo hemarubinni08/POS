@@ -32,7 +32,6 @@ public class StockController {
 
     @GetMapping("/add")
     public String add(Model model) {
-
         model.addAttribute(STOCK, new StockDto());
         model.addAttribute(PRODUCTS, productService.findAllActive());
         model.addAttribute(WAREHOUSES, warehouseService.findAllActive());
@@ -42,7 +41,6 @@ public class StockController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute(STOCK) StockDto stockDto) {
-
         try {
             stockService.save(stockDto);
             return REDIRECT_STOCK_LIST;
@@ -51,7 +49,6 @@ public class StockController {
             model.addAttribute(MESSAGE, e.getMessage());
             model.addAttribute(PRODUCTS, productService.findAllActive());
             model.addAttribute(WAREHOUSES, warehouseService.findAllActive());
-
             return "stock/add";
         }
     }
@@ -64,17 +61,14 @@ public class StockController {
 
     @GetMapping("/get")
     public String edit(@RequestParam Long id, Model model) {
-
         model.addAttribute(STOCK, stockService.findById(id));
         model.addAttribute(PRODUCTS, productService.findAllActive());
         model.addAttribute(WAREHOUSES, warehouseService.findAllActive());
-
         return "stock/stock";
     }
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute(STOCK) StockDto stockDto) {
-
         try {
             stockService.update(stockDto);
             return REDIRECT_STOCK_LIST;
@@ -83,7 +77,6 @@ public class StockController {
             model.addAttribute(MESSAGE, e.getMessage());
             model.addAttribute(PRODUCTS, productService.findAllActive());
             model.addAttribute(WAREHOUSES, warehouseService.findAllActive());
-
             return "stock/stock";
         }
     }

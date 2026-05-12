@@ -34,20 +34,17 @@ public class CustomerController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute CustomerDto customerDto) {
-
         CustomerDto response = customerService.save(customerDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "customer/add";
         }
-
         return REDIRECT_CUSTOMER_LIST;
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String phoneNo) {
-
         CustomerDto response = customerService.findByIdentifierWithAddressDto(phoneNo);
         model.addAttribute("customerDto", response);
         return "customer/customer";
@@ -55,7 +52,6 @@ public class CustomerController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute CustomerDto customerDto) {
-
         CustomerDto response = customerService.update(customerDto);
 
         if (!response.isSuccess()) {
@@ -63,7 +59,6 @@ public class CustomerController {
             model.addAttribute("message", response.getMessage());
             return "customer/customer";
         }
-
         return REDIRECT_CUSTOMER_LIST;
     }
 

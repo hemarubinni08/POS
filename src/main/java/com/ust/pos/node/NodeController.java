@@ -31,7 +31,6 @@ public class NodeController {
 
     @GetMapping("/add")
     public String add(Model model, Pageable pageable, @ModelAttribute NodeDto nodeDto) {
-
         model.addAttribute("nodes", nodeService.findAll(pageable));
         model.addAttribute(ROLES, roleService.findAll(pageable));
         return "node/add";
@@ -39,7 +38,6 @@ public class NodeController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute NodeDto nodeDto) {
-
         NodeDto response = nodeService.save(nodeDto);
 
         if (!response.isSuccess()) {
@@ -47,7 +45,6 @@ public class NodeController {
             model.addAttribute(ROLES, roleService.findAll(null));
             return "node/add";
         }
-
         return REDIRECT_NODE_LIST;
     }
 
@@ -73,7 +70,6 @@ public class NodeController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
-
         nodeService.delete(identifier);
         return REDIRECT_NODE_LIST;
     }

@@ -33,7 +33,6 @@ public class CategoryController {
 
     @PostMapping("/add")
     public String addPost(Model model, Pageable pageable, @ModelAttribute("category") CategoryDto categoryDto) {
-
         CategoryDto response = categoryService.save(categoryDto);
 
         if (!response.isSuccess()) {
@@ -47,7 +46,6 @@ public class CategoryController {
 
     @GetMapping("/get")
     public String update(Model model, Pageable pageable, @RequestParam String identifier) {
-
         model.addAttribute("category", categoryService.findByIdentifier(identifier));
         model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
 
@@ -56,7 +54,6 @@ public class CategoryController {
 
     @PostMapping("/update")
     public String updatePost(Model model, Pageable pageable, @ModelAttribute("category") CategoryDto categoryDto) {
-
         CategoryDto response = categoryService.update(categoryDto);
 
         if (!response.isSuccess()) {
@@ -69,9 +66,7 @@ public class CategoryController {
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, Pageable pageable,
-                         @RequestParam String identifier) {
-
+    public String delete(Model model, Pageable pageable, @RequestParam String identifier) {
         try {
             categoryService.deleteByIdentifier(identifier);
         } catch (IllegalStateException ex) {

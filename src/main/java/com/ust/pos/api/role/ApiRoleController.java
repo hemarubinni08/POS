@@ -14,8 +14,6 @@ import java.util.List;
 @RequestMapping("/api/role")
 public class ApiRoleController extends BaseController {
 
-    public static final String REDIRECT_ROLE_LIST = "redirect:/role/list";
-    public static final String ROLES = "roles";
     @Autowired
     private RoleService roleService;
 

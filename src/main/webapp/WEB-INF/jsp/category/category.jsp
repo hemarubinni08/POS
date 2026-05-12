@@ -61,22 +61,18 @@
 
     <div class="card-body">
 
-        <!--  Error -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!--  FORM -->
         <form:form action="${pageContext.request.contextPath}/category/update"
                    method="post"
                    modelAttribute="category">
 
-            <!-- Hidden ID -->
             <form:hidden path="id"/>
 
-            <!-- Category Name -->
             <div class="mb-3">
                 <label>Category Name</label>
                 <form:input path="identifier"
@@ -84,7 +80,6 @@
                             readonly="true"/>
             </div>
 
-            <!-- Super Category -->
             <div class="mb-3">
                 <label>Super Category</label>
 
@@ -102,10 +97,9 @@
                 </form:select>
             </div>
 
-            <!-- Buttons -->
             <div class="d-grid gap-2 mt-4">
 
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-success">
                     <i class="bi bi-save me-1"></i> Update Category
                 </button>
 

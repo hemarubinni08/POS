@@ -35,7 +35,6 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public ModelDto save(ModelDto modelDto) {
-
         String identifier = modelDto.getIdentifier();
         Model existingModel = modelRepository.findByIdentifier(identifier);
 
@@ -45,16 +44,13 @@ public class ModelServiceImpl implements ModelService {
             modelDto.setSuccess(false);
             return modelDto;
         }
-
         Model model = modelMapper.map(modelDto, Model.class);
         modelRepository.save(model);
-
         return modelDto;
     }
 
     @Override
     public ModelDto update(ModelDto modelDto) {
-
         String identifier = modelDto.getIdentifier();
         Model existingModel = modelRepository.findByIdentifier(identifier);
 
@@ -67,7 +63,6 @@ public class ModelServiceImpl implements ModelService {
 
         modelMapper.map(modelDto, existingModel);
         modelRepository.save(existingModel);
-
         return modelDto;
     }
 
@@ -79,7 +74,6 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public List<ModelDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<ModelDto>>() {
         }.getType();
         Page<Model> modelPage = modelRepository.findAll(pageable);
@@ -96,13 +90,11 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void toggleStatus(String identifier) {
-
         Model model = modelRepository.findByIdentifier(identifier);
 
         if (model == null) {
             throw MODEL_NOT_FOUND;
         }
-
         model.setStatus(!model.getStatus());
         modelRepository.save(model);
     }

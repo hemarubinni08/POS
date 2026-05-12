@@ -32,7 +32,6 @@ public class RoleController {
 
     @PostMapping("/add")
     public String addPost(Model model, Pageable pageable, @ModelAttribute RoleDto userDto) {
-
         RoleDto response = roleService.save(userDto);
 
         if (!response.isSuccess()) {

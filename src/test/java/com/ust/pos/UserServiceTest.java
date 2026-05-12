@@ -14,7 +14,6 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +41,6 @@ class UserServiceTest {
 
     @Test
     void testFindByUserName_UserExists() {
-
         User user = new User();
         user.setUsername("test");
         UserDto dto = new UserDto();
@@ -55,7 +53,6 @@ class UserServiceTest {
 
     @Test
     void testFindByUserName_UserNotFound() {
-
         when(userRepository.findByUsername("test")).thenReturn(null);
         UserDto result = userService.findByUserName("test");
         assertNull(result);
@@ -63,7 +60,6 @@ class UserServiceTest {
 
     @Test
     void testSave_UserAlreadyExists() {
-
         UserDto dto = new UserDto();
         dto.setUsername("test");
         when(userRepository.findByUsername("test")).thenReturn(new User());
@@ -74,7 +70,6 @@ class UserServiceTest {
 
     @Test
     void testSave_Success() {
-
         UserDto dto = new UserDto();
         dto.setUsername("test");
         dto.setPassword("plain");
@@ -91,7 +86,6 @@ class UserServiceTest {
 
     @Test
     void testUpdate_UserNotFound() {
-
         UserDto dto = new UserDto();
         dto.setUsername("new");
         when(userRepository.findByUsername("old")).thenReturn(null);
@@ -102,7 +96,6 @@ class UserServiceTest {
 
     @Test
     void testUpdate_UsernameAlreadyExists() {
-
         User existingUser = new User();
         UserDto dto = new UserDto();
         dto.setUsername("new");
@@ -115,7 +108,6 @@ class UserServiceTest {
 
     @Test
     void testUpdate_Success_SameUsername() {
-
         User user = new User();
         user.setUsername("test");
         UserDto dto = new UserDto();
@@ -132,7 +124,6 @@ class UserServiceTest {
 
     @Test
     void testUpdate_Success_NewUsername() {
-
         User user = new User();
         UserDto dto = new UserDto();
         dto.setUsername("newUser");
@@ -147,7 +138,6 @@ class UserServiceTest {
 
     @Test
     void testDelete() {
-
         userService.delete("testUser");
         verify(userRepository, times(1)).deleteByUsername("testUser");
     }

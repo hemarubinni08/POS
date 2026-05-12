@@ -31,7 +31,6 @@ public class PriceController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute("price") PriceDto priceDto) {
-
         PriceDto response = priceService.save(priceDto);
 
         if (!response.isSuccess()) {
@@ -52,7 +51,6 @@ public class PriceController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         PriceDto response = priceService.findByIdentifier(identifier);
         model.addAttribute("price", response);
         model.addAttribute(PRODUCTS, productService.findAllActive());
@@ -62,7 +60,6 @@ public class PriceController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute("price") PriceDto priceDto) {
-
         PriceDto response = priceService.update(priceDto);
 
         if (!response.isSuccess()) {

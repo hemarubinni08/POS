@@ -7,11 +7,9 @@
 <head>
     <title>Add Price</title>
 
-    <!-- ✅ Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
 
-    <!-- ✅ Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
 
@@ -57,19 +55,16 @@
 
                 <div class="card-body">
 
-                    <!-- ✅ Error / Message -->
                     <c:if test="${not empty message}">
                         <div class="alert alert-danger">
                             ${message}
                         </div>
                     </c:if>
 
-                    <!-- ✅ Form -->
                     <form:form method="post"
                                action="${pageContext.request.contextPath}/price/add"
                                modelAttribute="price">
 
-                        <!-- Product -->
                         <div class="mb-3">
                             <label class="form-label">Product</label>
                             <form:select path="identifier" cssClass="form-select">
@@ -80,7 +75,6 @@
                             </form:select>
                         </div>
 
-                        <!-- Cost -->
                         <div class="mb-3">
                             <label class="form-label">Cost Price</label>
                             <form:input path="costPrice"
@@ -89,7 +83,6 @@
                                         step="0.01"/>
                         </div>
 
-                        <!-- Type -->
                         <div class="mb-3">
                             <label class="form-label">Price Type</label>
                             <form:select path="type" cssClass="form-select">
@@ -99,7 +92,6 @@
                             </form:select>
                         </div>
 
-                        <!-- Buttons -->
                         <button type="submit" class="btn btn-success w-100">
                             Save Price
                         </button>
@@ -118,7 +110,6 @@
     </div>
 </div>
 
-<!-- ✅ Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

@@ -21,6 +21,7 @@ public class ApiUserController extends BaseController {
     public static final String MESSAGE = "message";
     public static final String ROLES = "roles";
     public static final String USER_USER = "user/user";
+
     @Autowired
     public RoleService roleService;
     @Autowired
@@ -41,7 +42,6 @@ public class ApiUserController extends BaseController {
 
     @PostMapping("/update")
     public UserDto updatePost(@RequestBody UserDto userDto, @RequestParam String oldUsername) {
-
         return userService.findByUserName(oldUsername);
 
     }

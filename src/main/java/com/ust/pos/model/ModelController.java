@@ -26,7 +26,6 @@ public class ModelController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute(MODEL) ModelDto modelDto) {
-
         ModelDto response = modelService.save(modelDto);
 
         if (!response.isSuccess()) {
@@ -34,7 +33,6 @@ public class ModelController {
             model.addAttribute(MODEL, modelDto);
             return "model/add";
         }
-
         return REDIRECT_MODEL_LIST;
     }
 
@@ -46,7 +44,6 @@ public class ModelController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         ModelDto response = modelService.findByIdentifier(identifier);
         model.addAttribute(MODEL, response);
         return "model/model";
@@ -54,14 +51,12 @@ public class ModelController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute(MODEL) ModelDto modelDto) {
-
         ModelDto response = modelService.update(modelDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "model/model";
         }
-
         return REDIRECT_MODEL_LIST;
     }
 

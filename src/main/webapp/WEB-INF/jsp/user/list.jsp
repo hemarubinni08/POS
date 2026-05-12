@@ -6,11 +6,9 @@
 <head>
     <title>User Management</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
           rel="stylesheet">
 
@@ -83,21 +81,18 @@
 <div class="container mt-5">
     <div class="card">
 
-        <!-- ✅ HEADER -->
         <div class="card-header">
             <i class="bi bi-people-fill me-2"></i> User Management
         </div>
 
         <div class="card-body">
 
-            <!-- ✅ NO USERS -->
             <c:if test="${empty users}">
                 <div class="alert alert-warning text-center">
                     No users found
                 </div>
             </c:if>
 
-            <!-- ✅ TABLE -->
             <c:if test="${not empty users}">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle text-center">
@@ -116,7 +111,6 @@
                         <c:forEach var="user" items="${users}">
                             <tr>
 
-                                <!-- EMAIL -->
                                 <td>
                                     <a class="user-link"
                                        href="${pageContext.request.contextPath}/user/get?username=${user.username}">
@@ -124,30 +118,23 @@
                                     </a>
                                 </td>
 
-                                <!-- NAME -->
                                 <td>${user.name}</td>
-
-                                <!-- PHONE -->
                                 <td>${user.phoneNo}</td>
 
-                                <!-- ROLES -->
                                 <td>
                                     <span class="badge bg-secondary">
                                         ${user.roles}
                                     </span>
                                 </td>
 
-                                <!-- ACTION ICONS -->
                                 <td class="action-icons">
 
-                                    <!-- EDIT -->
                                     <a href="${pageContext.request.contextPath}/user/get?username=${user.username}"
                                        class="text-primary"
                                        title="Edit">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
 
-                                    <!-- DELETE -->
                                     <a href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
                                        class="text-danger"
                                        title="Delete"

@@ -79,28 +79,22 @@
 <body>
 
 <div class="card">
-
-    <!--  Header -->
     <div class="card-header">
         <i class="bi bi-box-seam me-2"></i> Edit Model
     </div>
 
     <div class="card-body">
 
-        <!--  Error -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!--  FORM (UNCHANGED) -->
         <form action="${pageContext.request.contextPath}/model/update" method="post">
 
-            <!-- Hidden ID -->
             <input type="hidden" name="id" value="${model.id}"/>
 
-            <!-- Model Name -->
             <div class="mb-3">
                 <label>Model Name</label>
                 <input type="text"
@@ -110,7 +104,6 @@
                        readonly>
             </div>
 
-            <!-- Status -->
             <div class="mb-4">
                 <label>Status</label>
                 <select name="status" class="form-select" required>
@@ -119,9 +112,8 @@
                 </select>
             </div>
 
-            <!--  Buttons -->
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-success">
                     <i class="bi bi-save me-1"></i> Update Model
                 </button>
 

@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +37,6 @@ class StockServiceTest {
 
     @Test
     void findByIdentifierSuccess() {
-
         Stock stock = new Stock();
         stock.setIdentifier("STK-P1-W1");
         stock.setProductIdentifier("P1");
@@ -51,14 +49,12 @@ class StockServiceTest {
 
     @Test
     void findByIdentifierNotFound() {
-
         when(stockRepository.findByIdentifier("X")).thenReturn(null);
         Assertions.assertThrows(IllegalArgumentException.class, () -> stockService.findByIdentifier("X"));
     }
 
     @Test
     void findByIdSuccess() {
-
         Stock stock = new Stock();
         stock.setId(1L);
         when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
@@ -68,14 +64,12 @@ class StockServiceTest {
 
     @Test
     void findByIdNotFound() {
-
         when(stockRepository.findById(1L)).thenReturn(Optional.empty());
         Assertions.assertThrows(RuntimeException.class, () -> stockService.findById(1L));
     }
 
     @Test
     void saveMissingProductIdentifier() {
-
         StockDto dto = new StockDto();
         dto.setWarehouseIdentifier("W1");
         Assertions.assertThrows(IllegalArgumentException.class, () -> stockService.save(dto));
@@ -83,7 +77,6 @@ class StockServiceTest {
 
     @Test
     void saveMissingWarehouseIdentifier() {
-
         StockDto dto = new StockDto();
         dto.setProductIdentifier("P1");
         Assertions.assertThrows(IllegalArgumentException.class, () -> stockService.save(dto));
@@ -91,7 +84,6 @@ class StockServiceTest {
 
     @Test
     void saveStatusTrue() {
-
         StockDto dto = new StockDto();
         dto.setProductIdentifier("P1");
         dto.setWarehouseIdentifier("W1");
@@ -105,7 +97,6 @@ class StockServiceTest {
 
     @Test
     void saveStatusFalse() {
-
         StockDto dto = new StockDto();
         dto.setProductIdentifier("P1");
         dto.setWarehouseIdentifier("W1");
@@ -118,7 +109,6 @@ class StockServiceTest {
 
     @Test
     void updateStatusTrue() {
-
         Stock stock = new Stock();
         stock.setId(1L);
         StockDto dto = new StockDto();
@@ -136,7 +126,6 @@ class StockServiceTest {
 
     @Test
     void updateStatusFalse() {
-
         Stock stock = new Stock();
         stock.setId(1L);
         StockDto dto = new StockDto();
@@ -153,7 +142,6 @@ class StockServiceTest {
 
     @Test
     void updateNotFound() {
-
         when(stockRepository.findById(1L)).thenReturn(Optional.empty());
         StockDto dto = new StockDto();
         dto.setId(1L);
@@ -162,14 +150,12 @@ class StockServiceTest {
 
     @Test
     void deleteTest() {
-
         stockService.delete(1L);
         verify(stockRepository).deleteById(1L);
     }
 
     @Test
     void findAllTest() {
-
         Stock stock = new Stock();
         stock.setIdentifier("STK-P1-W1");
         StockDto stockDto = new StockDto();

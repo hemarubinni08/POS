@@ -6,7 +6,6 @@
 <head>
     <title>Update User</title>
 
-    <!-- ✅ Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
@@ -79,12 +78,10 @@
 
 <div class="card">
 
-    <!-- ✅ Header -->
     <div class="card-header">
         Update User
     </div>
 
-    <!-- ✅ Body -->
     <div class="card-body">
 
         <c:if test="${not empty message}">
@@ -98,28 +95,24 @@
             <input type="hidden" name="oldUsername" value="${user.username}"/>
             <input type="hidden" name="id" value="${user.id}"/>
 
-            <!-- Name -->
             <div class="mb-3">
                 <label>Name</label>
                 <input type="text" name="name" class="form-control"
                        value="${user.name}" required/>
             </div>
 
-            <!-- Email -->
             <div class="mb-3">
                 <label>Email</label>
                 <input type="email" name="username" class="form-control"
                        value="${user.username}" required/>
             </div>
 
-            <!-- Phone -->
             <div class="mb-3">
                 <label>Phone Number</label>
                 <input type="text" name="phoneNo" class="form-control"
                        value="${user.phoneNo}" required/>
             </div>
 
-            <!-- Roles -->
             <div class="mb-3 position-relative role-dropdown" id="roleDropdown">
 
                 <label>Select Roles</label>
@@ -150,7 +143,6 @@
                 </div>
             </div>
 
-            <!-- Buttons -->
             <div class="d-grid gap-2 mt-4">
                 <button type="submit" class="btn btn-success">
                     Update User

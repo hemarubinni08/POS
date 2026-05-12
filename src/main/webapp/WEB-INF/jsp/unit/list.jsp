@@ -6,11 +6,9 @@
 <head>
     <title>Unit Management</title>
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -21,7 +19,6 @@
             color: #2e2e2e;
         }
 
-        /* ✅ Unified Header */
         .page-header {
             background-color: #000;
             padding: 14px 20px;
@@ -50,7 +47,6 @@
             vertical-align: middle;
         }
 
-        /* ✅ Toggle (same behaviour, cleaner look) */
         .switch {
             position: relative;
             display: inline-block;
@@ -65,7 +61,7 @@
         .slider {
             position: absolute;
             inset: 0;
-            background-color: #6c757d;
+            background-color: grey;
             border-radius: 22px;
             transition: 0.3s;
         }
@@ -83,7 +79,7 @@
         }
 
         input:checked + .slider {
-            background-color: #198754;
+            background-color: blue;
         }
 
         input:checked + .slider:before {
@@ -120,7 +116,6 @@
 
 <div class="container mt-4">
 
-    <!-- ✅ HEADER -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <h3>Unit Management</h3>
 
@@ -137,7 +132,6 @@
         </div>
     </div>
 
-    <!-- ✅ TABLE -->
     <div class="card shadow">
         <div class="card-body p-0">
 
@@ -157,7 +151,6 @@
                         <td>${loop.index + 1}</td>
                         <td class="fw-semibold">${u.identifier}</td>
 
-                        <!-- ✅ STATUS TOGGLE (EXACT SAME LOGIC) -->
                         <td>
                             <a href="${pageContext.request.contextPath}/unit/toggle?identifier=${u.identifier}"
                                onclick="return confirm('Change unit status?')"
@@ -177,7 +170,6 @@
                             </a>
                         </td>
 
-                        <!-- ✅ ACTIONS (UNCHANGED) -->
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/unit/get?identifier=${u.identifier}"
                                class="action-icon edit-icon"
@@ -195,7 +187,6 @@
                     </tr>
                 </c:forEach>
 
-                <!-- EMPTY STATE -->
                 <c:if test="${empty units}">
                     <tr>
                         <td colspan="4"

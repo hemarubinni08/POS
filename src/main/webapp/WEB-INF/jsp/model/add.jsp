@@ -105,7 +105,7 @@
             </div>
 
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-sucess">
                     <i class="bi bi-save me-1"></i> Save Model
                 </button>
 

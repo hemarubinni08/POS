@@ -6,11 +6,9 @@
 <head>
     <title>Price Management</title>
 
-    <!-- ✅ Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
 
-    <!-- ✅ Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
 
@@ -84,7 +82,6 @@
 
 <div class="container mt-4">
 
-    <!-- ✅ Header -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <h3>Price Management</h3>
 
@@ -101,7 +98,6 @@
         </div>
     </div>
 
-    <!-- ✅ Table -->
     <div class="card shadow">
         <div class="card-body p-0">
 
@@ -135,14 +131,12 @@
 
                         <td class="text-center">
 
-                            <!-- ✅ Edit -->
                             <a href="${pageContext.request.contextPath}/price/get?identifier=${p.identifier}"
                                class="action-icon edit-icon"
                                title="Edit">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
 
-                            <!-- ✅ Delete -->
                             <a href="${pageContext.request.contextPath}/price/delete?identifier=${p.identifier}"
                                class="action-icon delete-icon"
                                title="Delete"
@@ -154,7 +148,6 @@
                     </tr>
                 </c:forEach>
 
-                <!-- ✅ Empty case -->
                 <c:if test="${empty prices}">
                     <tr>
                         <td colspan="5" class="text-center text-muted py-4">
@@ -171,7 +164,6 @@
 
 </div>
 
-<!-- ✅ Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

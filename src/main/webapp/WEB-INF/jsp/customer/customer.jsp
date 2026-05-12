@@ -59,7 +59,6 @@
 
 <div class="container mt-4">
 
-    <!-- ✅ HEADER -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <h4 class="mb-0">Edit Customer</h4>
 
@@ -72,7 +71,6 @@
         </div>
     </div>
 
-    <!-- ✅ CARD -->
     <div class="card shadow p-4">
 
         <c:if test="${not empty message}">
@@ -81,14 +79,12 @@
             </div>
         </c:if>
 
-        <!-- ✅ FIXED FORM -->
         <form:form modelAttribute="customerDto"
                    method="post"
                    action="${pageContext.request.contextPath}/customer/update">
 
             <form:hidden path="identifier"/>
 
-            <!-- ✅ CUSTOMER -->
             <div class="section-title">Customer Details</div>
 
             <div class="row g-3">
@@ -103,7 +99,6 @@
                 </div>
             </div>
 
-            <!-- ✅ FINANCIAL -->
             <div class="section-title">Financial</div>
 
             <div class="row g-3">
@@ -133,52 +128,39 @@
                 </div>
             </div>
 
-            <!-- ✅ BILLING -->
             <div class="section-title">Billing Address</div>
 
             <div class="row g-3">
                 <div class="col-md-6">
                     <label>Address</label>
-                    <form:input path="billingAddress.addressLine"
-                                id="bill_address"
-                                class="form-control"/>
+                    <form:input path="billingAddress.addressLine" id="bill_address" class="form-control"/>
                 </div>
 
                 <div class="col-md-3">
                     <label>City</label>
-                    <form:input path="billingAddress.city"
-                                id="bill_city"
-                                class="form-control"/>
+                    <form:input path="billingAddress.city" id="bill_city" class="form-control"/>
                 </div>
 
                 <div class="col-md-3">
                     <label>State</label>
-                    <form:input path="billingAddress.state"
-                                id="bill_state"
-                                class="form-control"/>
+                    <form:input path="billingAddress.state" id="bill_state" class="form-control"/>
                 </div>
             </div>
 
             <div class="row g-3 mt-2">
                 <div class="col-md-3">
                     <label>Zip</label>
-                    <form:input path="billingAddress.zipCode"
-                                id="bill_zip"
-                                class="form-control"/>
+                    <form:input path="billingAddress.zipCode" id="bill_zip" class="form-control"/>
                 </div>
 
                 <div class="col-md-3">
                     <label>Country</label>
-                    <form:input path="billingAddress.country"
-                                id="bill_country"
-                                class="form-control"/>
+                    <form:input path="billingAddress.country" id="bill_country" class="form-control"/>
                 </div>
             </div>
 
-            <!-- ✅ SHIPPING -->
             <div class="section-title d-flex justify-content-between align-items-center">
                 Shipping Address
-
                 <div>
                     <input type="checkbox" id="sameAddress"/>
                     <label for="sameAddress">Same as Billing</label>
@@ -188,48 +170,35 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <label>Address</label>
-                    <form:input path="shippingAddress.addressLine"
-                                id="ship_address"
-                                class="form-control"/>
+                    <form:input path="shippingAddress.addressLine" id="ship_address" class="form-control"/>
                 </div>
 
                 <div class="col-md-3">
                     <label>City</label>
-                    <form:input path="shippingAddress.city"
-                                id="ship_city"
-                                class="form-control"/>
+                    <form:input path="shippingAddress.city" id="ship_city" class="form-control"/>
                 </div>
 
                 <div class="col-md-3">
                     <label>State</label>
-                    <form:input path="shippingAddress.state"
-                                id="ship_state"
-                                class="form-control"/>
+                    <form:input path="shippingAddress.state" id="ship_state" class="form-control"/>
                 </div>
             </div>
 
             <div class="row g-3 mt-2">
                 <div class="col-md-3">
                     <label>Zip</label>
-                    <form:input path="shippingAddress.zipCode"
-                                id="ship_zip"
-                                class="form-control"/>
+                    <form:input path="shippingAddress.zipCode" id="ship_zip" class="form-control"/>
                 </div>
 
                 <div class="col-md-3">
                     <label>Country</label>
-                    <form:input path="shippingAddress.country"
-                                id="ship_country"
-                                class="form-control"/>
+                    <form:input path="shippingAddress.country" id="ship_country" class="form-control"/>
                 </div>
             </div>
 
-            <!-- ✅ BUTTONS -->
             <div class="text-center mt-4">
                 <a href="${pageContext.request.contextPath}/customer/list"
-                   class="btn btn-secondary btn-custom">
-                    Back
-                </a>
+                   class="btn btn-secondary btn-custom">Back</a>
 
                 <button type="submit" class="btn btn-success btn-custom ms-2">
                     Update
@@ -242,23 +211,40 @@
 </div>
 
 <script>
-document.getElementById("sameAddress").addEventListener("change", function () {
-    if (this.checked) {
-        document.getElementById("ship_address").value =
-            document.getElementById("bill_address").value;
+document.addEventListener("DOMContentLoaded", function () {
 
-        document.getElementById("ship_city").value =
-            document.getElementById("bill_city").value;
+    const checkbox = document.getElementById("sameAddress");
 
-        document.getElementById("ship_state").value =
-            document.getElementById("bill_state").value;
+    const bill = {
+        address: document.getElementById("bill_address"),
+        city: document.getElementById("bill_city"),
+        state: document.getElementById("bill_state"),
+        zip: document.getElementById("bill_zip"),
+        country: document.getElementById("bill_country")
+    };
 
-        document.getElementById("ship_zip").value =
-            document.getElementById("bill_zip").value;
+    const ship = {
+        address: document.getElementById("ship_address"),
+        city: document.getElementById("ship_city"),
+        state: document.getElementById("ship_state"),
+        zip: document.getElementById("ship_zip"),
+        country: document.getElementById("ship_country")
+    };
 
-        document.getElementById("ship_country").value =
-            document.getElementById("bill_country").value;
+    function copyAddress() {
+        ship.address.value = bill.address.value;
+        ship.city.value = bill.city.value;
+        ship.state.value = bill.state.value;
+        ship.zip.value = bill.zip.value;
+        ship.country.value = bill.country.value;
     }
+
+    checkbox.addEventListener("change", function () {
+        if (this.checked) {
+            copyAddress();
+        }
+    });
+
 });
 </script>
 

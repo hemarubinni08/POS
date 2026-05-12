@@ -24,7 +24,6 @@ class PosUserDetailsServiceTest {
 
     @Test
     void loadUserByUsername_Success() {
-
         UserDto userDto = new UserDto();
         userDto.setUsername("testUser");
         userDto.setPassword("password123");
@@ -37,7 +36,6 @@ class PosUserDetailsServiceTest {
 
     @Test
     void loadUserByUsername_UserNotFound() {
-
         Mockito.when(userService.findByUserName("unknown")).thenReturn(null);
         UsernameNotFoundException ex = Assertions.assertThrows(UsernameNotFoundException.class,
                 () -> posUserDetailsService.loadUserByUsername("unknown")

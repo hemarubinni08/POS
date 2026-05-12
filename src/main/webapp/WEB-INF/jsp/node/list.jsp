@@ -42,7 +42,6 @@
 
 <div class="container mt-4">
 
-    <!-- HEADER -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <h3>Node Management</h3>
 
@@ -57,7 +56,6 @@
         </div>
     </div>
 
-    <!-- TABLE -->
     <div class="card shadow">
         <div class="card-body p-0">
 

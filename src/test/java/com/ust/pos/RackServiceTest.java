@@ -90,7 +90,6 @@ class RackServiceTest {
 
     @Test
     void deleteTest() {
-
         Mockito.when(rackRepository.deleteByIdentifier(Mockito.anyString())).thenReturn(1L);
         rackService.delete("R1");
         Mockito.verify(rackRepository).deleteByIdentifier("R1");

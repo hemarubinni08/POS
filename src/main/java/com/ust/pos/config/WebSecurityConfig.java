@@ -84,7 +84,6 @@ public class WebSecurityConfig {
 
     @Bean
     public AuthenticationProvider userDetailsAuthProvider() {
-
         DaoAuthenticationProvider authenticationProvider =
                 new DaoAuthenticationProvider(userDetailsService);
 
@@ -94,9 +93,7 @@ public class WebSecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration configuration = new CorsConfiguration();
-
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
@@ -111,7 +108,6 @@ public class WebSecurityConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-
         return new OpenAPI()
                 .info(new Info().title("JavaInUse Authentication Service"))
                 .addSecurityItem(new SecurityRequirement()

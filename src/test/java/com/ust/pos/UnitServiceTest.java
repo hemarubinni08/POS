@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,6 @@ class UnitServiceTest {
 
     @Test
     void save_success() {
-
         UnitDto dto = new UnitDto();
         dto.setIdentifier("U1");
         Mockito.when(unitRepository.findByIdentifier("U1")).thenReturn(null);
@@ -45,7 +43,6 @@ class UnitServiceTest {
 
     @Test
     void save_failure_duplicate() {
-
         UnitDto dto = new UnitDto();
         dto.setIdentifier("U1");
         Mockito.when(unitRepository.findByIdentifier("U1")).thenReturn(new Unit());

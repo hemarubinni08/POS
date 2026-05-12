@@ -31,7 +31,6 @@ class ProductServiceTest {
 
     @Test
     void saveSuccessTest() {
-
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P1");
         Mockito.when(productRepository.findByIdentifier("P1")).thenReturn(null);
@@ -45,7 +44,6 @@ class ProductServiceTest {
 
     @Test
     void saveFailureTest() {
-
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P1");
         Mockito.when(productRepository.findByIdentifier("P1")).thenReturn(new Product());
@@ -56,7 +54,6 @@ class ProductServiceTest {
 
     @Test
     void findByIdentifierTest() {
-
         Product product = new Product();
         product.setIdentifier("P1");
         ProductDto dto = new ProductDto();
@@ -69,7 +66,6 @@ class ProductServiceTest {
 
     @Test
     void updateSuccessTest() {
-
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P1");
         Product existing = new Product();
@@ -82,7 +78,6 @@ class ProductServiceTest {
 
     @Test
     void updateFailureTest() {
-
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P1");
         Mockito.when(productRepository.findByIdentifier("P1")).thenReturn(null);
@@ -93,7 +88,6 @@ class ProductServiceTest {
 
     @Test
     void deleteTest() {
-
         productService.delete("P1");
         Mockito.verify(productRepository).deleteByIdentifier("P1");
     }
@@ -117,7 +111,6 @@ class ProductServiceTest {
 
     @Test
     void findAllActiveTest() {
-
         Product product = new Product();
         product.setIdentifier("P1");
         ProductDto dto = new ProductDto();
@@ -131,7 +124,6 @@ class ProductServiceTest {
 
     @Test
     void toggleStatusTrueTest() {
-
         Product product = new Product();
         product.setIdentifier("P1");
         product.setStatus(true);
@@ -143,7 +135,6 @@ class ProductServiceTest {
 
     @Test
     void toggleStatusFalseTest() {
-
         Product product = new Product();
         product.setIdentifier("P1");
         product.setStatus(false);
@@ -155,7 +146,6 @@ class ProductServiceTest {
 
     @Test
     void toggleStatusNullTest() {
-
         Product product = new Product();
         product.setIdentifier("P1");
         product.setStatus(null);
@@ -167,7 +157,6 @@ class ProductServiceTest {
 
     @Test
     void toggleStatusFailureTest() {
-
         Mockito.when(productRepository.findByIdentifier("P1")).thenReturn(null);
         RuntimeException ex = Assertions.assertThrows(RuntimeException.class, () -> {
             productService.toggleStatus("P1");

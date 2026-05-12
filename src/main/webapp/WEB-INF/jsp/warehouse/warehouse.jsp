@@ -6,11 +6,9 @@
 <head>
     <title>Edit Warehouse</title>
 
-    <!-- ✅ Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-    <!-- ✅ Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -51,21 +49,18 @@
 
 <div class="card shadow">
 
-    <!-- ✅ Header -->
     <div class="card-header">
         Edit Warehouse
     </div>
 
     <div class="card-body">
 
-        <!-- ✅ Error -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- ✅ FORM (UNCHANGED) -->
         <form method="post"
               action="${pageContext.request.contextPath}/warehouse/update">
 
@@ -118,15 +113,12 @@
                 </select>
             </div>
 
-            <!-- ✅ Buttons -->
             <div class="d-grid gap-2">
 
-                <!-- Update -->
                 <button type="submit" class="btn btn-success">
                     <i class="bi bi-check-circle"></i> Update Warehouse
                 </button>
 
-                <!-- Back -->
                 <a href="${pageContext.request.contextPath}/warehouse/list"
                    class="btn btn-secondary">
                     Back

@@ -6,7 +6,6 @@
 <head>
     <title>Add Stock</title>
 
-    <!-- ✅ Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
@@ -87,26 +86,22 @@
 
     <div class="card-body">
 
-        <!-- ✅ ERROR -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- ✅ FORM -->
         <form id="stockForm"
               method="post"
               action="${pageContext.request.contextPath}/stock/add"
               class="needs-validation"
               novalidate>
 
-            <!-- ✅ CSRF -->
             <input type="hidden"
                    name="${_csrf.parameterName}"
                    value="${_csrf.token}" />
 
-            <!-- Product -->
             <div class="mb-3">
                 <label class="form-label">Product</label>
                 <select name="productId" id="productSelect"
@@ -122,7 +117,6 @@
                 <div class="invalid-feedback">Select a product</div>
             </div>
 
-            <!-- Warehouse -->
             <div class="mb-3">
                 <label class="form-label">Warehouse</label>
                 <select name="warehouseId" id="warehouseSelect"
@@ -138,18 +132,15 @@
                 <div class="invalid-feedback">Select a warehouse</div>
             </div>
 
-            <!-- Hidden identifiers -->
             <input type="hidden" name="productIdentifier" id="productIdentifier">
             <input type="hidden" name="warehouseIdentifier" id="warehouseIdentifier">
 
-            <!-- Stock Code -->
             <div class="mb-3">
                 <label class="form-label">Stock Code</label>
                 <input type="text" id="identifier"
                        class="form-control" readonly>
             </div>
 
-            <!-- Quantity -->
             <div class="mb-3">
                 <label class="form-label">Quantity</label>
                 <input type="number"
@@ -160,7 +151,6 @@
                        required>
             </div>
 
-            <!-- Minimum Stock -->
             <div class="mb-3">
                 <label class="form-label">Minimum Stock</label>
                 <input type="number"
@@ -171,14 +161,12 @@
                        required>
             </div>
 
-            <!-- Stock Level -->
             <div class="mb-3">
                 <label class="form-label">Stock Level</label>
                 <input type="text" id="stockLevel"
                        class="form-control" readonly>
             </div>
 
-            <!-- ✅ Buttons -->
             <div class="d-grid gap-2 mt-4">
                 <button type="submit" class="btn btn-success">
                     Save Stock
@@ -195,7 +183,6 @@
     </div>
 </div>
 
-<!-- ✅ SCRIPT (UNCHANGED) -->
 <script>
 (() => {
     const productSelect = document.getElementById("productSelect");
@@ -203,7 +190,6 @@
     const productIdentifier = document.getElementById("productIdentifier");
     const warehouseIdentifier = document.getElementById("warehouseIdentifier");
     const identifier = document.getElementById("identifier");
-
     const quantity = document.getElementById("quantity");
     const minimumStock = document.getElementById("minimumStock");
     const stockLevel = document.getElementById("stockLevel");

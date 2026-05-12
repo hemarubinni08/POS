@@ -33,7 +33,6 @@ public class NodeServiceImpl implements NodeService {
     private ModelMapper modelMapper;
 
     public List<NodeDto> getNodesForRoles() {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null) {
@@ -49,7 +48,6 @@ public class NodeServiceImpl implements NodeService {
                 return modelMapper.map(nodes, listType);
             }
         }
-
         return new ArrayList<>();
     }
 
@@ -61,7 +59,6 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public NodeDto save(NodeDto nodeDto) {
-
         String identifier = nodeDto.getIdentifier();
         Node existingNode = nodeRepository.findByIdentifier(identifier);
 
@@ -79,7 +76,6 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public NodeDto update(NodeDto nodeDto) {
-
         String identifier = nodeDto.getIdentifier();
         Node existingNode = nodeRepository.findByIdentifier(identifier);
 
@@ -92,7 +88,6 @@ public class NodeServiceImpl implements NodeService {
 
         modelMapper.map(nodeDto, existingNode);
         nodeRepository.save(existingNode);
-
         return nodeDto;
     }
 
@@ -104,7 +99,6 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public List<NodeDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
         Page<Node> nodePage = nodeRepository.findAll(pageable);
