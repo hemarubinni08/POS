@@ -80,14 +80,12 @@
 
         <div class="card-body">
 
-            <!-- ✅ SUCCESS MESSAGE -->
             <c:if test="${not empty role}">
                 <div class="alert alert-success text-center">
                     ${role}
                 </div>
             </c:if>
 
-            <!-- ✅ ERROR MESSAGE -->
             <c:if test="${not empty message}">
                 <div class="alert alert-danger text-center">
                     ${message}
@@ -96,7 +94,6 @@
 
             <form:form method="post" action="/role/add" modelAttribute="roleDto">
 
-                <!-- ✅ ROLE NAME -->
                 <div class="mb-3">
                     <label class="form-label">Role Name</label>
                     <form:input path="identifier"
@@ -105,7 +102,6 @@
                                 required="true"/>
                 </div>
 
-                <!-- ✅ DESCRIPTION -->
                 <div class="mb-3">
                     <label class="form-label">Description</label>
                     <form:input path="description"
@@ -113,13 +109,11 @@
                                 placeholder="Enter description" required="true"/>
                 </div>
 
-                <!-- ✅ BUTTONS -->
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary">
                         Add Role
                     </button>
 
-                    <!-- ✅ BACK BUTTON -->
                     <a href="/role/list" class="btn btn-outline-secondary btn-back">
                         ← Back to Roles
                     </a>

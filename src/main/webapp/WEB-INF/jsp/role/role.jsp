@@ -7,7 +7,6 @@
 <head>
     <title>Edit Role</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -55,7 +54,6 @@
             line-height: 1.4;
         }
 
-        /* Gradient button */
         .btn-update {
             background: linear-gradient(90deg, #4facfe, #00f2fe);
             border: none;
@@ -85,23 +83,19 @@
 
     <h4>Edit Role</h4>
 
-    <!-- Role not found -->
     <c:if test="${empty role}">
         <div class="alert alert-danger text-center">
             Role not found
         </div>
     </c:if>
 
-    <!-- Edit Role -->
     <c:if test="${not empty role}">
         <form:form action="/role/update"
                    method="post"
                    modelAttribute="role">
 
-            <!-- Hidden ID -->
             <form:hidden path="id" />
 
-            <!-- Role Identifier -->
             <div class="mb-4">
                 <label class="form-label">Role Name</label>
                 <form:input path="identifier"

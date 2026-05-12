@@ -21,7 +21,6 @@
             font-family: "Segoe UI", Arial, sans-serif;
         }
 
-        /* ✅ Reduced card size */
         .update-card {
             width: 340px;
             background: #ffffff;
@@ -56,7 +55,6 @@
             margin-bottom: 10px;
         }
 
-        /* ✅ Smaller roles box */
         select[multiple] {
             height: 80px;
         }
@@ -66,7 +64,6 @@
             padding: 4px 7px;
         }
 
-        /* ✅ Smaller button */
         .btn-update {
             width: 100%;
             padding: 9px;
@@ -97,7 +94,6 @@
             text-decoration: underline;
         }
 
-        /* ✅ Error message */
         .alert {
             font-size: 13px;
             padding: 8px;
