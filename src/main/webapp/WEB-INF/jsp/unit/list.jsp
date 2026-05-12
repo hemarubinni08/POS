@@ -179,6 +179,7 @@
                     <td><strong>${unit.identifier}</strong></td>
                      <td>${unit.description}</td>
 
+                    <!-- ✅ STATUS TOGGLE -->
                     <td>
                         <label class="switch">
                             <input type="checkbox"
@@ -219,6 +220,7 @@
 
 </div>
 
+<!-- ✅ TOGGLE SCRIPT -->
 <script>
     const contextPath = '${pageContext.request.contextPath}';
 

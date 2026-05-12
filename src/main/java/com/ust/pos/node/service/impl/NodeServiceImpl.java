@@ -105,6 +105,7 @@ public class NodeServiceImpl implements NodeService {
         return modelMapper.map(nodePage.getContent(), listType);
     }
 
+
     @Override
     public NodeDto findByIdentifier(String identifier) {
         return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);

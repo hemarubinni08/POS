@@ -56,6 +56,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public void delete(String identifier) {
         brandRepository.deleteByIdentifier(identifier);
+
     }
 
     @Override

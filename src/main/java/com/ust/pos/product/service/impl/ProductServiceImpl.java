@@ -34,6 +34,8 @@ public class ProductServiceImpl implements ProductService {
             productDto.setMessage("product with identifier - " + identifier + " already exists");
             productDto.setSuccess(false);
             return productDto;
+
+
         }
         Product product = modelMapper.map(productDto, Product.class);
         productRepository.save(product);
@@ -55,6 +57,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(existingProduct);
         return productDto;
     }
+
 
     @Override
     public void delete(String identifier) {

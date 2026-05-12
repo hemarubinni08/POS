@@ -32,21 +32,27 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto findByIdentifier(String identifier) {
         Customer customer = customerRepository.findByIdentifier(identifier);
+
         if (customer == null) {
             return null;
         }
+
         return modelMapper.map(customer, CustomerDto.class);
     }
 
     @Override
     public CustomerDto save(CustomerDto customerDto) {
+
         String identifier = customerDto.getIdentifier();
         Customer existingCustomer = customerRepository.findByIdentifier(identifier);
+
         if (existingCustomer != null) {
+
             customerDto.setMessage("Customer with identifier - " + identifier + " already exists");
             customerDto.setSuccess(false);
             return customerDto;
         }
+
         AddressDto billingAddress = customerDto.getBillingAddress();
         AddressDto shippingAddress = customerDto.getShippingAddress();
 
@@ -60,14 +66,18 @@ public class CustomerServiceImpl implements CustomerService {
 
         Customer customer = modelMapper.map(customerDto, Customer.class);
         customerRepository.save(customer);
+
         return customerDto;
     }
 
     @Override
     public CustomerDto update(CustomerDto customerDto) {
+
         String identifier = customerDto.getIdentifier();
         Customer existingCustomer = customerRepository.findByIdentifier(identifier);
+
         if (existingCustomer == null) {
+
             customerDto.setMessage("Customer with identifier - " + identifier + " not found");
             customerDto.setSuccess(false);
             return customerDto;
@@ -95,6 +105,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void delete(String identifier) {
+
         customerRepository.deleteByIdentifier(identifier);
     }
 

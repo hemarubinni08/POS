@@ -29,6 +29,7 @@
         justify-content: center;
         align-items: center;
 
+        /* ✅ Matched background */
         background: linear-gradient(
             135deg,
             #e5e7eb 0%,

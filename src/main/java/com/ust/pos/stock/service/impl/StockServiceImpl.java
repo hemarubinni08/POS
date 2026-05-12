@@ -20,7 +20,6 @@ import java.util.List;
 @Transactional
 
 public class StockServiceImpl implements StockService {
-
     @Autowired
     private StockRepository stockRepository;
     @Autowired
@@ -45,6 +44,7 @@ public class StockServiceImpl implements StockService {
         return stockDto;
     }
 
+
     @Override
     public StockDto update(StockDto stockDto) {
         String identifier = stockDto.getIdentifier();
@@ -59,6 +59,7 @@ public class StockServiceImpl implements StockService {
         return stockDto;
     }
 
+
     @Override
     public void delete(String identifier) {
         stockRepository.deleteByIdentifier(identifier);
@@ -72,6 +73,7 @@ public class StockServiceImpl implements StockService {
         Page<Stock> stockPage = stockRepository.findAll(pageable);
         return modelMapper.map(stockPage.getContent(), listType);
     }
+
 
     @Override
     public StockDto findByIdentifier(String identifier) {

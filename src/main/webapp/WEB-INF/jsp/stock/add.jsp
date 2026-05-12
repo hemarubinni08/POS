@@ -88,6 +88,7 @@
         <div class="error-message">${message}</div>
     </c:if>
 
+    <!-- ✅ CORRECT SPRING FORM -->
     <form:form
         method="post"
         action="${pageContext.request.contextPath}/stock/add"

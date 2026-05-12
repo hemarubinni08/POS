@@ -39,6 +39,7 @@ public class ShelfServiceImpl implements ShelfService {
         return shelfDto;
     }
 
+
     @Override
     public ShelfDto update(ShelfDto shelfDto) {
         String identifier = shelfDto.getIdentifier();
@@ -53,6 +54,7 @@ public class ShelfServiceImpl implements ShelfService {
         return shelfDto;
     }
 
+
     @Override
     public void delete(String identifier) {
         shelfRepository.deleteByIdentifier(identifier);
@@ -66,6 +68,7 @@ public class ShelfServiceImpl implements ShelfService {
         Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
         return modelMapper.map(shelfPage.getContent(), listType);
     }
+
 
     @Override
     public ShelfDto findByIdentifier(String identifier) {
