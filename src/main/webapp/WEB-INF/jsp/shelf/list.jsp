@@ -61,21 +61,15 @@
 </nav>
 
 <div class="container mt-5">
-
     <div class="card shadow p-3">
-
         <h3 class="fw-bold mb-3 text-center">Shelf List</h3>
-
         <c:if test="${empty shelves}">
             <div class="text-center py-4 text-muted">
                 No shelves available
             </div>
         </c:if>
-
         <div class="table-responsive">
-
             <table class="table table-hover table-striped mb-0">
-
                 <thead class="table-dark">
                 <tr>
                     <th>Identifier</th>
@@ -84,16 +78,12 @@
                     <th class="text-center">Actions</th>
                 </tr>
                 </thead>
-
                 <tbody>
 
                 <c:forEach var="s" items="${shelves}">
                     <tr>
-
                         <td class="fw-semibold">${s.identifier}</td>
-
                         <td>${s.name}</td>
-
                         <td class="text-center">
                             <div class="form-check form-switch d-flex justify-content-center">
                                 <input class="form-check-input"
@@ -104,31 +94,23 @@
                         </td>
 
                         <td class="text-center">
-
-                            <!-- EDIT -->
                             <a href="${pageContext.request.contextPath}/shelf/edit?identifier=${s.identifier}"
                                class="btn btn-sm btn-outline-primary me-2">
                                 Update
                             </a>
 
-                            <!-- DELETE -->
                             <a href="${pageContext.request.contextPath}/shelf/delete?identifier=${s.identifier}"
                                class="btn btn-sm btn-outline-danger"
                                onclick="return confirm('Delete this shelf?');">
                                 Delete
                             </a>
-
                         </td>
 
                     </tr>
                 </c:forEach>
-
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
 
 </div>

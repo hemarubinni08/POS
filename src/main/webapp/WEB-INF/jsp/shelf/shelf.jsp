@@ -44,27 +44,20 @@
 </nav>
 
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-
     <div class="card shadow p-4" style="width: 450px;">
-
         <h3 class="text-center mb-4 fw-bold">Edit Shelf</h3>
-
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- FORM -->
         <form:form method="post"
                    action="${pageContext.request.contextPath}/shelf/update"
                    modelAttribute="shelfDto">
 
-            <!-- IDENTIFIER -->
             <form:hidden path="identifier"/>
 
-            <!-- SHOW IDENTIFIER -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Shelf ID</label>
                 <input type="text"
@@ -73,7 +66,6 @@
                        readonly />
             </div>
 
-            <!-- NAME (DISPLAY ONLY) -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Shelf Name</label>
                 <input type="text"
@@ -82,7 +74,6 @@
                        readonly />
             </div>
 
-            <!-- STATUS -->
             <div class="mb-4">
                 <label class="form-label fw-semibold">Status</label>
 
@@ -92,9 +83,7 @@
                 </form:select>
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
-
                 <button type="submit" class="btn btn-primary w-100">
                     Update
                 </button>
@@ -103,13 +92,9 @@
                    class="btn btn-outline-secondary w-100">
                     Cancel
                 </a>
-
             </div>
-
         </form:form>
-
     </div>
-
 </div>
 
 </body>
