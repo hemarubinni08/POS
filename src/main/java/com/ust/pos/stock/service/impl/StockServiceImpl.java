@@ -97,7 +97,8 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public List<StockDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<StockDto>>() {}.getType();
+        Type listType = new TypeToken<List<StockDto>>() {
+        }.getType();
         Page<Stock> stockPage = stockRepository.findAll(pageable);
         List<StockDto> dtoList = modelMapper.map(stockPage.getContent(), listType);
         for (int i = 0; i < dtoList.size(); i++) {

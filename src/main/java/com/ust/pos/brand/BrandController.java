@@ -52,16 +52,12 @@ public class BrandController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute("brandDto") BrandDto brandDto,
-                         Model model) {
-
+    public String update(@ModelAttribute("brandDto") BrandDto brandDto,Model model) {
         BrandDto response = brandService.update(brandDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             return "brand/brand";
         }
-
         return REDIRECT_LIST;
     }
 
@@ -73,7 +69,6 @@ public class BrandController {
 
     @GetMapping("/toggleStatus")
     public String toggleStatus(@RequestParam String identifier) {
-
         brandService.toggleStatus(identifier);
         return REDIRECT_LIST;
     }

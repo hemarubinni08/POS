@@ -22,8 +22,10 @@ public class StockController {
 
     @Autowired
     private StockService stockService;
+
     @Autowired
     private WarehouseService warehouseService;
+
     @Autowired
     private ProductService productService;
 

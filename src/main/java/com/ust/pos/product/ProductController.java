@@ -52,15 +52,12 @@ public class ProductController {
         model.addAttribute(BRANDS, brandService.findActiveBrands());
         model.addAttribute(MODELS, modelService.findActiveModels());
         model.addAttribute(UNITS, unitService.findActiveUnits());
-
         return "product/add";
     }
 
     @PostMapping("/add")
     public String save(@ModelAttribute ProductDto productDto, Model model) {
-
         ProductDto response = productService.save(productDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(CATEGORIES, categoryService.findChildCategories());
@@ -70,36 +67,28 @@ public class ProductController {
             model.addAttribute(PRODUCT_DTO, productDto);
             return "product/add";
         }
-
         return REDIRECT;
     }
 
     @GetMapping("/get")
     public String edit(@RequestParam String identifier, Model model,Pageable pageable) {
-
         ProductDto response = productService.findByIdentifier(identifier);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute("products", productService.findAll(pageable));
             return "product/list";
         }
-
         model.addAttribute(PRODUCT_DTO, response);
         model.addAttribute(CATEGORIES, categoryService.findChildCategories());
         model.addAttribute(BRANDS, brandService.findActiveBrands());
         model.addAttribute(MODELS, modelService.findActiveModels());
         model.addAttribute(UNITS, unitService.findActiveUnits());
-
-
         return "product/product";
     }
 
     @PostMapping("/update")
     public String update(@ModelAttribute ProductDto productDto, Model model) {
-
         ProductDto response = productService.update(productDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(CATEGORIES, categoryService.findChildCategories());
@@ -109,7 +98,6 @@ public class ProductController {
             model.addAttribute(PRODUCT_DTO, productDto);
             return "product/product";
         }
-
         return REDIRECT;
     }
 

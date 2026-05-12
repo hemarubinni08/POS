@@ -57,7 +57,6 @@ public class PriceServiceImpl implements PriceService {
             priceDto.setMessage("Price not found");
             return priceDto;
         }
-
         priceDto.setProductName(productService.findByIdentifier(priceDto.getProductId()).getProductName());
         modelMapper.map(priceDto, existing);
         priceRepository.save(existing);
@@ -89,7 +88,6 @@ public class PriceServiceImpl implements PriceService {
     @Override
     @Transactional
     public void delete(String identifier) {
-
         priceRepository.deleteByIdentifier(identifier);
     }
 }

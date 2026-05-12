@@ -58,7 +58,6 @@ public class ShelfServiceImpl implements ShelfService {
             dto.setMessage(SHELF_NOT_FOUND);
             return dto;
         }
-
         if (shelfDto.getStatus() != null) {
             shelf.setStatus(shelfDto.getStatus());
         }

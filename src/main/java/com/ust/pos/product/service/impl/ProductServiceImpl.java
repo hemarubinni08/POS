@@ -52,7 +52,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto update(ProductDto productDto) {
         Product product = productRepository.findByIdentifier(productDto.getIdentifier());
-
         if (product == null) {
             productDto.setSuccess(false);
             productDto.setMessage(PRODUCT_NOT_FOUND);

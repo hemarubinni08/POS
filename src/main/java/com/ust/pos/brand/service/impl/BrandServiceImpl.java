@@ -28,8 +28,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public List<BrandDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<BrandDto>>() {
-        }.getType();
+        Type listType = new TypeToken<List<BrandDto>>() {}.getType();
         Page<Brand> brandPage =brandRepository.findAll(pageable);
         return modelMapper.map(brandPage.getContent(), listType);
     }
