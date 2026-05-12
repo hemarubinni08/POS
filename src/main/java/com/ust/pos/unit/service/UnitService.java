@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface UnitService {
+
     UnitDto save(UnitDto unitDto);
 
     UnitDto update(UnitDto unitDto);
@@ -18,6 +19,6 @@ public interface UnitService {
 
     void toggleStatus(String identifier);
 
-    public List<UnitDto> findActiveUnits();
+    List<UnitDto> findActiveUnits();
 
 }

@@ -34,7 +34,6 @@ public class RoleController {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("roles", roleService.findAll(null));
             return "role/add";
-
         }
         return REDIRECT_ROLE_LIST;
     }
@@ -60,4 +59,5 @@ public class RoleController {
         roleService.delete(identifier);
         return REDIRECT_ROLE_LIST;
     }
+
 }

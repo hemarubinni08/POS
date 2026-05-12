@@ -20,4 +20,5 @@ public interface ShelfService {
     void toggleStatus(String identifier);
 
     List<ShelfDto> findActiveShelves();
+
 }

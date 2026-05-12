@@ -13,7 +13,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config) {
@@ -22,7 +21,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
-
         http
                 .csrf(csrf -> csrf.disable()) // Disable for testing
 
@@ -32,7 +30,6 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/register").permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/", true)
@@ -40,11 +37,11 @@ public class SecurityConfig {
                         .permitAll()
 
                 )
-
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 );
         return http.build();
     }
+
 }

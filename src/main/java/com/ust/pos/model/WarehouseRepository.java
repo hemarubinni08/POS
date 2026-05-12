@@ -7,4 +7,5 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Long> {
     Warehouse findByIdentifier(String identifier);
 
     Warehouse deleteByIdentifier(String identifier);
+
 }

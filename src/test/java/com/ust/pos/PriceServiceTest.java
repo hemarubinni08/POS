@@ -42,6 +42,7 @@ class PriceServiceTest {
 
     @BeforeEach
     void setUp() {
+
         priceDto = new PriceDto();
         priceDto.setProduct("PROD1");
         priceDto.setPriceType("MRP");
@@ -55,10 +56,12 @@ class PriceServiceTest {
         price.setPriceType("MRP");
         price.setPriceAmount(100.0);
         price.setIdentifier("PROD1_MRP");
+
     }
 
     @Test
     void testFindByIdentifier_Found() {
+
         when(priceRepository.findByIdentifier("PROD1_MRP")).thenReturn(price);
         when(modelMapper.map(price, PriceDto.class)).thenReturn(priceDto);
 
@@ -66,19 +69,23 @@ class PriceServiceTest {
 
         assertNotNull(result);
         assertEquals("PROD1_MRP", result.getIdentifier());
+
     }
 
     @Test
     void testFindByIdentifier_NotFound() {
+
         when(priceRepository.findByIdentifier("PROD1_MRP")).thenReturn(null);
 
         PriceDto result = priceService.findByIdentifier("PROD1_MRP");
 
         assertNull(result);
+
     }
 
     @Test
     void testSave_PriceAlreadyExists() {
+
         when(priceRepository.findByIdentifier("PROD1_MRP")).thenReturn(price);
 
         PriceDto result = priceService.save(priceDto);
@@ -86,10 +93,12 @@ class PriceServiceTest {
         assertFalse(result.isSuccess());
         assertTrue(result.getMessage().contains("already exists"));
         verify(priceRepository, never()).save(any());
+
     }
 
     @Test
     void testSave_NewPrice() {
+
         when(priceRepository.findByIdentifier("PROD1_MRP")).thenReturn(null);
         when(modelMapper.map(priceDto, Price.class)).thenReturn(price);
 
@@ -97,20 +106,24 @@ class PriceServiceTest {
 
         verify(priceRepository).save(price);
         assertEquals("PROD1_MRP", result.getIdentifier());
+
     }
 
     @Test
     void testUpdate_PriceNotFound() {
+
         when(priceRepository.findByIdentifier("PROD1_MRP")).thenReturn(null);
 
         PriceDto result = priceService.update(priceDto);
 
         assertFalse(result.isSuccess());
         assertTrue(result.getMessage().contains("Price not found"));
+
     }
 
     @Test
     void testUpdate_DuplicatePriceExists() {
+
         Price duplicate = new Price();
         duplicate.setId(2L);
         duplicate.setIdentifier("PROD1_SALE");
@@ -125,10 +138,12 @@ class PriceServiceTest {
         assertFalse(result.isSuccess());
         assertTrue(result.getMessage().contains("Another price already exists"));
         verify(priceRepository, never()).save(any());
+
     }
 
     @Test
     void testUpdate_Success() {
+
         priceDto.setPriceType("SALE");
         priceDto.setPriceAmount(120.0);
 
@@ -139,15 +154,17 @@ class PriceServiceTest {
 
         assertEquals("PROD1_SALE", result.getIdentifier());
         verify(priceRepository).save(price);
+
     }
 
     @Test
     void testDelete() {
+
         doNothing().when(priceRepository).deleteByIdentifier("PROD1_MRP");
 
         priceService.delete("PROD1_MRP");
-
         verify(priceRepository).deleteByIdentifier("PROD1_MRP");
+
     }
 
     @Test
@@ -155,35 +172,23 @@ class PriceServiceTest {
 
         Pageable pageable = PageRequest.of(0, 50);
 
-        List<Price> priceList =
-                Collections.singletonList(price);
+        List<Price> priceList = Collections.singletonList(price);
+        List<PriceDto> priceDtoList = Collections.singletonList(priceDto);
+        Page<Price> pricePage = new PageImpl<>(priceList, pageable, priceList.size());
 
-        List<PriceDto> priceDtoList =
-                Collections.singletonList(priceDto);
+        Type listType = new TypeToken<List<PriceDto>>() {
+        }.getType();
 
-        Page<Price> pricePage =
-                new PageImpl<>(priceList, pageable, priceList.size());
+        when(priceRepository.findAll(pageable)).thenReturn(pricePage);
+        when(modelMapper.map(pricePage.getContent(), listType)).thenReturn(priceDtoList);
 
-        Type listType =
-                new TypeToken<List<PriceDto>>() {
-                }.getType();
-
-        when(priceRepository.findAll(pageable))
-                .thenReturn(pricePage);
-
-        when(modelMapper.map(pricePage.getContent(), listType))
-                .thenReturn(priceDtoList);
-
-        List<PriceDto> result =
-                priceService.findAll(pageable);
+        List<PriceDto> result = priceService.findAll(pageable);
 
         assertNotNull(result);
         assertEquals(1, result.size());
 
-        verify(priceRepository, times(1))
-                .findAll(pageable);
+        verify(priceRepository, times(1)).findAll(pageable);
+        verify(modelMapper, times(1)).map(pricePage.getContent(), listType);
 
-        verify(modelMapper, times(1))
-                .map(pricePage.getContent(), listType);
     }
 }

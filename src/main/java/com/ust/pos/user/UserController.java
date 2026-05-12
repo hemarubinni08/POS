@@ -1,6 +1,5 @@
 package com.ust.pos.user;
 
-
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
@@ -42,8 +41,6 @@ public class UserController {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("user", userDto);
             model.addAttribute("roles", roleService.findAll(pageable));
-
-
             return "user/user";
         }
         return "redirect:/user/list";
@@ -51,21 +48,18 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String loggedInUser = authentication.getName();
             if (loggedInUser != null) {
-
                 userService.delete(username);
-
                 if (loggedInUser.equals(username)) {
                     SecurityContextHolder.clearContext();
                     return "redirect:/login";
                 }
             }
         }
-
         return "redirect:/user/list";
     }
+
 }

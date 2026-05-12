@@ -20,4 +20,5 @@ public interface ProductService {
     void toggleStatus(String identifier);
 
     List<ProductDto> findActiveProducts();
+
 }

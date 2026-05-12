@@ -18,13 +18,11 @@ public class ModelsController {
     @Autowired
     private ModelsService modelsService;
 
-
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
         model.addAttribute(MODELS, modelsService.findAll(pageable));
         return "models/list";
     }
-
 
     @GetMapping("/add")
     public String add(Model model) {
@@ -35,16 +33,13 @@ public class ModelsController {
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute ModelsDto dto) {
         ModelsDto response = modelsService.save(dto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MODELS, dto);
             model.addAttribute("message", response.getMessage());
             return "models/add";
         }
-
         return REDIRECT_LIST;
     }
-
 
     @GetMapping("/get")
     public String get(Model model, @RequestParam String identifier) {
@@ -55,16 +50,13 @@ public class ModelsController {
     @PostMapping("/update")
     public String update(Model model, @ModelAttribute ModelsDto dto) {
         ModelsDto response = modelsService.update(dto);
-
         if (!response.isSuccess()) {
             model.addAttribute(MODELS, dto);
             model.addAttribute("message", response.getMessage());
             return "models/models";
         }
-
         return REDIRECT_LIST;
     }
-
 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
@@ -77,4 +69,5 @@ public class ModelsController {
         modelsService.toggleStatus(identifier);
         return REDIRECT_LIST;
     }
+
 }

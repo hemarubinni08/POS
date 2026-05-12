@@ -18,5 +18,4 @@ public interface CustomerService {
 
     CustomerDto findByIdentifier(String identifier);
 
-
 }

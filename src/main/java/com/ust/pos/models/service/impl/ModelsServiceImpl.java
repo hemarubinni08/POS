@@ -26,7 +26,6 @@ public class ModelsServiceImpl implements ModelsService {
 
     @Override
     public ModelsDto findByIdentifier(String identifier) {
-
         return modelMapper.map(modelsRepository.findByIdentifier(identifier), ModelsDto.class);
     }
 
@@ -66,7 +65,6 @@ public class ModelsServiceImpl implements ModelsService {
 
     @Override
     public List<ModelsDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<ModelsDto>>() {
         }.getType();
         Page<Models> modelsPage = modelsRepository.findAll(pageable);
@@ -76,11 +74,9 @@ public class ModelsServiceImpl implements ModelsService {
     @Override
     public void toggleStatus(String identifier) {
         Models models = modelsRepository.findByIdentifier(identifier);
-
         if (models == null) {
             throw new IllegalArgumentException("Models not found");
         }
-
         models.setStatus(!models.isStatus());
         modelsRepository.save(models);
     }
@@ -88,10 +84,7 @@ public class ModelsServiceImpl implements ModelsService {
     public List<ModelsDto> findActiveModels() {
         Type listType = new TypeToken<List<ModelsDto>>() {
         }.getType();
-
-        return modelMapper.map(
-                modelsRepository.findByStatusTrue(),
-                listType
-        );
+        return modelMapper.map(modelsRepository.findByStatusTrue(), listType);
     }
+
 }

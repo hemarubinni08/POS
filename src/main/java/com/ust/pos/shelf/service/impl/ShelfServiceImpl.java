@@ -26,7 +26,6 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public ShelfDto findByIdentifier(String identifier) {
-
         return modelMapper.map(shelfRepository.findByIdentifier(identifier), ShelfDto.class);
     }
 
@@ -66,7 +65,6 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public List<ShelfDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
         Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
@@ -76,11 +74,9 @@ public class ShelfServiceImpl implements ShelfService {
     @Override
     public void toggleStatus(String identifier) {
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
-
         if (shelf == null) {
             throw new IllegalArgumentException("Shelf not found");
         }
-
         shelf.setStatus(!shelf.isStatus());
         shelfRepository.save(shelf);
     }
@@ -88,10 +84,10 @@ public class ShelfServiceImpl implements ShelfService {
     public List<ShelfDto> findActiveShelves() {
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
-
         return modelMapper.map(
                 shelfRepository.findByStatusTrue(),
                 listType
         );
     }
+
 }

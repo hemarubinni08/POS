@@ -57,7 +57,6 @@ public class RoleServiceImpl implements RoleService {
         return roleDto;
     }
 
-
     @Override
     @Transactional
     public void delete(String identifier) {
@@ -66,10 +65,10 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
         Page<Role> rackPage = roleRepository.findAll(pageable);
         return modelMapper.map(rackPage.getContent(), listType);
     }
+
 }

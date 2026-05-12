@@ -8,4 +8,5 @@ import lombok.Setter;
 public class UnitDto extends CommonDto {
 
     private boolean status;
+
 }

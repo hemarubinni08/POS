@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class WarehouseController {
 
     public static final String REDIRECT_WAREHOUSE_LIST = "redirect:/warehouse/list";
+
     @Autowired
     private WarehouseService warehouseService;
 
@@ -34,7 +35,6 @@ public class WarehouseController {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("warehouses", warehouseService.findAll(null));
             return "warehouse/add";
-
         }
         return REDIRECT_WAREHOUSE_LIST;
     }
@@ -60,4 +60,5 @@ public class WarehouseController {
         warehouseService.delete(identifier);
         return REDIRECT_WAREHOUSE_LIST;
     }
+
 }

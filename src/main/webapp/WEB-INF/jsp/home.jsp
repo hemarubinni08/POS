@@ -48,7 +48,7 @@
             min-height: 60px;
             display: flex;
             align-items: center;
-            flex-shrink: 0;        /* never shrink the header */
+            flex-shrink: 0;
         }
 
         .sidebar-header .icon {

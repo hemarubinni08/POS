@@ -62,10 +62,9 @@
             padding: 12px 15px;
             border-bottom: 1px solid #eee;
             text-align: left;
-            vertical-align: middle;  /* ✅ all cells vertically centered */
+            vertical-align: middle;
         }
 
-        /* ✅ Fixed column widths */
         th:nth-child(1), td:nth-child(1) { width: 60px;  }   /* ID */
         th:nth-child(2), td:nth-child(2) { width: 220px; }   /* Identifier */
         th:nth-child(3), td:nth-child(3) { width: 200px; }   /* Super Category */
@@ -116,7 +115,6 @@
         input:checked + .slider { background-color: #28a745; }
         input:checked + .slider:before { transform: translateX(24px); }
 
-        /* ✅ Toggle left-aligned to match other columns */
         .toggle-container {
             display: flex;
             justify-content: flex-start;
@@ -124,7 +122,6 @@
             cursor: pointer;
         }
 
-        /* ✅ Action buttons aligned in a row */
         .action-buttons {
             display: flex;
             gap: 8px;

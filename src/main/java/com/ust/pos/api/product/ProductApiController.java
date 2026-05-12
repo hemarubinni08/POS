@@ -29,13 +29,11 @@ public class ProductApiController extends BaseController {
 
     @PostMapping("/add")
     public ProductDto addPost(@RequestBody ProductDto productDto) {
-
         return productService.save(productDto);
     }
 
     @GetMapping("/get")
     public ProductDto update(@RequestParam String identifier) {
-
         return productService.findByIdentifier(identifier);
     }
 

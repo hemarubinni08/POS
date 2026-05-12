@@ -45,26 +45,21 @@ class StockServiceTest {
         stockDto.setWarehouse("WH1");
         stockDto.setQuantity(20);
         stockDto.setMinimumStock(10);
+
     }
 
     @Test
     void testSave_StockAvailable() {
 
-        when(stockRepository.findByIdentifier(null))
-                .thenReturn(null);
-
-        when(modelMapper.map(any(StockDto.class), eq(Stock.class)))
-                .thenReturn(stock);
+        when(stockRepository.findByIdentifier(null)).thenReturn(null);
+        when(modelMapper.map(any(StockDto.class), eq(Stock.class))).thenReturn(stock);
 
         StockDto result = stockService.save(stockDto);
 
-        assertEquals("Available",
-                result.getStockStatus());
-
-        assertEquals("PROD-001_WH1",
-                result.getIdentifier());
-
+        assertEquals("Available", result.getStockStatus());
+        assertEquals("PROD-001_WH1", result.getIdentifier());
         verify(stockRepository).save(stock);
+
     }
 
     @Test
@@ -72,17 +67,12 @@ class StockServiceTest {
 
         stockDto.setQuantity(5);
 
-        when(stockRepository.findByIdentifier(null))
-                .thenReturn(null);
-
-        when(modelMapper.map(any(StockDto.class), eq(Stock.class)))
-                .thenReturn(stock);
+        when(stockRepository.findByIdentifier(null)).thenReturn(null);
+        when(modelMapper.map(any(StockDto.class), eq(Stock.class))).thenReturn(stock);
 
         StockDto result = stockService.save(stockDto);
 
-        assertEquals("Low Stock",
-                result.getStockStatus());
-
+        assertEquals("Low Stock", result.getStockStatus());
         verify(stockRepository).save(stock);
     }
 
@@ -91,40 +81,30 @@ class StockServiceTest {
 
         stockDto.setQuantity(0);
 
-        when(stockRepository.findByIdentifier(null))
-                .thenReturn(null);
-
-        when(modelMapper.map(any(StockDto.class), eq(Stock.class)))
-                .thenReturn(stock);
+        when(stockRepository.findByIdentifier(null)).thenReturn(null);
+        when(modelMapper.map(any(StockDto.class), eq(Stock.class))).thenReturn(stock);
 
         StockDto result = stockService.save(stockDto);
 
-        assertEquals("Out of Stock",
-                result.getStockStatus());
-
+        assertEquals("Out of Stock", result.getStockStatus());
         verify(stockRepository).save(stock);
+
     }
 
     @Test
     void testSave_AlreadyExists() {
 
         Stock existingStock = new Stock();
-
         stockDto.setIdentifier("PROD-001");
 
-        when(stockRepository.findByIdentifier("PROD-001"))
-                .thenReturn(existingStock);
+        when(stockRepository.findByIdentifier("PROD-001")).thenReturn(existingStock);
 
         StockDto result = stockService.save(stockDto);
-
         assertFalse(result.isSuccess());
 
-        assertEquals(
-                "Role with identifier - PROD-001 already exists",
-                result.getMessage()
-        );
-
+        assertEquals("Role with identifier - PROD-001 already exists", result.getMessage());
         verify(stockRepository, never()).save(any());
+
     }
 
     @Test
@@ -132,14 +112,10 @@ class StockServiceTest {
 
         stockDto.setIdentifier("PROD-001_WH1");
 
-        when(stockRepository.findByIdentifier("PROD-001_WH1"))
-                .thenReturn(stock);
-
+        when(stockRepository.findByIdentifier("PROD-001_WH1")).thenReturn(stock);
         StockDto result = stockService.update(stockDto);
 
-        assertEquals("Available",
-                result.getStockStatus());
-
+        assertEquals("Available", result.getStockStatus());
         verify(stockRepository).save(stock);
     }
 
@@ -147,19 +123,13 @@ class StockServiceTest {
     void testUpdate_NotFound() {
 
         stockDto.setIdentifier("PROD-001_WH1");
-
-        when(stockRepository.findByIdentifier("PROD-001_WH1"))
-                .thenReturn(null);
+        when(stockRepository.findByIdentifier("PROD-001_WH1")).thenReturn(null);
 
         StockDto result = stockService.update(stockDto);
 
         assertFalse(result.isSuccess());
 
-        assertEquals(
-                "product with identifier - PROD-001_WH1 not found",
-                result.getMessage()
-        );
-
+        assertEquals("product with identifier - PROD-001_WH1 not found", result.getMessage());
         verify(stockRepository, never()).save(any());
     }
 
@@ -167,47 +137,38 @@ class StockServiceTest {
     void testDelete() {
 
         stockService.delete("PROD-001_WH1");
-
-        verify(stockRepository)
-                .deleteByIdentifier("PROD-001_WH1");
+        verify(stockRepository).deleteByIdentifier("PROD-001_WH1");
     }
 
     @Test
     void testFindAll() {
+
         Pageable pageable = PageRequest.of(0, 10);
+        Page<Stock> stockPage = new PageImpl<>(Collections.singletonList(stock));
 
-        Page<Stock> stockPage = new PageImpl<>(
-                Collections.singletonList(stock)
-        );
-
-        when(stockRepository.findAll(pageable))
-                .thenReturn(stockPage);
-        when(modelMapper.map(anyList(), any(Type.class)))
-                .thenReturn(List.of(stockDto));
+        when(stockRepository.findAll(pageable)).thenReturn(stockPage);
+        when(modelMapper.map(anyList(), any(Type.class))).thenReturn(List.of(stockDto));
 
         List<StockDto> result = stockService.findAll(pageable);
 
         assertEquals(1, result.size());
         verify(stockRepository).findAll(pageable);
         verify(modelMapper).map(anyList(), any(Type.class));
-    }
 
+    }
 
     @Test
     void testFindByIdentifier() {
 
-        when(stockRepository.findByIdentifier("PROD-001_WH1"))
-                .thenReturn(stock);
+        when(stockRepository.findByIdentifier("PROD-001_WH1")).thenReturn(stock);
 
-        when(modelMapper.map(stock, StockDto.class))
-                .thenReturn(stockDto);
+        when(modelMapper.map(stock, StockDto.class)).thenReturn(stockDto);
 
-        StockDto result =
-                stockService.findByIdentifier("PROD-001_WH1");
+        StockDto result = stockService.findByIdentifier("PROD-001_WH1");
 
         assertNotNull(result);
+        verify(stockRepository).findByIdentifier("PROD-001_WH1");
 
-        verify(stockRepository)
-                .findByIdentifier("PROD-001_WH1");
     }
+
 }

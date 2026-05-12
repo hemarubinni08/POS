@@ -17,5 +17,4 @@ public class Address extends CommonFields {
     private Long zipcode;
     private Long phoneNumber;
 
-
 }

@@ -48,4 +48,5 @@ public class JwtFilter extends OncePerRequestFilter {
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
         }
     }
+
 }

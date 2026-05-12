@@ -24,6 +24,7 @@ import java.util.Set;
 
 @Service
 public class NodeServiceImpl implements NodeService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -32,7 +33,6 @@ public class NodeServiceImpl implements NodeService {
 
     @Autowired
     private ModelMapper modelMapper;
-
 
     @Override
     public NodeDto findByIdentifier(String identifier) {
@@ -70,13 +70,11 @@ public class NodeServiceImpl implements NodeService {
     @Transactional
     @Override
     public void delete(String identifier) {
-
         nodeRepository.deleteByIdentifier(identifier);
     }
 
     @Override
     public List<NodeDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
         Page<Node> nodePage = nodeRepository.findAll(pageable);
@@ -108,6 +106,7 @@ public class NodeServiceImpl implements NodeService {
             nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
         }
     }
+
 }
 
 

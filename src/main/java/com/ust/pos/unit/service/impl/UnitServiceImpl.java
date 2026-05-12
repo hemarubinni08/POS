@@ -26,7 +26,6 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public UnitDto findByIdentifier(String identifier) {
-
         return modelMapper.map(unitRepository.findByIdentifier(identifier), UnitDto.class);
     }
 
@@ -66,7 +65,6 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public List<UnitDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
         Page<Unit> unitPage = unitRepository.findAll(pageable);
@@ -76,11 +74,9 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public void toggleStatus(String identifier) {
         Unit unit = unitRepository.findByIdentifier(identifier);
-
         if (unit == null) {
             throw new IllegalArgumentException("Unit not found");
         }
-
         unit.setStatus(!unit.isStatus());
         unitRepository.save(unit);
     }
@@ -88,10 +84,7 @@ public class UnitServiceImpl implements UnitService {
     public List<UnitDto> findActiveUnits() {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
-
-        return modelMapper.map(
-                unitRepository.findByStatusTrue(),
-                listType
-        );
+        return modelMapper.map(unitRepository.findByStatusTrue(), listType);
     }
+
 }

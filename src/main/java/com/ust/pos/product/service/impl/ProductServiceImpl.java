@@ -26,10 +26,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto findByIdentifier(String identifier) {
-
         return modelMapper.map(productRepository.findByIdentifier(identifier), ProductDto.class);
     }
-
 
     @Override
     public ProductDto save(ProductDto productDto) {
@@ -59,7 +57,6 @@ public class ProductServiceImpl implements ProductService {
         return productDto;
     }
 
-
     @Override
     @Transactional
     public void delete(String identifier) {
@@ -68,22 +65,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         Page<Product> productPage = productRepository.findAll(pageable);
         return modelMapper.map(productPage.getContent(), listType);
     }
 
-
     @Override
     public void toggleStatus(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
-
         if (product == null) {
             throw new IllegalArgumentException("Product not found");
         }
-
         product.setStatus(!product.isStatus());
         productRepository.save(product);
     }
@@ -91,10 +84,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDto> findActiveProducts() {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
-
-        return modelMapper.map(
-                productRepository.findByStatusTrue(),
-                listType
-        );
+        return modelMapper.map(productRepository.findByStatusTrue(), listType);
     }
+
 }

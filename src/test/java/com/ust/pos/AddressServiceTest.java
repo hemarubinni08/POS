@@ -33,33 +33,23 @@ class AddressServiceTest {
         Address address = new Address();
         AddressDto dto = new AddressDto();
 
-        Mockito.when(addressRepository
-                        .findByPhoneNumberAndAddressType(123L, "BILLING"))
-                .thenReturn(address);
+        Mockito.when(addressRepository.findByPhoneNumberAndAddressType(123L, "BILLING")).thenReturn(address);
+        Mockito.when(modelMapper.map(address, AddressDto.class)).thenReturn(dto);
 
-        Mockito.when(modelMapper.map(address, AddressDto.class))
-                .thenReturn(dto);
-
-        AddressDto response = addressService
-                .findByPhoneNoAndAddressType(123L, "BILLING");
-
+        AddressDto response = addressService.findByPhoneNoAndAddressType(123L, "BILLING");
         Assertions.assertNotNull(response);
     }
+
     @Test
     void saveTest_Success() {
 
         AddressDto dto = new AddressDto();
         dto.setPhoneNumber(123L);
         dto.setAddressType("BILLING");
-
         Address address = new Address();
 
-        Mockito.when(addressRepository
-                        .findByPhoneNumberAndAddressType(123L, "BILLING"))
-                .thenReturn(null);
-
-        Mockito.when(modelMapper.map(dto, Address.class))
-                .thenReturn(address);
+        Mockito.when(addressRepository.findByPhoneNumberAndAddressType(123L, "BILLING")).thenReturn(null);
+        Mockito.when(modelMapper.map(dto, Address.class)).thenReturn(address);
 
         AddressDto response = addressService.save(dto);
 
@@ -73,16 +63,13 @@ class AddressServiceTest {
         dto.setPhoneNumber(123L);
         dto.setAddressType("BILLING");
 
-        Mockito.when(addressRepository
-                        .findByPhoneNumberAndAddressType(123L, "BILLING"))
-                .thenReturn(new Address());
-
+        Mockito.when(addressRepository.findByPhoneNumberAndAddressType(123L, "BILLING")).thenReturn(new Address());
         AddressDto response = addressService.save(dto);
 
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertTrue(response.getMessage().contains("already exists"));
-
         Mockito.verify(addressRepository, Mockito.never()).save(Mockito.any());
+
     }
     @Test
     void updateTest_Success() {
@@ -93,14 +80,12 @@ class AddressServiceTest {
 
         Address existing = new Address();
 
-        Mockito.when(addressRepository
-                        .findByPhoneNumberAndAddressType(123L, "BILLING"))
-                .thenReturn(existing);
-
+        Mockito.when(addressRepository.findByPhoneNumberAndAddressType(123L, "BILLING")).thenReturn(existing);
         AddressDto response = addressService.update(dto);
 
         Assertions.assertNotNull(response);
         Mockito.verify(addressRepository).save(existing);
+
     }
     @Test
     void updateTest_NotFound() {
@@ -109,9 +94,7 @@ class AddressServiceTest {
         dto.setPhoneNumber(123L);
         dto.setAddressType("BILLING");
 
-        Mockito.when(addressRepository
-                        .findByPhoneNumberAndAddressType(123L, "BILLING"))
-                .thenReturn(null);
+        Mockito.when(addressRepository.findByPhoneNumberAndAddressType(123L, "BILLING")).thenReturn(null);
 
         AddressDto response = addressService.update(dto);
 
@@ -124,24 +107,17 @@ class AddressServiceTest {
         List<Address> list = List.of(new Address());
         List<AddressDto> dtoList = List.of(new AddressDto());
 
-        Mockito.when(addressRepository.findAll())
-                .thenReturn(list);
-
-        Mockito.when(modelMapper.map(
-                Mockito.eq(list),
-                Mockito.any(java.lang.reflect.Type.class)
-        )).thenReturn(dtoList);
+        Mockito.when(addressRepository.findAll()).thenReturn(list);
+        Mockito.when(modelMapper.map(Mockito.eq(list), Mockito.any(java.lang.reflect.Type.class))).thenReturn(dtoList);
 
         List<AddressDto> response = addressService.findAll();
-
         Assertions.assertEquals(1, response.size());
     }
     @Test
     void deleteTest() {
 
         addressService.deleteByPhoneNumber(123L);
-
-        Mockito.verify(addressRepository)
-                .deleteByPhoneNumber(123L);
+        Mockito.verify(addressRepository).deleteByPhoneNumber(123L);
     }
+
 }

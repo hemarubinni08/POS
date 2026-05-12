@@ -85,4 +85,5 @@ public class StockServiceImpl implements StockService {
     public StockDto findByIdentifier(String identifier) {
         return modelMapper.map(stockRepository.findByIdentifier(identifier), StockDto.class);
     }
+
 }

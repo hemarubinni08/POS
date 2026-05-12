@@ -17,13 +17,11 @@ public class UnitController {
     @Autowired
     private UnitService unitService;
 
-
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
         model.addAttribute("unit", unitService.findAll(pageable));
         return "unit/list";
     }
-
 
     @GetMapping("/add")
     public String add(Model model) {
@@ -34,16 +32,13 @@ public class UnitController {
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute UnitDto dto) {
         UnitDto response = unitService.save(dto);
-
         if (!response.isSuccess()) {
             model.addAttribute("unit", dto);
             model.addAttribute("message", response.getMessage());
             return "unit/add";
         }
-
         return REDIRECT_LIST;
     }
-
 
     @GetMapping("/get")
     public String get(Model model, @RequestParam String identifier) {
@@ -54,16 +49,13 @@ public class UnitController {
     @PostMapping("/update")
     public String update(Model model, @ModelAttribute UnitDto dto) {
         UnitDto response = unitService.update(dto);
-
         if (!response.isSuccess()) {
             model.addAttribute("unit", dto);
             model.addAttribute("message", response.getMessage());
             return "unit/unit";
         }
-
         return REDIRECT_LIST;
     }
-
 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
@@ -76,4 +68,5 @@ public class UnitController {
         unitService.toggleStatus(identifier);
         return REDIRECT_LIST;
     }
+
 }

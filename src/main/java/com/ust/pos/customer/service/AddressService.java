@@ -15,4 +15,5 @@ public interface AddressService {
     AddressDto findByPhoneNoAndAddressType(Long phoneNo, String addressType);
 
     void deleteByPhoneNumber(Long phoneNumber);
+
 }

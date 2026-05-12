@@ -18,4 +18,5 @@ public class Product extends CommonFields {
     private List<String> shelf;
     private String unit;
     private boolean status;
+
 }

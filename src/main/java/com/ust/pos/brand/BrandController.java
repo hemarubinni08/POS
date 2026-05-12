@@ -18,13 +18,11 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
-
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
         model.addAttribute("brands", brandService.findAll(pageable));
         return "brand/list";
     }
-
 
     @GetMapping("/add")
     public String add(Model model) {
@@ -35,16 +33,13 @@ public class BrandController {
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute BrandDto dto) {
         BrandDto response = brandService.save(dto);
-
         if (!response.isSuccess()) {
             model.addAttribute(BRAND, dto);
             model.addAttribute("message", response.getMessage());
             return "brand/add";
         }
-
         return REDIRECT_LIST;
     }
-
 
     @GetMapping("/get")
     public String get(Model model, @RequestParam String identifier) {
@@ -55,23 +50,19 @@ public class BrandController {
     @PostMapping("/update")
     public String update(Model model, @ModelAttribute BrandDto dto) {
         BrandDto response = brandService.update(dto);
-
         if (!response.isSuccess()) {
             model.addAttribute(BRAND, dto);
             model.addAttribute("message", response.getMessage());
             return "brand/brand";
         }
-
         return REDIRECT_LIST;
     }
-
 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
         brandService.delete(identifier);
         return REDIRECT_LIST;
     }
-
     @GetMapping("/toggle")
     public String toggle(@RequestParam String identifier) {
         brandService.toggleStatus(identifier);

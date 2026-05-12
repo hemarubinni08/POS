@@ -1,6 +1,5 @@
 package com.ust.pos.price.service.impl;
 
-
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
@@ -27,7 +26,6 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto findByIdentifier(String identifier) {
-
         Price price = priceRepository.findByIdentifier(identifier);
         if (price == null) {
             return null;
@@ -55,9 +53,7 @@ public class PriceServiceImpl implements PriceService {
         String oldIdentifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(oldIdentifier);
         if (existingPrice == null) {
-            priceDto.setMessage("Price not found for Product '"
-                    + priceDto.getProduct() + "' with Price Type '"
-                    + priceDto.getPriceType() + "'");
+            priceDto.setMessage("Price not found for Product '" + priceDto.getProduct() + "' with Price Type '" + priceDto.getPriceType() + "'");
             priceDto.setSuccess(false);
             return priceDto;
         }
@@ -91,6 +87,7 @@ public class PriceServiceImpl implements PriceService {
         Page<Price> pricePage = priceRepository.findAll(pageable);
         return modelMapper.map(pricePage.getContent(), listType);
     }
+
 }
 
 

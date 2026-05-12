@@ -36,13 +36,11 @@ public class NodeApiController extends BaseController {
 
     @GetMapping("/get")
     public NodeDto update(@RequestParam String identifier) {
-
         return nodeService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
     public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
-
         return nodeService.update(nodeDto);
     }
 

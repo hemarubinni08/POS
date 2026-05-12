@@ -20,12 +20,10 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model, Principal principal) {
-
         model.addAttribute("nodes", nodeService.getNodesForRoles());
-
         UserDto user = userService.findByUserName(principal.getName());
         model.addAttribute("user", user);
-
         return "home";
     }
+
 }

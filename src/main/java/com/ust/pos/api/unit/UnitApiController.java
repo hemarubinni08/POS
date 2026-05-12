@@ -14,7 +14,6 @@ import java.util.List;
 @RequestMapping("/api/unit")
 public class UnitApiController extends BaseController {
 
-
     @Autowired
     private UnitService unitService;
 
@@ -38,7 +37,6 @@ public class UnitApiController extends BaseController {
     public UnitDto update(@RequestBody UnitDto dto) {
         return unitService.update(dto);
     }
-
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
@@ -64,4 +62,5 @@ public class UnitApiController extends BaseController {
     public List<UnitDto> findActiveUnit() {
         return unitService.findActiveUnits();
     }
+
 }

@@ -31,7 +31,6 @@ public class CustomerApiController extends BaseController {
         return customerService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
     public CustomerDto addPost(@RequestBody CustomerDto customerDto) {
         return customerService.save(customerDto);
@@ -39,7 +38,6 @@ public class CustomerApiController extends BaseController {
 
     @GetMapping("/get")
     public CustomerDto update(@RequestParam String identifier) {
-
         CustomerDto response = customerService.findByIdentifier(identifier);
         response.setBillingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNumber(), "BILLING"));
         response.setShippingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNumber(), "SHIPPING"));
@@ -49,7 +47,6 @@ public class CustomerApiController extends BaseController {
 
     @PostMapping("/update")
     public CustomerDto updatePost(@RequestBody CustomerDto customerDto) {
-
         return customerService.update(customerDto);
     }
 

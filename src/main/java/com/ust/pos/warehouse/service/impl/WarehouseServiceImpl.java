@@ -26,7 +26,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public WarehouseDto findByIdentifier(String identifier) {
-
         return modelMapper.map(wareHouseRepository.findByIdentifier(identifier), WarehouseDto.class);
     }
 
@@ -66,7 +65,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<WarehouseDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<WarehouseDto>>() {
         }.getType();
         Page<Warehouse> warehousePage = wareHouseRepository.findAll(pageable);

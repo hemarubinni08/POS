@@ -23,19 +23,24 @@ public class ProductController {
     public static final String MODEL = "model";
     public static final String CATEGORIES = "categories";
     public static final String UNIT = "unit";
+
     @Autowired
     private ProductService productService;
+
     @Autowired
     private CategoryService categoryService;
+
     @Autowired
     private ShelfService shelfService;
+
     @Autowired
     private BrandService brandService;
+
     @Autowired
     private ModelsService modelsService;
+
     @Autowired
     private UnitService unitService;
-
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
@@ -44,7 +49,6 @@ public class ProductController {
         model.addAttribute(MODEL, modelsService.findActiveModels());
         model.addAttribute(CATEGORIES, categoryService.findChildCategories());
         model.addAttribute(UNIT, unitService.findActiveUnits());
-
         return "product/list";
     }
 
@@ -69,7 +73,6 @@ public class ProductController {
             model.addAttribute(CATEGORIES, categoryService.findChildCategories());
             model.addAttribute(UNIT, unitService.findActiveUnits());
             return "product/add";
-
         }
         return REDIRECT_PRODUCT_LIST;
     }
@@ -110,4 +113,5 @@ public class ProductController {
         productService.toggleStatus(identifier);
         return REDIRECT_PRODUCT_LIST;
     }
+
 }

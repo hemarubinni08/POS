@@ -23,7 +23,6 @@ public class RoleApiController extends BaseController {
         return roleService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
     public RoleDto addPost(@RequestBody RoleDto roleDto) {
         return roleService.save(roleDto);
@@ -31,7 +30,6 @@ public class RoleApiController extends BaseController {
 
     @GetMapping("/get")
     public RoleDto update(@RequestParam String identifier) {
-
         return roleService.findByIdentifier(identifier);
     }
 

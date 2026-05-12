@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface NodeService {
+
     List<NodeDto> getNodesForRoles();
 
     NodeDto save(NodeDto userDto);
@@ -17,4 +18,5 @@ public interface NodeService {
     List<NodeDto> findAll(Pageable pageable);
 
     NodeDto findByIdentifier(String identifier);
+
 }

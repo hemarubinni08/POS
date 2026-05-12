@@ -26,7 +26,6 @@ public class RackServiceImpl implements RackService {
 
     @Override
     public RackDto findByIdentifier(String identifier) {
-
         return modelMapper.map(rackRepository.findByIdentifier(identifier), RackDto.class);
     }
 
@@ -66,7 +65,6 @@ public class RackServiceImpl implements RackService {
 
     @Override
     public List<RackDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
         Page<Rack> rackPage = rackRepository.findAll(pageable);
@@ -76,11 +74,9 @@ public class RackServiceImpl implements RackService {
     @Override
     public void toggleStatus(String identifier) {
         Rack rack = rackRepository.findByIdentifier(identifier);
-
         if (rack == null) {
             throw new IllegalArgumentException("Rack not found");
         }
-
         rack.setStatus(!rack.isStatus());
         rackRepository.save(rack);
     }
@@ -88,10 +84,7 @@ public class RackServiceImpl implements RackService {
     public List<RackDto> findActiveRacks() {
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
-
-        return modelMapper.map(
-                rackRepository.findByStatusTrue(),
-                listType
-        );
+        return modelMapper.map(rackRepository.findByStatusTrue(), listType);
     }
+
 }

@@ -15,6 +15,7 @@ public class PriceController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/price/list";
     public static final String PRODUCTS = "products";
+
     @Autowired
     private PriceService priceService;
 
@@ -69,5 +70,6 @@ public class PriceController {
         priceService.delete(identifier);
         return REDIRECT_ROLE_LIST;
     }
+
 }
 

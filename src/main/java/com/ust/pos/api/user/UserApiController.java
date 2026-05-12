@@ -32,13 +32,11 @@ public class UserApiController extends BaseController {
 
     @GetMapping("/get")
     public UserDto update(@RequestParam String username, @RequestBody UserDto userDto) {
-
         return userService.findByUserName(username);
     }
 
     @PostMapping("/update")
     public UserDto updatePost(@RequestBody UserDto userDto) {
-
         return userService.update(userDto);
     }
 
@@ -61,7 +59,7 @@ public class UserApiController extends BaseController {
         } catch (Exception e) {
             return false;
         }
-
         return true;
     }
+
 }

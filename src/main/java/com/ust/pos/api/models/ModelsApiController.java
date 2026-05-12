@@ -25,7 +25,6 @@ public class ModelsApiController extends BaseController {
 
     @PostMapping("/add")
     public ModelsDto addPost(@RequestBody ModelsDto dto) {
-
         return modelsService.save(dto);
     }
 
@@ -36,7 +35,6 @@ public class ModelsApiController extends BaseController {
 
     @PostMapping("/update")
     public ModelsDto update(@RequestBody ModelsDto dto) {
-
         return modelsService.update(dto);
     }
 

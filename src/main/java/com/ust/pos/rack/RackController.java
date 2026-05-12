@@ -16,8 +16,10 @@ public class RackController {
     public static final String REDIRECT_RACK_LIST = "redirect:/rack/list";
     public static final String SHELF = "shelf";
     public static final String RACKS = "racks";
+
     @Autowired
     private RackService rackService;
+
     @Autowired
     private ShelfService shelfService;
 
@@ -30,10 +32,8 @@ public class RackController {
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute RackDto rackDto) {
-
         model.addAttribute(RACKS, new RackDto());
         model.addAttribute(SHELF, shelfService.findActiveShelves());
-
         return "rack/add";
     }
 
@@ -44,9 +44,7 @@ public class RackController {
             model.addAttribute(RACKS, rackDto);
             model.addAttribute("message", response.getMessage());
             model.addAttribute(SHELF, shelfService.findActiveShelves());
-
             return "rack/add";
-
         }
         return REDIRECT_RACK_LIST;
     }
@@ -82,4 +80,5 @@ public class RackController {
         rackService.toggleStatus(identifier);
         return REDIRECT_RACK_LIST;
     }
+
 }

@@ -16,4 +16,5 @@ public interface WarehouseService {
     List<WarehouseDto> findAll(Pageable pageable);
 
     WarehouseDto findByIdentifier(String identifier);
+
 }

@@ -26,7 +26,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto findByIdentifier(String identifier) {
-
         return modelMapper.map(brandRepository.findByIdentifier(identifier), BrandDto.class);
     }
 
@@ -66,7 +65,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public List<BrandDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
         Page<Brand> brandPage = brandRepository.findAll(pageable);
@@ -76,11 +74,9 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public void toggleStatus(String identifier) {
         Brand brand = brandRepository.findByIdentifier(identifier);
-
         if (brand == null) {
             throw new IllegalArgumentException("Brand not found");
         }
-
         brand.setStatus(!brand.isStatus());
         brandRepository.save(brand);
     }
@@ -88,10 +84,7 @@ public class BrandServiceImpl implements BrandService {
     public List<BrandDto> findActiveBrands() {
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
-
-        return modelMapper.map(
-                brandRepository.findByStatusTrue(),
-                listType
-        );
+        return modelMapper.map(brandRepository.findByStatusTrue(), listType);
     }
+
 }
