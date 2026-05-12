@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +29,16 @@ class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
     @Mock
     private ModelMapper modelMapper;
+
     @InjectMocks
     private UserServiceImpl userService;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
 
     @Test
     void saveTest() {
