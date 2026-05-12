@@ -35,10 +35,12 @@ class BrandServiceTest {
     void saveTest() {
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("Nike");
+
         Mockito.when(brandRepository.findByIdentifier("Nike")).thenReturn(null);
         Brand brand = new Brand();
         Mockito.when(modelMapper.map(brandDto, Brand.class)).thenReturn(brand);
         Mockito.when(brandRepository.save(brand)).thenReturn(brand);
+
         BrandDto response = brandService.save(brandDto);
         Assertions.assertEquals("Nike", response.getIdentifier());
         Assertions.assertEquals(true, response.isSuccess());
@@ -48,9 +50,12 @@ class BrandServiceTest {
     void saveTestFailure() {
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("Nike");
+
         Brand brand = new Brand();
+
         Mockito.when(brandRepository.findByIdentifier("Nike")).thenReturn(brand);
         BrandDto response = brandService.save(brandDto);
+
         Assertions.assertEquals("Nike", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
         Assertions.assertEquals(false, response.isSuccess());
@@ -106,7 +111,6 @@ class BrandServiceTest {
         Assertions.assertEquals("BR001", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         Brand brand = new Brand();
@@ -168,14 +172,12 @@ class BrandServiceTest {
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
 
-        // NOTE: service does NOT call save()
         Mockito.verify(brandRepository, Mockito.never())
                 .save(Mockito.any());
     }
 
     @Test
     void toggleStatusFailureTest() {
-
         Mockito.when(brandRepository.findByIdentifier("Admin"))
                 .thenReturn(null);
 

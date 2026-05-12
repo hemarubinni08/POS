@@ -33,7 +33,6 @@ public class RoleServiceTest {
 
     @Test
     void saveTest() {
-        //request data
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
 
@@ -49,7 +48,6 @@ public class RoleServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
         Role role = new Role();
@@ -149,7 +147,6 @@ public class RoleServiceTest {
         Assertions.assertEquals("Admin", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         Role role = new Role();

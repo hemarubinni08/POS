@@ -32,7 +32,6 @@ public class WarehouseServiceTest {
 
     @Test
     void saveTest() {
-        //request data
         WarehouseDto warehouseDto = new WarehouseDto();
         warehouseDto.setIdentifier("Lays Warehouse");
 
@@ -40,6 +39,7 @@ public class WarehouseServiceTest {
         Warehouse warehouse = new Warehouse();
         Mockito.when(modelMapper.map(warehouseDto, Warehouse.class)).thenReturn(warehouse);
         Mockito.when(warehouseRepository.save(warehouse)).thenReturn(warehouse);
+
         WarehouseDto response = warehouseService.save(warehouseDto);
 
         Assertions.assertEquals("Lays Warehouse", response.getIdentifier());
@@ -48,7 +48,6 @@ public class WarehouseServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
         WarehouseDto warehouseDto = new WarehouseDto();
         warehouseDto.setIdentifier("Lays Warehouse");
         Warehouse warehouse = new Warehouse();
@@ -147,7 +146,6 @@ public class WarehouseServiceTest {
         Assertions.assertEquals("Lays Warehouse", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         Warehouse warehouse = new Warehouse();

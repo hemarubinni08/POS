@@ -35,10 +35,13 @@ class CategoryServiceTest {
     void saveTest() {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setIdentifier("Chips");
+
         Mockito.when(categoryRepository.findByIdentifier("Chips")).thenReturn(null);
         Category category = new Category();
+
         Mockito.when(modelMapper.map(categoryDto, Category.class)).thenReturn(category);
         Mockito.when(categoryRepository.save(category)).thenReturn(category);
+
         CategoryDto response = categoryService.save(categoryDto);
         Assertions.assertEquals("Chips", response.getIdentifier());
         Assertions.assertEquals(true, response.isSuccess());
@@ -47,7 +50,6 @@ class CategoryServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setIdentifier("Chips");
         Category category = new Category();
@@ -110,7 +112,6 @@ class CategoryServiceTest {
 
     @Test
     void deleteTest() {
-
         Mockito.doNothing().when(categoryRepository)
                 .deleteByIdentifier("Chips");
 
@@ -147,7 +148,6 @@ class CategoryServiceTest {
         Assertions.assertEquals("Chips", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         Category category = new Category();

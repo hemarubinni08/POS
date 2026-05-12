@@ -36,17 +36,20 @@ public class ProductServiceTest {
         productDto.setIdentifier("Lays Chili");
 
         Mockito.when(productRepository.findByIdentifier("Lays Chili")).thenReturn(null);
+
         Product product = new Product();
+
         Mockito.when(modelMapper.map(productDto, Product.class)).thenReturn(product);
         Mockito.when(productRepository.save(product)).thenReturn(product);
+
         ProductDto response = productService.save(productDto);
+
         Assertions.assertEquals("Lays Chili", response.getIdentifier());
         Assertions.assertEquals(true, response.isSuccess());
     }
 
     @Test
     void saveTestFailure() {
-        //request data
         ProductDto productDto = new ProductDto();
         productDto.setIdentifier("Lays Chili");
         Product product = new Product();
@@ -110,7 +113,6 @@ public class ProductServiceTest {
 
     @Test
     void deleteTest() {
-
         Mockito.doNothing().when(productRepository)
                 .deleteByIdentifier("Lays Chili");
 
@@ -147,7 +149,6 @@ public class ProductServiceTest {
         Assertions.assertEquals("Lays Chili", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         Product product = new Product();

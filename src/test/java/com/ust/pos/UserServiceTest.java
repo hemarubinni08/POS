@@ -35,7 +35,6 @@ public class UserServiceTest {
 
     @Test
     void saveTest() {
-        //request data
         UserDto userDto = new UserDto();
         userDto.setUsername("lekhya@gmail.com");
         userDto.setPassword("12345");
@@ -52,7 +51,6 @@ public class UserServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
         UserDto userDto = new UserDto();
         userDto.setUsername("lekhya@gmail.com");
         User user = new User();
@@ -153,7 +151,6 @@ public class UserServiceTest {
         Assertions.assertEquals("lekhya@gmail.com", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         User user = new User();

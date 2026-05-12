@@ -35,10 +35,13 @@ public class ModelServiceTest {
     void saveTest() {
         ModelDto modelDto = new ModelDto();
         modelDto.setIdentifier("Jordan");
+
         Model model = new Model();
         Mockito.when(modelMapper.map(modelDto, Model.class)).thenReturn(model);
         Mockito.when(modelRepository.save(model)).thenReturn(model);
+
         ModelDto response = modelService.save(modelDto);
+
         Assertions.assertEquals("Jordan", response.getIdentifier());
     }
 
@@ -70,7 +73,6 @@ public class ModelServiceTest {
         Assertions.assertEquals("Jordan", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         Model model = new Model();
@@ -99,11 +101,15 @@ public class ModelServiceTest {
     void updateTest() {
         ModelDto modelDto = new ModelDto();
         modelDto.setIdentifier("Jordan");
+
         Model model = new Model();
         model.setIdentifier("Jordan");
+
         Mockito.when(modelRepository.findByIdentifier(modelDto.getIdentifier())).thenReturn(model);
         Mockito.when(modelRepository.save(model)).thenReturn(model);
+
         ModelDto response = modelService.update(modelDto);
+
         Assertions.assertTrue(response.isSuccess());
     }
 
@@ -111,8 +117,10 @@ public class ModelServiceTest {
     void updateTestFailure() {
         ModelDto modelDto = new ModelDto();
         modelDto.setIdentifier("Jordan");
+
         Model model = new Model();
         model.setIdentifier("Jordan");
+
         Mockito.when(modelRepository.findByIdentifier(modelDto.getIdentifier())).thenReturn(null);
         ModelDto response = modelService.update(modelDto);
         Assertions.assertFalse(response.isSuccess());
@@ -154,7 +162,6 @@ public class ModelServiceTest {
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
 
-        // NOTE: service does NOT call save()
         Mockito.verify(modelRepository, Mockito.never())
                 .save(Mockito.any());
     }

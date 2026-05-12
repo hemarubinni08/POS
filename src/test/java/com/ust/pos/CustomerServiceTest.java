@@ -174,7 +174,6 @@ class CustomerServiceTest {
 
     @Test
     void findAllTest() {
-        // ARRANGE
         Customer customer = new Customer();
         customer.setIdentifier("1234567890");
 
@@ -196,10 +195,8 @@ class CustomerServiceTest {
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(customerDtos);
 
-        // ACT
         List<CustomerDto> response = customerService.findAll(pageable);
 
-        // ASSERT
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("1234567890", response.get(0).getIdentifier());
@@ -207,41 +204,32 @@ class CustomerServiceTest {
 
     @Test
     void toggleStatusSuccessTest() {
-        // ARRANGE
         Customer customer = new Customer();
         customer.setIdentifier("Admin");
-        customer.setStatus(false); // currently inactive
+        customer.setStatus(false);
+
         CustomerDto customerDto = new CustomerDto();
         customerDto.setIdentifier("Admin");
-        customerDto.setStatus(true); // after toggle should be active
-        // MOCK
-        // customer exists in DB
+        customerDto.setStatus(true);
+
         Mockito.when(customerRepository.findByIdentifier("Admin")).thenReturn(customer);
-        // after save, customer status is updated
         Mockito.when(customerRepository.save(customer)).thenReturn(customer);
-        // mapper returns customerDto
         Mockito.when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
-        // ACT
+
         CustomerDto response = customerService.toggleStatus("Admin", true);
-        // ASSERT
         Assertions.assertEquals("Admin", response.getIdentifier());
-        Assertions.assertTrue(response.isStatus()); // status should be true now
+        Assertions.assertTrue(response.isStatus());
     }
 
     @Test
     void toggleStatusFailureTest() {
-        // ARRANGE - customer does NOT exist in DB
         CustomerDto customerDto = new CustomerDto();
         customerDto.setIdentifier("Admin");
-        // MOCK
-        // customer not found → returns null
+
         Mockito.when(customerRepository.findByIdentifier("Admin")).thenReturn(null);
-        // ACT
         CustomerDto response = customerService.toggleStatus("Admin", true);
-        // ASSERT
-        // since customer is null, modelMapper.map(null, CustomerDto.class) returns null
+
         Assertions.assertNull(response);
-        // verify save was NEVER called because customer was null
         Mockito.verify(customerRepository, Mockito.never()).save(Mockito.any());
     }
 }

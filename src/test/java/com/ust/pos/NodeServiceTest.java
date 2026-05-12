@@ -39,7 +39,6 @@ public class NodeServiceTest {
 
     @Test
     void saveTest() {
-        //request data
         NodeDto nodeDto = new NodeDto();
         nodeDto.setIdentifier("Admin");
 
@@ -51,12 +50,10 @@ public class NodeServiceTest {
 
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertEquals(true, response.isSuccess());
-
     }
 
     @Test
     void saveTestFailure() {
-        //request data
         NodeDto nodeDto = new NodeDto();
         nodeDto.setIdentifier("Admin");
         Node node = new Node();
@@ -68,7 +65,6 @@ public class NodeServiceTest {
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
 
         Assertions.assertEquals(false, response.isSuccess());
-
     }
 
     @Test
@@ -120,7 +116,6 @@ public class NodeServiceTest {
 
     @Test
     void deleteTest() {
-
         Mockito.doNothing().when(nodeRepository)
                 .deleteByIdentifier("Admin");
 
@@ -157,7 +152,6 @@ public class NodeServiceTest {
         Assertions.assertEquals("Admin", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         Node node = new Node();
@@ -184,7 +178,6 @@ public class NodeServiceTest {
 
     @Test
     void getNodesForRolesTest() {
-        // Mock authentication
         org.springframework.security.core.userdetails.User springUser =
                 new org.springframework.security.core.userdetails.User("admin", "pass", new ArrayList<>());
 
@@ -193,14 +186,12 @@ public class NodeServiceTest {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Mock DB user
         User user = new User();
         user.setUsername("admin");
         user.setRoles(List.of("ROLE_ADMIN"));
 
         Mockito.when(userRepository.findByUsername("admin")).thenReturn(user);
 
-        // Mock nodes
         Node node = new Node();
         node.setIdentifier("dashboard");
         node.setRoles(List.of("ROLE_ADMIN"));

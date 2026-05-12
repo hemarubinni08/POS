@@ -35,11 +35,16 @@ public class ShelfServiceTest {
     void saveTest() {
         ShelfDto shelfDto = new ShelfDto();
         shelfDto.setIdentifier("Shelf1");
+
         Mockito.when(shelfRepository.findByIdentifier("Shelf1")).thenReturn(null);
+
         Shelf shelf = new Shelf();
+
         Mockito.when(modelMapper.map(shelfDto, Shelf.class)).thenReturn(shelf);
         Mockito.when(shelfRepository.save(shelf)).thenReturn(shelf);
+
         ShelfDto response = shelfService.save(shelfDto);
+
         Assertions.assertEquals("Shelf1", response.getIdentifier());
         Assertions.assertEquals(true, response.isSuccess());
     }
@@ -48,9 +53,13 @@ public class ShelfServiceTest {
     void saveTestFailure() {
         ShelfDto shelfDto = new ShelfDto();
         shelfDto.setIdentifier("Shelf1");
+
         Shelf shelf = new Shelf();
+
         Mockito.when(shelfRepository.findByIdentifier("Shelf1")).thenReturn(shelf);
+
         ShelfDto response = shelfService.save(shelfDto);
+
         Assertions.assertEquals("Shelf1", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
         Assertions.assertEquals(false, response.isSuccess());
@@ -84,7 +93,6 @@ public class ShelfServiceTest {
         Assertions.assertEquals("Shelf1", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         Shelf shelf = new Shelf();
@@ -113,11 +121,15 @@ public class ShelfServiceTest {
     void updateTest() {
         ShelfDto shelfDto = new ShelfDto();
         shelfDto.setIdentifier("Shelf1");
+
         Shelf shelf = new Shelf();
         shelf.setIdentifier("Shelf1");
+
         Mockito.when(shelfRepository.findByIdentifier(shelfDto.getIdentifier())).thenReturn(shelf);
         Mockito.when(shelfRepository.save(shelf)).thenReturn(shelf);
+
         ShelfDto response = shelfService.update(shelfDto);
+
         Assertions.assertTrue(response.isSuccess());
     }
 
@@ -156,7 +168,6 @@ public class ShelfServiceTest {
 
     @Test
     void toggleStatusSuccessTest() {
-
         Shelf shelf = new Shelf();
         shelf.setIdentifier("Shelf1");
         shelf.setStatus(false);
@@ -169,14 +180,12 @@ public class ShelfServiceTest {
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
 
-        // NOTE: service does NOT call save()
         Mockito.verify(shelfRepository, Mockito.never())
                 .save(Mockito.any());
     }
 
     @Test
     void toggleStatusFailureTest() {
-
         Mockito.when(shelfRepository.findByIdentifier("Shelf1"))
                 .thenReturn(null);
 

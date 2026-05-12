@@ -33,7 +33,6 @@ public class PriceServiceTest {
 
     @Test
     void saveTest() {
-        // Arrange
         PriceDto priceDto = new PriceDto();
         priceDto.setProduct("P001");
         priceDto.setType("RETAIL");
@@ -51,10 +50,8 @@ public class PriceServiceTest {
         Mockito.when(priceRepository.save(price))
                 .thenReturn(price);
 
-        // Act
         PriceDto response = priceService.save(priceDto);
 
-        // Assert
         Assertions.assertEquals(expectedIdentifier, response.getIdentifier());
         Assertions.assertTrue(response.isSuccess());
     }
@@ -87,7 +84,6 @@ public class PriceServiceTest {
         Assertions.assertEquals("P001", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         Price price = new Price();
@@ -116,11 +112,15 @@ public class PriceServiceTest {
     void updateTest() {
         PriceDto priceDto = new PriceDto();
         priceDto.setIdentifier("P001");
+
         Price price = new Price();
         price.setIdentifier("P001");
+
         Mockito.when(priceRepository.findByIdentifier(priceDto.getIdentifier())).thenReturn(price);
         Mockito.when(priceRepository.save(price)).thenReturn(price);
+
         PriceDto response = priceService.update(priceDto);
+
         Assertions.assertTrue(response.isSuccess());
     }
 
@@ -128,10 +128,14 @@ public class PriceServiceTest {
     void updateTestFailure() {
         PriceDto priceDto = new PriceDto();
         priceDto.setIdentifier("P001");
+
         Price price = new Price();
         price.setIdentifier("P001");
+
         Mockito.when(priceRepository.findByIdentifier(priceDto.getIdentifier())).thenReturn(null);
+
         PriceDto response = priceService.update(priceDto);
+
         Assertions.assertFalse(response.isSuccess());
     }
 

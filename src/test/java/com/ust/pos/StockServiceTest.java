@@ -33,7 +33,6 @@ public class StockServiceTest {
 
     @Test
     void saveTest() {
-        //request data
         StockDto stockDto = new StockDto();
         stockDto.setIdentifier("Lays In-001");
 
@@ -149,7 +148,6 @@ public class StockServiceTest {
         Assertions.assertEquals("Lays IN-001", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         Stock stock = new Stock();
@@ -188,7 +186,6 @@ public class StockServiceTest {
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
 
-        // NOTE: service does NOT call save()
         Mockito.verify(stockRepository, Mockito.never())
                 .save(Mockito.any());
     }

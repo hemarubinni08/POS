@@ -33,14 +33,13 @@ public class RackServiceTest {
 
     @Test
     void saveTest_success() {
-        // Arrange
         RackDto rackDto = new RackDto();
         rackDto.setIdentifier("Rack1");
 
         Rack rack = new Rack();
 
         Mockito.when(rackRepository.findByIdentifier("Rack1"))
-                .thenReturn(null); // no duplicate
+                .thenReturn(null);
 
         Mockito.when(modelMapper.map(rackDto, Rack.class))
                 .thenReturn(rack);
@@ -48,13 +47,10 @@ public class RackServiceTest {
         Mockito.when(rackRepository.save(rack))
                 .thenReturn(rack);
 
-        // Act
         RackDto response = rackService.save(rackDto);
 
-        // Assert
         Assertions.assertEquals("Rack1", response.getIdentifier());
 
-        // ⚠️ This will FAIL unless you set success in service
         Assertions.assertTrue(response.isSuccess());
     }
 
@@ -62,9 +58,13 @@ public class RackServiceTest {
     void saveTestFailure() {
         RackDto rackDto = new RackDto();
         rackDto.setIdentifier("Rack1");
+
         Rack rack = new Rack();
+
         Mockito.when(rackRepository.findByIdentifier("Rack1")).thenReturn(rack);
+
         RackDto response = rackService.save(rackDto);
+
         Assertions.assertEquals("Rack1", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
         Assertions.assertEquals(false, response.isSuccess());
@@ -98,7 +98,6 @@ public class RackServiceTest {
         Assertions.assertEquals("Rack1", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         Rack rack = new Rack();
@@ -139,10 +138,14 @@ public class RackServiceTest {
     void updateTestFailure() {
         RackDto rackDto = new RackDto();
         rackDto.setIdentifier("Rack1");
+
         Rack rack = new Rack();
         rack.setIdentifier("Rack1");
+
         Mockito.when(rackRepository.findByIdentifier(rackDto.getIdentifier())).thenReturn(null);
+
         RackDto response = rackService.update(rackDto);
+
         Assertions.assertFalse(response.isSuccess());
     }
 
@@ -182,7 +185,6 @@ public class RackServiceTest {
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
 
-        // NOTE: service does NOT call save()
         Mockito.verify(rackRepository, Mockito.never())
                 .save(Mockito.any());
     }

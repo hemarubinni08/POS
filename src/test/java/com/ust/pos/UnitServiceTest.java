@@ -168,7 +168,6 @@ public class UnitServiceTest {
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
 
-        // NOTE: service does NOT call save()
         Mockito.verify(unitRepository, Mockito.never())
                 .save(Mockito.any());
     }
