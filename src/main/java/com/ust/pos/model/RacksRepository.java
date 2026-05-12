@@ -9,9 +9,7 @@ import java.util.List;
 public interface RacksRepository extends JpaRepository<Racks, Long> {
 
     Racks findByIdentifier(String identifier);
-
     void deleteByIdentifier(String identifier);
-
     List<Racks> findByStatusIsTrue();
 
 }

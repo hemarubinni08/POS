@@ -25,14 +25,11 @@ public class WareHouseServiceImpl implements WareHouseService {
 
     @Override
     public WareHouseDto findByIdentifier(String identifier) {
-
         return modelMapper.map(wareHouseRepository.findByIdentifier(identifier), WareHouseDto.class);
-
     }
 
     @Override
     public WareHouseDto save(WareHouseDto wareHouseDto) {
-
         String identifier = wareHouseDto.getIdentifier();
         WareHouse existingWareHouse = wareHouseRepository.findByIdentifier(identifier);
         if (existingWareHouse != null) {
@@ -43,12 +40,10 @@ public class WareHouseServiceImpl implements WareHouseService {
         WareHouse wareHouse = modelMapper.map(wareHouseDto, WareHouse.class);
         wareHouseRepository.save(wareHouse);
         return wareHouseDto;
-
     }
 
     @Override
     public WareHouseDto update(WareHouseDto wareHouseDto) {
-
         String identifier = wareHouseDto.getIdentifier();
         WareHouse existingWareHouse = wareHouseRepository.findByIdentifier(identifier);
         if (existingWareHouse == null) {
@@ -59,43 +54,34 @@ public class WareHouseServiceImpl implements WareHouseService {
         modelMapper.map(wareHouseDto, existingWareHouse);
         wareHouseRepository.save(existingWareHouse);
         return wareHouseDto;
-
     }
 
     @Override
     public boolean delete(String identifier) {
-
         wareHouseRepository.deleteByIdentifier(identifier);
         return true;
-
     }
 
     @Override
     public List<WareHouseDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<WareHouseDto>>() {
         }.getType();
         Page<WareHouse> wareHousePage = wareHouseRepository.findAll(pageable);
         return modelMapper.map(wareHousePage.getContent(), listType);
-
     }
 
     @Override
     public List<WareHouseDto> findIfTrue() {
-
         Type listType = new TypeToken<List<WareHouseDto>>() {
         }.getType();
         return modelMapper.map(wareHouseRepository.findByStatusIsTrue(), listType);
-
     }
 
     @Override
     public WareHouseDto toggleStatus(String identifier) {
-
         WareHouse wareHouse = wareHouseRepository.findByIdentifier(identifier);
         wareHouse.setStatus(!wareHouse.isStatus());
         wareHouseRepository.save(wareHouse);
         return modelMapper.map(wareHouse, WareHouseDto.class);
-
     }
 }

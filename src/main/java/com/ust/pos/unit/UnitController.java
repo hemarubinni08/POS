@@ -20,44 +20,35 @@ public class UnitController extends BaseController {
 
     @GetMapping("/list")
     public String home(Model model) {
-
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("units", unitService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "unit/list";
-
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute UnitDto unitDto) {
-
         return "unit/add";
-
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute UnitDto unitDto) {
-
         UnitDto response = unitService.save(unitDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "unit/add";
         }
         return REDIRECT_UNIT_LIST;
-
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         UnitDto response = unitService.findByIdentifier(identifier);
         model.addAttribute("unit", response);
         return "unit/unit";
-
     }
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute UnitDto unitDto) {
-
         UnitDto response = unitService.update(unitDto);
         if (!response.isSuccess()) {
             model.addAttribute("unit", response);
@@ -65,22 +56,17 @@ public class UnitController extends BaseController {
             return "unit/unit";
         }
         return REDIRECT_UNIT_LIST;
-
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
-
         unitService.delete(identifier);
         return REDIRECT_UNIT_LIST;
-
     }
 
     @PostMapping("/toggle-status")
     @ResponseBody
     public void toggle(Model model, @RequestParam String identifier) {
-
         unitService.toggleStatus(identifier);
-
     }
 }

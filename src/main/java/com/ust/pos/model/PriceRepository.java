@@ -9,9 +9,7 @@ import java.util.List;
 public interface PriceRepository extends JpaRepository<Price, Long> {
 
     Price findByIdentifier(String identifier);
-
     void deleteByIdentifier(String identifier);
-
     List<Price> findByStatusIsTrue();
 
 }

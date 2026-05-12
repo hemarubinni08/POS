@@ -30,15 +30,12 @@ public class SecurityController extends BaseController {
 
     @GetMapping("/register")
     public String add(Model model, @ModelAttribute UserDto userDto) {
-
         model.addAttribute("roles", roleService.findIfTrue());
         return "register";
-
     }
 
     @PostMapping("/register")
     public String addPost(Model model, @ModelAttribute UserDto userDto) {
-
         UserDto response = userService.save(userDto);
         PaginationDto paginationDto=new PaginationDto();
         if (!response.isSuccess()) {
@@ -47,6 +44,5 @@ public class SecurityController extends BaseController {
             return "register";
         }
         return "login";
-
     }
 }

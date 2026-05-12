@@ -21,25 +21,20 @@ public class CategoryController extends BaseController {
 
     @GetMapping("/list")
     public String home(Model model) {
-
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("categorys", categoryService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "category/list";
-
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute CategoryDto categoryDto) {
-
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute(CATEGORIES, categoryService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "category/add";
-
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute CategoryDto categoryDto) {
-
         CategoryDto response = categoryService.save(categoryDto);
         PaginationDto paginationDto = new PaginationDto();
         if (!response.isSuccess()) {
@@ -48,23 +43,19 @@ public class CategoryController extends BaseController {
             return "category/add";
         }
         return REDIRECT_CATEGORY_LIST;
-
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         CategoryDto response = categoryService.findByIdentifier(identifier);
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("category", response);
         model.addAttribute(CATEGORIES, categoryService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "category/category";
-
     }
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute CategoryDto categoryDto) {
-
         CategoryDto response = categoryService.update(categoryDto);
         if (!response.isSuccess()) {
             model.addAttribute("category", response);
@@ -74,7 +65,6 @@ public class CategoryController extends BaseController {
             return "category/category";
         }
         return REDIRECT_CATEGORY_LIST;
-
     }
 
     @GetMapping("/delete")
@@ -86,8 +76,6 @@ public class CategoryController extends BaseController {
     @PostMapping("/toggle-status")
     @ResponseBody
     public void toggle(Model model, @RequestParam String identifier) {
-
         categoryService.toggleStatus(identifier);
-
     }
 }

@@ -26,14 +26,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto findByIdentifier(String identifier) {
-
         return modelMapper.map(categoryRepository.findByIdentifier(identifier), CategoryDto.class);
-
     }
+
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
-
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
         if (existingCategory != null) {
@@ -44,12 +42,10 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = modelMapper.map(categoryDto, Category.class);
         categoryRepository.save(category);
         return categoryDto;
-
     }
 
     @Override
     public CategoryDto update(CategoryDto categoryDto) {
-
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
         if (existingCategory == null) {
@@ -60,7 +56,6 @@ public class CategoryServiceImpl implements CategoryService {
         modelMapper.map(categoryDto, existingCategory);
         categoryRepository.save(existingCategory);
         return categoryDto;
-
     }
 
     @Override
@@ -71,45 +66,36 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
         return modelMapper.map(categoryPage.getContent(), listType);
-
     }
 
     @Override
     public List<CategoryDto> findBySuperCategoryNotNull() {
-
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         return modelMapper.map(categoryRepository.findByStatusTrueAndSuperCategoryIsNot(""), listType);
-
     }
 
     @Override
     public CategoryDto toggleStatus(String identifier) {
-
         Category category = categoryRepository.findByIdentifier(identifier);
         category.setStatus(!category.isStatus());
         categoryRepository.save(category);
         return modelMapper.map(category, CategoryDto.class);
-
     }
 
     @Override
     public List<CategoryDto> findIfTrue() {
-
         Type listType = new TypeToken<List<ShelfsDto>>() {
         }.getType();
         return modelMapper.map(categoryRepository.findByStatusIsTrue(), listType);
-
     }
 
     @Override
     public List<CategoryDto> findAllActive() {
-
         List<Category> categories = categoryRepository.findAll();
         List<CategoryDto> activeAssignableCategories = new ArrayList<>();
         for (Category category : categories) {
@@ -122,6 +108,5 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
         return activeAssignableCategories;
-
     }
 }

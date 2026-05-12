@@ -34,14 +34,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByUserName(String username) {
-
         return modelMapper.map(userRepository.findByUsername(username), UserDto.class);
-
     }
 
     @Override
     public UserDto save(UserDto userDto) {
-
         String username = userDto.getUsername();
         User existingUser = userRepository.findByUsername(username);
         if (existingUser != null) {
@@ -54,12 +51,10 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
         return userDto;
-
     }
 
     @Override
     public UserDto update(UserDto userDto) {
-
         String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
         if (userOptional.isEmpty()) {
@@ -79,12 +74,10 @@ public class UserServiceImpl implements UserService {
             userRepository.save(existingUser);
         }
         return userDto;
-
     }
 
     @Override
     public UserDto delete(String username) {
-
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
@@ -101,35 +94,28 @@ public class UserServiceImpl implements UserService {
             return user;
         }
         return null;
-
     }
 
     @Override
     public List<UserDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
         Page<User> userPage = userRepository.findAll(pageable);
         return modelMapper.map(userPage.getContent(), listType);
-
     }
 
     @Override
     public UserDto toggleStatus(String identifier) {
-
         User user = userRepository.findByUsername(identifier);
         user.setStatus(!user.isStatus());
         userRepository.save(user);
         return modelMapper.map(user, UserDto.class);
-
     }
 
     @Override
     public List<UserDto> findIfTrue() {
-
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
         return modelMapper.map(userRepository.findByStatusIsTrue(), listType);
-
     }
 }

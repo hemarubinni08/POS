@@ -30,14 +30,11 @@ public class StocksServiceImpl implements StocksService {
 
     @Override
     public StocksDto findByIdentifier(String identifier) {
-
         return modelMapper.map(stocksRepository.findByIdentifier(identifier), StocksDto.class);
-
     }
 
     @Override
     public StocksDto save(StocksDto stocksDto) {
-
         String identifier = stocksDto.getIdentifier();
         Stocks existingStocks = stocksRepository.findByIdentifier(identifier);
         if (existingStocks != null) {
@@ -50,12 +47,10 @@ public class StocksServiceImpl implements StocksService {
         stocks.setSkuCode(productDto.getSkuCode());
         stocksRepository.save(stocks);
         return stocksDto;
-
     }
 
     @Override
     public StocksDto update(StocksDto stocksDto) {
-
         String identifier = stocksDto.getIdentifier();
         Stocks existingStocks = stocksRepository.findByIdentifier(identifier);
         if (existingStocks == null) {
@@ -66,43 +61,34 @@ public class StocksServiceImpl implements StocksService {
         modelMapper.map(stocksDto, existingStocks);
         stocksRepository.save(existingStocks);
         return stocksDto;
-
     }
 
     @Override
     public boolean delete(String identifier) {
-
         stocksRepository.deleteByIdentifier(identifier);
         return true;
-
     }
 
     @Override
     public List<StocksDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<StocksDto>>() {
         }.getType();
         Page<Stocks> stocksPage = stocksRepository.findAll(pageable);
         return modelMapper.map(stocksPage.getContent(), listType);
-
     }
 
     @Override
     public List<StocksDto> findIfTrue() {
-
         Type listType = new TypeToken<List<StocksDto>>() {
         }.getType();
         return modelMapper.map(stocksRepository.findByStatusIsTrue(), listType);
-
     }
 
     @Override
     public StocksDto toggleStatus(String identifier) {
-
         Stocks stocks = stocksRepository.findByIdentifier(identifier);
         stocks.setStatus(!stocks.isStatus());
         stocksRepository.save(stocks);
         return modelMapper.map(stocks, StocksDto.class);
-
     }
 }

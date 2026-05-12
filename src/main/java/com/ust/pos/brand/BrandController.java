@@ -20,44 +20,35 @@ public class BrandController extends BaseController {
 
     @GetMapping("/list")
     public String home(Model model) {
-
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("brands", brandService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "brand/list";
-
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute BrandDto brandDto) {
-
         return "brand/add";
-
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute BrandDto brandDto) {
-
         BrandDto response = brandService.save(brandDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "brand/add";
         }
         return REDIRECT_BRAND_LIST;
-
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         BrandDto response = brandService.findByIdentifier(identifier);
         model.addAttribute("brand", response);
         return "brand/brand";
-
     }
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute BrandDto brandDto) {
-
         BrandDto response = brandService.update(brandDto);
         if (!response.isSuccess()) {
             model.addAttribute("brand", response);
@@ -65,22 +56,17 @@ public class BrandController extends BaseController {
             return "brand/brand";
         }
         return REDIRECT_BRAND_LIST;
-
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
-
         brandService.delete(identifier);
         return REDIRECT_BRAND_LIST;
-
     }
 
     @PostMapping("/toggle-status")
     @ResponseBody
     public void toggle(Model model, @RequestParam String identifier) {
-
         brandService.toggleStatus(identifier);
-
     }
 }

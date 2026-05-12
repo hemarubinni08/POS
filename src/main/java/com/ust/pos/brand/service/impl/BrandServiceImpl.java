@@ -25,24 +25,19 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto findByIdentifier(String identifier) {
-
         return modelMapper.map(brandRepository.findByIdentifier(identifier), BrandDto.class);
-
     }
 
     @Override
     public BrandDto toggleStatus(String identifier) {
-
         Brand brand = brandRepository.findByIdentifier(identifier);
         brand.setStatus(!brand.isStatus());
         brandRepository.save(brand);
         return modelMapper.map(brand, BrandDto.class);
-
     }
 
     @Override
     public BrandDto save(BrandDto brandDto) {
-
         brandDto.setIdentifier(brandDto.getIdentifier().trim());
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
@@ -54,12 +49,10 @@ public class BrandServiceImpl implements BrandService {
         Brand brand = modelMapper.map(brandDto, Brand.class);
         brandRepository.save(brand);
         return brandDto;
-
     }
 
     @Override
     public BrandDto update(BrandDto brandDto) {
-
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
         if (existingBrand == null) {
@@ -70,33 +63,26 @@ public class BrandServiceImpl implements BrandService {
         modelMapper.map(brandDto, existingBrand);
         brandRepository.save(existingBrand);
         return brandDto;
-
     }
 
     @Override
     public boolean delete(String identifier) {
-
         brandRepository.deleteByIdentifier(identifier);
         return true;
-
     }
 
     @Override
     public List<BrandDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
         Page<Brand> brandPage = brandRepository.findAll(pageable);
         return modelMapper.map(brandPage.getContent(), listType);
-
     }
 
     @Override
     public List<BrandDto> findIfTrue() {
-
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
         return modelMapper.map(brandRepository.findByStatusIsTrue(), listType);
-
     }
 }

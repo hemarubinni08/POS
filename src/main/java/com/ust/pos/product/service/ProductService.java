@@ -10,17 +10,11 @@ import java.util.List;
 public interface ProductService {
 
     ProductDto save(ProductDto productDto);
-
     ProductDto update(ProductDto productDto);
-
     boolean delete(String identifier);
-
     List<ProductDto> findAll(Pageable pageable);
-
     ProductDto findByIdentifier(String identifier);
-
     List<ProductDto> findIfTrue();
-
     ProductDto toggleStatus(String identifier);
 
 }

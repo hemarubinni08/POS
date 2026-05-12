@@ -25,24 +25,19 @@ public class RacksController extends BaseController {
 
     @GetMapping("/list")
     public String home(Model model) {
-
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("rackss", racksService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "racks/list";
-
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute RacksDto racksDto) {
-
         model.addAttribute(SHELVES, shelfsService.findIfTrue());
         return "racks/add";
-
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute RacksDto racksDto) {
-
         RacksDto response = racksService.save(racksDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -50,22 +45,18 @@ public class RacksController extends BaseController {
             return "racks/add";
         }
         return REDIRECT_RACKS_LIST;
-
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         RacksDto response = racksService.findByIdentifier(identifier);
         model.addAttribute("racks", response);
         model.addAttribute(SHELVES, shelfsService.findIfTrue());
         return "racks/racks";
-
     }
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute RacksDto racksDto) {
-
         RacksDto response = racksService.update(racksDto);
         if (!response.isSuccess()) {
             model.addAttribute("racks", response);
@@ -74,22 +65,17 @@ public class RacksController extends BaseController {
             return "racks/racks";
         }
         return REDIRECT_RACKS_LIST;
-
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
-
         racksService.delete(identifier);
         return REDIRECT_RACKS_LIST;
-
     }
 
     @PostMapping("/toggle-status")
     @ResponseBody
     public void toggle(Model model, @RequestParam String identifier) {
-
         racksService.toggleStatus(identifier);
-
     }
 }

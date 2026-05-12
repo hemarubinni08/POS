@@ -25,39 +25,30 @@ public class PosApplication {
     Environment environment;
 
     public static void main(String[] args) {
-
         SpringApplication.run(PosApplication.class, args);
-
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-
         return new BCryptPasswordEncoder();
-
     }
 
     @Bean
     public ModelMapper modelMapper() {
-
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         mapper.getConfiguration().setSkipNullEnabled(true);
         mapper.getConfiguration().setCollectionsMergeEnabled(false);
         return mapper;
-
     }
 
     @Bean
     public JdbcTemplate jdbcTemplate() {
-
         return new JdbcTemplate(getDataSource());
-
     }
 
     @Bean
     DataSource getDataSource() {
-
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setUrl(environment.getProperty("spring.datasource.url"));
         ds.setUsername(environment.getProperty("spring.datasource.username"));
@@ -67,6 +58,5 @@ public class PosApplication {
             ds.setDriverClassName(property);
         }
         return ds;
-
     }
 }

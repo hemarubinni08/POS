@@ -7,9 +7,7 @@ import java.util.List;
 public interface ModelsRepository extends JpaRepository<Models, Long> {
 
     Models findByIdentifier(String identifier);
-
     void deleteByIdentifier(String identifier);
-
     List<Models> findByStatusIsTrue();
 
 }

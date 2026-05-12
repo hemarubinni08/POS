@@ -32,26 +32,21 @@ public class StocksController extends BaseController {
 
     @GetMapping("/list")
     public String home(Model model) {
-
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute(STOCKS, stocksService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "stocks/list";
-
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute StocksDto stocksDto) {
-
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute(PRODUCTS, productService.findIfTrue());
         model.addAttribute(WAREHOUSE, warehouseService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "stocks/add";
-
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute StocksDto stocksDto) {
-
         PaginationDto paginationDto = new PaginationDto();
         StocksDto response = stocksService.save(stocksDto);
         if (!response.isSuccess()) {
@@ -66,19 +61,16 @@ public class StocksController extends BaseController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         PaginationDto paginationDto = new PaginationDto();
         StocksDto response = stocksService.findByIdentifier(identifier);
         model.addAttribute(PRODUCTS, productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         model.addAttribute(WAREHOUSE, warehouseService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         model.addAttribute(STOCKS, response);
         return "stocks/stocks";
-
     }
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute StocksDto stocksDto) {
-
         PaginationDto paginationDto = new PaginationDto();
         StocksDto response = stocksService.update(stocksDto);
         if (!response.isSuccess()) {
@@ -89,22 +81,17 @@ public class StocksController extends BaseController {
             return "stocks/stocks";
         }
         return REDIRECT_STOCKS_LIST;
-
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
-
         stocksService.delete(identifier);
         return REDIRECT_STOCKS_LIST;
-
     }
 
     @PostMapping("/toggle-status")
     @ResponseBody
     public void toggle(Model model, @RequestParam String identifier) {
-
         stocksService.toggleStatus(identifier);
-
     }
 }
