@@ -19,5 +19,4 @@ public interface UnitService {
     void updateStatus(String identifier, boolean status);
 
     List<UnitDto> findAllActive();
-
 }

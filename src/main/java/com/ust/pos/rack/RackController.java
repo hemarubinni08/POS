@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/rack")
 public class RackController {
+
     public static final String REDIRECT_RACK_LIST = "redirect:/rack/list";
     private static final String SHELF = "shelfs";
     @Autowired
     private RackService rackService;
     @Autowired
     private ShelfService shelfService;
-
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {

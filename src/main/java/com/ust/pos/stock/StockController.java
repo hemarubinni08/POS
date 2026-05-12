@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/stock")
 public class StockController {
+
     public static final String REDIRECT_STOCK_LIST = "redirect:/stock/list";
     public static final String STOCK = "stock";
     private static final String WAREHOUSE = "warehouse";

@@ -248,7 +248,6 @@
     </div>
 </div>
 
-<!-- ✅ CORRECT SCRIPT (NO EL ERRORS) -->
 <script>
     const contextPath = '${pageContext.request.contextPath}';
 

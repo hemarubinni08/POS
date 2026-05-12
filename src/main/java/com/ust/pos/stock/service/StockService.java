@@ -15,5 +15,4 @@ public interface StockService {
     List<StockDto> findAll(Pageable pageable);
 
     StockDto findByIdentifier(String identifier);
-
 }

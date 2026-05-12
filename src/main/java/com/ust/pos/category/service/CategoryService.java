@@ -21,5 +21,4 @@ public interface CategoryService {
     void updateStatus(String identifier, boolean status);
 
     List<CategoryDto> findAllActive();
-
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/shelf")
 public class ShelfController {
+
     public static final String REDIRECT_SHELF_LIST = "redirect:/shelf/list";
     @Autowired
     private ShelfService shelfService;

@@ -91,5 +91,4 @@ public class CategoryServiceImpl implements CategoryService {
         }.getType();
         return modelMapper.map(categoryRepository.findByStatus(true), listType);
     }
-
 }

@@ -70,5 +70,4 @@ public class CategoryController {
         categoryService.updateStatus(identifier, status);
         return "success";
     }
-
 }

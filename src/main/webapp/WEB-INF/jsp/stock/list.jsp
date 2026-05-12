@@ -101,7 +101,6 @@
         text-align: center;
     }
 
-    /* ✅ Footer Button Styling */
     .footer-links {
         display: flex;
         justify-content: space-between;
@@ -131,12 +130,10 @@
 
     <h2>Stock Inventory</h2>
 
-    <!-- ✅ NO STOCK -->
     <c:if test="${empty stock}">
         <div class="alert">No stock records found</div>
     </c:if>
 
-    <!-- ✅ STOCK LIST -->
     <c:if test="${not empty stock}">
         <table>
             <thead>
