@@ -25,10 +25,7 @@
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
 
     <div class="card p-4 shadow" style="width: 450px;">
-
         <h3 class="text-center mb-3">Add Price</h3>
-
-        <!-- ERROR MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger">${message}</div>
         </c:if>
@@ -37,14 +34,10 @@
                    action="${pageContext.request.contextPath}/price/add"
                    modelAttribute="priceDto">
 
-            <!-- PRODUCT -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Product</label>
-
                 <form:select path="productId" cssClass="form-control" required="required">
-
                     <form:option value="" label="-- Select Product --"/>
-
                     <c:forEach var="p" items="${products}">
                         <form:option value="${p.identifier}">
                             ${p.productName} (${p.identifier})
@@ -54,7 +47,6 @@
                 </form:select>
             </div>
 
-            <!-- COST PRICE -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Cost Price</label>
                 <form:input path="costPrice"
@@ -64,7 +56,6 @@
                             required="required"/>
             </div>
 
-            <!-- MRP -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">MRP</label>
                 <form:input path="mrp"
@@ -74,7 +65,6 @@
                             required="required"/>
             </div>
 
-            <!-- SELLING PRICE -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Selling Price</label>
                 <form:input path="sellingPrice"

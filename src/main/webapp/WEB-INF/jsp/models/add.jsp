@@ -41,22 +41,17 @@
 </nav>
 
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-
     <div class="card shadow p-4" style="width: 450px;">
-
         <h3 class="text-center mb-4 fw-bold">Add Model</h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- FORM -->
         <form action="${pageContext.request.contextPath}/models/save" method="post">
 
-            <!-- MODEL NAME -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Model Name</label>
                 <input type="text"
@@ -67,21 +62,16 @@
                        required>
             </div>
 
-           <!-- STATUS DROPDOWN -->
            <div class="mb-4">
                <label class="form-label fw-semibold">Status</label>
 
                <select class="form-control" name="status" required>
-
                    <option value="">-- Select Status --</option>
-
                    <option value="true">Active</option>
                    <option value="false">Inactive</option>
-
                </select>
            </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
 
                 <button type="submit" class="btn btn-primary w-100">

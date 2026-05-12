@@ -38,7 +38,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Unit Management</span>
@@ -47,24 +46,17 @@
     </div>
 </nav>
 
-<!-- MAIN -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-
     <div class="card shadow p-4" style="width: 500px;">
-
         <h3 class="text-center mb-4 fw-bold">Add Unit</h3>
-
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- FORM -->
         <form action="${pageContext.request.contextPath}/unit/add" method="post">
 
-            <!-- UNIT NAME -->
             <div class="mb-3">
                 <label class="form-label">Unit Name</label>
                 <input type="text"
@@ -74,7 +66,6 @@
                        required>
             </div>
 
-            <!-- STATUS TOGGLE -->
             <div class="mb-4">
                 <label class="form-label fw-semibold">Status</label>
 
@@ -92,7 +83,6 @@
                 </div>
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary w-100">
                     Save
@@ -103,11 +93,8 @@
                     Cancel
                 </a>
             </div>
-
         </form>
-
     </div>
 </div>
-
 </body>
 </html>

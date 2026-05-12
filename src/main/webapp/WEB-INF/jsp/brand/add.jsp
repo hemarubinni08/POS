@@ -44,9 +44,7 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
-
     <div class="container-fluid">
 
         <span class="navbar-brand fw-bold">
@@ -55,43 +53,32 @@
 
         <a href="${pageContext.request.contextPath}/brand/list"
            class="btn btn-outline-light btn-sm">
-
             Back
-
         </a>
-
     </div>
 
 </nav>
 
-<!-- PAGE -->
 <div class="container d-flex justify-content-center align-items-center"
      style="min-height: 100vh;">
 
     <div class="card shadow p-4"
          style="width: 550px;">
-
-        <!-- TITLE -->
         <h3 class="text-center mb-4 fw-bold">
             Add Brand
         </h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
-
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
 
         </c:if>
 
-        <!-- FORM -->
         <form action="${pageContext.request.contextPath}/brand/add"
               method="post">
 
-            <!-- BRAND NAME -->
             <div class="mb-3">
-
                 <label class="form-label fw-semibold">
                     Brand Name
                 </label>
@@ -102,32 +89,25 @@
                        placeholder="Enter brand name"
                        maxlength="50"
                        required>
-
             </div>
 
-            <!-- DESCRIPTION -->
             <div class="mb-3">
 
                 <label class="form-label fw-semibold">
                     Description
                 </label>
 
-                <textarea name="description"
-                          class="form-control"
+                <textarea name="description" class="form-control"
                           placeholder="Enter brand description"
                           required></textarea>
-
             </div>
 
-            <!-- STATUS -->
             <div class="mb-4">
-
                 <label class="form-label fw-semibold">
                     Status
                 </label>
 
-                <select name="status"
-                        class="form-select">
+                <select name="status" class="form-select">
 
                     <option value="true" selected>
                         Active
@@ -138,34 +118,21 @@
                     </option>
 
                 </select>
-
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
 
-                <button type="submit"
-                        class="btn btn-primary w-100">
-
+                <button type="submit" class="btn btn-primary w-100">
                     Save
-
                 </button>
 
-                <a href="${pageContext.request.contextPath}/brand/list"
-                   class="btn btn-outline-secondary w-100">
-
+                <a href="${pageContext.request.contextPath}/brand/list" class="btn btn-outline-secondary w-100">
                     Cancel
-
                 </a>
-
             </div>
-
         </form>
-
     </div>
 
 </div>
-
 </body>
-
 </html>

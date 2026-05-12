@@ -32,14 +32,11 @@
 </nav>
 
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-
     <div class="card shadow p-4" style="width: 520px;">
-
         <h3 class="text-center mb-4 fw-bold">
             Add Stock
         </h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
@@ -49,10 +46,8 @@
         <form:form method="post"
                    action="${pageContext.request.contextPath}/stock/add"
                    modelAttribute="stockDto">
-
             <form:hidden path="identifier"/>
 
-            <!-- PRODUCT -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Product</label>
                 <form:select path="productIdentifier" cssClass="form-select" required="true">
@@ -65,7 +60,6 @@
                 </form:select>
             </div>
 
-            <!-- WAREHOUSE -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Warehouse</label>
                 <form:select path="warehouseIdentifier" cssClass="form-select" required="true">
@@ -78,7 +72,6 @@
                 </form:select>
             </div>
 
-            <!-- QUANTITY -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Available Quantity</label>
                 <form:input path="availableQuantity"
@@ -88,7 +81,6 @@
                             required="true"/>
             </div>
 
-            <!-- REORDER LEVEL -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Reorder Level</label>
                 <form:input path="reorderLevel"
@@ -98,7 +90,6 @@
                             required="true"/>
             </div>
 
-            <!-- STATUS -->
             <div class="mb-4">
                 <label class="form-label fw-semibold">Status</label>
                 <form:select path="status" cssClass="form-select">
@@ -107,7 +98,6 @@
                 </form:select>
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
 
                 <button type="submit" class="btn btn-primary w-100">
@@ -118,9 +108,7 @@
                    class="btn btn-outline-secondary w-100">
                     Cancel
                 </a>
-
             </div>
-
         </form:form>
 
     </div>

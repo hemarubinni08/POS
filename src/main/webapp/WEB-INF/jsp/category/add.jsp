@@ -32,7 +32,6 @@
 
         <h3 class="text-center mb-4 fw-bold">Add Category</h3>
 
-        <!-- ERROR MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
@@ -41,7 +40,6 @@
 
         <form action="/category/add" method="post">
 
-            <!-- IDENTIFIER -->
             <div class="mb-3">
                 <label class="form-label">Identifier</label>
                 <input type="text"
@@ -52,7 +50,6 @@
                        required>
             </div>
 
-            <!-- NAME -->
             <div class="mb-3">
                 <label class="form-label">Name</label>
                 <input type="text"
@@ -64,13 +61,10 @@
                        required>
             </div>
 
-            <!-- SUPER CATEGORY -->
             <div class="mb-4">
                 <label class="form-label">Super Category</label>
-
                 <select name="superCategoryIdentifier" class="form-control">
                     <option value="">-- None (Top Level) --</option>
-
                     <c:forEach items="${categories}" var="c">
                         <option value="${c.identifier}"
                             ${c.identifier == category.superCategoryIdentifier ? 'selected' : ''}>
@@ -80,7 +74,6 @@
                 </select>
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary w-100">
                     Save

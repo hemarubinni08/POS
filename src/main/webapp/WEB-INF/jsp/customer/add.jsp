@@ -9,7 +9,6 @@
     <meta charset="UTF-8">
     <title>Add Customer</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -39,7 +38,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
 
     <div class="container-fluid">
@@ -57,7 +55,6 @@
 
 </nav>
 
-<!-- MAIN -->
 <div class="container d-flex justify-content-center align-items-center"
      style="min-height: 100vh;">
 
@@ -68,7 +65,6 @@
             Add Customer
         </h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty customerDto.message}">
             <div class="alert alert-danger text-center">
                 ${customerDto.message}
@@ -78,15 +74,10 @@
         <form action="/customer/add"
               method="post">
 
-            <!-- ================= CUSTOMER DETAILS ================= -->
-
             <h5 class="fw-bold mb-3">
                 Customer Details
             </h5>
-
-            <!-- PHONE -->
             <div class="mb-3">
-
                 <label class="form-label">
                     Phone No
                 </label>
@@ -103,13 +94,11 @@
 
             </div>
 
-            <!-- NAME -->
             <div class="mb-3">
 
                 <label class="form-label">
                     Name
                 </label>
-
                 <input type="text"
                        name="name"
                        class="form-control"
@@ -118,10 +107,8 @@
                        title="Only alphabets allowed"
                        oninput="this.value=this.value.replace(/[^A-Za-z ]/g,'')"
                        required>
-
             </div>
 
-            <!-- EMAIL -->
             <div class="mb-3">
 
                 <label class="form-label">
@@ -135,12 +122,9 @@
                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                        title="Enter valid email"
                        required>
-
             </div>
 
-            <!-- BALANCE -->
             <div class="mb-3">
-
                 <label class="form-label">
                     Balance
                 </label>
@@ -152,12 +136,9 @@
                        step="0.01"
                        oninput="if(this.value < 0) this.value = 0"
                        required>
-
             </div>
 
-            <!-- BALANCE TYPE -->
             <div class="mb-3">
-
                 <label class="form-label">
                     Balance Type
                 </label>
@@ -174,12 +155,9 @@
                     </option>
 
                 </select>
-
             </div>
 
-            <!-- PARTY TYPE -->
             <div class="mb-3">
-
                 <label class="form-label">
                     Party Type
                 </label>
@@ -192,16 +170,12 @@
                        title="Only alphabets allowed"
                        oninput="this.value=this.value.replace(/[^A-Za-z ]/g,'')"
                        required>
-
             </div>
 
-            <!-- CREDIT LIMIT -->
             <div class="mb-4">
-
                 <label class="form-label">
                     Credit Limit
                 </label>
-
                 <input type="number"
                        name="creditLimit"
                        class="form-control"
@@ -209,19 +183,13 @@
                        step="0.01"
                        oninput="if(this.value < 0) this.value = 0"
                        required>
-
             </div>
 
-            <!-- STATUS -->
             <div class="mb-4">
-
                 <label class="form-label fw-semibold">
                     Status
                 </label>
-
-                <select name="status"
-                        class="form-select">
-
+                <select name="status" class="form-select">
                     <option value="true">
                         Active
                     </option>
@@ -234,13 +202,10 @@
 
             </div>
 
-            <!-- ================= BILLING ADDRESS ================= -->
-
             <h5 class="fw-bold mb-3">
                 Billing Address
             </h5>
 
-            <!-- ADDRESS -->
             <input type="text"
                    id="billAddressLine"
                    name="billingAddress.addressLine"
@@ -248,7 +213,6 @@
                    placeholder="Address Line"
                    required>
 
-            <!-- CITY -->
             <input type="text"
                    id="billCity"
                    name="billingAddress.city"
@@ -256,7 +220,6 @@
                    placeholder="City"
                    required>
 
-            <!-- STATE -->
             <input type="text"
                    id="billState"
                    name="billingAddress.state"
@@ -264,7 +227,6 @@
                    placeholder="State"
                    required>
 
-            <!-- PIN -->
             <input type="text"
                    id="billZip"
                    name="billingAddress.zip"
@@ -277,7 +239,6 @@
                    oninput="this.value=this.value.replace(/[^0-9]/g,'')"
                    required>
 
-            <!-- COUNTRY -->
             <input type="text"
                    id="billCountry"
                    name="billingAddress.country"
@@ -285,29 +246,20 @@
                    placeholder="Country"
                    required>
 
-            <!-- SAME AS BILLING -->
             <div class="form-check mb-4">
 
                 <input class="form-check-input"
                        type="checkbox"
                        id="sameAsBilling">
-
-                <label class="form-check-label fw-bold"
-                       for="sameAsBilling">
-
+                <label class="form-check-label fw-bold" for="sameAsBilling">
                     Shipping same as Billing Address
-
                 </label>
 
             </div>
-
-            <!-- ================= SHIPPING ADDRESS ================= -->
-
             <h5 class="fw-bold mb-3">
                 Shipping Address
             </h5>
 
-            <!-- ADDRESS -->
             <input type="text"
                    id="shipAddressLine"
                    name="shippingAddress.addressLine"
@@ -315,7 +267,6 @@
                    placeholder="Address Line"
                    required>
 
-            <!-- CITY -->
             <input type="text"
                    id="shipCity"
                    name="shippingAddress.city"
@@ -323,7 +274,6 @@
                    placeholder="City"
                    required>
 
-            <!-- STATE -->
             <input type="text"
                    id="shipState"
                    name="shippingAddress.state"
@@ -331,7 +281,6 @@
                    placeholder="State"
                    required>
 
-            <!-- PIN -->
             <input type="text"
                    id="shipZip"
                    name="shippingAddress.zip"
@@ -344,19 +293,15 @@
                    oninput="this.value=this.value.replace(/[^0-9]/g,'')"
                    required>
 
-            <!-- COUNTRY -->
             <input type="text"
                    id="shipCountry"
                    name="shippingAddress.country"
                    class="form-control mb-4"
                    placeholder="Country"
                    required>
-
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
 
-                <button type="submit"
-                        class="btn btn-primary w-100">
+                <button type="submit" class="btn btn-primary w-100">
                     Save
                 </button>
 
@@ -364,40 +309,24 @@
                    class="btn btn-outline-secondary w-100">
                     Cancel
                 </a>
-
             </div>
-
         </form>
-
     </div>
-
 </div>
 
-<!-- SCRIPT -->
 <script>
 
 document.getElementById("sameAsBilling")
     .addEventListener("change", function () {
 
     if (this.checked) {
-
-        document.getElementById("shipAddressLine").value =
-            document.getElementById("billAddressLine").value;
-
-        document.getElementById("shipCity").value =
-            document.getElementById("billCity").value;
-
-        document.getElementById("shipState").value =
-            document.getElementById("billState").value;
-
-        document.getElementById("shipZip").value =
-            document.getElementById("billZip").value;
-
-        document.getElementById("shipCountry").value =
-            document.getElementById("billCountry").value;
+        document.getElementById("shipAddressLine").value = document.getElementById("billAddressLine").value;
+        document.getElementById("shipCity").value = document.getElementById("billCity").value;
+        document.getElementById("shipState").value = document.getElementById("billState").value;
+        document.getElementById("shipZip").value = document.getElementById("billZip").value;
+        document.getElementById("shipCountry").value = document.getElementById("billCountry").value;
 
     } else {
-
         document.getElementById("shipAddressLine").value = "";
         document.getElementById("shipCity").value = "";
         document.getElementById("shipState").value = "";

@@ -46,15 +46,12 @@
         }
 
     </style>
-
 </head>
 
 <body>
 
 <nav class="navbar navbar-dark bg-dark shadow">
-
     <div class="container-fluid">
-
         <span class="navbar-brand fw-bold">
             Rack Management
         </span>
@@ -63,32 +60,25 @@
            class="btn btn-outline-light btn-sm">
             Back
         </a>
-
     </div>
 
 </nav>
 
-<!-- MAIN -->
 <div class="container d-flex justify-content-center align-items-center"
      style="min-height: 100vh;">
-
     <div class="card shadow p-4" style="width: 500px;">
-
         <h3 class="text-center mb-4 fw-bold">Add Rack</h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- FORM -->
         <form:form method="post"
                    action="${pageContext.request.contextPath}/rack/add"
                    modelAttribute="rackDto">
 
-            <!-- IDENTIFIER -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Identifier *</label>
                 <form:input path="identifier"
@@ -97,7 +87,6 @@
                             required="true"/>
             </div>
 
-            <!-- NAME -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Rack Name *</label>
                 <form:input path="name"
@@ -105,55 +94,36 @@
                             placeholder="Enter rack name"
                             required="true"/>
             </div>
-
-            <!-- SHELVES -->
             <div class="mb-4">
 
                 <label class="form-label fw-semibold">Shelves *</label>
-
                 <div class="shelf-box">
-
                     <c:forEach var="s" items="${shelves}">
-
                         <div class="form-check">
-
                             <form:checkbox path="shelfIdentifiers"
                                            value="${s.identifier}"
                                            cssClass="form-check-input shelf-check"/>
-
                             <label class="form-check-label">
                                 ${s.name}
                             </label>
-
                         </div>
-
                     </c:forEach>
-
                 </div>
 
                 <small id="shelfError" class="text-danger d-none">
                     Please select at least one shelf
                 </small>
-
             </div>
 
-            <!-- STATUS -->
             <div class="mb-3">
-
                 <label class="form-label fw-semibold">Status</label>
-
                 <form:select path="status" cssClass="form-select">
-
                     <form:option value="true">Active</form:option>
                     <form:option value="false">Inactive</form:option>
-
                 </form:select>
-
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
-
                 <button type="submit" class="btn btn-primary w-100">
                     Save Rack
                 </button>
@@ -162,16 +132,11 @@
                    class="btn btn-outline-secondary w-100">
                     Cancel
                 </a>
-
             </div>
-
         </form:form>
-
     </div>
-
 </div>
 
-<!-- VALIDATION -->
 <script>
 
 document.addEventListener("DOMContentLoaded", function () {

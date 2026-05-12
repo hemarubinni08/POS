@@ -8,8 +8,6 @@
 
     <meta charset="UTF-8">
     <title>Add Node</title>
-
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -38,11 +36,8 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
-
     <div class="container-fluid">
-
         <span class="navbar-brand fw-bold">
             Node Management
         </span>
@@ -56,7 +51,6 @@
 
 </nav>
 
-<!-- MAIN CONTAINER -->
 <div class="container d-flex justify-content-center align-items-center"
      style="min-height: 100vh;">
 
@@ -67,19 +61,16 @@
             Add Node
         </h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- FORM -->
         <form action="/node/add"
               method="post"
               onsubmit="return validateRoles()">
 
-            <!-- IDENTIFIER -->
             <div class="mb-3">
 
                 <label class="form-label">
@@ -92,10 +83,8 @@
                        placeholder="Enter identifier"
                        maxlength="50"
                        required>
-
             </div>
 
-            <!-- PATH -->
             <div class="mb-3">
 
                 <label class="form-label">
@@ -108,10 +97,8 @@
                        placeholder="/example/example"
                        maxlength="100"
                        required>
-
             </div>
 
-            <!-- ROLES -->
             <div class="mb-4">
 
                 <label class="form-label fw-semibold">
@@ -119,97 +106,57 @@
                 </label>
 
                 <div class="border rounded p-3">
-
-                    <!-- NO ROLES -->
                     <c:if test="${empty roles}">
                         <span class="text-danger">
                             No roles available
                         </span>
                     </c:if>
 
-                    <!-- ROLE LIST -->
                     <c:forEach items="${roles}" var="r">
-
                         <div class="form-check">
-
                             <input class="form-check-input"
                                    type="checkbox"
                                    name="roles"
                                    value="${r.identifier}"
                                    id="role_${r.identifier}">
 
-                            <label class="form-check-label"
-                                   for="role_${r.identifier}">
-
+                            <label class="form-check-label" for="role_${r.identifier}">
                                 ${r.identifier}
-
                             </label>
-
                         </div>
-
                     </c:forEach>
-
                 </div>
 
-                <!-- ERROR -->
-                <div id="roleError"
-                     class="text-danger mt-2"
-                     style="display:none;">
-
+                <div id="roleError" class="text-danger mt-2" style="display:none;">
                     Please select at least one role
-
                 </div>
-
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
 
-                <button type="submit"
-                        class="btn btn-primary w-100">
-
+                <button type="submit" class="btn btn-primary w-100">
                     Save
-
                 </button>
 
-                <a href="/node/list"
-                   class="btn btn-outline-secondary w-100">
-
+                <a href="/node/list" class="btn btn-outline-secondary w-100">
                     Cancel
-
                 </a>
-
             </div>
-
         </form>
-
     </div>
-
 </div>
-
-<!-- SCRIPT -->
 <script>
 
 function validateRoles() {
-
-    const roles =
-        document.querySelectorAll('input[name="roles"]:checked');
-
-    const error =
-        document.getElementById("roleError");
-
+    const roles = document.querySelectorAll('input[name="roles"]:checked');
+    const error = document.getElementById("roleError");
     if (roles.length === 0) {
-
         error.style.display = "block";
-
         return false;
     }
-
     error.style.display = "none";
-
-    return true;
+   return true;
 }
-
 </script>
 
 </body>
