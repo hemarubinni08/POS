@@ -39,7 +39,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
 
     <div class="container-fluid">
@@ -57,34 +56,26 @@
 
 </nav>
 
-<!-- PAGE -->
 <div class="container d-flex justify-content-center align-items-center"
      style="min-height: 100vh;">
 
     <div class="card shadow p-4"
          style="width: 500px;">
 
-        <!-- TITLE -->
         <h3 class="text-center mb-4 fw-bold">
             Update Unit
         </h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
-
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
-
         </c:if>
 
-        <!-- FORM -->
         <form action="/unit/update"
               method="post">
 
-            <!-- IDENTIFIER -->
             <div class="mb-3">
-
                 <label class="form-label">
                     Identifier
                 </label>
@@ -94,12 +85,9 @@
                        class="form-control"
                        value="${unitDto.identifier}"
                        readonly>
-
             </div>
 
-            <!-- UNIT NAME -->
             <div class="mb-3">
-
                 <label class="form-label">
                     Unit Name
                 </label>
@@ -109,19 +97,14 @@
                        class="form-control"
                        value="${unitDto.unitName}"
                        readonly>
-
             </div>
 
-            <!-- STATUS -->
             <div class="mb-4">
-
                 <label class="form-label fw-semibold">
                     Status
                 </label>
 
-                <select name="status"
-                        class="form-select">
-
+                <select name="status" class="form-select">
                     <option value="true"
                         <c:if test="${unitDto.status}">
                             selected
@@ -135,36 +118,21 @@
                         </c:if>>
                         Inactive
                     </option>
-
                 </select>
-
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
-
-                <button type="submit"
-                        class="btn btn-primary w-100">
-
+                <button type="submit" class="btn btn-primary w-100">
                     Update
-
                 </button>
 
-                <a href="/unit/list"
-                   class="btn btn-outline-secondary w-100">
-
+                <a href="/unit/list" class="btn btn-outline-secondary w-100">
                     Cancel
-
                 </a>
-
             </div>
-
         </form>
-
     </div>
 
 </div>
-
 </body>
-
 </html>

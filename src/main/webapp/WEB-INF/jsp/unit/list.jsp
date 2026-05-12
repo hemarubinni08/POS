@@ -53,13 +53,9 @@
 </nav>
 
 <div class="container mt-5">
-
     <div class="card shadow p-3">
-
         <h3 class="fw-bold mb-3 text-center">Unit List</h3>
-
         <div class="table-responsive">
-
             <table class="table table-hover table-striped mb-0">
 
                 <thead class="table-dark">
@@ -83,7 +79,6 @@
 
                 <c:forEach items="${units}" var="unit">
                     <tr>
-
                         <td class="fw-semibold">
                             ${unit.identifier}
                         </td>
@@ -92,22 +87,16 @@
                             ${unit.unitName}
                         </td>
 
-                        <!-- STATUS TOGGLE -->
                         <td class="text-center">
-
                             <div class="form-check form-switch d-flex justify-content-center">
-
                                 <input class="form-check-input"
                                        type="checkbox"
                                        onchange="toggleStatus('${unit.identifier}')"
                                        <c:if test="${unit.status}">checked</c:if> />
-
                             </div>
 
                         </td>
-
                         <td class="text-center">
-
                             <a href="${pageContext.request.contextPath}/unit/get?identifier=${unit.identifier}"
                                class="btn btn-sm btn-outline-primary me-2">
                                 Update
@@ -118,23 +107,17 @@
                                onclick="return confirm('Are you sure you want to delete this unit?');">
                                 Delete
                             </a>
-
                         </td>
-
                     </tr>
                 </c:forEach>
 
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
 
 </div>
 
-<!-- TOGGLE JS -->
 <script>
     function toggleStatus(identifier) {
         window.location.href =
