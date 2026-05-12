@@ -39,7 +39,7 @@ class CustomerServiceTest {
     private AddressService addressService;
 
     @Test
-    void saveTest_Success() {
+    void saveTestSuccess() {
         CustomerDto dto = new CustomerDto();
         dto.setIdentifier("Admin");
 
@@ -68,7 +68,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    void saveTest_Failure_WhenCustomerExists() {
+    void saveTestFailureWhenCustomerExists() {
         CustomerDto dto = new CustomerDto();
         dto.setIdentifier("Admin");
 
@@ -85,7 +85,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    void updateTest_Success() {
+    void updateTestSuccess() {
         CustomerDto dto = new CustomerDto();
         dto.setIdentifier("Admin");
 
@@ -114,7 +114,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    void updateTest_Failure_WhenNotFound() {
+    void updateTestFailureWhenNotFound() {
         CustomerDto dto = new CustomerDto();
         dto.setIdentifier("Admin");
 
@@ -187,7 +187,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnCustomerDtos() {
+    void findAllWithPaginationShouldReturnCustomerDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<Customer> customers = List.of(new Customer());

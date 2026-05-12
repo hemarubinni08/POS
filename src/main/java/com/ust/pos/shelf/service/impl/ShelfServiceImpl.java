@@ -30,11 +30,13 @@ public class ShelfServiceImpl implements ShelfService {
     public ShelfDto save(ShelfDto shelfDto) {
         String identifier = shelfDto.getIdentifier();
         Shelf existingshelf = shelfRepository.findByIdentifier(identifier);
+
         if (existingshelf != null) {
             shelfDto.setMessage("Shelf already exists");
             shelfDto.setSuccess(false);
             return shelfDto;
         }
+
         Shelf shelf = modelMapper.map(shelfDto, Shelf.class);
         shelfRepository.save(shelf);
         return shelfDto;
@@ -44,6 +46,7 @@ public class ShelfServiceImpl implements ShelfService {
     public ShelfDto update(ShelfDto shelfDto) {
         String identifier = shelfDto.getIdentifier();
         Optional<Shelf> optionalShelf = shelfRepository.findById(shelfDto.getId());
+
         if (optionalShelf.isEmpty()) {
             shelfDto.setSuccess(false);
             return shelfDto;

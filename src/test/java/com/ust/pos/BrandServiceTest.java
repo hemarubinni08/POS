@@ -185,7 +185,7 @@ class BrandServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnBrandDtos() {
+    void findAllWithPaginationShouldReturnBrandDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<Brand> brands = List.of(new Brand());

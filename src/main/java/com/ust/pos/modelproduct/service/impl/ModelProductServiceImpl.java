@@ -29,11 +29,13 @@ public class ModelProductServiceImpl implements ModelProductService {
     public ModelProductDto save(ModelProductDto modelProductDto) {
         String identifier = modelProductDto.getIdentifier();
         ModelProduct existingModel = modelProductRepository.findByIdentifier(identifier);
+
         if (existingModel != null) {
             modelProductDto.setMessage("Model - " + identifier + " already exists");
             modelProductDto.setSuccess(false);
             return modelProductDto;
         }
+
         ModelProduct modelProduct = modelMapper.map(modelProductDto, ModelProduct.class);
         modelProductRepository.save(modelProduct);
         return modelProductDto;
@@ -43,11 +45,13 @@ public class ModelProductServiceImpl implements ModelProductService {
     public ModelProductDto update(ModelProductDto modelProductDto) {
         String identifier = modelProductDto.getIdentifier();
         ModelProduct existingModel = modelProductRepository.findByIdentifier(identifier);
+
         if (existingModel == null) {
             modelProductDto.setMessage("Model - " + identifier + " not found");
             modelProductDto.setSuccess(false);
             return modelProductDto;
         }
+
         ModelProduct modelProduct = modelMapper.map(modelProductDto, ModelProduct.class);
         modelProductRepository.save(modelProduct);
         return modelProductDto;

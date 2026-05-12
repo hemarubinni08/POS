@@ -166,7 +166,7 @@ class PriceServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnPriceDtos() {
+    void findAllWithPaginationShouldReturnPriceDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<Price> prices = List.of(new Price());

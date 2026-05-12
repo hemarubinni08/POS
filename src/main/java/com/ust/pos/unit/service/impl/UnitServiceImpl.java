@@ -30,11 +30,13 @@ public class UnitServiceImpl implements UnitService {
     public UnitDto save(UnitDto unitDto) {
         String identifier = unitDto.getIdentifier();
         Unit existingModel = unitRepository.findByIdentifier(identifier);
+
         if (existingModel != null) {
             unitDto.setMessage("Model - " + identifier + " already exists");
             unitDto.setSuccess(false);
             return unitDto;
         }
+
         Unit unit = modelMapper.map(unitDto, Unit.class);
         unitRepository.save(unit);
         return unitDto;
@@ -44,6 +46,7 @@ public class UnitServiceImpl implements UnitService {
     public UnitDto update(UnitDto unitDto) {
         String identifier = unitDto.getIdentifier();
         Optional<Unit> optionalUnit = unitRepository.findById(unitDto.getId());
+
         if (optionalUnit.isEmpty()) {
             unitDto.setSuccess(false);
             return unitDto;

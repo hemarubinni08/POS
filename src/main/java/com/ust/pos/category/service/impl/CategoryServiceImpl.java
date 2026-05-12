@@ -41,11 +41,13 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto save(CategoryDto categoryDto) {
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
+
         if (existingCategory != null) {
             categoryDto.setMessage("Category with identifier - " + identifier + " already exists");
             categoryDto.setSuccess(false);
             return categoryDto;
         }
+
         Category category = modelMapper.map(categoryDto, Category.class);
         categoryRepository.save(category);
         return categoryDto;
@@ -55,11 +57,13 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto update(CategoryDto categoryDto) {
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
+
         if (existingCategory == null) {
             categoryDto.setMessage("Category with identifier - " + identifier + " not found");
             categoryDto.setSuccess(false);
             return categoryDto;
         }
+
         modelMapper.map(categoryDto, existingCategory);
         categoryRepository.save(existingCategory);
         return categoryDto;

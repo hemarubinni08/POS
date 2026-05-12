@@ -29,11 +29,13 @@ public class PriceServiceImpl implements PriceService {
     public PriceDto save(PriceDto priceDto) {
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);
+
         if (existingPrice != null) {
             priceDto.setMessage("Price with identifier - " + identifier + " already exists");
             priceDto.setSuccess(false);
             return priceDto;
         }
+
         priceDto.setDifference(priceDto.getSellingPrice() - priceDto.getCostPrice());
         Price price = modelMapper.map(priceDto, Price.class);
         priceRepository.save(price);
@@ -44,11 +46,13 @@ public class PriceServiceImpl implements PriceService {
     public PriceDto update(PriceDto priceDto) {
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);
+
         if (existingPrice == null) {
             priceDto.setMessage("Price with identifier - " + identifier + " is not found");
             priceDto.setSuccess(false);
             return priceDto;
         }
+
         priceDto.setDifference(priceDto.getSellingPrice() - priceDto.getCostPrice());
         Price price = modelMapper.map(priceDto, Price.class);
         priceRepository.save(price);

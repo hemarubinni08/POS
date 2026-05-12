@@ -218,7 +218,7 @@ class NodeServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnNodeDtos() {
+    void findAllWithPaginationShouldReturnNodeDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<Node> nodes = List.of(new Node());

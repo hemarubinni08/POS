@@ -143,7 +143,7 @@ class RoleServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnRoleDtos() {
+    void findAllWithPaginationShouldReturnRoleDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<Role> roles = List.of(new Role());

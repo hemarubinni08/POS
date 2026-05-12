@@ -179,7 +179,7 @@ class ModelProductServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnModelProductDtos() {
+    void findAllWithPaginationShouldReturnModelProductDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<ModelProduct> products = List.of(new ModelProduct());

@@ -190,7 +190,7 @@ class UserServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnUserDtos() {
+    void findAllWithPaginationShouldReturnUserDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<User> users = List.of(new User());

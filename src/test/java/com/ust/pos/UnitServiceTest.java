@@ -195,7 +195,7 @@ class UnitServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnUnitDtos() {
+    void findAllWithPaginationShouldReturnUnitDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<Unit> units = List.of(new Unit());

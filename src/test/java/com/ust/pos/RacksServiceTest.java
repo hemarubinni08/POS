@@ -170,7 +170,7 @@ class RacksServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnRacksDtos() {
+    void findAllWithPaginationShouldReturnRacksDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<Racks> racks = List.of(new Racks());

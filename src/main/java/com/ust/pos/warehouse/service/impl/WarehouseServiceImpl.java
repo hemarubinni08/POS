@@ -34,11 +34,13 @@ public class WarehouseServiceImpl implements WarehouseService {
     public WarehouseDto save(WarehouseDto warehouseDto) {
         String identifier = warehouseDto.getIdentifier();
         Warehouse existingWarehouse = warehouseRepository.findByIdentifier(identifier);
+
         if (existingWarehouse != null) {
             warehouseDto.setMessage("Warehouse with identifier - " + identifier + " already exists");
             warehouseDto.setSuccess(false);
             return warehouseDto;
         }
+
         Warehouse warehouse = modelMapper.map(warehouseDto, Warehouse.class);
         warehouseRepository.save(warehouse);
         return warehouseDto;
@@ -48,11 +50,13 @@ public class WarehouseServiceImpl implements WarehouseService {
     public WarehouseDto update(WarehouseDto warehouseDto) {
         String identifier = warehouseDto.getIdentifier();
         Warehouse existingWarehouse = warehouseRepository.findByIdentifier(identifier);
+
         if (existingWarehouse == null) {
             warehouseDto.setMessage("Warehouse with identifier - " + identifier + " not found");
             warehouseDto.setSuccess(false);
             return warehouseDto;
         }
+
         modelMapper.map(warehouseDto, existingWarehouse);
         warehouseRepository.save(existingWarehouse);
         return warehouseDto;

@@ -29,11 +29,13 @@ public class RacksServiceImpl implements RacksService {
     public RacksDto save(RacksDto racksDto) {
         String identifier = racksDto.getIdentifier();
         Racks existingRacks = racksRepository.findByIdentifier(identifier);
+
         if (existingRacks != null) {
             racksDto.setMessage("Racks with identifier - " + identifier + " already exists");
             racksDto.setSuccess(false);
             return racksDto;
         }
+
         Racks racks = modelMapper.map(racksDto, Racks.class);
         racksRepository.save(racks);
         return racksDto;

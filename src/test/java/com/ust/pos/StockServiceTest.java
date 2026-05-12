@@ -169,7 +169,7 @@ class StockServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnStockDtos() {
+    void findAllWithPaginationShouldReturnStockDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<Stock> stocks = List.of(new Stock());

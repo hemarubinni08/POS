@@ -29,11 +29,13 @@ public class StockServiceImpl implements StockService {
     public StockDto save(StockDto stockDto) {
         String identifier = stockDto.getIdentifier();
         Stock existingStock = stockRepository.findByIdentifier(identifier);
+
         if (existingStock != null) {
             stockDto.setMessage("Stock with identifier - " + identifier + " already exists");
             stockDto.setSuccess(false);
             return stockDto;
         }
+
         Stock stock = modelMapper.map(stockDto, Stock.class);
         stockRepository.save(stock);
         return stockDto;
@@ -43,11 +45,13 @@ public class StockServiceImpl implements StockService {
     public StockDto update(StockDto stockDto) {
         String identifier = stockDto.getIdentifier();
         Stock existingStock = stockRepository.findByIdentifier(identifier);
+
         if (existingStock == null) {
             stockDto.setMessage("Stock with identifier - " + identifier + " not found");
             stockDto.setSuccess(false);
             return stockDto;
         }
+
         modelMapper.map(stockDto, existingStock);
         stockRepository.save(existingStock);
         return stockDto;

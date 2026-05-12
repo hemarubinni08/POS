@@ -34,11 +34,13 @@ public class RoleServiceImpl implements RoleService {
     public RoleDto save(RoleDto roleDto) {
         String identifier = roleDto.getIdentifier();
         Role existingRole = roleRepository.findByIdentifier(identifier);
+
         if (existingRole != null) {
             roleDto.setMessage("Role with identifier - " + identifier + " already exists");
             roleDto.setSuccess(false);
             return roleDto;
         }
+
         Role role = modelMapper.map(roleDto, Role.class);
         roleRepository.save(role);
         return roleDto;
@@ -48,11 +50,13 @@ public class RoleServiceImpl implements RoleService {
     public RoleDto update(RoleDto roleDto) {
         String identifier = roleDto.getIdentifier();
         Role existingRole = roleRepository.findByIdentifier(identifier);
+
         if (existingRole == null) {
             roleDto.setMessage("Role with identifier - " + identifier + " not found");
             roleDto.setSuccess(false);
             return roleDto;
         }
+
         modelMapper.map(roleDto, existingRole);
         roleRepository.save(existingRole);
         return roleDto;

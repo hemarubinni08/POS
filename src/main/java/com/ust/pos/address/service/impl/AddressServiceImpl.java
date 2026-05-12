@@ -30,6 +30,7 @@ public class AddressServiceImpl implements AddressService {
 
         Address existingShipping = addressRepository.findByIdentifierAndIsShippingTrue(shippingIdentifier);
         Address existingBilling = addressRepository.findByIdentifierAndIsBillingTrue(billingIdentifier);
+
         if (existingBilling != null) {
             billing.setMessage("Address with identifier - " + billingIdentifier + " already exists");
             billing.setSuccess(false);
@@ -54,6 +55,7 @@ public class AddressServiceImpl implements AddressService {
     public void update(AddressDto shipping, AddressDto billing) {
         String shippingIdentifier = shipping.getIdentifier();
         String billingIdentifier = billing.getIdentifier();
+
         Address existingShipping = addressRepository.findByIdentifierAndIsShippingTrue(shippingIdentifier);
         Address existingBilling = addressRepository.findByIdentifierAndIsBillingTrue(billingIdentifier);
 

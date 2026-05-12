@@ -33,17 +33,21 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto save(CustomerDto customerDto) {
         String identifier = customerDto.getIdentifier();
+        Customer existingcustomer = customerRepository.findByIdentifier(identifier);
+
         AddressDto billing = customerDto.getBilling();
         AddressDto shipping = customerDto.getShipping();
-        Customer existingcustomer = customerRepository.findByIdentifier(identifier);
+
         if (existingcustomer != null) {
             customerDto.setMessage("Customer already exists");
             customerDto.setSuccess(false);
             return customerDto;
         }
+
         billing.setIdentifier(customerDto.getIdentifier());
         shipping.setIdentifier(customerDto.getIdentifier());
         addressService.save(shipping, billing);
+
         Customer customer = modelMapper.map(customerDto, Customer.class);
         customerRepository.save(customer);
         return customerDto;
@@ -53,18 +57,23 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto update(CustomerDto customerDto) {
         String identifier = customerDto.getIdentifier();
         Customer existingcustomer = customerRepository.findByIdentifier(identifier);
+
         AddressDto billing = customerDto.getBilling();
         AddressDto shipping = customerDto.getShipping();
+
         if (existingcustomer == null) {
             customerDto.setMessage("Customer not found");
             customerDto.setSuccess(false);
             return customerDto;
         }
+
         Customer customer = modelMapper.map(customerDto, Customer.class);
         customerRepository.save(customer);
+
         billing.setIdentifier(customerDto.getIdentifier());
         shipping.setIdentifier(customerDto.getIdentifier());
         addressService.update(shipping, billing);
+
         return customerDto;
     }
 
@@ -72,8 +81,10 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto findByIdentifier(String identifier) {
         Customer customer = customerRepository.findByIdentifier(identifier);
         CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
+
         customerDto.setBilling(addressService.findByIdentifierAndBilling(identifier));
         customerDto.setShipping(addressService.findByIdentifierAndShipping(identifier));
+
         return customerDto;
     }
 

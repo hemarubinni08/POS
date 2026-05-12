@@ -144,7 +144,7 @@ class ProductServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnProductDtos() {
+    void findAllWithPaginationShouldReturnProductDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<Product> products = List.of(new Product());

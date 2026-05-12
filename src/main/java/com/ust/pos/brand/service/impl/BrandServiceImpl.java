@@ -43,11 +43,13 @@ public class BrandServiceImpl implements BrandService {
     public BrandDto save(BrandDto brandDto) {
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
+
         if (existingBrand != null) {
             brandDto.setMessage("Brand with identifier - " + identifier + " already exists");
             brandDto.setSuccess(false);
             return brandDto;
         }
+
         Brand brand = modelMapper.map(brandDto, Brand.class);
         brandRepository.save(brand);
         return brandDto;
@@ -57,11 +59,13 @@ public class BrandServiceImpl implements BrandService {
     public BrandDto update(BrandDto brandDto) {
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
+
         if (existingBrand == null) {
             brandDto.setMessage("Brand with identifier - " + identifier + " not found");
             brandDto.setSuccess(false);
             return brandDto;
         }
+
         modelMapper.map(brandDto, existingBrand);
         brandRepository.save(existingBrand);
         return brandDto;

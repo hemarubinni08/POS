@@ -221,7 +221,7 @@ class ShelfServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnShelfDtos() {
+    void findAllWithPaginationShouldReturnShelfDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<Shelf> shelves = List.of(new Shelf());

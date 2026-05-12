@@ -199,7 +199,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnCategoryDtos() {
+    void findAllWithPaginationShouldReturnCategoryDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
         List<Category> categories = List.of(new Category());
