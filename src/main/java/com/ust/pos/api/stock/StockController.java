@@ -31,78 +31,58 @@ public class StockController extends BaseController {
 
     @PostMapping("/list")
     public ResponseEntity<List<StockDto>> list(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-
         List<StockDto> stocks = stockService.findAll(pageable);
-
         return ResponseEntity.ok(stocks);
     }
 
     @GetMapping("/search")
     public ResponseEntity<StockDto> get(@RequestParam Long productId, @RequestParam Long warehouseId) {
-
         StockDto response = stockService.getStock(productId, warehouseId);
-
         if (response == null || !response.isSuccess()) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/save")
     public ResponseEntity<StockDto> save(@RequestBody StockDto stockDto) {
-
         StockDto response = stockService.createStock(stockDto);
-
         if (!response.isSuccess()) {
             return ResponseEntity.badRequest().body(response);
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/update-quantity/{stockId}")
     public ResponseEntity<StockDto> updateQuantity(@PathVariable Long stockId, @RequestParam Integer quantity) {
-
         StockDto response = stockService.updateStockQuantity(stockId, quantity);
-
         if (!response.isSuccess()) {
             return ResponseEntity.badRequest().body(response);
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/delete/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id) {
-
         try {
-
             boolean deleted = stockService.deleteStock(id);
-
             return ResponseEntity.ok(deleted);
-
-        } catch (Exception e) {
-
+        }
+        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductDto>> getProducts() {
-
         List<ProductDto> products = productService.findIfTrue();
-
         return ResponseEntity.ok(products);
     }
 
     @GetMapping("/warehouses")
     public ResponseEntity<List<WarehouseDto>> getWarehouses() {
-
         List<WarehouseDto> warehouses = warehouseService.findIfTrue();
-
         return ResponseEntity.ok(warehouses);
     }
 }

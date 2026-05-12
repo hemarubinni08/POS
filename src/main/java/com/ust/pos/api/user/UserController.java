@@ -21,51 +21,37 @@ public class UserController extends BaseController {
 
     @PostMapping("/list")
     public ResponseEntity<List<UserDto>> list(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-
         List<UserDto> users = userService.findAll(pageable);
-
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{username}")
     public ResponseEntity<UserDto> getByUsername(@PathVariable String username) {
-
         UserDto response = userService.findByUserName(username);
-
         if (response == null) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/update/{username}")
     public ResponseEntity<UserDto> update(@PathVariable String username, @RequestBody UserDto userDto) {
-
         userDto.setUsername(username);
-
         UserDto response = userService.update(userDto);
-
         if (!response.isSuccess()) {
             return ResponseEntity.badRequest().body(response);
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/delete/{username}")
     public ResponseEntity<Boolean> delete(@PathVariable String username) {
-
         try {
-
             userService.delete(username);
-
             return ResponseEntity.ok(true);
-
-        } catch (Exception e) {
-
+        }
+        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }

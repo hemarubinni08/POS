@@ -25,63 +25,45 @@ public class NodeController extends BaseController {
 
     @PostMapping("/list")
     public ResponseEntity<List<NodeDto>> list(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-
         List<NodeDto> nodes = nodeService.findAll(pageable);
-
         return ResponseEntity.ok(nodes);
     }
 
     @GetMapping("/{identifier}")
     public ResponseEntity<NodeDto> getByIdentifier(@PathVariable String identifier) {
-
         NodeDto response = nodeService.findByIdentifier(identifier);
-
         if (response == null) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/save")
     public ResponseEntity<NodeDto> save(@RequestBody NodeDto nodeDto) {
-
         NodeDto response = nodeService.save(nodeDto);
-
         if (!response.isSuccess()) {
             return ResponseEntity.badRequest().body(response);
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/update/{identifier}")
     public ResponseEntity<NodeDto> update(@PathVariable String identifier, @RequestBody NodeDto nodeDto) {
-
         nodeDto.setIdentifier(identifier);
-
         NodeDto response = nodeService.update(nodeDto);
-
         if (!response.isSuccess()) {
             return ResponseEntity.badRequest().body(response);
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/delete/{identifier}")
     public ResponseEntity<Boolean> delete(@PathVariable String identifier) {
-
         try {
-
             nodeService.delete(identifier);
-
             return ResponseEntity.ok(true);
-
         } catch (Exception e) {
-
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }

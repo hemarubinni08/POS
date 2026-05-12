@@ -26,72 +26,53 @@ public class RackController extends BaseController {
 
     @PostMapping("/list")
     public ResponseEntity<List<RackDto>> list(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-
         List<RackDto> racks = rackService.findAll(pageable);
-
         return ResponseEntity.ok(racks);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RackDto> getById(@PathVariable Long id) {
-
         RackDto response = rackService.getRack(id);
-
         if (response == null || !response.isSuccess()) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/save")
     public ResponseEntity<RackDto> save(@RequestBody RackDto rackDto) {
-
         RackDto response = rackService.createRack(rackDto);
-
         if (!response.isSuccess()) {
             return ResponseEntity.badRequest().body(response);
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/update/{id}")
     public ResponseEntity<RackDto> update(@PathVariable Long id, @RequestBody RackDto rackDto) {
-
         rackDto.setId(id);
-
         RackDto response = rackService.updateRack(rackDto);
-
         if (!response.isSuccess()) {
             return ResponseEntity.badRequest().body(response);
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/delete/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id) {
-
         try {
-
             rackService.deleteRack(id);
-
             return ResponseEntity.ok(true);
-
-        } catch (Exception e) {
-
+        }
+        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 
     @GetMapping("/shelves")
     public ResponseEntity<List<ShelfDto>> getShelves() {
-
         List<ShelfDto> shelves = shelfService.getActiveShelves();
-
         return ResponseEntity.ok(shelves);
     }
 }

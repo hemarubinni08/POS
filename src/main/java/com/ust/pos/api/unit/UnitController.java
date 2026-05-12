@@ -21,72 +21,53 @@ public class UnitController extends BaseController {
 
     @PostMapping("/list")
     public ResponseEntity<List<UnitDto>> list(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-
         List<UnitDto> units = unitService.findAll(pageable);
-
         return ResponseEntity.ok(units);
     }
 
     @GetMapping("/{identifier}")
     public ResponseEntity<UnitDto> getByIdentifier(@PathVariable String identifier) {
-
         UnitDto response = unitService.findByIdentifier(identifier);
-
         if (response == null) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/save")
     public ResponseEntity<UnitDto> save(@RequestBody UnitDto unitDto) {
-
         UnitDto response = unitService.save(unitDto);
-
         if (!response.isSuccess()) {
             return ResponseEntity.badRequest().body(response);
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/update/{identifier}")
     public ResponseEntity<UnitDto> update(@PathVariable String identifier, @RequestBody UnitDto unitDto) {
-
         unitDto.setIdentifier(identifier);
-
         UnitDto response = unitService.update(unitDto);
-
         if (!response.isSuccess()) {
             return ResponseEntity.badRequest().body(response);
         }
-
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/delete/{identifier}")
     public ResponseEntity<Boolean> delete(@PathVariable String identifier) {
-
         try {
-
             unitService.delete(identifier);
-
             return ResponseEntity.ok(true);
-
-        } catch (Exception e) {
-
+        }
+        catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
 
     @PostMapping("/toggle/{identifier}")
     public ResponseEntity<UnitDto> toggleStatus(@PathVariable String identifier) {
-
         UnitDto response = unitService.toggleStatus(identifier);
-
         return ResponseEntity.ok(response);
     }
 }
