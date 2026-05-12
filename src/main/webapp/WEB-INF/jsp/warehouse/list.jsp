@@ -16,6 +16,7 @@
         .btn { border-radius: 10px; }
         .table th, .table td { vertical-align: middle; }
     </style>
+
 </head>
 
 <body>
@@ -33,11 +34,8 @@
 </nav>
 
 <div class="container mt-5">
-
     <div class="card shadow p-3">
-
         <h3 class="text-center fw-bold mb-3">Warehouse List</h3>
-
         <c:if test="${not empty message}">
             <div class="alert alert-info text-center">
                 ${message}
@@ -61,16 +59,13 @@
 
             <c:forEach var="w" items="${warehouses}">
                 <tr>
-
                     <td class="fw-semibold">
                         ${w.identifier}
                     </td>
-
                     <td>${w.warehouseName}</td>
                     <td>${w.cityName}</td>
                     <td>${w.state}</td>
                     <td>${w.country}</td>
-
                     <td>
                         <a href="${pageContext.request.contextPath}/warehouse/get?identifier=${w.identifier}"
                            class="btn btn-sm btn-outline-primary me-2">
@@ -88,7 +83,6 @@
             </c:forEach>
 
             </tbody>
-
         </table>
 
     </div>

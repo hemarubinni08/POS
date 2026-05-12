@@ -8,9 +8,7 @@
 <head>
 
     <meta charset="UTF-8">
-
     <title>Edit Warehouse</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -39,178 +37,117 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
-
     <div class="container-fluid">
-
         <span class="navbar-brand fw-bold">
-
             Warehouse Management
-
         </span>
 
         <a href="${pageContext.request.contextPath}/warehouse/list"
            class="btn btn-outline-light btn-sm">
-
             Back
-
         </a>
-
     </div>
 
 </nav>
 
-<!-- MAIN -->
 <div class="container d-flex justify-content-center align-items-center"
      style="min-height: 100vh;">
 
-    <div class="card shadow p-4"
-         style="width: 450px;">
-
+    <div class="card shadow p-4" style="width: 450px;">
         <h3 class="text-center mb-4 fw-bold">
-
             Edit Warehouse
-
         </h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
-
             <div class="alert alert-danger text-center">
-
                 ${message}
-
             </div>
-
         </c:if>
 
-        <!-- FORM -->
         <form:form method="post"
                    action="${pageContext.request.contextPath}/warehouse/update"
                    modelAttribute="warehouseDto">
 
-            <!-- IDENTIFIER -->
             <form:hidden path="identifier"/>
 
             <div class="mb-3">
-
                 <label class="form-label fw-semibold">
-
                     Identifier
-
                 </label>
 
                 <input type="text"
                        class="form-control"
                        value="${warehouseDto.identifier}"
                        readonly/>
-
             </div>
 
-            <!-- WAREHOUSE NAME -->
             <div class="mb-3">
-
                 <label class="form-label fw-semibold">
-
                     Warehouse Name
-
                 </label>
-
                 <form:input path="warehouseName"
                             cssClass="form-control"
                             maxlength="100"
                             required="true"/>
-
             </div>
 
-            <!-- CITY -->
             <div class="mb-3">
-
                 <label class="form-label fw-semibold">
-
                     City
-
                 </label>
 
                 <form:input path="cityName"
                             cssClass="form-control"
                             maxlength="100"
                             required="true"/>
-
             </div>
 
-            <!-- STATE -->
             <div class="mb-3">
-
                 <label class="form-label fw-semibold">
-
                     State
-
                 </label>
 
                 <form:input path="state"
                             cssClass="form-control"
                             maxlength="100"
                             required="true"/>
-
             </div>
 
-            <!-- COUNTRY -->
             <div class="mb-3">
-
                 <label class="form-label fw-semibold">
-
                     Country
-
                 </label>
 
                 <form:input path="country"
                             cssClass="form-control"
                             maxlength="100"
                             required="true"/>
-
             </div>
 
-            <!-- LOCATION -->
             <div class="mb-4">
-
                 <label class="form-label fw-semibold">
-
                     Location
-
                 </label>
 
                 <form:input path="location"
                             cssClass="form-control"
                             maxlength="100"
                             required="true"/>
-
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
-
-                <button type="submit"
-                        class="btn btn-primary w-100">
-
+                <button type="submit" class="btn btn-primary w-100">
                     Update
-
                 </button>
 
                 <a href="${pageContext.request.contextPath}/warehouse/list"
                    class="btn btn-outline-secondary w-100">
-
                     Cancel
-
                 </a>
-
             </div>
-
         </form:form>
-
     </div>
-
 </div>
 
 </body>

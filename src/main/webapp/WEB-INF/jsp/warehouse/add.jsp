@@ -36,6 +36,7 @@
         </a>
     </div>
 </nav>
+
 <div class="container d-flex justify-content-center align-items-center"
      style="min-height: 100vh;">
     <div class="card shadow p-4"
@@ -69,6 +70,7 @@
                             maxlength="50"
                             required="true"/>
             </div>
+
             <div class="mb-3">
                 <label class="form-label fw-semibold">
                     Country
@@ -78,6 +80,7 @@
                             maxlength="50"
                             required="true"/>
             </div>
+
            <div class="mb-3">
                 <label class="form-label fw-semibold">
                     State
@@ -87,6 +90,7 @@
                             maxlength="50"
                             required="true"/>
             </div>
+
             <div class="mb-3">
                 <label class="form-label fw-semibold">
                     City
@@ -96,6 +100,7 @@
                             maxlength="50"
                             required="true"/>
             </div>
+
             <div class="mb-4">
                 <label class="form-label fw-semibold">
                     Location
@@ -105,11 +110,13 @@
                             maxlength="50"
                             required="true"/>
             </div>
+
             <div class="d-flex gap-2">
                 <button type="submit"
                         class="btn btn-primary w-100">
                     Save Warehouse
                 </button>
+
                 <a href="${pageContext.request.contextPath}/warehouse/list"
                    class="btn btn-outline-secondary w-100">
                     Cancel
