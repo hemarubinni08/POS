@@ -25,7 +25,6 @@ public class CategoryApiController extends BaseController {
 
     @PostMapping("/add")
     public CategoryDto addPost(@RequestBody CategoryDto categoryDto) {
-
         return categoryService.save(categoryDto);
     }
 
