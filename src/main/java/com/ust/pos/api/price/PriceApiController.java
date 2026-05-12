@@ -47,5 +47,6 @@ public class PriceApiController extends BaseController {
         }
         return true;
     }
+
 }
 

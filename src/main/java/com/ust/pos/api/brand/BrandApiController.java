@@ -63,4 +63,5 @@ public class BrandApiController extends BaseController {
     public List<BrandDto> findActiveBrand() {
         return brandService.findActiveBrands();
     }
+
 }

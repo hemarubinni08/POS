@@ -17,6 +17,7 @@ public class RackApiController extends BaseController {
 
     @Autowired
     private RackService rackService;
+
     @Autowired
     private ShelfService shelfService;
 
@@ -65,4 +66,5 @@ public class RackApiController extends BaseController {
     public List<RackDto> findActiveRacksDto() {
         return rackService.findActiveRacks();
     }
+
 }

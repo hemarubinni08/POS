@@ -41,7 +41,6 @@ public class CustomerApiController extends BaseController {
         CustomerDto response = customerService.findByIdentifier(identifier);
         response.setBillingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNumber(), "BILLING"));
         response.setShippingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNumber(), "SHIPPING"));
-
         return response;
     }
 
@@ -59,6 +58,7 @@ public class CustomerApiController extends BaseController {
         }
         return true;
     }
+
 }
 
 

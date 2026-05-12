@@ -17,6 +17,7 @@ public class ProductApiController extends BaseController {
 
     @Autowired
     private ProductService productService;
+
     @Autowired
     private CategoryService categoryService;
 
@@ -25,7 +26,6 @@ public class ProductApiController extends BaseController {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return productService.findAll(pageable);
     }
-
 
     @PostMapping("/add")
     public ProductDto addPost(@RequestBody ProductDto productDto) {
@@ -66,4 +66,5 @@ public class ProductApiController extends BaseController {
     public List<ProductDto> findActiveProducts() {
         return productService.findActiveProducts();
     }
+
 }

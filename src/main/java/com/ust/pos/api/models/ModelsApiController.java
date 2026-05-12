@@ -62,4 +62,5 @@ public class ModelsApiController extends BaseController {
     public List<ModelsDto> findActiveModels() {
         return modelsService.findActiveModels();
     }
+
 }
