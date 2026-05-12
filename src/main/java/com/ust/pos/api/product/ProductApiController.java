@@ -17,7 +17,7 @@ public class ProductApiController extends BaseController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<ProductDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
