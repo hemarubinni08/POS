@@ -160,12 +160,9 @@
                     Categories
                     <span class="text-danger">*</span>
                 </label>
-
                 <div class="category-box">
-
                     <c:forEach items="${categories}" var="c">
                         <div class="form-check">
-
                             <form:checkbox path="categories"
                                            value="${c.identifier}"
                                            cssClass="form-check-input category-check"/>
@@ -187,11 +184,9 @@
                     Unit
                     <span class="text-danger">*</span>
                 </label>
-
                 <form:select path="unit"
                              cssClass="form-control"
                              required="true">
-
                     <form:option value="">
                         -- Select Unit --
                     </form:option>
@@ -250,39 +245,21 @@ document.addEventListener("DOMContentLoaded", function () {
         let brandSelected = false;
         let modelSelected = false;
         let categorySelected = false;
-        brandChecks.forEach(b => {
-            if (b.checked) {
-                brandSelected = true;
-            }
-        });
-
-        modelChecks.forEach(m => {
-            if (m.checked) {
-                modelSelected = true;
-            }
-        });
-
-        categoryChecks.forEach(c => {
-            if (c.checked) {
-                categorySelected = true;
-            }
-        });
-
+        brandChecks.forEach(b => {if (b.checked) { brandSelected = true; }});
+        modelChecks.forEach(m => { if (m.checked) { modelSelected = true;}});
+        categoryChecks.forEach(c => { if (c.checked) { categorySelected = true; }});
         if (!brandSelected) {
             e.preventDefault();
             brandError.classList.remove("d-none");
-
         } else {
             brandError.classList.add("d-none");
         }
-
         if (!modelSelected) {
             e.preventDefault();
             modelError.classList.remove("d-none");
         } else {
             modelError.classList.add("d-none");
         }
-
         if (!categorySelected) {
             e.preventDefault();
             categoryError.classList.remove("d-none");
