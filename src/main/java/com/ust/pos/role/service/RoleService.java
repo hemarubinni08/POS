@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface RoleService {
 
-    RoleDto save(RoleDto userDto);
+    RoleDto save(RoleDto roleDto);
 
-    RoleDto update(RoleDto userDto);
+    RoleDto update(RoleDto roleDto);
 
-    void delete(String username);
+    void delete(String role);
 
     List<RoleDto> findAll(Pageable pageable);
 
