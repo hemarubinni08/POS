@@ -42,7 +42,6 @@ public class BrandControllerApi extends BaseController {
     @DeleteMapping("/delete")
     public BrandDto delete(@RequestParam String identifier) {
         BrandDto response = new BrandDto();
-
         try {
             brandService.delete(identifier);
             response.setSuccess(true);

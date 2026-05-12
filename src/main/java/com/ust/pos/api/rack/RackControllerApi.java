@@ -15,6 +15,7 @@ import java.util.List;
 public class RackControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/rack/list";
+
     @Autowired
     private RackService rackService;
 
@@ -42,7 +43,6 @@ public class RackControllerApi extends BaseController {
 
     @GetMapping("/delete")
     public Boolean delete(@RequestParam String identifier) {
-
         try {
             rackService.delete(identifier);
         } catch (Exception e) {
@@ -60,6 +60,4 @@ public class RackControllerApi extends BaseController {
     public RackDto toggleStatus(@RequestBody RackDto rackDto) {
         return rackService.toggleStatus(rackDto.getIdentifier());
     }
-
-
 }

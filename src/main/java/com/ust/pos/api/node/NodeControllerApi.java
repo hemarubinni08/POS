@@ -15,6 +15,7 @@ import java.util.List;
 public class NodeControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/node/list";
+
     @Autowired
     private NodeService nodeService;
 
@@ -41,7 +42,6 @@ public class NodeControllerApi extends BaseController {
 
     @GetMapping("/delete")
     public Boolean delete(@RequestParam String identifier) {
-
         try {
             nodeService.delete(identifier);
         } catch (Exception e) {

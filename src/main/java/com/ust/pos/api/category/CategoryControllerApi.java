@@ -15,6 +15,7 @@ import java.util.List;
 public class CategoryControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/category/list";
+
     @Autowired
     private CategoryService categoryService;
 
@@ -42,7 +43,6 @@ public class CategoryControllerApi extends BaseController {
 
     @GetMapping("/delete")
     public Boolean delete(@RequestParam String identifier) {
-
         try {
             categoryService.delete(identifier);
         } catch (Exception e) {

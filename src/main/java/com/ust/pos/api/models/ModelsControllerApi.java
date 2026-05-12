@@ -15,6 +15,7 @@ import java.util.List;
 public class ModelsControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/models/list";
+
     @Autowired
     private ModelsService modelsService;
 
@@ -42,7 +43,6 @@ public class ModelsControllerApi extends BaseController {
 
     @GetMapping("/delete")
     public Boolean delete(@RequestParam String identifier) {
-
         try {
             modelsService.delete(identifier);
         } catch (Exception e) {

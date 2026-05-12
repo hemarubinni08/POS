@@ -19,7 +19,6 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void save(AddressDto addressDto) {
-
         if (addressDto.getPhoneNo() == null || addressDto.getPhoneNo().isEmpty() ||
                 addressDto.getAddressType() == null || addressDto.getAddressType().isEmpty() ||
                 addressDto.getAddressLine() == null || addressDto.getAddressLine().isEmpty() ||
@@ -27,48 +26,34 @@ public class AddressServiceImpl implements AddressService {
                 addressDto.getState() == null || addressDto.getState().isEmpty() ||
                 addressDto.getZip() == null || addressDto.getZip().isEmpty() ||
                 addressDto.getCountry() == null || addressDto.getCountry().isEmpty()) {
-
             addressDto.setSuccess(false);
             addressDto.setMessage("All address fields are required");
             return;
         }
 
-        Address existing = addressRepository
-                .findTopByPhoneNoAndAddressTypeOrderByIdDesc(
-                        addressDto.getPhoneNo(),
-                        addressDto.getAddressType()
-                );
-
+        Address existing = addressRepository.findTopByPhoneNoAndAddressTypeOrderByIdDesc(
+                        addressDto.getPhoneNo(),addressDto.getAddressType());
         if (existing != null) {
-
             existing.setAddressLine(addressDto.getAddressLine());
             existing.setCity(addressDto.getCity());
             existing.setState(addressDto.getState());
             existing.setZip(addressDto.getZip());
             existing.setCountry(addressDto.getCountry());
-
             addressRepository.save(existing);
-
         } else {
-
             Address address = modelMapper.map(addressDto, Address.class);
             addressRepository.save(address);
         }
-
         addressDto.setSuccess(true);
         addressDto.setMessage("Address saved successfully");
     }
 
     @Override
     public AddressDto findByPhoneNoAndAddressType(String phoneNo, String addressType) {
-
-        Address address = addressRepository
-                .findTopByPhoneNoAndAddressTypeOrderByIdDesc(phoneNo, addressType);
-
+        Address address = addressRepository.findTopByPhoneNoAndAddressTypeOrderByIdDesc(phoneNo, addressType);
         if (address == null) {
             return null;
         }
-
         return modelMapper.map(address, AddressDto.class);
     }
 

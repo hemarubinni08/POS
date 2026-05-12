@@ -15,6 +15,7 @@ import java.util.List;
 public class ProductControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/product/list";
+
     @Autowired
     private ProductService productService;
 
@@ -42,7 +43,6 @@ public class ProductControllerApi extends BaseController {
 
     @GetMapping("/delete")
     public Boolean delete(@RequestParam String identifier) {
-
         try {
             productService.delete(identifier);
         } catch (Exception e) {

@@ -15,6 +15,7 @@ import java.util.List;
 public class PriceControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/price/list";
+
     @Autowired
     private PriceService priceService;
 
@@ -42,7 +43,6 @@ public class PriceControllerApi extends BaseController {
 
     @GetMapping("/delete")
     public Boolean delete(@RequestParam String identifier) {
-
         try {
             priceService.delete(identifier);
         } catch (Exception e) {

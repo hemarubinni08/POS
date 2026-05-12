@@ -42,7 +42,6 @@ public class RoleControllerApi extends BaseController {
 
     @GetMapping("/delete")
     public Boolean delete(@RequestParam String identifier) {
-
         try {
             roleService.delete(identifier);
         } catch (Exception e) {
