@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* ANIMATED BACKGROUND BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -58,7 +57,6 @@
             }
         }
 
-        /* CENTER CONTAINER */
         .main-container {
             height: 100vh;
             display: flex;
@@ -68,7 +66,6 @@
             z-index: 2;
         }
 
-        /* GLASS CARD */
         .form-card {
             width: 380px;
             padding: 40px;
@@ -106,7 +103,6 @@
             font-weight: 700;
         }
 
-        /* INPUTS */
         .form-control {
             border-radius: 10px;
             border: 1px solid #e5e7eb;
@@ -118,7 +114,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* BUTTON */
         .btn-primary-custom {
             width: 100%;
             padding: 12px;
@@ -140,7 +135,6 @@
             box-shadow: 0 14px 30px rgba(37,99,235,0.35);
         }
 
-        /* LINK */
         .back-link {
             text-align: center;
             margin-top: 15px;
@@ -233,8 +227,6 @@
     </style>
 </head>
 <body>
-
-<!-- BACKGROUND BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
@@ -347,12 +339,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!form) return;
 
     form.addEventListener("submit", function (e) {
-
-        // REMOVE OLD ERRORS
         document.querySelectorAll(".validation-error")
             .forEach(el => el.remove());
 
-        // INPUTS
         const identifier =
             document.querySelector('input[name="identifier"]');
 
@@ -371,9 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const location =
             document.querySelector('input[name="location"]');
 
-        // HELPER
         function showError(element, message) {
-
             const small = document.createElement("small");
 
             small.className = "validation-error";
@@ -393,7 +380,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return false;
         }
 
-        // IDENTIFIER
         if (identifier.value.trim() === "") {
             return showError(identifier, "Warehouse identifier is required");
         }
@@ -408,7 +394,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return showError(identifier, "Only letters, numbers, _ and - allowed");
         }
 
-        // REGION
         if (region.value.trim() === "") {
             return showError(region, "Region is required");
         }
@@ -422,7 +407,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return showError(region, "Region must contain only letters and spaces");
         }
 
-        // COUNTRY
         if (country.value.trim() === "") {
             return showError(country, "Country is required");
         }
@@ -431,7 +415,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return showError(country, "Country must contain only letters");
         }
 
-        // CONTACT NAME
         if (contactName.value.trim() === "") {
             return showError(contactName, "Contact name is required");
         }
@@ -444,7 +427,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return showError(contactName, "Contact name must contain only letters");
         }
 
-        // CONTACT NUMBER
         if (contactNumber.value.trim() === "") {
             return showError(contactNumber, "Contact number is required");
         }
@@ -455,8 +437,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return showError(contactNumber, "Enter a valid phone number (10 digits)");
         }
 
-        // LOCATION
-
         if (location.value.trim().length < 3) {
             return showError(location, "Location must be at least 3 characters");
         }
@@ -466,8 +446,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!locationRegex.test(location.value.trim())) {
             return showError(location, "Location must contain only letters and spaces");
         }
-
-
     });
 
 });

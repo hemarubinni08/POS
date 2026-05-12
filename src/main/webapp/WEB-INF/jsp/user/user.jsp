@@ -22,7 +22,6 @@
             overflow-x: hidden;
         }
 
-        /* BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -53,7 +52,6 @@
             50% { transform: translateY(25px); }
         }
 
-        /* GLASS CARD */
         .update-card {
             width: 480px;
             padding: 35px 40px;
@@ -94,7 +92,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* ROLES CHECKBOX GROUP */
         .checkbox-list {
             display: flex;
             flex-direction: column;
@@ -139,7 +136,6 @@
             background: #eff6ff;
         }
 
-        /* BUTTON */
         .btn-update {
             width: 100%;
             padding: 12px;
@@ -176,12 +172,9 @@
 </head>
 
 <body>
-
-<!-- BACKGROUND BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
-<!-- FORM -->
 <div class="update-card">
     <h3>Update User</h3>
 
@@ -238,11 +231,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", function (e) {
 
-        // REMOVE OLD ERRORS
         document.querySelectorAll(".validation-error")
             .forEach(el => el.remove());
 
-        // INPUTS
         const name = document.querySelector('input[name="name"]');
         const email = document.querySelector('input[name="username"]');
         const phone = document.querySelector('input[name="phoneNo"]');
@@ -250,14 +241,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const roleCheckboxes =
             document.querySelectorAll('input[name="roles"]');
 
-        // HELPER
         function showError(element, message) {
 
             const small = document.createElement("small");
             small.className = "validation-error";
             small.innerText = message;
 
-            // if input field
             if (
                 element.tagName === "INPUT" ||
                 element.tagName === "SELECT" ||
@@ -267,16 +256,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 element.focus();
             }
             else {
-                // for div containers like roles-group
                 element.appendChild(small);
             }
-
             e.preventDefault();
 
             return false;
         }
 
-        // NAME
         const nameRegex = /^[A-Za-z\s]+$/;
 
         if (name.value.trim().length < 3) {
@@ -293,7 +279,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // EMAIL
         const emailRegex =
             /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
@@ -304,7 +289,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // ROLES
         const roleSelected =
             [...roleCheckboxes].some(cb => cb.checked);
 
@@ -319,7 +303,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // PHONE
         const phoneRegex = /^[6-9][0-9]{9}$/;
 
         if (!phoneRegex.test(phone.value.trim())) {
@@ -329,7 +312,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // PASSWORD
         if (password.value.length < 6) {
             return showError(
                 password,

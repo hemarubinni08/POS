@@ -38,8 +38,6 @@ class ModelServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // findAll
-
     @Test
     void findAllWithPageableTest() {
 
@@ -70,7 +68,6 @@ class ModelServiceTest {
         assertEquals("MODEL1", result.get(0).getIdentifier());
     }
 
-
     @Test
     void findAllWithoutPageableTest() {
 
@@ -98,8 +95,6 @@ class ModelServiceTest {
         assertEquals("CUST1", result.get(0).getIdentifier());
     }
 
-    // findByStatusTrue
-
     @Test
     void findByStatusTrueTest() {
         Model model = new Model();
@@ -117,8 +112,6 @@ class ModelServiceTest {
         Assertions.assertEquals(1, result.size());
     }
 
-    // findByIdentifier
-
     @Test
     void findByIdentifierTest() {
         Model model = new Model();
@@ -131,8 +124,6 @@ class ModelServiceTest {
 
         Assertions.assertNotNull(result);
     }
-
-    // save success
 
     @Test
     void save_success() {
@@ -151,8 +142,6 @@ class ModelServiceTest {
         Assertions.assertEquals("Successfully added the model", result.getMessage());
     }
 
-    // save failure
-
     @Test
     void save_failure_existing() {
         ModelDto dto = new ModelDto();
@@ -165,8 +154,6 @@ class ModelServiceTest {
         Assertions.assertFalse(result.isSuccess());
         Assertions.assertEquals("Model M1 already exists", result.getMessage());
     }
-
-    // update success
 
     @Test
     void update_success() {
@@ -185,8 +172,6 @@ class ModelServiceTest {
         Assertions.assertEquals("Model updated successfully", result.getMessage());
     }
 
-    // update failure
-
     @Test
     void update_failure() {
         ModelDto dto = new ModelDto();
@@ -200,8 +185,6 @@ class ModelServiceTest {
         Assertions.assertEquals("Model does not exist", result.getMessage());
     }
 
-    // updateStatus success
-
     @Test
     void updateStatus_success() {
         Model model = new Model();
@@ -214,8 +197,6 @@ class ModelServiceTest {
         Assertions.assertEquals("Status updated successfully", result.getMessage());
     }
 
-    // updateStatus failure
-
     @Test
     void updateStatus_failure() {
         Mockito.when(modelRepository.findByIdentifier("M1")).thenReturn(null);
@@ -225,8 +206,6 @@ class ModelServiceTest {
         Assertions.assertFalse(result.isSuccess());
         Assertions.assertEquals("Model not found", result.getMessage());
     }
-
-    // delete
 
     @Test
     void deleteTest() {

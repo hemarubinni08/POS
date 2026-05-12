@@ -86,7 +86,6 @@ class UnitServiceTest {
         Assertions.assertEquals(1, response.size());
     }
 
-    // findByIdentifier
     @Test
     void findByIdentifierTest() {
         Unit unit = new Unit();
@@ -103,7 +102,6 @@ class UnitServiceTest {
         Assertions.assertEquals("U1", response.getIdentifier());
     }
 
-    // save success
     @Test
     void saveSuccessTest() {
         UnitDto dto = new UnitDto();
@@ -123,7 +121,6 @@ class UnitServiceTest {
         Assertions.assertEquals("Successfully added the unit", response.getMessage());
     }
 
-    // save failure
     @Test
     void saveFailureTest() {
         UnitDto dto = new UnitDto();
@@ -138,7 +135,6 @@ class UnitServiceTest {
         Assertions.assertEquals("Unit U1 already exists", response.getMessage());
     }
 
-    // update success
     @Test
     void updateSuccessTest() {
         UnitDto dto = new UnitDto();
@@ -157,7 +153,6 @@ class UnitServiceTest {
         Assertions.assertEquals("Unit updated successfully", response.getMessage());
     }
 
-    // update failure
     @Test
     void updateFailureTest() {
         UnitDto dto = new UnitDto();

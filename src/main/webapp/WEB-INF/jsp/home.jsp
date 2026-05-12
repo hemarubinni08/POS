@@ -16,7 +16,6 @@ body {
     background: #f7f7fb;
 }
 
-/* SIDEBAR */
 .sidebar {
     height: 100vh;
     overflow-x: hidden;
@@ -60,7 +59,6 @@ body {
     background: #f7f7fb; /* matches login page */
 }
 
-/* LOGOUT SECTION */
 .logout-container {
     padding: 15px 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.25);
@@ -71,7 +69,6 @@ body {
     border-radius: 20px;
     font-weight: 600;
 
-    /* match login button gradient */
     background: linear-gradient(135deg, #93c5fd, #3b82f6);
     border: none;
 
@@ -84,7 +81,6 @@ body {
     box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
 }
 
-/* CARD MATCH (optional but subtle alignment) */
 .card {
     border: none;
     border-radius: 14px;
@@ -94,13 +90,10 @@ body {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
 }
-
 </style>
-
 </head>
 
 <body>
-
 <div class="sidebar">
     <div class="sidebar-links">
         <c:forEach var="node" items="${nodes}">
@@ -108,7 +101,6 @@ body {
         </c:forEach>
     </div>
 
-    <!-- Logout at bottom -->
     <div class="logout-container">
         <form action="/logout" method="post">
             <button class="btn btn-primary logout-btn" type="submit">

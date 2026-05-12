@@ -21,20 +21,17 @@
             font-weight: 700;
         }
 
-        /* TABLE WRAPPER */
         .table-wrapper {
             background: rgba(255, 255, 255, 0.92);
             padding: 20px;
             box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
         }
 
-        /* TABLE */
         .table {
             margin-bottom: 0;
             background: transparent;
         }
 
-        /* HEADER DIVIDER ONLY */
         .table thead th {
             background: transparent;
             border-bottom: 1.5px solid rgb(217 217 217 / 60%) !important;
@@ -42,7 +39,6 @@
             color: #111;
         }
 
-        /* ROW HOVER */
         .table tbody tr {
             transition: 0.2s ease;
         }
@@ -52,13 +48,11 @@
             transform: scale(1.01);
         }
 
-        /* REMOVE BORDERS */
         .table td,
         .table th {
             border: none !important;
         }
 
-        /* BUTTONS */
         .btn-primary {
             background: #3b82f6;
             border: none;
@@ -101,17 +95,14 @@
 
 <div class="container mt-5">
 
-    <!-- Title -->
     <h3 class="text-center mb-4">User Management</h3>
 
-    <!-- Empty -->
     <c:if test="${empty users}">
         <div class="alert alert-warning text-center">
             No users found
         </div>
     </c:if>
 
-    <!-- Table -->
     <c:if test="${not empty users}">
         <div class="table-wrapper">
             <table class="table align-middle">
@@ -151,12 +142,10 @@
         </div>
     </c:if>
 
-    <!-- Actions -->
     <div class="d-flex justify-content-center gap-3 mt-4">
         <a href="/" class="btn btn-secondary">Home</a>
         <a href="/register" class="btn btn-success">Register</a>
     </div>
-
 </div>
 
 </body>

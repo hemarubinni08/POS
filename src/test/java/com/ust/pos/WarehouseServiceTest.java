@@ -36,7 +36,6 @@ class WarehouseServiceTest {
 
     @Test
     void saveTestSuccess() {
-        //request data
         WarehouseDto warehouseDto = new WarehouseDto();
         warehouseDto.setIdentifier("Warehouse1");
         Warehouse warehouse = new Warehouse();
@@ -50,7 +49,6 @@ class WarehouseServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
         WarehouseDto warehouseDto = new WarehouseDto();
         warehouseDto.setIdentifier("Warehouse1");
         Warehouse warehouse = new Warehouse();
@@ -116,7 +114,6 @@ class WarehouseServiceTest {
 
     @Test
     void deleteTest() {
-
         Mockito.doNothing().when(warehouseRepository)
                 .deleteByIdentifier("Warehouse1");
 

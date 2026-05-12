@@ -23,7 +23,6 @@
             font-weight: 700;
         }
 
-        /* TABLE WRAPPER */
         .table-wrapper {
             background: rgba(255, 255, 255, 0.92);
             padding: 20px;
@@ -35,7 +34,6 @@
             background: transparent;
         }
 
-        /* HEADER (minimal divider style) */
         .table thead th {
             background: transparent;
             border-bottom: 1.5px solid rgb(217 217 217 / 60%) !important;
@@ -43,7 +41,6 @@
             color: #111;
         }
 
-        /* ROW HOVER */
         .table tbody tr {
             transition: 0.2s ease;
         }
@@ -53,13 +50,11 @@
             transform: scale(1.01);
         }
 
-        /* REMOVE DEFAULT BORDERS */
         .table td,
         .table th {
             border: none !important;
         }
 
-        /* BUTTONS */
         .btn-success {
             background: #3b82f6;
             border: none;
@@ -169,7 +164,6 @@
     <div class="row justify-content-center">
         <div class="col-md-9">
 
-            <!-- Page Title -->
             <h4 class="text-center mb-4">List of Customers</h4>
 
             <c:if test="${not empty message}">
@@ -179,14 +173,12 @@
                 <c:remove var="message" scope="session"/>
             </c:if>
 
-            <!-- Empty State -->
             <c:if test="${empty customers}">
                 <div class="alert alert-warning text-center">
                     No customers found
                 </div>
             </c:if>
 
-            <!-- Table -->
             <c:if test="${not empty customers}">
                 <div class="table-wrapper">
                     <table class="table align-middle">
@@ -278,7 +270,6 @@
                 </div>
             </c:if>
 
-            <!-- Actions -->
             <div class="d-flex justify-content-center gap-3 mt-4">
                 <a href="/" class="btn btn-secondary">Home</a>
                 <a href="/customer/add" class="btn btn-primary">+ Add New Customer</a>

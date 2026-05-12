@@ -20,7 +20,6 @@
             position: relative;
         }
 
-        /* BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -55,7 +54,6 @@
             }
         }
 
-        /* CENTER */
         .main-container {
             height: 100vh;
             display: flex;
@@ -65,7 +63,6 @@
             z-index: 2;
         }
 
-        /* GLASS CARD */
         .card {
             width: 420px;
             padding: 25px;
@@ -100,7 +97,6 @@
             font-weight: 700;
         }
 
-        /* INPUTS */
         .form-control {
             border-radius: 10px;
             border: 1px solid #e5e7eb;
@@ -112,7 +108,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* BUTTONS */
         .btn-success {
             background: #3b82f6;
             border: none;
@@ -138,7 +133,6 @@
 </head>
 
 <body>
-<!-- BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
@@ -182,7 +176,6 @@
                                 required="true"/>
                 </div>
 
-                <!-- BRAND -->
                 <div class="mb-3">
                     <label for="brandName" class="form-label fw-semibold">
                         Select Brand
@@ -205,7 +198,6 @@
                     </form:select>
                 </div>
 
-                <!-- MODEL -->
                 <div class="mb-3">
                     <label for="model" class="form-label fw-semibold">
                         Select Model
@@ -243,28 +235,27 @@
                         </form:select>
                 </div>
 
-                <!-- UNIT -->
-                            <div class="mb-3">
-                                <label for="unit" class="form-label fw-semibold">
-                                    Select Unit
-                                </label>
+                <div class="mb-3">
+                    <label for="unit" class="form-label fw-semibold">
+                        Select Unit
+                    </label>
 
-                                <form:select path="unit"
-                                             id="unit"
-                                             cssClass="form-control"
-                                             required="true">
+                    <form:select path="unit"
+                            id="unit"
+                            cssClass="form-control"
+                            required="true">
 
-                                    <form:option value="">
-                                        -- Select Unit --
-                                    </form:option>
+                    <form:option value="">
+                        -- Select Unit --
+                    </form:option>
 
-                                    <c:forEach var="unit" items="${units}">
-                                        <form:option value="${unit.identifier}">
-                                            ${unit.identifier}
-                                        </form:option>
-                                    </c:forEach>
-                                </form:select>
-                            </div>
+                    <c:forEach var="unit" items="${units}">
+                        <form:option value="${unit.identifier}">
+                            ${unit.identifier}
+                        </form:option>
+                    </c:forEach>
+                    </form:select>
+                </div>
 
                 <div class="mb-4">
                     <label for="description" class="form-label">Product Description</label>
@@ -299,11 +290,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", function (e) {
 
-        // REMOVE OLD ERRORS
         document.querySelectorAll(".validation-error")
             .forEach(el => el.remove());
 
-        // INPUTS
         const identifier =
             document.querySelector('input[name="identifier"]');
 
@@ -325,7 +314,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const description =
             document.querySelector('textarea[name="description"]');
 
-        // HELPER
         function showError(element, message) {
 
             const small = document.createElement("small");
@@ -356,7 +344,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // BRAND
         if (brandName.value.trim() === "") {
             return showError(
                 brandName,
@@ -364,7 +351,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // MODEL
         if (model.value.trim() === "") {
             return showError(
                 model,
@@ -372,7 +358,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // CATEGORY
         const selectedCategories =
             [...category.options].filter(option => option.selected);
 
@@ -383,15 +368,12 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // UNIT
         if (unit.value.trim() === "") {
             return showError(
                 unit,
                 "Please select a unit"
             );
         }
-
-        // DESCRIPTION
 
         if (description.value.trim().length < 10) {
             return showError(
@@ -417,7 +399,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
     });
-
 });
 </script>
 </body>

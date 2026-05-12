@@ -60,8 +60,6 @@ class CustomerServiceTest {
         customerDto.setShippingAddress(shipping);
     }
 
-    // findByIdentifier
-
     @Test
     void findByIdentifier_NotFound() {
         when(customerRepository.findByIdentifier("12345")).thenReturn(null);
@@ -84,8 +82,6 @@ class CustomerServiceTest {
         assertEquals(billing, result.getBillingAddress());
         assertEquals(shipping, result.getShippingAddress());
     }
-
-    // save
 
     @Test
     void save_AlreadyExists() {
@@ -110,8 +106,6 @@ class CustomerServiceTest {
 
         assertEquals("12345", customer.getIdentifier());
     }
-
-    // update
 
     @Test
     void update_NotFound() {
@@ -140,8 +134,6 @@ class CustomerServiceTest {
         assertNotNull(result);
     }
 
-    // updateStatus
-
     @Test
     void updateStatus_NotFound() {
         when(customerRepository.findByIdentifier("12345")).thenReturn(null);
@@ -163,8 +155,6 @@ class CustomerServiceTest {
         assertFalse(customer.isStatus());
     }
 
-    // delete
-
     @Test
     void deleteCustomer() {
         doNothing().when(customerRepository).deleteByIdentifier("12345");
@@ -175,8 +165,6 @@ class CustomerServiceTest {
         verify(customerRepository).deleteByIdentifier("12345");
         verify(addressService).delete("12345");
     }
-
-    // findAll
 
     @Test
     void findAllWithPageableTest() {

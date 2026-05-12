@@ -36,7 +36,6 @@ class CategoryServiceTest {
 
     @Test
     void saveTestSuccess() {
-        //request data
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setIdentifier("Category1");
 
@@ -51,7 +50,7 @@ class CategoryServiceTest {
     void saveTestWithEmptySuperCategory() {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setIdentifier("Category1");
-        categoryDto.setSuperCategory(""); // triggers branch
+        categoryDto.setSuperCategory("");
 
         Mockito.when(categoryRepository.findByIdentifier("Category1"))
                 .thenReturn(null);
@@ -64,7 +63,6 @@ class CategoryServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setIdentifier("Category1");
         Category category = new Category();
@@ -229,7 +227,7 @@ class CategoryServiceTest {
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
-        Assertions.assertTrue(category.isStatus()); // verify mutation
+        Assertions.assertTrue(category.isStatus());
     }
 
     @Test

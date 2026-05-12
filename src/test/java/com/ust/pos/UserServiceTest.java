@@ -37,8 +37,6 @@ class UserServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // findByUserName
-
     @Test
     void findByUserNameTest() {
         User user = new User();
@@ -56,8 +54,6 @@ class UserServiceTest {
 
         Assertions.assertEquals("test@mail.com", response.getUsername());
     }
-
-    // save
 
     @Test
     void saveSuccessTest() {
@@ -101,8 +97,6 @@ class UserServiceTest {
                 response.getMessage()
         );
     }
-
-    // update
 
     @Test
     void updateUserNotFoundTest() {
@@ -166,8 +160,6 @@ class UserServiceTest {
 
         Assertions.assertEquals("same@mail.com", response.getUsername());
     }
-
-    // delete
     @Test
     void deleteTest() {
         Mockito.doNothing()
@@ -179,8 +171,6 @@ class UserServiceTest {
         Mockito.verify(userRepository)
                 .deleteByUsername("test@mail.com");
     }
-
-    // findAll
 
     @Test
     void findAllWithPageableTest() {

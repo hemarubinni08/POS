@@ -32,8 +32,6 @@ class BrandServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ---------- save ----------
-
     @Test
     void saveSuccessTest() {
         BrandDto dto = new BrandDto();
@@ -65,8 +63,6 @@ class BrandServiceTest {
         Assertions.assertEquals("Brand BR001 already exists", response.getMessage());
     }
 
-    // ---------- findByIdentifier ----------
-
     @Test
     void findByIdentifierTest() {
         Brand brand = new Brand();
@@ -85,8 +81,6 @@ class BrandServiceTest {
 
         Assertions.assertEquals("BR001", response.getIdentifier());
     }
-
-    // ---------- update ----------
 
     @Test
     void updateSuccessTest() {
@@ -121,8 +115,6 @@ class BrandServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    // ---------- updateStatus ----------
-
     @Test
     void updateStatusSuccessTest() {
         Brand brand = new Brand();
@@ -149,8 +141,6 @@ class BrandServiceTest {
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertEquals("Brand not found", response.getMessage());
     }
-
-    // ---------- findAll (with pagination) ----------
 
     @Test
     void findAllWithPageableTest() {
@@ -180,8 +170,6 @@ class BrandServiceTest {
         Assertions.assertEquals("BR001", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
-
     @Test
     void findAllWithoutPageableTest() {
         Brand brand = new Brand();
@@ -205,8 +193,6 @@ class BrandServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
-
-    // findByStatusTrue
 
     @Test
     void findByStatusTrueTest() {
@@ -232,8 +218,6 @@ class BrandServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
-
-    // delete
 
     @Test
     void deleteTest() {

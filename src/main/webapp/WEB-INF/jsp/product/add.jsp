@@ -14,7 +14,6 @@
           rel="stylesheet">
 
     <style>
-    /* RESPONSIVE */
         @media (max-width: 768px) {
 
             body {
@@ -40,7 +39,6 @@
             position: relative;
         }
 
-        /* ANIMATED BACKGROUND BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -75,7 +73,6 @@
             }
         }
 
-        /* CENTER CONTAINER */
         .main-container {
             min-height: 100vh;
             display: flex;
@@ -86,7 +83,6 @@
             z-index: 2;
         }
 
-        /* GLASS CARD */
         .form-card {
             width: 95%;
             max-width: 1050px;
@@ -108,19 +104,16 @@
             animation: fadeInUp 0.6s ease;
         }
 
-        /* GRID LAYOUT */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 18px 25px;
         }
 
-        /* FULL WIDTH FIELD */
         .full-width {
             grid-column: 1 / -1;
         }
 
-        /* INPUTS */
         .form-control {
             border-radius: 10px;
             border: 1px solid #e5e7eb;
@@ -150,7 +143,6 @@
             font-weight: 700;
         }
 
-        /* INPUTS */
         .form-control {
             border-radius: 10px;
             border: 1px solid #e5e7eb;
@@ -162,7 +154,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* BUTTON */
         .btn-primary-custom {
             width: 100%;
             padding: 12px;
@@ -184,7 +175,6 @@
             box-shadow: 0 14px 30px rgba(37,99,235,0.35);
         }
 
-        /* LINK */
         .back-link {
             text-align: center;
             margin-top: 15px;
@@ -314,7 +304,6 @@
                            title="3–30 characters. Letters, numbers, dash (-) or underscore (_) only." />
             </div>
 
-            <!-- PRODUCT NAME -->
             <div class="mb-3">
                 <label for="name" class="form-label fw-semibold">
                     Product Name
@@ -329,7 +318,6 @@
                             title="3–100 characters. Letters and spaces only." />
             </div>
 
-            <!-- BRAND -->
             <div class="mb-3">
                 <label for="brandName" class="form-label fw-semibold">
                     Select Brand
@@ -352,7 +340,6 @@
                 </form:select>
             </div>
 
-            <!-- MODEL -->
             <div class="mb-3">
                 <label for="model" class="form-label fw-semibold">
                     Select Model
@@ -376,7 +363,6 @@
 
             </div>
 
-            <!-- CATEGORY -->
             <div class="mb-3">
                 <label for="category" class="form-label fw-semibold">
                     Select Category
@@ -397,7 +383,6 @@
                 </form:select>
             </div>
 
-            <!-- UNIT -->
             <div class="mb-3">
                 <label for="unit" class="form-label fw-semibold">
                     Select Unit
@@ -420,7 +405,6 @@
                 </form:select>
             </div>
 
-            <!-- DESCRIPTION -->
             <div class="mb-3 full-width">
                 <label for="description" class="form-label fw-semibold">
                     Description
@@ -486,11 +470,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", function (e) {
 
-        // REMOVE OLD ERRORS
         document.querySelectorAll(".validation-error")
             .forEach(el => el.remove());
 
-        // INPUTS
         const identifier =
             document.querySelector('input[name="identifier"]');
 
@@ -512,7 +494,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const description =
             document.querySelector('textarea[name="description"]');
 
-        // HELPER
         function showError(element, message) {
 
             const small = document.createElement("small");
@@ -534,7 +515,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return false;
         }
 
-        // IDENTIFIER
         const identifierRegex = /^[A-Za-z0-9_-]{3,30}$/;
 
         if (!identifierRegex.test(identifier.value.trim())) {
@@ -543,8 +523,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 "3–30 characters. Letters, numbers, - or _ only"
             );
         }
-
-        // PRODUCT NAME
 
         const nameRegex = /^[A-Za-z ]{3,100}$/;
 
@@ -555,7 +533,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // BRAND
         if (brandName.value.trim() === "") {
             return showError(
                 brandName,
@@ -563,7 +540,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // MODEL
         if (model.value.trim() === "") {
             return showError(
                 model,
@@ -571,7 +547,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // CATEGORY
         const selectedCategories =
             [...category.options].filter(option => option.selected);
 
@@ -582,15 +557,12 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // UNIT
         if (unit.value.trim() === "") {
             return showError(
                 unit,
                 "Please select a unit"
             );
         }
-
-        // DESCRIPTION
 
         if (description.value.trim().length < 10) {
             return showError(

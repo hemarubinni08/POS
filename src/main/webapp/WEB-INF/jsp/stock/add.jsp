@@ -25,7 +25,6 @@
             overflow: hidden;
         }
 
-        /* BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -56,7 +55,6 @@
             50% { transform: translateY(25px); }
         }
 
-        /* CARD */
         .card-glass {
             width: 460px;
             padding: 35px 40px;
@@ -99,7 +97,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* ROLES CHECKBOX GROUP */
         .checkbox-list {
             display: flex;
             flex-direction: column;
@@ -145,7 +142,6 @@
             background: #eff6ff;
         }
 
-        /* BUTTON */
         .btn-primary-custom {
             width: 100%;
             padding: 12px;
@@ -183,11 +179,9 @@
 
 <body>
 
-<!-- BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
-<!-- FORM -->
 <div class="card-glass">
 
     <h4>Add New Stock</h4>
@@ -301,11 +295,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", function (e) {
 
-        // REMOVE OLD ERRORS
         document.querySelectorAll(".validation-error")
             .forEach(el => el.remove());
 
-        // INPUTS
         const product =
             document.querySelector('select[name="product"]');
 
@@ -324,7 +316,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const shelf =
             document.querySelector('select[name="shelf"]');
 
-        // HELPER
         function showError(element, message) {
 
             const small = document.createElement("small");
@@ -346,7 +337,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return false;
         }
 
-        // PRODUCT VALIDATION
         if (product.value.trim() === "") {
             return showError(
                 product,
@@ -354,7 +344,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // QUANTITY VALIDATION
         if (quantity.value.trim() === "") {
             return showError(
                 quantity,
@@ -378,7 +367,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // REORDER LEVEL VALIDATION
         if (reorderLevel.value.trim() === "") {
             return showError(
                 reorderLevel,
@@ -400,7 +388,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // OPTIONAL CHECK
         if (
             parseInt(reorderLevel.value.trim()) >
             parseInt(quantity.value.trim())
@@ -411,7 +398,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // WAREHOUSE VALIDATION
         if (warehouse.value.trim() === "") {
             return showError(
                 warehouse,
@@ -419,7 +405,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // RACK VALIDATION
         if (rack.value.trim() === "") {
             return showError(
                 rack,
@@ -427,7 +412,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // SHELF VALIDATION
         if (shelf.value.trim() === "") {
             return showError(
                 shelf,

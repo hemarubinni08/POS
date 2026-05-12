@@ -36,7 +36,6 @@ class RoleServiceTest {
 
     @Test
     void saveTestSuccess() {
-        //request data
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
         Role role = new Role();
@@ -50,7 +49,6 @@ class RoleServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
         Role role = new Role();

@@ -32,8 +32,6 @@ class StockServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // findAll
-
     @Test
     void findAllWithPageableTest() {
 
@@ -65,7 +63,6 @@ class StockServiceTest {
 
     @Test
     void findAllWithoutPageableTest() {
-
         Stock stock = new Stock();
         stock.setIdentifier("STK1");
 
@@ -88,12 +85,8 @@ class StockServiceTest {
         Assertions.assertEquals(1, result.size());
     }
 
-    // save
-
     @Test
     void save_success() {
-
-        // given
         StockDto request = new StockDto();
         request.setIdentifier("STK1");
 
@@ -111,10 +104,8 @@ class StockServiceTest {
         Mockito.when(modelMapper.map(savedStock, StockDto.class))
                 .thenReturn(mappedResponse);
 
-        // when
         StockDto response = stockService.save(request);
 
-        // then
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Successfully added the stock", response.getMessage());
 
@@ -122,8 +113,6 @@ class StockServiceTest {
         Mockito.verify(modelMapper).map(request, Stock.class);
         Mockito.verify(modelMapper).map(savedStock, StockDto.class);
     }
-
-    // update
 
     @Test
     void update_success() {
@@ -142,8 +131,6 @@ class StockServiceTest {
         Assertions.assertEquals("Stock updated successfully", response.getMessage());
     }
 
-    // findById
-
     @Test
     void findById_success() {
         Stock stock = new Stock();
@@ -159,8 +146,6 @@ class StockServiceTest {
 
         Assertions.assertNotNull(response);
     }
-
-    // delete
 
     @Test
     void delete_success() {

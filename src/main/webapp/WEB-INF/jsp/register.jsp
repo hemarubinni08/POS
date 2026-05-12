@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* LEFT PANEL */
         .left-panel {
             flex: 1;
             background: linear-gradient(135deg, #cee9e9, #8fcfcd);
@@ -59,7 +58,6 @@
             width: fit-content;
         }
 
-        /* CURVE DIVIDER (SVG SIDE) */
         .curve {
             position: absolute;
             top: 0;
@@ -74,7 +72,6 @@
             width: 100%;
         }
 
-        /* RIGHT PANEL */
         .right-panel {
             flex: 1;
             background: #f7f7fb;
@@ -83,7 +80,6 @@
             align-items: center;
         }
 
-        /* FORM BOX */
         .form-box {
             display: flex;
             flex-direction: column;
@@ -159,7 +155,6 @@
             margin-bottom: 10px;
         }
 
-        /* ROLES CHECKBOX GROUP */
         .roles-group {
             width: 100%;
             margin-bottom: 12px;
@@ -261,7 +256,6 @@
             filter: blur(12px);
         }
 
-        /* entry animation */
         @keyframes toastIn {
             from {
                 opacity: 0;
@@ -273,7 +267,6 @@
             }
         }
 
-        /* exit */
         .toast.hide {
             opacity: 0;
             transform: translateX(-50%) translateY(20px);
@@ -290,14 +283,12 @@
 
 <div class="main-container">
 
-    <!-- LEFT -->
     <div class="left-panel">
         <h1>POS Application</h1>
         <p>Register to continue</p>
 
         <a href="/login" class="login-btn">LOG IN</a>
 
-        <!-- CURVED DIVIDER -->
         <div class="curve">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none">
                 <path d="M0,0 H100 V100 H0 C60,80 60,20 0,0 Z" fill="#f7f7fb"></path>
@@ -305,7 +296,6 @@
         </div>
     </div>
 
-    <!-- RIGHT -->
     <div class="right-panel">
 
         <div class="form-box">
@@ -329,7 +319,6 @@
                             pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
                             title="Enter valid email like example@gmail.com"/>
 
-                <!-- ROLES CHECKBOXES -->
                 <div class="roles-group">
                     <span class="roles-label">SELECT ROLE(S)</span>
                     <div class="checkbox-list">
@@ -378,11 +367,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", function (e) {
 
-        // REMOVE OLD ERRORS
         document.querySelectorAll(".validation-error")
             .forEach(el => el.remove());
 
-        // INPUTS
         const name = document.querySelector('input[name="name"]');
         const email = document.querySelector('input[name="username"]');
         const phone = document.querySelector('input[name="phoneNo"]');
@@ -390,7 +377,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const roleCheckboxes =
             document.querySelectorAll('input[name="roles"]');
 
-        // HELPER
         function showError(element, message) {
 
             const small = document.createElement("small");
@@ -406,7 +392,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return false;
         }
 
-        // NAME
         const nameRegex = /^[A-Za-z\s]+$/;
 
         if (name.value.trim().length < 3) {
@@ -423,7 +408,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // EMAIL
         const emailRegex =
             /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
@@ -434,7 +418,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // ROLES
         const roleSelected =
             [...roleCheckboxes].some(cb => cb.checked);
 
@@ -449,7 +432,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // PHONE
         const phoneRegex = /^[6-9][0-9]{9}$/;
 
         if (!phoneRegex.test(phone.value.trim())) {
@@ -459,7 +441,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // PASSWORD
         if (password.value.length < 6) {
             return showError(
                 password,

@@ -33,7 +33,6 @@ class ProductServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // findAll (loop coverage)
     @Test
     void findAllWithPageableTest() {
 
@@ -88,7 +87,6 @@ class ProductServiceTest {
         Assertions.assertEquals(1, response.size());
     }
 
-    // findByStatusTrue
     @Test
     void findByStatusTrueTest() {
         Product product = new Product();
@@ -105,7 +103,6 @@ class ProductServiceTest {
         Assertions.assertEquals(1, response.size());
     }
 
-    // save success
     @Test
     void saveSuccessTest() {
         ProductDto dto = new ProductDto();
@@ -122,7 +119,6 @@ class ProductServiceTest {
         Assertions.assertTrue(response.isSuccess());
     }
 
-    // save failure
     @Test
     void saveFailureTest() {
         ProductDto dto = new ProductDto();
@@ -137,7 +133,6 @@ class ProductServiceTest {
         Assertions.assertEquals("Product P1 already exists", response.getMessage());
     }
 
-    // findByIdentifier
     @Test
     void findByIdentifierTest() {
         Product product = new Product();
@@ -151,7 +146,6 @@ class ProductServiceTest {
         Assertions.assertNotNull(response);
     }
 
-    // update - product not found
     @Test
     void updateProductNotFoundTest() {
         ProductDto dto = new ProductDto();
@@ -167,7 +161,6 @@ class ProductServiceTest {
         Assertions.assertTrue(response.getMessage().contains("not found"));
     }
 
-    // update - identifier changed but already exists
     @Test
     void updateIdentifierConflictTest() {
         ProductDto dto = new ProductDto();
@@ -189,7 +182,6 @@ class ProductServiceTest {
         Assertions.assertEquals("Product NewName already exists", response.getMessage());
     }
 
-    // update success
     @Test
     void updateSuccessTest() {
         ProductDto dto = new ProductDto();
@@ -210,7 +202,6 @@ class ProductServiceTest {
         Assertions.assertTrue(response.isSuccess());
     }
 
-    // updateStatus success
     @Test
     void updateStatusSuccessTest() {
         Product product = new Product();
@@ -225,7 +216,6 @@ class ProductServiceTest {
         Assertions.assertTrue(product.isStatus());
     }
 
-    // updateStatus failure
     @Test
     void updateStatusFailureTest() {
         Mockito.when(productRepository.findByIdentifier("P1"))
@@ -237,7 +227,6 @@ class ProductServiceTest {
         Assertions.assertEquals("Product not found", response.getMessage());
     }
 
-    // delete
     @Test
     void deleteTest() {
         Mockito.doNothing().when(productRepository).deleteByIdentifier("P1");

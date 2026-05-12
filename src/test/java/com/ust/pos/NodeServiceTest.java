@@ -106,8 +106,6 @@ class NodeServiceTest {
         verify(nodeRepository, never()).save(any());
     }
 
-    // delete
-
     @Test
     void deleteTest() {
         Mockito.doNothing().when(nodeRepository).deleteByIdentifier("N1");
@@ -116,8 +114,6 @@ class NodeServiceTest {
 
         verify(nodeRepository).deleteByIdentifier("N1");
     }
-
-    // findByIdentifier
 
     @Test
     void findByIdentifierTest() {
@@ -131,9 +127,6 @@ class NodeServiceTest {
 
         Assertions.assertNotNull(response);
     }
-
-    // findAll
-
 
     @Test
     void findAllWithPageableTest() {
@@ -207,8 +200,6 @@ class NodeServiceTest {
         assertTrue(result.isEmpty());
     }
 
-    // updateStatus
-
     @Test
     void updateStatus_success() {
         Node node = new Node();
@@ -232,8 +223,6 @@ class NodeServiceTest {
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertEquals("Node not found", response.getMessage());
     }
-
-    // getNodesForRoles
 
     @Test
     void getNodesForRoles_emptyAuth() {

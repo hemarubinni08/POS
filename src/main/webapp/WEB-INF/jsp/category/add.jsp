@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* ANIMATED BACKGROUND BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -58,7 +57,6 @@
             }
         }
 
-        /* CENTER CONTAINER */
         .main-container {
             height: 100vh;
             display: flex;
@@ -68,7 +66,6 @@
             z-index: 2;
         }
 
-        /* GLASS CARD */
         .form-card {
             width: 380px;
             padding: 40px;
@@ -106,7 +103,6 @@
             font-weight: 700;
         }
 
-        /* INPUTS */
         .form-control {
             border-radius: 10px;
             border: 1px solid #e5e7eb;
@@ -118,7 +114,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* BUTTON */
         .btn-primary-custom {
             width: 100%;
             padding: 12px;
@@ -140,7 +135,6 @@
             box-shadow: 0 14px 30px rgba(37,99,235,0.35);
         }
 
-        /* LINK */
         .back-link {
             text-align: center;
             margin-top: 15px;
@@ -233,8 +227,6 @@
     </style>
 </head>
 <body>
-
-<!-- BACKGROUND BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
@@ -370,7 +362,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return false;
         }
 
-        // IDENTIFIER
         const idRegex = /^[A-Za-z0-9_-]+$/;
 
         if (identifier.value.trim().length < 2) {
@@ -381,7 +372,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return showError(identifier, "Only letters, numbers, _ and - allowed");
         }
 
-        // NAME
         const nameRegex = /^[A-Za-z\s]+$/;
 
         if (name.value.trim().length < 2) {
@@ -392,7 +382,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return showError(name, "Only letters and spaces allowed");
         }
 
-        // DESCRIPTION
         const descRegex = /^[A-Za-z0-9\s,]+$/;
 
         if (description.value.trim().length < 5) {
@@ -404,7 +393,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
     });
-
 });
 </script>
 </body>

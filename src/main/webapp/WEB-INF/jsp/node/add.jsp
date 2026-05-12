@@ -25,7 +25,6 @@
             overflow: hidden;
         }
 
-        /* BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -56,7 +55,6 @@
             50% { transform: translateY(25px); }
         }
 
-        /* CARD */
         .card-glass {
             width: 460px;
             padding: 35px 40px;
@@ -99,7 +97,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* ROLES CHECKBOX GROUP */
         .checkbox-list {
             display: flex;
             flex-direction: column;
@@ -145,7 +142,6 @@
             background: #eff6ff;
         }
 
-        /* BUTTON */
         .btn-primary-custom {
             width: 100%;
             padding: 12px;
@@ -182,12 +178,9 @@
 </head>
 
 <body>
-
-<!-- BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
-<!-- FORM -->
 <div class="card-glass">
 
     <h4>Add New Node</h4>
@@ -246,11 +239,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", function (e) {
 
-        // REMOVE OLD ERRORS
         document.querySelectorAll(".validation-error")
             .forEach(el => el.remove());
 
-        // INPUTS
         const identifier =
             document.querySelector('input[name="identifier"]');
 
@@ -260,7 +251,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const roleCheckboxes =
             document.querySelectorAll('input[name="roles"]');
 
-        // HELPER
         function showError(element, message) {
 
             const small = document.createElement("small");
@@ -287,7 +277,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return false;
         }
 
-        // IDENTIFIER
         if (identifier.value.trim() === "") {
             return showError(
                 identifier,
@@ -311,7 +300,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // PATH
         if (path.value.trim() === "") {
             return showError(
                 path,
@@ -326,7 +314,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // PATH FORMAT
         const pathRegex = /^\/[A-Za-z0-9/_-]*$/;
 
         if (!pathRegex.test(path.value.trim())) {
@@ -336,7 +323,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // ROLES
         const roleSelected =
             [...roleCheckboxes].some(cb => cb.checked);
 

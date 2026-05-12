@@ -25,7 +25,6 @@ class AddressServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // save
     @Test
     void saveTest() {
         AddressDto dto = new AddressDto();
@@ -49,7 +48,6 @@ class AddressServiceTest {
                 .save(address);
     }
 
-    // findByPhoneNoAndAddressType
     @Test
     void findByPhoneNoAndAddressTypeTest() {
         Address address = new Address();
@@ -74,7 +72,6 @@ class AddressServiceTest {
         Assertions.assertEquals("HOME", response.getAddressType());
     }
 
-    // update
     @Test
     void updateTest() {
         AddressDto dto = new AddressDto();
@@ -92,15 +89,12 @@ class AddressServiceTest {
         Mockito.when(addressRepository.save(existingAddress))
                 .thenReturn(existingAddress);
 
-        // map(dto, existingAddress) returns void → nothing to stub
-
         addressService.update(dto);
 
         Mockito.verify(addressRepository)
                 .save(existingAddress);
     }
 
-    // delete
     @Test
     void deleteTest() {
         Mockito.doNothing()

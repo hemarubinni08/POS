@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* ANIMATED BACKGROUND BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -58,7 +57,6 @@
             }
         }
 
-        /* CENTER CONTAINER */
         .main-container {
             display: flex;
             justify-content: center;
@@ -67,7 +65,6 @@
             z-index: 2;
         }
 
-        /* GLASS CARD */
         .form-card {
             width: 700px;
             padding: 40px;
@@ -105,7 +102,6 @@
             font-weight: 700;
         }
 
-        /* INPUTS */
         .form-control {
             border-radius: 10px;
             border: 1px solid #e5e7eb;
@@ -117,7 +113,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* BUTTON */
         .btn-primary-custom {
             width: 100%;
             padding: 12px;
@@ -139,7 +134,6 @@
             box-shadow: 0 14px 30px rgba(37,99,235,0.35);
         }
 
-        /* LINK */
         .back-link {
             text-align: center;
             margin-top: 15px;
@@ -232,8 +226,6 @@
     </style>
 </head>
 <body>
-
-<!-- BACKGROUND BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
@@ -497,34 +489,27 @@ document.addEventListener("DOMContentLoaded", () => {
         const numberRegex = /^[0-9]+$/;
         const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-        // CUSTOMER NAME
         if (name.value.trim() === "")
             return showError(name, "Customer name is required");
 
         if (name.value.trim().length < 2 || !letterSpace.test(name.value.trim()))
             return showError(name, "Name must contain only letters and spaces");
 
-        // PHONE
         if (!phoneRegex.test(phone.value.trim()))
             return showError(phone, "Enter a valid 10‑digit mobile number");
 
-        // PARTY TYPE
         if (partyType.value === "")
             return showError(partyType, "Please select a party type");
 
-        // BALANCE (optional but numeric)
         if (balance.value.trim() !== "" && !numberRegex.test(balance.value.trim()))
             return showError(balance, "Balance must be a number");
 
-        // EMAIL
         if (email.value.trim() !== "" && !emailRegex.test(email.value.trim()))
             return showError(email, "Enter a valid email address");
 
-        // CREDIT LIMIT
         if (creditLimit.value.trim() !== "" && !numberRegex.test(creditLimit.value.trim()))
             return showError(creditLimit, "Credit limit must be numeric");
 
-        // BILLING ADDRESS
         if (billingCity.value.trim() !== "" && !letterSpace.test(billingCity.value.trim()))
             return showError(billingCity, "City must contain only letters");
 
@@ -538,7 +523,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return showError(billingZip, "Zip code must be 5 or 6 digits");
 
     });
-
 });
 </script>
 </body>

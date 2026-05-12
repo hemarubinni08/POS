@@ -16,14 +16,12 @@
         font-family: 'Poppins', sans-serif;
     }
 
-    /* TABLE CONTAINER */
     .table-wrapper {
         background: rgba(255, 255, 255, 0.92);
         padding: 20px;
         box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
     }
 
-    /* TITLE */
     h4 {
         color: white;
         font-weight: 700;
@@ -41,7 +39,6 @@
         color: #111;
     }
 
-    /* ROWS */
     .table tbody tr {
         transition: 0.2s ease;
     }
@@ -51,12 +48,10 @@
         transform: scale(1.01);
     }
 
-    /* REMOVE HEAVY BORDERS */
     .table td, .table th {
         border: none !important;
     }
 
-    /* BUTTONS (keep clean) */
     .btn-primary {
         background: #3b82f6;
         border: none;
@@ -170,7 +165,6 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            <!-- Page Title -->
             <h4 class="text-center mb-4">List of Prices</h4>
 
             <c:if test="${not empty message}">
@@ -180,14 +174,12 @@
                 <c:remove var="message" scope="session"/>
             </c:if>
 
-            <!-- Empty State -->
             <c:if test="${empty prices}">
                 <div class="alert alert-warning text-center">
                     No prices found
                 </div>
             </c:if>
 
-            <!-- Prices Table -->
             <c:if test="${not empty prices}">
                 <div class="table-wrapper">
                     <table class="table align-middle">

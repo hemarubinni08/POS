@@ -20,7 +20,6 @@
             position: relative;
         }
 
-        /* BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -55,7 +54,6 @@
             }
         }
 
-        /* CENTER */
         .main-container {
             height: 100vh;
             display: flex;
@@ -65,7 +63,6 @@
             z-index: 2;
         }
 
-        /* GLASS CARD */
         .card {
             width: 420px;
             padding: 25px;
@@ -100,7 +97,6 @@
             font-weight: 700;
         }
 
-        /* INPUTS */
         .form-control {
             border-radius: 10px;
             border: 1px solid #e5e7eb;
@@ -112,7 +108,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* BUTTONS */
         .btn-success {
             background: #3b82f6;
             border: none;
@@ -138,7 +133,6 @@
 </head>
 
 <body>
-<!-- BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
@@ -216,17 +210,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return false;
         }
 
-        // IDENTIFIER REQUIRED
         if (identifier.value.trim() === "") {
             return showError(identifier, "Model identifier is required");
         }
 
-        // MIN LENGTH
         if (identifier.value.trim().length < 2) {
             return showError(identifier, "Minimum 2 characters required");
         }
 
-        // ALLOWED CHARACTERS
         const identifierRegex = /^[A-Za-z0-9_-]+$/;
 
         if (!identifierRegex.test(identifier.value.trim())) {

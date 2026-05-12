@@ -20,7 +20,6 @@
             position: relative;
         }
 
-        /* BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -55,7 +54,6 @@
             }
         }
 
-        /* CENTER */
         .main-container {
             height: 100vh;
             display: flex;
@@ -65,7 +63,6 @@
             z-index: 2;
         }
 
-        /* GLASS CARD */
         .card {
             width: 420px;
             padding: 25px;
@@ -100,7 +97,6 @@
             font-weight: 700;
         }
 
-        /* INPUTS */
         .form-control {
             border-radius: 10px;
             border: 1px solid #e5e7eb;
@@ -112,7 +108,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* BUTTONS */
         .btn-success {
             background: #3b82f6;
             border: none;
@@ -138,7 +133,6 @@
 </head>
 
 <body>
-<!-- BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
@@ -208,14 +202,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", function (e) {
 
-        // REMOVE OLD ERRORS
         document.querySelectorAll(".validation-error")
             .forEach(el => el.remove());
 
         const value =
             document.querySelector('input[name="value"]');
 
-        // HELPER
         function showError(element, message) {
 
             const small = document.createElement("small");
@@ -244,7 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return false;
         }
 
-        // NUMBER FORMAT
         const priceRegex = /^\d+(\.\d{1,2})?$/;
 
         if (!priceRegex.test(value.value.trim())) {
@@ -254,7 +245,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // POSITIVE VALUE
         if (parseFloat(value.value.trim()) <= 0) {
             return showError(
                 value,
@@ -262,7 +252,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // MAX VALUE CHECK
         if (parseFloat(value.value.trim()) > 1000000) {
             return showError(
                 value,

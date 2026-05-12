@@ -215,8 +215,6 @@ class PriceServiceTest {
         assertEquals("Price not found", exception.getMessage());
     }
 
-    // ---------- update ----------
-
     @Test
     void update_priceNotFound() {
         when(priceRepository.findById(1L)).thenReturn(Optional.empty());
@@ -238,8 +236,6 @@ class PriceServiceTest {
         assertTrue(response.isSuccess());
         assertEquals("Successfully updated price", response.getMessage());
     }
-
-    // ---------- delete ----------
 
     @Test
     void delete_success() {
