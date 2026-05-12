@@ -1,17 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java"
+         contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://www.springframework.org/tags/form"
+           prefix="form" %>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"
+           prefix="c" %>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <title>Add Rack</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
     <style>
+
         body {
             background-color: #E9EEF5;
             min-height: 100vh;
@@ -40,12 +50,15 @@
         }
 
     </style>
+
 </head>
 
 <body>
 
 <nav class="navbar navbar-dark bg-dark shadow">
+
     <div class="container-fluid">
+
         <span class="navbar-brand fw-bold">
             Rack Management
         </span>
@@ -54,19 +67,27 @@
            class="btn btn-outline-light btn-sm">
             Back
         </a>
+
     </div>
 
 </nav>
 
 <div class="container d-flex justify-content-center align-items-center"
      style="min-height: 100vh;">
-    <div class="card shadow p-4" style="width: 500px;">
-        <h3 class="text-center mb-4 fw-bold">Add Rack</h3>
+
+    <div class="card shadow p-4"
+         style="width: 500px;">
+
+        <h3 class="text-center mb-4 fw-bold">
+            Add Rack
+        </h3>
 
         <c:if test="${not empty message}">
+
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
+
         </c:if>
 
         <form:form method="post"
@@ -74,51 +95,90 @@
                    modelAttribute="rackDto">
 
             <div class="mb-3">
-                <label class="form-label fw-semibold">Identifier *</label>
+
+                <label class="form-label fw-semibold">
+                    Identifier *
+                </label>
+
                 <form:input path="identifier"
                             cssClass="form-control"
                             placeholder="Enter rack identifier"
-                            required="true"/>
+                            required="required" />
+
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-semibold">Rack Name *</label>
+
+                <label class="form-label fw-semibold">
+                    Rack Name *
+                </label>
+
                 <form:input path="name"
                             cssClass="form-control"
                             placeholder="Enter rack name"
-                            required="true"/>
+                            required="required" />
+
             </div>
+
             <div class="mb-4">
 
-                <label class="form-label fw-semibold">Shelves *</label>
+                <label class="form-label fw-semibold">
+                    Shelves *
+                </label>
+
                 <div class="shelf-box">
-                    <c:forEach var="s" items="${shelves}">
+
+                    <c:forEach var="s"
+                               items="${shelves}">
+
                         <div class="form-check">
+
                             <form:checkbox path="shelfIdentifiers"
                                            value="${s.identifier}"
-                                           cssClass="form-check-input shelf-check"/>
+                                           cssClass="form-check-input shelf-check" />
+
                             <label class="form-check-label">
                                 ${s.name}
                             </label>
+
                         </div>
+
                     </c:forEach>
+
                 </div>
 
-                <small id="shelfError" class="text-danger d-none">
+                <small id="shelfError"
+                       class="text-danger d-none">
                     Please select at least one shelf
                 </small>
+
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-semibold">Status</label>
-                <form:select path="status" cssClass="form-select">
-                    <form:option value="true">Active</form:option>
-                    <form:option value="false">Inactive</form:option>
+
+                <label class="form-label fw-semibold">
+                    Status
+                </label>
+
+                <form:select path="status"
+                             cssClass="form-select">
+
+                    <form:option value="true">
+                        Active
+                    </form:option>
+
+                    <form:option value="false">
+                        Inactive
+                    </form:option>
+
                 </form:select>
+
             </div>
 
             <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary w-100">
+
+                <button type="submit"
+                        class="btn btn-primary w-100">
                     Save Rack
                 </button>
 
@@ -126,30 +186,56 @@
                    class="btn btn-outline-secondary w-100">
                     Cancel
                 </a>
+
             </div>
+
         </form:form>
+
     </div>
+
 </div>
 
 <script>
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    const shelfChecks = document.querySelectorAll(".shelf-check");
-    const shelfError = document.getElementById("shelfError");
-    document.querySelector("form").addEventListener("submit", function (e) {
-        let selected = false;
-        shelfChecks.forEach(cb => { if (cb.checked) selected = true; });
-        if (!selected) {
-            e.preventDefault();
-            shelfError.classList.remove("d-none");
-        } else {
-            shelfError.classList.add("d-none");
-        }
-    });
+    const shelfChecks =
+        document.querySelectorAll(".shelf-check");
+
+    const shelfError =
+        document.getElementById("shelfError");
+
+    document.querySelector("form")
+        .addEventListener("submit", function (e) {
+
+            let selected = false;
+
+            shelfChecks.forEach(cb => {
+
+                if (cb.checked) {
+                    selected = true;
+                }
+
+            });
+
+            if (!selected) {
+
+                e.preventDefault();
+
+                shelfError.classList.remove("d-none");
+
+            } else {
+
+                shelfError.classList.add("d-none");
+
+            }
+
+        });
+
 });
 
 </script>
 
 </body>
+
 </html>
