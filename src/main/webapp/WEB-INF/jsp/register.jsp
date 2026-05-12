@@ -45,7 +45,6 @@
 
     <h3 class="text-center mb-4">POS Management Registration</h3>
 
-    <!-- ERROR MESSAGE -->
     <c:if test="${not empty message}">
         <div id="errorAlert" class="alert alert-danger text-center py-2 mb-3">
             ${message}
@@ -54,13 +53,11 @@
 
     <form:form action="register" method="post" modelAttribute="userDto">
 
-        <!-- NAME -->
         <div class="mb-3">
             <label class="form-label">Full Name</label>
             <form:input path="name" cssClass="form-control" required="required"/>
         </div>
 
-        <!-- EMAIL -->
         <div class="mb-3">
             <label class="form-label">Email</label>
 
@@ -72,7 +69,6 @@
                    title="Enter a valid email like example@gmail.com" />
         </div>
 
-        <!-- ROLES -->
         <div class="mb-3">
             <label class="form-label">Roles</label>
 
@@ -101,7 +97,6 @@
             </small>
         </div>
 
-        <!-- PHONE -->
         <div class="mb-3">
             <label class="form-label">Phone Number</label>
 
@@ -113,7 +108,6 @@
                         required="required"/>
         </div>
 
-        <!-- PASSWORD (UPDATED) -->
         <div class="mb-3">
             <label class="form-label">Password</label>
 
@@ -124,12 +118,10 @@
                            title="Password must be at least 6 characters long"/>
         </div>
 
-        <!-- BUTTON -->
         <button type="submit" class="btn btn-success w-100">
             Register
         </button>
 
-        <!-- LOGIN -->
         <div class="text-center mt-3">
             <small>
                 Already have an account?
@@ -140,37 +132,24 @@
     </form:form>
 </div>
 
-<!-- ROLE VALIDATION SCRIPT -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-
     const checks = document.querySelectorAll(".role-check");
     const error = document.getElementById("roleError");
-
     function validateRoles() {
         let selected = false;
-
-        checks.forEach(c => {
-            if (c.checked) selected = true;
-        });
-
+        checks.forEach(c => { if (c.checked) selected = true; });
         if (selected) {
             error.classList.add("d-none");
         }
     }
 
-    checks.forEach(c => {
-        c.addEventListener("change", validateRoles);
-    });
+    checks.forEach(c => { c.addEventListener("change", validateRoles); });
 
     document.querySelector("form").addEventListener("submit", function (e) {
 
         let selected = false;
-
-        checks.forEach(c => {
-            if (c.checked) selected = true;
-        });
-
+        checks.forEach(c => { if (c.checked) selected = true; });
         if (!selected) {
             e.preventDefault();
             error.classList.remove("d-none");

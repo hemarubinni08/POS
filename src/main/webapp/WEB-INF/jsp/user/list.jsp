@@ -36,7 +36,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">User Management</span>
@@ -47,21 +46,16 @@
     </div>
 </nav>
 
-<!-- MAIN CONTAINER -->
 <div class="container mt-5">
-
     <div class="card shadow p-3">
-
         <h3 class="fw-bold mb-3 text-center">User List</h3>
 
-        <!-- EMPTY -->
         <c:if test="${empty users}">
             <div class="text-center py-4 text-light">
                 No users found
             </div>
         </c:if>
 
-        <!-- TABLE -->
         <c:if test="${not empty users}">
             <div class="table-responsive">
                 <table class="table table-hover table-striped mb-0 text-center">
@@ -84,11 +78,8 @@
                                     ${user.username}
                                 </a>
                             </td>
-
                             <td>${user.name}</td>
-
                             <td class="text-muted">${user.phoneNo}</td>
-
                             <td>
                                 <c:forEach var="role" items="${user.roles}">
                                     <span class="badge bg-secondary me-1">

@@ -63,7 +63,6 @@
                 <form:hidden path="id"/>
                 <form:hidden path="oldUsername"/>
 
-                <!-- NAME -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Name</label>
                     <form:input path="name"
@@ -72,7 +71,6 @@
                                 required="required"/>
                 </div>
 
-                <!-- EMAIL -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Email</label>
                     <form:input path="username"
@@ -82,7 +80,6 @@
                                 type="email"/>
                 </div>
 
-                <!-- PHONE -->
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Phone</label>
                     <form:input path="phoneNo"
@@ -95,14 +92,12 @@
                     <small class="text-muted">Must be exactly 10 digits/numbers</small>
                 </div>
 
-                <!-- ROLES -->
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Roles</label>
 
                     <div class="border rounded p-2">
                         <c:forEach items="${roles}" var="role">
                             <div class="form-check">
-
                                 <form:checkbox path="roles"
                                                value="${role.identifier}"
                                                cssClass="form-check-input"
@@ -118,7 +113,6 @@
                     </div>
                 </div>
 
-                <!-- BUTTONS -->
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary w-100">
                         Update
