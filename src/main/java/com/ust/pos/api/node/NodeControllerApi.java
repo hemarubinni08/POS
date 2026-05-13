@@ -2,6 +2,7 @@ package com.ust.pos.api.node;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.node.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,14 +41,18 @@ public class NodeControllerApi extends BaseController {
         return nodeService.update(nodeDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public NodeDto delete(@RequestBody NodeDto nodeDto) {
+        NodeDto response = new NodeDto();
         try {
-            nodeService.delete(identifier);
+            nodeService.delete(nodeDto.getIdentifier());
+            response.setSuccess(true);
+            response.setMessage("Node deleted successfully");
         } catch (Exception e) {
-            return false;
+            response.setSuccess(false);
+            response.setMessage("Delete failed");
         }
-        return true;
+        return response;
     }
 
     @GetMapping("/NodesForRoles")

@@ -1,6 +1,7 @@
 package com.ust.pos.api.product;
 
 import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.product.service.ProductService;
@@ -41,14 +42,18 @@ public class ProductControllerApi extends BaseController {
         return productService.update(productDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public ProductDto delete(@RequestBody ProductDto productDto) {
+        ProductDto response = new ProductDto();
         try {
-            productService.delete(identifier);
+            productService.delete(productDto.getIdentifier());
+            response.setSuccess(true);
+            response.setMessage("Product deleted successfully");
         } catch (Exception e) {
-            return false;
+            response.setSuccess(false);
+            response.setMessage("Delete failed");
         }
-        return true;
+        return response;
     }
 
     @PostMapping("/toggle")

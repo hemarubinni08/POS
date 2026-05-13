@@ -2,6 +2,7 @@ package com.ust.pos.api.models;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.ModelsDto;
+import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.models.service.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +42,18 @@ public class ModelsControllerApi extends BaseController {
         return modelsService.update(modelsDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public ModelsDto delete(@RequestBody ModelsDto modelsDto) {
+        ModelsDto response = new ModelsDto();
         try {
-            modelsService.delete(identifier);
+            modelsService.delete(modelsDto.getIdentifier());
+            response.setSuccess(true);
+            response.setMessage("Models deleted successfully");
         } catch (Exception e) {
-            return false;
+            response.setSuccess(false);
+            response.setMessage("Delete failed");
         }
-        return true;
+        return response;
     }
 
     @PostMapping("/toggle-status")

@@ -2,6 +2,7 @@ package com.ust.pos.api.rack;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.RackDto;
+import com.ust.pos.dto.RackDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.rack.service.RackService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +42,18 @@ public class RackControllerApi extends BaseController {
         return rackService.update(rackDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public RackDto delete(@RequestBody RackDto rackDto) {
+        RackDto response = new RackDto();
         try {
-            rackService.delete(identifier);
+            rackService.delete(rackDto.getIdentifier());
+            response.setSuccess(true);
+            response.setMessage("Rack deleted successfully");
         } catch (Exception e) {
-            return false;
+            response.setSuccess(false);
+            response.setMessage("Delete failed");
         }
-        return true;
+        return response;
     }
 
     @GetMapping("/activeracks")

@@ -2,6 +2,7 @@ package com.ust.pos.api.price;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.price.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +42,17 @@ public class PriceControllerApi extends BaseController {
         return priceService.update(priceDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public PriceDto delete(@RequestBody PriceDto priceDto) {
+        PriceDto response = new PriceDto();
         try {
-            priceService.delete(identifier);
+            priceService.delete(priceDto.getIdentifier());
+            response.setSuccess(true);
+            response.setMessage("Price deleted successfully");
         } catch (Exception e) {
-            return false;
+            response.setSuccess(false);
+            response.setMessage("Delete failed");
         }
-        return true;
+        return response;
     }
 }

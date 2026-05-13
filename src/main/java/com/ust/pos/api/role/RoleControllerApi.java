@@ -2,6 +2,7 @@ package com.ust.pos.api.role;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +41,17 @@ public class RoleControllerApi extends BaseController {
         return roleService.update(roleDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public RoleDto delete(@RequestBody RoleDto roleDto) {
+        RoleDto response = new RoleDto();
         try {
-            roleService.delete(identifier);
+            roleService.delete(roleDto.getIdentifier());
+            response.setSuccess(true);
+            response.setMessage("Role deleted successfully");
         } catch (Exception e) {
-            return false;
+            response.setSuccess(false);
+            response.setMessage("Delete failed");
         }
-        return true;
+        return response;
     }
 }
