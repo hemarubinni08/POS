@@ -31,126 +31,77 @@ class RoleServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ================= SAVE =================
 
     @Test
     void save_success() {
-
         RoleDto dto = new RoleDto();
         dto.setIdentifier("Admin");
-
         Role role = new Role();
         role.setIdentifier("Admin");
-
         when(roleRepository.findByIdentifier("Admin")).thenReturn(null);
         when(roleRepository.save(any(Role.class))).thenReturn(role);
-
-        when(modelMapper.map(any(RoleDto.class), eq(Role.class)))
-                .thenReturn(role);
-
+        when(modelMapper.map(any(RoleDto.class), eq(Role.class))).thenReturn(role);
         RoleDto response = roleService.save(dto);
-
         Assertions.assertEquals("Admin", response.getIdentifier());
     }
-
-    // ================= UPDATE =================
 
     @Test
     void update_success() {
-
         RoleDto dto = new RoleDto();
         dto.setIdentifier("Admin");
-
         Role existing = new Role();
         existing.setIdentifier("Admin");
-
         when(roleRepository.findByIdentifier("Admin")).thenReturn(existing);
         when(roleRepository.save(any(Role.class))).thenReturn(existing);
-
         RoleDto response = roleService.update(dto);
-
         Assertions.assertTrue(response.isSuccess());
     }
 
-    // ================= FIND =================
-
     @Test
     void find_success() {
-
         Role role = new Role();
-
         RoleDto dto = new RoleDto();
         dto.setIdentifier("Admin");
-
         when(roleRepository.findByIdentifier("Admin")).thenReturn(role);
         when(modelMapper.map(role, RoleDto.class)).thenReturn(dto);
-
         RoleDto response = roleService.findByIdentifier("Admin");
-
         Assertions.assertEquals("Admin", response.getIdentifier());
     }
 
-    // ================= DELETE =================
-
     @Test
     void delete_test() {
-
         doNothing().when(roleRepository).deleteByIdentifier("Admin");
-
         roleService.delete("Admin");
-
         verify(roleRepository).deleteByIdentifier("Admin");
     }
 
-    // ================= FIND ALL (🔥 FIXED PROPERLY) =================
-
     @Test
     void findAll_with_pageable() {
-
         Role role = new Role();
         role.setIdentifier("Admin");
-
         RoleDto dto = new RoleDto();
         dto.setIdentifier("Admin");
-
         Page<Role> page = new PageImpl<>(List.of(role));
-
-        when(roleRepository.findAll(any(Pageable.class)))
-                .thenReturn(page);
-
-        // 🔥 KEY FIX: match EXACT arguments
-        when(modelMapper.map(
-                eq(page.getContent()),
-                any(Type.class)
-        )).thenReturn(List.of(dto));
-
+        when(roleRepository.findAll(any(Pageable.class))).thenReturn(page);
+        when(modelMapper.map(eq(page.getContent()), any(Type.class))).
+                thenReturn(List.of(dto));
         List<RoleDto> response = roleService.findAll(PageRequest.of(0, 5));
-
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("Admin", response.get(0).getIdentifier());
     }
 
     @Test
     void findAll_without_pageable() {
-
         Role role = new Role();
         role.setIdentifier("Admin");
-
         RoleDto dto = new RoleDto();
         dto.setIdentifier("Admin");
-
         Page<Role> page = new PageImpl<>(List.of(role));
-
-        when(roleRepository.findAll(any(Pageable.class)))
-                .thenReturn(page);
-
-        when(modelMapper.map(
-                eq(page.getContent()),
-                any(Type.class)
-        )).thenReturn(List.of(dto));
-
-        List<RoleDto> response = roleService.findAll(PageRequest.of(0, 5));
-
+        when(roleRepository.findAll(any(Pageable.class))).thenReturn(page);
+        when(modelMapper.map(eq(page.getContent()), any(Type.class))).
+                thenReturn(List.of(dto));
+        List<RoleDto> response = roleService.
+                findAll(PageRequest.of(0, 5));
         Assertions.assertEquals(1, response.size());
     }
 }
