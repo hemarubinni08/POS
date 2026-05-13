@@ -1,8 +1,8 @@
 package com.ust.pos.api.shelf;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ShelfDto;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.shelf.service.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -39,14 +39,18 @@ public class ShelfControllerApi extends BaseController {
         return shelfService.update(shelfDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public ShelfDto delete(@RequestBody ShelfDto shelfDto) {
+        ShelfDto response = new ShelfDto();
         try {
-            shelfService.delete(identifier);
-            return true;
+            shelfService.delete(shelfDto.getIdentifier());
+            response.setSuccess(true);
+            response.setMessage("Shelf deleted successfully");
         } catch (Exception e) {
-            return false;
+            response.setSuccess(false);
+            response.setMessage("Delete failed");
         }
+        return response;
     }
 
     @GetMapping("/active")

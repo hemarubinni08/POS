@@ -1,8 +1,8 @@
 package com.ust.pos.api.unit;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -39,14 +39,18 @@ public class UnitControllerApi extends BaseController {
         return unitService.update(unitDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public UnitDto delete(@RequestBody UnitDto unitDto) {
+        UnitDto response = new UnitDto();
         try {
-            unitService.delete(identifier);
-            return true;
+            unitService.delete(unitDto.getIdentifier());
+            response.setSuccess(true);
+            response.setMessage("Unit deleted successfully");
         } catch (Exception e) {
-            return false;
+            response.setSuccess(false);
+            response.setMessage("Delete failed");
         }
+        return response;
     }
 
     @GetMapping("/toggle")

@@ -1,8 +1,8 @@
 package com.ust.pos.api.user;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -39,13 +39,17 @@ public class UserControllerApi extends BaseController {
         return userService.update(userDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String username) {
+    @PostMapping("/delete")
+    public UserDto delete(@RequestBody UserDto userDto) {
+        UserDto response = new UserDto();
         try {
-            userService.delete(username);
-            return true;
+            userService.delete(userDto.getIdentifier());
+            response.setSuccess(true);
+            response.setMessage("User deleted successfully");
         } catch (Exception e) {
-            return false;
+            response.setSuccess(false);
+            response.setMessage("Delete failed");
         }
+        return response;
     }
 }

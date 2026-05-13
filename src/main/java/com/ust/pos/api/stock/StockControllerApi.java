@@ -1,8 +1,8 @@
 package com.ust.pos.api.stock;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -39,17 +39,22 @@ public class StockControllerApi extends BaseController {
         return stockService.update(stockDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public StockDto delete(@RequestBody StockDto stockDto) {
+        StockDto response = new StockDto();
         try {
-            stockService.delete(identifier);
-            return true;
+            stockService.delete(stockDto.getIdentifier());
+            response.setSuccess(true);
+            response.setMessage("Stock deleted successfully");
         } catch (Exception e) {
-            return false;
+            response.setSuccess(false);
+            response.setMessage("Delete failed");
         }
+        return response;
     }
 
-    @GetMapping("/toggle")
+
+        @GetMapping("/toggle")
     public StockDto toggle(@RequestParam String identifier) {
         return stockService.toggleStatus(identifier);
     }
