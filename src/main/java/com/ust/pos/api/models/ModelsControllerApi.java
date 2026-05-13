@@ -2,7 +2,6 @@ package com.ust.pos.api.models;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.ModelsDto;
-import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.models.service.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;

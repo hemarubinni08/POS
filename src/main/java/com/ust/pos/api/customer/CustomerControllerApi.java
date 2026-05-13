@@ -41,14 +41,18 @@ public class CustomerControllerApi extends BaseController {
         return customerService.update(customerDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public CustomerDto delete(@RequestBody CustomerDto customerDto) {
+        CustomerDto response = new CustomerDto();
         try {
-            customerService.delete(identifier);
+            customerService.delete(customerDto.getIdentifier());
+            response.setSuccess(true);
+            response.setMessage("Customer deleted successfully");
         } catch (Exception e) {
-            return false;
+            response.setSuccess(false);
+            response.setMessage("Delete failed");
         }
-        return true;
+        return response;
     }
 
     @GetMapping("/active")

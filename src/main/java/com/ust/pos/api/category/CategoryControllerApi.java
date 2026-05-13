@@ -41,14 +41,18 @@ public class CategoryControllerApi extends BaseController {
         return categoryService.update(categoryDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public CategoryDto delete(@RequestBody CategoryDto categoryDto) {
+        CategoryDto response = new CategoryDto();
         try {
-            categoryService.delete(identifier);
+            categoryService.delete(categoryDto.getIdentifier());
+            response.setSuccess(true);
+            response.setMessage("Category deleted successfully");
         } catch (Exception e) {
-            return false;
+            response.setSuccess(false);
+            response.setMessage("Delete failed");
         }
-        return true;
+        return response;
     }
 
     @GetMapping("/findChildCategories")

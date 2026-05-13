@@ -39,11 +39,11 @@ public class BrandControllerApi extends BaseController {
         return brandService.update(brandDto);
     }
 
-    @DeleteMapping("/delete")
-    public BrandDto delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public BrandDto delete(@RequestBody BrandDto brandDto) {
         BrandDto response = new BrandDto();
         try {
-            brandService.delete(identifier);
+            brandService.delete(brandDto.getIdentifier());
             response.setSuccess(true);
             response.setMessage("Brand deleted successfully");
         } catch (Exception e) {
