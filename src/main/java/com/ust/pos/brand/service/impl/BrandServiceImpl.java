@@ -20,10 +20,10 @@ import java.util.List;
 public class BrandServiceImpl implements BrandService {
 
     @Autowired
-    BrandRepository brandRepository;
+    private BrandRepository brandRepository;
 
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Override
     public BrandDto save(BrandDto brandDto) {

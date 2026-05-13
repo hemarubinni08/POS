@@ -20,10 +20,10 @@ import java.util.List;
 public class RackServiceImpl implements RackService {
 
     @Autowired
-    RackRepository rackRepository;
+    private RackRepository rackRepository;
 
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Override
     public RackDto save(RackDto rackDto) {

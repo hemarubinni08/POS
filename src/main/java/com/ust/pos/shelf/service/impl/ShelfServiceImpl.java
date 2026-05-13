@@ -20,10 +20,10 @@ import java.util.List;
 public class ShelfServiceImpl implements ShelfService {
 
     @Autowired
-    ShelfRepository shelfRepository;
+    private ShelfRepository shelfRepository;
 
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Override
     public ShelfDto save(ShelfDto shelfDto) {

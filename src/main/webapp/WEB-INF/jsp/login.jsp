@@ -142,6 +142,7 @@
         </div>
         <button type="submit" class="btn btn-primary">
             Login
+        </button>
         <p class="register-text">Don't have an account?</p>
         <a href="/register" class="register-btn">
             Create New Account

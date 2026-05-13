@@ -20,10 +20,10 @@ import java.util.List;
 public class ModelServiceImpl implements ModelService {
 
     @Autowired
-    ModelRepository modelRepository;
+    private ModelRepository modelRepository;
 
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Override
     public ModelDto save(ModelDto modelDto) {

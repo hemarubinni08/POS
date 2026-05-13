@@ -19,10 +19,10 @@ import java.util.List;
 public class WarehouseServiceImpl implements WarehouseService {
 
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Autowired
-    WarehouseRepository warehouseRepository;
+    private WarehouseRepository warehouseRepository;
 
     @Override
     public WarehouseDto save(WarehouseDto warehouseDto) {

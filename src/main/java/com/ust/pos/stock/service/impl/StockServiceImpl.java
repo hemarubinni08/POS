@@ -18,10 +18,10 @@ import java.util.List;
 @Service
 public class StockServiceImpl implements StockService {
     @Autowired
-    StockRepository stockRepository;
+    private StockRepository stockRepository;
 
     @Autowired
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Override
     public StockDto save(StockDto stockDto) {
