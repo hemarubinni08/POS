@@ -146,9 +146,9 @@ input:focus, select:focus {
         <select name="productName" required>
             <option value="">-- Select Product --</option>
             <c:forEach items="${product}" var="product">
-                <option value="${product.identifier}"
+                <option value="${product.productName}"
                     ${product.identifier == stock.productName ? 'selected' : ''}>
-                    ${product.identifier}
+                    ${product.productName}
                 </option>
             </c:forEach>
         </select>

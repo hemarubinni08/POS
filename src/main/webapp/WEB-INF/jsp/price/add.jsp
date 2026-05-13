@@ -47,7 +47,8 @@ label {
     font-size: 14px;
 }
 
-input {
+input,
+select {
     width: 100%;
     padding: 10px;
     margin-top: 6px;
@@ -65,9 +66,15 @@ input::placeholder {
     color: #aaa;
 }
 
-input:focus {
+input:focus,
+select:focus {
     border: 1px solid #00ffff;
     box-shadow: 0 0 8px #00ffff;
+}
+
+select option {
+    background: #1a1b26;
+    color: #fff;
 }
 
 button {
@@ -104,26 +111,54 @@ button:hover {
 <body>
 
 <div class="container">
-<h2>Add Price</h2>
 
-<form:form action="/price/add" method="post" modelAttribute="price">
+    <h2>Add Price</h2>
 
-    <label>Product Identifier</label>
-    <form:input path="identifier" placeholder="Enter product identifier"/>
+    <form:form action="/price/add"
+               method="post"
+               modelAttribute="priceDto">
 
-    <label>Cost Price</label>
-    <form:input path="costPrice" type="number" step="0.01" placeholder="Enter cost price"/>
+        <label>Product Identifier</label>
+        <form:select path="identifier">
+            <form:option value="">
+                Select Product
+            </form:option>
+            <c:forEach var="p" items="${product}">
+                <form:option value="${p.identifier}">
+                    ${p.identifier}
+                </form:option>
+            </c:forEach>
+        </form:select>
 
-    <label>Selling Price</label>
-    <form:input path="sellingPrice" type="number" step="0.01" placeholder="Enter selling price"/>
+        <label>Cost Price</label>
+        <form:input path="costPrice"
+                    type="number"
+                    step="0.01"
+                    placeholder="Enter cost price"/>
 
-    <button type="submit">Save</button>
+        <label>Selling Price</label>
+        <form:input path="sellingPrice"
+                    type="number"
+                    step="0.01"
+                    placeholder="Enter selling price"/>
+        <label>Mrp Price</label>
 
-    <c:if test="${not empty message}">
-        <div class="message">${message}</div>
-    </c:if>
+        <form:input path="mrpPrice"
+                    type="number"
+                    step="0.01"
+                    placeholder="Enter mrp price"/>
 
-</form:form>
+        <button type="submit">
+            Save
+        </button>
+
+        <c:if test="${not empty message}">
+            <div class="message">
+                ${message}
+            </div>
+        </c:if>
+
+    </form:form>
 
 </div>
 

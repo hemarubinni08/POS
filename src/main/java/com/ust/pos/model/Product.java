@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class Product extends CommonFields {
     private String category;
-    private Long supplierId;
+    private String productName;
     private String brand;
     private String unit;
     private String model;

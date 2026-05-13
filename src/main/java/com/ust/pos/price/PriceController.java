@@ -4,6 +4,7 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.price.service.PriceService;
+import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,9 @@ public class PriceController extends BaseController {
     @Autowired
     private PriceService priceService;
 
+    @Autowired
+    ProductService productService;
+
     @GetMapping("/list")
     public String list(Model model) {
         PaginationDto paginationDto = new PaginationDto();
@@ -27,7 +31,10 @@ public class PriceController extends BaseController {
 
     @GetMapping("/add")
     public String add(Model model) {
+        PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("priceDto", new PriceDto());
+        model.addAttribute("product",productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "price/add";
     }
 

@@ -135,7 +135,6 @@ tr:hover {
                 <th>Brand</th>
                 <th>Unit</th>
                 <th>Model</th>
-                <th>Supplier ID</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -149,7 +148,7 @@ tr:hover {
                     <td>${product.brand}</td>
                     <td>${product.unit}</td>
                     <td>${product.model}</td>
-                    <td>${product.supplierId}</td>
+                    <td>${product.productName}</td>
 
                     <td>
                         <a href="/product/get?identifier=${product.identifier}"

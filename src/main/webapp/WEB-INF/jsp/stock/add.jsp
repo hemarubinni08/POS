@@ -153,8 +153,8 @@ select option {
         <form:select path="productName" cssClass="form-control">
             <form:option value="" label="-- Select Product --"/>
             <c:forEach items="${product}" var="product">
-                <form:option value="${product.identifier}">
-                    ${product.identifier}
+                <form:option value="${product.productName}">
+                    ${product.productName}
                 </form:option>
             </c:forEach>
         </form:select>

@@ -129,10 +129,10 @@ select option {
                action="/product/add"
                modelAttribute="productDto">
 
-        <label>Product Name</label>
+        <label>Identifier</label>
         <form:input path="identifier"
                     cssClass="form-control"
-                    placeholder="Enter product name"/>
+                    placeholder="Enter Sku name"/>
 
         <label>Category</label>
         <form:select path="category"
@@ -170,10 +170,10 @@ select option {
                           itemLabel="identifier"/>
         </form:select>
 
-        <label>Supplier ID</label>
-        <form:input path="supplierId"
+        <label>Product Name</label>
+        <form:input path="productName"
                     cssClass="form-control"
-                    placeholder="Enter supplier ID"/>
+                    placeholder="Enter product Name"/>
 
         <button type="submit" class="btn-submit">
             Add Product
