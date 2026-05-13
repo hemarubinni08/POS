@@ -155,7 +155,6 @@ document.addEventListener("DOMContentLoaded", function () {
             error.classList.remove("d-none");
         }
     });
-
 });
 </script>
 
