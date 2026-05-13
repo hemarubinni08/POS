@@ -1,6 +1,9 @@
 package com.ust.pos.product.service.impl;
 
+import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.model.Price;
+import com.ust.pos.model.PriceRepository;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -22,10 +25,21 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private PriceRepository priceRepository;
+
     @Override
     public ProductDto findByIdentifier(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
-        return modelMapper.map(product, ProductDto.class);
+        if (product == null) {
+            return null;
+        }
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        List<Price> prices = priceRepository.findByProductId(product.getId());
+        if (!prices.isEmpty()) {
+            productDto.setPrice(modelMapper.map(prices.get(0), PriceDto.class));
+        }
+        return productDto;
     }
 
     @Override
@@ -68,7 +82,14 @@ public class ProductServiceImpl implements ProductService {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         Page<Product> productPage = productRepository.findAll(pageable);
-        return modelMapper.map(productPage.getContent(), listType);
+        return productPage.getContent().stream().map(product -> {
+            ProductDto productDto = modelMapper.map(product, ProductDto.class);
+            List<Price> prices = priceRepository.findByProductId(product.getId());
+            if (!prices.isEmpty()) {
+                productDto.setPrice(modelMapper.map(prices.get(0), PriceDto.class));
+            }
+            return productDto;
+        }).toList();
     }
 
     @Override

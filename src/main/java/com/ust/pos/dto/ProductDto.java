@@ -14,4 +14,5 @@ public class ProductDto extends CommonDto {
     private List<String> brand;
     private List<String> unit;
     private List<String> model;
+    private PriceDto price;
 }
