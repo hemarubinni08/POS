@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PriceRepository extends JpaRepository<Price, Long> {
 
-    List<Price> findByProductId(Long productId);
+    Price findByProductId(Long productId);
 
     boolean existsByProductId(Long productId);
 

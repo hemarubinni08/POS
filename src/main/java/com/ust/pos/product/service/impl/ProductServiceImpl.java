@@ -35,9 +35,9 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
         ProductDto productDto = modelMapper.map(product, ProductDto.class);
-        List<Price> prices = priceRepository.findByProductId(product.getId());
-        if (!prices.isEmpty()) {
-            productDto.setPrice(modelMapper.map(prices.get(0), PriceDto.class));
+        Price price = priceRepository.findByProductId(product.getId());
+        if (price != null) {
+            productDto.setPrice(modelMapper.map(price, PriceDto.class));
         }
         return productDto;
     }
@@ -84,9 +84,9 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> productPage = productRepository.findAll(pageable);
         return productPage.getContent().stream().map(product -> {
             ProductDto productDto = modelMapper.map(product, ProductDto.class);
-            List<Price> prices = priceRepository.findByProductId(product.getId());
-            if (!prices.isEmpty()) {
-                productDto.setPrice(modelMapper.map(prices.get(0), PriceDto.class));
+            Price price = priceRepository.findByProductId(product.getId());
+            if (price != null) {
+                productDto.setPrice(modelMapper.map(price, PriceDto.class));
             }
             return productDto;
         }).toList();
