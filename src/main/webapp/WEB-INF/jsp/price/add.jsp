@@ -6,33 +6,25 @@
 <head>
     <title>Add Price</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --primary: #2563eb;
             --primary-hover: #1e40af;
-
             --bg: #f8fafc;
             --glass: rgba(255,255,255,0.75);
-
             --text: #0f172a;
             --muted: #64748b;
-
             --border: #e2e8f0;
-
             --danger: #dc2626;
             --danger-bg: #fee2e2;
             --danger-border: #fca5a5;
-
             --success: #16a34a;
             --success-bg: #dcfce7;
             --success-border: #86efac;
-
             --radius: 16px;
             --shadow: 0 20px 40px rgba(2,6,23,0.08);
         }
@@ -52,7 +44,6 @@
             color: var(--text);
         }
 
-        /* BACK BUTTON */
         .back-arrow {
             position: absolute;
             top: 20px;
@@ -78,7 +69,6 @@
             color: var(--primary);
         }
 
-        /* CARD */
         .form-card {
             width: 520px;
             padding: 28px;
@@ -93,7 +83,6 @@
             font-weight: 600;
         }
 
-        /* FORM */
         label {
             font-size: 13px;
             color: var(--muted);
@@ -113,7 +102,6 @@
             box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
         }
 
-        /* BUTTON */
         .btn-submit {
             margin-top: 22px;
             background: var(--primary);
@@ -129,7 +117,6 @@
             background: var(--primary-hover);
         }
 
-        /* SERVER MESSAGE */
         .server-msg {
             padding: 10px;
             border-radius: 10px;
@@ -154,7 +141,6 @@
 
 <body>
 
-<!-- BACK -->
 <a href="${pageContext.request.contextPath}/price/list" class="back-arrow">←</a>
 
 <div class="form-card">
@@ -169,23 +155,44 @@
 
     <form action="${pageContext.request.contextPath}/price/add" method="post">
 
-        <!-- PRODUCT -->
         <div class="mb-3">
             <label>Product</label>
+
             <select name="productId" class="form-control" required>
+
                 <option value="">-- Select Product --</option>
+
                 <c:forEach items="${products}" var="product">
+
                     <option value="${product.id}"
-                        <c:if test="${priceDto.productId == product.id}">selected</c:if>>
-                        ${product.identifier}
+                        <c:if test="${priceDto.productId == product.id}">
+                            selected
+                        </c:if>>
+
+                        ${product.identifier} - ${product.productName}
+
                     </option>
+
                 </c:forEach>
+
             </select>
         </div>
 
-        <!-- SELLING PRICE -->
+        <div class="mb-3">
+            <label>MRP Price</label>
+
+            <input type="number"
+                   step="0.01"
+                   min="0"
+                   name="mrpPrice"
+                   value="${priceDto.mrpPrice}"
+                   class="form-control"
+                   required>
+        </div>
+
         <div class="mb-3">
             <label>Selling Price</label>
+
             <input type="number"
                    step="0.01"
                    min="0"
@@ -195,9 +202,9 @@
                    required>
         </div>
 
-        <!-- COST PRICE -->
         <div class="mb-3">
             <label>Cost Price</label>
+
             <input type="number"
                    step="0.01"
                    min="0"

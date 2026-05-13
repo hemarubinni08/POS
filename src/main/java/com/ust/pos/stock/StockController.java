@@ -112,4 +112,10 @@ public class StockController extends BaseController {
 
         return REDIRECT_STOCK_LIST;
     }
+
+    @PostMapping("/toggle-status")
+    @ResponseBody
+    public void toggleStatus(@RequestParam Long id) {
+        stockService.toggleStatus(id);
+    }
 }

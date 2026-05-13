@@ -14,8 +14,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     void deleteByIdentifier(String identifier);
 
-    Product findBySkuCode(Long skuCode);
-
     List<Product> findByStatusIsTrue();
 
     Page<Product> findAll(Pageable pageable);

@@ -63,13 +63,22 @@ public class StockController extends BaseController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/toggle-status")
+    public ResponseEntity<Boolean> toggleStatus(@RequestParam Long id) {
+        try {
+            stockService.toggleStatus(id);
+            return ResponseEntity.ok(true);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        }
+    }
+
     @PostMapping("/delete/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Long id) {
         try {
             boolean deleted = stockService.deleteStock(id);
             return ResponseEntity.ok(deleted);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }

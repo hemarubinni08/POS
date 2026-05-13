@@ -12,7 +12,7 @@ import java.util.List;
 public class Product extends CommonFields {
 
     private List<String> category;
-    private Long skuCode;
+    private String productName;
     private List<String> brand;
     private List<String> unit;
     private List<String> model;

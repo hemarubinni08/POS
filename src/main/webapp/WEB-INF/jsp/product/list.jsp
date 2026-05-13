@@ -60,10 +60,10 @@
             box-shadow: var(--shadow);
 
             transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease,
-                background 0.2s ease,
-                color 0.2s ease;
+                    transform 0.2s ease,
+                    box-shadow 0.2s ease,
+                    background 0.2s ease,
+                    color 0.2s ease;
         }
 
         .back-arrow:hover {
@@ -120,6 +120,7 @@
             padding: 14px 16px;
             font-size: 13px;
             border-bottom: 1px solid var(--border);
+            vertical-align: middle;
         }
 
         th {
@@ -138,6 +139,8 @@
             cursor: pointer;
             background: #cbd5f5;
             border-radius: 999px;
+
+            transition: 0.25s;
         }
 
         .toggle-switch::after {
@@ -240,14 +243,18 @@
                     <tr>
 
                         <td>
-                            <strong>${product.identifier}</strong>
+                            <strong>${product.productName}</strong>
                         </td>
 
                         <td>${product.category}</td>
+
                         <td>${product.brand}</td>
+
                         <td>${product.model}</td>
+
                         <td>${product.unit}</td>
-                        <td>${product.skuCode}</td>
+
+                        <td>${product.identifier}</td>
 
                         <td>
                             <div class="toggle-switch ${product.status ? 'active' : ''}"

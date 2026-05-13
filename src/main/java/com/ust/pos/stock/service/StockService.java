@@ -17,4 +17,6 @@ public interface StockService {
 
     boolean deleteStock(Long stockId);
 
+    void toggleStatus(Long stockId);
+
 }

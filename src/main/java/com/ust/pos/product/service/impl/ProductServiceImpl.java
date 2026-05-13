@@ -32,20 +32,12 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto save(ProductDto productDto) {
         productDto.setIdentifier(productDto.getIdentifier().trim());
         String identifier = productDto.getIdentifier();
-        Long skuCode = productDto.getSkuCode();
         Product existingProduct = productRepository.findByIdentifier(identifier);
-        Product existingSku = productRepository.findBySkuCode(skuCode);
         if (existingProduct != null) {
-            productDto.setMessage("Product with identifier - " + identifier + " already exists");
+            productDto.setMessage("Product with skuCode - " + identifier + " already exists");
             productDto.setSuccess(false);
             return productDto;
         }
-        if (existingSku != null) {
-            productDto.setMessage("Product with skuCode - " + skuCode + " already exists");
-            productDto.setSuccess(false);
-            return productDto;
-        }
-
         Product product = modelMapper.map(productDto, Product.class);
         productRepository.save(product);
         return productDto;
@@ -53,10 +45,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto update(ProductDto productDto) {
-        String identifier = productDto.getIdentifier();
+        String identifier = productDto.getIdentifier().trim();
         Product existingProduct = productRepository.findByIdentifier(identifier);
         if (existingProduct == null) {
-            productDto.setMessage("Product with identifier - " + identifier + " not found");
+            productDto.setMessage("Product with skuCode - " + identifier + " not found");
             productDto.setSuccess(false);
             return productDto;
         }

@@ -7,10 +7,8 @@
 <head>
     <title>Edit Product</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
@@ -48,7 +46,6 @@
             color: var(--text);
         }
 
-        /* BACK BUTTON */
         .back-arrow {
             position: fixed;
             top: 20px;
@@ -74,7 +71,6 @@
             color: var(--primary);
         }
 
-        /* CARD */
         .form-card {
             width: 520px;
             background: var(--glass);
@@ -156,7 +152,6 @@
 
 <body>
 
-<!-- BACK -->
 <a href="${pageContext.request.contextPath}/product/list" class="back-arrow">←</a>
 
 <div class="form-card">
@@ -170,14 +165,20 @@
     </c:if>
 
     <form:form
-        action="${pageContext.request.contextPath}/product/update"
-        method="post"
-        modelAttribute="product">
+            action="${pageContext.request.contextPath}/product/update"
+            method="post"
+            modelAttribute="product">
 
         <form:hidden path="id"/>
 
         <div class="mb-3">
             <label>Product Name</label>
+            <form:input path="productName"
+                        cssClass="form-control"/>
+        </div>
+
+        <div class="mb-3">
+            <label>SKU Code</label>
             <form:input path="identifier"
                         cssClass="form-control"
                         readonly="true"/>
@@ -217,13 +218,6 @@
                     <form:option value="${u.identifier}" label="${u.identifier}"/>
                 </c:forEach>
             </form:select>
-        </div>
-
-        <div class="mb-3">
-            <label>SKU Code</label>
-            <form:input path="skuCode"
-                        cssClass="form-control"
-                        readonly="true"/>
         </div>
 
         <button type="submit" class="btn-submit">

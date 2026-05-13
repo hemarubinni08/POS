@@ -7,10 +7,8 @@
 <head>
     <title>Add Product</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
@@ -48,7 +46,6 @@
             color: var(--text);
         }
 
-        /* BACK BUTTON */
         .back-arrow {
             position: fixed;
             top: 20px;
@@ -86,7 +83,6 @@
             box-shadow: 0 12px 28px rgba(37,99,235,0.25);
         }
 
-        /* CARD */
         .form-card {
             width: 520px;
             background: var(--glass);
@@ -167,7 +163,6 @@
 
 <body>
 
-<!-- BACK -->
 <a href="${pageContext.request.contextPath}/product/list" class="back-arrow">←</a>
 
 <div class="form-card">
@@ -181,13 +176,22 @@
     </c:if>
 
     <form:form
-        action="${pageContext.request.contextPath}/product/add"
-        method="post"
-        modelAttribute="productDto">
+            action="${pageContext.request.contextPath}/product/add"
+            method="post"
+            modelAttribute="productDto">
 
         <div class="mb-3">
             <label>Product Name</label>
-            <form:input path="identifier" cssClass="form-control" required="true"/>
+            <form:input path="productName"
+                        cssClass="form-control"
+                        required="true"/>
+        </div>
+
+        <div class="mb-3">
+            <label>SKU Code</label>
+            <form:input path="identifier"
+                        cssClass="form-control"
+                        required="true"/>
         </div>
 
         <div class="mb-3">
@@ -225,11 +229,6 @@
                     <form:option value="${u.identifier}" label="${u.identifier}"/>
                 </c:forEach>
             </form:select>
-        </div>
-
-        <div class="mb-3">
-            <label>SKU Code</label>
-            <form:input path="skuCode" type="number" cssClass="form-control" required="true"/>
         </div>
 
         <button type="submit" class="btn-submit">

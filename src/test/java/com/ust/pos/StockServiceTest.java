@@ -13,16 +13,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class StockServiceTest {
@@ -50,27 +51,33 @@ class StockServiceTest {
         dto.setWarehouseId(2L);
 
         Product product = new Product();
-        product.setIdentifier("PROD1");
+        product.setProductName("Product 1");
+        product.setIdentifier("SKU001");
 
         Warehouse warehouse = new Warehouse();
-        warehouse.setName("WH1");
+        warehouse.setName("Warehouse 1");
 
         Stock stock = new Stock();
 
-        Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
-        Mockito.when(warehouseRepository.findById(2L)).thenReturn(Optional.of(warehouse));
+        when(warehouseRepository.findById(2L)).thenReturn(Optional.of(warehouse));
 
-        Mockito.when(stockRepository.existsByProductIdAndWarehouseId(1L, 2L)).thenReturn(false);
+        when(stockRepository.existsByProductIdAndWarehouseId(1L, 2L)).thenReturn(false);
 
-        Mockito.when(modelMapper.map(dto, Stock.class)).thenReturn(stock);
+        when(modelMapper.map(dto, Stock.class)).thenReturn(stock);
 
         StockDto response = stockService.createStock(dto);
 
-        Assertions.assertEquals("PROD1", response.getProductName());
-        Assertions.assertEquals("WH1", response.getWarehouseName());
+        Assertions.assertEquals("Product 1", response.getProductName());
 
-        Mockito.verify(stockRepository).save(stock);
+        Assertions.assertEquals("Warehouse 1", response.getWarehouseName());
+
+        Assertions.assertEquals("SKU001", response.getIdentifier());
+
+        Assertions.assertTrue(stock.isStatus());
+
+        verify(stockRepository).save(stock);
     }
 
     @Test
@@ -78,9 +85,8 @@ class StockServiceTest {
 
         StockDto dto = new StockDto();
         dto.setProductId(1L);
-        dto.setWarehouseId(2L);
 
-        Mockito.when(productRepository.findById(1L)).thenReturn(Optional.empty());
+        when(productRepository.findById(1L)).thenReturn(Optional.empty());
 
         RuntimeException exception = Assertions.assertThrows(RuntimeException.class, () -> stockService.createStock(dto));
 
@@ -94,11 +100,9 @@ class StockServiceTest {
         dto.setProductId(1L);
         dto.setWarehouseId(2L);
 
-        Product product = new Product();
+        when(productRepository.findById(1L)).thenReturn(Optional.of(new Product()));
 
-        Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));
-
-        Mockito.when(warehouseRepository.findById(2L)).thenReturn(Optional.empty());
+        when(warehouseRepository.findById(2L)).thenReturn(Optional.empty());
 
         RuntimeException exception = Assertions.assertThrows(RuntimeException.class, () -> stockService.createStock(dto));
 
@@ -112,92 +116,100 @@ class StockServiceTest {
         dto.setProductId(1L);
         dto.setWarehouseId(2L);
 
-        Product product = new Product();
-        Warehouse warehouse = new Warehouse();
+        when(productRepository.findById(1L)).thenReturn(Optional.of(new Product()));
 
-        Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+        when(warehouseRepository.findById(2L)).thenReturn(Optional.of(new Warehouse()));
 
-        Mockito.when(warehouseRepository.findById(2L)).thenReturn(Optional.of(warehouse));
-
-        Mockito.when(stockRepository.existsByProductIdAndWarehouseId(1L, 2L)).thenReturn(true);
+        when(stockRepository.existsByProductIdAndWarehouseId(1L, 2L)).thenReturn(true);
 
         StockDto response = stockService.createStock(dto);
 
         Assertions.assertFalse(response.isSuccess());
+
         Assertions.assertEquals("Stock already exists", response.getMessage());
     }
 
     @Test
-    void updateStockQuantityTest() {
+    void updateStockQuantitySuccessTest() {
 
         Stock stock = new Stock();
         stock.setProductId(1L);
         stock.setWarehouseId(2L);
-        stock.setQuantity(5);
 
         Product product = new Product();
-        product.setIdentifier("PROD1");
+        product.setProductName("Product 1");
+        product.setIdentifier("SKU001");
 
         Warehouse warehouse = new Warehouse();
-        warehouse.setName("WH1");
+        warehouse.setName("Warehouse 1");
 
-        Mockito.when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
+        when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
 
-        Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
-        Mockito.when(warehouseRepository.findById(2L)).thenReturn(Optional.of(warehouse));
+        when(warehouseRepository.findById(2L)).thenReturn(Optional.of(warehouse));
 
-        Mockito.doAnswer(invocation -> {
+        doAnswer(invocation -> {
+
             Stock source = invocation.getArgument(0);
             StockDto target = invocation.getArgument(1);
 
             target.setQuantity(source.getQuantity());
             target.setProductName(source.getProductName());
             target.setWarehouseName(source.getWarehouseName());
+            target.setIdentifier(source.getIdentifier());
 
             return null;
-        }).when(modelMapper).map(Mockito.any(Stock.class), Mockito.any(StockDto.class));
+
+        }).when(modelMapper).map(any(Stock.class), any(StockDto.class));
 
         StockDto response = stockService.updateStockQuantity(1L, 10);
 
         Assertions.assertEquals(10, response.getQuantity());
-        Assertions.assertEquals("PROD1", response.getProductName());
-        Assertions.assertEquals("WH1", response.getWarehouseName());
 
-        Mockito.verify(stockRepository).save(stock);
+        Assertions.assertEquals("Product 1", response.getProductName());
+
+        Assertions.assertEquals("Warehouse 1", response.getWarehouseName());
+
+        Assertions.assertEquals("SKU001", response.getIdentifier());
+
+        verify(stockRepository).save(stock);
     }
 
     @Test
     void updateStockQuantityNotFoundTest() {
 
-        Mockito.when(stockRepository.findById(1L)).thenReturn(Optional.empty());
+        when(stockRepository.findById(1L)).thenReturn(Optional.empty());
 
         StockDto response = stockService.updateStockQuantity(1L, 10);
 
         Assertions.assertFalse(response.isSuccess());
+
         Assertions.assertEquals("Stock not found", response.getMessage());
     }
 
     @Test
-    void getStockTest() {
+    void getStockSuccessTest() {
 
         Stock stock = new Stock();
         stock.setProductId(1L);
         stock.setWarehouseId(2L);
 
         Product product = new Product();
-        product.setIdentifier("PROD1");
+        product.setProductName("Product 1");
+        product.setIdentifier("SKU001");
 
         Warehouse warehouse = new Warehouse();
-        warehouse.setName("WH1");
+        warehouse.setName("Warehouse 1");
 
-        Mockito.when(stockRepository.findByProductIdAndWarehouseId(1L, 2L)).thenReturn(Optional.of(stock));
+        when(stockRepository.findByProductIdAndWarehouseId(1L, 2L)).thenReturn(Optional.of(stock));
 
-        Mockito.when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
-        Mockito.when(warehouseRepository.findById(2L)).thenReturn(Optional.of(warehouse));
+        when(warehouseRepository.findById(2L)).thenReturn(Optional.of(warehouse));
 
-        Mockito.doAnswer(invocation -> {
+        doAnswer(invocation -> {
+
             Stock source = invocation.getArgument(0);
             StockDto target = invocation.getArgument(1);
 
@@ -205,22 +217,27 @@ class StockServiceTest {
             target.setWarehouseId(source.getWarehouseId());
 
             return null;
-        }).when(modelMapper).map(Mockito.any(Stock.class), Mockito.any(StockDto.class));
+
+        }).when(modelMapper).map(any(Stock.class), any(StockDto.class));
 
         StockDto response = stockService.getStock(1L, 2L);
 
-        Assertions.assertEquals("PROD1", response.getProductName());
-        Assertions.assertEquals("WH1", response.getWarehouseName());
+        Assertions.assertEquals("Product 1", response.getProductName());
+
+        Assertions.assertEquals("Warehouse 1", response.getWarehouseName());
+
+        Assertions.assertEquals("SKU001", response.getIdentifier());
     }
 
     @Test
     void getStockNotFoundTest() {
 
-        Mockito.when(stockRepository.findByProductIdAndWarehouseId(1L, 2L)).thenReturn(Optional.empty());
+        when(stockRepository.findByProductIdAndWarehouseId(1L, 2L)).thenReturn(Optional.empty());
 
         StockDto response = stockService.getStock(1L, 2L);
 
         Assertions.assertFalse(response.isSuccess());
+
         Assertions.assertEquals("Stock not found", response.getMessage());
     }
 
@@ -229,43 +246,80 @@ class StockServiceTest {
 
         Stock stock = new Stock();
         stock.setProductId(1L);
+        stock.setWarehouseId(2L);
 
-        StockDto dto = new StockDto();
-        dto.setProductId(1L);
+        Product product = new Product();
+        product.setProductName("Product 1");
+        product.setIdentifier("SKU001");
 
-        List<Stock> stockList = List.of(stock);
-        List<StockDto> dtoList = List.of(dto);
+        Warehouse warehouse = new Warehouse();
+        warehouse.setName("Warehouse 1");
 
-        Page<Stock> stockPage = new PageImpl<>(stockList);
+        Page<Stock> stockPage = new PageImpl<>(List.of(stock));
 
-        Mockito.when(stockRepository.findAll(Mockito.any(PageRequest.class))).thenReturn(stockPage);
+        when(stockRepository.findAll(any(PageRequest.class))).thenReturn(stockPage);
 
-        Mockito.when(modelMapper.map(Mockito.eq(stockList), Mockito.any(Type.class))).thenReturn(dtoList);
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+
+        when(warehouseRepository.findById(2L)).thenReturn(Optional.of(warehouse));
+
+        when(modelMapper.map(any(Stock.class), eq(StockDto.class))).thenReturn(new StockDto());
 
         List<StockDto> response = stockService.findAll(PageRequest.of(0, 10));
 
         Assertions.assertEquals(1, response.size());
+
+        Assertions.assertEquals("Product 1", response.get(0).getProductName());
+
+        Assertions.assertEquals("Warehouse 1", response.get(0).getWarehouseName());
+
+        Assertions.assertEquals("SKU001", response.get(0).getIdentifier());
     }
 
     @Test
     void deleteStockSuccessTest() {
 
-        Mockito.when(stockRepository.existsById(1L)).thenReturn(true);
+        when(stockRepository.existsById(1L)).thenReturn(true);
 
         boolean result = stockService.deleteStock(1L);
 
         Assertions.assertTrue(result);
 
-        Mockito.verify(stockRepository).deleteById(1L);
+        verify(stockRepository).deleteById(1L);
     }
 
     @Test
     void deleteStockFailureTest() {
 
-        Mockito.when(stockRepository.existsById(1L)).thenReturn(false);
+        when(stockRepository.existsById(1L)).thenReturn(false);
 
         boolean result = stockService.deleteStock(1L);
 
         Assertions.assertFalse(result);
+    }
+
+    @Test
+    void toggleStatusSuccessTest() {
+
+        Stock stock = new Stock();
+        stock.setStatus(true);
+
+        when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
+
+        stockService.toggleStatus(1L);
+
+        Assertions.assertFalse(stock.isStatus());
+
+        verify(stockRepository).save(stock);
+    }
+
+    @Test
+    void toggleStatusStockNotFoundTest() {
+
+        when(stockRepository.findById(1L)).thenReturn(Optional.empty());
+
+        Assertions.assertDoesNotThrow(() -> stockService.toggleStatus(1L));
+
+        verify(stockRepository, never()).save(any());
     }
 }

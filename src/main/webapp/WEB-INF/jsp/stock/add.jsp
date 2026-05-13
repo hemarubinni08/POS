@@ -194,7 +194,7 @@
 
             <c:forEach items="${products}" var="product">
                 <form:option value="${product.id}">
-                    ${product.identifier}
+                    ${product.productName}
                 </form:option>
             </c:forEach>
 

@@ -6,27 +6,21 @@
 <head>
     <title>Stock Management</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --primary: #2563eb;
             --primary-hover: #1e40af;
-
             --bg: #f8fafc;
             --glass: rgba(255,255,255,0.75);
-
             --text: #0f172a;
             --muted: #64748b;
-
             --border: #e2e8f0;
-
             --danger: #dc2626;
-
+            --success: #16a34a;
             --radius: 16px;
             --shadow: 0 20px 40px rgba(2,6,23,0.08);
         }
@@ -45,7 +39,6 @@
             color: var(--text);
         }
 
-        /* BACK BUTTON */
         .back-arrow {
             position: fixed;
             top: 20px;
@@ -69,121 +62,144 @@
             font-size: 18px;
 
             box-shadow: var(--shadow);
-            transition: 0.2s;
+
+            transition:
+                    transform 0.2s ease,
+                    box-shadow 0.2s ease,
+                    background 0.2s ease,
+                    color 0.2s ease;
         }
 
         .back-arrow:hover {
-            background: #eef2ff;
             color: var(--primary);
+            background: #eef2ff;
+            transform: translateY(-2px) translateX(-2px);
+            box-shadow: 0 12px 28px rgba(37,99,235,0.25);
         }
 
         .container-box {
-            max-width: 1100px;
+            max-width: 1400px;
             margin: 60px auto 0;
         }
 
-        /* CARD */
         .card {
-            background: var(--glass);
-            backdrop-filter: blur(16px);
-
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-
-            box-shadow: var(--shadow);
             overflow: hidden;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow);
         }
 
-        /* HEADER */
         .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
             padding: 20px 24px;
+
             font-size: 18px;
             font-weight: 600;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         .add-btn {
             padding: 8px 14px;
-            border-radius: 10px;
-            background: var(--primary);
+
             color: #fff;
-            text-decoration: none;
             font-size: 13px;
             font-weight: 600;
-            transition: 0.2s;
+            text-decoration: none;
+
+            background: var(--primary);
+            border-radius: 10px;
         }
 
-        .add-btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-        }
-
-        /* TABLE */
         table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: 14px 16px;
             font-size: 13px;
-            text-align: left;
             border-bottom: 1px solid var(--border);
+            vertical-align: middle;
         }
 
         th {
+            color: var(--muted);
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--muted);
-            background: rgba(248,250,252,0.8);
+            background: rgba(248,250,252,0.9);
         }
 
-        tr:hover {
-            background: rgba(241,245,249,0.6);
+        .toggle-switch {
+            position: relative;
+
+            width: 46px;
+            height: 24px;
+
+            cursor: pointer;
+            background: #cbd5f5;
+            border-radius: 999px;
+
+            transition: 0.25s;
         }
 
-        /* ACTIONS */
+        .toggle-switch::after {
+            content: "";
+
+            position: absolute;
+            top: 3px;
+            left: 4px;
+
+            width: 18px;
+            height: 18px;
+
+            background: #fff;
+            border-radius: 50%;
+
+            transition: 0.25s;
+        }
+
+        .toggle-switch.active {
+            background: var(--success);
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(20px);
+        }
+
         .actions {
             display: flex;
             gap: 8px;
         }
 
-        .btn {
+        .btn-action {
             padding: 6px 12px;
-            border-radius: 8px;
+
             font-size: 12px;
             font-weight: 600;
             text-decoration: none;
+
+            border-radius: 8px;
         }
 
         .btn-edit {
-            background: #eef2ff;
             color: var(--primary);
-        }
-
-        .btn-edit:hover {
-            background: #e0e7ff;
+            background: #eef2ff;
         }
 
         .btn-delete {
-            background: #fee2e2;
             color: var(--danger);
+            background: #fee2e2;
         }
 
-        .btn-delete:hover {
-            background: #fecaca;
-        }
-
-        /* EMPTY STATE */
         .empty-state {
-            text-align: center;
             padding: 40px;
             color: var(--muted);
-            font-size: 14px;
+            text-align: center;
         }
     </style>
 </head>
@@ -197,11 +213,14 @@
     <div class="card">
 
         <div class="card-header">
+
             <span>Stock Management</span>
 
-            <a href="${pageContext.request.contextPath}/stock/add" class="add-btn">
+            <a href="${pageContext.request.contextPath}/stock/add"
+               class="add-btn">
                 + Add Stock
             </a>
+
         </div>
 
         <c:if test="${empty stocks}">
@@ -211,49 +230,96 @@
         </c:if>
 
         <c:if test="${not empty stocks}">
+
             <table>
+
                 <thead>
+
                 <tr>
                     <th>ID</th>
-                    <th>Product</th>
+                    <th>SKU Code</th>
+                    <th>Product Name</th>
                     <th>Warehouse</th>
                     <th>Quantity</th>
-                    <th style="width:160px;">Actions</th>
+                    <th>Status</th>
+                    <th style="width: 180px;">Actions</th>
                 </tr>
+
                 </thead>
 
                 <tbody>
+
                 <c:forEach var="stock" items="${stocks}">
+
                     <tr>
+
                         <td>${stock.id}</td>
-                        <td>${stock.productName}</td>
+
+                        <td>${stock.identifier}</td>
+
+                        <td>
+                            <strong>${stock.productName}</strong>
+                        </td>
+
                         <td>${stock.warehouseName}</td>
+
                         <td>${stock.quantity}</td>
 
                         <td>
+                            <div class="toggle-switch ${stock.status ? 'active' : ''}"
+                                 onclick="toggleStockStatus(${stock.id}, this)">
+                            </div>
+                        </td>
+
+                        <td>
+
                             <div class="actions">
 
-                                <a class="btn btn-edit"
+                                <a class="btn-action btn-edit"
                                    href="${pageContext.request.contextPath}/stock/get?productId=${stock.productId}&warehouseId=${stock.warehouseId}">
                                     Edit
                                 </a>
 
-                                <a class="btn btn-delete"
-                                   href="${pageContext.request.contextPath}/stock/delete?id=${stock.id}">
+                                <a class="btn-action btn-delete"
+                                   href="${pageContext.request.contextPath}/stock/delete?id=${stock.id}"
+                                   onclick="return confirm('Delete this stock?')">
                                     Delete
                                 </a>
 
                             </div>
+
                         </td>
+
                     </tr>
+
                 </c:forEach>
+
                 </tbody>
+
             </table>
+
         </c:if>
 
     </div>
 
 </div>
+
+<script>
+
+    function toggleStockStatus(id, el) {
+
+        el.classList.toggle("active");
+
+        fetch('${pageContext.request.contextPath}/stock/toggle-status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'id=' + encodeURIComponent(id)
+        });
+    }
+
+</script>
 
 </body>
 </html>
