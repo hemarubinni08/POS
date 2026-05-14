@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -63,4 +64,18 @@ public class CartEntryServiceImpl implements CartEntryService {
         return modelMapper.map(cartEntryList, listType);
     }
 
+    @Override
+    @Transactional
+    public void deleteByIdentifier(String identifier) {
+        cartEntryRepository.deleteByIdentifier(identifier);
+    }
+
+    @Override
+    public void deleteAllByCart(String cart) {
+        List<CartEntry> cartEntries = cartEntryRepository.findByCart(cart);
+        if (cartEntries.isEmpty()) {
+            return;
+        }
+        cartEntryRepository.deleteAll(cartEntries);
+    }
 }

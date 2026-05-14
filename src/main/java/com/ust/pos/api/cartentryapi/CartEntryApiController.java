@@ -16,5 +16,4 @@ public class CartEntryApiController extends BaseController {
     public CartEntryDto add(@RequestBody CartEntryDto cartEntryDto) {
         return cartEntryService.save(cartEntryDto);
     }
-
 }

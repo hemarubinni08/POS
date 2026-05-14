@@ -12,4 +12,6 @@ public interface CartService {
     CartDto recalculate(String cart);
 
     CartDto findByIdentifier(String identifier);
+
+    void deleteByIdentifier(String identifier);
 }

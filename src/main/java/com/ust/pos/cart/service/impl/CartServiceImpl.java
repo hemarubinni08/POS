@@ -72,4 +72,9 @@ public class CartServiceImpl implements CartService {
         return cartDto;
     }
 
+    @Override
+    public void deleteByIdentifier(String identifier){
+        cartRepository.deleteByIdentifier(identifier);
+        cartEntryService.deleteAllByCart(identifier);
+    }
 }
