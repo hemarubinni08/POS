@@ -20,7 +20,7 @@
             padding: 30px 0;
         }
 
-        .brand-card {
+        .product-card {
             background: #f3efe9;
             width: 470px;
             padding: 42px;
@@ -76,30 +76,18 @@
         }
 
         select {
-            padding-bottom: 12px;
+            appearance: none;
+            background: transparent;
         }
 
         select[multiple] {
             height: 120px;
-            border: 3px solid #cfcfcf;
-            padding: 10px;
-            background: transparent;
-        }
-
-        textarea {
-            resize: none;
-            height: 40px;
-            overflow: hidden;
         }
 
         input:focus,
-        textarea:focus,
-        select:focus {
+        select:focus,
+        textarea:focus {
             border-bottom: 3px solid #3f3f3f;
-        }
-
-        select[multiple]:focus {
-            border: 3px solid #3f3f3f;
         }
 
         input[readonly] {
@@ -107,17 +95,11 @@
             cursor: not-allowed;
         }
 
-        .hint {
-            font-size: 11px;
-            color: #8a8a8a;
-            margin-top: 8px;
-            letter-spacing: 1px;
-        }
-
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
         input:-webkit-autofill:focus,
-        textarea:-webkit-autofill {
+        textarea:-webkit-autofill,
+        select:-webkit-autofill {
 
             -webkit-box-shadow: 0 0 0px 1000px #f3efe9 inset !important;
             -webkit-text-fill-color: #2f2f2f !important;
@@ -152,13 +134,20 @@
             font-size: 13px;
         }
 
+        .hint {
+            font-size: 11px;
+            color: #8a8a8a;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
     </style>
 
 </head>
 
 <body>
 
-<div class="brand-card">
+<div class="product-card">
 
     <a href="${pageContext.request.contextPath}/product/list"
        class="back-btn">
@@ -186,9 +175,10 @@
 
         <form:hidden path="id"/>
 
+        <!-- SKU CODE -->
         <div class="form-group">
 
-            <label>PRODUCT NAME</label>
+            <label>SKU CODE</label>
 
             <form:input
                     path="identifier"
@@ -196,6 +186,7 @@
 
         </div>
 
+        <!-- CATEGORY -->
         <div class="form-group">
 
             <label>CATEGORY</label>
@@ -216,17 +207,24 @@
 
             <div class="hint">
 
-                HOLD CTRL / CMD TO SELECT MULTIPLE
+                Hold <b>Ctrl</b> (Windows) or <b>Cmd</b> (Mac) to select multiple categories
 
             </div>
 
         </div>
 
+        <!-- BRAND -->
         <div class="form-group">
 
             <label>BRAND</label>
 
-            <form:select path="brand">
+            <form:select
+                    path="brand"
+                    required="true">
+
+                <form:option value="">
+                    -- Select Brand --
+                </form:option>
 
                 <c:forEach var="bran" items="${brand}">
 
@@ -242,11 +240,18 @@
 
         </div>
 
+        <!-- UNIT -->
         <div class="form-group">
 
             <label>UNIT</label>
 
-            <form:select path="unit">
+            <form:select
+                    path="unit"
+                    required="true">
+
+                <form:option value="">
+                    -- Select Unit --
+                </form:option>
 
                 <c:forEach var="uni" items="${unit}">
 
@@ -262,11 +267,18 @@
 
         </div>
 
+        <!-- MODEL -->
         <div class="form-group">
 
             <label>MODEL</label>
 
-            <form:select path="model">
+            <form:select
+                    path="model"
+                    required="true">
+
+                <form:option value="">
+                    -- Select Model --
+                </form:option>
 
                 <c:forEach var="mode" items="${model}">
 
@@ -282,13 +294,14 @@
 
         </div>
 
+        <!-- PRODUCT NAME -->
         <div class="form-group">
 
-            <label>SKU CODE</label>
+            <label>PRODUCT NAME</label>
 
             <form:input
-                    path="skuCode"
-                    readonly="true"/>
+                    path="name"
+                    required="true"/>
 
         </div>
 

@@ -61,7 +61,8 @@
         }
 
         input,
-        select {
+        select,
+        textarea {
             width: 100%;
             box-sizing: border-box;
             padding: 10px 0;
@@ -74,32 +75,25 @@
             font-family: "Inter", sans-serif;
         }
 
-        select[multiple] {
-            height: 120px;
-            border: 3px solid #cfcfcf;
-            padding: 10px;
+        select {
+            appearance: none;
+            background: transparent;
         }
 
-        option {
-            background: #f3efe9;
-            color: #2f2f2f;
-            padding: 6px;
+        select[multiple] {
+            height: 120px;
         }
 
         input:focus,
-        select:focus {
-            border-color: #3f3f3f;
-        }
-
-        .hint {
-            font-size: 12px;
-            color: #7a7a7a;
-            margin-top: 8px;
+        select:focus,
+        textarea:focus {
+            border-bottom: 3px solid #3f3f3f;
         }
 
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
         input:-webkit-autofill:focus,
+        textarea:-webkit-autofill,
         select:-webkit-autofill {
 
             -webkit-box-shadow: 0 0 0px 1000px #f3efe9 inset !important;
@@ -135,6 +129,13 @@
             font-size: 13px;
         }
 
+        .hint {
+            font-size: 11px;
+            color: #8a8a8a;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
     </style>
 
 </head>
@@ -167,9 +168,10 @@
             method="post"
             modelAttribute="productDto">
 
+        <!-- SKU CODE -->
         <div class="form-group">
 
-            <label>PRODUCT NAME</label>
+            <label>SKU CODE</label>
 
             <form:input
                     path="identifier"
@@ -177,12 +179,12 @@
 
         </div>
 
+        <!-- CATEGORY -->
         <div class="form-group">
 
             <label>CATEGORY</label>
 
-            <form:select path="category"
-                         multiple="true">
+            <form:select path="category" multiple="true">
 
                 <c:forEach var="cat" items="${categories}">
 
@@ -198,17 +200,24 @@
 
             <div class="hint">
 
-                Hold Ctrl (Windows) or Cmd (Mac) to select multiple categories
+                Hold <b>Ctrl</b> (Windows) or <b>Cmd</b> (Mac) to select multiple categories
 
             </div>
 
         </div>
 
+        <!-- BRAND -->
         <div class="form-group">
 
             <label>BRAND</label>
 
-            <form:select path="brand">
+            <form:select
+                    path="brand"
+                    required="true">
+
+                <form:option value="">
+                    -- Select Brand --
+                </form:option>
 
                 <c:forEach var="bran" items="${brand}">
 
@@ -224,11 +233,18 @@
 
         </div>
 
+        <!-- UNIT -->
         <div class="form-group">
 
             <label>UNIT</label>
 
-            <form:select path="unit">
+            <form:select
+                    path="unit"
+                    required="true">
+
+                <form:option value="">
+                    -- Select Unit --
+                </form:option>
 
                 <c:forEach var="uni" items="${unit}">
 
@@ -244,11 +260,18 @@
 
         </div>
 
+        <!-- MODEL -->
         <div class="form-group">
 
             <label>MODEL</label>
 
-            <form:select path="model">
+            <form:select
+                    path="model"
+                    required="true">
+
+                <form:option value="">
+                    -- Select Model --
+                </form:option>
 
                 <c:forEach var="mode" items="${model}">
 
@@ -264,13 +287,14 @@
 
         </div>
 
+        <!-- PRODUCT NAME -->
         <div class="form-group">
 
-            <label>SKU CODE</label>
+            <label>PRODUCT NAME</label>
 
             <form:input
-                    path="skuCode"
-                    type="number"
+                    path="name"
+                    type="text"
                     required="true"/>
 
         </div>

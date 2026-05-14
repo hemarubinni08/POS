@@ -17,6 +17,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding: 30px 0;
         }
 
         .stock-card {
@@ -73,14 +74,14 @@
             font-family: "Inter", sans-serif;
         }
 
+        select {
+            appearance: none;
+            background: transparent;
+        }
+
         input:focus,
         select:focus {
             border-bottom: 3px solid #3f3f3f;
-        }
-
-        option {
-            background: #f3efe9;
-            color: #2f2f2f;
         }
 
         input:-webkit-autofill,
@@ -153,20 +154,25 @@
             method="post"
             modelAttribute="stocksDto">
 
+        <!-- SKU CODE -->
         <div class="form-group">
 
-            <label>PRODUCT NAME</label>
+            <label>SKU CODE</label>
 
-            <form:select path="identifier" required="true">
+            <form:select
+                    path="identifier"
+                    required="true">
 
                 <form:option value="">
-                    -- Select Product --
+                    -- Select SkuCode --
                 </form:option>
 
                 <c:forEach var="product" items="${products}">
 
                     <form:option value="${product.identifier}">
+
                         ${product.identifier}
+
                     </form:option>
 
                 </c:forEach>
@@ -175,6 +181,7 @@
 
         </div>
 
+        <!-- AVAILABLE STOCK -->
         <div class="form-group">
 
             <label>AVAILABLE STOCK</label>
@@ -182,11 +189,13 @@
             <form:input
                     path="availableStock"
                     type="number"
+                    required="true"
                     min="0"
-                    required="true"/>
+                    title="Available stock must be zero or greater"/>
 
         </div>
 
+        <!-- INCOMING STOCK -->
         <div class="form-group">
 
             <label>INCOMING STOCK</label>
@@ -194,10 +203,12 @@
             <form:input
                     path="incomingStock"
                     type="number"
-                    min="0"/>
+                    min="0"
+                    title="Incoming stock cannot be negative"/>
 
         </div>
 
+        <!-- OUTGOING STOCK -->
         <div class="form-group">
 
             <label>OUTGOING STOCK</label>
@@ -205,53 +216,43 @@
             <form:input
                     path="outgoingStock"
                     type="number"
-                    min="0"/>
+                    min="0"
+                    title="Outgoing stock cannot be negative"/>
 
         </div>
 
+        <!-- PRODUCT STATUS -->
         <div class="form-group">
 
             <label>PRODUCT STATUS</label>
 
-            <form:select path="productStatus" required="true">
+            <form:select
+                    path="productStatus"
+                    required="true">
 
                 <form:option value="">
                     -- Select Status --
                 </form:option>
 
-                <form:option value="AVAILABLE">
-                    Available
-                </form:option>
-
-                <form:option value="OUT_OF_STOCK">
-                    Out of Stock
-                </form:option>
-
-                <form:option value="LOW_STOCK">
-                    Low Stock
-                </form:option>
-
-                <form:option value="INCOMING">
-                    Incoming
-                </form:option>
-
-                <form:option value="BLOCKED">
-                    Blocked
-                </form:option>
-
-                <form:option value="DAMAGED">
-                    Damaged
-                </form:option>
+                <form:option value="AVAILABLE">Available</form:option>
+                <form:option value="OUT_OF_STOCK">Out of Stock</form:option>
+                <form:option value="LOW_STOCK">Low Stock</form:option>
+                <form:option value="INCOMING">Incoming</form:option>
+                <form:option value="BLOCKED">Blocked</form:option>
+                <form:option value="DAMAGED">Damaged</form:option>
 
             </form:select>
 
         </div>
 
+        <!-- WAREHOUSE -->
         <div class="form-group">
 
             <label>WAREHOUSE</label>
 
-            <form:select path="wareHouse" required="true">
+            <form:select
+                    path="wareHouse"
+                    required="true">
 
                 <form:option value="">
                     -- Select Warehouse --
@@ -260,7 +261,9 @@
                 <c:forEach var="wh" items="${warehouse}">
 
                     <form:option value="${wh.identifier}">
+
                         ${wh.identifier}
+
                     </form:option>
 
                 </c:forEach>

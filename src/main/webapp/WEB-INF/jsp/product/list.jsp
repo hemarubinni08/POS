@@ -19,7 +19,7 @@
         }
 
         .page-wrapper {
-            width: 1250px;
+            width: 1200px;
             background: #f3efe9;
             padding: 34px 42px;
             box-sizing: border-box;
@@ -201,9 +201,9 @@
 
         .empty {
             text-align: center;
-            padding: 28px;
-            color: #2f2f2f;
+            padding: 20px;
             font-size: 15px;
+            color: #2f2f2f;
         }
 
     </style>
@@ -240,103 +240,102 @@
 
     </div>
 
-    <c:if test="${empty products}">
+    <c:choose>
 
-        <div class="empty">
+        <c:when test="${empty products}">
 
-            No products found
+            <div class="empty">
 
-        </div>
+                No products found
 
-    </c:if>
+            </div>
 
-    <c:if test="${not empty products}">
+        </c:when>
 
-        <table>
+        <c:otherwise>
 
-            <thead>
+            <table>
 
-            <tr>
-
-                <th>PRODUCT</th>
-                <th>CATEGORY</th>
-                <th>SKU</th>
-                <th>BRAND</th>
-                <th>MODEL</th>
-                <th>UNIT</th>
-                <th>STATUS</th>
-                <th>ACTION</th>
-
-            </tr>
-
-            </thead>
-
-            <tbody>
-
-            <c:forEach var="product" items="${products}">
+                <thead>
 
                 <tr>
 
-                    <td>${product.identifier}</td>
-
-                    <td>${product.category}</td>
-
-                    <td>${product.skuCode}</td>
-
-                    <td>${product.brand}</td>
-
-                    <td>${product.model}</td>
-
-                    <td>${product.unit}</td>
-
-                    <td>
-
-                        <label class="switch">
-
-                            <input type="checkbox"
-                                   ${product.status ? 'checked' : ''}
-                                   onchange="toggleStatus('${product.identifier}')">
-
-                            <span class="slider"></span>
-
-                        </label>
-
-                    </td>
-
-                    <td>
-
-                        <div class="action-buttons">
-
-                            <a href="${pageContext.request.contextPath}/product/get/${product.identifier}"
-                               class="action-link edit"
-                               title="Edit">
-
-                                ✎
-
-                            </a>
-
-                            <a href="${pageContext.request.contextPath}/product/delete/${product.identifier}"
-                               class="action-link delete"
-                               title="Delete"
-                               onclick="return confirm('Delete this product?')">
-
-                                🗑
-
-                            </a>
-
-                        </div>
-
-                    </td>
+                    <th>SKU CODE</th>
+                    <th>CATEGORY</th>
+                    <th>PRODUCT NAME</th>
+                    <th>BRAND</th>
+                    <th>MODEL</th>
+                    <th>UNIT</th>
+                    <th>STATUS</th>
+                    <th>ACTION</th>
 
                 </tr>
 
-            </c:forEach>
+                </thead>
 
-            </tbody>
+                <tbody>
 
-        </table>
+                <c:forEach var="product" items="${products}">
 
-    </c:if>
+                    <tr>
+
+                        <td>${product.identifier}</td>
+                        <td>${product.category}</td>
+                        <td>${product.name}</td>
+                        <td>${product.brand}</td>
+                        <td>${product.model}</td>
+                        <td>${product.unit}</td>
+
+                        <td>
+
+                            <label class="switch">
+
+                                <input type="checkbox"
+                                       ${product.status ? 'checked' : ''}
+                                       onchange="toggleStatus('${product.identifier}')">
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </td>
+
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <a href="${pageContext.request.contextPath}/product/get/${product.identifier}"
+                                   class="action-link edit"
+                                   title="Edit">
+
+                                    ✎
+
+                                </a>
+
+                                <a href="${pageContext.request.contextPath}/product/delete/${product.identifier}"
+                                   class="action-link delete"
+                                   title="Delete"
+                                   onclick="return confirm('Delete this product?')">
+
+                                    🗑
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </c:forEach>
+
+                </tbody>
+
+            </table>
+
+        </c:otherwise>
+
+    </c:choose>
 
 </div>
 
@@ -344,16 +343,8 @@
 
     function toggleStatus(identifier) {
 
-        fetch('${pageContext.request.contextPath}/product/toggle-status', {
-
-            method: 'POST',
-
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-
-            body: 'identifier=' + encodeURIComponent(identifier)
-
+        fetch('${pageContext.request.contextPath}/product/toggle-status?identifier=' + identifier, {
+            method: 'POST'
         }).then(() => location.reload());
 
     }

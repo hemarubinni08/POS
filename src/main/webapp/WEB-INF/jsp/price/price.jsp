@@ -17,6 +17,8 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding: 40px 0;
+            box-sizing: border-box;
         }
 
         .price-card {
@@ -59,7 +61,8 @@
             margin-bottom: 10px;
         }
 
-        input {
+        input,
+        select {
             width: 100%;
             box-sizing: border-box;
             padding: 10px 0;
@@ -72,7 +75,12 @@
             font-family: "Inter", sans-serif;
         }
 
-        input:focus {
+        select {
+            padding-bottom: 12px;
+        }
+
+        input:focus,
+        select:focus {
             border-bottom: 3px solid #3f3f3f;
         }
 
@@ -81,14 +89,18 @@
             cursor: not-allowed;
         }
 
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            cursor: pointer;
-            opacity: 0.7;
+        select:disabled {
+            color: #7a7a7a;
+            cursor: not-allowed;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
         }
 
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus {
+        input:-webkit-autofill:focus,
+        select:-webkit-autofill {
 
             -webkit-box-shadow: 0 0 0px 1000px #f3efe9 inset !important;
             -webkit-text-fill-color: #2f2f2f !important;
@@ -159,11 +171,25 @@
 
         <div class="form-group">
 
-            <label>PRODUCT NAME</label>
+            <label>SKU CODE</label>
 
-            <form:input
-                    path="identifier"
-                    readonly="true"/>
+            <form:select path="identifier" disabled="true">
+
+                <form:option value="">
+                    -- Select Product --
+                </form:option>
+
+                <c:forEach items="${products}" var="product">
+
+                    <form:option value="${product.identifier}">
+                        ${product.identifier}
+                    </form:option>
+
+                </c:forEach>
+
+            </form:select>
+
+            <form:hidden path="identifier"/>
 
         </div>
 
@@ -184,6 +210,17 @@
 
             <form:input
                     path="sellingPrice"
+                    type="number"
+                    step="0.01"/>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>COST PRICE</label>
+
+            <form:input
+                    path="costPrice"
                     type="number"
                     step="0.01"/>
 

@@ -9,15 +9,17 @@
 
     <style>
 
-        body {
-            margin: 0;
-            font-family: "Inter", sans-serif;
-            background-color: #3f3f3f;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+body {
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    background-color: #3f3f3f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 0;
+    box-sizing: border-box;
+}
 
         .price-card {
             background: #f3efe9;
@@ -73,19 +75,13 @@
             font-family: "Inter", sans-serif;
         }
 
+        select {
+            padding-bottom: 12px;
+        }
+
         input:focus,
         select:focus {
             border-bottom: 3px solid #3f3f3f;
-        }
-
-        option {
-            background: #f3efe9;
-            color: #2f2f2f;
-        }
-
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            cursor: pointer;
-            opacity: 0.7;
         }
 
         input:-webkit-autofill,
@@ -160,21 +156,18 @@
 
         <div class="form-group">
 
-            <label>PRODUCT NAME</label>
+            <label>SKU CODE</label>
 
-            <form:select path="identifier"
-                         required="true">
+            <form:select path="identifier" required="true">
 
                 <form:option value="">
-                    -- Select Product --
+                    -- Select SkuCode --
                 </form:option>
 
-                <c:forEach var="p" items="${products}">
+                <c:forEach items="${products}" var="product">
 
-                    <form:option value="${p.identifier}">
-
-                        ${p.identifier}
-
+                    <form:option value="${product.identifier}">
+                        ${product.identifier}
                     </form:option>
 
                 </c:forEach>
@@ -187,10 +180,11 @@
 
             <label>MRP</label>
 
-            <form:input path="mrp"
-                        type="number"
-                        step="0.01"
-                        required="true"/>
+            <form:input
+                    path="mrp"
+                    type="number"
+                    step="0.01"
+                    required="true"/>
 
         </div>
 
@@ -198,10 +192,23 @@
 
             <label>SELLING PRICE</label>
 
-            <form:input path="sellingPrice"
-                        type="number"
-                        step="0.01"
-                        required="true"/>
+            <form:input
+                    path="sellingPrice"
+                    type="number"
+                    step="0.01"
+                    required="true"/>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>COST PRICE</label>
+
+            <form:input
+                    path="costPrice"
+                    type="number"
+                    step="0.01"
+                    required="true"/>
 
         </div>
 
@@ -209,9 +216,10 @@
 
             <label>EFFECTIVE FROM</label>
 
-            <form:input path="effectiveFrom"
-                        type="date"
-                        required="true"/>
+            <form:input
+                    path="effectiveFrom"
+                    type="date"
+                    required="true"/>
 
         </div>
 

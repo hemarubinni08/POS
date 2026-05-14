@@ -144,11 +144,11 @@
             color: #ffffff;
         }
 
-        .empty-message {
+        .empty {
             text-align: center;
-            padding: 30px 0;
-            color: #8a8a8a;
+            padding: 20px;
             font-size: 15px;
+            color: #2f2f2f;
         }
 
     </style>
@@ -187,7 +187,7 @@
 
     <c:if test="${empty stocks}">
 
-        <div class="empty-message">
+        <div class="empty">
 
             No stock records found
 
@@ -203,8 +203,8 @@
 
             <tr>
 
-                <th>PRODUCT</th>
                 <th>SKU CODE</th>
+                <th>PRODUCT NAME</th>
                 <th>AVAILABLE</th>
                 <th>INCOMING</th>
                 <th>OUTGOING</th>
@@ -223,17 +223,11 @@
                 <tr>
 
                     <td>${stock.identifier}</td>
-
-                    <td>${stock.skuCode}</td>
-
+                    <td>${stock.name}</td>
                     <td>${stock.availableStock}</td>
-
                     <td>${stock.incomingStock}</td>
-
                     <td>${stock.outgoingStock}</td>
-
                     <td>${stock.productStatus}</td>
-
                     <td>${stock.wareHouse}</td>
 
                     <td>
@@ -251,7 +245,7 @@
                             <a href="${pageContext.request.contextPath}/stocks/delete?identifier=${stock.identifier}"
                                class="action-link delete"
                                title="Delete"
-                               onclick="return confirm('Delete this stock?')">
+                               onclick="return confirm('Are you sure you want to delete this product stock?');">
 
                                 🗑
 

@@ -16,10 +16,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 40px 0;
+            box-sizing: border-box;
         }
 
         .page-wrapper {
-            width: 1100px;
+            width: 1150px;
             background: #f3efe9;
             padding: 34px 42px;
             box-sizing: border-box;
@@ -203,9 +205,10 @@
 
             <tr>
 
-                <th>PRODUCT</th>
+                <th>SKU CODE</th>
                 <th>MRP</th>
                 <th>SELLING PRICE</th>
+                <th>COST PRICE</th>
                 <th>EFFECTIVE FROM</th>
                 <th>ACTION</th>
 
@@ -225,6 +228,8 @@
 
                     <td>${price.sellingPrice}</td>
 
+                    <td>${price.costPrice}</td>
+
                     <td>${price.effectiveFrom}</td>
 
                     <td>
@@ -242,7 +247,7 @@
                             <a href="${pageContext.request.contextPath}/price/delete?identifier=${price.identifier}"
                                class="action-link delete"
                                title="Delete"
-                               onclick="return confirm('Delete this price?')">
+                               onclick="return confirm('Delete price for this product?')">
 
                                 🗑
 

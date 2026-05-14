@@ -16,7 +16,6 @@ import java.util.List;
 
 @Service
 public class PriceServiceImpl implements PriceService {
-
     @Autowired
     private PriceRepository priceRepository;
 
@@ -66,8 +65,8 @@ public class PriceServiceImpl implements PriceService {
     public List<PriceDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
-        Page<Price> customerPage = priceRepository.findAll(pageable);
-        return modelMapper.map(customerPage.getContent(), listType);
+        Page<Price> pricePage = priceRepository.findAll(pageable);
+        return modelMapper.map(pricePage.getContent(), listType);
     }
 
     @Override

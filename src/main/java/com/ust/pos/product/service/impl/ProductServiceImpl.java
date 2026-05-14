@@ -16,7 +16,6 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-
     @Autowired
     private ProductRepository productRepository;
 
@@ -33,20 +32,12 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto save(ProductDto productDto) {
         productDto.setIdentifier(productDto.getIdentifier().trim());
         String identifier = productDto.getIdentifier();
-        Long skuCode = productDto.getSkuCode();
         Product existingProduct = productRepository.findByIdentifier(identifier);
-        Product existingSku = productRepository.findBySkuCode(skuCode);
         if (existingProduct != null) {
             productDto.setMessage("Product with identifier - " + identifier + " already exists");
             productDto.setSuccess(false);
             return productDto;
         }
-        if (existingSku != null) {
-            productDto.setMessage("Product with skuCode - " + skuCode + " already exists");
-            productDto.setSuccess(false);
-            return productDto;
-        }
-
         Product product = modelMapper.map(productDto, Product.class);
         productRepository.save(product);
         return productDto;

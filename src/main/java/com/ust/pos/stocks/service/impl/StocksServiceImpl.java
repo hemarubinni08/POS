@@ -5,20 +5,19 @@ import com.ust.pos.dto.StocksDto;
 import com.ust.pos.model.Stocks;
 import com.ust.pos.model.StocksRepository;
 import com.ust.pos.product.service.ProductService;
+import com.ust.pos.stocks.service.StocksService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import com.ust.pos.stocks.service.StocksService;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
 public class StocksServiceImpl implements StocksService {
-
     @Autowired
     private StocksRepository stocksRepository;
 
@@ -27,6 +26,7 @@ public class StocksServiceImpl implements StocksService {
 
     @Autowired
     private ProductService productService;
+
 
     @Override
     public StocksDto findByIdentifier(String identifier) {
@@ -45,7 +45,7 @@ public class StocksServiceImpl implements StocksService {
         }
         Stocks stocks = modelMapper.map(stocksDto, Stocks.class);
         ProductDto productDto = productService.findByIdentifier(stocksDto.getIdentifier());
-        stocks.setSkuCode(productDto.getSkuCode());
+        stocks.setName(productDto.getName());
         stocksRepository.save(stocks);
         return stocksDto;
     }
@@ -74,13 +74,13 @@ public class StocksServiceImpl implements StocksService {
     public List<StocksDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<StocksDto>>() {
         }.getType();
-        Page<Stocks> stocksPage=stocksRepository.findAll(pageable);
+        Page<Stocks> stocksPage = stocksRepository.findAll(pageable);
         return modelMapper.map(stocksPage.getContent(), listType);
     }
 
     @Override
     public List<StocksDto> findIfTrue() {
-        Type listType = new TypeToken<List<StocksDto>>(){
+        Type listType = new TypeToken<List<StocksDto>>() {
         }.getType();
         return modelMapper.map(stocksRepository.findByStatusIsTrue(), listType);
     }
@@ -92,4 +92,5 @@ public class StocksServiceImpl implements StocksService {
         stocksRepository.save(stocks);
         return modelMapper.map(stocks, StocksDto.class);
     }
+
 }

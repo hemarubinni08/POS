@@ -1,11 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Stock</title>
+    <title>Stock Management</title>
 
     <style>
 
@@ -13,122 +12,143 @@
             margin: 0;
             font-family: "Inter", sans-serif;
             background-color: #3f3f3f;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
         }
 
-        .brand-card {
+        .page-wrapper {
+            width: 1200px;
             background: #f3efe9;
-            width: 470px;
-            padding: 42px;
+            padding: 34px 42px;
             box-sizing: border-box;
         }
 
-        .back-btn {
-            display: inline-block;
-            margin-bottom: 22px;
-            text-decoration: none;
-            color: #2f2f2f;
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .back-btn:hover {
-            opacity: 0.7;
-        }
-
-        h2 {
-            margin: 0 0 34px;
-            font-size: 26px;
-            font-weight: 700;
-            color: #2f2f2f;
-        }
-
-        .form-group {
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 28px;
         }
 
-        label {
-            font-size: 12px;
-            letter-spacing: 2px;
-            color: #8a8a8a;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 10px 0;
-            border: none;
-            border-bottom: 3px solid #cfcfcf;
-            background: transparent;
-            font-size: 16px;
-            outline: none;
-            color: #2f2f2f;
-            font-family: "Inter", sans-serif;
-        }
-
-        select {
-            cursor: pointer;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-bottom: 3px solid #3f3f3f;
-        }
-
-        input[readonly],
-        select:disabled {
-            color: #7a7a7a;
-            cursor: not-allowed;
-        }
-
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        textarea:-webkit-autofill,
-        select:-webkit-autofill {
-
-            -webkit-box-shadow: 0 0 0px 1000px #f3efe9 inset !important;
-            -webkit-text-fill-color: #2f2f2f !important;
-            transition: background-color 5000s ease-in-out 0s;
-
-        }
-
-        .update-btn {
-            width: 100%;
-            padding: 16px;
-            margin-top: 8px;
-            background: #3f3f3f;
-            color: #ffffff;
-            border: 2px solid #3f3f3f;
-            font-size: 15px;
+        .page-title {
+            font-size: 26px;
             font-weight: 700;
-            letter-spacing: 2px;
-            cursor: pointer;
+            color: #2f2f2f;
+            margin: 0;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .top-btn,
+        .back-btn {
+            height: 48px;
+            min-width: 120px;
+            padding: 0 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: 2px solid #3f3f3f;
             transition: 0.3s;
         }
 
-        .update-btn:hover {
+        .top-btn {
+            background: #3f3f3f;
+            color: #ffffff;
+        }
+
+        .top-btn:hover {
             background: transparent;
             color: #3f3f3f;
         }
 
-        .error-message {
-            margin-bottom: 20px;
-            padding: 12px;
-            background: #ffe5e0;
-            color: #b91c1c;
-            font-size: 13px;
+        .back-btn {
+            background: transparent;
+            color: #3f3f3f;
+        }
+
+        .back-btn:hover {
+            background: #3f3f3f;
+            color: #ffffff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 14px 12px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #8a8a8a;
+            border-bottom: 3px solid #d6d1cb;
+        }
+
+        td {
+            padding: 20px 12px;
+            border-bottom: 2px solid #dedad5;
+            color: #2f2f2f;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-link {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+            border: 2px solid #3f3f3f;
+            transition: 0.3s;
+        }
+
+        .edit {
+            background: #3f3f3f;
+            color: #ffffff;
+        }
+
+        .edit:hover {
+            background: transparent;
+            color: #3f3f3f;
+        }
+
+        .delete {
+            background: transparent;
+            color: #3f3f3f;
+        }
+
+        .delete:hover {
+            background: #3f3f3f;
+            color: #ffffff;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 20px;
+            font-size: 15px;
+            color: #2f2f2f;
         }
 
     </style>
@@ -137,164 +157,113 @@
 
 <body>
 
-<div class="brand-card">
+<div class="page-wrapper">
 
-    <a href="${pageContext.request.contextPath}/stocks/list"
-       class="back-btn">
+    <div class="top-section">
 
-        ᐸ BACK
+        <h2 class="page-title">
+            Stock Management
+        </h2>
 
-    </a>
+        <div class="top-actions">
 
-    <h2>Edit Stock</h2>
+            <a href="${pageContext.request.contextPath}/"
+               class="back-btn">
 
-    <c:if test="${not empty message}">
+                ᐸ BACK
 
-        <div class="error-message">
+            </a>
 
-            ${message}
+            <a href="${pageContext.request.contextPath}/stocks/add"
+               class="top-btn">
+
+                ADD STOCK
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <c:if test="${empty stocks}">
+
+        <div class="empty">
+
+            No stock records found
 
         </div>
 
     </c:if>
 
-    <form:form
-            action="${pageContext.request.contextPath}/stocks/update"
-            method="post"
-            modelAttribute="stocks">
+    <c:if test="${not empty stocks}">
 
-        <form:hidden path="id"/>
+        <table>
 
-        <div class="form-group">
+            <thead>
 
-            <label>PRODUCT NAME</label>
+            <tr>
 
-            <form:select path="identifier" disabled="true">
+                <th>SKU CODE</th>
+                <th>PRODUCT NAME</th>
+                <th>AVAILABLE</th>
+                <th>INCOMING</th>
+                <th>OUTGOING</th>
+                <th>STATUS</th>
+                <th>WAREHOUSE</th>
+                <th>ACTION</th>
 
-                <c:forEach var="product" items="${products}">
+            </tr>
 
-                    <form:option value="${product.identifier}">
+            </thead>
 
-                        ${product.identifier}
+            <tbody>
 
-                    </form:option>
+            <c:forEach var="stock" items="${stocks}">
 
-                </c:forEach>
+                <tr>
 
-            </form:select>
+                    <td>${stock.identifier}</td>
+                    <td>${stock.name}</td>
+                    <td>${stock.availableStock}</td>
+                    <td>${stock.incomingStock}</td>
+                    <td>${stock.outgoingStock}</td>
+                    <td>${stock.productStatus}</td>
+                    <td>${stock.wareHouse}</td>
 
-            <form:hidden path="identifier"/>
+                    <td>
 
-        </div>
+                        <div class="action-buttons">
 
-        <div class="form-group">
+                            <a href="${pageContext.request.contextPath}/stocks/get?identifier=${stock.identifier}"
+                               class="action-link edit"
+                               title="Edit">
 
-            <label>AVAILABLE STOCK</label>
+                                ✎
 
-            <form:input
-                    path="availableStock"
-                    type="number"
-                    min="0"
-                    required="true"/>
+                            </a>
 
-        </div>
+                            <a href="${pageContext.request.contextPath}/stocks/delete?identifier=${stock.identifier}"
+                               class="action-link delete"
+                               title="Delete"
+                               onclick="return confirm('Are you sure you want to delete this product stock?');">
 
-        <div class="form-group">
+                                🗑
 
-            <label>INCOMING STOCK</label>
+                            </a>
 
-            <form:input
-                    path="incomingStock"
-                    type="number"
-                    min="0"/>
+                        </div>
 
-        </div>
+                    </td>
 
-        <div class="form-group">
+                </tr>
 
-            <label>OUTGOING STOCK</label>
+            </c:forEach>
 
-            <form:input
-                    path="outgoingStock"
-                    type="number"
-                    min="0"/>
+            </tbody>
 
-        </div>
+        </table>
 
-        <div class="form-group">
-
-            <label>PRODUCT STATUS</label>
-
-            <form:select
-                    path="productStatus"
-                    required="true">
-
-                <form:option value="">
-                    -- Select Status --
-                </form:option>
-
-                <form:option value="AVAILABLE">
-                    Available
-                </form:option>
-
-                <form:option value="OUT_OF_STOCK">
-                    Out Of Stock
-                </form:option>
-
-                <form:option value="LOW_STOCK">
-                    Low Stock
-                </form:option>
-
-                <form:option value="INCOMING">
-                    Incoming
-                </form:option>
-
-                <form:option value="BLOCKED">
-                    Blocked
-                </form:option>
-
-                <form:option value="DAMAGED">
-                    Damaged
-                </form:option>
-
-            </form:select>
-
-        </div>
-
-        <div class="form-group">
-
-            <label>WAREHOUSE</label>
-
-            <form:select
-                    path="wareHouse"
-                    required="true">
-
-                <form:option value="">
-                    -- Select Warehouse --
-                </form:option>
-
-                <c:forEach var="wh" items="${warehouse}">
-
-                    <form:option value="${wh.identifier}">
-
-                        ${wh.identifier}
-
-                    </form:option>
-
-                </c:forEach>
-
-            </form:select>
-
-        </div>
-
-        <button type="submit"
-                class="update-btn">
-
-            UPDATE STOCK
-
-        </button>
-
-    </form:form>
+    </c:if>
 
 </div>
 
