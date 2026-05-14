@@ -9,12 +9,7 @@ public interface CartService {
 
     CartDto save(CartDto cartDto);
 
-    CartDto update(CartDto cartDto);
+    CartDto recalculate(String cart);
 
-    CartDto findById(Long id);
-
-    List<CartDto> findAll(Pageable pageable);
-
-    CartDto delete(Long id);
-
+    CartDto findByIdentifier(String identifier);
 }
