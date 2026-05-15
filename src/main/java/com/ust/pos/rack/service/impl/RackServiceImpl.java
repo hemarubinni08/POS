@@ -81,6 +81,7 @@ public class RackServiceImpl implements RackService {
         rackRepository.save(rack);
     }
 
+    @Override
     public List<RackDto> findActiveRacks() {
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
