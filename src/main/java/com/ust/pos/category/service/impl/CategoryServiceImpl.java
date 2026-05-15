@@ -86,7 +86,6 @@ public class CategoryServiceImpl implements CategoryService {
                     "Cannot delete category. It is used as a super category."
             );
         }
-
         categoryRepository.deleteByIdentifier(identifier);
     }
 
