@@ -127,7 +127,6 @@ input:focus, textarea:focus {
 
     <div class="form-card">
 
-        <!-- Backend Error -->
         <c:if test="${not empty error}">
             <div class="error">${error}</div>
         </c:if>
@@ -136,7 +135,6 @@ input:focus, textarea:focus {
               action="${pageContext.request.contextPath}/brand/add"
               method="post">
 
-            <!-- Brand Name -->
             <div class="form-group">
                 <label>Brand Name *</label>
                 <input type="text" name="identifier"
@@ -146,7 +144,6 @@ input:focus, textarea:focus {
                        minlength="2">
             </div>
 
-            <!-- Description -->
             <div class="form-group">
                 <label>Description *</label>
                 <textarea name="description" rows="3"
@@ -154,7 +151,6 @@ input:focus, textarea:focus {
                           required>${brand.description}</textarea>
             </div>
 
-            <!-- Buttons -->
             <div class="btn-container">
 
                 <button type="submit" class="btn save-btn">
