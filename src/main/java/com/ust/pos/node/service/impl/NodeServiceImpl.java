@@ -81,6 +81,7 @@ public class NodeServiceImpl implements NodeService {
         return modelMapper.map(nodePage.getContent(), listType);
     }
 
+    @Override
     public List<NodeDto> getNodesForRoles() {
         List<NodeDto> nodeDtos = new ArrayList<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -91,6 +92,7 @@ public class NodeServiceImpl implements NodeService {
         return nodeDtos;
     }
 
+    @Override
     private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesStr = new HashSet<>();
