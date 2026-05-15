@@ -22,4 +22,5 @@ public interface CategoryService {
     void toggleStatus(String identifier);
 
     List<CategoryDto> findActiveCategories();
+    
 }
