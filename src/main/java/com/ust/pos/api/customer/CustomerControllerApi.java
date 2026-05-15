@@ -24,7 +24,6 @@ public class CustomerControllerApi extends BaseController {
         return customerService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
     public CustomerDto addPost(@RequestBody CustomerDto customerDto) {
         return customerService.save(customerDto);
@@ -49,7 +48,6 @@ public class CustomerControllerApi extends BaseController {
         } catch (Exception e) {
             return false;
         }
-
         return true;
     }
 }
