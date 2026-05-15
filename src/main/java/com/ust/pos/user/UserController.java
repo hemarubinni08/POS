@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-
     @Autowired
     private UserService userService;
 
@@ -59,7 +58,6 @@ public class UserController {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";
             }
-
         }
         return "redirect:/user/list";
     }
