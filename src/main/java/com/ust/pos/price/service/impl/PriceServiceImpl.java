@@ -17,7 +17,6 @@ import java.util.List;
 
 @Service
 public class PriceServiceImpl implements PriceService {
-
     @Autowired
     private PriceRepository priceRepository;
 
