@@ -14,8 +14,6 @@ import java.util.List;
 @RequestMapping("/api/brand")
 public class BrandControllerApi extends BaseController {
 
-    public static final String REDIRECT_ROLE_LIST = "redirect:/brand/list";
-
     @Autowired
     private BrandService brandService;
 
