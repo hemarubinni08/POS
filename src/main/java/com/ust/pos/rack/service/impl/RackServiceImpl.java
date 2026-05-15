@@ -40,7 +40,6 @@ public class RackServiceImpl implements RackService {
         return rackDto;
     }
 
-
     @Override
     public RackDto update(RackDto rackDto) {
         String identifier = rackDto.getIdentifier();
@@ -55,7 +54,6 @@ public class RackServiceImpl implements RackService {
         return rackDto;
     }
 
-
     @Override
     public void delete(String identifier) {
         rackRepository.deleteByIdentifier(identifier);
@@ -68,7 +66,6 @@ public class RackServiceImpl implements RackService {
         Page<Rack> rackPage = rackRepository.findAll(pageable);
         return modelMapper.map(rackPage.getContent(), listType);
     }
-
 
     @Override
     public RackDto findByIdentifier(String identifier) {
