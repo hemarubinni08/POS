@@ -81,6 +81,7 @@ public class UnitServiceImpl implements UnitService {
         unitRepository.save(unit);
     }
 
+    @Override
     public List<UnitDto> findActiveUnits() {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
