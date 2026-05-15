@@ -48,7 +48,6 @@ class AddressServiceTest {
 
     @Test
     void saveTest_Success() {
-
         AddressDto dto = new AddressDto();
         dto.setPhoneNo(123L);
         dto.setAddressType("BILLING");
