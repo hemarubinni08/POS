@@ -15,8 +15,6 @@ import java.util.List;
 @RequestMapping("/api/shelf")
 public class ShelfControllerApi extends BaseController {
 
-    public static final String REDIRECT_SHELF_LIST = "redirect:/shelf/list";
-
     @Autowired
     private ShelfService shelfService;
 
