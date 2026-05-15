@@ -32,7 +32,6 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public ShelfDto save(ShelfDto shelfDto) {
-
         String identifier = shelfDto.getIdentifier();
         Shelf existingShelf = shelfRepository.findByIdentifier(identifier);
 
@@ -50,7 +49,6 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public ShelfDto update(ShelfDto shelfDto) {
-
         String identifier = shelfDto.getIdentifier();
         Shelf existingShelf = shelfRepository.findByIdentifier(identifier);
 
@@ -74,7 +72,6 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public List<ShelfDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
         Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
@@ -91,7 +88,6 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public void toggleStatus(String identifier) {
-
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
 
         if (shelf == null) {
