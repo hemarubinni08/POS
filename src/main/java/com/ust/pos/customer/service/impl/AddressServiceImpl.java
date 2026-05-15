@@ -42,7 +42,6 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressDto update(AddressDto addressDto) {
-
         Address existingAddress = addressRepository.findByPhoneNumberAndAddressType(addressDto.getPhoneNumber(), addressDto.getAddressType());
         if (existingAddress == null) {
             addressDto.setMessage("Address with identifier - " + addressDto.getAddressType() + " not found");
@@ -67,6 +66,3 @@ public class AddressServiceImpl implements AddressService {
     }
 
 }
-
-
-
