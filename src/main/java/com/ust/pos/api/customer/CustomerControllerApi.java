@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerControllerApi extends BaseController {
-
     public static final String REDIRECT_ROLE_LIST = "redirect:/customer/list";
     @Autowired
     private CustomerService customerService;
