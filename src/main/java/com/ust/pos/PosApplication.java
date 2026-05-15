@@ -26,7 +26,6 @@ public class PosApplication {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-
         return new BCryptPasswordEncoder();
     }
 
