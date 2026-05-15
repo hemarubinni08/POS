@@ -14,8 +14,6 @@ import java.util.List;
 @RequestMapping("/api/cartEntry")
 public class CartEntryControllerApi extends BaseController {
 
-    public static final String REDIRECT_ROLE_LIST = "redirect:/cartEntry/list";
-
     @Autowired
     private CartEntryService cartEntryService;
 
@@ -27,25 +25,25 @@ public class CartEntryControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    public CartEntryDto addPost(@RequestBody CartEntryDto cartEntryDto) {
-        return cartEntryService.save(cartEntryDto);
+    public CartEntryDto add(@RequestBody CartEntryDto dto) {
+        return cartEntryService.save(dto);
     }
 
     @GetMapping("/get")
-    public CartEntryDto updatePage(@RequestParam String identifier) {
+    public CartEntryDto get(@RequestParam String identifier) {
         return cartEntryService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
-    public CartEntryDto updatePost(@RequestBody CartEntryDto cartEntryDto) {
-        return cartEntryService.update(cartEntryDto);
+    public CartEntryDto update(@RequestBody CartEntryDto dto) {
+        return cartEntryService.update(dto);
     }
 
     @PostMapping("/delete")
-    public CartEntryDto delete(@RequestBody CartEntryDto cartEntryDto) {
+    public CartEntryDto delete(@RequestBody CartEntryDto dto) {
         CartEntryDto response = new CartEntryDto();
         try {
-            cartEntryService.delete(cartEntryDto.getIdentifier());
+            cartEntryService.delete(dto.getIdentifier());
             response.setSuccess(true);
             response.setMessage("CartEntry deleted successfully");
         } catch (Exception e) {
@@ -54,5 +52,4 @@ public class CartEntryControllerApi extends BaseController {
         }
         return response;
     }
-
 }

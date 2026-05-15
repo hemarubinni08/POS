@@ -6,15 +6,16 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface CartEntryService {
-    CartEntryDto save(CartEntryDto cartEntryDto);
 
-    CartEntryDto update(CartEntryDto cartEntryDto);
+    CartEntryDto save(CartEntryDto dto);
 
-    List<CartEntryDto> findAll(Pageable pageable);
+    CartEntryDto update(CartEntryDto dto);
 
     CartEntryDto findByIdentifier(String identifier);
 
-    List<CartEntryDto>findByCartId(String cartId);
+    List<CartEntryDto> findAll(Pageable pageable);
+
+    List<CartEntryDto> findByCartId(String cartId);
 
     void delete(String identifier);
 }

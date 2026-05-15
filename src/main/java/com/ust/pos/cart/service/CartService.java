@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface CartService {
 
-    CartDto save(CartDto cartDto);
-
-    CartDto update(CartDto cartDto);
+    List<CartDto> findAll(Pageable pageable);
 
     CartDto findByIdentifier(String identifier);
 
-    List<CartDto> findAll(Pageable pageable);
+    CartDto save(String identifier);
 
     void delete(String identifier);
+
+    CartDto recalculate(String identifier);
 }
