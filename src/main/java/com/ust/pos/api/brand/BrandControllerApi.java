@@ -43,7 +43,6 @@ public class BrandControllerApi extends BaseController {
     public boolean delete(Model model, @RequestParam String identifier) {
         try {
             brandService.delete(identifier);
-
         } catch (Exception e) {
             return false;
         }
