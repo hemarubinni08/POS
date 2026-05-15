@@ -17,10 +17,6 @@ import java.util.List;
 
 public class NodeControllerApi extends BaseController {
 
-    public static final String NODE_DTO = "nodeDto";
-    public static final String ROLES = "roles";
-    public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
-
     @Autowired
     private NodeService nodeService;
 
