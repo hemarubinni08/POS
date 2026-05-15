@@ -42,7 +42,6 @@ public class RackServiceImpl implements RackService {
         return rackDto;
     }
 
-
     @Override
     public RackDto update(RackDto rackDto) {
         String identifier = rackDto.getIdentifier();
