@@ -58,8 +58,6 @@ class PriceServiceTest {
         price.setIdentifier("PROD1_MRP");
     }
 
-    // ================= FIND BY IDENTIFIER =================
-
     @Test
     void testFindByIdentifier_Found() {
 
@@ -99,8 +97,6 @@ class PriceServiceTest {
         verify(modelMapper, never())
                 .map(any(), eq(PriceDto.class));
     }
-
-    // ================= SAVE =================
 
     @Test
     void testSave_PriceAlreadyExists() {
@@ -154,8 +150,6 @@ class PriceServiceTest {
         verify(priceRepository, times(1))
                 .save(price);
     }
-
-    // ================= UPDATE =================
 
     @Test
     void testUpdate_PriceNotFound() {
