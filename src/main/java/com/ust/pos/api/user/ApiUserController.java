@@ -49,7 +49,6 @@ public class ApiUserController extends BaseController {
     @GetMapping("/delete")
     public boolean delete(Model model, @RequestParam String username) {
         try {
-
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null) {
                 String loggedInUser = authentication.getName();
