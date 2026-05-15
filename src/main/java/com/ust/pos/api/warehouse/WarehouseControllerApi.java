@@ -23,11 +23,9 @@ public class WarehouseControllerApi extends BaseController {
         return warehouseService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
     public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.save(warehouseDto);
-
     }
 
     @GetMapping("/get")
@@ -46,7 +44,6 @@ public class WarehouseControllerApi extends BaseController {
             warehouseService.delete(identifier);
         } catch (Exception e) {
             return false;
-
         }
         return true;
     }
