@@ -24,12 +24,9 @@ public class ModelsControllerApi extends BaseController {
         return modelsService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
     public ModelsDto addModel(@RequestBody ModelsDto modelsDto) {
         return modelsService.save(modelsDto);
-
-
     }
 
     @GetMapping("/get")
@@ -40,8 +37,6 @@ public class ModelsControllerApi extends BaseController {
     @PostMapping("/update")
     public ModelsDto updatePost(@RequestBody ModelsDto modelsDto) {
         return modelsService.update(modelsDto);
-
-
     }
 
     @GetMapping("/delete")
@@ -52,6 +47,5 @@ public class ModelsControllerApi extends BaseController {
             return false;
         }
         return true;
-
     }
 }
