@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/stock")
 public class StockControllerApi extends BaseController {
-
     public static final String REDIRECT_ROLE_LIST = "redirect:/stock/list";
     @Autowired
     private StockService stockService;
@@ -27,7 +26,6 @@ public class StockControllerApi extends BaseController {
     @PostMapping("/add")
     public StockDto addPost(@RequestBody StockDto stockDto) {
         return stockService.save(stockDto);
-
     }
 
     @GetMapping("/get")
@@ -38,7 +36,6 @@ public class StockControllerApi extends BaseController {
     @PostMapping("/update")
     public StockDto updatePost(@RequestBody StockDto userDto) {
         return stockService.update(userDto);
-
     }
 
     @GetMapping("/delete")
@@ -48,7 +45,6 @@ public class StockControllerApi extends BaseController {
         } catch (Exception e) {
             return false;
         }
-
         return true;
     }
 }
