@@ -23,10 +23,6 @@ public class TokenGenerationController {
     private AuthenticationProvider authenticationProvider;
     @Autowired
     private JWTUtility jwtUtility;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private UserService userService;
 
     @PostMapping("/api/authenticate")
     @ResponseBody
