@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping("/api/node")
 
 public class NodeControllerApi extends BaseController {
-
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     public static final String ROLES = "roles";
     @Autowired
@@ -31,7 +30,6 @@ public class NodeControllerApi extends BaseController {
         return nodeService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
     public NodeDto addPost(@RequestBody NodeDto nodeDto) {
         return nodeService.save(nodeDto);
@@ -39,13 +37,11 @@ public class NodeControllerApi extends BaseController {
 
     @GetMapping("/get")
     public NodeDto update(@RequestParam String identifier) {
-
         return nodeService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
     public NodeDto updatePost(Model model, @ModelAttribute NodeDto nodeDto) {
-
         return nodeService.update(nodeDto);
     }
 
