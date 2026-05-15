@@ -35,15 +35,11 @@ class ModelsServiceTest {
     void saveTest() {
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("S1");
-
         Mockito.when(modelsRepository.findByIdentifier("S1")).thenReturn(null);
-
         Models models = new Models();
         Mockito.when(modelMapper.map(modelsDto, Models.class)).thenReturn(models);
         Mockito.when(modelsRepository.save(models)).thenReturn(models);
-
         ModelsDto response = modelsService.save(modelsDto);
-
         Assertions.assertEquals("S1", response.getIdentifier());
         Assertions.assertNull(response.getMessage());
         Assertions.assertTrue(response.isSuccess());
@@ -53,12 +49,9 @@ class ModelsServiceTest {
     void saveTestFailure() {
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("S1");
-
         Models existingModels = new Models();
         Mockito.when(modelsRepository.findByIdentifier("S1")).thenReturn(existingModels);
-
         ModelsDto response = modelsService.save(modelsDto);
-
         Assertions.assertEquals("S1", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage());
         Assertions.assertFalse(response.isSuccess());
@@ -68,15 +61,11 @@ class ModelsServiceTest {
     void findByIdentifierTest() {
         Models models = new Models();
         models.setIdentifier("S1");
-
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("S1");
-
         Mockito.when(modelsRepository.findByIdentifier("S1")).thenReturn(models);
         Mockito.when(modelMapper.map(models, ModelsDto.class)).thenReturn(modelsDto);
-
         ModelsDto response = modelsService.findByIdentifier("S1");
-
         Assertions.assertEquals("S1", response.getIdentifier());
     }
 
@@ -84,21 +73,15 @@ class ModelsServiceTest {
     void updateTest() {
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("S1");
-
         Models existingModels = new Models();
         existingModels.setIdentifier("S1");
-
         Mockito.when(modelsRepository.findByIdentifier("S1"))
                 .thenReturn(existingModels);
-
         Mockito.when(modelMapper.map(modelsDto, Models.class))
                 .thenReturn(existingModels);
-
         Mockito.when(modelsRepository.save(existingModels))
                 .thenReturn(existingModels);
-
         ModelsDto response = modelsService.update(modelsDto);
-
         Assertions.assertTrue(response.isSuccess());
     }
 
@@ -106,12 +89,9 @@ class ModelsServiceTest {
     void updateTestFailure() {
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("S1");
-
         Mockito.when(modelsRepository.findByIdentifier("S1"))
                 .thenReturn(null);
-
         ModelsDto response = modelsService.update(modelsDto);
-
         Assertions.assertFalse(response.isSuccess());
     }
 
@@ -119,44 +99,27 @@ class ModelsServiceTest {
     void deleteTest() {
         Mockito.doNothing().when(modelsRepository)
                 .deleteByIdentifier("S1");
-
         modelsService.delete("S1");
-
         Mockito.verify(modelsRepository).deleteByIdentifier("S1");
     }
 
     @Test
     void findAllTest() {
-        //  Arrange
         Models model = new Models();
         model.setIdentifier("M1");
-
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("M1");
-
         List<Models> modelsList = List.of(model);
         List<ModelsDto> modelsDtoList = List.of(modelsDto);
-
-        //  Pageable
         Pageable pageable = PageRequest.of(0, 10);
-
-        //  Mock Page
         Page<Models> modelsPage = new PageImpl<>(modelsList);
-
-        //  Mock repository
         Mockito.when(modelsRepository.findAll(pageable))
                 .thenReturn(modelsPage);
-
-        //  Mock model mapper
         Mockito.when(modelMapper.map(
                 Mockito.eq(modelsList),
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(modelsDtoList);
-
-        //  Act
         List<ModelsDto> response = modelsService.findAll(pageable);
-
-        //  Assert
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("M1", response.get(0).getIdentifier());
     }
@@ -165,15 +128,11 @@ class ModelsServiceTest {
     void updateStatusTest() {
         Models models = new Models();
         models.setIdentifier("S1");
-
         Mockito.when(modelsRepository.findByIdentifier("S1"))
                 .thenReturn(models);
-
         Mockito.when(modelsRepository.save(models))
                 .thenReturn(models);
-
         modelsService.updateStatus("S1", true);
-
         Mockito.verify(modelsRepository).save(models);
     }
 
@@ -181,21 +140,16 @@ class ModelsServiceTest {
     void findAllActiveTest() {
         Models models = new Models();
         models.setIdentifier("S1");
-
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("S1");
-
         List<Models> shelves = List.of(models);
         List<ModelsDto> modelsDtos = List.of(modelsDto);
-
         Mockito.when(modelsRepository.findByStatus(true)).thenReturn(shelves);
         Mockito.when(modelMapper.map(
                 Mockito.eq(shelves),
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(modelsDtos);
-
         List<ModelsDto> response = modelsService.findAllActive();
-
         Assertions.assertEquals(1, response.size());
     }
 }
