@@ -27,9 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 
 //@Configuration
-//
 //@EnableWebSecurity
-//
 //@EnableMethodSecurity
 
 public class WebSecurityConfig {
@@ -104,7 +102,5 @@ public class WebSecurityConfig {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
         return authenticationProvider;
-
     }
-
 }
