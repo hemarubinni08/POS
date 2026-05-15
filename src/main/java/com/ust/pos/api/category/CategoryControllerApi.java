@@ -37,18 +37,15 @@ public class CategoryControllerApi extends BaseController {
     @PostMapping("/update")
     public CategoryDto updatePost(Model model, @ModelAttribute CategoryDto userDto) {
         return categoryService.update(userDto);
-
     }
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             categoryService.delete(identifier);
-
         } catch (Exception e) {
             return false;
         }
         return true;
-
     }
 }
