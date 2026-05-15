@@ -14,7 +14,6 @@ import java.util.List;
 @RequestMapping("/api/role")
 public class RoleControllerApi extends BaseController {
 
-    public static final String ROLES = "roles";
     @Autowired
     private RoleService roleService;
 
