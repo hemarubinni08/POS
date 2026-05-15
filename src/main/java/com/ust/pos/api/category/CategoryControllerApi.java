@@ -14,8 +14,6 @@ import java.util.List;
 @RequestMapping("/api/category")
 public class CategoryControllerApi extends BaseController {
 
-    public static final String REDIRECT_CATEGORY_LIST = "redirect:/category/list";
-
     @Autowired
     private CategoryService categoryService;
 
