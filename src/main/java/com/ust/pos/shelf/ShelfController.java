@@ -52,14 +52,12 @@ public class ShelfController {
 
     @GetMapping("/get")
     public String get(Model model, @RequestParam String identifier) {
-
         model.addAttribute(SHELF, shelfService.findByIdentifier(identifier));
         return "shelf/shelf";
     }
 
     @PostMapping("/update")
     public String update(Model model, @ModelAttribute ShelfDto shelfDto) {
-
         ShelfDto response = shelfService.update(shelfDto);
 
         if (!response.isSuccess()) {
