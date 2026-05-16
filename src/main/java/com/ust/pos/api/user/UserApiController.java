@@ -20,6 +20,7 @@ public class UserApiController extends BaseController {
 
     @Autowired
     private UserService userService;
+    
     @Autowired
     private RoleService roleService;
 
