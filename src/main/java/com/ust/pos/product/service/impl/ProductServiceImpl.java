@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -31,16 +32,9 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto save(ProductDto productDto) {
         productDto.setIdentifier(productDto.getIdentifier().trim());
         String identifier = productDto.getIdentifier();
-        Long skuCode = productDto.getSkuCode();
         Product existingProduct = productRepository.findByIdentifier(identifier);
-        Product existingSku = productRepository.findBySkuCode(skuCode);
         if (existingProduct != null) {
             productDto.setMessage("Product with identifier - " + identifier + " already exists");
-            productDto.setSuccess(false);
-            return productDto;
-        }
-        if (existingSku != null) {
-            productDto.setMessage("Product with skuCode - " + skuCode + " already exists");
             productDto.setSuccess(false);
             return productDto;
         }

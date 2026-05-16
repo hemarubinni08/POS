@@ -39,7 +39,7 @@ class UserServiceTest {
 
         UserDto userDto = new UserDto();
         userDto.setUsername("Admin");
-        userDto.setPassword("srujan");
+        userDto.setPassword("navya");
         Mockito.when(userRepository.findByUsername("Admin")).thenReturn(null);
         User user = new User();
         Mockito.when(modelMapper.map(userDto, User.class)).thenReturn(user);
