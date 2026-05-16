@@ -34,6 +34,12 @@ public class ApiUserController extends BaseController {
 
     }
 
+    @PostMapping("/register")
+    public UserDto add(@RequestBody UserDto userDto) {
+        return userService.save(userDto);
+        
+    }
+
     @GetMapping("/get")
     public UserDto update(@RequestParam String username) {
         return userService.findByUserName(username);
