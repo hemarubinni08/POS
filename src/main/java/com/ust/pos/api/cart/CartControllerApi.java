@@ -51,4 +51,9 @@ public class CartControllerApi extends BaseController {
 
         return response;
     }
+
+    @PostMapping("/recalculate")
+    public CartDto recalculateCart(@RequestParam String identifier){
+        return cartService.recalculate(identifier);
+    }
 }

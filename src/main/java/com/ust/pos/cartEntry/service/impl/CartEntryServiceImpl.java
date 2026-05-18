@@ -58,8 +58,7 @@ public class CartEntryServiceImpl implements CartEntryService {
             entry.setQuantity(BigDecimal.ZERO);
         }
 
-        BigDecimal existingQty =
-                entry.getQuantity() != null ? entry.getQuantity() : BigDecimal.ZERO;
+        BigDecimal existingQty = entry.getQuantity() != null ? entry.getQuantity() : BigDecimal.ZERO;
 
         entry.setQuantity(existingQty.add(dto.getQuantity()));
 
@@ -87,9 +86,6 @@ public class CartEntryServiceImpl implements CartEntryService {
 
         CartEntry saved = cartEntryRepository.save(entry);
 
-        if (cartService.findByIdentifier(cartId) == null) {
-            cartService.save(cartId);
-        }
         cartService.recalculate(cartId);
 
         CartEntryDto response = modelMapper.map(saved, CartEntryDto.class);

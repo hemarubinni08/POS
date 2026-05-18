@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/role")
+//@RestController
+//@RequestMapping("/api/role")
 public class RoleControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/role/list";

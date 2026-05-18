@@ -1,4 +1,4 @@
-package com.ust.pos.user;
+package com.ust.pos.api;
 
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.role.service.RoleService;
@@ -10,9 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-//@Controller
-public class SecurityController {
+@RestController
+public class SecurityControllerAPI {
 
     @Autowired
     private UserService userService;
