@@ -7,15 +7,13 @@
     <title>Edit Price</title>
 
     <style>
-        body { font-family: Arial, sans-serif; margin: 30px; }
-        h2 { margin-bottom: 15px; }
+        body { font-family: Arial; margin: 30px; }
         .form-container { width: 400px; }
         label { display: block; margin-top: 15px; font-weight: bold; }
-        input { width: 100%; padding: 8px; margin-top: 5px; }
-        .btn { margin-top: 20px; padding: 8px 14px; border: none; cursor: pointer;
-               color: white; border-radius: 4px; font-size: 14px; text-decoration: none; }
-        .btn-update { background-color: #007bff; }
-        .btn-back { background-color: #6c757d; margin-left: 10px; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; }
+        .btn { margin-top: 20px; padding: 8px 14px; border: none; color: white; border-radius: 4px; }
+        .btn-update { background: blue; }
+        .btn-back { background: gray; margin-left: 10px; }
     </style>
 </head>
 
@@ -25,25 +23,34 @@
 
 <div class="form-container">
 
-    <!--  MUST be Spring form -->
     <form:form action="${pageContext.request.contextPath}/price/update"
                method="post"
                modelAttribute="priceDto">
 
-        <!--  THESE WERE NOT SUBMITTED BEFORE -->
-        <form:hidden path="identifier"/>
+        <!-- HIDDEN FIELDS -->
         <form:hidden path="id"/>
+        <form:hidden path="identifier"/>
 
+        <!-- PRODUCT (READ ONLY DISPLAY) -->
+        <label>Product</label>
+        <input type="text" value="${priceDto.identifier}" readonly />
+
+        <!-- COST PRICE -->
         <label>Cost Price</label>
         <form:input path="costPrice" type="number" step="0.10" required="true"/>
 
+        <!-- SELLING PRICE -->
         <label>Selling Price</label>
         <form:input path="sellingPrice" type="number" step="0.10" required="true"/>
+
+         <!-- MRP -->
+                <label>MRP</label>
+                <form:input path="mrp" type="number" step="0.10" required="true"/>
 
         <button type="submit" class="btn btn-update">Update</button>
 
         <a href="${pageContext.request.contextPath}/price/list"
-           class="btn btn-back">Back to List</a>
+           class="btn btn-back">Back</a>
 
     </form:form>
 
@@ -51,4 +58,3 @@
 
 </body>
 </html>
-``

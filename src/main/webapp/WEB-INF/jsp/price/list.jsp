@@ -59,7 +59,7 @@
 
 <h2>Price List</h2>
 
-<!--  HOME & ADD PRICE BUTTONS -->
+<!-- HOME & ADD BUTTONS -->
 <div style="margin-bottom: 15px;">
     <a href="/" class="btn btn-home">Home</a>
 
@@ -69,13 +69,15 @@
     </a>
 </div>
 
-<!--PRICE TABLE -->
+<!-- PRICE TABLE -->
 <table>
     <thead>
         <tr>
             <th>ID</th>
+            <th>Identifier</th> <!--  NEW COLUMN -->
             <th>Cost Price</th>
             <th>Selling Price</th>
+            <th>MRP</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -84,10 +86,12 @@
         <c:forEach items="${priceList}" var="p">
             <tr>
                 <td>${p.id}</td>
+                <td>${p.identifier}</td> <!--  SHOW IDENTIFIER -->
                 <td>${p.costPrice}</td>
                 <td>${p.sellingPrice}</td>
+                <td>${p.mrp}</td>
                 <td>
-                    <!--  EDIT -->
+                    <!-- EDIT -->
                     <a href="${pageContext.request.contextPath}/price/update?identifier=${p.identifier}"
                        class="btn btn-edit">
                         Edit
@@ -103,10 +107,10 @@
             </tr>
         </c:forEach>
 
-        <!--  NO DATA MESSAGE -->
+        <!-- NO DATA -->
         <c:if test="${empty priceList}">
             <tr>
-                <td colspan="4" class="no-data">
+                <td colspan="5" class="no-data"> <!--  UPDATED -->
                     No price records found.
                 </td>
             </tr>

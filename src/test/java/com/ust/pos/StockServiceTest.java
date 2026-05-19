@@ -55,6 +55,32 @@ class StockServiceTest {
         Assertions.assertEquals("Stock created successfully", response.getMessage());
         Assertions.assertNotNull(response.getIdentifier());
     }
+    @Test
+    void saveTestFailure_whenStockAlreadyExists() {
+        // given
+        StockDto stockDto = new StockDto();
+        stockDto.setIdentifier("STOCK-123");
+
+        Stock existingStock = new Stock();
+        existingStock.setIdentifier("STOCK-123");
+
+        Mockito.when(stockRepository.findByIdentifier("STOCK-123"))
+                .thenReturn(existingStock);
+
+        // when
+        StockDto response = stockService.save(stockDto);
+
+        // then
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertEquals(
+                "Stock with Identifier STOCK-123 already exists!",
+                response.getMessage()
+        );
+
+        // also ensure save() is NEVER called
+        Mockito.verify(stockRepository, Mockito.never())
+                .save(Mockito.any());
+    }
 
     @Test
     void updateTestSuccess() {

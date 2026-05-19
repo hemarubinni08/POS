@@ -123,8 +123,10 @@
     <tr>
         <th>ID</th>
         <th>Identifier</th>
+        <th>Product Name</th>
         <th>Description</th>
         <th>Brand</th>
+        <th>Model</th>
         <th>Category</th>
         <th>Status</th>
         <th>Action</th>
@@ -136,8 +138,10 @@
         <tr>
             <td>${product.id}</td>
             <td>${product.identifier}</td>
+            <td>${product.productName}</td>
             <td>${product.description}</td>
             <td>${product.brand}</td>
+            <td>${product.model}</td>
             <td>${product.category}</td>
 
             <!-- STATUS TOGGLE -->

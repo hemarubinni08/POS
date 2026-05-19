@@ -74,9 +74,13 @@
         <!--  HIDDEN ID (VERY IMPORTANT) -->
         <form:hidden path="id"/>
 
-        <!-- PRODUCT NAME -->
-        <label>Product Name</label>
-        <form:input path="identifier" required="required"/>
+        <!-- PRODUCT Identifier -->
+        <label>Product Identifier</label>
+        <form:input path="identifier" required="required" readonly="true"/>
+
+         <!-- PRODUCT NAME -->
+                <label>Product Name</label>
+                <form:input path="productName"/>
 
         <!-- DESCRIPTION -->
         <label>Description</label>
@@ -112,6 +116,19 @@
                 </option>
             </c:forEach>
         </form:select>
+
+         <label>Model</label>
+                <form:select path="model" >
+                    <option value="">-- Select Brand --</option>
+                    <c:forEach var="m" items="${models}">
+                        <option value="${m.identifier}"
+                            <c:if test="${productDto.model == m.identifier}">
+                                selected
+                            </c:if>>
+                            ${m.identifier}
+                        </option>
+                    </c:forEach>
+                </form:select>
 
 
         <!-- STATUS -->

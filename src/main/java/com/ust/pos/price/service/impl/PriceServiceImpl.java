@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class PriceServiceImpl implements PriceService {
@@ -24,10 +23,14 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto save(PriceDto dto) {
-
+        String identifier= dto.getIdentifier();
+        if(priceRepository.existsByIdentifier(identifier))
+        {
+            dto.setMessage("Already Exist!");
+            dto.setSuccess(false);
+            return dto;
+        }
         Price price = modelMapper.map(dto, Price.class);
-        price.setIdentifier("PRICE-" + UUID.randomUUID()
-                .toString().substring(0, 4).toUpperCase());
         priceRepository.save(price);
         dto.setSuccess(true);
         dto.setMessage("Price Saved ");
