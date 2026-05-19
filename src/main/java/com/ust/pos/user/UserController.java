@@ -22,15 +22,11 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
-    /* ================= LIST ================= */
-
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("users", userService.findAll());
         return "user/list";
     }
-
-    /* ================= GET USER ================= */
 
     @GetMapping("/get")
     public String getUser(Model model, @RequestParam String username) {
@@ -42,7 +38,6 @@ public class UserController {
             return USER_USER;
         }
 
-        //  store old username BEFORE edit
         userDto.setOldUsername(userDto.getUsername());
 
         model.addAttribute("userDto", userDto);
@@ -50,8 +45,6 @@ public class UserController {
 
         return USER_USER;
     }
-
-    /* ================= UPDATE ================= */
 
     @PostMapping("/update")
     public String updateUser(Model model,
@@ -69,7 +62,6 @@ public class UserController {
                 return USER_USER;
             }
 
-            //  logout if current user updated themselves
             if (loggedInUser.equals(userDto.getOldUsername())) {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";
@@ -78,8 +70,6 @@ public class UserController {
 
         return "redirect:/user/list";
     }
-
-    /* ================= DELETE ================= */
 
     @GetMapping("/delete")
     public String delete(@RequestParam String username) {

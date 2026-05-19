@@ -32,7 +32,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Node Management</span>
@@ -44,7 +43,6 @@
     </div>
 </nav>
 
-<!-- MAIN CONTAINER -->
 <div class="container mt-5">
 
     <div class="card shadow p-3">
@@ -67,7 +65,6 @@
 
                 <tbody>
 
-                <!-- EMPTY CASE -->
                 <c:if test="${empty nodes}">
                     <tr>
                         <td colspan="5" class="text-center py-4 text-muted">
@@ -76,7 +73,6 @@
                     </tr>
                 </c:if>
 
-                <!-- DATA -->
                 <c:forEach items="${nodes}" var="node">
                     <tr>
 

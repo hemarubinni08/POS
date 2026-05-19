@@ -29,7 +29,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Role Management</span>
@@ -41,7 +40,6 @@
     </div>
 </nav>
 
-<!-- MAIN CONTAINER -->
 <div class="container mt-5">
 
     <div class="card shadow p-3">
@@ -61,7 +59,6 @@
 
                 <tbody>
 
-                <!-- EMPTY CASE -->
                 <c:if test="${empty roles}">
                     <tr>
                         <td colspan="3" class="text-center py-4 text-light">
@@ -70,7 +67,6 @@
                     </tr>
                 </c:if>
 
-                <!-- DATA -->
                 <c:forEach items="${roles}" var="role">
                     <tr>
                         <td>

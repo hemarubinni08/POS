@@ -29,7 +29,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Node Management</span>
@@ -37,13 +36,11 @@
     </div>
 </nav>
 
-<!-- MAIN CONTAINER -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="card shadow p-4" style="width: 500px;">
 
         <h3 class="text-center mb-4 fw-bold">Add Node</h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
@@ -52,7 +49,6 @@
 
         <form action="/node/add" method="post">
 
-            <!-- IDENTIFIER -->
             <div class="mb-3">
                 <label class="form-label">Identifier</label>
                 <input type="text"
@@ -62,7 +58,6 @@
                        required>
             </div>
 
-            <!-- PATH -->
             <div class="mb-3">
                 <label class="form-label">Path</label>
                 <input type="text"
@@ -72,7 +67,6 @@
                        required>
             </div>
 
-            <!-- ROLES -->
             <div class="mb-4">
                 <label class="form-label fw-semibold">Roles (Multiple)</label>
 
@@ -100,7 +94,6 @@
                 </div>
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary w-100">
                     Save

@@ -22,7 +22,6 @@ public class HomeController {
             if ("USER_DELETED".equals(ex.getMessage())) {
                 return "redirect:/login";
             }
-
             return "redirect:/login";
         }
     }

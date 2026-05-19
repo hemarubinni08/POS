@@ -33,7 +33,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Role Management</span>
@@ -41,25 +40,21 @@
     </div>
 </nav>
 
-<!-- MAIN CONTAINER -->
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="card shadow p-4" style="width: 450px;">
 
         <h3 class="text-center mb-4 fw-bold">Add Role</h3>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- FORM -->
         <form:form method="post"
                    action="/role/add"
                    modelAttribute="roleDto">
 
-            <!-- IDENTIFIER -->
             <div class="mb-3">
                 <label class="form-label fw-semibold">Role Identifier</label>
                 <form:input path="identifier"
@@ -68,7 +63,6 @@
                             required="true"/>
             </div>
 
-            <!-- DESCRIPTION -->
             <div class="mb-4">
                 <label class="form-label fw-semibold">Description</label>
                 <form:input path="description"
@@ -77,7 +71,6 @@
                             required="true"/>
             </div>
 
-            <!-- BUTTONS -->
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary w-100">
                     Add Role
