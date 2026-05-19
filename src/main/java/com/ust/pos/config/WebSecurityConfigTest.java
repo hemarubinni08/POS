@@ -43,22 +43,11 @@ public class WebSecurityConfigTest {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers(
-                                "/login",
-                                "/register",
-                                "/api/authenticate",
-                                "/api/validateToken",
-                                "/api/user/add",
-                                "/api/role/list",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/error"
-                        ).permitAll()
-                        .anyRequest().authenticated())
-                .logout(LogoutConfigurer::permitAll);
-
+                        .requestMatchers("/login", "/register", "/api/authenticate",
+                                "/api/validateToken", "/api/user/add", "/api/role/list",
+                                "/swagger-ui/**", "/v3/api-docs/**", "/error").permitAll()
+                        .anyRequest().authenticated()).logout(LogoutConfigurer::permitAll);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 
@@ -69,57 +58,31 @@ public class WebSecurityConfigTest {
 
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
-
         return provider;
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration configuration = new CorsConfiguration();
-
         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
-
-        configuration.setAllowedMethods(Arrays.asList(
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "OPTIONS"
-        ));
-
-        configuration.setAllowedHeaders(Arrays.asList(
-                "Authorization",
-                "Content-Type",
-                "Accept",
-                "ngrok-skip-browser-warning"
-        ));
-
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type",
+                "Accept", "ngrok-skip-browser-warning"));
         configuration.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
         source.registerCorsConfiguration("/**", configuration);
-
         return source;
     }
 
     @Bean
     public OpenAPI customOpenAPI() {
-
         return new OpenAPI()
                 .info(new Info().title("JavaInUse Authentication Service"))
                 .addSecurityItem(new SecurityRequirement().addList(JAVA_IN_USE_SECURITY_SCHEME))
-                .components(new Components().addSecuritySchemes(
-                        JAVA_IN_USE_SECURITY_SCHEME,
-                        new SecurityScheme()
-                                .name(JAVA_IN_USE_SECURITY_SCHEME)
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer")
-                                .bearerFormat("JWT")
-                ));
+                .components(new Components().addSecuritySchemes(JAVA_IN_USE_SECURITY_SCHEME,
+                        new SecurityScheme().name(JAVA_IN_USE_SECURITY_SCHEME)
+                                .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
     }
 }

@@ -53,28 +53,22 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartDto save(String identifier) {
-
         Cart existing = cartRepository.findByIdentifier(identifier);
-
         if (existing != null) {
             CartDto dto = modelMapper.map(existing, CartDto.class);
             dto.setSuccess(true);
             dto.setMessage("Cart already exists");
             return dto;
         }
-
         Cart cart = new Cart();
         cart.setIdentifier(identifier);
         cart.setTotalPrice(BigDecimal.ZERO);
         cart.setOriginalPrice(BigDecimal.ZERO);
         cart.setDiscount(BigDecimal.ZERO);
-
         cartRepository.save(cart);
-
         CartDto dto = modelMapper.map(cart, CartDto.class);
         dto.setSuccess(true);
         dto.setMessage("Cart created successfully");
-
         return dto;
     }
 
@@ -86,34 +80,26 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartDto recalculate(String identifier) {
-
         List<CartEntry> entries = cartEntryRepository.findByCartId(identifier);
-
         BigDecimal total = BigDecimal.ZERO;
         BigDecimal original = BigDecimal.ZERO;
         BigDecimal discount = BigDecimal.ZERO;
-
         for (CartEntry e : entries) {
             total = total.add(e.getTotalPrice() != null ? e.getTotalPrice() : BigDecimal.ZERO);
             original = original.add(e.getOriginalPrice() != null ? e.getOriginalPrice() : BigDecimal.ZERO);
             discount = discount.add(e.getDiscount() != null ? e.getDiscount() : BigDecimal.ZERO);
         }
-
         Cart cart = cartRepository.findByIdentifier(identifier);
-
         if (cart == null) {
             CartDto dto = new CartDto();
             dto.setSuccess(false);
             dto.setMessage("Cart not found");
             return dto;
         }
-
         cart.setTotalPrice(total);
         cart.setOriginalPrice(original);
         cart.setDiscount(discount);
-
         Cart saved = cartRepository.save(cart);
-
         return modelMapper.map(saved, CartDto.class);
     }
 }

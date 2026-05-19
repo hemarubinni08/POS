@@ -37,19 +37,15 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Override
     public CartEntryDto save(CartEntryDto dto) {
-
         if (dto.getQuantity() == null || dto.getQuantity().compareTo(BigDecimal.ZERO) <= 0) {
             dto.setSuccess(false);
             dto.setMessage("Quantity must be greater than 0");
             return dto;
         }
-
         String cartId = dto.getCartId();
         String productId = dto.getProductId();
         String identifier = cartId + "_" + productId;
-
         CartEntry entry = cartEntryRepository.findByIdentifier(identifier);
-
         if (entry == null) {
             entry = new CartEntry();
             entry.setIdentifier(identifier);
@@ -57,21 +53,16 @@ public class CartEntryServiceImpl implements CartEntryService {
             entry.setProductId(productId);
             entry.setQuantity(BigDecimal.ZERO);
         }
-
         BigDecimal existingQty = entry.getQuantity() != null ? entry.getQuantity() : BigDecimal.ZERO;
-
         entry.setQuantity(existingQty.add(dto.getQuantity()));
-
         PriceDto mrpDto = priceService.findByIdentifier(productId + "_MRP");
         PriceDto spDto = priceService.findByIdentifier(productId + "_Selling_Price");
-
         if (mrpDto == null || spDto == null ||
                 mrpDto.getValue() == null || spDto.getValue() == null) {
             dto.setSuccess(false);
             dto.setMessage("Price not configured for product: " + productId);
             return dto;
         }
-
         BigDecimal mrp = mrpDto.getValue();
         BigDecimal sp = spDto.getValue();
 
@@ -79,26 +70,21 @@ public class CartEntryServiceImpl implements CartEntryService {
         entry.setSellingPrice(sp);
 
         BigDecimal qty = entry.getQuantity();
-
         entry.setOriginalPrice(qty.multiply(mrp));
         entry.setTotalPrice(qty.multiply(sp));
         entry.setDiscount(mrp.subtract(sp).multiply(qty));
 
         CartEntry saved = cartEntryRepository.save(entry);
-
         cartService.recalculate(cartId);
-
         CartEntryDto response = modelMapper.map(saved, CartEntryDto.class);
         response.setIdentifier(identifier);
         response.setSuccess(true);
         response.setMessage("Cart entry saved successfully");
-
         return response;
     }
 
     @Override
     public CartEntryDto update(CartEntryDto dto) {
-
         CartEntry entry = cartEntryRepository.findByIdentifier(dto.getIdentifier());
 
         if (entry == null) {

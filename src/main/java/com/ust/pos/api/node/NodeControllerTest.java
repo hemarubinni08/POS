@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+//@RestController
 @RequestMapping("/api/node")
 public class NodeControllerTest extends BaseController {
 

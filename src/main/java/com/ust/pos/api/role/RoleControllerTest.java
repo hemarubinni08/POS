@@ -21,91 +21,39 @@ public class RoleControllerTest extends BaseController {
     @Autowired
     private RoleService roleService;
 
-    // ============================================
-    // LIST ROLES
-    // ============================================
-
     @PostMapping("/list")
-    public List<RoleDto> list(
-            @RequestBody PaginationDto pagination
-    ) {
-
-        Pageable pageable = getPageable(
-                pagination.getPage(),
-                pagination.getSizePerPage(),
-                pagination.getSortDirection(),
-                pagination.getSortfield()
-        );
-
+    public List<RoleDto> list(@RequestBody PaginationDto pagination) {
+        Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
+                pagination.getSortDirection(), pagination.getSortfield());
         return roleService.findAll(pageable);
     }
 
-    // ============================================
-    // ADD ROLE
-    // ============================================
-
     @PostMapping("/add")
-    public RoleDto addPost(
-            @RequestBody RoleDto roleDto
-    ) {
-
+    public RoleDto addPost(@RequestBody RoleDto roleDto) {
         return roleService.save(roleDto);
     }
 
-    // ============================================
-    // GET ROLE
-    // ============================================
-
     @GetMapping("/get")
-    public RoleDto updatePage(
-            @RequestParam String identifier
-    ) {
-
+    public RoleDto updatePage(@RequestParam String identifier) {
         return roleService.findByIdentifier(identifier);
     }
 
-    // ============================================
-    // UPDATE ROLE
-    // ============================================
-
     @PostMapping("/update")
-    public RoleDto updatePost(
-            @RequestBody RoleDto roleDto
-    ) {
-
+    public RoleDto updatePost(@RequestBody RoleDto roleDto) {
         return roleService.update(roleDto);
     }
 
-    // ============================================
-    // DELETE ROLE
-    // ============================================
-
     @PostMapping("/delete")
-    public RoleDto delete(
-            @RequestBody RoleDto roleDto
-    ) {
-
+    public RoleDto delete(@RequestBody RoleDto roleDto) {
         RoleDto response = new RoleDto();
-
         try {
-
             roleService.delete(roleDto.getIdentifier());
-
             response.setSuccess(true);
-
-            response.setMessage(
-                    "Role deleted successfully"
-            );
-
+            response.setMessage("Role deleted successfully");
         } catch (Exception e) {
-
             response.setSuccess(false);
-
-            response.setMessage(
-                    "Delete failed"
-            );
+            response.setMessage("Delete failed");
         }
-
         return response;
     }
 }
