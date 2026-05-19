@@ -7,6 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class UserDto extends CommonDto {
 
     private String name;
