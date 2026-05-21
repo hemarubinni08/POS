@@ -20,7 +20,7 @@ public class UserApiController extends BaseController {
     @PostMapping("/list")
     public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
-                paginationDto.getSortField(),paginationDto.getSortDirection());
+                paginationDto.getSortDirection(), paginationDto.getSortField());
         return userService.findAll(pageable);
     }
 
@@ -42,6 +42,11 @@ public class UserApiController extends BaseController {
             return false;
         }
         return true;
+    }
+
+    @PostMapping("/register")
+    public UserDto addPost(@RequestBody UserDto userDto){
+        return userService.save(userDto);
     }
 }
 

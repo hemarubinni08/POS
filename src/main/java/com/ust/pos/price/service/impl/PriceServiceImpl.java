@@ -67,7 +67,11 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto findByIdentifier(String identifier) {
-        return modelMapper.map(priceRepository.findByIdentifier(identifier), PriceDto.class);
+        Price price=priceRepository.findByIdentifier(identifier);
+        if(price==null){
+            return null;
+        }
+        return modelMapper.map(price, PriceDto.class);
     }
 
     @Override

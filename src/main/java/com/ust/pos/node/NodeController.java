@@ -27,7 +27,7 @@ public class NodeController extends BaseController {
     @GetMapping("/list")
     public String home(Model model,@ModelAttribute PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
-                paginationDto.getSortField(),paginationDto.getSortDirection());
+                paginationDto.getSortDirection(),paginationDto.getSortField());
         model.addAttribute("nodes", nodeService.findAll(pageable));
         return "node/list";
     }

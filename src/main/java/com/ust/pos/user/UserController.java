@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequestMapping("/user")
@@ -25,7 +26,8 @@ public class UserController extends BaseController {
 
     @GetMapping("/list")
     public String home(Model model, @ModelAttribute PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(),paginationDto.getSortField());
         model.addAttribute("users", userService.findAll(pageable));
         return "user/list";
     }
@@ -60,5 +62,12 @@ public class UserController extends BaseController {
             }
         }
         return "redirect:/user/list";
+    }
+
+    @PostMapping("/save")
+    @ResponseBody
+    public UserDto save(@RequestBody UserDto userDto) {
+
+        return userService.save(userDto);
     }
 }

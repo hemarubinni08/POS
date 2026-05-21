@@ -25,7 +25,7 @@ public class ShelfApiController extends BaseController {
     @PostMapping("/list")
     public List<ShelfDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
-                paginationDto.getSortField(),paginationDto.getSortDirection());
+                paginationDto.getSortDirection(),paginationDto.getSortField());
         return shelfService.findAll(pageable);
     }
 

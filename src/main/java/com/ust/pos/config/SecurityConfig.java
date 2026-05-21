@@ -8,9 +8,9 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-
-@Configuration
-@EnableWebSecurity
+//
+//@Configuration
+//@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -45,4 +45,6 @@ public class SecurityConfig {
                 );
         return http.build();
     }
+
+
 }
