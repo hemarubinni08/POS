@@ -46,7 +46,7 @@ public class UserControllerApi extends BaseController {
     @GetMapping("/delete")
     public boolean delete(Model model, @RequestParam String username) {
         try {
-            roleService.delete(username);
+            userService.delete(username);
         } catch (Exception e) {
             return false;
         }
