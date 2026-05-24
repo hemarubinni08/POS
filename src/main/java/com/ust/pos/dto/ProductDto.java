@@ -11,5 +11,6 @@ public class ProductDto extends CommonDto{
     private String description;
     private List<String> category;
     private String brand;
-    private String models;
+    private String model;
+    private String productName;
 }
