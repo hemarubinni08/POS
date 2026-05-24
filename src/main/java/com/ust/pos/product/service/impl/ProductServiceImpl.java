@@ -1,6 +1,7 @@
 package com.ust.pos.product.service.impl;
 
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.model.PriceRepository;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -24,6 +25,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private PriceRepository priceRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -88,6 +92,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void delete(String identifier) {
+        priceRepository.deleteByProductId(identifier);
         productRepository.deleteByIdentifier(identifier);
     }
 
