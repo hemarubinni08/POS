@@ -3,6 +3,7 @@ package com.ust.pos.api.role;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.role.service.RoleService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +14,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/role")
-@CrossOrigin(origins = "http://localhost:5173")
+//@RestController
+//@RequestMapping("/api/role")
+//@CrossOrigin(origins = "http://localhost:5173")
 public class RoleControllerTest extends BaseController {
 
     @Autowired
     private RoleService roleService;
 
     @PostMapping("/list")
-    public List<RoleDto> list(@RequestBody PaginationDto pagination) {
+    public WsDto<RoleDto> list(@RequestBody PaginationDto pagination) {
         Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
                 pagination.getSortDirection(), pagination.getSortfield());
         return roleService.findAll(pageable);

@@ -1,6 +1,8 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
@@ -75,10 +77,19 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public List<NodeDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<NodeDto>>() {}.getType();
-        Page<Node> nodePage =nodeRepository.findAll(pageable);
-        return modelMapper.map(nodePage.getContent(), listType);
+    public WsDto<NodeDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
+        Page<Node> userPage = nodeRepository.findAll(pageable);
+
+        WsDto<NodeDto> nodeWsDto = new WsDto<>();
+        nodeWsDto.setDtoList(modelMapper.map(userPage.getContent(), listType));
+        nodeWsDto.setTotalRecords(userPage.getTotalElements());
+        nodeWsDto.setTotalPages(userPage.getTotalPages());
+        nodeWsDto.setSizePerPage(pageable.getPageSize());
+        nodeWsDto.setPage(pageable.getPageNumber());
+
+        return nodeWsDto;
     }
 
     public List<NodeDto> getNodesForRoles() {
