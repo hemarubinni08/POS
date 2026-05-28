@@ -3,9 +3,7 @@ package com.ust.pos.api.category;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.category.service.CategoryService;
-import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,11 +20,9 @@ public class CategoryControllerApi extends BaseController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping("/list")
-    public List<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
-                paginationDto.getSortDirection(), paginationDto.getSortField());
-        return categoryService.findAll(pageable);
+    @GetMapping("/list")
+    public List<CategoryDto> list() {
+        return categoryService.findAll();
     }
 
     @PostMapping("/add")

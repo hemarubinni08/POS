@@ -36,7 +36,7 @@ public class PriceServiceImpl implements PriceService {
             return priceDto;
         }
 
-        priceDto.setDifference(priceDto.getSellingPrice() - priceDto.getCostPrice());
+        priceDto.setDifference(priceDto.getSellingPrice().subtract(priceDto.getCostPrice()));
         Price price = modelMapper.map(priceDto, Price.class);
         priceRepository.save(price);
         return priceDto;
@@ -53,7 +53,7 @@ public class PriceServiceImpl implements PriceService {
             return priceDto;
         }
 
-        priceDto.setDifference(priceDto.getSellingPrice() - priceDto.getCostPrice());
+        priceDto.setDifference(priceDto.getSellingPrice().subtract(priceDto.getCostPrice()));
         Price price = modelMapper.map(priceDto, Price.class);
         priceRepository.save(price);
         return priceDto;

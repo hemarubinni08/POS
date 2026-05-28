@@ -89,10 +89,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAll(Pageable pageable) {
-        Type listtype = new TypeToken<List<UserDto>>() {
-        }.getType();
+    public Page<UserDto> findAll(Pageable pageable) {
         Page<User> userPage = userRepository.findAll(pageable);
-        return modelMapper.map(userPage.getContent(), listtype);
+        return userPage.map(user -> modelMapper.map(user, UserDto.class)
+        );
     }
 }

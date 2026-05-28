@@ -2,10 +2,8 @@ package com.ust.pos.api.node;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.node.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,11 +20,9 @@ public class NodeControllerApi extends BaseController {
     @Autowired
     private NodeService nodeService;
 
-    @PostMapping("/list")
-    public List<NodeDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
-                paginationDto.getSortDirection(), paginationDto.getSortField());
-        return nodeService.findAll(pageable);
+    @GetMapping("/list")
+    public List<NodeDto> list() {
+        return nodeService.findAll();
     }
 
     @PostMapping("/add")
