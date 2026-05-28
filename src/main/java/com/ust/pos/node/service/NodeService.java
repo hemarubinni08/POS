@@ -12,12 +12,9 @@ public interface NodeService {
 
     NodeDto update(NodeDto nodeDto);
 
-    void delete(String nodename);
+     void delete(String username);
 
     List<NodeDto> findAll();
 
     NodeDto findByIdentifier(String identifier);
-
-    List<NodeDto> findAll(Pageable pageable);
-
 }

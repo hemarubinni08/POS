@@ -17,6 +17,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
     @GetMapping("/list")
     public String home(Model model) {
         model.addAttribute("user", userService.findAll());
@@ -24,10 +27,10 @@ public class UserController {
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String username) {
+    public String update(Model model, @RequestParam String username, @ModelAttribute UserDto userDto) {
         UserDto response = userService.findByUserName(username);
-        model.addAttribute("roles", roleService.findAll());
-        model.addAttribute("user", response);
+        model.addAttribute("roles",roleService.findAll());
+        model.addAttribute("users", response);
         return "user/user";
     }
 

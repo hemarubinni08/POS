@@ -12,7 +12,4 @@ public interface NodeRepository extends JpaRepository<Node, Long> {
     List<Node> findByRoles(List<String> roles);
 
     void deleteByIdentifier(String identifier);
-
-    List<Node> findDistinctByRolesIn(List<String> roles);
-
 }
