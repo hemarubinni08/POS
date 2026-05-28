@@ -27,6 +27,11 @@ public class NodeApiController extends BaseController {
         return nodeService.findAll(pageable);
     }
 
+    @GetMapping("/list")
+    public List<NodeDto> list() {
+        return nodeService.findAll();
+    }
+
     @PostMapping("/add")
     public NodeDto addPost(@RequestBody NodeDto nodeDto) {
         return nodeService.save(nodeDto);
