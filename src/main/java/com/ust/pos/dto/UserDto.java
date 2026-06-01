@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 public class UserDto extends CommonDto {
     private String name;
-    private String userName;
+    private String username;
     private String phoneNo;
     private List<String> roles;
     private String password;
