@@ -1,6 +1,9 @@
 package com.ust.pos.rack.service.impl;
 
+import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.RackDto;
+import com.ust.pos.model.Product;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
 import com.ust.pos.rack.service.RackService;
@@ -39,14 +42,19 @@ public class RackServiceImpl implements RackService {
     }
 
     @Override
-    public List<RackDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<RackDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
-        if(pageable == null){
-            return modelMapper.map(rackRepository.findAll(),listType);
-        }
         Page<Rack> rackPage = rackRepository.findAll(pageable);
-        return modelMapper.map(rackPage.getContent(), listType);
+
+        PaginationResponseDto<RackDto> rackPaginationResponseDto = new PaginationResponseDto<>();
+        rackPaginationResponseDto.setDtoList(modelMapper.map(rackPage.getContent(), listType));
+        rackPaginationResponseDto.setTotalRecords(rackPage.getTotalElements());
+        rackPaginationResponseDto.setTotalPages(rackPage.getTotalPages());
+        rackPaginationResponseDto.setSizePerPage(pageable.getPageSize());
+        rackPaginationResponseDto.setPage(pageable.getPageNumber());
+
+        return rackPaginationResponseDto;
     }
 
     @Override

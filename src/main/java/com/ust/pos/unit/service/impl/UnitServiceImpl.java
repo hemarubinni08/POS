@@ -1,6 +1,9 @@
 package com.ust.pos.unit.service.impl;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.UnitDto;
+import com.ust.pos.model.Product;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
 import com.ust.pos.unit.service.UnitService;
@@ -42,14 +45,19 @@ public class UnitServiceImpl implements UnitService {
     }
 
     @Override
-    public List<UnitDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<UnitDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
-        if(pageable == null){
-            return modelMapper.map(unitRepository.findAll(),listType);
-        }
         Page<Unit> unitPage = unitRepository.findAll(pageable);
-        return modelMapper.map(unitPage.getContent(), listType);
+
+        PaginationResponseDto<UnitDto> unitPaginationResponseDto = new PaginationResponseDto<>();
+        unitPaginationResponseDto.setDtoList(modelMapper.map(unitPage.getContent(), listType));
+        unitPaginationResponseDto.setTotalRecords(unitPage.getTotalElements());
+        unitPaginationResponseDto.setTotalPages(unitPage.getTotalPages());
+        unitPaginationResponseDto.setSizePerPage(pageable.getPageSize());
+        unitPaginationResponseDto.setPage(pageable.getPageNumber());
+
+        return unitPaginationResponseDto;
     }
 
     @Override

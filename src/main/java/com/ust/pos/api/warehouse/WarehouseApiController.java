@@ -2,6 +2,7 @@ package com.ust.pos.api.warehouse;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class WarehouseApiController extends BaseController {
     }
 
     @PostMapping("/list")
-    public List<WarehouseDto> home(@RequestBody PaginationDto paginationDto) {
+    public PaginationResponseDto<WarehouseDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(),paginationDto.getSortField());
         return warehouseService.findAll(pageable);

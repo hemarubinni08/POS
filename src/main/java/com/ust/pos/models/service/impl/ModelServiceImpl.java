@@ -1,8 +1,11 @@
 package com.ust.pos.models.service.impl;
 
 import com.ust.pos.dto.ModelDto;
+import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.Model;
 import com.ust.pos.model.ModelRepository;
+import com.ust.pos.model.Product;
 import com.ust.pos.models.service.ModelService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -39,14 +42,19 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public List<ModelDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<ModelDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ModelDto>>() {
         }.getType();
-        if(pageable == null){
-            return modelMapper.map(modelRepository.findAll(),listType);
-        }
         Page<Model> modelPage = modelRepository.findAll(pageable);
-        return modelMapper.map(modelPage.getContent(), listType);
+
+        PaginationResponseDto<ModelDto> modelPaginationResponseDto = new PaginationResponseDto<>();
+        modelPaginationResponseDto.setDtoList(modelMapper.map(modelPage.getContent(), listType));
+        modelPaginationResponseDto.setTotalRecords(modelPage.getTotalElements());
+        modelPaginationResponseDto.setTotalPages(modelPage.getTotalPages());
+        modelPaginationResponseDto.setSizePerPage(pageable.getPageSize());
+        modelPaginationResponseDto.setPage(pageable.getPageNumber());
+
+        return modelPaginationResponseDto;
     }
 
     @Override
