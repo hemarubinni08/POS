@@ -64,7 +64,6 @@
     <div class="card shadow-lg">
         <div class="card-body">
 
-            <!-- 🔙 Back Arrow + 🏠 Home -->
             <div class="top-actions">
                 <a href="javascript:history.back()" class="top-link">← </a>
                 <a href="/" class="btn btn-secondary btn-sm">Home</a>

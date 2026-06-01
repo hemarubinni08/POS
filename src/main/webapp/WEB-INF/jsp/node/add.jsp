@@ -137,12 +137,9 @@
 
 <div class="container">
 
-    <!-- ✅ Back Button -->
     <a href="/node/list" class="back-btn" aria-label="Go back">&#8592;</a>
 
     <h2>Add Node</h2>
-
-    <!-- ✅ ERROR MESSAGE (shows when node already exists) -->
 
 <c:if test="${not empty message}">
     <div class="success-message">
@@ -151,7 +148,6 @@
 </c:if>
 
 
-    <!-- ✅ Spring Form -->
     <form:form
             action="/node/add"
             method="post"

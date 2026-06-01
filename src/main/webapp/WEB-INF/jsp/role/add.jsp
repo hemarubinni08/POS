@@ -20,7 +20,7 @@
         }
 
         .container {
-            position: relative; /* ✅ Needed for back button */
+            position: relative;
             width: 380px;
             background: #ffffff;
             padding: 30px 35px;
@@ -28,7 +28,6 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
         }
 
-        /* ✅ Back Button */
         .back-btn {
             position: absolute;
             top: 16px;
@@ -88,7 +87,6 @@
             cursor: pointer;
         }
 
-        /* ✅ Success Message */
         .success-message {
             margin-bottom: 15px;
             padding: 10px;
@@ -120,12 +118,10 @@
 
 <div class="container">
 
-    <!-- ✅ Back Button -->
     <a href="/node/list" class="back-btn" aria-label="Back">&#8592;</a>
 
     <h2>Add New Role</h2>
 
-    <!-- ✅ Success Message -->
 <c:if test="${not empty message}">
     <div class="success-message">
         ${message}
