@@ -3,7 +3,11 @@ package com.ust.pos.api.category;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +23,22 @@ public class CategoryApiController extends BaseController {
         return categoryService.findAll();
     }
 
-    @GetMapping("/add")
-    public List<CategoryDto> add(@RequestBody CategoryDto categoryDto) {
-        return categoryService.findAll();
+    @PostMapping("/list")
+    public WsDto<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(),
+                paginationDto.getSizePerPage(),paginationDto.getSortField());
+        Page<CategoryDto> pageResult = categoryService.findAll(pageable);
+        WsDto<CategoryDto> response = new WsDto<>();
+        response.setContent(pageResult.getContent());
+        response.setPage(pageResult.getNumber());
+        response.setSizePerPage(pageResult.getSize());
+        response.setTotalPages(pageResult.getTotalPages());
+        return response;
+    }
+
+    @PostMapping("/add")
+    public CategoryDto add(@RequestBody CategoryDto categoryDto) {
+        return categoryService.save(categoryDto);
     }
 
     @GetMapping("/get")

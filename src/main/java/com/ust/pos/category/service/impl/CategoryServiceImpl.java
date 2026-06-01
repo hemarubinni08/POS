@@ -74,7 +74,7 @@ public class CategoryServiceImpl implements CategoryService {
         Type listOfType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         List<CategoryDto> categoryDtos = modelMapper.map(categoryRepository.findAll(), listOfType);
-        return categoryDtos.stream().filter(c -> c.getSuperCategory() != null)
+        return categoryDtos.stream().filter(c -> c.getSuperCategory() != null )
                 .toList();
     }
 
@@ -84,10 +84,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
-        Type listOfType = new TypeToken<List<CategoryDto>>() {
-        }.getType();
-        Page<Category> brandPage = categoryRepository.findAll(pageable);
-        return modelMapper.map(brandPage.getContent(), listOfType);
+    public Page<CategoryDto> findAll(Pageable pageable) {
+        Page<Category> categories = categoryRepository.findAll(pageable);
+        return categories.map(category -> modelMapper.map(category , CategoryDto.class));
     }
 }
