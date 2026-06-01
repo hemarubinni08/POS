@@ -70,12 +70,20 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAllWithoutNull() {
+    public List<CategoryDto> findAllWithoutNull(String identifier) {
         Type listOfType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         List<CategoryDto> categoryDtos = modelMapper.map(categoryRepository.findAll(), listOfType);
-        return categoryDtos.stream().filter(c -> c.getSuperCategory() != null )
-                .toList();
+        return categoryDtos.stream().filter(c -> c.getSuperCategory() != null &&
+                !c.getIdentifier().equals(identifier)).toList();
+    }
+
+    @Override
+    public List<CategoryDto> findAllWithNull() {
+        Type listOfType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
+        List<CategoryDto> categoryDtos = modelMapper.map(categoryRepository.findAll(), listOfType);
+        return categoryDtos.stream().filter(c -> c.getSuperCategory() == null ).toList();
     }
 
     @Override

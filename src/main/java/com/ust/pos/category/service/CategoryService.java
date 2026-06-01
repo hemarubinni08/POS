@@ -15,7 +15,9 @@ public interface CategoryService {
 
     List<CategoryDto> findAll();
 
-    List<CategoryDto> findAllWithoutNull();
+    List<CategoryDto> findAllWithoutNull(String identifier);
+
+    List<CategoryDto> findAllWithNull();
 
     Page<CategoryDto> findAll(Pageable pageable);
 

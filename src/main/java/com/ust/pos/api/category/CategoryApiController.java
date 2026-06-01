@@ -36,6 +36,16 @@ public class CategoryApiController extends BaseController {
         return response;
     }
 
+    @GetMapping("listWithNull")
+    public List<CategoryDto> listWithNull(){
+        return categoryService.findAllWithNull();
+    }
+
+    @GetMapping("/listWithoutNull")
+    public List<CategoryDto> listWithoutNull(@RequestParam String identifier){
+        return categoryService.findAllWithoutNull(identifier);
+    }
+
     @PostMapping("/add")
     public CategoryDto add(@RequestBody CategoryDto categoryDto) {
         return categoryService.save(categoryDto);
