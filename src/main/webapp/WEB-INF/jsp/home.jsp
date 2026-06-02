@@ -84,7 +84,6 @@
 
 <body>
 
-<!-- LEFT NAVIGATION -->
 <div class="sidebar">
     <h3>Navigation</h3>
 
@@ -101,7 +100,6 @@
     </c:forEach>
 </div>
 
-<!-- RIGHT CONTENT -->
 <div class="main">
 
     <div class="top-bar">
@@ -123,4 +121,3 @@
 
 </body>
 </html>
-``

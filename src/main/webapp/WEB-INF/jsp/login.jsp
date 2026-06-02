@@ -80,7 +80,6 @@
            </div>
        </c:if>
 
-    <!-- LOGIN FORM -->
     <form action="/login" method="post">
         <h2>Login</h2>
 
@@ -94,8 +93,6 @@
     </form>
 
     <div class="divider">or</div>
-
-    <!-- REGISTER FORM -->
     <form action="/register" method="get">
         <button type="submit" class="register-btn">Sign-Up</button>
     </form>

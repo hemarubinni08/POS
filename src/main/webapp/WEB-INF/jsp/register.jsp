@@ -86,20 +86,17 @@
 
     <form:form action="register" method="post" modelAttribute="userDto">
 
-        <!-- ERROR MESSAGE -->
         <c:if test="${success == false}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- NAME -->
         <div class="form-group">
             <label>Name</label>
             <form:input path="name" required="required"/>
         </div>
 
-        <!-- EMAIL -->
         <div class="form-group">
             <label>Email</label>
             <form:input path="username"
@@ -109,7 +106,6 @@
                         title="Email must end with .com"/>
         </div>
 
-        <!-- ROLES -->
         <div class="form-group">
             <label>Roles</label>
             <form:select path="roles" multiple="true" required="required">
@@ -118,7 +114,6 @@
             <small>Hold Ctrl (Windows/Linux) or Cmd (Mac)</small>
         </div>
 
-        <!-- PHONE -->
         <div class="form-group">
             <label>Phone Number</label>
             <form:input path="phoneNo"
@@ -129,7 +124,6 @@
                         required="required"/>
         </div>
 
-        <!-- PASSWORD -->
         <div class="form-group">
             <label>Password</label>
             <form:password path="password"
@@ -138,12 +132,8 @@
                            title="Password must be at least 6 characters"/>
         </div>
 
-        <!-- SUBMIT -->
         <input type="submit" value="Register" class="btn-submit"/>
-
     </form:form>
-
 </div>
-
 </body>
 </html>

@@ -117,8 +117,6 @@
                               itemLabel="identifier"/>
             </form:select>
 
-
-
             <small>
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
             </small>
@@ -132,10 +130,6 @@
         <a href="/user/list">← Back to User List</a>
     </div>
 
-
-
-
 </div>
-
 </body>
 </html>

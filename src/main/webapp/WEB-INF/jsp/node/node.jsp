@@ -7,7 +7,6 @@
 <head>
     <title>Edit Node</title>
 
-
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         rel="stylesheet">
@@ -90,7 +89,6 @@
                 </div>
 
             </form:form>
-            <!-- FORM CLOSES -->
 
         </c:if>
 
