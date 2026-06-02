@@ -71,8 +71,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductDto> findAll(Pageable pageable) {
-        Page<Product> productPage = productRepository.findAll(pageable);
+    public Page<ProductDto> findAll(Pageable pageable, String search) {
+
+        Page<Product> productPage;
+        if(search != null && !search.trim().isEmpty()){
+            productPage = productRepository.findByIdentifierContainingIgnoreCase
+                    (pageable,search);
+        }
+        else {
+            productPage = productRepository.findAll(pageable);
+        }
         return productPage.map(product ->
                 modelMapper.map(product, ProductDto.class));
     }
