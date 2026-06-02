@@ -19,7 +19,7 @@ public interface CategoryService {
 
     List<CategoryDto> findAllWithNull();
 
-    Page<CategoryDto> findAll(Pageable pageable);
+    Page<CategoryDto> findAll(Pageable pageable , String search);
 
     CategoryDto findByIdentifier(String identifier);
 }
