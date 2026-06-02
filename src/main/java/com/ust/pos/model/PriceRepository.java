@@ -8,6 +8,9 @@ public interface PriceRepository extends JpaRepository<Price, Long> {
 
     Price findByIdentifier(String identifier);
 
+    Price findByProductIdentifier(String productIdentifier);
+    // Price findByProductIdentifierAndIdentifier(String productIdentifier, String identifier);
+
     void deleteByIdentifier(String identifier);
 
     List<Price> findByStatusIsTrue();

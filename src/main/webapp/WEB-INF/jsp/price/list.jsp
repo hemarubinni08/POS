@@ -72,6 +72,7 @@
                     <th>Product Name</th>
                     <th>MRP</th>
                     <th>Selling Price</th>
+                    <th>Cost Price</th>
                     <th>Effective From</th>
                     <th>Actions</th>
                 </tr>
@@ -84,6 +85,7 @@
                         <td>${price.identifier}</td>
                         <td class="text-center">${price.mrp}</td>
                         <td class="text-center">${price.sellingPrice}</td>
+                        <td class="text-center">${price.costPrice}</td>
                         <td class="text-center">${price.effectiveFrom}</td>
 
 

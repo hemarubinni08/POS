@@ -182,8 +182,18 @@
                                 required="true"/>
                 </div>
 
+                <!-- Cost Price -->
+                    <div class="mb-3">
+                        <label class="form-label">Cost Price</label>
+                        <form:input path="costPrice"
+                                type="number"
+                                step="0.01"
+                                class="form-control"
+                                required="true"/>
+                    </div>
+
                 <!-- Effective From -->
-                <div class="mb-4">
+                <div class="mb-3">
                     <label class="form-label">Effective From</label>
                     <form:input path="effectiveFrom"
                                 type="date"

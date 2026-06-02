@@ -11,7 +11,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class Price extends CommonFields {
+    private String productIdentifier;
     private BigDecimal mrp;
     private BigDecimal sellingPrice;
+    private BigDecimal costPrice;
     private LocalDate effectiveFrom;
+
 }

@@ -221,8 +221,7 @@ class UserServiceTest {
     @Test
     void findIfTrue_activeUsers() {
         when(userRepository.findByStatusIsTrue()).thenReturn(List.of(user));
-        when(modelMapper.map(any(), any(Type.class)))
-                .thenReturn(List.of(userDto));
+        when(modelMapper.map(any(), any(Type.class))).thenReturn(List.of(userDto));
 
         List<UserDto> result = userService.findIfTrue();
 

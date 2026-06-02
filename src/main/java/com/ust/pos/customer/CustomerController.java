@@ -47,8 +47,7 @@ public class CustomerController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model,
-                             @ModelAttribute CustomerDto customerDto) {
+    public String updatePost(Model model, @ModelAttribute CustomerDto customerDto) {
         CustomerDto response = customerService.update(customerDto);
         if (!response.isSuccess()) {
             model.addAttribute("customerDto", response);

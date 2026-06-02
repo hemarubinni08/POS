@@ -85,11 +85,9 @@ class CustomerServiceTest {
     void findByIdentifierWithAddressDto_bothAddresses() {
         when(customerRepository.findByPhoneNo("9876543210")).thenReturn(customer);
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
-        when(addressService.findAllByPhoneNo("9876543210"))
-                .thenReturn(List.of(billingAddress, shippingAddress));
+        when(addressService.findAllByPhoneNo("9876543210")).thenReturn(List.of(billingAddress, shippingAddress));
 
-        CustomerDto result =
-                customerService.findByIdentifierWithAddressDto("9876543210");
+        CustomerDto result = customerService.findByIdentifierWithAddressDto("9876543210");
 
         assertNotNull(result.getBillingAddress());
         assertNotNull(result.getShippingAddress());
@@ -101,9 +99,7 @@ class CustomerServiceTest {
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
         when(addressService.findAllByPhoneNo("9876543210")).thenReturn(null);
 
-        CustomerDto result =
-                customerService.findByIdentifierWithAddressDto("9876543210");
-
+        CustomerDto result = customerService.findByIdentifierWithAddressDto("9876543210");
 
         assertNotNull(result.getBillingAddress());
         assertNotNull(result.getShippingAddress());
@@ -114,17 +110,14 @@ class CustomerServiceTest {
         when(customerRepository.findByPhoneNo("9876543210")).thenReturn(customer);
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
 
-
         List<AddressDto> list = new ArrayList<>();
         list.add(billingAddress);
         List<AddressDto> spyList = Mockito.spy(list);
         when(spyList.isEmpty()).thenReturn(true);
 
-        when(addressService.findAllByPhoneNo("9876543210"))
-                .thenReturn(spyList);
+        when(addressService.findAllByPhoneNo("9876543210")).thenReturn(spyList);
 
-        CustomerDto result =
-                customerService.findByIdentifierWithAddressDto("9876543210");
+        CustomerDto result = customerService.findByIdentifierWithAddressDto("9876543210");
 
         assertNotNull(result.getBillingAddress());
     }
@@ -135,11 +128,9 @@ class CustomerServiceTest {
 
         when(customerRepository.findByPhoneNo("9876543210")).thenReturn(customer);
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
-        when(addressService.findAllByPhoneNo("9876543210"))
-                .thenReturn(List.of(billingAddress));
+        when(addressService.findAllByPhoneNo("9876543210")).thenReturn(List.of(billingAddress));
 
-        CustomerDto result =
-                customerService.findByIdentifierWithAddressDto("9876543210");
+        CustomerDto result = customerService.findByIdentifierWithAddressDto("9876543210");
 
         assertNotNull(result.getBillingAddress());
         assertNull(result.getShippingAddress());
@@ -150,8 +141,7 @@ class CustomerServiceTest {
     void save_shouldPersistCustomerAndAddresses() {
         when(customerRepository.findById("C001")).thenReturn(null);
         when(modelMapper.map(customerDto, Customer.class)).thenReturn(customer);
-        when(modelMapper.map(any(AddressDto.class), eq(AddressDto.class)))
-                .thenAnswer(inv -> inv.getArgument(0));
+        when(modelMapper.map(any(AddressDto.class), eq(AddressDto.class))).thenAnswer(inv -> inv.getArgument(0));
 
         CustomerDto result = customerService.save(customerDto);
 
@@ -174,8 +164,7 @@ class CustomerServiceTest {
     @Test
     void update_shouldUpdateCustomerAndAddresses() {
         when(customerRepository.findByPhoneNo("9876543210")).thenReturn(customer);
-        when(addressService.findAllByPhoneNo("9876543210"))
-                .thenReturn(List.of(billingAddress, shippingAddress));
+        when(addressService.findAllByPhoneNo("9876543210")).thenReturn(List.of(billingAddress, shippingAddress));
 
         CustomerDto result = customerService.update(customerDto);
 
@@ -211,12 +200,10 @@ class CustomerServiceTest {
 
     @Test
     void findAllTest() {
-        Page<Customer> page =
-                new PageImpl<>(List.of(customer), PageRequest.of(0, 2), 1);
+        Page<Customer> page = new PageImpl<>(List.of(customer), PageRequest.of(0, 2), 1);
 
         when(customerRepository.findAll(any(Pageable.class))).thenReturn(page);
-        when(modelMapper.map(any(), any(Type.class)))
-                .thenReturn(List.of(customerDto));
+        when(modelMapper.map(any(), any(Type.class))).thenReturn(List.of(customerDto));
 
         List<CustomerDto> result = customerService.findAll(PageRequest.of(0, 2));
 
@@ -240,8 +227,7 @@ class CustomerServiceTest {
     @Test
     void findIfTrue_shouldReturnActiveCustomers() {
         when(customerRepository.findByStatusIsTrue()).thenReturn(List.of(customer));
-        when(modelMapper.map(any(), any(Type.class)))
-                .thenReturn(List.of(customerDto));
+        when(modelMapper.map(any(), any(Type.class))).thenReturn(List.of(customerDto));
 
         List<CustomerDto> result = customerService.findIfTrue();
 

@@ -116,8 +116,7 @@ class StockServiceTest {
         //  Change identifier to a NEW value
         stockDto.setIdentifier("STK_DUPLICATE");
 
-        when(stockRepository.findByIdentifier("STK_DUPLICATE"))
-                .thenReturn(duplicate);
+        when(stockRepository.findByIdentifier("STK_DUPLICATE")).thenReturn(duplicate);
 
         StockDto result = stockService.update(stockDto);
 
@@ -190,8 +189,7 @@ class StockServiceTest {
     @Test
     void findIfTrue_shouldReturnActiveStocks() {
         when(stockRepository.findByStatusIsTrue()).thenReturn(List.of(stock));
-        when(modelMapper.map(any(), any(Type.class)))
-                .thenReturn(List.of(stockDto));
+        when(modelMapper.map(any(), any(Type.class))).thenReturn(List.of(stockDto));
 
         List<StockDto> result = stockService.findIfTrue();
 

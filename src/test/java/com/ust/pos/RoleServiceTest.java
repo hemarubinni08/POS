@@ -53,8 +53,7 @@ class RoleServiceTest {
         Role existingRole = new Role();
         existingRole.setIdentifier("Admin");
 
-        Mockito.when(roleRepository.findByIdentifier("Admin"))
-                .thenReturn(existingRole);
+        Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(existingRole);
 
         RoleDto response = roleService.save(roleDto);
 
@@ -87,10 +86,8 @@ class RoleServiceTest {
         Role existingRole = new Role();
         existingRole.setIdentifier("Admin");
 
-        Mockito.when(roleRepository.findByIdentifier("Admin"))
-                .thenReturn(existingRole);
-        Mockito.when(roleRepository.save(existingRole))
-                .thenReturn(existingRole);
+        Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(existingRole);
+        Mockito.when(roleRepository.save(existingRole)).thenReturn(existingRole);
 
         RoleDto response = roleService.update(roleDto);
 
@@ -102,8 +99,7 @@ class RoleServiceTest {
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
 
-        Mockito.when(roleRepository.findByIdentifier("Admin"))
-                .thenReturn(null);
+        Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(null);
 
         RoleDto response = roleService.update(roleDto);
 
@@ -113,8 +109,7 @@ class RoleServiceTest {
 
     @Test
     void deleteTest() {
-        Mockito.doNothing().when(roleRepository)
-                .deleteByIdentifier("Admin");
+        Mockito.doNothing().when(roleRepository).deleteByIdentifier("Admin");
 
         roleService.delete("Admin");
         Assertions.assertDoesNotThrow(() -> roleService.delete("Admin"));
@@ -158,10 +153,7 @@ class RoleServiceTest {
         List<RoleDto> roleDtos = List.of(roleDto);
 
         Mockito.when(roleRepository.findByStatusIsTrue()).thenReturn(roles);
-        Mockito.when(modelMapper.map(
-                Mockito.eq(roles),
-                Mockito.any(java.lang.reflect.Type.class)
-        )).thenReturn(roleDtos);
+        Mockito.when(modelMapper.map(Mockito.eq(roles), Mockito.any(java.lang.reflect.Type.class))).thenReturn(roleDtos);
 
         List<RoleDto> response = roleService.findIfTrue();
 

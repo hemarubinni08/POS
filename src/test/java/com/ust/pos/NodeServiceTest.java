@@ -132,12 +132,7 @@ class NodeServiceTest {
 
         Mockito.when(nodeRepository.findAll(pageable)).thenReturn(nodePage);
 
-        Mockito.when(
-                modelMapper.map(
-                        Mockito.eq(List.of(node)),
-                        Mockito.any(Type.class)
-                )
-        ).thenReturn(List.of(dto));
+        Mockito.when(modelMapper.map(Mockito.eq(List.of(node)), Mockito.any(Type.class))).thenReturn(List.of(dto));
 
         List<NodeDto> result = nodeService.findAll(pageable);
 
@@ -184,13 +179,9 @@ class NodeServiceTest {
 
     @Test
     void getNodesForRoles_success() {
-        User principal =
-                new User("john", "pwd", List.of(() -> "ROLE_ADMIN"));
+        User principal = new User("john", "pwd", List.of(() -> "ROLE_ADMIN"));
 
-        Authentication auth =
-                new UsernamePasswordAuthenticationToken(
-                        principal, null, principal.getAuthorities()
-                );
+        Authentication auth = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(auth);
 

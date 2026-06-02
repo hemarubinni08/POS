@@ -1,8 +1,11 @@
 package com.ust.pos.product;
 
+import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.models.service.ModelService;
 import com.ust.pos.product.service.ProductService;
+import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -17,11 +20,26 @@ public class ProductController {
     public static final String CATEGORIES = "categories";
     public static final String PRODUCTS = "products";
 
+    public static final String BRAND = "brand";
+    public static final String UNIT = "unit";
+    public static final String MODEL = "model";
+
+
     @Autowired
     private ProductService productService;
 
     @Autowired
     private CategoryService categoryService;
+
+
+    @Autowired
+    private BrandService brandService;
+
+    @Autowired
+    private UnitService unitService;
+
+    @Autowired
+    private ModelService modelService;
 
 
     @GetMapping("/list")
@@ -35,6 +53,9 @@ public class ProductController {
     public String add(Model model) {
         model.addAttribute(PRODUCTS, new ProductDto());
         model.addAttribute(CATEGORIES, categoryService.findChildCategories());
+        model.addAttribute(BRAND, brandService.findIfTrue());
+        model.addAttribute(UNIT, unitService.findIfTrue());
+        model.addAttribute(MODEL, modelService.findIfTrue());
         return "product/add";
     }
 
@@ -59,6 +80,9 @@ public class ProductController {
     public String get(Model model, @RequestParam String identifier) {
         ProductDto product = productService.findByIdentifier(identifier);
         model.addAttribute(CATEGORIES, categoryService.findChildCategories());
+        model.addAttribute(BRAND, brandService.findIfTrue());
+        model.addAttribute(UNIT, unitService.findIfTrue());
+        model.addAttribute(MODEL, modelService.findIfTrue());
         model.addAttribute(PRODUCTS, product);
         return "product/edit";
     }
@@ -90,4 +114,12 @@ public class ProductController {
         productService.toggleStatus(identifier);
         return REDIRECT_PRODUCT_LIST;
     }
+
+    private void loadFormData(Model model) {
+        model.addAttribute(CATEGORIES, categoryService.findChildCategories());
+        model.addAttribute(BRAND, brandService.findIfTrue());
+        model.addAttribute(UNIT, unitService.findIfTrue());
+        model.addAttribute(MODEL, modelService.findIfTrue());
+    }
+
 }

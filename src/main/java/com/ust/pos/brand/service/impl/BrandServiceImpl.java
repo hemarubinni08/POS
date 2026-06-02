@@ -2,6 +2,7 @@ package com.ust.pos.brand.service.impl;
 
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
 import jakarta.transaction.Transactional;
@@ -27,10 +28,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto findByIdentifier(String identifier) {
-        return modelMapper.map(
-                brandRepository.findByIdentifier(identifier),
-                BrandDto.class
-        );
+        return modelMapper.map(brandRepository.findByIdentifier(identifier), BrandDto.class);
     }
 
     @Override
@@ -70,19 +68,25 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public List<BrandDto> findAll(Pageable pageable) {
+    public WsDto<BrandDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
         Page<Brand> customerPage = brandRepository.findAll(pageable);
-        return modelMapper.map(customerPage.getContent(), listType);
+        Page<Brand> brandPage = brandRepository.findAll(pageable);
+
+        WsDto<BrandDto> brandWsDto = new WsDto<>();
+        brandWsDto.setDtoList(modelMapper.map(brandPage.getContent(), listType));
+        brandWsDto.setTotalRecords(brandPage.getTotalElements());
+        brandWsDto.setTotalPages(brandPage.getTotalPages());
+        brandWsDto.setSizePerPage(pageable.getPageSize());
+        brandWsDto.setPage(pageable.getPageNumber());
+
+        return brandWsDto;
     }
 
     @Override
     public List<BrandDto> findIfTrue() {
-        return brandRepository.findByStatusTrue()
-                .stream()
-                .map(brand -> modelMapper.map(brand, BrandDto.class))
-                .toList();
+        return brandRepository.findByStatusTrue().stream().map(brand -> modelMapper.map(brand, BrandDto.class)).toList();
     }
 
     @Override

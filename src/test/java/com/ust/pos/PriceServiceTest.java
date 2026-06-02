@@ -35,10 +35,8 @@ class PriceServiceTest {
         PriceDto priceDto = new PriceDto();
         priceDto.setIdentifier("PRICE1");
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE1"))
-                .thenReturn(null);
-        Mockito.when(modelMapper.map(priceDto, Price.class))
-                .thenReturn(new Price());
+        Mockito.when(priceRepository.findByIdentifier("PRICE1")).thenReturn(null);
+        Mockito.when(modelMapper.map(priceDto, Price.class)).thenReturn(new Price());
 
         PriceDto response = priceService.save(priceDto);
 
@@ -50,8 +48,7 @@ class PriceServiceTest {
         PriceDto priceDto = new PriceDto();
         priceDto.setIdentifier("PRICE1");
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE1"))
-                .thenReturn(new Price());
+        Mockito.when(priceRepository.findByIdentifier("PRICE1")).thenReturn(new Price());
 
         PriceDto response = priceService.save(priceDto);
 
@@ -67,10 +64,8 @@ class PriceServiceTest {
         PriceDto priceDto = new PriceDto();
         priceDto.setIdentifier("PRICE1");
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE1"))
-                .thenReturn(price);
-        Mockito.when(modelMapper.map(price, PriceDto.class))
-                .thenReturn(priceDto);
+        Mockito.when(priceRepository.findByIdentifier("PRICE1")).thenReturn(price);
+        Mockito.when(modelMapper.map(price, PriceDto.class)).thenReturn(priceDto);
 
         PriceDto response = priceService.findByIdentifier("PRICE1");
 
@@ -83,8 +78,7 @@ class PriceServiceTest {
         PriceDto priceDto = new PriceDto();
         priceDto.setIdentifier("PRICE1");
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE1"))
-                .thenReturn(new Price());
+        Mockito.when(priceRepository.findByIdentifier("PRICE1")).thenReturn(new Price());
 
         PriceDto response = priceService.update(priceDto);
 
@@ -96,8 +90,7 @@ class PriceServiceTest {
         PriceDto priceDto = new PriceDto();
         priceDto.setIdentifier("PRICE1");
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE1"))
-                .thenReturn(null);
+        Mockito.when(priceRepository.findByIdentifier("PRICE1")).thenReturn(null);
 
         PriceDto response = priceService.update(priceDto);
 
@@ -107,11 +100,9 @@ class PriceServiceTest {
 
     @Test
     void delete_success() {
-        Assertions.assertDoesNotThrow(() ->
-                priceService.delete("PRICE1"));
+        Assertions.assertDoesNotThrow(() -> priceService.delete("PRICE1"));
 
-        Mockito.verify(priceRepository)
-                .deleteByIdentifier("PRICE1");
+        Mockito.verify(priceRepository).deleteByIdentifier("PRICE1");
     }
 
 
@@ -144,12 +135,8 @@ class PriceServiceTest {
         List<Price> prices = List.of(new Price());
         List<PriceDto> priceDtos = List.of(new PriceDto());
 
-        Mockito.when(priceRepository.findByStatusIsTrue())
-                .thenReturn(prices);
-        Mockito.when(modelMapper.map(
-                Mockito.eq(prices),
-                Mockito.any(java.lang.reflect.Type.class)
-        )).thenReturn(priceDtos);
+        Mockito.when(priceRepository.findByStatusIsTrue()).thenReturn(prices);
+        Mockito.when(modelMapper.map(Mockito.eq(prices), Mockito.any(java.lang.reflect.Type.class))).thenReturn(priceDtos);
 
         List<PriceDto> response = priceService.findIfTrue();
 
@@ -162,8 +149,7 @@ class PriceServiceTest {
         Price price = new Price();
         price.setStatus(true);
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE1"))
-                .thenReturn(price);
+        Mockito.when(priceRepository.findByIdentifier("PRICE1")).thenReturn(price);
 
         priceService.toggleStatus("PRICE1");
 
@@ -175,8 +161,7 @@ class PriceServiceTest {
         Price price = new Price();
         price.setStatus(false);
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE1"))
-                .thenReturn(price);
+        Mockito.when(priceRepository.findByIdentifier("PRICE1")).thenReturn(price);
 
         priceService.toggleStatus("PRICE1");
 

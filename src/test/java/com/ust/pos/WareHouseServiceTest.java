@@ -176,11 +176,9 @@ class WareHouseServiceTest {
     // findIfTrue
     @Test
     void findIfTrue_shouldReturnActiveWarehouses() {
-        when(warehouseRepository.findByStatusIsTrue())
-                .thenReturn(List.of(warehouse));
+        when(warehouseRepository.findByStatusIsTrue()).thenReturn(List.of(warehouse));
 
-        when(modelMapper.map(any(), any(Type.class)))
-                .thenReturn(List.of(warehouseDto));
+        when(modelMapper.map(any(), any(Type.class))).thenReturn(List.of(warehouseDto));
 
         List<WarehouseDto> result = warehouseService.findIfTrue();
 

@@ -3,6 +3,7 @@ package com.ust.pos.api.node;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.node.service.NodeService;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,27 +25,25 @@ public class ApiNodeController extends BaseController {
     private RoleService roleService;
 
     @PostMapping("/list")
-    public List<NodeDto> list(@RequestBody PaginationDto paginationDto) {
+    public WsDto<NodeDto> list(@RequestBody PaginationDto paginationDto) {
 
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
-                paginationDto.getSortDirection(), paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return nodeService.findAll(pageable);
     }
 
     @PostMapping("/add")
     public NodeDto addPost(@RequestBody NodeDto nodeDto) {
+
         return nodeService.save(nodeDto);
     }
 
     @GetMapping("/get")
     public NodeDto update(@RequestParam String identifier) {
-
         return nodeService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
-    public NodeDto updatePost(@ModelAttribute NodeDto nodeDto) {
+    public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
 
         return nodeService.update(nodeDto);
 
@@ -68,13 +67,11 @@ public class ApiNodeController extends BaseController {
 
     @GetMapping("/findByStatus")
     public List<NodeDto> findByStatus() {
-
         return nodeService.findIfTrue();
     }
 
     @GetMapping("/getAll")
     public List<NodeDto> getAll() {
-
         return nodeService.getNodesForRoles();
     }
 

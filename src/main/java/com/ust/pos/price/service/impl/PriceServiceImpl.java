@@ -1,6 +1,7 @@
 package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
@@ -26,26 +27,38 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto findByIdentifier(String identifier) {
-        return modelMapper.map(
-                priceRepository.findByIdentifier(identifier),
-                PriceDto.class
-        );
+        return modelMapper.map(priceRepository.findByIdentifier(identifier), PriceDto.class);
     }
 
     @Override
     public PriceDto save(PriceDto dto) {
 
-        Price existing = priceRepository.findByIdentifier(dto.getIdentifier());
+        Price existingByProduct = priceRepository.findByProductIdentifier(dto.getProductIdentifier());
+
+        if (existingByProduct != null) {
+            dto.setSuccess(false);
+            dto.setMessage("ProductIdentifier already exists: " + dto.getProductIdentifier());
+            return dto;
+        }
+
+        Price existing = priceRepository.findByIdentifier(
+
+                dto.getIdentifier());
+
         if (existing != null) {
             dto.setSuccess(false);
-            dto.setMessage("Price already exists : " + dto.getIdentifier());
+            dto.setMessage("Price identifier already exists  " + dto.getIdentifier());
             return dto;
         }
 
         Price price = modelMapper.map(dto, Price.class);
         priceRepository.save(price);
+
+        dto.setSuccess(true);
+        dto.setMessage("Price saved successfully");
         return dto;
     }
+
 
     @Override
     public PriceDto update(PriceDto dto) {
@@ -55,6 +68,16 @@ public class PriceServiceImpl implements PriceService {
             dto.setSuccess(false);
             dto.setMessage("Price not found : " + dto.getIdentifier());
             return dto;
+        }
+        if (dto.getProductIdentifier() != null &&
+                !dto.getProductIdentifier().equalsIgnoreCase(existing.getProductIdentifier())) {
+
+            Price conflicting = priceRepository.findByProductIdentifier(dto.getProductIdentifier());
+            if (conflicting != null) {
+                dto.setSuccess(false);
+                dto.setMessage("ProductIdentifier already exists: " + dto.getProductIdentifier());
+                return dto;
+            }
         }
 
         modelMapper.map(dto, existing);
@@ -70,11 +93,19 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public List<PriceDto> findAll(Pageable pageable) {
+    public WsDto<PriceDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
-        Page<Price> customerPage = priceRepository.findAll(pageable);
-        return modelMapper.map(customerPage.getContent(), listType);
+        Page<Price> pricePage = priceRepository.findAll(pageable);
+
+        WsDto<PriceDto> priceWsDto = new WsDto<>();
+        priceWsDto.setDtoList(modelMapper.map(pricePage.getContent(), listType));
+        priceWsDto.setTotalRecords(pricePage.getTotalElements());
+        priceWsDto.setTotalPages(pricePage.getTotalPages());
+        priceWsDto.setSizePerPage(pageable.getPageSize());
+        priceWsDto.setPage(pageable.getPageNumber());
+
+        return priceWsDto;
     }
 
     @Override
@@ -91,4 +122,11 @@ public class PriceServiceImpl implements PriceService {
         }.getType();
         return modelMapper.map(priceRepository.findByStatusIsTrue(), listType);
     }
+
+    @Override
+    public PriceDto findByProductIdentifier(String productIdentifier) {
+        return modelMapper.map(priceRepository.findByProductIdentifier(productIdentifier), PriceDto.class);
+    }
+
+
 }
