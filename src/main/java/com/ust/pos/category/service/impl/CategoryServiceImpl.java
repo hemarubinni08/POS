@@ -67,16 +67,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public WsDto<CategoryDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<CategoryDto>>() {
+        Type typeList = new TypeToken<List<CategoryDto>>() {
         }.getType();
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
         WsDto<CategoryDto> categoryDtoWsDto = new WsDto<>();
-        categoryDtoWsDto.setDtoList(modelMapper.map(categoryPage.getContent(), listType));
+        categoryDtoWsDto.setDtoList(modelMapper.map(categoryPage.getContent(), typeList));
         categoryDtoWsDto.setTotalRecords(categoryPage.getTotalElements());
         categoryDtoWsDto.setTotalPages(categoryPage.getTotalPages());
         categoryDtoWsDto.setSizePerPage(pageable.getPageSize());
         categoryDtoWsDto.setPage(pageable.getPageNumber());
-
         return categoryDtoWsDto;
     }
 
