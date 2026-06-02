@@ -131,7 +131,7 @@ ${message}
                                 required="true"/>
                 </div>
 
-                <!-- ✅ Path -->
+                <!-- Path -->
                 <div class="mb-3">
                     <label class="form-label">Path</label>
                     <form:input path="path"
@@ -139,7 +139,7 @@ ${message}
                                 required="true"/>
                 </div>
 
-                <!-- ✅ Roles -->
+                <!-- Roles -->
                 <div class="mb-4">
                     <label class="form-label">Roles</label>
 
