@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/stocks")
-public class StocksApiController extends BaseController {
+public class ApiStocksController extends BaseController {
 
     @Autowired
     private StocksService stocksService;

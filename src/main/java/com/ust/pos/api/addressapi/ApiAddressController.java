@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/address")
-public class AddressApiController extends BaseController {
+public class ApiAddressController extends BaseController {
 
     @Autowired
     private AddressService addressService;

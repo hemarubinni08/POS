@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cartEntry")
-public class CartEntryApiController extends BaseController {
+public class ApiCartEntryController extends BaseController {
 
     @Autowired
     private CartEntryService cartEntryService;

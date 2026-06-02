@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/shelfs")
-public class ShelfsApiController extends BaseController {
+public class ApiShelfsController extends BaseController {
 
     @Autowired
     private ShelfsService shelfsService;

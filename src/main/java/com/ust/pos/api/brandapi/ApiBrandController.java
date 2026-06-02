@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/brand")
-public class BrandApiController extends BaseController {
+public class ApiBrandController extends BaseController {
 
     @Autowired
     private BrandService brandService;

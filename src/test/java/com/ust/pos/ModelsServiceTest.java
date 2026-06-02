@@ -158,7 +158,6 @@ class ModelsServiceTest {
 
     @Test
     void toggleTestInactive() {
-
         Models models = new Models();
         models.setStatus(true);
         ModelsDto modelsDto = new ModelsDto();
@@ -167,6 +166,5 @@ class ModelsServiceTest {
         Mockito.when(modelMapper.map(models, ModelsDto.class)).thenReturn(modelsDto);
         ModelsDto response = modelsService.toggleStatus("Admin");
         Assertions.assertFalse(response.isStatus());
-
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/price")
-public class PriceApiController extends BaseController {
+public class ApiPriceController extends BaseController {
 
     @Autowired
     private PriceService priceService;

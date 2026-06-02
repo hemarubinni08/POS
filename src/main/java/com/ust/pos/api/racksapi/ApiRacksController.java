@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/racks")
-public class RacksApiController extends BaseController {
+public class ApiRacksController extends BaseController {
 
     @Autowired
     private RacksService racksService;
