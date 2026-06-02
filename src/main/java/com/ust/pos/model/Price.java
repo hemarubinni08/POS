@@ -11,5 +11,6 @@ public class Price extends CommonFields{
 
     private Double costPrice;
     private Double sellingPrice;
-
+    private String productName;
+    private String mrp;
 }

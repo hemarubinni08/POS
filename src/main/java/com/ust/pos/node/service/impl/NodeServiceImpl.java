@@ -1,6 +1,7 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
@@ -62,6 +63,16 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
+    public NodeDto changeNodeStatus(String identifier, boolean status) {
+        Node node = nodeRepository.findByIdentifier(identifier);
+        if (node != null) {
+            node.setStatus(status);
+            nodeRepository.save(node);
+        }
+        return modelMapper.map(node,NodeDto.class);
+    }
+
+    @Override
     public NodeDto save(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
         Node existingNode = nodeRepository.findByIdentifier(identifier);
@@ -96,11 +107,18 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public List<NodeDto> findAll(Pageable pageable) {
+    public WsDto<NodeDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
         Page<Node> nodePage = nodeRepository.findAll(pageable);
-        return modelMapper.map(nodePage.getContent(), listType);
+        WsDto<NodeDto> nodeWsDto = new WsDto<>();
+        nodeWsDto.setDtoList(modelMapper.map(nodePage.getContent(), listType));
+        nodeWsDto.setTotalRecords(nodePage.getTotalElements());
+        nodeWsDto.setTotalPages(nodePage.getTotalPages());
+        nodeWsDto.setSizePerPage(pageable.getPageSize());
+        nodeWsDto.setPage(pageable.getPageNumber());
 
+        return nodeWsDto;
     }
 }

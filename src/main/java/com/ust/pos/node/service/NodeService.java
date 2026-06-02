@@ -1,6 +1,7 @@
 package com.ust.pos.node.service;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 
@@ -15,7 +16,9 @@ public interface NodeService {
 
     void delete(String identifier);
 
-    List<NodeDto> findAll(Pageable pageable);
+    WsDto<NodeDto> findAll(Pageable pageable);
 
     NodeDto findByIdentifier(String identifier);
+
+    NodeDto changeNodeStatus(String identifier, boolean status);
 }

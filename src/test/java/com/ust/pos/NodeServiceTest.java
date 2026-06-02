@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.User;
@@ -142,10 +143,10 @@ class NodeServiceTest {
         Mockito.when(modelMapper.map(page.getContent(), listType)).thenReturn(List.of(nodeDto));
 
         Pageable pageable = PageRequest.of(0, 50, Sort.unsorted());
-        List<NodeDto> response = nodeService.findAll(pageable);
+        WsDto<NodeDto> response = nodeService.findAll(pageable);
 
-        Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("Admin", response.get(0).getIdentifier());
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
     }
 
     @Test

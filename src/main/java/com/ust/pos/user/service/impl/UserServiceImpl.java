@@ -1,6 +1,7 @@
 package com.ust.pos.user.service.impl;
 
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
@@ -10,6 +11,8 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -75,15 +78,40 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void delete(String username) {
-        userRepository.deleteByUsername(username);
-    }
+    public UserDto delete(String username) {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
 
+        UserDto user = new UserDto();
+        if (authentication == null) {
+            user.setSuccess(false);
+            user.setMessage("No authenticated user");
+            return user;
+        }
+        if (username.equals(authentication.getName())) {
+            user.setSuccess(false);
+            user.setMessage("Cannot delete the logged in User");
+            return user;                         // <-- return, so the delete below is skipped
+        }
+
+        userRepository.deleteByUsername(username);
+        user.setSuccess(true);
+        user.setMessage("User deleted");
+        return user;
+    }
     @Override
-    public List<UserDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<UserDto>>() {
-        }.getType();
+    public WsDto<UserDto> findAll(Pageable pageable) {
+
+        Type listType = new TypeToken<List<UserDto>>() {}.getType();
         Page<User> userPage = userRepository.findAll(pageable);
-        return modelMapper.map(userPage.getContent(), listType);
+        WsDto<UserDto> userWsDto = new WsDto<>();
+        userWsDto.setDtoList(modelMapper.map(userPage.getContent(), listType));
+        userWsDto.setTotalRecords(userPage.getTotalElements());
+        userWsDto.setTotalPages(userPage.getTotalPages());
+        userWsDto.setSizePerPage(pageable.getPageSize());
+        userWsDto.setPage(pageable.getPageNumber());
+
+        return userWsDto;
+
     }
 }

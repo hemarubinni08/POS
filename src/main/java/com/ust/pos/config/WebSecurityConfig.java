@@ -66,7 +66,7 @@ public class WebSecurityConfig {
 
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 
-                        .requestMatchers("/login", "/register", "/api/authenticate","/api/user/add","/api/role/list", "/api/validateToken","/swagger-ui/**","/v3/**").permitAll()
+                        .requestMatchers("/login", "/register", "/api/authenticate","/api/user/add","/api/role/list","/api/role/findAllActive", "/api/validateToken","/swagger-ui/**","/v3/**").permitAll()
 
                         .anyRequest().authenticated()
 

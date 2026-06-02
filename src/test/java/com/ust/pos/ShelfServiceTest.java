@@ -165,7 +165,7 @@ class ShelfServiceTest {
         dto.setIdentifier("Shelf");
         dto.setStatus(true);
 
-        Mockito.when(shelfsRepository.findByStatusTrue())
+        Mockito.when(shelfsRepository.findByStatusTrue(true))
                 .thenReturn(List.of(shelf));
 
         Mockito.when(modelMapper.map(shelf, ShelfDto.class))
