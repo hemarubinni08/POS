@@ -15,4 +15,6 @@ public interface UserService {
     UserDto delete(String username);
 
     WsDto<UserDto> findAll(Pageable pageable);
+
+    UserDto changeUserStatus(String identifier, boolean status);
 }

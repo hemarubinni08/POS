@@ -1,6 +1,7 @@
 package com.ust.pos.api.user;
 
 import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
@@ -47,5 +48,11 @@ public class UserControllerApi extends BaseController {
             return true;
         }
         return false;
+    }
+    @PostMapping("/changeStatus")
+    public UserDto toggle(@RequestBody UserDto userDto) {
+
+        return userService.changeUserStatus(userDto.getIdentifier(), userDto.isStatus());
+
     }
 }

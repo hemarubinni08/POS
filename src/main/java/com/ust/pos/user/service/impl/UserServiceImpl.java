@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
         if (username.equals(authentication.getName())) {
             user.setSuccess(false);
             user.setMessage("Cannot delete the logged in User");
-            return user;                         // <-- return, so the delete below is skipped
+            return user;
         }
 
         userRepository.deleteByUsername(username);
@@ -113,5 +113,16 @@ public class UserServiceImpl implements UserService {
 
         return userWsDto;
 
+    }
+
+    @Override
+    public UserDto changeUserStatus(String identifier, boolean status) {
+        User user = userRepository.findByIdentifier(identifier);
+        if (user == null) {
+            return null; // test expects null
+        }
+        user.setStatus(status);
+        userRepository.save(user);
+        return modelMapper.map(user, UserDto.class);
     }
 }
