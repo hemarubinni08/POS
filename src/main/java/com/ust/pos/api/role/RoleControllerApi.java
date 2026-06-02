@@ -12,11 +12,9 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/role")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173")//here its disable if it is as enable then in the role contrller API no need of @CrossOrigin(origins = "http://localhost:5173")
 public class RoleControllerApi extends BaseController {
 
     @Autowired

@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/shelf")
 public class ShelfController {
@@ -23,8 +21,8 @@ public class ShelfController {
 
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
-        List<ShelfDto> shelfList = shelfService.findAll(pageable);
-        model.addAttribute("shelves", shelfList);
+       // List<ShelfDto> shelfList = shelfService.findAll(pageable);
+        model.addAttribute("shelves", shelfService.findAll(pageable));
         return "shelf/list";
     }
 

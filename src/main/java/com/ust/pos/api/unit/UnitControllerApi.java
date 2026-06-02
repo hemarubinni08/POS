@@ -54,9 +54,9 @@ public class UnitControllerApi extends BaseController {
         return response;
     }
 
-    @GetMapping("/toggle")
-    public UnitDto toggle(@RequestParam String identifier) {
-        return unitService.toggleStatus(identifier);
+    @PostMapping("/toggle")
+    public UnitDto toggle(@RequestBody UnitDto unitDto) {
+        return unitService.toggleStatus(unitDto.getIdentifier());
     }
 
     @GetMapping("/active")
