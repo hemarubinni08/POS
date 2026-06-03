@@ -41,8 +41,8 @@ public class ModelsServiceImpl implements ModelsService {
         model.setIdentifier(modelsDto.getModelName());
         model.setModelName(modelsDto.getModelName());
         model.setStatus(modelsDto.getStatus());
-        Models saved= modelsRepository.save(model);
-        ModelsDto dto=modelMapper.map(saved,ModelsDto.class);
+        Models saved = modelsRepository.save(model);
+        ModelsDto dto = modelMapper.map(saved, ModelsDto.class);
         dto.setSuccess(true);
         dto.setMessage("Model added successfully");
         return dto;

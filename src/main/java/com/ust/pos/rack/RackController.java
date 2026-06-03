@@ -13,11 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/rack")
 public class RackController {
 
-    private static final String REDIRECT_LIST = "redirect:/rack/list";
     public static final String MESSAGE = "message";
     public static final String SHELVES = "shelves";
     public static final String RACK_DTO = "rackDto";
-
+    private static final String REDIRECT_LIST = "redirect:/rack/list";
     @Autowired
     private RackService rackService;
 

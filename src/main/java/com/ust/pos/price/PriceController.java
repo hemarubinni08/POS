@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/price")
 public class PriceController {
 
-    private static final String REDIRECT = "redirect:/price/list";
     public static final String PRICE_DTO = "priceDto";
     public static final String MESSAGE = "message";
-
+    private static final String REDIRECT = "redirect:/price/list";
     @Autowired
     private PriceService priceService;
 
@@ -24,7 +23,7 @@ public class PriceController {
     private ProductService productService;
 
     @GetMapping("/list")
-    public String list(Model model,Pageable pageable) {
+    public String list(Model model, Pageable pageable) {
         model.addAttribute("prices", priceService.findAll(pageable));
         return "price/list";
     }
@@ -37,7 +36,7 @@ public class PriceController {
     }
 
     @PostMapping("/add")
-    public String save(@ModelAttribute PriceDto priceDto, Model model,Pageable pageable) {
+    public String save(@ModelAttribute PriceDto priceDto, Model model, Pageable pageable) {
         priceDto.setIdentifier(priceDto.getProductId());
         PriceDto response = priceService.save(priceDto);
         if (!response.isSuccess()) {
@@ -50,7 +49,7 @@ public class PriceController {
     }
 
     @GetMapping("/get")
-    public String edit(@RequestParam String identifier, Model model,Pageable pageable) {
+    public String edit(@RequestParam String identifier, Model model, Pageable pageable) {
         PriceDto response = priceService.findByIdentifier(identifier);
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());

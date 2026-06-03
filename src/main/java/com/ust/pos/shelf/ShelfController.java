@@ -12,16 +12,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/shelf")
 public class ShelfController {
 
-    private static final String REDIRECT_LIST = "redirect:/shelf/list";
     public static final String MESSAGE = "message";
     public static final String SHELF_DTO = "shelfDto";
-
+    private static final String REDIRECT_LIST = "redirect:/shelf/list";
     @Autowired
     private ShelfService shelfService;
 
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
-       // List<ShelfDto> shelfList = shelfService.findAll(pageable);
+        // List<ShelfDto> shelfList = shelfService.findAll(pageable);
         model.addAttribute("shelves", shelfService.findAll(pageable));
         return "shelf/list";
     }

@@ -39,13 +39,13 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             if (authorization != null && authorization.startsWith("Bearer ")) {
                 token = authorization.substring(7);
-                userName =jwtUtility.getUsernameFromToken(token);
+                userName = jwtUtility.getUsernameFromToken(token);
             }
             if (userName != null
                     && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails =
                         userDetailsService.loadUserByUsername(userName);
-                boolean isValid = jwtUtility.validateToken(token,userDetails);
+                boolean isValid = jwtUtility.validateToken(token, userDetails);
                 if (isValid) {
                     UsernamePasswordAuthenticationToken
                             usernamePasswordAuthenticationToken =
@@ -53,8 +53,8 @@ public class JwtFilter extends OncePerRequestFilter {
                                     userDetails, null, userDetails.getAuthorities()
                             );
                     usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource()
-                                            .buildDetails(httpServletRequest)
-                            );
+                            .buildDetails(httpServletRequest)
+                    );
                     SecurityContextHolder.getContext().setAuthentication(
                             usernamePasswordAuthenticationToken);
                 }
@@ -62,7 +62,7 @@ public class JwtFilter extends OncePerRequestFilter {
             filterChain.doFilter(httpServletRequest, httpServletResponse
             );
         } catch (ExpiredJwtException e) {
-            httpServletResponse.sendError( HttpServletResponse.SC_UNAUTHORIZED,
+            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,
                     "The token is not valid."
             );
         }

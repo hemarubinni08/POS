@@ -108,9 +108,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findActiveProducts() {
-        Type listType = new TypeToken<List<ProductDto>>() {}.getType();
+        Type listType = new TypeToken<List<ProductDto>>() {
+        }.getType();
         List<Product> productList = productRepository.findAll();
-        List<ProductDto> productDtos = modelMapper.map(productList,listType);
+        List<ProductDto> productDtos = modelMapper.map(productList, listType);
         List<ProductDto> active = new ArrayList<>();
         if (productDtos != null) {
             for (ProductDto dto : productDtos) {

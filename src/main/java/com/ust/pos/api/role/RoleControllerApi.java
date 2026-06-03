@@ -5,16 +5,14 @@ import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.role.service.RoleService;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Pageable;
-
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/role")
-@CrossOrigin(origins = "http://localhost:5173")//here its disable if it is as enable then in the role contrller API no need of @CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173")
+//here its disable if it is as enable then in the role contrller API no need of @CrossOrigin(origins = "http://localhost:5173")
 public class RoleControllerApi extends BaseController {
 
     @Autowired

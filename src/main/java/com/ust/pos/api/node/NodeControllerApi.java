@@ -24,7 +24,8 @@ public class NodeControllerApi extends BaseController {
     public WsDto<NodeDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortfield());
-        return nodeService.findAll(pageable);    }
+        return nodeService.findAll(pageable);
+    }
 
     @PostMapping("/add")
     public NodeDto addPost(@RequestBody NodeDto nodeDto) {

@@ -16,7 +16,7 @@ public interface CategoryService {
 
     WsDto<CategoryDto> findAll(Pageable pageable);
 
-    List<CategoryDto> findAllc (Pageable pageable);
+    List<CategoryDto> findAllc(Pageable pageable);
 
     List<CategoryDto> findSuperCategories();
 

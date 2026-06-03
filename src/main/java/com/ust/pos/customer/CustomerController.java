@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/customer")
 public class CustomerController {
 
+    public static final String CUSTOMER_DTO = "customerDto";
     private static final String CUSTOMER_LIST = "customer/list";
     private static final String CUSTOMER_ADD = "customer/add";
     private static final String CUSTOMER_VIEW = "customer/customer";
     private static final String REDIRECT_CUSTOMER_LIST = "redirect:/customer/list";
-    public static final String CUSTOMER_DTO = "customerDto";
-
     @Autowired
     private CustomerService customerService;
 

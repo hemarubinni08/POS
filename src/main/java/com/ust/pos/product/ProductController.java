@@ -16,14 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/product")
 public class ProductController {
 
-    private static final String REDIRECT = "redirect:/product/list";
     public static final String MODELS = "models";
     public static final String BRANDS = "brands";
     public static final String UNITS = "units";
     public static final String CATEGORIES = "categories";
     public static final String PRODUCT_DTO = "productDto";
     public static final String MESSAGE = "message";
-
+    private static final String REDIRECT = "redirect:/product/list";
     @Autowired
     private ProductService productService;
 
@@ -71,7 +70,7 @@ public class ProductController {
     }
 
     @GetMapping("/get")
-    public String edit(@RequestParam String identifier, Model model,Pageable pageable) {
+    public String edit(@RequestParam String identifier, Model model, Pageable pageable) {
         ProductDto response = productService.findByIdentifier(identifier);
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
