@@ -112,14 +112,16 @@
                         <label class="form-label fw-semibold">Role Name</label>
                         <form:input path="identifier"
                                     cssClass="form-control"
-                                    placeholder="Enter role name" />
+                                    placeholder="Enter role name"
+                                     required="true"/>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Description</label>
                         <form:input path="description"
                                     cssClass="form-control"
-                                    placeholder="Description" />
+                                    placeholder="Description"
+                                     required="true"/>
                     </div>
 
                     <div class="d-grid">

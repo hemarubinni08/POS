@@ -21,6 +21,7 @@ target/
 .mvn
 mvn*
 
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -34,3 +35,4 @@ build/
 ### VS Code ###
 .vscode/
 .scannerwork/
+htmlReport
