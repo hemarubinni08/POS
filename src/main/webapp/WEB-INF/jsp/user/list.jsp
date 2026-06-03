@@ -43,21 +43,18 @@
 
             <h3 class="text-center mb-4">User Management</h3>
 
-            <!-- ✅ DELETE CURRENT USER ERROR MESSAGE -->
             <c:if test="${param.error == 'loggedInUser'}">
                 <div class="alert alert-danger text-center">
                     Cannot delete the currently logged‑in user
                 </div>
             </c:if>
 
-            <!-- No users -->
             <c:if test="${empty users}">
                 <div class="alert alert-warning text-center">
                     No users found
                 </div>
             </c:if>
 
-            <!-- User table -->
             <c:if test="${not empty users}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
@@ -84,13 +81,11 @@
                                 <td>${user.roles}</td>
                                 <td class="d-flex justify-content-center gap-2">
 
-                                    <!-- Edit -->
                                     <a class="btn btn-primary btn-sm"
                                        href="/user/get?username=${user.username}">
                                         Edit
                                     </a>
 
-                                    <!-- Delete -->
                                     <a class="btn btn-danger btn-sm"
                                        href="/user/delete?username=${user.username}"
                                        onclick="return confirm('Are you sure you want to delete this user?');">

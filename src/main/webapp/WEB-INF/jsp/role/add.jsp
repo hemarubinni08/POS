@@ -40,21 +40,18 @@
 
             <div class="card-body">
 
-                <!-- ✅ Duplicate / Error Message -->
                 <c:if test="${not empty message}">
                     <div class="alert alert-danger text-center">
                         ${message}
                     </div>
                 </c:if>
 
-                <!-- ✅ Success Message (Optional) -->
                 <c:if test="${empty message && not empty success}">
                     <div class="alert alert-success text-center">
                         ${success}
                     </div>
                 </c:if>
 
-                <!-- ✅ Add Role Form -->
                 <form:form method="post"
                            action="${pageContext.request.contextPath}/role/add"
                            modelAttribute="roleDto">
@@ -67,8 +64,13 @@
                                     required="true"/>
                     </div>
 
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">
+                    <div class="d-flex gap-2">
+                        <a href="${pageContext.request.contextPath}/role/list"
+                           class="btn btn-secondary">
+                            Back
+                        </a>
+
+                        <button type="submit" class="btn btn-primary">
                             Add Role
                         </button>
                     </div>

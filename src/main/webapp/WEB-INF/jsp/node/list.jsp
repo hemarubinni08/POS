@@ -67,13 +67,11 @@
                                     <td>${node.roles}</td>
                                     <td class="d-flex justify-content-center gap-2">
 
-                                        <!-- ✅ Edit Button -->
                                         <a href="/node/get?identifier=${node.identifier}"
                                            class="btn btn-warning btn-sm">
                                             Edit
                                         </a>
 
-                                        <!-- ✅ Delete Button -->
                                         <a href="/node/delete?identifier=${node.identifier}"
                                            class="btn btn-danger btn-sm"
                                            onclick="return confirm('Are you sure you want to delete this node?');">

@@ -63,13 +63,11 @@
                                     <td>${role.identifier}</td>
                                     <td class="d-flex justify-content-center gap-2">
 
-                                        <!-- ✅ Edit Button -->
                                         <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
                                            class="btn btn-warning btn-sm">
                                             Edit
                                         </a>
 
-                                        <!-- ✅ Delete Button -->
                                         <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
                                            class="btn btn-danger btn-sm"
                                            onclick="return confirm('Are you sure you want to delete this role?');">
