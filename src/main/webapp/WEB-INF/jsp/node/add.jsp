@@ -146,7 +146,7 @@
 
         <div class="form-group">
             <label>Roles</label>
-            <select name="roles" multiple>
+            <select name="roles" multiple required>
                 <c:forEach items="${roles}" var="role">
                     <option value="${role.identifier}">
                         ${role.identifier}

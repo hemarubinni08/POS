@@ -33,7 +33,6 @@
             font-weight: 700;
         }
 
-        /* Top buttons */
         .top-actions {
             display: flex;
             justify-content: space-between;
@@ -74,7 +73,6 @@
             background-color: #b91c1c;
         }
 
-        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;

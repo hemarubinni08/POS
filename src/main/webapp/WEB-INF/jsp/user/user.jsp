@@ -163,7 +163,10 @@
             <label>Roles</label>
             <select name="roles" multiple>
                 <c:forEach items="${roles}" var="role">
-                    <option value="${role.identifier}">
+                    <option value="${role.identifier}"
+                        <c:if test="${user.roles.contains(role.identifier)}">
+                            selected="selected"
+                        </c:if>>
                         ${role.identifier}
                     </option>
                 </c:forEach>

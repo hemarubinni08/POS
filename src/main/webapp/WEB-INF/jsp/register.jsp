@@ -45,7 +45,6 @@
             color: #334155;
         }
 
-        /* RIGHT PANEL */
         .right {
             width: 460px;
             display: flex;
@@ -208,23 +207,29 @@
 
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" name="password" placeholder="Enter password" required>
+                    <input type="password"
+                           name="password"
+                           placeholder="Enter password"
+                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                           title="Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character"
+                           required>
                 </div>
 
                 <div class="form-group">
                     <label>Phone Number</label>
-                    <input type="tel" name="phoneNo"
-                           class="form-control"
+                    <input type="tel"
+                           name="phoneNo"
                            placeholder="Enter mobile number"
                            maxlength="10"
-                           pattern="^[0-9]{10}$"
+                           pattern="^[6-9][0-9]{9}$"
+                           title="Enter a valid 10-digit mobile number"
                            oninput="this.value=this.value.replace(/[^0-9]/g,'')"
                            required>
                 </div>
 
                 <div class="form-group">
                     <label>Assigned Roles</label>
-                    <select name="roles" multiple>
+                    <select name="roles" id="roles" multiple required>
                         <c:forEach items="${roles}" var="role">
                             <option value="${role.identifier}">
                                 ${role.identifier}
