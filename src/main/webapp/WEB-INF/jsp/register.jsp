@@ -110,7 +110,7 @@
 
         <div class="mb-3">
             <label class="form-label">Password</label>
-            <form:password path="password" cssClass="form-control" required="required"/>
+            <form:password path="password" cssClass="form-control" required="required" minlength="6"/>
         </div>
 
         <button type="submit" class="btn btn-success w-100">

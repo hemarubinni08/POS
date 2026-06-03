@@ -77,7 +77,8 @@
                                 cssClass="form-control"
                                 placeholder="Enter email"
                                 required="required"
-                                type="email"/>
+                                type="email"
+                                />
                 </div>
 
                 <div class="mb-3">

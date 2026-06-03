@@ -47,8 +47,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String updateUser(Model model,
-                             @ModelAttribute("userDto") UserDto userDto) {
+    public String updateUser(Model model,@ModelAttribute("userDto") UserDto userDto) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
