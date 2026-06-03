@@ -35,7 +35,6 @@ class RoleServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-
     @Test
     void save_success() {
         RoleDto dto = new RoleDto();
