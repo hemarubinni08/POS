@@ -2,7 +2,9 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.model.CategoryRepository;
+import com.ust.pos.model.Category;
 import com.ust.pos.model.Category;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -87,5 +89,15 @@ public class CategoryServiceImpl implements CategoryService {
             categoryRepository.save(category);
         }
         return modelMapper.map(category, CategoryDto.class);
+    }
+
+    @Override
+    public List<CategoryDto> findActiveStatus() {
+        List<Category> allCategory = categoryRepository.findAll();
+        List<Category> activeCategory = allCategory.stream().filter(Category::isStatus).toList();
+
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
+        return modelMapper.map(activeCategory, listType);
     }
 }

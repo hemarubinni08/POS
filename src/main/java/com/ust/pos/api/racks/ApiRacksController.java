@@ -3,6 +3,7 @@ package com.ust.pos.api.racks;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RacksDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.racks.service.RacksService;
 import com.ust.pos.shelfs.sevice.ShelfsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class ApiRacksController extends BaseController {
     ShelfsService shelfsService;
 
     @PostMapping("/list")
-    public List<RacksDto> list(@RequestBody PaginationDto paginationDto) {
+    public WsDto<RacksDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable=getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return racksService.findAll(pageable);
     }

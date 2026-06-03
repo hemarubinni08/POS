@@ -19,4 +19,6 @@ public interface CategoryService {
     List<CategoryDto> findSubCategories();
 
     CategoryDto changeToggleStatus(String identifier, boolean status);
+
+    List<CategoryDto> findActiveStatus();
 }

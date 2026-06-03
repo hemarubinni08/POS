@@ -56,6 +56,7 @@ public class ProductController {
     public String update(Model model, @RequestParam String identifier) {
         ProductDto response = productService.findByIdentifier(identifier);
         model.addAttribute(PRODUCT, response);
+        model.addAttribute("category", categoryService.findSubCategories());
         model.addAttribute("brand", brandService.findActiveStatus());
         model.addAttribute("models", modelService.findActiveStatus());
         return "product/product";

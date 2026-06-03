@@ -4,6 +4,7 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.RoleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -52,5 +53,10 @@ public class ApiCategoryController extends BaseController {
     @PostMapping("/toggle")
     public CategoryDto toggle(@RequestBody CategoryDto categoryDto) {
         return categoryService.changeToggleStatus(categoryDto.getIdentifier(), categoryDto.isStatus());
+    }
+
+    @PostMapping("/findActiveStatus")
+    public List<CategoryDto> findActive() {
+        return categoryService.findActiveStatus();
     }
 }
