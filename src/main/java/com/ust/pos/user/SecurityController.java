@@ -38,6 +38,6 @@ public class SecurityController {
             model.addAttribute("roles", roleService.findAll());
             return "register";
         }
-        return "redirect:/login";
+        return "redirect:/";
     }
 }

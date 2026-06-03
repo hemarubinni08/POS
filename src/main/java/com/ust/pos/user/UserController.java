@@ -36,7 +36,6 @@ public class UserController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute UserDto userDto) {
-
         UserDto response = userService.update(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -57,7 +56,6 @@ public class UserController {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";
             }
-
         }
         return "redirect:/user/list";
     }

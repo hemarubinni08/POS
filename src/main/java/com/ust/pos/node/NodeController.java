@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/node")
-
 public class NodeController {
 
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
@@ -23,21 +22,18 @@ public class NodeController {
 
     @GetMapping("/list")
     public String home(Model model) {
-
         model.addAttribute("nodes", nodeService.findAll());
         return "node/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute NodeDto nodeDto) {
-
         model.addAttribute(ROLES, roleService.findAll());
         return "node/add";
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute NodeDto nodeDto) {
-
         NodeDto response = nodeService.save(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -49,7 +45,6 @@ public class NodeController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         NodeDto response = nodeService.findByIdentifier(identifier);
         model.addAttribute("node", response);
         model.addAttribute(ROLES, roleService.findAll());
@@ -58,7 +53,6 @@ public class NodeController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute NodeDto nodeDto) {
-
         NodeDto response = nodeService.update(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -68,7 +62,6 @@ public class NodeController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
-
         nodeService.delete(identifier);
         return REDIRECT_NODE_LIST;
     }

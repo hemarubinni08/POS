@@ -59,7 +59,6 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public NodeDto save(NodeDto nodeDto) {
-
         String identifier = nodeDto.getIdentifier();
         Node existingNode = nodeRepository.findByIdentifier(identifier);
         if (existingNode != null) {
@@ -74,7 +73,6 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public NodeDto update(NodeDto nodeDto) {
-
         String identifier = nodeDto.getIdentifier();
         Node existingNode = nodeRepository.findByIdentifier(identifier);
         if (existingNode == null) {
