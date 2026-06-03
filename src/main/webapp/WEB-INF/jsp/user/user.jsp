@@ -70,7 +70,8 @@
                     <form:input path="username"
                                 cssClass="form-control"
                                 required="required"
-                                type="email"/>
+                                type="email"
+                                readonly="true"/>
                 </div>
 
                 <div class="mb-3">
