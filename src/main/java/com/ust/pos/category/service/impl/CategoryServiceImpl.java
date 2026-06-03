@@ -125,21 +125,6 @@ public class CategoryServiceImpl implements CategoryService {
         return response;
     }
 
-    //    @Override
-//    public CategoryDto update(CategoryDto dto) {
-//        CategoryDto response = new CategoryDto();
-//        Category category = categoryRepository.findByIdentifier(dto.getIdentifier()).orElse(null);
-//        if (category == null) {
-//            response.setSuccess(false);
-//            response.setMessage("Category not found");
-//            return response;
-//        }
-//        category.setName(dto.getName());
-//        category.setSuperCategoryIdentifier(dto.getSuperCategoryIdentifier());
-//        categoryRepository.save(category);
-//        response.setSuccess(true);
-//        return response;
-//    }
     @Override
     public CategoryDto update(CategoryDto dto) {
         CategoryDto response = new CategoryDto();
@@ -151,9 +136,6 @@ public class CategoryServiceImpl implements CategoryService {
         }
         category.setName(dto.getName());
 
-        // If empty string comes in, store null so findSuperCategories() correctly
-        // identifies this as a super category (it checks for null OR empty string,
-        // but storing null is the canonical "no parent" state)
         String superCat = dto.getSuperCategoryIdentifier();
         category.setSuperCategoryIdentifier(
                 (superCat == null || superCat.trim().isEmpty()) ? null : superCat
