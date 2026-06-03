@@ -79,8 +79,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<ProductDto>>() {
-        }.getType();
         Page<Product> productPage = productRepository.findAll(pageable);
         return productPage.getContent().stream().map(product -> {
             ProductDto productDto = modelMapper.map(product, ProductDto.class);
