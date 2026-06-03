@@ -102,8 +102,8 @@
             </div>
 
             <div class="mb-3">
-                <label>Cost Price</label>
-                <form:input path="price"
+                <label>PriceAmount</label>
+                <form:input path="priceAmount"
                             type="number"
                             min="0"
                             step="0.01"

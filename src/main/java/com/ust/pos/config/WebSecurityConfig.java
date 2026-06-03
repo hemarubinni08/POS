@@ -30,9 +30,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
-@Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
+//@Configuration
+//@EnableWebSecurity
+//@EnableMethodSecurity
 public class WebSecurityConfig {
 
     private static final String SECURITY_SCHEME_NAME = "JavaInUseSecurityScheme";
@@ -43,11 +43,8 @@ public class WebSecurityConfig {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private JWTFilter jwtFilter;
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http,JWTFilter jwtFilter){
 
         http
                 .csrf(csrf -> csrf.disable())

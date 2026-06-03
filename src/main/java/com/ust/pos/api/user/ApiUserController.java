@@ -46,7 +46,7 @@ public class ApiUserController extends BaseController {
 
     @PostMapping("/update")
     public UserDto updatePost(@RequestBody UserDto userDto, @RequestParam String oldUsername) {
-        return userService.findByUserName(oldUsername);
+        return userService.update(oldUsername, userDto);
     }
 
     @GetMapping("/delete")

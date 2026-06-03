@@ -86,8 +86,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Cost Price</label>
-                            <form:input path="price"
+                            <label class="form-label"> PriceAmount</label>
+                            <form:input path="priceAmount"
                                         cssClass="form-control"
                                         type="number"
                                         step="0.01"/>

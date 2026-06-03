@@ -113,7 +113,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void updateTest_IdentifierDifferent() {
+    void updateTest_Identifier() {
         Category existing = new Category();
         existing.setId(1L);
         existing.setIdentifier("OLD");

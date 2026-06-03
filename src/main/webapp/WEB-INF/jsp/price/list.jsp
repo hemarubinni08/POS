@@ -107,7 +107,7 @@
                     <th>ID</th>
                     <th>Identifier</th>
                     <th>Product</th>
-                    <th>Price</th>
+                    <th>PriceAmount</th>
                     <th>Price Type</th>
                     <th class="text-center" style="width:120px;">Actions</th>
                 </tr>
@@ -121,7 +121,7 @@
                         <td class="fw-semibold">
                             ${p.identifier}  </td>
                         <td>${p.product}</td>
-                        <td>₹ ${p.price}</td>
+                        <td>₹ ${p.priceAmount}</td>
 
                         <td>
                             <span class="badge bg-info text-dark">
