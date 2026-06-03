@@ -46,7 +46,7 @@ public class ShelfServiceTest {
         ShelfDto response = shelfService.save(shelfDto);
 
         Assertions.assertEquals("Shelf1", response.getIdentifier());
-        Assertions.assertEquals(true, response.isSuccess());
+        Assertions.assertTrue(response.isSuccess());
     }
 
     @Test
@@ -62,7 +62,7 @@ public class ShelfServiceTest {
 
         Assertions.assertEquals("Shelf1", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
-        Assertions.assertEquals(false, response.isSuccess());
+        Assertions.assertFalse(response.isSuccess());
     }
 
     @Test

@@ -41,7 +41,7 @@ public class UnitServiceTest {
         Mockito.when(unitRepository.save(unit)).thenReturn(unit);
         UnitDto response = unitService.save(unitDto);
         Assertions.assertEquals("kg", response.getIdentifier());
-        Assertions.assertEquals(true, response.isSuccess());
+        Assertions.assertTrue(response.isSuccess());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class UnitServiceTest {
         UnitDto response = unitService.save(unitDto);
         Assertions.assertEquals("kg", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
-        Assertions.assertEquals(false, response.isSuccess());
+        Assertions.assertFalse(response.isSuccess());
     }
 
     @Test

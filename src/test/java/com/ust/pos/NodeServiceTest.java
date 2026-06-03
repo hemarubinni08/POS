@@ -49,7 +49,7 @@ public class NodeServiceTest {
         NodeDto response = nodeService.save(nodeDto);
 
         Assertions.assertEquals("Admin", response.getIdentifier());
-        Assertions.assertEquals(true, response.isSuccess());
+        Assertions.assertTrue(response.isSuccess());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class NodeServiceTest {
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
 
-        Assertions.assertEquals(false, response.isSuccess());
+        Assertions.assertFalse(response.isSuccess());
     }
 
     @Test

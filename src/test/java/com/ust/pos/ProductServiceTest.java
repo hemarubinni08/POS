@@ -45,7 +45,7 @@ public class ProductServiceTest {
         ProductDto response = productService.save(productDto);
 
         Assertions.assertEquals("Lays Chili", response.getIdentifier());
-        Assertions.assertEquals(true, response.isSuccess());
+        Assertions.assertTrue(response.isSuccess());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class ProductServiceTest {
         Assertions.assertEquals("Lays Chili", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
 
-        Assertions.assertEquals(false, response.isSuccess());
+        Assertions.assertFalse(response.isSuccess());
 
     }
 

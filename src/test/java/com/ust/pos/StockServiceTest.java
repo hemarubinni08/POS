@@ -43,7 +43,7 @@ public class StockServiceTest {
         StockDto response = stockService.save(stockDto);
 
         Assertions.assertEquals("Lays In-001", response.getIdentifier());
-        Assertions.assertEquals(true, response.isSuccess());
+        Assertions.assertTrue(response.isSuccess());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class StockServiceTest {
         Assertions.assertEquals("Lays In-001", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
 
-        Assertions.assertEquals(false, response.isSuccess());
+        Assertions.assertFalse(response.isSuccess());
     }
 
     @Test

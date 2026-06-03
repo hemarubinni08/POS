@@ -43,7 +43,7 @@ class BrandServiceTest {
 
         BrandDto response = brandService.save(brandDto);
         Assertions.assertEquals("Nike", response.getIdentifier());
-        Assertions.assertEquals(true, response.isSuccess());
+        Assertions.assertTrue(response.isSuccess());
     }
 
     @Test
@@ -58,7 +58,7 @@ class BrandServiceTest {
 
         Assertions.assertEquals("Nike", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
-        Assertions.assertEquals(false, response.isSuccess());
+        Assertions.assertFalse(response.isSuccess());
     }
 
     @Test

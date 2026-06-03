@@ -44,7 +44,7 @@ class CategoryServiceTest {
 
         CategoryDto response = categoryService.save(categoryDto);
         Assertions.assertEquals("Chips", response.getIdentifier());
-        Assertions.assertEquals(true, response.isSuccess());
+        Assertions.assertTrue(response.isSuccess());
         Assertions.assertNull(response.getSuperCategory());
     }
 
@@ -60,7 +60,7 @@ class CategoryServiceTest {
         Assertions.assertEquals("Chips", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
 
-        Assertions.assertEquals(false, response.isSuccess());
+        Assertions.assertFalse(response.isSuccess());
     }
 
     @Test

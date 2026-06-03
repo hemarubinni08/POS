@@ -43,7 +43,7 @@ public class RoleServiceTest {
         RoleDto response = roleService.save(roleDto);
 
         Assertions.assertEquals("Admin", response.getIdentifier());
-        Assertions.assertEquals(true, response.isSuccess());
+        Assertions.assertTrue(response.isSuccess());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class RoleServiceTest {
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
 
-        Assertions.assertEquals(false, response.isSuccess());
+        Assertions.assertFalse(response.isSuccess());
     }
 
     @Test

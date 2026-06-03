@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController {
-
     @Autowired
     private UserService userService;
 
@@ -51,7 +50,6 @@ public class UserController extends BaseController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
-
         @Nullable Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String loggedInUser = authentication.getName();

@@ -13,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class SecurityController {
-
     @Autowired
     private UserService userService;
 

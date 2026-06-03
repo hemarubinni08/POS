@@ -43,7 +43,7 @@ public class WarehouseServiceTest {
         WarehouseDto response = warehouseService.save(warehouseDto);
 
         Assertions.assertEquals("Lays Warehouse", response.getIdentifier());
-        Assertions.assertEquals(true, response.isSuccess());
+        Assertions.assertTrue(response.isSuccess());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class WarehouseServiceTest {
         Assertions.assertEquals("Lays Warehouse", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
 
-        Assertions.assertEquals(false, response.isSuccess());
+        Assertions.assertFalse(response.isSuccess());
     }
 
     @Test

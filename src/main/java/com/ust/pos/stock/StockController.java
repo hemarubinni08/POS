@@ -4,6 +4,8 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.product.service.ProductService;
+import com.ust.pos.rack.service.RackService;
+import com.ust.pos.shelf.service.ShelfService;
 import com.ust.pos.stock.service.StockService;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ public class StockController extends BaseController {
     public static final String PRODUCTS = "products";
     public static final String WAREHOUSES = "warehouses";
     public static final String REDIRECT_STOCK_LIST = "redirect:/stock/list";
+    public static final String SHELFS = "shelfs";
+    public static final String RACKS = "racks";
     @Autowired
     StockService stockService;
 
@@ -27,10 +31,18 @@ public class StockController extends BaseController {
     @Autowired
     WarehouseService warehouseService;
 
+    @Autowired
+    RackService rackService;
+
+    @Autowired
+    ShelfService shelfService;
+
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute StockDto stockDto) {
         model.addAttribute(PRODUCTS, productService.findAll(null));
         model.addAttribute(WAREHOUSES, warehouseService.findAll(null));
+        model.addAttribute(SHELFS, shelfService.findActiveShelves());
+        model.addAttribute(RACKS, rackService.findActiveRacks());
         return "stock/add";
     }
 
@@ -57,6 +69,8 @@ public class StockController extends BaseController {
     public String home(Model model, @ModelAttribute PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         model.addAttribute("stocks", stockService.findAll(pageable));
+        model.addAttribute(SHELFS, shelfService.findActiveShelves());
+        model.addAttribute(RACKS, rackService.findActiveRacks());
         return "stock/list";
     }
 
@@ -66,6 +80,8 @@ public class StockController extends BaseController {
         model.addAttribute("stock", response);
         model.addAttribute(PRODUCTS, productService.findAll(null));
         model.addAttribute(WAREHOUSES, warehouseService.findAll(null));
+        model.addAttribute(SHELFS, shelfService.findActiveShelves());
+        model.addAttribute(RACKS, rackService.findActiveRacks());
         return "stock/stock";
     }
 

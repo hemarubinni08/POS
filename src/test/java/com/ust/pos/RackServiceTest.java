@@ -67,7 +67,7 @@ public class RackServiceTest {
 
         Assertions.assertEquals("Rack1", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
-        Assertions.assertEquals(false, response.isSuccess());
+        Assertions.assertFalse(response.isSuccess());
     }
 
     @Test

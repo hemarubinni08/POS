@@ -1,6 +1,7 @@
 package com.ust.pos.user.service.impl;
 
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
@@ -47,6 +48,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setIdentifier(userDto.getUsername());
         userRepository.save(user);
         return userDto;
     }
@@ -77,18 +79,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String username) {
-        userRepository.deleteByUsername(username);
+    public void delete(String identifier) {
+        userRepository.deleteByIdentifier(identifier);
     }
 
-    @Override
-    public List<UserDto> findAll(Pageable pageable) {
+    public WsDto<UserDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<UserDto>>() {
+
         }.getType();
         if (pageable == null) {
             return modelMapper.map(userRepository.findAll(), listType);
         }
         Page<User> userPage = userRepository.findAll(pageable);
-        return modelMapper.map(userPage.getContent(), listType);
+
+        WsDto<UserDto> userWsDto = new WsDto<>();
+
+        userWsDto.setDtoList(modelMapper.map(userPage.getContent(), listType));
+
+        userWsDto.setTotalRecords(userPage.getTotalElements());
+
+        userWsDto.setTotalPages(userPage.getTotalPages());
+
+        userWsDto.setSizePerPage(pageable.getPageSize());
+
+        userWsDto.setPage(pageable.getPageNumber());
+
+        return userWsDto;
     }
+
 }
