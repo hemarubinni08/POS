@@ -72,17 +72,15 @@ public class ShelfServiceImpl implements ShelfService {
     }
 
     @Override
-    public List<Shelf> findActiveShelves() {
+    public List<ShelfDto> findActiveShelves() {
         return shelfRepository.findByStatus(true);
     }
 
     @Override
-    public void toggleStatus(String identifier) {
+    public ShelfDto toggleStatus(String identifier) {
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
-        if (shelf != null) {
-            shelf.setStatus(!shelf.isStatus());
-            shelfRepository.save(shelf);
-        }
+        shelf.setStatus(!shelf.isStatus());
+        shelfRepository.save(shelf);
+        return modelMapper.map(shelf, ShelfDto.class);
     }
-
 }

@@ -292,7 +292,7 @@ class BrandServiceTest {
         when(brandRepository.findByStatus(true))
                 .thenReturn(List.of(brand));
 
-        List<Brand> result =
+        List<BrandDto> result =
                 brandService.findActiveBrands();
 
         assertNotNull(result);
