@@ -37,6 +37,7 @@
 </nav>
 
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+
     <div class="card shadow p-4" style="width: 500px;">
 
         <h3 class="text-center mb-4 fw-bold">Add Node</h3>
@@ -47,8 +48,9 @@
             </div>
         </c:if>
 
-        <form action="/node/add" method="post">
+        <form id="nodeForm" action="/node/add" method="post">
 
+            <!-- Identifier -->
             <div class="mb-3">
                 <label class="form-label">Identifier</label>
                 <input type="text"
@@ -58,6 +60,7 @@
                        required>
             </div>
 
+            <!-- Path -->
             <div class="mb-3">
                 <label class="form-label">Path</label>
                 <input type="text"
@@ -67,6 +70,7 @@
                        required>
             </div>
 
+            <!-- Roles -->
             <div class="mb-4">
                 <label class="form-label fw-semibold">Roles (Multiple)</label>
 
@@ -78,12 +82,11 @@
 
                     <c:forEach items="${roles}" var="r">
                         <div class="form-check">
-                            <input class="form-check-input"
+                            <input class="form-check-input role-check"
                                    type="checkbox"
                                    name="roles"
                                    value="${r.identifier}"
                                    id="role_${r.identifier}">
-
                             <label class="form-check-label"
                                    for="role_${r.identifier}">
                                 ${r.identifier}
@@ -92,8 +95,14 @@
                     </c:forEach>
 
                 </div>
+
+                <!-- ERROR MESSAGE -->
+                <small id="roleError" class="text-danger d-none">
+                    Please select at least one role
+                </small>
             </div>
 
+            <!-- Buttons -->
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary w-100">
                     Save
@@ -108,6 +117,40 @@
 
     </div>
 </div>
+
+<!-- VALIDATION SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("nodeForm");
+    const checks = document.querySelectorAll(".role-check");
+    const error = document.getElementById("roleError");
+
+    function isRoleSelected() {
+        return Array.from(checks).some(c => c.checked);
+    }
+
+    function hideError() {
+        if (isRoleSelected()) {
+            error.classList.add("d-none");
+        }
+    }
+
+    checks.forEach(c => {
+        c.addEventListener("change", hideError);
+    });
+
+    form.addEventListener("submit", function (e) {
+
+        if (!isRoleSelected()) {
+            e.preventDefault();
+            error.classList.remove("d-none");
+        }
+
+    });
+
+});
+</script>
 
 </body>
 </html>
