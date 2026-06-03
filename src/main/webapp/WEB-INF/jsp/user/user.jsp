@@ -113,7 +113,8 @@
             <form:input path="username"
                         cssClass="form-control"
                         required="true"
-                        type="email"/>
+                        type="email"
+                         readonly="true"/>
         </div>
         <div class="mb-3">
          <label class="form-label">
