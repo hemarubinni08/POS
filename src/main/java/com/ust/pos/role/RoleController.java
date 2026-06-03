@@ -12,32 +12,37 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/role")
 public class RoleController {
 
+    private static final String ROLE_LIST = "role/list";
+    private static final String ROLE_ADD = "role/add";
+    private static final String ROLE_VIEW = "role/role";
+    private static final String REDIRECT_ROLE_LIST = "redirect:/role/list";
+
     @Autowired
     private RoleService roleService;
 
     @GetMapping("/list")
     public String home(Model model) {
         model.addAttribute("roles", roleService.findAll());
-        return "role/list";
+        return ROLE_LIST;
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute RoleDto roleDto) {
-        return "role/add";
+        return ROLE_ADD;
     }
 
     @PostMapping("/add")
     public String addPost(RedirectAttributes redirectAttributes, @ModelAttribute RoleDto roleDto) {
         RoleDto response = roleService.save(roleDto);
         redirectAttributes.addFlashAttribute("message", response.getMessage());
-        return "redirect:/role/list";
+        return REDIRECT_ROLE_LIST;
     }
 
     @GetMapping("/get")
     public String update(@ModelAttribute RoleDto roleDto, Model model, @RequestParam String identifier) {
         RoleDto response = roleService.findByIdentifier(identifier);
         model.addAttribute("roleDto", response);
-        return "role/role";
+        return ROLE_VIEW;
     }
 
     @PostMapping("/update")
@@ -46,12 +51,12 @@ public class RoleController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
-        return "redirect:/role/list";
+        return REDIRECT_ROLE_LIST;
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam String identifier) {
+    public String delete(@RequestParam String identifier) {
         roleService.delete(identifier);
-        return "role/role";
+        return REDIRECT_ROLE_LIST;
     }
 }

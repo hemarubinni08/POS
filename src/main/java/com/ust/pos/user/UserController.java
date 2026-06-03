@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
+    private static final String USER_LIST = "user/list";
+    private static final String USER_VIEW = "user/user";
+    private static final String REDIRECT_USER_LIST = "redirect:/user/list";
+
     @Autowired
     private UserService userService;
 
@@ -21,7 +25,7 @@ public class UserController {
     @GetMapping("/list")
     public String home(Model model) {
         model.addAttribute("users", userService.findAll());
-        return "user/list";
+        return USER_LIST;
     }
 
     @GetMapping("/get")
@@ -29,7 +33,7 @@ public class UserController {
         UserDto response = userService.findByUserName(username);
         model.addAttribute("userDto", response);
         model.addAttribute("roles", roleService.findAll());
-        return "user/user";
+        return USER_VIEW;
     }
 
     @PostMapping("/update")
@@ -38,12 +42,12 @@ public class UserController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
-        return "redirect:/user/list";
+        return REDIRECT_USER_LIST;
     }
 
     @GetMapping("/delete")
-    public String delete(@ModelAttribute UserDto userDto, Model model, @RequestParam String username) {
+    public String delete(@RequestParam String username) {
         userService.delete(username);
-        return "redirect:/user/list";
+        return REDIRECT_USER_LIST;
     }
 }

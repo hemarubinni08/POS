@@ -181,41 +181,52 @@
 <div class="update-card">
     <h3>Update User</h3>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto">
+    <form:form action="/user/update" method="post" modelAttribute="userDto"
+    onsubmit="return validateForm()">
 
         <form:input type="hidden" path="id"/>
 
         <div class="mb-3">
             <label for="name">Name</label>
-            <form:input id="name" path="name" cssClass="form-control" required="true"/>
+            <form:input id="name" path="name"
+                        cssClass="form-control"
+                        required="true"
+                        pattern="[A-Za-z ]+"
+                        title="Only letters and spaces allowed"/>
+            <small id="nameError" class="text-danger"></small>
         </div>
 
         <div class="mb-3">
             <label for="email">Email</label>
             <form:input id="email" path="username" type="email"
                         cssClass="form-control"
-                        placeholder="example@email.com"
                         required="true"/>
+            <small id="emailError" class="text-danger"></small>
         </div>
 
         <div class="mb-3">
             <label for="phoneNo">Phone Number</label>
-            <form:input id="phoneNo" path="phoneNo" type="number"
+            <form:input id="phoneNo" path="phoneNo" type="text"
                         cssClass="form-control"
                         placeholder="10-digit phone number"
-                        required="true"/>
+                        required="true"
+                        pattern="[0-9]{10}"
+                        title="Enter 10 digit phone number"/>
+            <small id="phoneError" class="text-danger"></small>
         </div>
 
         <div class="mb-3">
             <label for="checkbox-list">Roles</label>
             <div id="checkbox-list" class="checkbox-list">
                 <c:forEach var="role" items="${roles}">
-                    <label for="roles" class="checkbox-item">
-                        <form:checkbox id="roles" path="roles" value="${role.identifier}"/>
+                    <label class="checkbox-item">
+                        <form:checkbox path="roles" value="${role.identifier}"
+                            cssClass="roleCheckbox"/>
                         <span>${role.identifier}</span>
                     </label>
                 </c:forEach>
             </div>
+            <small id="rolesError" class="text-danger"></small>
         </div>
 
         <button type="submit" class="btn-update">Update User</button>
@@ -229,4 +240,47 @@
 </div>
 
 </body>
+<script>
+function validateForm() {
+
+    let isValid = true;
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phoneNo").value.trim();
+    const roles = document.querySelectorAll(".roleCheckbox:checked");
+
+    const nameError = document.getElementById("nameError");
+    const emailError = document.getElementById("emailError");
+    const phoneError = document.getElementById("phoneError");
+    const rolesError = document.getElementById("rolesError");
+
+    nameError.textContent = "";
+    emailError.textContent = "";
+    phoneError.textContent = "";
+    rolesError.textContent = "";
+
+    if (name === "") {
+        nameError.textContent = "Name is required";
+        isValid = false;
+    }
+
+    if (email === "") {
+        emailError.textContent = "Email is required";
+        isValid = false;
+    }
+
+    if (phone.length !== 10) {
+        phoneError.textContent = "Enter valid 10 digit phone number";
+        isValid = false;
+    }
+
+    if (roles.length === 0) {
+        rolesError.textContent = "Please select at least one role";
+        isValid = false;
+    }
+
+    return isValid;
+}
+</script>
 </html>

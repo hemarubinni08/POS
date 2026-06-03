@@ -318,16 +318,19 @@
                 </div>
             </c:if>
 
-            <form:form action="register" method="post" modelAttribute="userDto">
+            <form:form action="register" method="post" modelAttribute="userDto"
+            onsubmit="return validateRoles()">
 
-                <form:input path="name" placeholder="Full Name" required="true"/>
+                <form:input path="name"
+                            placeholder="Full Name"
+                            required="true"
+                            pattern="[A-Za-z ]+"
+                            title="Only letters and spaces allowed"/>
 
                 <form:input path="username"
-                            type="text"
+                            type="email"
                             placeholder="Email Address"
-                            required="true"
-                            pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
-                            title="Enter valid email like example@gmail.com"/>
+                            required="true"/>
 
                 <!-- ROLES CHECKBOXES -->
                 <div class="roles-group">
@@ -335,17 +338,27 @@
                     <div class="checkbox-list">
                         <c:forEach var="role" items="${roles}">
                             <label class="checkbox-item">
-                                <form:checkbox path="roles" value="${role.identifier}"/>
+                                <form:checkbox path="roles" value="${role.identifier}"
+                                    cssClass="roleCheckbox"/>
                                 <span>${role.identifier}</span>
                             </label>
                         </c:forEach>
                     </div>
+                    <small id="rolesError" class="text-danger"></small>
                 </div>
 
-                <form:input path="phoneNo" type="number" placeholder="Phone Number" required="true"
-                pattern="^[6-9][0-9]{9}$" title="Enter valid 10-digit Indian mobile number"/>
+                <form:input path="phoneNo"
+                            type="text"
+                            placeholder="Phone Number"
+                            required="true"
+                            pattern="[0-9]{10}"
+                            title="Enter 10 digit phone number"/>
 
-                <form:password path="password" placeholder="Password" required="true" minlength="6"/>
+                <form:password path="password"
+                               placeholder="Password"
+                               required="true"
+                               pattern=".{6,}"
+                               title="Minimum 6 characters required"/>
 
                 <button type="submit">SIGN UP</button>
 
@@ -370,6 +383,21 @@ window.addEventListener("DOMContentLoaded", function () {
         }, 3500);
     }
 });
+</script>
+<script>
+function validateRoles() {
+
+    const roles = document.querySelectorAll(".roleCheckbox:checked");
+    const error = document.getElementById("rolesError");
+
+    if (roles.length === 0) {
+        error.textContent = "Please select at least one role";
+        return false;
+    }
+
+    error.textContent = "";
+    return true;
+}
 </script>
 </body>
 </html>

@@ -8,11 +8,13 @@ import com.ust.pos.model.UserRepository;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -31,6 +33,13 @@ public class NodeServiceImpl implements NodeService {
     private ModelMapper modelMapper;
 
     @Override
+    public List<NodeDto> findAll(){
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
+        return modelMapper.map(nodeRepository.findAll(), listType);
+    }
+
+    @Override
     public boolean save(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
 
@@ -42,6 +51,22 @@ public class NodeServiceImpl implements NodeService {
         nodeRepository.save(node);
 
         return true;
+    }
+
+    public NodeDto update(NodeDto nodeDto) {
+        String identifier = nodeDto.getIdentifier();
+        Node node = nodeRepository.findByIdentifier(identifier);
+        if (node == null) {
+            nodeDto.setMessage("Node not found");
+            nodeDto.setSuccess(false);
+            return nodeDto;
+        }
+
+        nodeRepository.save(modelMapper.map(nodeDto, Node.class));
+        nodeDto.setMessage("Node updated successfully");
+        nodeDto.setSuccess(true);
+
+        return nodeDto;
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/node")
 public class NodeController {
+
     private static final String NODE_LIST = "node/list";
     private static final String NODE_ADD = "node/add";
     private static final String NODE_VIEW = "node/node";
@@ -24,7 +25,7 @@ public class NodeController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        model.addAttribute("nodes", nodeService.getNodesForRoles());
+        model.addAttribute("nodes", nodeService.findAll());
         return NODE_LIST;
     }
 
@@ -34,7 +35,7 @@ public class NodeController {
         return NODE_ADD;
     }
 
-    @PostMapping("/save")
+    @PostMapping("/add")
     public String add(RedirectAttributes redirectAttributes, @ModelAttribute NodeDto nodeDto) {
         boolean response =nodeService.save(nodeDto);
         if(!response){
@@ -49,6 +50,15 @@ public class NodeController {
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("nodeDto", response);
         return NODE_VIEW;
+    }
+
+    @PostMapping("/update")
+    public String updatePost(Model model, @ModelAttribute NodeDto nodeDto){
+        NodeDto response = nodeService.update(nodeDto);
+        if (!response.isSuccess()) {
+            model.addAttribute("message", response.getMessage());
+        }
+        return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/delete")

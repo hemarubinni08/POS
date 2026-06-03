@@ -47,12 +47,8 @@
         }
 
         @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) scale(1);
-            }
-            50% {
-                transform: translateY(-30px) scale(1.05);
-            }
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
         }
 
         /* CENTER */
@@ -85,14 +81,8 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         h4 {
@@ -110,6 +100,56 @@
         .form-control:focus {
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+        }
+
+        /* Read-only — never show validation colours */
+        .form-control[readonly] {
+            background: #f3f4f6;
+            color: #6b7280;
+            cursor: not-allowed;
+        }
+
+        .form-control[readonly]:user-invalid,
+        .form-control[readonly]:user-valid,
+        .form-control[readonly]:invalid,
+        .form-control[readonly]:valid {
+            border-color: #e5e7eb;
+            box-shadow: none;
+        }
+
+        /* ── VALIDATION STATES ── */
+        .form-control:user-invalid {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
+        }
+
+        .form-control:user-valid {
+            border-color: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
+        }
+
+        /* Fallback for browsers without :user-invalid */
+        .form-control:not(:placeholder-shown):invalid {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
+        }
+
+        .form-control:not(:placeholder-shown):valid {
+            border-color: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
+        }
+
+        /* Hint text */
+        .field-hint {
+            font-size: 11.5px;
+            color: #9ca3af;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .form-control:user-invalid ~ .field-hint,
+        .form-control:not(:placeholder-shown):invalid ~ .field-hint {
+            color: #ef4444;
         }
 
         /* BUTTONS */
@@ -137,66 +177,58 @@
     </style>
 </head>
 
-<body>
-<!-- BLOBS -->
-<div class="blob blob1"></div>
-<div class="blob blob2"></div>
 
-<div class="main-container">
+<body class="bg-light d-flex justify-content-center align-items-center" style="height:100vh;">
 
-    ${message}
+<div class="card p-4 shadow" style="width: 400px;">
 
-    <div class="card">
+    <h4 class="text-center mb-3 text-primary">Edit Role</h4>
 
-        <h4 class="text-center mb-4">Edit Role</h4>
+    <c:if test="${empty roleDto}">
+        <div class="alert alert-danger text-center">
+            Role not found
+        </div>
+    </c:if>
 
-        <c:if test="${empty roleDto}">
-            <div class="alert alert-danger text-center">
-                Role not found
+    <c:if test="${not empty roleDto}">
+        <form:form action="/role/update"
+                   method="post"
+                   modelAttribute="roleDto">
+
+            <form:hidden path="id"/>
+
+            <!-- Role Name (Read-only) -->
+            <div class="mb-3">
+                <label>Role Name</label>
+                <form:input path="identifier"
+                            cssClass="form-control"
+                            readonly="true"/>
             </div>
-        </c:if>
 
-        <c:if test="${not empty roleDto}">
-            <form:form action="/role/update"
-                       method="post"
-                       modelAttribute="roleDto">
+            <!-- Description -->
+            <div class="mb-3">
+                <label>Description *</label>
+                <form:textarea path="description"
+                               cssClass="form-control"
+                               placeholder="Enter description"
+                               required="true"/>
+            </div>
 
-                <form:hidden path="id" value="${roleDto.id}"/>
+            <div class="d-flex justify-content-between">
+                <a href="/role/list" class="btn btn-secondary">
+                    Cancel
+                </a>
 
-                <div class="mb-4">
-                    <label for="identifier" class="form-label">Role Name</label>
-                    <form:input id="identifier"
-                                path="identifier"
-                                cssClass="form-control"
-                                placeholder="Enter role"
-                                required="true"
-                                readonly="true"/>
-                </div>
+                <button type="submit" class="btn btn-primary">
+                    Update
+                </button>
+            </div>
 
-                <div class="mb-4">
-                    <label for="description" class="form-label">Role Description</label>
-                    <form:textarea id="description"
-                                   path="description"
-                                   cssClass="form-control"
-                                   placeholder="Enter description"
-                                   required="true"/>
-                </div>
-
-                <div class="d-flex justify-content-between">
-                    <a href="/role/list" class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
-                    <button type="submit" class="btn btn-success">
-                        Update
-                    </button>
-                </div>
-
-            </form:form>
-        </c:if>
-
-    </div>
+        </form:form>
+    </c:if>
 
 </div>
 
 </body>
+
 </html>

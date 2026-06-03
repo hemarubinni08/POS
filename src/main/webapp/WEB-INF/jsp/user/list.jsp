@@ -154,7 +154,6 @@
     <!-- Actions -->
     <div class="d-flex justify-content-center gap-3 mt-4">
         <a href="/" class="btn btn-secondary">Home</a>
-        <a href="/register" class="btn btn-success">Register</a>
     </div>
 
 </div>
