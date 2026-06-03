@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/role")
 public class RoleController {
+    private static final String REDIRECT_ROLE_LIST = "redirect:/role/list";
 
     @Autowired
     private RoleService roleService;
@@ -31,7 +32,7 @@ public class RoleController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
-        return "role/add";
+        return REDIRECT_ROLE_LIST;
     }
 
     @GetMapping("/get")
@@ -47,12 +48,12 @@ public class RoleController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
-        return "redirect:/role/list";
+        return REDIRECT_ROLE_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         roleService.delete(identifier);
-        return "redirect:/role/list";
+        return REDIRECT_ROLE_LIST;
     }
 }
