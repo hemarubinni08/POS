@@ -74,16 +74,15 @@
                                 readonly="true"/>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label fw-semibold">Phone</label>
-                    <form:input path="phoneNo"
-                                cssClass="form-control"
-                                required="required"
-                                type="number"
-                                maxlength="10"
-                                pattern="^[0-9]{10}$"/>
-                    <small class="text-muted">Must be exactly 10 digits/numbers</small>
-                </div>
+                 <div class="mb-3">
+                    <label class="form-label">Phone Number</label>
+                      <form:input path="phoneNo"
+                                  cssClass="form-control"
+                                  maxlength="10"
+                                  pattern="^[0-9]{10}$"
+                                  oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                  required="required"/>
+                  </div>
 
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Roles</label>
