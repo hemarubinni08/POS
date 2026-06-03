@@ -38,6 +38,7 @@ class ProductServiceTest {
     void save_success() {
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P1");
+        dto.setCategories(List.of("C1"));
         Product entity = new Product();
         Product saved = new Product();
         ProductDto mapped = new ProductDto();
@@ -70,6 +71,28 @@ class ProductServiceTest {
     }
 
     @Test
+    void save_failure_no_categories() {
+        ProductDto dto = new ProductDto();
+        dto.setIdentifier("P1");
+        dto.setCategories(null);
+        when(productRepository.findByIdentifier("P1")).thenReturn(null);
+        ProductDto response = productService.save(dto);
+        assertFalse(response.isSuccess());
+        assertEquals("Please select at least one category", response.getMessage());
+    }
+
+    @Test
+    void save_failure_empty_categories() {
+        ProductDto dto = new ProductDto();
+        dto.setIdentifier("P1");
+        dto.setCategories(List.of());
+        when(productRepository.findByIdentifier("P1")).thenReturn(null);
+        ProductDto response = productService.save(dto);
+        assertFalse(response.isSuccess());
+        assertEquals("Please select at least one category", response.getMessage());
+    }
+
+    @Test
     void find_success() {
         Product product = new Product();
         ProductDto dto = new ProductDto();
@@ -91,6 +114,7 @@ class ProductServiceTest {
     void update_success() {
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P1");
+        dto.setCategories(List.of("C1"));
         Product existing = new Product();
         Product saved = new Product();
         ProductDto mapped = new ProductDto();
@@ -107,10 +131,31 @@ class ProductServiceTest {
     void update_failure() {
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P1");
+        dto.setCategories(List.of("C1"));
         when(productRepository.findByIdentifier("P1")).thenReturn(null);
         ProductDto response = productService.update(dto);
         assertFalse(response.isSuccess());
         assertEquals("Product not found", response.getMessage());
+    }
+
+    @Test
+    void update_failure_no_categories() {
+        ProductDto dto = new ProductDto();
+        dto.setIdentifier("P1");
+        dto.setCategories(null);
+        ProductDto response = productService.update(dto);
+        assertFalse(response.isSuccess());
+        assertEquals("Please select at least one category", response.getMessage());
+    }
+
+    @Test
+    void update_failure_empty_categories() {
+        ProductDto dto = new ProductDto();
+        dto.setIdentifier("P1");
+        dto.setCategories(List.of());
+        ProductDto response = productService.update(dto);
+        assertFalse(response.isSuccess());
+        assertEquals("Please select at least one category", response.getMessage());
     }
 
     @Test

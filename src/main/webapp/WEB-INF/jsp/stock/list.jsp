@@ -97,7 +97,7 @@
                         <th>Product</th>
                         <th>Warehouse</th>
                         <th>Qty</th>
-                        <th>Reorder</th>
+                        <th>ReorderMinimumQty</th>
                         <th>Status</th>
                         <th>Stock State</th>
                         <th class="text-center">Active</th>

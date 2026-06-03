@@ -42,6 +42,7 @@ class RackServiceTest {
     void save_success() {
         RackDto dto = new RackDto();
         dto.setIdentifier("R1");
+        dto.setShelfIdentifiers(List.of("S1"));
         Rack entity = new Rack();
         Rack saved = new Rack();
         RackDto mapped = new RackDto();
@@ -65,9 +66,32 @@ class RackServiceTest {
     }
 
     @Test
+    void save_failure_no_shelves() {
+        RackDto dto = new RackDto();
+        dto.setIdentifier("R1");
+        dto.setShelfIdentifiers(null);
+        when(rackRepository.findByIdentifier("R1")).thenReturn(null);
+        RackDto response = rackService.save(dto);
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertEquals("Please select at least one shelf", response.getMessage());
+    }
+
+    @Test
+    void save_failure_empty_shelves() {
+        RackDto dto = new RackDto();
+        dto.setIdentifier("R1");
+        dto.setShelfIdentifiers(List.of());
+        when(rackRepository.findByIdentifier("R1")).thenReturn(null);
+        RackDto response = rackService.save(dto);
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertEquals("Please select at least one shelf", response.getMessage());
+    }
+
+    @Test
     void update_success() {
         RackDto dto = new RackDto();
         dto.setIdentifier("R1");
+        dto.setShelfIdentifiers(List.of("S1"));
         Rack existing = new Rack();
         Rack saved = new Rack();
         RackDto mapped = new RackDto();
@@ -83,10 +107,31 @@ class RackServiceTest {
     void update_failure_not_found() {
         RackDto dto = new RackDto();
         dto.setIdentifier("R1");
+        dto.setShelfIdentifiers(List.of("S1"));
         when(rackRepository.findByIdentifier("R1")).thenReturn(null);
         RackDto response = rackService.update(dto);
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertEquals("Rack not found", response.getMessage());
+    }
+
+    @Test
+    void update_failure_no_shelves() {
+        RackDto dto = new RackDto();
+        dto.setIdentifier("R1");
+        dto.setShelfIdentifiers(null);
+        RackDto response = rackService.update(dto);
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertEquals("Please select at least one shelf", response.getMessage());
+    }
+
+    @Test
+    void update_failure_empty_shelves() {
+        RackDto dto = new RackDto();
+        dto.setIdentifier("R1");
+        dto.setShelfIdentifiers(List.of());
+        RackDto response = rackService.update(dto);
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertEquals("Please select at least one shelf", response.getMessage());
     }
 
     @Test
@@ -121,10 +166,8 @@ class RackServiceTest {
     @Test
     void find_all_null_pageable() {
         List<Rack> list = List.of(new Rack());
-        when(rackRepository.findAll(Mockito.<Pageable>nullable(Pageable.class))).
-                thenReturn(new PageImpl<>(list));
-        when(modelMapper.map(eq(list), ArgumentMatchers.<Type>any()))
-                .thenReturn(List.of(new RackDto()));
+        when(rackRepository.findAll(Mockito.<Pageable>nullable(Pageable.class))).thenReturn(new PageImpl<>(list));
+        when(modelMapper.map(eq(list), ArgumentMatchers.<Type>any())).thenReturn(List.of(new RackDto()));
         List<RackDto> result = rackService.findAll(null);
         Assertions.assertEquals(1, result.size());
     }
@@ -132,14 +175,12 @@ class RackServiceTest {
     @Test
     void active_racks() {
         List<Rack> list = List.of(new Rack(), new Rack());
-        when(rackRepository.findAll(Mockito.<Pageable>nullable(Pageable.class)))
-                .thenReturn(new PageImpl<>(list));
+        when(rackRepository.findAll(Mockito.<Pageable>nullable(Pageable.class))).thenReturn(new PageImpl<>(list));
         RackDto active = new RackDto();
         active.setStatus(true);
         RackDto inactive = new RackDto();
         inactive.setStatus(false);
-        when(modelMapper.map(eq(list), ArgumentMatchers.<Type>any()))
-                .thenReturn(List.of(active, inactive));
+        when(modelMapper.map(eq(list), ArgumentMatchers.<Type>any())).thenReturn(List.of(active, inactive));
         List<RackDto> result = rackService.getActiveRacks();
         Assertions.assertEquals(1, result.size());
     }

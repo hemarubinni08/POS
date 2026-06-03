@@ -41,6 +41,11 @@ public class ProductServiceImpl implements ProductService {
             productDto.setMessage("Product already exists");
             return productDto;
         }
+        if (productDto.getCategories() == null || productDto.getCategories().isEmpty()) {
+            productDto.setSuccess(false);
+            productDto.setMessage("Please select at least one category");
+            return productDto;
+        }
         Product saveProduct = modelMapper.map(productDto, Product.class);
         Product savedProduct = productRepository.save(saveProduct);
         ProductDto savedProductDto = modelMapper.map(savedProduct, ProductDto.class);
@@ -52,6 +57,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto update(ProductDto productDto) {
         Product product = productRepository.findByIdentifier(productDto.getIdentifier());
+        if (productDto.getCategories() == null || productDto.getCategories().isEmpty()) {
+            productDto.setSuccess(false);
+            productDto.setMessage("Please select at least one category");
+            return productDto;
+        }
         if (product == null) {
             productDto.setSuccess(false);
             productDto.setMessage(PRODUCT_NOT_FOUND);

@@ -43,6 +43,12 @@ public class RackServiceImpl implements RackService {
             dto.setMessage("Rack already exists");
             return dto;
         }
+        if (rackDto.getShelfIdentifiers() == null || rackDto.getShelfIdentifiers().isEmpty()) {
+            RackDto dto = new RackDto();
+            dto.setSuccess(false);
+            dto.setMessage("Please select at least one shelf");
+            return dto;
+        }
         Rack rack = modelMapper.map(rackDto, Rack.class);
         Rack saved = rackRepository.save(rack);
         RackDto response = modelMapper.map(saved, RackDto.class);
@@ -57,6 +63,12 @@ public class RackServiceImpl implements RackService {
             RackDto dto = new RackDto();
             dto.setSuccess(false);
             dto.setMessage("Identifier required");
+            return dto;
+        }
+        if (rackDto.getShelfIdentifiers() == null || rackDto.getShelfIdentifiers().isEmpty()) {
+            RackDto dto = new RackDto();
+            dto.setSuccess(false);
+            dto.setMessage("Please select at least one shelf");
             return dto;
         }
         Rack rack = rackRepository.findByIdentifier(rackDto.getIdentifier());
