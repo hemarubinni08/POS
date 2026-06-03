@@ -127,7 +127,6 @@
     </div>
 </div>
 
-<!-- VALIDATION SCRIPT -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
