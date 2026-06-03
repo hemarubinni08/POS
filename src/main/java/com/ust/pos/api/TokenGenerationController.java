@@ -35,6 +35,7 @@ public class TokenGenerationController {
     @PostMapping("/api/authenticate")
     @ResponseBody
     public UserDto authenticate(@RequestBody UserDto userDto) {
+
         try {
             authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
             UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
@@ -43,16 +44,19 @@ public class TokenGenerationController {
         } catch (Exception e) {
             return new UserDto("Error");
         }
+
     }
 
     @PostMapping("/api/validateToken")
     @ResponseBody
     public Boolean validateToken(@RequestBody UserDto jwtRequest) {
+
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
             return jwtUtility.validateToken(jwtRequest.getToken(), userDetails);
         } catch (Exception e) {
             return false;
         }
+
     }
 }

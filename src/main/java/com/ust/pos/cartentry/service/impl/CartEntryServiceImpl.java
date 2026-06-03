@@ -1,5 +1,6 @@
 package com.ust.pos.cartentry.service.impl;
 
+import com.ust.pos.cart.service.CartService;
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.model.*;
@@ -7,6 +8,7 @@ import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,10 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Autowired
     private PriceRepository priceRepository;
+
+    @Lazy
+    @Autowired
+    private CartService cartService;
 
     @Autowired
     private CartRepository cartRepository;
@@ -53,6 +59,7 @@ public class CartEntryServiceImpl implements CartEntryService {
         cartEntryDto.setSellingPrice(price.getSellingPrice());
         modelMapper.map(cartEntryDto, cartEntry);
         cartEntryRepository.save(cartEntry);
+        cartService.recalculate(cartEntry.getCart());
         return cartEntryDto;
     }
 
