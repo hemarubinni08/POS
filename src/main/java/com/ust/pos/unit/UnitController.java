@@ -52,7 +52,7 @@ public class UnitController {
     public String update(Model model, @RequestParam String identifier) {
 
         UnitDto response = unitService.findByIdentifier(identifier);
-        model.addAttribute("categories", categoryService.findAllCategoriesWithNoSuper());
+        model.addAttribute("categories", categoryService.findAllCategoriesWithNoSuper(null));
         model.addAttribute("unitDto", response);
 
         return "unit/unit";

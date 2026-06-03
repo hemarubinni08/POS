@@ -45,7 +45,7 @@ public class ProductController {
     @GetMapping("/add")
     public String add(Model model) {
 
-        model.addAttribute("categories", categoryService.findAllCategoriesWithNoSuper());
+        model.addAttribute("categories", categoryService.findAllCategoriesWithNoSuper(null));
         model.addAttribute("productDto", new ProductDto());
         model.addAttribute("unit", unitService.findActiveUnit());
         model.addAttribute(BRAND, brandService.findActiveBrands());
@@ -75,7 +75,7 @@ public class ProductController {
     public String update(Model model, @RequestParam String identifier) {
 
         ProductDto response = productService.findByIdentifier(identifier);
-        model.addAttribute("categories", categoryService.findAllCategoriesWithNoSuper());
+        model.addAttribute("categories", categoryService.findAllCategoriesWithNoSuper(null));
         model.addAttribute("productDto", response);
         model.addAttribute("unit", unitService.findActiveUnit());
         model.addAttribute(BRAND, brandService.findActiveBrands());

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class SecurityController {
@@ -33,7 +34,7 @@ public class SecurityController {
     }
 
     @PostMapping("/register")
-    public String addPost(Model model, Pageable pageable, @ModelAttribute UserDto userDto) {
+    public String addPost(Model model, Pageable pageable, @RequestBody UserDto userDto) {
 
         UserDto response = userService.save(userDto);
 
@@ -43,6 +44,6 @@ public class SecurityController {
             return "register";
         }
 
-        return "redirect:/login";
+        return "true";
     }
 }

@@ -32,7 +32,7 @@ public class ModelsController {
     @GetMapping("/add")
     public String add(Model model) {
 
-        model.addAttribute("categories", categoryService.findAllCategoriesWithNoSuper());
+        model.addAttribute("categories", categoryService.findAllCategoriesWithNoSuper(null));
         model.addAttribute("modelsDto", new ModelsDto());
 
         return "models/add";
@@ -55,7 +55,7 @@ public class ModelsController {
     public String update(Model model, @RequestParam String identifier) {
 
         ModelsDto response = modelsService.findByIdentifier(identifier);
-        model.addAttribute("categories", categoryService.findAllCategoriesWithNoSuper());
+        model.addAttribute("categories", categoryService.findAllCategoriesWithNoSuper(null));
         model.addAttribute("modelsDto", response);
 
         return "models/models";

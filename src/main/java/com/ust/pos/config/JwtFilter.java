@@ -1,6 +1,7 @@
 package com.ust.pos.config;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,12 @@ public class JwtFilter extends OncePerRequestFilter {
                                     jakarta.servlet.FilterChain filterChain)
             throws jakarta.servlet.ServletException, IOException {
 
-        String authorization = httpServletRequest.getHeader("Authorization");
-        String token = null;
+
+        String token = getTokenFromCookie(httpServletRequest);
         String userName = null;
 
         try {
-            if (authorization != null && authorization.startsWith("Bearer ")) {
-                token = authorization.substring(7);
+            if (token != null) {
                 userName = jwtUtility.getUsernameFromToken(token);
             }
 
@@ -75,6 +75,17 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
         return path.startsWith("/auth");
+    }
+
+    private String getTokenFromCookie(HttpServletRequest request) {
+        if (request.getCookies() == null) return null;
+
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("token")) {
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 
 }
