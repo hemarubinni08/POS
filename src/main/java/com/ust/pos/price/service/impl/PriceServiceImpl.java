@@ -1,6 +1,7 @@
 package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Price;
 import com.ust.pos.modell.PriceRepository;
 import com.ust.pos.price.service.PriceService;
@@ -26,41 +27,68 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto findByIdentifier(String identifier) {
-        return modelMapper.map(priceRepository.findByIdentifier(identifier), PriceDto.class
-        );
+        Price price = priceRepository.findByIdentifier(identifier);
+        return price != null ? modelMapper.map(price, PriceDto.class) : null;
     }
 
     @Override
     public PriceDto save(PriceDto priceDto) {
-        String identifier = priceDto.getIdentifier();
+
+        String identifier = priceDto.getProduct() + "-" + priceDto.getType();
+        priceDto.setIdentifier(identifier);
+
         Price existingPrice = priceRepository.findByIdentifier(identifier);
 
         if (existingPrice != null) {
-            priceDto.setMessage("Shelf with identifier - " + identifier + " already exists");
+            priceDto.setMessage("Price already exists for product + type");
             priceDto.setSuccess(false);
             return priceDto;
         }
 
         Price price = modelMapper.map(priceDto, Price.class);
+        price.setIdentifier(identifier);
+
         priceRepository.save(price);
+
+        priceDto.setSuccess(true);
         return priceDto;
     }
 
     @Override
     public PriceDto update(PriceDto priceDto) {
-        String identifier = priceDto.getIdentifier();
-        Price existingPrice = priceRepository.findByIdentifier(identifier);
+
+        // ✅ STEP 1: Find existing using OLD identifier
+        Price existingPrice = priceRepository.findByIdentifier(priceDto.getIdentifier());
 
         if (existingPrice == null) {
-            priceDto.setMessage("Shelf with identifier - " + identifier + " not found");
+            priceDto.setMessage("Price not found");
             priceDto.setSuccess(false);
             return priceDto;
         }
 
-        modelMapper.map(priceDto, existingPrice);
+        // ✅ STEP 2: Generate NEW identifier
+        String newIdentifier =  priceDto.getProduct() + "-" + priceDto.getType();
+
+        // ✅ STEP 3: Check duplicate
+        Price duplicate = priceRepository.findByIdentifier(newIdentifier);
+
+        if (duplicate != null && !duplicate.getId().equals(existingPrice.getId())) {
+            priceDto.setMessage("Price already exists for this product and type");
+            priceDto.setSuccess(false);
+            return priceDto;
+        }
+
+        // ✅ STEP 4: Update values
+        existingPrice.setProduct(priceDto.getProduct());
+        existingPrice.setPrice(priceDto.getPrice());
+        existingPrice.setType(priceDto.getType());
+        existingPrice.setIdentifier(newIdentifier);
+
         priceRepository.save(existingPrice);
-        return priceDto;
+
+        return modelMapper.map(existingPrice,PriceDto.class);
     }
+
 
     @Override
     @Transactional
@@ -69,10 +97,18 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public List<PriceDto> findAll(Pageable pageable) {
+    public WsDto<PriceDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
         Page<Price> pricePage = priceRepository.findAll(pageable);
-        return modelMapper.map(pricePage.getContent(), listType);
+
+        WsDto<PriceDto> priceWsDto = new WsDto<>();
+        priceWsDto.setDtoList(modelMapper.map(pricePage.getContent(), listType));
+        priceWsDto.setTotalRecords(pricePage.getTotalElements());
+        priceWsDto.setTotalPage(pricePage.getTotalPages());
+        priceWsDto.setSizePerPage(pageable.getPageSize());
+        priceWsDto.setPage(pageable.getPageNumber());
+
+        return priceWsDto;
     }
 }

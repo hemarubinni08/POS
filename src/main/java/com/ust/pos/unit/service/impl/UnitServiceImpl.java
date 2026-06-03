@@ -1,8 +1,11 @@
 package com.ust.pos.unit.service.impl;
 
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Unit;
 import com.ust.pos.modell.UnitRepository;
+import com.ust.pos.modell.User;
 import com.ust.pos.unit.service.UnitService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -68,21 +71,35 @@ public class UnitServiceImpl implements UnitService {
     }
 
     @Override
-    public List<UnitDto> findAll(Pageable pageable) {
+    public WsDto<UnitDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
         Page<Unit> unitPage = unitRepository.findAll(pageable);
-        return modelMapper.map(unitPage.getContent(), listType);
+
+        WsDto<UnitDto> unitWsDto = new WsDto<>();
+        unitWsDto.setDtoList(modelMapper.map(unitPage.getContent(), listType));
+        unitWsDto.setTotalRecords(unitPage.getTotalElements());
+        unitWsDto.setTotalPage(unitPage.getTotalPages());
+        unitWsDto.setSizePerPage(pageable.getPageSize());
+        unitWsDto.setPage(pageable.getPageNumber());
+
+        return unitWsDto;
     }
 
     @Override
-    public void toggleStatus(String identifier) {
+    @Transactional
+    public UnitDto toggleStatus(String identifier) {
         Unit unit = unitRepository.findByIdentifier(identifier);
 
         if (unit == null) {
-            throw new IllegalArgumentException("Shelf not found");
+            throw new RuntimeException("Unit not found with identifier: " + identifier);
         }
-        unit.setStatus(!unit.getStatus());
-        unitRepository.save(unit);
+
+        Boolean currentStatus = unit.getStatus();
+        unit.setStatus(currentStatus == null ? Boolean.TRUE : !currentStatus);
+
+        Unit saved = unitRepository.save(unit);
+        return modelMapper.map(saved, UnitDto.class);
     }
+
 }

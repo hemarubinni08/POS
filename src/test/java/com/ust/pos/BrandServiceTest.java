@@ -90,7 +90,7 @@ class BrandServiceTest {
     @Test
     void deleteTest() {
         Mockito.doNothing().when(brandRepository).deleteByIdentifier("Apple");
-        brandService.deleteByIdentifier("Apple");
+        brandService.delete("Apple");
         Mockito.verify(brandRepository).deleteByIdentifier("Apple");
     }
 

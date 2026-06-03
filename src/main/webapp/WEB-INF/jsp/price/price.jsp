@@ -32,33 +32,18 @@
             text-align: center;
             font-weight: 600;
             padding: 16px;
-            font-size: 17px;
         }
 
         .card-body {
             padding: 25px;
         }
 
-        label {
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        .form-control,
-        .form-select {
+        .form-control, .form-select {
             border-radius: 8px;
-            padding: 10px;
         }
 
         .readonly-field {
             background-color: #e9ecef;
-            cursor: not-allowed;
-        }
-
-        .btn-primary,
-        .btn-outline-secondary {
-            border-radius: 8px;
         }
     </style>
 </head>
@@ -77,50 +62,49 @@
                    action="${pageContext.request.contextPath}/price/update"
                    modelAttribute="price">
 
-            <!-- Hidden fields -->
+            <!-- ✅ Hidden fields -->
             <form:hidden path="id"/>
             <form:hidden path="identifier"/>
+            <form:hidden path="product"/>
 
-            <!-- Identifier (readonly) -->
+            <!-- ✅ Product -->
             <div class="mb-3">
-                <label>Identifier</label>
+                <label>Product</label>
                 <input type="text"
+                       id="product"
                        class="form-control readonly-field"
-                       value="${price.identifier}"
-                       readonly>
+                       value="${price.product}"
+                       readonly/>
             </div>
 
-            <!-- Cost Price -->
-            <div class="mb-3">
-                <label>Cost Price</label>
-                <form:input path="costPrice"
-                            type="number"
-                            min="0"
-                            step="0.01"
-                            cssClass="form-control"
-                            placeholder="Enter cost price"
-                            required="required"/>
-            </div>
-
-            <!-- Type -->
+            <!-- ✅ Editable Type -->
             <div class="mb-3">
                 <label>Price Type</label>
-                <form:select path="type"
-                             cssClass="form-select"
-                             required="required">
+                <form:select path="type" cssClass="form-select" id="type">
                     <form:option value="MRP">MRP</form:option>
-                    <form:option value="SELLING">Selling Price</form:option>
+                    <form:option value="SELLING">Selling</form:option>
+                    <form:option value="COSTPRICE">costPrice</form:option>
                 </form:select>
             </div>
 
-            <!-- Buttons -->
-            <div class="d-grid gap-2 mt-4">
+            <!-- ✅ Price -->
+            <div class="mb-3">
+                <label>Price</label>
+                <form:input path="price"
+                            cssClass="form-control"
+                            type="number"
+                            step="0.01"
+                            required="true"/>
+            </div>
+
+            <!-- ✅ Buttons -->
+            <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-success">
-                    <i class="bi bi-save me-1"></i> Update Price
+                    Update Price
                 </button>
 
                 <a href="${pageContext.request.contextPath}/price/list"
-                   class="btn btn-outline-secondary">
+                   class="btn btn-secondary">
                     Cancel
                 </a>
             </div>

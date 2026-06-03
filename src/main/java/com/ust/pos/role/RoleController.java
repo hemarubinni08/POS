@@ -63,4 +63,10 @@ public class RoleController {
         roleService.delete(identifier);
         return REDIRECT_ROLE_LIST;
     }
+
+    @GetMapping("/toggle")
+    public String toggle(@RequestParam String identifier) {
+        roleService.toggleStatus(identifier);
+        return REDIRECT_ROLE_LIST;
+    }
 }

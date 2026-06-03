@@ -1,8 +1,11 @@
 package com.ust.pos.product.service.impl;
 
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Product;
 import com.ust.pos.modell.ProductRepository;
+import com.ust.pos.modell.User;
 import com.ust.pos.product.service.ProductService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -73,32 +76,32 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findAll(Pageable pageable) {
+    public WsDto<ProductDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         Page<Product> productPage = productRepository.findAll(pageable);
 
-        return modelMapper.map(productPage.getContent(), listType);
+        WsDto<ProductDto> productWsDto = new WsDto<>();
+        productWsDto.setDtoList(modelMapper.map(productPage.getContent(), listType));
+        productWsDto.setTotalRecords(productPage.getTotalElements());
+        productWsDto.setTotalPage(productPage.getTotalPages());
+        productWsDto.setSizePerPage(pageable.getPageSize());
+        productWsDto.setPage(pageable.getPageNumber());
+
+        return productWsDto;
     }
 
     @Override
     @Transactional
-    public void toggleStatus(String identifier) {
+    public ProductDto toggleStatus(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
-
         if (product == null) {
-            throw PRODUCT_NOT_FOUND;
+            throw new RuntimeException("Product not found with identifier: " + identifier);
         }
-
         Boolean currentStatus = product.getStatus();
-
-        if (currentStatus == null) {
-            product.setStatus(Boolean.TRUE);
-        } else {
-            product.setStatus(!currentStatus);
-        }
-
-        productRepository.save(product);
+        product.setStatus(currentStatus == null ? Boolean.TRUE : !currentStatus);
+        Product saved = productRepository.save(product);
+        return modelMapper.map(saved, ProductDto.class);
     }
 
     @Override

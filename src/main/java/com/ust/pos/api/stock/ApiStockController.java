@@ -3,6 +3,7 @@ package com.ust.pos.api.stock;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
 import com.ust.pos.warehouse.service.WarehouseService;
@@ -33,7 +34,7 @@ public class ApiStockController extends BaseController {
     }
 
     @PostMapping("/list")
-    public List<StockDto> list(@RequestBody PaginationDto paginationDto) {
+    public WsDto<StockDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return stockService.findAll(pageable);
     }

@@ -1,6 +1,7 @@
 package com.ust.pos.user.service.impl;
 
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.User;
 import com.ust.pos.modell.UserRepository;
 import com.ust.pos.user.service.UserService;
@@ -33,7 +34,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(username);
 
         if (user == null) {
-            return null;
+            UserDto dto = new UserDto();
+            dto.setSuccess(false);
+            dto.setMessage("User not found");
+            return dto;
         }
         return modelMapper.map(user, UserDto.class);
     }
@@ -96,10 +100,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAll(Pageable pageable) {
+    public WsDto<UserDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
         Page<User> userPage = userRepository.findAll(pageable);
-        return modelMapper.map(userPage.getContent(), listType);
+
+        WsDto<UserDto> userWsDto = new WsDto<>();
+        userWsDto.setDtoList(modelMapper.map(userPage.getContent(), listType));
+        userWsDto.setTotalRecords(userPage.getTotalElements());
+        userWsDto.setTotalPage(userPage.getTotalPages());
+        userWsDto.setSizePerPage(pageable.getPageSize());
+        userWsDto.setPage(pageable.getPageNumber());
+
+        return userWsDto;
     }
 }

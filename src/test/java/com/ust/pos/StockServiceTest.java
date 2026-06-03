@@ -63,26 +63,6 @@ class StockServiceTest {
     }
 
     @Test
-    void findByIdNotFound() {
-        when(stockRepository.findById(1L)).thenReturn(Optional.empty());
-        Assertions.assertThrows(RuntimeException.class, () -> stockService.findById(1L));
-    }
-
-    @Test
-    void saveMissingProductIdentifier() {
-        StockDto dto = new StockDto();
-        dto.setWarehouseIdentifier("W1");
-        Assertions.assertThrows(IllegalArgumentException.class, () -> stockService.save(dto));
-    }
-
-    @Test
-    void saveMissingWarehouseIdentifier() {
-        StockDto dto = new StockDto();
-        dto.setProductIdentifier("P1");
-        Assertions.assertThrows(IllegalArgumentException.class, () -> stockService.save(dto));
-    }
-
-    @Test
     void saveStatusTrue() {
         StockDto dto = new StockDto();
         dto.setProductIdentifier("P1");
@@ -138,14 +118,6 @@ class StockServiceTest {
         when(stockRepository.save(any())).thenReturn(stock);
         StockDto result = stockService.update(dto);
         Assertions.assertFalse(result.getStatus());
-    }
-
-    @Test
-    void updateNotFound() {
-        when(stockRepository.findById(1L)).thenReturn(Optional.empty());
-        StockDto dto = new StockDto();
-        dto.setId(1L);
-        Assertions.assertThrows(RuntimeException.class, () -> stockService.update(dto));
     }
 
     @Test

@@ -19,6 +19,7 @@ import org.springframework.data.domain.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -42,12 +43,10 @@ class CustomerServiceTest {
 
     @BeforeEach
     void setup() {
-
         customer = new Customer();
         customer.setIdentifier("C001");
         customer.setPhoneNo("9999999999");
         customer.setStatus(true);
-
         customerDto = new CustomerDto();
         customerDto.setIdentifier("C001");
         customerDto.setPhoneNo("9999999999");
@@ -57,7 +56,6 @@ class CustomerServiceTest {
 
     @Test
     void findByIdTest() {
-
         when(customerRepository.findById("C001")).thenReturn(customer);
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
         CustomerDto result = customerService.findById("C001");
@@ -67,18 +65,15 @@ class CustomerServiceTest {
 
     @Test
     void findWithAddress_nullList() {
-
         when(customerRepository.findByPhoneNo("9999999999")).thenReturn(customer);
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
         when(addressService.findAllByPhoneNo("9999999999")).thenReturn(null);
         CustomerDto result = customerService.findByIdentifierWithAddressDto("9999999999");
-
         assertNotNull(result);
     }
 
     @Test
     void findWithAddress_emptyList() {
-
         when(customerRepository.findByPhoneNo("9999999999")).thenReturn(customer);
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
         when(addressService.findAllByPhoneNo("9999999999")).thenReturn(new ArrayList<>());
@@ -87,12 +82,10 @@ class CustomerServiceTest {
 
     @Test
     void findWithAddress_singleItem() {
-
         AddressDto addr = new AddressDto();
         CustomerDto localDto = new CustomerDto();
         localDto.setIdentifier("C001");
         localDto.setPhoneNo("9999999999");
-
         when(customerRepository.findByPhoneNo("9999999999")).thenReturn(customer);
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(localDto);
         when(addressService.findAllByPhoneNo("9999999999")).thenReturn(List.of(addr));
@@ -102,10 +95,8 @@ class CustomerServiceTest {
 
     @Test
     void findWithAddress_multipleItems() {
-
         AddressDto billing = new AddressDto();
         AddressDto shipping = new AddressDto();
-
         when(customerRepository.findByPhoneNo("9999999999")).thenReturn(customer);
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
         when(addressService.findAllByPhoneNo("9999999999")).thenReturn(List.of(billing, shipping));
@@ -115,7 +106,6 @@ class CustomerServiceTest {
 
     @Test
     void saveSuccess() {
-
         when(customerRepository.findById("C001")).thenReturn(null);
         when(modelMapper.map(customerDto, Customer.class)).thenReturn(customer);
         when(modelMapper.map(any(AddressDto.class), eq(AddressDto.class))).thenAnswer(inv -> inv.getArgument(0));
@@ -127,7 +117,6 @@ class CustomerServiceTest {
 
     @Test
     void saveDuplicate() {
-
         when(customerRepository.findById("C001")).thenReturn(customer);
         CustomerDto result = customerService.save(customerDto);
         assertFalse(result.isSuccess());
@@ -136,7 +125,6 @@ class CustomerServiceTest {
 
     @Test
     void updateSuccess() {
-
         AddressDto billing = new AddressDto();
         AddressDto shipping = new AddressDto();
         when(customerRepository.findByPhoneNo("9999999999")).thenReturn(customer);
@@ -149,7 +137,6 @@ class CustomerServiceTest {
 
     @Test
     void updateNotFound() {
-
         when(customerRepository.findByPhoneNo("9999999999")).thenReturn(null);
         CustomerDto result = customerService.update(customerDto);
         assertFalse(result.isSuccess());
@@ -157,7 +144,6 @@ class CustomerServiceTest {
 
     @Test
     void deleteTest() {
-
         boolean result = customerService.delete("9999999999");
         verify(customerRepository).deleteByPhoneNo("9999999999");
         verify(addressService).delete("9999999999");
@@ -166,7 +152,6 @@ class CustomerServiceTest {
 
     @Test
     void findAllTest() {
-
         Customer customer1 = new Customer();
         customer1.setIdentifier("Admin");
         CustomerDto customerDto1 = new CustomerDto();
@@ -183,7 +168,6 @@ class CustomerServiceTest {
 
     @Test
     void toggleStatusTest() {
-
         when(customerRepository.findById("C001")).thenReturn(customer);
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
         boolean before = customer.getStatus();
@@ -195,7 +179,6 @@ class CustomerServiceTest {
 
     @Test
     void findIfTrueTest() {
-
         customer.setStatus(true);
         customerDto.setStatus(true);
         when(customerRepository.findByStatusIsTrue()).thenReturn(List.of(customer));

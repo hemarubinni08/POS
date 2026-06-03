@@ -1,8 +1,11 @@
 package com.ust.pos.stock.service.impl;
 
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Stock;
 import com.ust.pos.modell.StockRepository;
+import com.ust.pos.modell.User;
 import com.ust.pos.stock.service.StockService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -12,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
@@ -80,13 +84,19 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public List<StockDto> findAll(Pageable pageable) {
+    public WsDto<StockDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<StockDto>>() {
+        }.getType();
+        Page<Stock> stockPage = stockRepository.findAll(pageable);
 
-        Page<Stock> page = stockRepository.findAll(pageable);
+        WsDto<StockDto> stockWsDto = new WsDto<>();
+        stockWsDto.setDtoList(modelMapper.map(stockPage.getContent(), listType));
+        stockWsDto.setTotalRecords(stockPage.getTotalElements());
+        stockWsDto.setTotalPage(stockPage.getTotalPages());
+        stockWsDto.setSizePerPage(pageable.getPageSize());
+        stockWsDto.setPage(pageable.getPageNumber());
 
-        return modelMapper.map(page.getContent(), new TypeToken<List<StockDto>>() {
-                }.getType()
-        );
+        return stockWsDto;
     }
 
     private StockDto mapToDto(Stock stock) {

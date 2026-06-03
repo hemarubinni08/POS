@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -15,7 +17,4 @@ public class Product extends CommonFields {
     private String model;
     private String unit;
     private Integer quantity;
-    private String shelf;
-    private String rack;
-
 }

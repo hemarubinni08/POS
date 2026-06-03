@@ -82,6 +82,7 @@
 
 <div class="container mt-4">
 
+    <!-- Header -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <h3>Price Management</h3>
 
@@ -98,6 +99,7 @@
         </div>
     </div>
 
+    <!-- Table -->
     <div class="card shadow">
         <div class="card-body p-0">
 
@@ -105,23 +107,28 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Identifier</th>
-                    <th>Cost Price</th>
+                    <th>Identifier</th> <!-- ✅ NEW -->
+                    <th>Product</th>
+                    <th>Price</th>
                     <th>Price Type</th>
                     <th class="text-center" style="width:120px;">Actions</th>
                 </tr>
                 </thead>
 
                 <tbody>
+
                 <c:forEach items="${prices}" var="p">
                     <tr>
                         <td>${p.id}</td>
 
-                        <td class="fw-semibold">
+                        <!-- ✅ Identifier displayed -->
+                        <td class="fw-semibold text-primary">
                             ${p.identifier}
                         </td>
 
-                        <td>₹ ${p.costPrice}</td>
+                        <td>${p.product}</td>
+
+                        <td>₹ ${p.price}</td>
 
                         <td>
                             <span class="badge bg-info text-dark">
@@ -131,12 +138,14 @@
 
                         <td class="text-center">
 
+                            <!-- Edit -->
                             <a href="${pageContext.request.contextPath}/price/get?identifier=${p.identifier}"
                                class="action-icon edit-icon"
                                title="Edit">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
 
+                            <!-- Delete -->
                             <a href="${pageContext.request.contextPath}/price/delete?identifier=${p.identifier}"
                                class="action-icon delete-icon"
                                title="Delete"
@@ -148,9 +157,10 @@
                     </tr>
                 </c:forEach>
 
+                <!-- Empty case -->
                 <c:if test="${empty prices}">
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4">
+                        <td colspan="6" class="text-center text-muted py-4">
                             No prices found.
                         </td>
                     </tr>

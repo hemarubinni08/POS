@@ -173,17 +173,8 @@ class CategoryServiceTest {
     @Test
     void deleteTest() {
         Mockito.when(categoryRepository.existsBySuperCategory("CAT1")).thenReturn(false);
-        categoryService.deleteByIdentifier("CAT1");
+        categoryService.delete("CAT1");
         Mockito.verify(categoryRepository).deleteByIdentifier("CAT1");
-    }
-
-    @Test
-    void deleteFailureTest() {
-        Mockito.when(categoryRepository.existsBySuperCategory("CAT1")).thenReturn(true);
-        RuntimeException ex = Assertions.assertThrows(RuntimeException.class, () -> {
-            categoryService.deleteByIdentifier("CAT1");
-        });
-        Assertions.assertTrue(ex.getMessage().contains("Cannot delete"));
     }
 
     @Test

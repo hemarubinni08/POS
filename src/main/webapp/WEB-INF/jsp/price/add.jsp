@@ -39,6 +39,10 @@
         .form-label {
             font-weight: 500;
         }
+
+        .readonly-field {
+            background-color: #e9ecef;
+        }
     </style>
 </head>
 
@@ -55,6 +59,7 @@
 
                 <div class="card-body">
 
+                    <!-- ✅ Error Message -->
                     <c:if test="${not empty message}">
                         <div class="alert alert-danger">
                             ${message}
@@ -65,33 +70,50 @@
                                action="${pageContext.request.contextPath}/price/add"
                                modelAttribute="price">
 
+                        <!-- ✅ Product -->
                         <div class="mb-3">
                             <label class="form-label">Product</label>
-                            <form:select path="identifier" cssClass="form-select">
+                            <form:select path="product"
+                                         cssClass="form-select"
+                                         id="product"
+                                         required="true">
+
                                 <form:option value="">-- Select Product --</form:option>
+
                                 <form:options items="${products}"
                                               itemValue="identifier"
                                               itemLabel="identifier"/>
                             </form:select>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Cost Price</label>
-                            <form:input path="costPrice"
-                                        cssClass="form-control"
-                                        type="number"
-                                        step="0.01"/>
-                        </div>
-
+                        <!-- ✅ Price Type -->
                         <div class="mb-3">
                             <label class="form-label">Price Type</label>
-                            <form:select path="type" cssClass="form-select">
+                            <form:select path="type"
+                                         cssClass="form-select"
+                                         id="type"
+                                         required="true">
+
                                 <form:option value="">-- Select --</form:option>
                                 <form:option value="MRP">MRP</form:option>
-                                <form:option value="SELLING">Selling</form:option>
+                                <form:option value="SELLING">SELLING</form:option>
+                                <form:option value="COSTPRICE">SELLING</form:option>
+
                             </form:select>
                         </div>
 
+
+                        <!-- ✅ Price -->
+                        <div class="mb-3">
+                            <label class="form-label">Price</label>
+                            <form:input path="price"
+                                        cssClass="form-control"
+                                        type="number"
+                                        step="0.01"
+                                        required="true"/>
+                        </div>
+
+                        <!-- ✅ Buttons -->
                         <button type="submit" class="btn btn-success w-100">
                             Save Price
                         </button>
