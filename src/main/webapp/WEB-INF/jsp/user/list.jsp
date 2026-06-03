@@ -73,6 +73,12 @@
         .footer-text {
             font-size: 13px;
         }
+
+        .role-text {
+            margin:2px 6px;
+            color:#495057;
+        }
+        }
     </style>
 </head>
 
@@ -121,10 +127,9 @@
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
 
-                                <td>
-                                    <span class="badge bg-secondary">
-                                        ${user.roles}
-                                    </span>
+                                <!-- ✅ UPDATED ROLES DISPLAY -->
+                                <td class="role-text">
+                                    ${user.roles}
                                 </td>
 
                                 <td class="action-icons">
