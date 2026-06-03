@@ -16,7 +16,6 @@ public class SecurityController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private RoleService roleService;
 
@@ -43,4 +42,5 @@ public class SecurityController {
         redirectAttributes.addFlashAttribute("message", "Register Success, Please login");
         return "redirect:/login";
     }
+
 }

@@ -22,15 +22,13 @@ import java.util.Set;
 
 @Service
 public class NodeServiceImpl implements NodeService {
+
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private NodeRepository nodeRepository;
-
     @Autowired
     private ModelMapper modelMapper;
-
 
     @Override
     public NodeDto findByIdentifier(String identifier) {
@@ -68,7 +66,6 @@ public class NodeServiceImpl implements NodeService {
     @Transactional
     @Override
     public void delete(String identifier) {
-
         nodeRepository.deleteByIdentifier(identifier);
     }
 
@@ -104,6 +101,7 @@ public class NodeServiceImpl implements NodeService {
             nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
         }
     }
+
 }
 
 

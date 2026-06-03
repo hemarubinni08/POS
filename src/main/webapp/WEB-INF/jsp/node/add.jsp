@@ -5,44 +5,59 @@
 <html>
 <head>
     <title>Add Node</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
     <style>
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7f6;
-            padding: 40px;
-            color: #333;
+            background-color: #f3f5f7;
+            font-family: "Segoe UI", sans-serif;
         }
-        .container {
-            max-width: 450px;
-            margin: 0 auto;
+
+        .page-container {
+            max-width: 700px;
+            margin: 50px auto;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .card-header {
             background: white;
+            border-bottom: 1px solid #e9ecef;
+            padding: 20px 25px;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .card-body {
             padding: 30px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-control,
+        .form-select {
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            font-size: 14px;
-            color: #555;
-        }
-        input[type="text"],
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
+
+        .form-control:focus,
+        .form-select:focus {
+            box-shadow: none;
+            border-color: #0d6efd;
         }
 
         .input-error {
@@ -50,107 +65,127 @@
             background-color: #fff5f5;
         }
 
-        select[multiple] {
-            height: 100px;
-        }
-
         .hint {
-            font-size: 12px;
-            color: #777;
+            font-size: 13px;
+            color: #6c757d;
             margin-top: 5px;
         }
 
-        .error {
-            color: #dc3545;
+        .error-box {
             background-color: #f8d7da;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .actions {
-            margin-top: 30px;
+            color: #842029;
+            border: 1px solid #f5c2c7;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
             text-align: center;
         }
 
         .btn {
-            padding: 10px 20px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
+            min-width: 120px;
         }
 
-        .btn-save {
-            background-color: #28a745;
-            color: white;
-            margin-right: 10px;
-        }
-
-        .btn-cancel {
-            background-color: #6c757d;
-            color: white;
-        }
     </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h2>Add New Node</h2>
+<div class="container-fluid">
 
-    <!-- ERROR MESSAGE -->
-    <c:if test="${not empty error}">
-        <div class="error">${error}</div>
-    </c:if>
+    <div class="page-container">
 
-    <form action="${pageContext.request.contextPath}/node/add" method="post">
+        <div class="card">
 
-        <!-- Node Name -->
-        <div class="form-group">
-            <label>Node Name</label>
-            <input type="text"
-                   name="identifier"
-                   placeholder="e.g. Dashboard"
-                   value="${param.identifier}"
-                   class="${not empty error && error.contains('already') ? 'input-error' : ''}"
-                   required />
+            <div class="card-header">
+                <h3>Add New Node</h3>
+            </div>
+
+            <div class="card-body">
+
+                <c:if test="${not empty error}">
+                    <div class="error-box">
+                        ${error}
+                    </div>
+                </c:if>
+
+                <form action="${pageContext.request.contextPath}/node/add"
+                      method="post">
+
+                    <!-- Node Name -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            Node Name
+                        </label>
+
+                        <input type="text"
+                               name="identifier"
+                               class="form-control ${not empty error && error.contains('already') ? 'input-error' : ''}"
+                               placeholder="e.g. Dashboard"
+                               value="${param.identifier}"
+                               required>
+                    </div>
+
+                    <!-- Path -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            Path
+                        </label>
+
+                        <input type="text"
+                               name="path"
+                               class="form-control"
+                               placeholder="e.g. /admin/home"
+                               value="${param.path}"
+                               required>
+                    </div>
+
+                    <!-- Roles -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            Roles
+                        </label>
+
+                        <select name="roles"
+                                class="form-select"
+                                multiple
+                                size="5">
+
+                            <c:forEach var="role" items="${roles}">
+                                <option value="${role.identifier}">
+                                    ${role.identifier}
+                                </option>
+                            </c:forEach>
+
+                        </select>
+
+                        <div class="hint">
+                            Hold Ctrl (Windows) or Cmd (Mac) to select multiple roles.
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+
+                        <a href="${pageContext.request.contextPath}/node/list"
+                           class="btn btn-secondary">
+                            Cancel
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Save Node
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
         </div>
 
-        <!-- Path -->
-        <div class="form-group">
-            <label>Path</label>
-            <input type="text"
-                   name="path"
-                   placeholder="e.g. /admin/home"
-                   value="${param.path}"
-                   required />
-        </div>
+    </div>
 
-        <!-- Roles -->
-        <div class="form-group">
-            <label>Roles</label>
-            <select name="roles" multiple>
-                <c:forEach var="role" items="${roles}">
-                    <option value="${role.identifier}">
-                        ${role.identifier}
-                    </option>
-                </c:forEach>
-            </select>
-            <div class="hint">Hold Ctrl (Win) or Cmd (Mac) to select multiple</div>
-        </div>
-
-        <div class="actions">
-            <button type="submit" class="btn btn-save">Save Node</button>
-            <a href="${pageContext.request.contextPath}/node/list" class="btn btn-cancel">Cancel</a>
-        </div>
-
-    </form>
 </div>
 
 </body>

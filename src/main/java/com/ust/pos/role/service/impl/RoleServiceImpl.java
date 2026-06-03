@@ -18,7 +18,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -55,7 +54,6 @@ public class RoleServiceImpl implements RoleService {
         return roleDto;
     }
 
-
     @Override
     @Transactional
     public void delete(String identifier) {
@@ -68,4 +66,5 @@ public class RoleServiceImpl implements RoleService {
         }.getType();
         return modelMapper.map(roleRepository.findAll(), listType);
     }
+
 }

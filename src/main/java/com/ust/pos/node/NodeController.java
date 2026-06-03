@@ -14,9 +14,9 @@ public class NodeController {
 
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     public static final String ROLES = "roles";
+
     @Autowired
     private NodeService nodeService;
-
     @Autowired
     private RoleService roleService;
 
@@ -35,9 +35,7 @@ public class NodeController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute NodeDto userDto) {
-
         NodeDto response = nodeService.save(userDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("error", response.getMessage());
             model.addAttribute(ROLES, roleService.findAll());
@@ -68,4 +66,5 @@ public class NodeController {
         nodeService.delete(identifier);
         return REDIRECT_NODE_LIST;
     }
+
 }
