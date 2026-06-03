@@ -19,13 +19,11 @@
             color: #1e293b;
         }
 
-        /* Layout */
         .wrapper {
             display: flex;
             min-height: 100vh;
         }
 
-        /* Sidebar */
         .sidebar {
             width: 250px;
             background: #ffffff;
@@ -46,7 +44,6 @@
             font-weight: 600;
         }
 
-        /* Menu links */
         .menu a {
             display: block;
             padding: 12px 15px;
@@ -64,7 +61,6 @@
             color: #ffffff;
         }
 
-        /* Main Content */
         .content {
             flex: 1;
             display: flex;
@@ -72,7 +68,6 @@
             align-items: center;
         }
 
-        /* Center card */
         .center-box {
             text-align: center;
             background: #ffffff;
@@ -94,7 +89,6 @@
             font-size: 14px;
         }
 
-        /* Logout button */
         .logout-btn {
             width: 100%;
             padding: 12px;
