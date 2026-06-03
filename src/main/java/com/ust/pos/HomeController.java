@@ -14,7 +14,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-
         try {
             model.addAttribute("nodes", nodeService.getNodesForRoles());
             return "home";
@@ -25,4 +24,5 @@ public class HomeController {
             return "redirect:/login";
         }
     }
+
 }

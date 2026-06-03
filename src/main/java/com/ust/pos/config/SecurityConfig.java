@@ -19,16 +19,13 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config) {
         return config.getAuthenticationManager();
     }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
-
         http
                 .csrf(csrf -> csrf.disable())
 

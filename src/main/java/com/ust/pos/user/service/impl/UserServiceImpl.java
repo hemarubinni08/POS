@@ -20,12 +20,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
+
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -51,11 +50,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-
     public UserDto update(UserDto userDto) {
         String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
-
         if (userOptional.isEmpty()) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " not found");
             userDto.setSuccess(false);
@@ -67,7 +64,6 @@ public class UserServiceImpl implements UserService {
                 userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
                 userDto.setSuccess(false);
                 return userDto;
-
             }
             modelMapper.map(userDto, existingUser);
             userRepository.save(existingUser);
@@ -86,4 +82,5 @@ public class UserServiceImpl implements UserService {
         }.getType();
         return modelMapper.map(userRepository.findAll(), listType);
     }
+
 }

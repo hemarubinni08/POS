@@ -14,9 +14,9 @@ public class NodeController {
 
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     public static final String ROLES = "roles";
+
     @Autowired
     private NodeService nodeService;
-
     @Autowired
     private RoleService roleService;
 
@@ -54,7 +54,6 @@ public class NodeController {
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute NodeDto userDto) {
         nodeService.update(userDto);
-
         return REDIRECT_NODE_LIST;
     }
 
@@ -63,4 +62,5 @@ public class NodeController {
         nodeService.delete(identifier);
         return REDIRECT_NODE_LIST;
     }
+
 }

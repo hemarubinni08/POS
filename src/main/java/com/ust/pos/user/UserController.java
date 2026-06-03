@@ -17,7 +17,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private RoleService roleService;
 
@@ -51,9 +50,7 @@ public class UserController {
         @Nullable Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String loggedInUser = authentication.getName();
-
             userService.delete(username);
-
             if (loggedInUser.equals(username)) {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";
@@ -61,4 +58,5 @@ public class UserController {
         }
         return "redirect:/user/list";
     }
+
 }
