@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/shelf")
 public class ShelfController extends BaseController {
+
     public static final String REDIRECT_SHELF_LIST = "redirect:/shelf/list";
+
     @Autowired
     ShelfService shelfService;
 
@@ -67,4 +69,5 @@ public class ShelfController extends BaseController {
     public ShelfDto toggleStatus(@RequestBody ShelfDto shelfDto) {
         return shelfService.toggleStatus(shelfDto.getIdentifier(), shelfDto.isStatus());
     }
+
 }

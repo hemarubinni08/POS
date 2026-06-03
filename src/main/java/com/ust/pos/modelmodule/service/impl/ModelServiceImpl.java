@@ -18,9 +18,9 @@ import java.util.List;
 @Service
 @Transactional
 public class ModelServiceImpl implements ModelService {
+
     @Autowired
     ModelRepository modelRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -82,11 +82,10 @@ public class ModelServiceImpl implements ModelService {
             response.setMessage("Model not found");
             return response;
         }
-        // Toggle status
         model.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
     }
+
 }

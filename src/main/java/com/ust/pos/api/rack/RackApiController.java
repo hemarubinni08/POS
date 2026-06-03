@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/rack")
 public class RackApiController extends BaseController {
+
     @Autowired
     RackService rackService;
 
@@ -56,4 +57,5 @@ public class RackApiController extends BaseController {
     public List<RackDto> findActive() {
         return rackService.findActiveRacks();
     }
+
 }

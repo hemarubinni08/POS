@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/brand")
 public class BrandApiController extends BaseController {
+
     @Autowired
     BrandService brandService;
 
@@ -51,5 +52,6 @@ public class BrandApiController extends BaseController {
     public BrandDto toggle(@RequestBody BrandDto dto) {
         return brandService.toggleStatus(dto.getIdentifier(), dto.isStatus());
     }
+
 }
 

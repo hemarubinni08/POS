@@ -20,7 +20,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductRepository productRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -71,4 +70,5 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(existingProduct);
         return productDto;
     }
+
 }

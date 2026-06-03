@@ -18,9 +18,9 @@ import java.util.List;
 @Service
 @Transactional
 public class RackServiceImpl implements RackService {
+
     @Autowired
     RackRepository rackRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -81,11 +81,9 @@ public class RackServiceImpl implements RackService {
             response.setMessage("Rack not found");
             return response;
         }
-        // Toggle status
         rack.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
     }
 
@@ -97,4 +95,5 @@ public class RackServiceImpl implements RackService {
                 listType
         );
     }
+
 }

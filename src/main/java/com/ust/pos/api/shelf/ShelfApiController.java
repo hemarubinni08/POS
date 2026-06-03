@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/shelf")
 public class ShelfApiController extends BaseController {
+
     @Autowired
     ShelfService shelfService;
 
@@ -56,4 +57,5 @@ public class ShelfApiController extends BaseController {
     public List<ShelfDto> findActiveShelf() {
         return shelfService.findActiveShelves();
     }
+
 }

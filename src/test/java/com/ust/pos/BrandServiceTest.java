@@ -22,12 +22,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class BrandServiceTest {
+
     @InjectMocks
     private BrandServiceImpl brandService;
 
     @Mock
     private BrandRepository brandRepository;
-
     @Mock
     private ModelMapper modelMapper;
 
@@ -186,4 +186,5 @@ class BrandServiceTest {
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertEquals("Brand not found", response.getMessage());
     }
+
 }

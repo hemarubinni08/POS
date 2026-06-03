@@ -17,9 +17,9 @@ import java.util.List;
 
 @Service
 public class StockServiceImpl implements StockService {
+
     @Autowired
     StockRepository stockRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -81,11 +81,10 @@ public class StockServiceImpl implements StockService {
             response.setMessage("Stock not found");
             return response;
         }
-        // Toggle status
         stock.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
     }
+
 }

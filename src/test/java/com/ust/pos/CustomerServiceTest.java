@@ -29,10 +29,8 @@ class CustomerServiceTest {
 
     @Mock
     private CustomerRepository customerRepository;
-
     @Mock
     private ModelMapper modelMapper;
-
     @Mock
     private AddressServiceImpl addressService;
 
@@ -232,4 +230,5 @@ class CustomerServiceTest {
         Assertions.assertNull(response);
         Mockito.verify(customerRepository, Mockito.never()).save(Mockito.any());
     }
+
 }

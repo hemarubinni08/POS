@@ -233,7 +233,7 @@
         <div class="form-group">
             <label>Description</label>
             <textarea name="description">
-${product.description}
+               ${product.description}
             </textarea>
         </div>
 

@@ -22,12 +22,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class ShelfServiceTest {
+
     @InjectMocks
     ShelfServiceImpl shelfService;
 
     @Mock
     ShelfRepository shelfRepository;
-
     @Mock
     ModelMapper modelMapper;
 
@@ -214,4 +214,5 @@ public class ShelfServiceTest {
         List<ShelfDto> response = shelfService.findActiveShelves();
         Assertions.assertEquals(1, response.size());
     }
+
 }

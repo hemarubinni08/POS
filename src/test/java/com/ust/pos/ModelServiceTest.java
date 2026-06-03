@@ -22,12 +22,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class ModelServiceTest {
+
     @InjectMocks
     ModelServiceImpl modelService;
 
     @Mock
     ModelRepository modelRepository;
-
     @Mock
     ModelMapper modelMapper;
 
@@ -168,7 +168,6 @@ public class ModelServiceTest {
 
     @Test
     void toggleStatusFailureTest() {
-
         Mockito.when(modelRepository.findByIdentifier("Jordan"))
                 .thenReturn(null);
 
@@ -177,4 +176,5 @@ public class ModelServiceTest {
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertEquals("Model not found", response.getMessage());
     }
+
 }

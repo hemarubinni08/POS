@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/product")
 public class ProductApiController extends BaseController {
+
     @Autowired
     ProductService productService;
 
@@ -46,4 +47,5 @@ public class ProductApiController extends BaseController {
         }
         return true;
     }
+
 }

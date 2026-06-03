@@ -20,4 +20,5 @@ public class UserDto extends CommonDto {
     public UserDto(String token) {
         this.token = token;
     }
+
 }

@@ -22,11 +22,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
+
     @InjectMocks
     private ProductServiceImpl productService;
+
     @Mock
     private ProductRepository productRepository;
-
     @Mock
     private ModelMapper modelMapper;
 
@@ -61,7 +62,6 @@ public class ProductServiceTest {
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
 
         Assertions.assertEquals(false, response.isSuccess());
-
     }
 
     @Test
@@ -172,4 +172,5 @@ public class ProductServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
+
 }

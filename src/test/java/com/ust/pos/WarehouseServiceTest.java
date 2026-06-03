@@ -22,11 +22,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class WarehouseServiceTest {
+
     @InjectMocks
     private WarehouseServiceImpl warehouseService;
+
     @Mock
     private WarehouseRepository warehouseRepository;
-
     @Mock
     private ModelMapper modelMapper;
 
@@ -169,4 +170,5 @@ public class WarehouseServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
+
 }

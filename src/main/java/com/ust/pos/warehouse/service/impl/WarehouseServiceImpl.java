@@ -18,9 +18,9 @@ import java.util.List;
 @Service
 @Transactional
 public class WarehouseServiceImpl implements WarehouseService {
+
     @Autowired
     WarehouseRepository warehouseRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -70,4 +70,5 @@ public class WarehouseServiceImpl implements WarehouseService {
     public void delete(String identifier) {
         warehouseRepository.deleteByIdentifier(identifier);
     }
+
 }

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/category")
 public class CategoryController extends BaseController {
+
     public static final String REDIRECT_CATEGORY_LIST = "redirect:/category/list";
+
     @Autowired
     CategoryService categoryService;
 
@@ -31,7 +33,6 @@ public class CategoryController extends BaseController {
             model.addAttribute("message", response.getMessage());
             return "category/add";
         }
-
         return REDIRECT_CATEGORY_LIST;
     }
 
@@ -64,4 +65,5 @@ public class CategoryController extends BaseController {
         categoryService.deleteByIdentifier(identifier);
         return REDIRECT_CATEGORY_LIST;
     }
+
 }

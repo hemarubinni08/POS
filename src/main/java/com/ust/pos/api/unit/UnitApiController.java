@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/unit")
 public class UnitApiController extends BaseController {
+
     @Autowired
     UnitService unitService;
 
@@ -51,4 +52,5 @@ public class UnitApiController extends BaseController {
     public UnitDto toggle(@RequestBody UnitDto dto) {
         return unitService.toggleStatus(dto.getIdentifier(), dto.isStatus());
     }
+
 }

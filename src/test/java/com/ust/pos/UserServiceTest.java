@@ -24,8 +24,10 @@ import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
+
     @InjectMocks
     private UserServiceImpl userService;
+
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -174,4 +176,5 @@ public class UserServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
+
 }

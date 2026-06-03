@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerApiController extends BaseController {
+
     @Autowired
     CustomerService customerService;
 
@@ -53,4 +54,5 @@ public class CustomerApiController extends BaseController {
     public CustomerDto toggle(@RequestBody CustomerDto dto) {
         return customerService.toggleStatus(dto.getIdentifier(), dto.isStatus());
     }
+
 }

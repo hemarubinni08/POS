@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/stock")
 public class StockApiController extends BaseController {
+
     @Autowired
     StockService stockService;
 
@@ -51,4 +52,5 @@ public class StockApiController extends BaseController {
     public StockDto toggle(@RequestBody StockDto dto) {
         return stockService.toggleStatus(dto.getIdentifier(), dto.isStatus());
     }
+
 }

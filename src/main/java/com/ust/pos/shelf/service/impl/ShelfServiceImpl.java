@@ -18,9 +18,9 @@ import java.util.List;
 @Service
 @Transactional
 public class ShelfServiceImpl implements ShelfService {
+
     @Autowired
     ShelfRepository shelfRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -81,11 +81,9 @@ public class ShelfServiceImpl implements ShelfService {
             response.setMessage("Shelf not found");
             return response;
         }
-        // Toggle status
         shelf.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
     }
 
@@ -97,4 +95,5 @@ public class ShelfServiceImpl implements ShelfService {
                 listType
         );
     }
+
 }

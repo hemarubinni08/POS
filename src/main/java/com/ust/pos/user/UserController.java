@@ -20,7 +20,6 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private RoleService roleService;
 
@@ -51,13 +50,10 @@ public class UserController extends BaseController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
-
         @Nullable Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String loggedInUser = authentication.getName();
-
             userService.delete(username);
-
             if (loggedInUser.equals(username)) {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";
@@ -65,4 +61,5 @@ public class UserController extends BaseController {
         }
         return "redirect:/user/list";
     }
+
 }

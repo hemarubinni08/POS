@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 
 @ExtendWith(MockitoExtension.class)
 class AddressServiceTest {
+
     @InjectMocks
     private AddressServiceImpl addressService;
 
@@ -82,4 +83,5 @@ class AddressServiceTest {
         AddressDto response = addressService.findByPhoneAndAddressType("1234567890", "billing");
         Assertions.assertNull(response);
     }
+
 }

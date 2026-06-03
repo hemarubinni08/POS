@@ -34,7 +34,9 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
+
     public static final String JAVA_IN_USE_SECURITY_SCHEME = "JavaInUseSecurityScheme";
+
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -97,4 +99,5 @@ public class WebSecurityConfig {
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
         return authenticationProvider;
     }
+
 }

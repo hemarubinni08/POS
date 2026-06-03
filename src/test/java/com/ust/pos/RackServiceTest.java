@@ -22,12 +22,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class RackServiceTest {
+
     @InjectMocks
     RackServiceImpl rackService;
 
     @Mock
     RackRepository rackRepository;
-
     @Mock
     ModelMapper modelMapper;
 
@@ -220,4 +220,5 @@ public class RackServiceTest {
         List<RackDto> response = rackService.findActiveRacks();
         Assertions.assertEquals(1, response.size());
     }
+
 }

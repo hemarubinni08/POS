@@ -20,7 +20,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -73,4 +72,5 @@ public class RoleServiceImpl implements RoleService {
         Page<Role> rolePage = roleRepository.findAll(pageable);
         return modelMapper.map(rolePage.getContent(), listType);
     }
+
 }

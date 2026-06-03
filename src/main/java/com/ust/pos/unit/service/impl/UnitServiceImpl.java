@@ -18,9 +18,9 @@ import java.util.List;
 @Service
 @Transactional
 public class UnitServiceImpl implements UnitService {
+
     @Autowired
     UnitRepository unitRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -81,11 +81,10 @@ public class UnitServiceImpl implements UnitService {
             response.setMessage("Unit not found");
             return response;
         }
-        // Toggle status
         unit.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
     }
+
 }

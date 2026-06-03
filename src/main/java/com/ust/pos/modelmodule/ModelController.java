@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/model")
 public class ModelController extends BaseController {
+
     public static final String REDIRECT_MODEL_LIST = "redirect:/model/list";
+
     @Autowired
     ModelService modelService;
 
@@ -67,4 +69,5 @@ public class ModelController extends BaseController {
     public ModelDto toggleStatus(@RequestBody ModelDto modelDto) {
         return modelService.toggleStatus(modelDto.getIdentifier(), modelDto.isStatus());
     }
+
 }

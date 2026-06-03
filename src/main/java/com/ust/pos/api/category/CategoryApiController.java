@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/category")
 public class CategoryApiController extends BaseController {
+
     @Autowired
     CategoryService categoryService;
 
@@ -51,5 +52,6 @@ public class CategoryApiController extends BaseController {
     public List<CategoryDto> findSubCategories() {
         return categoryService.findSubCategories();
     }
+
 }
 

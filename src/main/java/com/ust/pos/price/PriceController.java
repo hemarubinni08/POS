@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/price")
 public class PriceController extends BaseController {
+
     public static final String REDIRECT_PRICE_LIST = "redirect:/price/list";
+
     @Autowired
     PriceService priceService;
-
     @Autowired
     ProductService productService;
 
@@ -67,4 +68,5 @@ public class PriceController extends BaseController {
         priceService.deleteByIdentifier(identifier);
         return REDIRECT_PRICE_LIST;
     }
+
 }

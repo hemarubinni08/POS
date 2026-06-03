@@ -23,11 +23,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceTest {
+
     @InjectMocks
     private CategoryServiceImpl categoryService;
+
     @Mock
     private CategoryRepository categoryRepository;
-
     @Mock
     private ModelMapper modelMapper;
 
@@ -200,4 +201,5 @@ class CategoryServiceTest {
         Mockito.verify(modelMapper)
                 .map(category, CategoryDto.class);
     }
+
 }

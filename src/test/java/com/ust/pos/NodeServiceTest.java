@@ -28,8 +28,10 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class NodeServiceTest {
+
     @InjectMocks
     private NodeServiceImpl nodeService;
+
     @Mock
     private NodeRepository nodeRepository;
     @Mock

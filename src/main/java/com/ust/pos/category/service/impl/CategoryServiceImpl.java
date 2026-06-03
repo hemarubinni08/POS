@@ -18,9 +18,9 @@ import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
+
     @Autowired
     CategoryRepository categoryRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -79,4 +79,5 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> findSubCategories() {
         return categoryRepository.findBySuperCategoryNotNull().stream().map(category -> modelMapper.map(category, CategoryDto.class)).toList();
     }
+
 }

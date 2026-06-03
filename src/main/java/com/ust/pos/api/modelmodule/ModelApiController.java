@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/model")
 public class ModelApiController extends BaseController {
+
     @Autowired
     ModelService modelService;
 
@@ -51,4 +52,5 @@ public class ModelApiController extends BaseController {
     public ModelDto toggle(@RequestBody ModelDto dto) {
         return modelService.toggleStatus(dto.getIdentifier(), dto.isStatus());
     }
+
 }

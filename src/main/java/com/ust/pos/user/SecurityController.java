@@ -16,7 +16,6 @@ public class SecurityController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private RoleService roleService;
 
@@ -40,4 +39,5 @@ public class SecurityController {
         }
         return "redirect:/login";
     }
+
 }

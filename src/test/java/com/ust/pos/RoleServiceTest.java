@@ -23,11 +23,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class RoleServiceTest {
+
     @InjectMocks
     private RoleServiceImpl roleService;
+
     @Mock
     private RoleRepository roleRepository;
-
     @Mock
     private ModelMapper modelMapper;
 
@@ -170,4 +171,5 @@ public class RoleServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
+
 }

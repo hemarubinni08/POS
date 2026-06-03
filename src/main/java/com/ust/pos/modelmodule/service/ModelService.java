@@ -17,5 +17,4 @@ public interface ModelService {
     ModelDto update(ModelDto modelDto);
 
     ModelDto toggleStatus(String identifier, boolean status);
-
 }

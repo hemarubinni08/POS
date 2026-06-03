@@ -21,7 +21,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Autowired
     BrandRepository brandRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -83,11 +82,10 @@ public class BrandServiceImpl implements BrandService {
             response.setMessage("Brand not found");
             return response;
         }
-        // Toggle status
         brand.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
     }
+
 }

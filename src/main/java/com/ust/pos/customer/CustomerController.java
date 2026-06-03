@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
 
     public static final String REDIRECT_CUSTOMER_LIST = "redirect:/customer/list";
+
     @Autowired
     private CustomerService customerService;
 
@@ -64,4 +65,5 @@ public class CustomerController {
         customerService.toggleStatus(identifier, status);
         return REDIRECT_CUSTOMER_LIST;
     }
+
 }

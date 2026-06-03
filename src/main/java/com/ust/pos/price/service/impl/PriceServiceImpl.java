@@ -18,15 +18,14 @@ import java.util.List;
 @Service
 @Transactional
 public class PriceServiceImpl implements PriceService {
+
     @Autowired
     PriceRepository priceRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
     @Override
     public PriceDto save(PriceDto priceDto) {
-        // Create an identifier using a combination of product and price type
         priceDto.setIdentifier(priceDto.getProduct() + "_" + priceDto.getType());
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);
@@ -74,4 +73,5 @@ public class PriceServiceImpl implements PriceService {
     public void deleteByIdentifier(String identifier) {
         priceRepository.deleteByIdentifier(identifier);
     }
+
 }

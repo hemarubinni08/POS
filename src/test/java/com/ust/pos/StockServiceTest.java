@@ -23,11 +23,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class StockServiceTest {
+
     @InjectMocks
     private StockServiceImpl stockService;
+
     @Mock
     private StockRepository stockRepository;
-
     @Mock
     private ModelMapper modelMapper;
 
@@ -48,7 +49,6 @@ public class StockServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
         StockDto stockDto = new StockDto();
         stockDto.setIdentifier("Lays In-001");
         Stock stock = new Stock();
@@ -111,7 +111,6 @@ public class StockServiceTest {
 
     @Test
     void deleteTest() {
-
         Mockito.doNothing().when(stockRepository)
                 .deleteByIdentifier("Lays In-001");
 
@@ -201,4 +200,5 @@ public class StockServiceTest {
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertEquals("Stock not found", response.getMessage());
     }
+
 }

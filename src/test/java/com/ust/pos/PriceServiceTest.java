@@ -22,12 +22,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class PriceServiceTest {
+
     @InjectMocks
     PriceServiceImpl priceService;
 
     @Mock
     PriceRepository priceRepository;
-
     @Mock
     ModelMapper modelMapper;
 
@@ -160,4 +160,5 @@ public class PriceServiceTest {
         priceService.deleteByIdentifier("P001");
         Mockito.verify(priceRepository).deleteByIdentifier("P001");
     }
+
 }

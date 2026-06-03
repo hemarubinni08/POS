@@ -23,26 +23,24 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) {
 
         http
-                .csrf(csrf -> csrf.disable()) // Disable for testing
-
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 
                         .requestMatchers("/login", "/register", "/api/**").permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form
                         .loginPage("/login")
                         .failureUrl("/login?error=true")
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
-
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 );
         return http.build();
     }
+
 }

@@ -22,12 +22,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class UnitServiceTest {
+
     @InjectMocks
     UnitServiceImpl unitService;
 
     @Mock
     UnitRepository unitRepository;
-
     @Mock
     ModelMapper modelMapper;
 
@@ -84,7 +84,6 @@ public class UnitServiceTest {
         Assertions.assertEquals("kg", response.get(0).getIdentifier());
     }
 
-    // findAll without pageable
     @Test
     void findAllWithoutPageableTest() {
         Unit unit = new Unit();
@@ -183,5 +182,6 @@ public class UnitServiceTest {
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertEquals("Unit not found", response.getMessage());
     }
+
 }
 

@@ -17,5 +17,4 @@ public interface UnitService {
     void delete(String identifier);
 
     UnitDto toggleStatus(String identifier, boolean status);
-
 }

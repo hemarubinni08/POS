@@ -45,7 +45,6 @@
             color: #334155;
         }
 
-        /* RIGHT PANEL */
         .right {
             width: 460px;
             display: flex;
