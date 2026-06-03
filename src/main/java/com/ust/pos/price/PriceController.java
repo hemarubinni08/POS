@@ -19,7 +19,7 @@ public class PriceController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("prices", priceService.findAll(null));
+        model.addAttribute("prices", priceService.findAll());
         return "price/list";
     }
 

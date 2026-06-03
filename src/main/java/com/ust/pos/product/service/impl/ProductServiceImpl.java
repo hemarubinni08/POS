@@ -66,15 +66,28 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findAll(Pageable pageable) {
-        Type listtype = new TypeToken<List<ProductDto>>() {
-        }.getType();
-        Page<Product> productPage = productRepository.findAll(pageable);
-        return modelMapper.map(productPage.getContent(), listtype);
+    public Page<ProductDto> findAll(Pageable pageable , String search) {
+        Page<Product> categories;
+        if(search!= null && !search.trim().isEmpty()){
+            categories = productRepository.findByIdentifierContainingIgnoreCase(search , pageable);
+        }
+        else {
+            categories = productRepository.findAll(pageable);
+        }
+        return categories.map(product -> modelMapper.map(product , ProductDto.class));
     }
 
     @Override
     public ProductDto findByIdentifier(String identifier) {
         return modelMapper.map(productRepository.findByIdentifier(identifier.trim()), ProductDto.class);
+    }
+
+    @Override
+    public void toggleStatus(String identifier) {
+        Product products = productRepository.findByIdentifier(identifier);
+        if (products != null) {
+            products.setStatus(!products.isStatus());
+            productRepository.save(products);
+        }
     }
 }

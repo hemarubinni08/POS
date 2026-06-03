@@ -2,6 +2,7 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import org.modelmapper.ModelMapper;
@@ -66,11 +67,15 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
-        Type listtype = new TypeToken<List<CategoryDto>>() {
-        }.getType();
-        Page<Category> categoryPage = categoryRepository.findAll(pageable);
-        return modelMapper.map(categoryPage.getContent(), listtype);
+    public Page<CategoryDto> findAll(Pageable pageable , String search) {
+        Page<Category> categories;
+        if(search!= null && !search.trim().isEmpty()){
+            categories = categoryRepository.findByIdentifierContainingIgnoreCase(search , pageable);
+        }
+        else {
+            categories = categoryRepository.findAll(pageable);
+        }
+        return categories.map(category -> modelMapper.map(category , CategoryDto.class));
     }
 
     @Override

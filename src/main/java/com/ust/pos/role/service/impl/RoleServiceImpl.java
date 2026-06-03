@@ -71,10 +71,14 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleDto> findAll(Pageable pageable) {
-        Type listtype = new TypeToken<List<RoleDto>>() {
-        }.getType();
-        Page<Role> rolePage = roleRepository.findAll(pageable);
-        return modelMapper.map(rolePage.getContent(), listtype);
+    public Page<RoleDto> findAll(Pageable pageable , String search) {
+        Page<Role> categories;
+        if(search!= null && !search.trim().isEmpty()){
+            categories = roleRepository.findByIdentifierContainingIgnoreCase(search , pageable);
+        }
+        else {
+            categories = roleRepository.findAll(pageable);
+        }
+        return categories.map(role -> modelMapper.map(role , RoleDto.class));
     }
 }
