@@ -28,8 +28,8 @@ public class StockControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    public StockDto addPost(@RequestBody StockDto userDto) {
-        return stockService.save(userDto);
+    public StockDto addPost(@RequestBody StockDto stockDto) {
+        return stockService.save(stockDto);
     }
 
     @GetMapping("/get")
@@ -38,8 +38,8 @@ public class StockControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public StockDto updatePost(@RequestBody StockDto userDto) {
-        return stockService.update(userDto);
+    public StockDto updatePost(@RequestBody StockDto stockDto) {
+        return stockService.update(stockDto);
     }
 
     @GetMapping("/delete")

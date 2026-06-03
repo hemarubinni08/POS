@@ -28,8 +28,8 @@ public class CustomerControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    public CustomerDto addPost(@RequestBody CustomerDto userDto) {
-        return customerService.save(userDto);
+    public CustomerDto addPost(@RequestBody CustomerDto customerDto) {
+        return customerService.save(customerDto);
     }
 
     @GetMapping("/get")
@@ -38,8 +38,8 @@ public class CustomerControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public CustomerDto updatePost(@RequestBody CustomerDto userDto) {
-        return customerService.update(userDto);
+    public CustomerDto updatePost(@RequestBody CustomerDto customerDto) {
+        return customerService.update(customerDto);
     }
 
     @GetMapping("/delete")

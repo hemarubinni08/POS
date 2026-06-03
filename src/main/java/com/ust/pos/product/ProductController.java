@@ -79,8 +79,8 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute ProductDto userDto) {
-        ProductDto response = productService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute ProductDto productDto) {
+        ProductDto response = productService.update(productDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "product/product";

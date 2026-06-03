@@ -28,8 +28,8 @@ public class CategoryControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    public CategoryDto addPost(@RequestBody CategoryDto userDto) {
-        return categoryService.save(userDto);
+    public CategoryDto addPost(@RequestBody CategoryDto categoryDto) {
+        return categoryService.save(categoryDto);
     }
 
     @GetMapping("/get")
@@ -38,8 +38,8 @@ public class CategoryControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public CategoryDto updatePost(@RequestBody CategoryDto userDto) {
-        return categoryService.update(userDto);
+    public CategoryDto updatePost(@RequestBody CategoryDto categoryDto) {
+        return categoryService.update(categoryDto);
     }
 
     @GetMapping("/delete")

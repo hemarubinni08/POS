@@ -69,8 +69,8 @@ public class PriceController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute PriceDto userDto, Pageable pageable) {
-        PriceDto response = priceService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute PriceDto priceDto, Pageable pageable) {
+        PriceDto response = priceService.update(priceDto);
         if (!response.isSuccess()) {
             model.addAttribute(NODES, nodeService.getNodesForRoles());
             model.addAttribute("message", response.getMessage());

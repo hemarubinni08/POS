@@ -59,8 +59,8 @@ public class ModelsController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute ModelsDto userDto) {
-        ModelsDto response = modelsService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute ModelsDto modelsDto) {
+        ModelsDto response = modelsService.update(modelsDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "models/models";

@@ -103,9 +103,6 @@ public class NodeServiceImpl implements NodeService {
     public List<NodeDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
-        if (pageable == null) {
-            return modelMapper.map(nodeRepository.findAll(), listType);
-        }
         Page<Node> nodePage = nodeRepository.findAll(pageable);
         return modelMapper.map(nodePage.getContent(), listType);
     }

@@ -249,6 +249,9 @@
 
             <label>Contact Number</label>
                 <form:input
+                type="tel"
+                pattern="[0-9]{10}"
+                title="Enter a valid 10-digit phone number"
                 path="contactNumber"
                 placeholder="Enter warehouse contact name"
                 required="true"/>
