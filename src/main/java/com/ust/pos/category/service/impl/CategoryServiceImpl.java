@@ -2,8 +2,11 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.RackDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
+import com.ust.pos.model.Rack;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -59,11 +62,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
+    public WsDto<CategoryDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
-        return modelMapper.map(categoryPage.getContent(), listType);
+        WsDto<CategoryDto> categoryDtoWsDto = new WsDto<>();
+        categoryDtoWsDto.setDtoList(modelMapper.map(categoryPage.getContent(), listType));
+        categoryDtoWsDto.setTotalRecords(categoryPage.getTotalElements());
+        categoryDtoWsDto.setTotalPages(categoryPage.getTotalPages());
+        categoryDtoWsDto.setSizePerPage(pageable.getPageSize());
+        categoryDtoWsDto.setPage(pageable.getPageNumber());
+        return categoryDtoWsDto;
     }
 
     @Override
@@ -91,5 +100,4 @@ public class CategoryServiceImpl implements CategoryService {
         }.getType();
         return modelMapper.map(categoryRepository.findByStatus(true), listType);
     }
-
 }

@@ -127,8 +127,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">CostPrice</label>
-                    <form:input path="costPrice"
+                    <label class="form-label">SumPrice</label>
+                    <form:input path="sumPrice"
                                 cssClass="form-control"
                                 type="number"
                                 step="0.01"

@@ -3,6 +3,8 @@ package com.ust.pos.api.product;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.RackDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -13,22 +15,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/product")
 public class ProductControllerApi extends BaseController {
-
     public static final String REDIRECT_ROLE_LIST = "redirect:/product/list";
     @Autowired
     private ProductService productService;
 
     @PostMapping("/list")
-    public List<ProductDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<ProductDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return productService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
     public ProductDto addPost(@RequestBody ProductDto productDto) {
         return productService.save(productDto);
-
     }
 
     @GetMapping("/get")
@@ -39,7 +38,6 @@ public class ProductControllerApi extends BaseController {
     @PostMapping("/update")
     public ProductDto updatePost(@RequestBody ProductDto userDto) {
         return productService.update(userDto);
-
     }
 
     @GetMapping("/delete")
@@ -49,7 +47,19 @@ public class ProductControllerApi extends BaseController {
         } catch (Exception e) {
             return false;
         }
-
         return true;
+    }
+
+    @PostMapping("/toggle")
+    public String toggle(@RequestParam String identifier,
+                         @RequestParam boolean status) {
+
+        productService.updateStatus(identifier, status);
+        return "success";
+    }
+
+    @PostMapping("/list-active")
+    public List<ProductDto> listActive() {
+        return productService.findAllActive();
     }
 }

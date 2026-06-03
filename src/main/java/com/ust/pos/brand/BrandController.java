@@ -17,7 +17,6 @@ public class BrandController {
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
-
         model.addAttribute("brands", brandService.findAll(pageable));
         return "brand/list";
     }

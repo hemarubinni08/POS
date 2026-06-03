@@ -1,8 +1,7 @@
 package com.ust.pos.api.unit;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.*;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +17,7 @@ public class UnitControllerApi extends BaseController {
     private UnitService unitService;
 
     @PostMapping("/list")
-    public List<UnitDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<UnitDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return unitService.findAll(pageable);
     }
@@ -31,13 +30,11 @@ public class UnitControllerApi extends BaseController {
     @GetMapping("/get")
     public UnitDto update(@RequestParam String identifier) {
         return unitService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public UnitDto updatePost(@RequestBody UnitDto unitDto) {
         return unitService.update(unitDto);
-
     }
 
     @GetMapping("/delete")
@@ -48,5 +45,18 @@ public class UnitControllerApi extends BaseController {
             return false;
         }
         return true;
+    }
+
+    @PostMapping("/toggle")
+    public String toggle(@RequestParam String identifier,
+                         @RequestParam boolean status) {
+
+        unitService.updateStatus(identifier, status);
+        return "success";
+    }
+
+     @PostMapping("/list-active")
+    public List<UnitDto> listActive() {
+        return unitService.findAllActive();
     }
 }

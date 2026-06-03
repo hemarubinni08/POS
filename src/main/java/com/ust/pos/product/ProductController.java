@@ -25,18 +25,25 @@ public class ProductController {
     private static final String UNIT = "unit";
     @Autowired
     private ProductService productService;
+
     @Autowired
     private CategoryService categoryService;
+
     @Autowired
     private ModelsService modelsService;
+
     @Autowired
     private PriceService priceService;
+
     @Autowired
     private BrandService brandService;
+
     @Autowired
     private RackService rackService;
+
     @Autowired
     private ShelfService shelfService;
+
     @Autowired
     private UnitService unitService;
 

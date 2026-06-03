@@ -3,6 +3,7 @@ package com.ust.pos.api.role;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -13,13 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/role")
 public class RoleControllerApi extends BaseController {
-
     public static final String REDIRECT_ROLE_LIST = "redirect:/role/list";
     @Autowired
     private RoleService roleService;
 
     @PostMapping("/list")
-    public List<RoleDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<RoleDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return roleService.findAll(pageable);
     }
@@ -27,7 +27,6 @@ public class RoleControllerApi extends BaseController {
     @PostMapping("/add")
     public RoleDto addPost(@RequestBody RoleDto roleDto) {
         return roleService.save(roleDto);
-
     }
 
     @GetMapping("/get")
@@ -38,7 +37,6 @@ public class RoleControllerApi extends BaseController {
     @PostMapping("/update")
     public RoleDto updatePost(@RequestBody RoleDto userDto) {
         return roleService.update(userDto);
-
     }
 
     @GetMapping("/delete")
@@ -48,7 +46,6 @@ public class RoleControllerApi extends BaseController {
         } catch (Exception e) {
             return false;
         }
-
         return true;
     }
 }

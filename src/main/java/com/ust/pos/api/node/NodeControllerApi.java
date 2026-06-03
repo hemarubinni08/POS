@@ -3,6 +3,7 @@ package com.ust.pos.api.node;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.node.service.NodeService;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import java.util.List;
 @RequestMapping("/api/node")
 
 public class NodeControllerApi extends BaseController {
-
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     public static final String ROLES = "roles";
     @Autowired
@@ -26,11 +26,10 @@ public class NodeControllerApi extends BaseController {
     private RoleService roleService;
 
     @PostMapping("/list")
-    public List<NodeDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<NodeDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return nodeService.findAll(pageable);
     }
-
 
     @PostMapping("/add")
     public NodeDto addPost(@RequestBody NodeDto nodeDto) {
@@ -39,13 +38,11 @@ public class NodeControllerApi extends BaseController {
 
     @GetMapping("/get")
     public NodeDto update(@RequestParam String identifier) {
-
         return nodeService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
-    public NodeDto updatePost(Model model, @ModelAttribute NodeDto nodeDto) {
-
+    public NodeDto updatePost( @RequestBody NodeDto nodeDto) {
         return nodeService.update(nodeDto);
     }
 
@@ -58,5 +55,10 @@ public class NodeControllerApi extends BaseController {
             return false;
         }
         return true;
+    }
+
+    @GetMapping("/getNodesForRoles")
+    public List<NodeDto> getNodesForRoles() {
+        return nodeService.getNodesForRoles();
     }
 }

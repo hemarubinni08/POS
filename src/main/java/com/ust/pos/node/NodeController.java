@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/node")
 
 public class NodeController {
-
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     public static final String ROLES = "roles";
     @Autowired
@@ -24,21 +23,18 @@ public class NodeController {
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
-
         model.addAttribute("nodes", nodeService.findAll(pageable));
         return "node/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute NodeDto nodeDto, Pageable pageable) {
-
         model.addAttribute(ROLES, roleService.findAll(pageable));
         return "node/add";
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute NodeDto nodeDto, Pageable pageable) {
-
         NodeDto response = nodeService.save(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -50,7 +46,6 @@ public class NodeController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier, Pageable pageable) {
-
         NodeDto response = nodeService.findByIdentifier(identifier);
         model.addAttribute("node", response);
         model.addAttribute(ROLES, roleService.findAll(pageable));
@@ -59,7 +54,6 @@ public class NodeController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute NodeDto nodeDto) {
-
         NodeDto response = nodeService.update(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -69,7 +63,6 @@ public class NodeController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
-
         nodeService.delete(identifier);
         return REDIRECT_NODE_LIST;
     }

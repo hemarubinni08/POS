@@ -1,6 +1,9 @@
 package com.ust.pos.product.service.impl;
 
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.Brand;
 import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
@@ -21,8 +24,10 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
+
     @Autowired
     private NodeRepository nodeRepository;
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -34,15 +39,12 @@ public class ProductServiceImpl implements ProductService {
             productDto.setMessage("product with identifier - " + identifier + " already exists");
             productDto.setSuccess(false);
             return productDto;
-
-
         }
         Product product = modelMapper.map(productDto, Product.class);
         productRepository.save(product);
         productDto.setSuccess(true);
         return productDto;
     }
-
 
     @Override
     public ProductDto update(ProductDto productDto) {
@@ -58,18 +60,23 @@ public class ProductServiceImpl implements ProductService {
         return productDto;
     }
 
-
     @Override
     public void delete(String identifier) {
         productRepository.deleteByIdentifier(identifier);
     }
 
     @Override
-    public List<ProductDto> findAll(Pageable pageable) {
+    public WsDto<ProductDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         Page<Product> productPage = productRepository.findAll(pageable);
-        return modelMapper.map(productPage.getContent(), listType);
+        WsDto<ProductDto> productDtoWsDto = new WsDto<>();
+        productDtoWsDto.setDtoList(modelMapper.map(productPage.getContent(), listType));
+        productDtoWsDto.setTotalRecords(productPage.getTotalElements());
+        productDtoWsDto.setTotalPages(productPage.getTotalPages());
+        productDtoWsDto.setSizePerPage(pageable.getPageSize());
+        productDtoWsDto.setPage(pageable.getPageNumber());
+        return productDtoWsDto;
     }
 
     @Override

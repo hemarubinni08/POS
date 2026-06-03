@@ -156,7 +156,7 @@
                 <th>ID</th>
                 <th>Identifier</th>
                 <th>Product</th>
-                <th>costPrice</th>
+                <th>sumPrice</th>
                 <th>Price Type</th>
                 <th>Action</th>
             </tr>
@@ -167,7 +167,7 @@
                     <td>${itemPrice.id}</td>
                     <td>${itemPrice.identifier}</td>
                     <td>${itemPrice.product}</td>
-                    <td>${itemPrice.costPrice}</td>
+                    <td>${itemPrice.sumPrice}</td>
                     <td>${itemPrice.priceType}</td>
                     <td>
                         <!-- Update -->

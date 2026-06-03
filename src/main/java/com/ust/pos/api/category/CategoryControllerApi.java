@@ -2,8 +2,11 @@ package com.ust.pos.api.category;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
@@ -19,7 +22,7 @@ public class CategoryControllerApi extends BaseController {
     private CategoryService categoryService;
 
     @PostMapping("/list")
-    public List<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return categoryService.findAll(pageable);
     }
@@ -35,20 +38,31 @@ public class CategoryControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public CategoryDto updatePost(Model model, @ModelAttribute CategoryDto userDto) {
+    public CategoryDto updatePost( @RequestBody CategoryDto userDto) {
         return categoryService.update(userDto);
-
     }
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             categoryService.delete(identifier);
-
         } catch (Exception e) {
             return false;
         }
         return true;
+    }
 
+    @PostMapping("/toggle")
+    public String toggle(@RequestParam String identifier,
+                         @RequestParam boolean status) {
+
+        categoryService.updateStatus(identifier, status);
+        return "success";
+    }
+
+    @PostMapping("/list-active")
+    public List<CategoryDto> listActive() {
+        return categoryService.findAllActive();
     }
 }
+
