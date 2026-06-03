@@ -49,34 +49,26 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartDto recalculate(String identifier) {
-
         Cart cart = cartRepository.findByIdentifier(identifier);
-
         if (cart == null) {
             CartDto dto = new CartDto();
             dto.setMessage("Cart not found");
             dto.setSuccess(false);
             return dto;
         }
-
         List<CartEntry> cartEntryList = cartEntryRepository.findByCartIdentifier(identifier);
-
         BigDecimal totalOriginalPrice = BigDecimal.ZERO;
         BigDecimal totalDiscount = BigDecimal.ZERO;
         BigDecimal totalPrice = BigDecimal.ZERO;
-
         for (CartEntry cartEntry : cartEntryList) {
             totalOriginalPrice = totalOriginalPrice.add(cartEntry.getOriginalPrice());
             totalDiscount = totalDiscount.add(cartEntry.getDiscount());
             totalPrice = totalPrice.add(cartEntry.getTotalPrice());
         }
-
         cart.setOriginalPrice(totalOriginalPrice);
         cart.setDiscount(totalDiscount);
         cart.setTotalPrice(totalPrice);
-
         Cart saved = cartRepository.save(cart);
-
         return modelMapper.map(saved, CartDto.class);
     }
 

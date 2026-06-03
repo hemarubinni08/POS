@@ -44,14 +44,12 @@ public class BrandServiceImpl implements BrandService {
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
         Page<Brand> brandPage = brandRepository.findAll(pageable);
-
         PaginationResponseDto<BrandDto> brandPaginationResponseDto = new PaginationResponseDto<>();
         brandPaginationResponseDto.setDtoList(modelMapper.map(brandPage.getContent(), listType));
         brandPaginationResponseDto.setTotalRecords(brandPage.getTotalElements());
         brandPaginationResponseDto.setTotalPages(brandPage.getTotalPages());
         brandPaginationResponseDto.setSizePerPage(pageable.getPageSize());
         brandPaginationResponseDto.setPage(pageable.getPageNumber());
-
         return brandPaginationResponseDto;
     }
 

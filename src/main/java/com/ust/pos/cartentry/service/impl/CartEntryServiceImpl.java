@@ -36,31 +36,24 @@ public class CartEntryServiceImpl implements CartEntryService {
         BigDecimal qty = cartEntryDto.getQuantity();
         String cart = cartEntryDto.getCartIdentifier();
         String identifier = product + "_" + cart;
-
         CartEntry cartEntry = cartEntryRepository.findByIdentifier(identifier);
-
         if (cartEntry == null) {
             cartEntry = new CartEntry();
         }
-
         BigDecimal existQty = cartEntry.getQuantity();
         BigDecimal updatedQuantity = existQty.add(qty);
-
         cartEntry.setIdentifier(identifier);
         cartEntry.setProductIdentifier(product);
         cartEntry.setQuantity(updatedQuantity);
         cartEntry.setCartIdentifier(cart);
-
         PriceDto sellingpriceDto = priceService.findByIdentifier(cartEntry.getProductIdentifier()+"_"+"SELLING_PRICE");
         PriceDto mrpDto = priceService.findByIdentifier(cartEntry.getProductIdentifier()+"_"+"MRP");
-
         cartEntry.setUnitPrice(BigDecimal.valueOf(sellingpriceDto.getAmount()));
         Long mrp = mrpDto.getAmount();
         cartEntry.setOriginalPrice(BigDecimal.valueOf(mrp).multiply(updatedQuantity));
         cartEntry.setDiscount((BigDecimal.valueOf(mrp).subtract(cartEntry.getUnitPrice())).multiply(updatedQuantity));
         cartEntry.setTotalPrice(cartEntry.getUnitPrice().multiply(updatedQuantity));
         cartEntryRepository.save(cartEntry);
-
         return modelMapper.map(cartEntry,CartEntryDto.class);
     }
 
