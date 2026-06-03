@@ -2,6 +2,7 @@ package com.ust.pos;
 
 import com.ust.pos.category.service.impl.CategoryServiceImpl;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -179,7 +180,7 @@ class CategoryServiceTest {
         when(modelMapper.map(any(), any(java.lang.reflect.Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<CategoryDto> result = categoryService.findAllCategoriesWithNoSuper();
+        WsDto<CategoryDto> result = categoryService.findAllCategoriesWithNoSuper();
 
         assertNotNull(result);
         assertEquals(1, result.size());

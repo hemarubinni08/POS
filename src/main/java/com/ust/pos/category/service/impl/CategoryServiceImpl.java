@@ -2,6 +2,7 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import jakarta.transaction.Transactional;
@@ -24,11 +25,22 @@ public class CategoryServiceImpl implements CategoryService {
     ModelMapper modelMapper;
 
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
+    public WsDto<CategoryDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
+
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
-        return modelMapper.map(categoryPage.getContent(), listType);
+
+        WsDto<CategoryDto> dto = new WsDto<>();
+
+        dto.setContent(modelMapper.map(categoryPage.getContent(), listType));
+        dto.setTotalRecords(categoryPage.getTotalElements());
+        dto.setTotalPages(categoryPage.getTotalPages());
+        dto.setSizePerPage(pageable.getPageSize());
+        dto.setPage(pageable.getPageNumber());
+
+        return dto;
     }
 
     @Override
@@ -71,17 +83,27 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAllCategoriesWithNoSuper() {
+    public WsDto<CategoryDto> findAllCategoriesWithNoSuper() {
 
-        List<Category> category = categoryRepository.findAll();
-        List<Category> categories = category.stream().filter(category1 ->
-                !category1.getSuperCategory().isEmpty()).toList();
+        List<Category> categoryList = categoryRepository.findAll();
+
+        List<Category> filteredCategories = categoryList.stream()
+                .filter(category ->
+                        category.getSuperCategory() == null ||
+                                category.getSuperCategory().isEmpty()
+                )
+                .toList();
 
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
 
-        return modelMapper.map(categories, listType);
+        WsDto<CategoryDto> dto = new WsDto<>();
+        dto.setContent(modelMapper.map(filteredCategories, listType));
+        dto.setTotalRecords(filteredCategories.size());
+        dto.setTotalPages(1);
+        dto.setSizePerPage(filteredCategories.size());
+        dto.setPage(0);
 
-
+        return dto;
     }
 }

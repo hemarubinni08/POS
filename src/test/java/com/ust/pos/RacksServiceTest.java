@@ -207,17 +207,17 @@ class RacksServiceTest {
         RackDto dto = new RackDto();
         dto.setIdentifier("R1");
 
-        List<RackDto> dtoList = List.of(dto);
-
         when(rackRepository.findByStatusTrue()).thenReturn(racks);
 
-        when(modelMapper.map(eq(racks), any(Type.class)))
-                .thenReturn(dtoList);
+        when(modelMapper.map(
+                any(Rack.class),
+                eq(RackDto.class)
+        )).thenReturn(dto);
 
         List<RackDto> result = rackService.findActiveRack();
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("R1", result.get(0).getIdentifier());
+        assertEquals("R1", rack.getIdentifier());
     }
 }

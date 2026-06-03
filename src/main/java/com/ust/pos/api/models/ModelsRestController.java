@@ -1,49 +1,49 @@
-package com.ust.pos.api.price;
+package com.ust.pos.api.models;
 
 import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.PriceDto;
-import com.ust.pos.dto.WsDto;
-import com.ust.pos.price.service.PriceService;
+import com.ust.pos.models.service.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/price")
-public class PriceRestController extends BaseController {
+@RequestMapping("/api/model")
+public class ModelsRestController extends BaseController {
     @Autowired
-    PriceService priceService;
+    ModelService modelService;
 
     @PostMapping("/list")
-    public WsDto<PriceDto> home(@RequestBody PaginationDto paginationDto) {
+    public List<ModelsDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-        return priceService.findAll(pageable);
+        return modelService.findAll(pageable);
     }
 
     @PostMapping("/add")
-    public PriceDto addPost(@RequestBody PriceDto priceDto) {
-        return priceService.save(priceDto);
+    public ModelsDto addPost(@RequestBody ModelsDto modelsDto) {
+        return modelService.save(modelsDto);
     }
 
     @GetMapping("/get")
-    public PriceDto update(@RequestParam String identifier) {
-        return priceService.findByIdentifier(identifier);
+    public ModelsDto update(@RequestParam String identifier) {
+        return modelService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
-    public PriceDto updatePost(@RequestBody PriceDto priceDto) {
-        return priceService.update(priceDto);
+    public ModelsDto updatePost(@RequestBody ModelsDto modelsDto) {
+        return modelService.update(modelsDto);
     }
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
-            priceService.delete(identifier);
+            modelService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
