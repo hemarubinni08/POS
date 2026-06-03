@@ -63,7 +63,7 @@ public class WebSecurityConfig {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .logout(LogoutConfigurer::permitAll); // ✅ method reference
+                .logout(LogoutConfigurer::permitAll);
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

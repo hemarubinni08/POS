@@ -35,7 +35,6 @@ public class UserController {
         UserDto response = userService.findByUserName(username);
         model.addAttribute("user", response);
         model.addAttribute(ROLES, roleService.findAll(pageable));
-
         return USER_USER;
     }
 
@@ -89,7 +88,6 @@ public class UserController {
                 }
             }
         }
-
         return "redirect:/user/list";
     }
 }

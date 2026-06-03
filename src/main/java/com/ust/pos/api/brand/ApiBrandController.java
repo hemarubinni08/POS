@@ -20,7 +20,6 @@ public class ApiBrandController extends BaseController {
     @PostMapping("/add")
     public BrandDto addPost(@RequestBody BrandDto brandDto) {
         return brandService.save(brandDto);
-
     }
 
     @PostMapping("/list")
@@ -32,7 +31,6 @@ public class ApiBrandController extends BaseController {
     @GetMapping("/get")
     public BrandDto get(@RequestParam("identifier") String identifier) {
         return brandService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")

@@ -35,7 +35,6 @@ public class StockController {
         model.addAttribute(STOCK, new StockDto());
         model.addAttribute(PRODUCTS, productService.findAllActive());
         model.addAttribute(WAREHOUSES, warehouseService.findAllActive());
-
         return "stock/add";
     }
 

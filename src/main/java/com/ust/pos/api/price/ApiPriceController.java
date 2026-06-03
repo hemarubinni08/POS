@@ -20,14 +20,12 @@ public class ApiPriceController extends BaseController {
     @PostMapping("/add")
     public PriceDto addPost(@RequestBody PriceDto priceDto) {
         return priceService.save(priceDto);
-
     }
 
     @PostMapping("/list")
     public List<PriceDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return priceService.findAll(pageable);
-
     }
 
     @GetMapping("/get")

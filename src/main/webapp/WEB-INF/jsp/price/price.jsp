@@ -81,7 +81,7 @@
             <form:hidden path="id"/>
             <form:hidden path="identifier"/>
 
-            <!-- Identifier (readonly) -->
+            <!-- Identifier -->
             <div class="mb-3">
                 <label>Identifier</label>
                 <input type="text"
@@ -90,10 +90,20 @@
                        readonly>
             </div>
 
-            <!-- Cost Price -->
+            <div class="mb-3">
+                <label>Product</label>
+
+                <form:select path="product" cssClass="form-select" required="required">
+                    <form:option value="">-- Select Product --</form:option>
+                    <form:options items="${products}"
+                                  itemValue="identifier"
+                                  itemLabel="identifier"/>
+                </form:select>
+            </div>
+
             <div class="mb-3">
                 <label>Cost Price</label>
-                <form:input path="costPrice"
+                <form:input path="price"
                             type="number"
                             min="0"
                             step="0.01"
@@ -102,7 +112,6 @@
                             required="required"/>
             </div>
 
-            <!-- Type -->
             <div class="mb-3">
                 <label>Price Type</label>
                 <form:select path="type"
@@ -113,7 +122,6 @@
                 </form:select>
             </div>
 
-            <!-- Buttons -->
             <div class="d-grid gap-2 mt-4">
                 <button type="submit" class="btn btn-success">
                     <i class="bi bi-save me-1"></i> Update Price

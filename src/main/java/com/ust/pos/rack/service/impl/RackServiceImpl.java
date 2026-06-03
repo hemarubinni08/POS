@@ -40,7 +40,6 @@ public class RackServiceImpl implements RackService {
             rackDto.setSuccess(false);
             return rackDto;
         }
-
         Rack rack = modelMapper.map(rackDto, Rack.class);
         rackRepository.save(rack);
         return rackDto;
@@ -56,7 +55,6 @@ public class RackServiceImpl implements RackService {
             rackDto.setSuccess(false);
             return rackDto;
         }
-
         modelMapper.map(rackDto, existingRack);
         rackRepository.save(existingRack);
         return rackDto;
@@ -73,7 +71,6 @@ public class RackServiceImpl implements RackService {
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
         Page<Rack> rackPage = rackRepository.findAll(pageable);
-
         return modelMapper.map(rackPage.getContent(), listType);
     }
 

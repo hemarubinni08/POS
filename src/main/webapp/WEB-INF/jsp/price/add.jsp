@@ -10,9 +10,6 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
-
     <style>
         body {
             background-color: #f5f6f7;
@@ -38,6 +35,10 @@
 
         .form-label {
             font-weight: 500;
+        }
+
+        .readonly-field {
+            background-color: #e9ecef;
         }
     </style>
 </head>
@@ -66,8 +67,17 @@
                                modelAttribute="price">
 
                         <div class="mb-3">
+                            <label class="form-label">Identifier</label>
+                            <form:input path="identifier"
+                                        id="identifier"
+                                        cssClass="form-control readonly-field"
+                                        readonly="true"
+                                        placeholder="Auto-generated"/>
+                        </div>
+
+                        <div class="mb-3">
                             <label class="form-label">Product</label>
-                            <form:select path="identifier" cssClass="form-select">
+                            <form:select path="product" cssClass="form-select" id="product">
                                 <form:option value="">-- Select Product --</form:option>
                                 <form:options items="${products}"
                                               itemValue="identifier"
@@ -77,7 +87,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Cost Price</label>
-                            <form:input path="costPrice"
+                            <form:input path="price"
                                         cssClass="form-control"
                                         type="number"
                                         step="0.01"/>
@@ -85,7 +95,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Price Type</label>
-                            <form:select path="type" cssClass="form-select">
+                            <form:select path="type" cssClass="form-select" id="type">
                                 <form:option value="">-- Select --</form:option>
                                 <form:option value="MRP">MRP</form:option>
                                 <form:option value="SELLING">Selling</form:option>
@@ -110,7 +120,22 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function generateIdentifier() {
+        const product = document.getElementById("product").value;
+        const type = document.getElementById("type").value;
+
+        if (product && type) {
+            const identifier = product + "-" + type;
+            document.getElementById("identifier").value = identifier;
+        } else {
+            document.getElementById("identifier").value = "";
+        }
+    }
+
+    document.getElementById("product").addEventListener("change", generateIdentifier);
+    document.getElementById("type").addEventListener("change", generateIdentifier);
+</script>
 
 </body>
 </html>

@@ -86,8 +86,6 @@
                             <td>${node.id}</td>
                             <td>${node.identifier}</td>
                             <td>${node.path}</td>
-
-                            <!-- ✅ UPDATED ROLES DISPLAY -->
                             <td class="role-text">
 
                                 <c:if test="${empty node.roles}">

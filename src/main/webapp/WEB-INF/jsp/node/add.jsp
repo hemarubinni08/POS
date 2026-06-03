@@ -138,6 +138,19 @@
             </div>
 
             <div class="mb-3">
+                <label class="form-label">Product</label>
+
+                <select name="product" class="form-control" required>
+                    <option value="">Select Product</option>
+                    <c:forEach items="${products}" var="product">
+                        <option value="${product.identifier}">
+                            ${product.identifier}
+                        </option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <div class="mb-3">
                 <label class="form-label">Assign Roles</label>
 
                 <div class="dropdown-check" id="roleDropdown">

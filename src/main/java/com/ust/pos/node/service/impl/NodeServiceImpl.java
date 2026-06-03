@@ -44,7 +44,6 @@ public class NodeServiceImpl implements NodeService {
                 List<Node> nodes = nodeRepository.findByRoles(currentUser.getRoles());
                 Type listType = new TypeToken<List<NodeDto>>() {
                 }.getType();
-
                 return modelMapper.map(nodes, listType);
             }
         }
@@ -70,7 +69,6 @@ public class NodeServiceImpl implements NodeService {
 
         Node node = modelMapper.map(nodeDto, Node.class);
         nodeRepository.save(node);
-
         return nodeDto;
     }
 
@@ -80,8 +78,7 @@ public class NodeServiceImpl implements NodeService {
         Node existingNode = nodeRepository.findByIdentifier(identifier);
 
         if (existingNode == null) {
-            nodeDto.setMessage(
-                    "Node with identifier - " + identifier + " not found");
+            nodeDto.setMessage("Node with identifier - " + identifier + " not found");
             nodeDto.setSuccess(false);
             return nodeDto;
         }

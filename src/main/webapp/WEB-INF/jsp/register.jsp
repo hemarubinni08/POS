@@ -199,8 +199,6 @@
                 <input type="email" id="email" name="username" placeholder="Enter email">
                 <span class="error" id="emailError">Enter valid email address</span>
             </div>
-
-            <!-- ✅ UPDATED ROLES SECTION ONLY -->
             <div class="form-group">
                 <label>Roles</label>
                 <div id="roleList">

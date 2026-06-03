@@ -72,7 +72,6 @@ class CustomerServiceTest {
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
         when(addressService.findAllByPhoneNo("9999999999")).thenReturn(null);
         CustomerDto result = customerService.findByIdentifierWithAddressDto("9999999999");
-
         assertNotNull(result);
     }
 
@@ -92,7 +91,6 @@ class CustomerServiceTest {
         CustomerDto localDto = new CustomerDto();
         localDto.setIdentifier("C001");
         localDto.setPhoneNo("9999999999");
-
         when(customerRepository.findByPhoneNo("9999999999")).thenReturn(customer);
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(localDto);
         when(addressService.findAllByPhoneNo("9999999999")).thenReturn(List.of(addr));
@@ -105,7 +103,6 @@ class CustomerServiceTest {
 
         AddressDto billing = new AddressDto();
         AddressDto shipping = new AddressDto();
-
         when(customerRepository.findByPhoneNo("9999999999")).thenReturn(customer);
         when(modelMapper.map(customer, CustomerDto.class)).thenReturn(customerDto);
         when(addressService.findAllByPhoneNo("9999999999")).thenReturn(List.of(billing, shipping));

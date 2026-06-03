@@ -40,7 +40,6 @@ public class CategoryController {
             model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
             return "category/add";
         }
-
         return REDIRECT_CATEGORY_LIST;
     }
 
@@ -48,7 +47,6 @@ public class CategoryController {
     public String update(Model model, Pageable pageable, @RequestParam String identifier) {
         model.addAttribute("category", categoryService.findByIdentifier(identifier));
         model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
-
         return "category/category";
     }
 
@@ -61,7 +59,6 @@ public class CategoryController {
             model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
             return "category/category";
         }
-
         return REDIRECT_CATEGORY_LIST;
     }
 
@@ -75,7 +72,6 @@ public class CategoryController {
                     categoryService.findAll(pageable));
             return "category/list";
         }
-
         return REDIRECT_CATEGORY_LIST;
     }
 }

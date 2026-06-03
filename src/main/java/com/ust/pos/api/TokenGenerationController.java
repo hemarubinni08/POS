@@ -18,12 +18,16 @@ public class TokenGenerationController {
 
     @Autowired
     UserDetailsService userDetailsService;
+
     @Autowired
     private AuthenticationProvider authenticationProvider;
+
     @Autowired
     private JWTUtility jwtUtility;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private UserService userService;
 
@@ -34,7 +38,6 @@ public class TokenGenerationController {
             authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
             UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
             final String token = jwtUtility.generateToken(userDetails);
-
             return new UserDto(token);
         } catch (Exception e) {
             return new UserDto("Error");

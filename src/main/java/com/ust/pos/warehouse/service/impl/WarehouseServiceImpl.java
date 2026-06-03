@@ -34,7 +34,6 @@ public class WarehouseServiceImpl implements WarehouseService {
             response.setMessage("Warehouse not found");
             return response;
         }
-
         response = modelMapper.map(warehouse, WarehouseDto.class);
         response.setSuccess(true);
         return response;
@@ -50,7 +49,6 @@ public class WarehouseServiceImpl implements WarehouseService {
             warehouseDto.setSuccess(false);
             return warehouseDto;
         }
-
         Warehouse warehouse = modelMapper.map(warehouseDto, Warehouse.class);
         warehouseRepository.save(warehouse);
         return warehouseDto;
@@ -66,7 +64,6 @@ public class WarehouseServiceImpl implements WarehouseService {
             warehouseDto.setSuccess(false);
             return warehouseDto;
         }
-
         modelMapper.map(warehouseDto, existingWarehouse);
         warehouseRepository.save(existingWarehouse);
         return warehouseDto;
@@ -93,10 +90,8 @@ public class WarehouseServiceImpl implements WarehouseService {
         if (warehouse == null) {
             throw new IllegalArgumentException("Warehouse not found: " + identifier);
         }
-
         Boolean currentStatus = warehouse.getStatus();
         warehouse.setStatus(currentStatus == null || !currentStatus);
-
         warehouseRepository.save(warehouse);
     }
 

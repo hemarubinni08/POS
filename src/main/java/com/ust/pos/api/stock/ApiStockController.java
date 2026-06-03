@@ -25,11 +25,9 @@ public class ApiStockController extends BaseController {
     @Autowired
     private WarehouseService warehouseService;
 
-
     @PostMapping("/add")
     public StockDto addPost(@RequestBody StockDto stockDto) {
         return stockService.save(stockDto);
-
     }
 
     @PostMapping("/list")

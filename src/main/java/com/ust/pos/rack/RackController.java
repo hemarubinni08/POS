@@ -59,7 +59,6 @@ public class RackController {
     public String get(Model model, @RequestParam String identifier) {
         model.addAttribute("rack", rackService.findByIdentifier(identifier));
         model.addAttribute("shelves", shelfService.findAllActive());
-
         return "rack/rack";
     }
 
@@ -71,7 +70,6 @@ public class RackController {
             redirectAttributes.addFlashAttribute("errorMessage", response.getMessage());
             return redirectToEdit(rackDto);
         }
-
         redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, getStatusMessage(rackDto));
         return REDIRECT_LIST;
     }

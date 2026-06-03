@@ -18,8 +18,7 @@ import java.util.List;
 @Service
 public class ModelServiceImpl implements ModelService {
 
-    public static final RuntimeException MODEL_NOT_FOUND =
-            new RuntimeException("model not found");
+    public static final RuntimeException MODEL_NOT_FOUND = new RuntimeException("model not found");
 
     @Autowired
     private ModelMapper modelMapper;
@@ -60,7 +59,6 @@ public class ModelServiceImpl implements ModelService {
             modelDto.setSuccess(false);
             return modelDto;
         }
-
         modelMapper.map(modelDto, existingModel);
         modelRepository.save(existingModel);
         return modelDto;

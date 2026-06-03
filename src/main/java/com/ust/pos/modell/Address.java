@@ -8,9 +8,7 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Address extends CommonFields {
-
     private String addressType;
-
     private String addressLine;
     private String phoneNo;
     private String city;

@@ -48,7 +48,6 @@ public class CustomerServiceImpl implements CustomerService {
                 customerDto.setShippingAddress(addressDtoList.get(1));
             }
         }
-
         return customerDto;
     }
 
@@ -77,7 +76,6 @@ public class CustomerServiceImpl implements CustomerService {
         shippingAddress.setAddressType("Shipping");
         shippingAddress.setPhoneNo(customerDto.getPhoneNo());
         addressService.save(shippingAddress);
-
         return customerDto;
     }
 

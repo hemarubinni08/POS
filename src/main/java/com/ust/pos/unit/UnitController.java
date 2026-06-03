@@ -32,7 +32,6 @@ public class UnitController {
             model.addAttribute("unit", unitDto);
             return "unit/add";
         }
-
         return REDIRECT_UNIT_LIST;
     }
 
@@ -46,7 +45,6 @@ public class UnitController {
     public String update(Model model, @RequestParam String identifier) {
         UnitDto response = unitService.findByIdentifier(identifier);
         model.addAttribute("unit", response);
-
         return "unit/unit";
     }
 
@@ -58,7 +56,6 @@ public class UnitController {
             model.addAttribute("message", response.getMessage());
             return "unit/unit";
         }
-
         return REDIRECT_UNIT_LIST;
     }
 

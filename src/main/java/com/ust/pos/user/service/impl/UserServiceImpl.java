@@ -48,7 +48,6 @@ public class UserServiceImpl implements UserService {
             userDto.setSuccess(false);
             return userDto;
         }
-
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
@@ -78,7 +77,6 @@ public class UserServiceImpl implements UserService {
                 return userDto;
             }
         }
-
         existingUser.setName(userDto.getName());
         existingUser.setUsername(userDto.getUsername());
         existingUser.setPhoneNo(userDto.getPhoneNo());

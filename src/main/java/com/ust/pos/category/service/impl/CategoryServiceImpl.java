@@ -26,12 +26,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
+
         if (categoryRepository.findByIdentifier(categoryDto.getIdentifier()) != null) {
             categoryDto.setSuccess(false);
             categoryDto.setMessage("Category already exists");
             return categoryDto;
         }
-
         Category category = new Category();
         category.setIdentifier(categoryDto.getIdentifier());
 
@@ -41,7 +41,6 @@ public class CategoryServiceImpl implements CategoryService {
         } else {
             category.setSuperCategory(categoryDto.getSuperCategory());
         }
-
         categoryRepository.save(category);
         return categoryDto;
     }
@@ -55,7 +54,6 @@ public class CategoryServiceImpl implements CategoryService {
             categoryDto.setMessage("Category not found");
             return categoryDto;
         }
-
         Category existing = optional.get();
 
         if (!existing.getIdentifier().equalsIgnoreCase(categoryDto.getIdentifier()) &&
@@ -65,7 +63,6 @@ public class CategoryServiceImpl implements CategoryService {
             categoryDto.setMessage("Category already exists");
             return categoryDto;
         }
-
         existing.setIdentifier(categoryDto.getIdentifier());
 
         if (categoryDto.getSuperCategory() == null || categoryDto.getSuperCategory().trim().isEmpty()) {
@@ -73,7 +70,6 @@ public class CategoryServiceImpl implements CategoryService {
         } else {
             existing.setSuperCategory(categoryDto.getSuperCategory());
         }
-
         categoryRepository.save(existing);
         return categoryDto;
     }
@@ -81,6 +77,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void deleteByIdentifier(String identifier) {
+
         if (categoryRepository.existsBySuperCategory(identifier)) {
             throw new IllegalStateException(
                     "Cannot delete category. It is used as a super category."
@@ -107,7 +104,6 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> findChildCategories() {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-
         return modelMapper.map(categoryRepository.findBySuperCategoryIsNotNull(), listType
         );
     }

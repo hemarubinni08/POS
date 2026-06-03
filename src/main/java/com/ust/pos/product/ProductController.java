@@ -45,7 +45,6 @@ public class ProductController {
         model.addAttribute(BRANDS, brandService.findAll(pageable));
         model.addAttribute(MODELS, modelService.findAll(pageable));
         model.addAttribute(UNITS, unitService.findAll(pageable));
-
         return "product/add";
     }
 
@@ -62,7 +61,6 @@ public class ProductController {
         model.addAttribute(BRANDS, brandService.findAll(pageable));
         model.addAttribute(MODELS, modelService.findAll(pageable));
         model.addAttribute(UNITS, unitService.findAll(pageable));
-
         return "product/product";
     }
 
@@ -76,10 +74,8 @@ public class ProductController {
             model.addAttribute(BRANDS, brandService.findAll(pageable));
             model.addAttribute(MODELS, modelService.findAll(pageable));
             model.addAttribute(UNITS, unitService.findAll(pageable));
-
             return "product/add";
         }
-
         return REDIRECT_PRODUCT_LIST;
     }
 
@@ -93,10 +89,8 @@ public class ProductController {
             model.addAttribute(BRANDS, brandService.findAll(pageable));
             model.addAttribute(MODELS, modelService.findAll(pageable));
             model.addAttribute(UNITS, unitService.findAll(pageable));
-
             return "product/product";
         }
-
         return REDIRECT_PRODUCT_LIST;
     }
 

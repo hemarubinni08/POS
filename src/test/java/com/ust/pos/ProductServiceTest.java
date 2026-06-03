@@ -100,7 +100,6 @@ class ProductServiceTest {
         productDto.setIdentifier("Admin");
         List<Product> products = List.of(product);
         List<ProductDto> productDtos = List.of(productDto);
-
         Page<Product> productPage = new PageImpl<>(products, PageRequest.of(0, 2), products.size());
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
         Mockito.when(productRepository.findAll(pageable)).thenReturn(productPage);

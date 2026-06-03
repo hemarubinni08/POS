@@ -137,6 +137,7 @@
             <table class="table table-hover align-middle mb-0">
                 <thead>
                 <tr>
+                    <th> ID </th>
                     <th>Name</th>
                     <th>Location</th>
                     <th>Capacity</th>
@@ -148,6 +149,7 @@
                 <tbody>
                 <c:forEach items="${warehouses}" var="w">
                     <tr>
+                        <td>${w.id}</td>
                         <td>${w.identifier}</td>
                         <td>${w.location}</td>
                         <td>${w.capacity}</td>

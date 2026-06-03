@@ -127,7 +127,6 @@
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
 
-                                <!-- ✅ UPDATED ROLES DISPLAY -->
                                 <td class="role-text">
                                     ${user.roles}
                                 </td>
@@ -166,9 +165,6 @@
                     <i class="bi bi-house-door"></i> Home
                 </a>
 
-                <a href="${pageContext.request.contextPath}/register" class="btn btn-success">
-                    <i class="bi bi-person-plus"></i> Register
-                </a>
             </div>
 
             <div class="text-muted mt-2 footer-text">

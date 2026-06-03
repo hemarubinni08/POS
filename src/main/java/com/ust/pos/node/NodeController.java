@@ -53,7 +53,6 @@ public class NodeController {
         NodeDto response = nodeService.findByIdentifier(identifier);
         model.addAttribute(ROLES, roleService.findAll(pageable));
         model.addAttribute("node", response);
-
         return "node/node";
     }
 
@@ -64,7 +63,6 @@ public class NodeController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
-
         return REDIRECT_NODE_LIST;
     }
 

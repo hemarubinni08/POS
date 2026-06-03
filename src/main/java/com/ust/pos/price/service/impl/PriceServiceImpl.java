@@ -40,7 +40,6 @@ public class PriceServiceImpl implements PriceService {
             priceDto.setSuccess(false);
             return priceDto;
         }
-
         Price price = modelMapper.map(priceDto, Price.class);
         priceRepository.save(price);
         return priceDto;
@@ -56,7 +55,6 @@ public class PriceServiceImpl implements PriceService {
             priceDto.setSuccess(false);
             return priceDto;
         }
-
         modelMapper.map(priceDto, existingPrice);
         priceRepository.save(existingPrice);
         return priceDto;

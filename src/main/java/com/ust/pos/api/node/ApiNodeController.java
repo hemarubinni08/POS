@@ -17,8 +17,10 @@ public class ApiNodeController extends BaseController {
 
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     public static final String ROLES = "roles";
+
     @Autowired
     public RoleService roleService;
+
     @Autowired
     private NodeService nodeService;
 
@@ -31,13 +33,11 @@ public class ApiNodeController extends BaseController {
     @PostMapping("/add")
     public NodeDto addPost(@RequestBody NodeDto nodeDto) {
         return nodeService.save(nodeDto);
-
     }
 
     @GetMapping("/get")
     public NodeDto update(@RequestParam String identifier) {
         return nodeService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")

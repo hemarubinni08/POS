@@ -103,7 +103,7 @@ class CategoryServiceTest {
         CategoryDto dto = new CategoryDto();
         dto.setId(1L);
         dto.setIdentifier("NEW");
-        dto.setSuperCategory("   "); // ✅ blank
+        dto.setSuperCategory("   ");
         Mockito.when(categoryRepository.findById(1L)).thenReturn(java.util.Optional.of(existing));
         Mockito.when(categoryRepository.findByIdentifier("NEW")).thenReturn(null);
         categoryService.update(dto);
@@ -119,7 +119,7 @@ class CategoryServiceTest {
         existing.setIdentifier("OLD");
         CategoryDto dto = new CategoryDto();
         dto.setId(1L);
-        dto.setIdentifier("NEW"); // ✅ different
+        dto.setIdentifier("NEW");
         Mockito.when(categoryRepository.findById(1L)).thenReturn(java.util.Optional.of(existing));
         Mockito.when(categoryRepository.findByIdentifier("NEW")).thenReturn(null); // no duplicate
         categoryService.update(dto);
@@ -135,7 +135,7 @@ class CategoryServiceTest {
         CategoryDto dto = new CategoryDto();
         dto.setId(1L);
         dto.setIdentifier("NEW");
-        dto.setSuperCategory("PARENT"); // ✅ value
+        dto.setSuperCategory("PARENT");
         Mockito.when(categoryRepository.findById(1L)).thenReturn(java.util.Optional.of(existing));
         Mockito.when(categoryRepository.findByIdentifier("NEW")).thenReturn(null);
         categoryService.update(dto);

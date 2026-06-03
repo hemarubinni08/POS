@@ -106,7 +106,8 @@
                 <tr>
                     <th>ID</th>
                     <th>Identifier</th>
-                    <th>Cost Price</th>
+                    <th>Product</th>
+                    <th>Price</th>
                     <th>Price Type</th>
                     <th class="text-center" style="width:120px;">Actions</th>
                 </tr>
@@ -118,10 +119,9 @@
                         <td>${p.id}</td>
 
                         <td class="fw-semibold">
-                            ${p.identifier}
-                        </td>
-
-                        <td>₹ ${p.costPrice}</td>
+                            ${p.identifier}  </td>
+                        <td>${p.product}</td>
+                        <td>₹ ${p.price}</td>
 
                         <td>
                             <span class="badge bg-info text-dark">
@@ -150,7 +150,7 @@
 
                 <c:if test="${empty prices}">
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4">
+                        <td colspan="6" class="text-center text-muted py-4">
                             No prices found.
                         </td>
                     </tr>

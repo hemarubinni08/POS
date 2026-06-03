@@ -54,7 +54,6 @@ class PriceServiceTest {
         price.setIdentifier("PRICE1");
         PriceDto priceDto = new PriceDto();
         priceDto.setIdentifier("PRICE1");
-
         Mockito.when(priceRepository.findByIdentifier("PRICE1")).thenReturn(price);
         Mockito.when(modelMapper.map(price, PriceDto.class)).thenReturn(priceDto);
         PriceDto response = priceService.findByIdentifier("PRICE1");

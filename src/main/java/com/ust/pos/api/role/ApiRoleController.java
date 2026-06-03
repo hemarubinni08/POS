@@ -31,13 +31,11 @@ public class ApiRoleController extends BaseController {
     @GetMapping("/get")
     public RoleDto update(@RequestParam String identifier) {
         return roleService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public RoleDto updatePost(@RequestBody RoleDto userDto) {
         return roleService.update(userDto);
-
     }
 
     @GetMapping("/delete")
