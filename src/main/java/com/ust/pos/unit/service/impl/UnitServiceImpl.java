@@ -2,8 +2,6 @@ package com.ust.pos.unit.service.impl;
 
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.UnitDto;
-import com.ust.pos.dto.UnitDto;
-import com.ust.pos.model.Product;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
 import com.ust.pos.unit.service.UnitService;

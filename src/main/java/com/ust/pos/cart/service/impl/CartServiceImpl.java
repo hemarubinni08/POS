@@ -59,13 +59,13 @@ public class CartServiceImpl implements CartService {
             return dto;
         }
 
-        List<CartEntry> CartEntryList = cartEntryRepository.findByCartIdentifier(identifier);
+        List<CartEntry> cartEntryList = cartEntryRepository.findByCartIdentifier(identifier);
 
         BigDecimal totalOriginalPrice = BigDecimal.ZERO;
         BigDecimal totalDiscount = BigDecimal.ZERO;
         BigDecimal totalPrice = BigDecimal.ZERO;
 
-        for (CartEntry cartEntry : CartEntryList) {
+        for (CartEntry cartEntry : cartEntryList) {
             totalOriginalPrice = totalOriginalPrice.add(cartEntry.getOriginalPrice());
             totalDiscount = totalDiscount.add(cartEntry.getDiscount());
             totalPrice = totalPrice.add(cartEntry.getTotalPrice());
