@@ -33,6 +33,7 @@ public class PosApplication {
         return mapper;
     }
 
+
     @Bean
     public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(getDataSource());
