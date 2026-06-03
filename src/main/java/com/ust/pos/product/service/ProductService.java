@@ -1,9 +1,9 @@
 package com.ust.pos.product.service;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.ProductDto;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 public interface ProductService {
     ProductDto save(ProductDto userDto);
@@ -12,7 +12,8 @@ public interface ProductService {
 
     void delete(String username);
 
-    List<ProductDto> findAll(Pageable pageable);
+    PaginationResponseDto<ProductDto> findAll(Pageable pageable);
 
     ProductDto findByIdentifier(String identifier);
+
 }

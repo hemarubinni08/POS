@@ -4,6 +4,7 @@ import com.ust.pos.customer.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
 import org.modelmapper.ModelMapper;
@@ -109,12 +110,28 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<CustomerDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
+
         Page<Customer> customerPage = customerRepository.findAll(pageable);
-        return modelMapper.map(customerPage.getContent(), listType);
+
+        List<CustomerDto> customerDtos = modelMapper.map(
+                customerPage.getContent(),
+                listType
+        );
+
+        PaginationResponseDto<CustomerDto> paginationResponseDto =
+                new PaginationResponseDto<>();
+
+        paginationResponseDto.setContent(customerDtos);
+        paginationResponseDto.setPage(customerPage.getNumber());
+        paginationResponseDto.setSizePerPage(customerPage.getSize());
+        paginationResponseDto.setTotalPages(customerPage.getTotalPages());
+        paginationResponseDto.setTotalRecords(customerPage.getTotalElements());
+
+        return paginationResponseDto;
     }
 
     @Override

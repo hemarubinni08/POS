@@ -4,11 +4,10 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/brand")
@@ -17,7 +16,7 @@ public class BrandApiController extends BaseController {
     private BrandService brandService;
 
     @PostMapping("/list")
-    public List<BrandDto> home(@RequestBody PaginationDto paginationDto) {
+    public PaginationResponseDto<BrandDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -30,8 +29,8 @@ public class BrandApiController extends BaseController {
         return brandService.save(userDto);
     }
 
-    @GetMapping("/get")
-    public BrandDto update(@RequestParam String identifier) {
+    @PostMapping("/get")
+    public BrandDto update(@RequestBody String identifier) {
         return brandService.findByIdentifier(identifier);
 
     }
@@ -41,8 +40,8 @@ public class BrandApiController extends BaseController {
         return brandService.update(userDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    @PostMapping ("/delete")
+    public boolean delete(@RequestBody String identifier) {
         try {
             brandService.delete(identifier);
         } catch (Exception e) {

@@ -1,11 +1,11 @@
 package com.ust.pos.product.service.impl;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -62,10 +62,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<ProductDto>>() {
-        }.getType();
+    public PaginationResponseDto<ProductDto> findAll(Pageable pageable) {
+
         Page<Product> productPage = productRepository.findAll(pageable);
-        return modelMapper.map(productPage.getContent(), listType);
+        PaginationResponseDto<ProductDto> paginationResponseDto = new PaginationResponseDto<>();
+
+        List<ProductDto> productDtos = productPage.getContent()
+                .stream()
+                .map(product -> modelMapper.map(product, ProductDto.class))
+                .toList();
+
+        paginationResponseDto.setContent(productDtos);
+        paginationResponseDto.setPage(productPage.getNumber());
+        paginationResponseDto.setSizePerPage(productPage.getSize());
+        paginationResponseDto.setTotalPages(productPage.getTotalPages());
+        paginationResponseDto.setTotalRecords(productPage.getTotalElements());
+
+        return paginationResponseDto;
     }
 }

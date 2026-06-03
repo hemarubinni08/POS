@@ -1,5 +1,6 @@
 package com.ust.pos.shelves.service.impl;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.ShelvesDto;
 import com.ust.pos.model.Shelves;
 import com.ust.pos.model.ShelvesRepository;
@@ -61,11 +62,28 @@ public class ShelvesServiceImpl implements ShelvesService {
     }
 
     @Override
-    public List<ShelvesDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<ShelvesDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<ShelvesDto>>() {
         }.getType();
+
         Page<Shelves> shelvesPage = shelvesRepository.findAll(pageable);
-        return modelMapper.map(shelvesPage.getContent(), listType);
+
+        List<ShelvesDto> shelvesDtos = modelMapper.map(
+                shelvesPage.getContent(),
+                listType
+        );
+
+        PaginationResponseDto<ShelvesDto> paginationResponseDto =
+                new PaginationResponseDto<>();
+
+        paginationResponseDto.setContent(shelvesDtos);
+        paginationResponseDto.setPage(shelvesPage.getNumber());
+        paginationResponseDto.setSizePerPage(shelvesPage.getSize());
+        paginationResponseDto.setTotalPages(shelvesPage.getTotalPages());
+        paginationResponseDto.setTotalRecords(shelvesPage.getTotalElements());
+
+        return paginationResponseDto;
     }
 
     @Override

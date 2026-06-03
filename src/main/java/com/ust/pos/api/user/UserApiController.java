@@ -2,6 +2,7 @@ package com.ust.pos.api.user;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
@@ -23,8 +24,26 @@ public class UserApiController extends BaseController {
     @Autowired
     private RoleService roleService;
 
+    @PostMapping("/register")
+    public UserDto registerUser(@RequestBody UserDto userDto){
+
+        if(userService.findByUserName(userDto.getUsername())==null){
+            return userService.save(userDto);
+        }
+        return userDto;
+    }
+
+    @PostMapping("/add")
+    public UserDto addUser(@RequestBody UserDto userDto){
+
+        if(userService.findByUserName(userDto.getUsername())==null){
+            return userService.save(userDto);
+        }
+        return userDto;
+    }
+
     @PostMapping("/list")
-    public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
+    public PaginationResponseDto<UserDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -32,8 +51,8 @@ public class UserApiController extends BaseController {
         return userService.findAll(pageable);
     }
 
-    @GetMapping("/get")
-    public UserDto update(@RequestParam String username) {
+    @PostMapping("/get")
+    public UserDto update(@RequestBody String username) {
         return userService.findByUserName(username);
     }
 
@@ -42,8 +61,8 @@ public class UserApiController extends BaseController {
         return userService.update(userDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(Model model, @RequestParam String username) {
+    @PostMapping("/delete")
+    public boolean delete(Model model, @RequestBody String username) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null) {

@@ -2,6 +2,7 @@ package com.ust.pos.api.unit;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.UnitDto;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class UnitApiController extends BaseController {
     private UnitService unitService;
 
     @PostMapping("/list")
-    public List<UnitDto> home(@RequestBody PaginationDto paginationDto) {
+    public PaginationResponseDto<UnitDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -32,8 +33,8 @@ public class UnitApiController extends BaseController {
 
     }
 
-    @GetMapping("/get")
-    public UnitDto update(@RequestParam String identifier) {
+    @PostMapping("/get")
+    public UnitDto update(@RequestBody String identifier) {
         return unitService.findByIdentifier(identifier);
     }
 
@@ -43,8 +44,8 @@ public class UnitApiController extends BaseController {
 
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public boolean delete(@RequestBody String identifier) {
         try {
             unitService.delete(identifier);
         } catch (Exception e) {

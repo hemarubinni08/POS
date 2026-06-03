@@ -33,6 +33,14 @@ public class JwtFilter extends OncePerRequestFilter {
                 token = authorization.substring(7);
                 userName = jwtUtility.getUsernameFromToken(token);
             }
+
+            String path = httpServletRequest.getRequestURI();
+
+            if (path.equals("/api/user/register") || path.equals("/api/role/list") || path.equals("/api/authenticate")) {
+                filterChain.doFilter(httpServletRequest, httpServletResponse);
+                return;
+            }
+
             if (null != userName && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userService.loadUserByUsername(userName);
                 if (BooleanUtils.isTrue(jwtUtility.validateToken(token, userDetails))) {

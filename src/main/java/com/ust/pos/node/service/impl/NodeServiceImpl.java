@@ -1,6 +1,7 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.User;
@@ -103,10 +104,27 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public List<NodeDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<NodeDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
+
         Page<Node> nodePage = nodeRepository.findAll(pageable);
-        return modelMapper.map(nodePage.getContent(), listType);
+
+        List<NodeDto> nodeDtos = modelMapper.map(
+                nodePage.getContent(),
+                listType
+        );
+
+        PaginationResponseDto<NodeDto> paginationResponseDto =
+                new PaginationResponseDto<>();
+
+        paginationResponseDto.setContent(nodeDtos);
+        paginationResponseDto.setPage(nodePage.getNumber());
+        paginationResponseDto.setSizePerPage(nodePage.getSize());
+        paginationResponseDto.setTotalPages(nodePage.getTotalPages());
+        paginationResponseDto.setTotalRecords(nodePage.getTotalElements());
+
+        return paginationResponseDto;
     }
 }

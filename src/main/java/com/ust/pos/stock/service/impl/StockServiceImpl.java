@@ -1,5 +1,6 @@
 package com.ust.pos.stock.service.impl;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
@@ -63,10 +64,27 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public List<StockDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<StockDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
+
         Page<Stock> stockPage = stockRepository.findAll(pageable);
-        return modelMapper.map(stockPage.getContent(), listType);
+
+        List<StockDto> stockDtos = modelMapper.map(
+                stockPage.getContent(),
+                listType
+        );
+
+        PaginationResponseDto<StockDto> paginationResponseDto =
+                new PaginationResponseDto<>();
+
+        paginationResponseDto.setContent(stockDtos);
+        paginationResponseDto.setPage(stockPage.getNumber());
+        paginationResponseDto.setSizePerPage(stockPage.getSize());
+        paginationResponseDto.setTotalPages(stockPage.getTotalPages());
+        paginationResponseDto.setTotalRecords(stockPage.getTotalElements());
+
+        return paginationResponseDto;
     }
 }

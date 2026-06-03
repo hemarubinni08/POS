@@ -4,11 +4,10 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/category")
@@ -17,7 +16,7 @@ public class CategoryApiController extends BaseController {
     private CategoryService categoryService;
 
     @PostMapping("/list")
-    public List<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
+    public PaginationResponseDto<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -30,8 +29,8 @@ public class CategoryApiController extends BaseController {
         return categoryService.save(userDto);
     }
 
-    @GetMapping("/get")
-    public CategoryDto update(@RequestParam String identifier) {
+    @PostMapping("/get")
+    public CategoryDto update(@RequestBody String identifier) {
         return categoryService.findByIdentifier(identifier);
     }
 
@@ -40,8 +39,8 @@ public class CategoryApiController extends BaseController {
         return categoryService.update(userDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public boolean delete(@RequestBody String identifier) {
         try {
             categoryService.delete(identifier);
         } catch (Exception e) {

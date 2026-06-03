@@ -1,5 +1,6 @@
 package com.ust.pos.user.service.impl;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
@@ -32,7 +33,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByUserName(String username) {
-        return modelMapper.map(userRepository.findByUsername(username), UserDto.class);
+
+        User user = userRepository.findByUsername(username);
+        if (user==null){
+            return null;
+        }
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override
@@ -84,10 +90,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<UserDto>>() {
-        }.getType();
+    public PaginationResponseDto<UserDto> findAll(Pageable pageable) {
+
+        Type listType = new TypeToken<List<UserDto>>() {}.getType();
+
         Page<User> userPage = userRepository.findAll(pageable);
-        return modelMapper.map(userPage.getContent(), listType);
+
+        List<UserDto> userDtos = modelMapper.map(
+                userPage.getContent(),
+                listType
+        );
+
+        PaginationResponseDto<UserDto> paginationResponseDto =
+                new PaginationResponseDto<>();
+
+        paginationResponseDto.setContent(userDtos);
+        paginationResponseDto.setPage(userPage.getNumber());
+        paginationResponseDto.setSizePerPage(userPage.getSize());
+        paginationResponseDto.setTotalPages(userPage.getTotalPages());
+        paginationResponseDto.setTotalRecords(userPage.getTotalElements());
+
+        return paginationResponseDto;
     }
 }

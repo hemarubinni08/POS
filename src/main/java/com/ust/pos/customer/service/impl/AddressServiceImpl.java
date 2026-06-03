@@ -2,11 +2,14 @@ package com.ust.pos.customer.service.impl;
 
 import com.ust.pos.customer.service.AddressService;
 import com.ust.pos.dto.AddressDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.model.Address;
 import com.ust.pos.model.AddressRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -73,10 +76,28 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<AddressDto> findAll() {
+    public PaginationResponseDto<AddressDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<AddressDto>>() {
         }.getType();
-        return modelMapper.map(addressRepository.findAll(), listType);
+
+        Page<Address> addressPage = addressRepository.findAll(pageable);
+
+        List<AddressDto> addressDtos = modelMapper.map(
+                addressPage.getContent(),
+                listType
+        );
+
+        PaginationResponseDto<AddressDto> paginationResponseDto =
+                new PaginationResponseDto<>();
+
+        paginationResponseDto.setContent(addressDtos);
+        paginationResponseDto.setPage(addressPage.getNumber());
+        paginationResponseDto.setSizePerPage(addressPage.getSize());
+        paginationResponseDto.setTotalPages(addressPage.getTotalPages());
+        paginationResponseDto.setTotalRecords(addressPage.getTotalElements());
+
+        return paginationResponseDto;
     }
 
     @Override

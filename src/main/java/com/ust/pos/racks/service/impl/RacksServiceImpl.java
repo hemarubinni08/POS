@@ -1,5 +1,6 @@
 package com.ust.pos.racks.service.impl;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.RacksDto;
 import com.ust.pos.model.Racks;
 import com.ust.pos.model.RacksRepository;
@@ -62,11 +63,28 @@ public class RacksServiceImpl implements RacksService {
     }
 
     @Override
-    public List<RacksDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<RacksDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<RacksDto>>() {
         }.getType();
+
         Page<Racks> racksPage = racksRepository.findAll(pageable);
-        return modelMapper.map(racksPage.getContent(), listType);
+
+        List<RacksDto> racksDtos = modelMapper.map(
+                racksPage.getContent(),
+                listType
+        );
+
+        PaginationResponseDto<RacksDto> paginationResponseDto =
+                new PaginationResponseDto<>();
+
+        paginationResponseDto.setContent(racksDtos);
+        paginationResponseDto.setPage(racksPage.getNumber());
+        paginationResponseDto.setSizePerPage(racksPage.getSize());
+        paginationResponseDto.setTotalPages(racksPage.getTotalPages());
+        paginationResponseDto.setTotalRecords(racksPage.getTotalElements());
+
+        return paginationResponseDto;
     }
 
     @Override
