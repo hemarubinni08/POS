@@ -6,11 +6,9 @@
 <head>
     <title>Unit Management</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -46,7 +44,14 @@
 
         <h2 class="text-center mb-4">Unit Management</h2>
 
-        <!-- ACTION BUTTONS -->
+        <c:if test="${not empty successMessage}">
+            <div class="alert alert-success text-center">${successMessage}</div>
+        </c:if>
+
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger text-center">${errorMessage}</div>
+        </c:if>
+
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary back-btn">
@@ -61,14 +66,12 @@
             </a>
         </div>
 
-        <!-- EMPTY MESSAGE -->
         <c:if test="${empty units}">
             <div class="text-center text-muted p-5">
                 No units available
             </div>
         </c:if>
 
-        <!-- UNIT TABLE -->
         <c:if test="${not empty units}">
             <table class="table table-hover table-bordered align-middle">
                 <thead class="table-dark text-center">
@@ -84,13 +87,9 @@
                 <c:forEach var="unit" items="${units}">
                     <tr>
 
-                        <!-- ID -->
                         <td class="text-center">${unit.id}</td>
-
-                        <!-- UNIT NAME -->
                         <td class="fw-semibold">${unit.identifier}</td>
 
-                        <!-- STATUS TOGGLE -->
                         <td class="text-center">
                             <form method="post"
                                   action="${pageContext.request.contextPath}/unit/update"
@@ -98,7 +97,6 @@
 
                                 <input type="hidden" name="id" value="${unit.id}">
                                 <input type="hidden" name="identifier" value="${unit.identifier}">
-
                                 <input type="hidden" name="status" value="${!unit.status}">
 
                                 <div class="form-check form-switch d-flex justify-content-center align-items-center">
@@ -114,7 +112,6 @@
                             </form>
                         </td>
 
-                        <!-- ACTIONS -->
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/unit/get?identifier=${unit.identifier}"
                                class="btn btn-sm btn-warning">
@@ -138,6 +135,10 @@
 
     </div>
 </div>
-
+<script>
+    setTimeout(() => {
+        document.querySelectorAll('.alert').forEach(e => e.style.display = 'none');
+    }, 3000);
+</script>
 </body>
 </html>

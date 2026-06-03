@@ -11,7 +11,6 @@ public class Stock extends CommonFields {
 
     private Integer quantity;
     private Integer minimumStock;
-
     private String productIdentifier;
     private String warehouseIdentifier;
 

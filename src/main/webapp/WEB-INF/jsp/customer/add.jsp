@@ -7,11 +7,11 @@
 <head>
     <title>Add Customer</title>
 
-    <!-- Bootstrap -->
+
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
+
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -40,19 +40,19 @@
 
         <h2 class="text-center mb-4">Add Customer</h2>
 
-        <!-- ERROR MESSAGE -->
+
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- FORM -->
+
         <form:form method="post"
                    modelAttribute="customerDto"
                    action="${pageContext.request.contextPath}/customer/add">
 
-            <!-- ================= CUSTOMER DETAILS ================= -->
+
             <div class="section-title">Customer Details</div>
 
             <div class="row mb-3">
@@ -67,7 +67,7 @@
                 </div>
             </div>
 
-            <!-- ================= FINANCIAL DETAILS ================= -->
+
             <div class="section-title">Financial Details</div>
 
             <div class="row mb-3">
@@ -92,7 +92,6 @@
                 </div>
             </div>
 
-            <!-- ================= BILLING ADDRESS ================= -->
             <div class="section-title">Billing Address</div>
 
             <form:hidden path="billingAddress.addressType" value="Billing"/>
@@ -126,7 +125,7 @@
                 </div>
             </div>
 
-            <!-- ================= SHIPPING ADDRESS ================= -->
+
             <div class="section-title">Shipping Address</div>
 
             <form:hidden path="shippingAddress.addressType" value="Shipping"/>
@@ -160,7 +159,7 @@
                 </div>
             </div>
 
-            <!-- ================= BUTTONS ================= -->
+
             <div class="text-center">
                 <a href="${pageContext.request.contextPath}/customer/list"
                    class="btn btn-secondary btn-custom">

@@ -6,11 +6,9 @@
 <head>
     <title>Customer Management</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -40,7 +38,18 @@
 
         <h2 class="text-center mb-4">Customer Management</h2>
 
-        <!-- ACTION BUTTONS -->
+        <c:if test="${not empty successMessage}">
+            <div class="alert alert-success text-center">
+                ${successMessage}
+            </div>
+        </c:if>
+
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger text-center">
+                ${errorMessage}
+            </div>
+        </c:if>
+
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary back-btn">
@@ -55,14 +64,12 @@
             </a>
         </div>
 
-        <!-- EMPTY MESSAGE -->
         <c:if test="${empty customers}">
             <div class="text-center text-muted p-5">
                 No customers available
             </div>
         </c:if>
 
-        <!-- CUSTOMER TABLE -->
         <c:if test="${not empty customers}">
             <table class="table table-hover table-bordered align-middle">
                 <thead class="table-dark text-center">
@@ -111,6 +118,10 @@
 
     </div>
 </div>
-
+<script>
+    setTimeout(() => {
+        document.querySelectorAll('.alert').forEach(e => e.style.display = 'none');
+    }, 3000);
+</script>
 </body>
 </html>

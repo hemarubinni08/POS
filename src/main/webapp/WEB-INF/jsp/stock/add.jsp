@@ -7,7 +7,7 @@
 <head>
     <title>Add Stock</title>
 
-    <!-- Bootstrap -->
+
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet"
@@ -25,7 +25,7 @@
             background: linear-gradient(135deg, #f5f7fb, #eef2ff);
         }
 
-        /* Back */
+
         .back-link {
             text-decoration: none;
             font-weight: 500;
@@ -36,7 +36,7 @@
             text-decoration: underline;
         }
 
-        /* Card */
+
         .stock-card {
             max-width: 520px;
             margin: auto;
@@ -89,7 +89,7 @@
             box-shadow: none;
         }
 
-        /* Error */
+
         .error-msg {
             background: #fee2e2;
             color: #b91c1c;
@@ -100,7 +100,7 @@
             font-size: 14px;
         }
 
-        /* Submit */
+
         .btn-submit {
             padding: 12px;
             font-size: 16px;
@@ -127,16 +127,16 @@
         </a>
     </div>
 
-    <!-- Card -->
+
     <div class="card stock-card">
 
-        <!-- Header -->
+
         <div class="card-header">
             <h4><i class="bi bi-box-seam"></i> Add Stock</h4>
             <small>Assign product inventory to a warehouse</small>
         </div>
 
-        <!-- Body -->
+
         <div class="card-body">
 
             <c:if test="${not empty message}">
@@ -147,7 +147,7 @@
 
             <form:form action="add" method="post" modelAttribute="stocks">
 
-                <!-- Product -->
+
                 <div class="section-title">Product Selection</div>
                 <div class="mb-3">
                     <label class="form-label">Product</label>
@@ -161,7 +161,7 @@
                     </form:select>
                 </div>
 
-                <!-- Warehouse -->
+
                 <div class="section-title">Warehouse</div>
                 <div class="mb-3">
                     <label class="form-label">Warehouse</label>
@@ -175,7 +175,7 @@
                     </form:select>
                 </div>
 
-                <!-- Stock -->
+
                 <div class="section-title">Stock Details</div>
                 <div class="mb-3">
                     <label class="form-label">Quantity Available</label>

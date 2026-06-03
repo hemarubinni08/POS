@@ -93,32 +93,32 @@
         </div>
     </c:if>
 
-    <!-- ✅ OPENING FORM TAG (THIS WAS MISSING BEFORE) -->
+
     <form:form action="${pageContext.request.contextPath}/brand/add"
                method="post"
                modelAttribute="brand">
 
-        <!-- BRAND NAME -->
+
         <label>Brand Name</label>
         <form:input path="identifier" required="true"/>
         <form:errors path="identifier" cssClass="error-msg"/>
 
-        <!-- DESCRIPTION -->
+
         <label>Description</label>
         <form:textarea path="description"/>
         <form:errors path="description" cssClass="error-msg"/>
 
-        <!-- STATUS -->
+
         <label>Status</label>
         <form:select path="status">
             <form:option value="true">Active</form:option>
             <form:option value="false">Deactive</form:option>
         </form:select>
 
-        <!-- SUBMIT -->
+
         <input type="submit" value="Add Brand" class="btn-submit"/>
 
-    <!-- ✅ PROPERLY CLOSED -->
+
     </form:form>
 
 </div>

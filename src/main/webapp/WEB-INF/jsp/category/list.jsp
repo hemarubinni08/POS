@@ -6,11 +6,9 @@
 <head>
     <title>Category Management</title>
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -38,11 +36,24 @@
 <body>
 
 <div class="container mt-4">
-
     <div class="card card-custom p-4">
+
         <h2 class="text-center mb-4">Category Management</h2>
 
-        <!-- BUTTONS -->
+
+        <c:if test="${not empty successMessage}">
+            <div class="alert alert-success text-center">
+                ${successMessage}
+            </div>
+        </c:if>
+
+
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger text-center">
+                ${errorMessage}
+            </div>
+        </c:if>
+
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary back-btn">
@@ -57,17 +68,14 @@
             </a>
         </div>
 
-        <!-- EMPTY -->
         <c:if test="${empty categories}">
             <div class="text-center text-muted p-5">
                 No categories available
             </div>
         </c:if>
 
-        <!-- TABLE -->
         <c:if test="${not empty categories}">
             <table class="table table-bordered table-hover align-middle">
-
                 <thead class="table-dark text-center">
                 <tr>
                     <th>ID</th>
@@ -96,7 +104,6 @@
                             </c:choose>
                         </td>
 
-                        <!-- ✅ STATUS TOGGLE -->
                         <td class="text-center">
                             <form method="post"
                                   action="${pageContext.request.contextPath}/category/toggle">
@@ -118,7 +125,6 @@
                             </form>
                         </td>
 
-                        <!-- ACTIONS -->
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/category/get?identifier=${category.identifier}"
                                class="btn btn-sm btn-warning">
@@ -142,8 +148,11 @@
         </c:if>
 
     </div>
-
 </div>
-
+<script>
+    setTimeout(() => {
+        document.querySelectorAll('.alert').forEach(e => e.style.display = 'none');
+    }, 3000);
+</script>
 </body>
 </html>

@@ -6,11 +6,9 @@
 <head>
     <title>Product Management</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -42,7 +40,18 @@
     <div class="card card-custom p-4">
         <h2 class="text-center mb-4">Product Management</h2>
 
-        <!-- BUTTONS -->
+        <c:if test="${not empty successMessage}">
+            <div class="alert alert-success text-center">
+                ${successMessage}
+            </div>
+        </c:if>
+
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger text-center">
+                ${errorMessage}
+            </div>
+        </c:if>
+
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary back-btn">
@@ -57,14 +66,12 @@
             </a>
         </div>
 
-        <!-- EMPTY -->
         <c:if test="${empty products}">
             <div class="text-center text-muted p-5">
                 No products available
             </div>
         </c:if>
 
-        <!-- TABLE -->
         <c:if test="${not empty products}">
             <table class="table table-hover table-bordered align-middle">
 
@@ -88,7 +95,6 @@
                         <td class="text-center">${product.categories}</td>
                         <td class="text-center">${product.skucode}</td>
 
-                        <!-- ✅ STATUS TOGGLE -->
                         <td class="text-center">
                             <form method="post"
                                   action="${pageContext.request.contextPath}/product/toggle">
@@ -110,7 +116,6 @@
                             </form>
                         </td>
 
-                        <!-- ACTIONS -->
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/product/get?identifier=${product.identifier}"
                                class="btn btn-sm btn-warning">
@@ -136,6 +141,10 @@
     </div>
 
 </div>
-
+<script>
+    setTimeout(() => {
+        document.querySelectorAll('.alert').forEach(e => e.style.display = 'none');
+    }, 3000);
+</script>
 </body>
 </html>

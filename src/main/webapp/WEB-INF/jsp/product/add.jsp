@@ -14,13 +14,13 @@
             background: linear-gradient(135deg, #f4f7f6, #eef2ff);
         }
 
-        /* THEME COLOR */
+
         :root {
             --primary-color: #4f46e5;
             --primary-hover: #4338ca;
         }
 
-        /* 🔙 BACK BUTTON */
+
         .back-btn {
             position: fixed;
             top: 20px;
@@ -37,7 +37,7 @@
             background: #5a6268;
         }
 
-        /* 📦 CARD */
+
         .card {
             width: 450px;
             margin: 100px auto;
@@ -82,7 +82,6 @@
             border-color: var(--primary-color);
         }
 
-        /* ❌ ERROR */
         .error-msg {
             margin-bottom: 15px;
             padding: 10px;
@@ -93,7 +92,7 @@
             font-size: 14px;
         }
 
-        /* ✅ SUBMIT BUTTON (SAME COLOR AS HEADER) */
+
         .btn-submit {
             margin-top: 28px;
             width: 100%;

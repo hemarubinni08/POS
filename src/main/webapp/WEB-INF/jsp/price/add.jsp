@@ -7,7 +7,7 @@
 <head>
     <title>Add Price</title>
 
-    <!-- Theme Colors -->
+
     <style>
         :root {
             --primary-color: #4f46e5;

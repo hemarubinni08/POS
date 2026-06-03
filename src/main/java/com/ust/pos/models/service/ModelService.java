@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface ModelService {
 
-
     ModelDto findByIdentifier(String identifier);
 
     ModelDto save(ModelDto modelDto);

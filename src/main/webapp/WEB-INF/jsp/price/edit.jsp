@@ -2,16 +2,15 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Edit Price</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -34,7 +33,6 @@
             justify-content: center;
         }
 
-        /* Back Button */
         .back-btn {
             position: fixed;
             top: 20px;
@@ -51,7 +49,6 @@
             background: #5a6268;
         }
 
-        /* Card */
         .card-custom {
             width: 480px;
             border-radius: 14px;
@@ -87,7 +84,6 @@
             box-shadow: none;
         }
 
-        /* Error */
         .error-msg {
             background: #fee2e2;
             color: #b91c1c;
@@ -98,7 +94,6 @@
             font-size: 14px;
         }
 
-        /* Submit Button */
         .btn-submit {
             margin-top: 20px;
             width: 100%;
@@ -127,12 +122,10 @@
 
     <div class="card card-custom">
 
-        <!-- Header -->
         <div class="card-header-custom">
             <i class="bi bi-pencil-square"></i> Edit Price
         </div>
 
-        <!-- Body -->
         <div class="card-body p-4">
 
             <c:if test="${not empty message}">
@@ -147,7 +140,6 @@
 
                 <form:hidden path="id"/>
 
-                <!-- Product -->
                 <div class="mb-3">
                     <label class="form-label">Product</label>
                     <form:select path="identifier"
@@ -162,7 +154,6 @@
                     </form:select>
                 </div>
 
-                <!-- MRP -->
                 <div class="mb-3">
                     <label class="form-label">MRP</label>
                     <form:input path="mrp"
@@ -172,7 +163,6 @@
                                 required="true"/>
                 </div>
 
-                <!-- Selling Price -->
                 <div class="mb-3">
                     <label class="form-label">Selling Price</label>
                     <form:input path="sellingPrice"
@@ -182,7 +172,6 @@
                                 required="true"/>
                 </div>
 
-                <!-- Effective From -->
                 <div class="mb-4">
                     <label class="form-label">Effective From</label>
                     <form:input path="effectiveFrom"

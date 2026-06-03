@@ -6,11 +6,9 @@
 <head>
     <title>Model Management</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -46,7 +44,18 @@
 
         <h2 class="text-center mb-4">Model Management</h2>
 
-        <!-- ACTION BUTTONS -->
+        <c:if test="${not empty successMessage}">
+            <div class="alert alert-success text-center">
+                ${successMessage}
+            </div>
+        </c:if>
+
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger text-center">
+                ${errorMessage}
+            </div>
+        </c:if>
+
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary back-btn">
@@ -61,14 +70,12 @@
             </a>
         </div>
 
-        <!-- EMPTY MESSAGE -->
         <c:if test="${empty models}">
             <div class="text-center text-muted p-5">
                 No models available
             </div>
         </c:if>
 
-        <!-- MODEL TABLE -->
         <c:if test="${not empty models}">
             <table class="table table-hover table-bordered align-middle">
                 <thead class="table-dark text-center">
@@ -84,24 +91,16 @@
                 <c:forEach var="model" items="${models}">
                     <tr>
 
-                        <!-- ID -->
                         <td class="text-center">${model.id}</td>
-
-                        <!-- IDENTIFIER -->
                         <td class="fw-semibold">${model.identifier}</td>
 
-
-
-                        <!-- ✅ STATUS TOGGLE -->
                         <td class="text-center">
                             <form method="post"
                                   action="${pageContext.request.contextPath}/model/update"
                                   class="d-inline">
 
-                                <!-- required fields -->
                                 <input type="hidden" name="id" value="${model.id}">
                                 <input type="hidden" name="identifier" value="${model.identifier}">
-
                                 <input type="hidden" name="status" value="${!model.status}">
 
                                 <div class="form-check form-switch d-flex justify-content-center align-items-center">
@@ -117,7 +116,6 @@
                             </form>
                         </td>
 
-                        <!-- ACTIONS -->
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/model/get?identifier=${model.identifier}"
                                class="btn btn-sm btn-warning">
@@ -141,6 +139,10 @@
 
     </div>
 </div>
-
+<script>
+    setTimeout(() => {
+        document.querySelectorAll('.alert').forEach(e => e.style.display = 'none');
+    }, 3000);
+</script>
 </body>
 </html>
