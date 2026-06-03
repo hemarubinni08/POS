@@ -59,6 +59,7 @@ public class NodeController {
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute NodeDto userDto) {
         NodeDto response = nodeService.update(userDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }

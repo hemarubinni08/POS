@@ -41,7 +41,6 @@ public class RoleController {
             return ROLE_ADD;
         }
         userDto.setIdentifier(userDto.getIdentifier().trim().toUpperCase());
-
         RoleDto response = roleService.save(userDto);
 
         if (!response.isSuccess()) {
@@ -62,6 +61,7 @@ public class RoleController {
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute RoleDto userDto) {
         RoleDto response = roleService.update(userDto);
+
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
         }

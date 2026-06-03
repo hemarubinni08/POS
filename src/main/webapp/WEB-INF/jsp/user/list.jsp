@@ -162,10 +162,6 @@
 
                 <a href="/" class="btn btn-home">Home</a>
 
-                <a href="/register" class="btn btn-add">
-                    Register
-                </a>
-
             </div>
 
             <div class="text-muted small mt-2">

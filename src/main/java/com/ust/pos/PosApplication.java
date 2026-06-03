@@ -44,8 +44,8 @@ public class PosApplication {
         ds.setUrl(environment.getProperty("spring.datasource.url"));
         ds.setUsername(environment.getProperty("spring.datasource.username"));
         ds.setPassword(environment.getProperty("spring.datasource.password"));
-        String drivercls=environment.getProperty("spring.datasource.driver-class-name");
-        if(drivercls != null){
+        String drivercls = environment.getProperty("spring.datasource.driver-class-name");
+        if (drivercls != null) {
             ds.setDriverClassName(drivercls);
         }
         return ds;
