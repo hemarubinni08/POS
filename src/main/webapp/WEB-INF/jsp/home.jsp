@@ -105,7 +105,6 @@
 </head>
 
 <body>
-
 <div class="wrapper">
     <div class="sidebar">
         <h2>POS System</h2>

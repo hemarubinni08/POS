@@ -70,6 +70,7 @@ ${message}
                     <a href="/role/list" class="btn btn-outline-secondary">
                         Cancel
                     </a>
+
                     <button type="submit" class="btn btn-primary">
                         Update
                     </button>

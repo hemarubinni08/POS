@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
     public UserDto save(UserDto userDto) {
         String username = userDto.getUsername();
         User existingUser = userRepository.findByUsername(username);
+
         if (existingUser != null) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
             userDto.setSuccess(false);

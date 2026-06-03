@@ -30,6 +30,7 @@ public class RoleController {
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute RoleDto userDto) {
         RoleDto response = roleService.save(userDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(ROLES, roleService.findAll());
@@ -49,6 +50,7 @@ public class RoleController {
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute RoleDto userDto) {
         RoleDto response = roleService.update(userDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(ROLES, roleService.findAll());

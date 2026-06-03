@@ -5,6 +5,7 @@ import com.ust.pos.dto.RoleDto;
 import java.util.List;
 
 public interface RoleService {
+
     RoleDto save(RoleDto roleDto);
 
     RoleDto update(RoleDto roleDto);

@@ -52,6 +52,7 @@
                         <label class="form-label fw-semibold">Role Name</label>
                         <form:input path="identifier"
                                     cssClass="form-control"
+                                    required="true"
                                     placeholder="Enter role name" />
                     </div>
 
@@ -59,6 +60,7 @@
                          <label class="form-label fw-semibold">Role Description</label>
                          <form:input path="description"
                                      cssClass="form-control"
+                                     required="true"
                                      placeholder="Enter description" />
                      </div>
 

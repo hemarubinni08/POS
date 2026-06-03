@@ -37,6 +37,7 @@ public class NodeController {
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute NodeDto nodeDto) {
         NodeDto response = nodeService.save(nodeDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("node", nodeDto);
@@ -59,6 +60,7 @@ public class NodeController {
         NodeDto response = nodeService.update(nodeDto);
         model.addAttribute(ROLES, roleService.findAll());
         model.addAttribute("node", nodeService.findAll());
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }

@@ -99,7 +99,6 @@
 </head>
 
 <body>
-
 <form th:action="@{/login}" method="post">
 
 <c:if test="${param.error !=null}">

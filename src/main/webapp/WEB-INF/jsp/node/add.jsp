@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -47,7 +46,6 @@
             </div>
 
             <div class="card-body">
-
                 <form:form method="post"
                            action="/node/add"
                            modelAttribute="node">
@@ -56,6 +54,7 @@
                         <label class="form-label fw-semibold">Node Name</label>
                         <form:input path="identifier"
                                     cssClass="form-control"
+                                    required="true"
                                     placeholder="Enter Node Name" />
                     </div>
 
@@ -63,13 +62,14 @@
                         <label class="form-label fw-semibold">Node Path</label>
                         <form:input path="path"
                                     cssClass="form-control"
+                                    required="true"
                                     placeholder="example:(/main/path)" />
                     </div>
 
                     <div class="form-group">
                        <label>Node Roles</label>
                          <div class="form-group">
-                           <form:select path="roles" multiple="true">
+                           <form:select path="roles" multiple="true" required="true">
                            <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
                            </form:select>
                          </div>
@@ -94,16 +94,13 @@
                         ${message}
                     </div>
                 </c:if>
-
             </div>
 
             <div class="card-footer text-center text-muted small">
                 POS Management System
             </div>
         </div>
-
     </div>
 </div>
-
 </body>
 </html>

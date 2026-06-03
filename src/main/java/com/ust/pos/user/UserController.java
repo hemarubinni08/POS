@@ -37,6 +37,7 @@ public class UserController {
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute UserDto userDto) {
         UserDto response = userService.update(userDto);
+
         if (!response.isSuccess()) {
 
             model.addAttribute("user", userDto);
@@ -49,14 +50,12 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication != null) {
             String loggedInUser = authentication.getName();
             if (loggedInUser != null) {
-
                 userService.delete(username);
-
                 if (loggedInUser.equals(username)) {
                     SecurityContextHolder.clearContext();
                     return "redirect:/login";

@@ -68,36 +68,30 @@
 </head>
 
 <body>
-
 <div class="update-card">
     <h3>Update User</h3>
 
     <form:form action="/user/update" method="post" modelAttribute="user">
-
         <form:input type="hidden" path="id"/>
 
-        <!-- Name -->
         <div class="mb-3">
             <label>Name</label>
             <form:input path="name" cssClass="form-control" required="true"/>
             <form:errors path="name" cssClass="error"/>
         </div>
 
-        <!-- Email -->
         <div class="mb-3">
             <label>Email</label>
-            <form:input path="username" type="email" cssClass="form-control" required="true"/>
+            <form:input path="username" type="email" cssClass="form-control" readonly="true"/>
             <form:errors path="username" cssClass="error"/>
         </div>
 
-        <!-- Phone -->
         <div class="mb-3">
             <label>Phone Number</label>
             <form:input path="phoneNo" cssClass="form-control" required="true" pattern="[0-9]{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
             <form:errors path="phoneNo" cssClass="error"/>
         </div>
 
-        <!-- Roles -->
         <div class="mb-3">
             <label>Roles</label>
 
@@ -108,17 +102,14 @@
                 </c:forEach>
             </div>
 
-            <form:select path="roles" multiple="true" cssClass="form-control">
+            <form:select path="roles" multiple="true" cssClass="form-control" required="true">
                 <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
             </form:select>
 
             <small>Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple</small>
         </div>
-
         <button type="submit" class="btn-update">Update User</button>
-
     </form:form>
-
 
     <c:if test="${not empty message}">
         <p class="error">${message}</p>
@@ -127,8 +118,6 @@
     <div class="text-center mt-3">
         <a href="/user/list">← Back to User List</a>
     </div>
-
 </div>
-
 </body>
 </html>
