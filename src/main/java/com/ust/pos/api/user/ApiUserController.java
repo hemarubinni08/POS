@@ -34,6 +34,12 @@ public class ApiUserController extends BaseController {
 
     }
 
+    @PostMapping("/register")
+    public UserDto add(@RequestBody UserDto userDto) {
+        return userService.save(userDto);
+        
+    }
+
     @GetMapping("/get")
     public UserDto update(@RequestParam String username) {
         return userService.findByUserName(username);
@@ -49,7 +55,6 @@ public class ApiUserController extends BaseController {
     @GetMapping("/delete")
     public boolean delete(Model model, @RequestParam String username) {
         try {
-
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null) {
                 String loggedInUser = authentication.getName();
