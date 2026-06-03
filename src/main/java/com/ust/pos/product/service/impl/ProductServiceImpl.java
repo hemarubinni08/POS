@@ -1,6 +1,7 @@
 package com.ust.pos.product.service.impl;
 
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -20,16 +21,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
     public ProductDto findByIdentifier(String identifier) {
-
         return modelMapper.map(productRepository.findByIdentifier(identifier), ProductDto.class);
     }
-
 
     @Override
     public ProductDto save(ProductDto productDto) {
@@ -59,7 +57,6 @@ public class ProductServiceImpl implements ProductService {
         return productDto;
     }
 
-
     @Override
     @Transactional
     public void delete(String identifier) {
@@ -67,34 +64,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findAll(Pageable pageable) {
-
+    public WsDto<ProductDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         Page<Product> productPage = productRepository.findAll(pageable);
-        return modelMapper.map(productPage.getContent(), listType);
+        WsDto<ProductDto> productWsDto = new WsDto<>();
+        productWsDto.setDtoList(modelMapper.map(productPage.getContent(), listType));
+        productWsDto.setTotalRecords(productPage.getTotalElements());
+        productWsDto.setTotalPage(productPage.getTotalPages());
+        productWsDto.setSizePerPage(pageable.getPageSize());
+        productWsDto.setPage(pageable.getPageNumber());
+        return productWsDto;
     }
 
-
     @Override
-    public void toggleStatus(String identifier) {
+    public ProductDto toggleStatus(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
-
-        if (product == null) {
-            throw new IllegalArgumentException("Product not found");
-        }
-
         product.setStatus(!product.isStatus());
         productRepository.save(product);
+        return modelMapper.map(product, ProductDto.class);
     }
 
     public List<ProductDto> findActiveProducts() {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
-
         return modelMapper.map(
                 productRepository.findByStatusTrue(),
                 listType
         );
     }
+
 }

@@ -14,4 +14,5 @@ public class CustomerDto extends CommonDto {
     private long phoneNumber;
     private AddressDto billingAddress;
     private AddressDto shippingAddress;
+
 }

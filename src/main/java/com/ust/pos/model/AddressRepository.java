@@ -9,4 +9,5 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     Address findByPhoneNumberAndAddressType(Long phone, String addressType);
 
     void deleteByPhoneNumber(Long phoneNumber);
+
 }

@@ -1,6 +1,7 @@
 package com.ust.pos.unit.service.impl;
 
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
 import com.ust.pos.unit.service.UnitService;
@@ -20,13 +21,11 @@ public class UnitServiceImpl implements UnitService {
 
     @Autowired
     private UnitRepository unitRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
     public UnitDto findByIdentifier(String identifier) {
-
         return modelMapper.map(unitRepository.findByIdentifier(identifier), UnitDto.class);
     }
 
@@ -65,33 +64,34 @@ public class UnitServiceImpl implements UnitService {
     }
 
     @Override
-    public List<UnitDto> findAll(Pageable pageable) {
-
+    public WsDto<UnitDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
         Page<Unit> unitPage = unitRepository.findAll(pageable);
-        return modelMapper.map(unitPage.getContent(), listType);
+        WsDto<UnitDto> unitWsDto = new WsDto<>();
+        unitWsDto.setDtoList(modelMapper.map(unitPage.getContent(), listType));
+        unitWsDto.setTotalRecords(unitPage.getTotalElements());
+        unitWsDto.setTotalPage(unitPage.getTotalPages());
+        unitWsDto.setSizePerPage(pageable.getPageSize());
+        unitWsDto.setPage(pageable.getPageNumber());
+        return unitWsDto;
     }
 
     @Override
-    public void toggleStatus(String identifier) {
+    public UnitDto toggleStatus(String identifier) {
         Unit unit = unitRepository.findByIdentifier(identifier);
-
-        if (unit == null) {
-            throw new IllegalArgumentException("Unit not found");
-        }
-
         unit.setStatus(!unit.isStatus());
         unitRepository.save(unit);
+        return modelMapper.map(unit, UnitDto.class);
     }
 
     public List<UnitDto> findActiveUnits() {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
-
         return modelMapper.map(
                 unitRepository.findByStatusTrue(),
                 listType
         );
     }
+
 }

@@ -25,7 +25,6 @@ public class ShelfController {
         return "shelf/list";
     }
 
-
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute(SHELF, new ShelfDto());

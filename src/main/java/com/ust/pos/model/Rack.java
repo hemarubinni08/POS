@@ -13,4 +13,5 @@ public class Rack extends CommonFields {
 
     private List<String> shelf;
     private boolean status;
+
 }

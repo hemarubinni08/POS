@@ -3,6 +3,7 @@ package com.ust.pos.api.node;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.node.service.NodeService;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,14 @@ public class NodeApiController extends BaseController {
 
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     public static final String ROLES = "roles";
+
     @Autowired
     private NodeService nodeService;
-
     @Autowired
     private RoleService roleService;
 
     @PostMapping("/list")
-    public List<NodeDto> list(@RequestBody PaginationDto paginationDto) {
+    public WsDto<NodeDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return nodeService.findAll(pageable);
     }
@@ -36,13 +37,11 @@ public class NodeApiController extends BaseController {
 
     @GetMapping("/get")
     public NodeDto update(@RequestParam String identifier) {
-
         return nodeService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
     public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
-
         return nodeService.update(nodeDto);
     }
 
@@ -60,4 +59,5 @@ public class NodeApiController extends BaseController {
     public List<NodeDto> getNodesForRoles() {
         return nodeService.getNodesForRoles();
     }
+
 }

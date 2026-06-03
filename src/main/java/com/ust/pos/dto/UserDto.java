@@ -19,6 +19,7 @@ import java.util.List;
 )
 @ComponentScan({"com.ust.pos.api", "com.ust.pos.web.controller", "com.ust.pos"})
 public class UserDto extends CommonDto {
+
     private String name;
     private String username;
     private String phoneNo;
@@ -29,4 +30,5 @@ public class UserDto extends CommonDto {
     public UserDto(String token) {
         this.token = token;
     }
+
 }

@@ -4,6 +4,7 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -21,21 +22,18 @@ public class ProductApiController extends BaseController {
     private CategoryService categoryService;
 
     @PostMapping("/list")
-    public List<ProductDto> list(@RequestBody PaginationDto paginationDto) {
+    public WsDto<ProductDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return productService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
     public ProductDto addPost(@RequestBody ProductDto productDto) {
-
         return productService.save(productDto);
     }
 
     @GetMapping("/get")
     public ProductDto update(@RequestParam String identifier) {
-
         return productService.findByIdentifier(identifier);
     }
 
@@ -55,17 +53,13 @@ public class ProductApiController extends BaseController {
     }
 
     @GetMapping("/toggle")
-    public boolean toggle(@RequestParam String identifier) {
-        try {
-            productService.toggleStatus(identifier);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+    public ProductDto toggle(@RequestParam String identifier) {
+        return productService.toggleStatus(identifier);
     }
 
-    @GetMapping("/activeproduct")
+    @GetMapping("/active")
     public List<ProductDto> findActiveProducts() {
         return productService.findActiveProducts();
     }
+
 }

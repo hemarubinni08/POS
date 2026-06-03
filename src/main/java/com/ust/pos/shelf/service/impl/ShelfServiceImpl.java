@@ -1,6 +1,7 @@
 package com.ust.pos.shelf.service.impl;
 
 import com.ust.pos.dto.ShelfDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Shelf;
 import com.ust.pos.model.ShelfRepository;
 import com.ust.pos.shelf.service.ShelfService;
@@ -20,13 +21,11 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Autowired
     private ShelfRepository shelfRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
     public ShelfDto findByIdentifier(String identifier) {
-
         return modelMapper.map(shelfRepository.findByIdentifier(identifier), ShelfDto.class);
     }
 
@@ -65,33 +64,34 @@ public class ShelfServiceImpl implements ShelfService {
     }
 
     @Override
-    public List<ShelfDto> findAll(Pageable pageable) {
-
+    public WsDto<ShelfDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
         Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
-        return modelMapper.map(shelfPage.getContent(), listType);
+        WsDto<ShelfDto> shelfDto = new WsDto<>();
+        shelfDto.setDtoList(modelMapper.map(shelfPage.getContent(), listType));
+        shelfDto.setTotalRecords(shelfPage.getTotalElements());
+        shelfDto.setTotalPage(shelfPage.getTotalPages());
+        shelfDto.setSizePerPage(pageable.getPageSize());
+        shelfDto.setPage(pageable.getPageNumber());
+        return shelfDto;
     }
 
     @Override
-    public void toggleStatus(String identifier) {
+    public ShelfDto toggleStatus(String identifier) {
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
-
-        if (shelf == null) {
-            throw new IllegalArgumentException("Shelf not found");
-        }
-
         shelf.setStatus(!shelf.isStatus());
         shelfRepository.save(shelf);
+        return modelMapper.map(shelf, ShelfDto.class);
     }
 
     public List<ShelfDto> findActiveShelves() {
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
-
         return modelMapper.map(
                 shelfRepository.findByStatusTrue(),
                 listType
         );
     }
+
 }

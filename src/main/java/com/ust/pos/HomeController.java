@@ -23,7 +23,7 @@ public class HomeController {
 
         model.addAttribute("nodes", nodeService.getNodesForRoles());
 
-        UserDto user = userService.findByUserName(principal.getName());
+        UserDto user = userService.findByIdentifier(principal.getName());
         model.addAttribute("user", user);
 
         return "home";

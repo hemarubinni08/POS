@@ -1,6 +1,7 @@
 package com.ust.pos.rack.service.impl;
 
 import com.ust.pos.dto.RackDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
 import com.ust.pos.rack.service.RackService;
@@ -20,13 +21,11 @@ public class RackServiceImpl implements RackService {
 
     @Autowired
     private RackRepository rackRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
     public RackDto findByIdentifier(String identifier) {
-
         return modelMapper.map(rackRepository.findByIdentifier(identifier), RackDto.class);
     }
 
@@ -65,33 +64,35 @@ public class RackServiceImpl implements RackService {
     }
 
     @Override
-    public List<RackDto> findAll(Pageable pageable) {
+    public WsDto<RackDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
         Page<Rack> rackPage = rackRepository.findAll(pageable);
-        return modelMapper.map(rackPage.getContent(), listType);
+        WsDto<RackDto> rackDto = new WsDto<>();
+        rackDto.setDtoList(modelMapper.map(rackPage.getContent(), listType));
+        rackDto.setTotalRecords(rackPage.getTotalElements());
+        rackDto.setTotalPage(rackPage.getTotalPages());
+        rackDto.setSizePerPage(pageable.getPageSize());
+        rackDto.setPage(pageable.getPageNumber());
+        return rackDto;
     }
 
     @Override
-    public void toggleStatus(String identifier) {
+    public RackDto toggleStatus(String identifier) {
         Rack rack = rackRepository.findByIdentifier(identifier);
-
-        if (rack == null) {
-            throw new IllegalArgumentException("Rack not found");
-        }
-
         rack.setStatus(!rack.isStatus());
         rackRepository.save(rack);
+        return modelMapper.map(rack, RackDto.class);
     }
 
     public List<RackDto> findActiveRacks() {
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
-
         return modelMapper.map(
                 rackRepository.findByStatusTrue(),
                 listType
         );
     }
+
 }

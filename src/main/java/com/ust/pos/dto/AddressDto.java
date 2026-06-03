@@ -14,4 +14,5 @@ public class AddressDto extends CommonDto {
     private String addressType;
     private Long zipcode;
     private Long phoneNumber;
+
 }

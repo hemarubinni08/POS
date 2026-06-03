@@ -18,13 +18,11 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
-
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
         model.addAttribute("brands", brandService.findAll(pageable));
         return "brand/list";
     }
-
 
     @GetMapping("/add")
     public String add(Model model) {

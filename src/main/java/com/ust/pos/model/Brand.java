@@ -12,5 +12,4 @@ public class Brand extends CommonFields {
     private String description;
     private boolean status;
 
-
 }
