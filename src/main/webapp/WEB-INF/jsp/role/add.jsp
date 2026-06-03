@@ -108,13 +108,13 @@
         }
 
         .message {
-                            margin-bottom: 16px;
-                            padding: 10px;
-                            border-radius: 6px;
-                            background-color: #e0f2fe;
-                            color: #0369a1;
-                            text-align: center;
-                            font-size: 13px;
+            margin-bottom: 16px;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: #e0f2fe;
+            color: #0369a1;
+            text-align: center;
+            font-size: 13px;
         }
     </style>
 </head>
