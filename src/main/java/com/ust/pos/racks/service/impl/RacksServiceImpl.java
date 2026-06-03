@@ -40,21 +40,17 @@ public class RacksServiceImpl implements RacksService {
 
     @Override
     public RacksDto update(RacksDto racksDto) {
-
         Racks existingRacks =
                 racksRepository.findByIdentifier(racksDto.getIdentifier());
-
         if (existingRacks == null) {
             racksDto.setSuccess(false);
             racksDto.setMessage("Racks not found");
             return racksDto;
         }
-
         existingRacks.setDescription(racksDto.getDescription());
         existingRacks.setStatus(racksDto.isStatus());
         modelMapper.map(racksDto, existingRacks);
         racksRepository.save(existingRacks);
-
         return racksDto;
     }
 
@@ -83,7 +79,6 @@ public class RacksServiceImpl implements RacksService {
             racks.setStatus(!racks.isStatus());
             racksRepository.save(racks);
         }
-
     }
 
     @Override
@@ -92,6 +87,5 @@ public class RacksServiceImpl implements RacksService {
         }.getType();
         Page<Racks> racksPage = racksRepository.findAll(pageable);
         return modelMapper.map(racksPage.getContent(), listType);
-
     }
 }
