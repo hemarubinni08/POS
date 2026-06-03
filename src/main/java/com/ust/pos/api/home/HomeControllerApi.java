@@ -15,16 +15,6 @@ public class HomeControllerApi {
 
     @GetMapping
     public Object home() {
-
-        try {
-            return nodeService.getNodesForRoles();
-        } catch (RuntimeException ex) {
-
-            if ("USER_DELETED".equals(ex.getMessage())) {
-                throw new RuntimeException("USER_DELETED");
-            }
-
-            throw new RuntimeException("REDIRECT_LOGIN");
-        }
+         return nodeService.getNodesForRoles();
     }
 }
