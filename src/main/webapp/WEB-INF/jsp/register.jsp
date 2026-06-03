@@ -134,7 +134,7 @@
 
     <div class="pos-banner">
         <h1>POS Application</h1>
-        <a href="/login" class="banner-signin">Sign In</a>
+        <a href="/user/list" class="banner-signin">Go Back</a>
     </div>
 
 <div class="register-card">

@@ -87,7 +87,7 @@
 
          <div class="mb-3">
             <label>Email</label>
-            <form:input path="username" type="email" cssClass="form-control" required="true"/>
+            <form:input path="username" type="email" cssClass="form-control" required="true" readOnly="true"/>
         </div>
 
         <div class="mb-3">
@@ -108,8 +108,6 @@
           <form:select path="roles" multiple="true" cssClass="form-control">
               <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
           </form:select>
-
-
 
             <small>
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple

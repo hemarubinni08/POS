@@ -15,6 +15,7 @@ public class NodeController {
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
     public static final String ROLES = "roles";
     public static final String NODE_NODE = "node/node";
+
     @Autowired
     private NodeService nodeService;
 
@@ -23,24 +24,29 @@ public class NodeController {
 
     @GetMapping("/list")
     public String home(Model model) {
+
         model.addAttribute("nodes", nodeService.findAll());
         return "node/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute NodeDto nodeDto) {
+
         model.addAttribute(ROLES, roleService.findAll());
         return "node/add";
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute NodeDto nodeDto) {
+
         NodeDto response = nodeService.save(nodeDto);
+
         if (!response.isSuccess()) {
             model.addAttribute(ROLES, roleService.findAll());
             model.addAttribute("message", response.getMessage());
             return NODE_NODE;
         }
+
         return REDIRECT_NODE_LIST;
     }
 
@@ -61,16 +67,20 @@ public class NodeController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute NodeDto nodeDto) {
+
         NodeDto response = nodeService.update(nodeDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return NODE_NODE;
         }
+
         return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
+
         nodeService.delete(identifier);
         return REDIRECT_NODE_LIST;
     }

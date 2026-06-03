@@ -97,20 +97,17 @@
             <div class="mb-1 text-muted">
                 Current:
 
-
 <c:forEach var="r" items="${nodeDto.roles}">
     <span class="badge bg-secondary me-1">${r}</span>
 </c:forEach>
 
             </div>
 
-
 <form:select path="roles" multiple="true" cssClass="form-control">
     <form:options items="${roles}"
                   itemValue="identifier"
                   itemLabel="identifier"/>
 </form:select>
-
             <small>
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
             </small>

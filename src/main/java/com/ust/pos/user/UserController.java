@@ -22,14 +22,15 @@ public class UserController {
 
     @GetMapping("/list")
     public String home(Model model) {
+
         model.addAttribute("users", userService.findAll());
         return "user/list";
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String username) {
-        UserDto response = userService.findByUserName(username);
 
+        UserDto response = userService.findByUserName(username);
         model.addAttribute("userDto", response);
         model.addAttribute("roles", roleService.findAll());
 
@@ -38,6 +39,7 @@ public class UserController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute UserDto userDto) {
+
         UserDto response = userService.update(userDto);
         if (!response.isSuccess()) {
 
@@ -46,6 +48,7 @@ public class UserController {
             model.addAttribute("message", response.getMessage());
             return "user/user";
         }
+
         return "redirect:/user/list";
     }
 
@@ -56,7 +59,6 @@ public class UserController {
         if (authentication != null) {
             String loggedInUser = authentication.getName();
             if (loggedInUser != null) {
-
                 userService.delete(username);
 
                 if (loggedInUser.equals(username)) {
@@ -65,6 +67,7 @@ public class UserController {
                 }
             }
         }
+
         return "redirect:/user/list";
     }
 }

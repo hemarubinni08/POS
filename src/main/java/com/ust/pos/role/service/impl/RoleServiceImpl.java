@@ -28,7 +28,6 @@ public class RoleServiceImpl implements RoleService {
         Role role = roleRepository.findByIdentifier(identifier);
 
         if (role == null) {
-
             return null;
         }
 

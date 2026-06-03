@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommonDto {
+
     private Long id;
     private String identifier;
     private String description;

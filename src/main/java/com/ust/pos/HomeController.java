@@ -20,7 +20,6 @@ public class HomeController {
     public String home(Model model) {
 
         model.addAttribute("nodes", nodeService.getNodesForRoles());
-
         return "home";
     }
 }

@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto save(UserDto userDto) {
+
         String username = userDto.getUsername();
         User existingUser = userRepository.findByUsername(username);
         if (existingUser != null) {
@@ -48,14 +49,17 @@ public class UserServiceImpl implements UserService {
             userDto.setSuccess(false);
             return userDto;
         }
+
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
+
         return userDto;
     }
 
     @Override
     public UserDto update(UserDto userDto) {
+
         String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
 
@@ -73,17 +77,20 @@ public class UserServiceImpl implements UserService {
             modelMapper.map(userDto, existingUser);
             userRepository.save(existingUser);
         }
+
         return userDto;
     }
 
     @Override
     @Transactional
     public void delete(String username) {
+
         userRepository.deleteByUsername(username);
     }
 
     @Override
     public List<UserDto> findAll() {
+
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
         return modelMapper.map(userRepository.findAll(), listType);
