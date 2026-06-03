@@ -7,11 +7,8 @@
     <title>User Management</title>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
-
-
     <style>
         body {
             background-color: #FFF8F0;
@@ -109,7 +106,6 @@
             color: #FFF8F0;
         }
 
-        /* Icon-only buttons */
         .btn-icon {
             width: 36px;
             height: 30px;
@@ -146,32 +142,23 @@
             background-color: #4B2E2B;
             color: #FFF8F0;
         }
-        ``
 
         .btn-icon i {
             font-size: 13px;
             color: #FFF8F0;
         }
-
     </style>
 </head>
-
 <body>
-
 <div class="container">
     <div class="card">
-
         <div class="card-body">
             <h3 class="text-center mb-4">User Management</h3>
-
-            <!-- NO USERS MESSAGE -->
             <c:if test="${empty users}">
                 <div class="alert alert-warning text-center">
                     No users found
                 </div>
             </c:if>
-
-            <!-- USERS TABLE -->
             <c:if test="${not empty users}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
@@ -192,7 +179,6 @@
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
-
                                <td>
                                    <a href="/user/get?username=${user.username}"
                                       class="btn-edit btn-icon"
@@ -200,7 +186,6 @@
                                        <i class="fa-solid fa-pen"></i>
                                    </a>
                                </td>
-
                                <td>
                                    <a href="/user/delete?username=${user.username}"
                                       class="btn-delete btn-icon"
@@ -216,23 +201,17 @@
                 </div>
             </c:if>
         </div>
-
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
                 <a href="/" class="btn btn-secondary">
                     Home
-                </a>
-                <a href="/register" class="register-btn">
-                            Register
                 </a>
             </div>
             <div class="text-muted small mt-2">
                 User Management System
             </div>
         </div>
-
     </div>
 </div>
-
 </body>
 </html>

@@ -10,10 +10,8 @@
     <meta charset="UTF-8">
     <title>Add Role</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
-
     <style>
         body {
             background-color: #FFF8F0;
@@ -81,27 +79,20 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="card">
-
     <div class="card-header">
         <h4 class="mb-0">Add New Role</h4>
     </div>
-
     <div class="card-body">
-
         <c:if test="${not empty role}">
             <div class="alert alert-success text-center">
                 ${role}
             </div>
         </c:if>
-
         <form:form method="post"
                    action="/role/add"
                    modelAttribute="roleDto">
-
             <div class="mb-3">
                 <label class="form-label"><b>Role Name</b></label>
                 <form:input path="identifier"
@@ -109,7 +100,6 @@
                             placeholder="Enter role name"
                             required="true"/>
             </div>
-
             <div class="mb-4">
                 <label class="form-label"><b>Role Description</b></label>
                 <form:input path="description"
@@ -117,22 +107,16 @@
                             placeholder="Enter role description"
                             required="true"/>
             </div>
-
             <div class="d-grid">
                 <button type="submit" class="btn btn-primary">
                     Add Role
                 </button>
             </div>
-
         </form:form>
-
     </div>
-
     <div class="card-footer">
         POS Management System
     </div>
-
 </div>
-
 </body>
 </html>

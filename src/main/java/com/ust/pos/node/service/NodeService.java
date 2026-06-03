@@ -16,5 +16,4 @@ public interface NodeService {
     void delete(String identifier);
 
     NodeDto findByIdentifier(String identifier);
-
 }

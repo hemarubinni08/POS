@@ -7,13 +7,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
-
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-
 <style>
-
     body {
         margin: 0;
         font-family: 'Poppins', "Segoe UI", Arial, sans-serif;
@@ -124,18 +120,15 @@
     }
 </style>
 </head>
-
 <body>
 <div class="top-navbar">
     <div class="nav-left">
         <span class="app-title">POS SYSTEM</span>
     </div>
-
     <div class="nav-right">
         <a href="/login?logout" class="nav-logout">Logout</a>
     </div>
 </div>
-
 <div class="sidebar">
     <c:forEach items="${nodes}" var="nav">
         <a href="${nav.path}">
@@ -143,13 +136,11 @@
         </a>
     </c:forEach>
 </div>
-
 <div class="content">
     <div class="dashboard-card">
         <h1>Home</h1>
         <p>Welcome to POS Application.</p>
     </div>
 </div>
-
 </body>
 </html>

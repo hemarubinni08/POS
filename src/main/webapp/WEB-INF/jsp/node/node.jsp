@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Node</title>
-
     <style>
         body {
             font-family: "Segoe UI", Arial, sans-serif;
@@ -114,12 +113,9 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="container">
     <h2>Edit Node</h2>
-
     <form action="/node/update" method="post">
         <table>
             <tr>
@@ -128,21 +124,18 @@
                     <input type="text" name="id" value="${node.id}" readonly>
                 </td>
             </tr>
-
             <tr>
                 <th>Identifier</th>
                 <td>
                     <input type="text" name="identifier" value="${node.identifier}" readonly>
                 </td>
             </tr>
-
             <tr>
                 <th>Path</th>
                 <td>
                     <input type="text" name="path" value="${node.path}">
                 </td>
             </tr>
-
             <tr>
                 <th>Roles</th>
                 <td>
@@ -159,7 +152,6 @@
                 </td>
             </tr>
         </table>
-
         <input type="submit" name="save" value="Save" class="btn btn-save">
     </form>
 </div>

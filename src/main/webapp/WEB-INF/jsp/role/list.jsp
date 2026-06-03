@@ -6,10 +6,8 @@
 <head>
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
     <meta charset="UTF-8">
     <title>Roles Management</title>
-
     <style>
         * {
             box-sizing: border-box;
@@ -143,19 +141,14 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="container">
-
     <h2>Roles Management</h2>
-
     <c:if test="${empty roles}">
         <div style="text-align:center; color:#8d3c36; font-weight:600;">
             No roles found
         </div>
     </c:if>
-
     <c:if test="${not empty roles}">
         <table>
             <thead>
@@ -167,15 +160,12 @@
                 <th>Delete</th>
             </tr>
             </thead>
-
             <tbody>
             <c:forEach var="role" items="${roles}">
                 <tr>
                     <td>${role.id}</td>
                     <td>${role.identifier}</td>
                     <td>${role.description}</td>
-
-
                     <td>
                         <a class="btn btn-edit"
                             href="/role/get?identifier=${role.identifier}"
@@ -183,9 +173,6 @@
                             <i class="fa-solid fa-pen"></i>
                         </a>
                     </td>
-
-
-
                     <td>
                         <a class="btn btn-delete"
                             href="/role/delete?identifier=${role.identifier}"
@@ -194,23 +181,17 @@
                             <i class="fa-solid fa-trash"></i>
                         </a>
                     </td>
-
-
                 </tr>
             </c:forEach>
             </tbody>
         </table>
     </c:if>
-
     <div class="top-bar">
         <a href="/" class="home-btn">Home</a>
     </div>
-
     <div style="text-align:center;">
         <a href="/role/add" class="add-role">+ Add New Role</a>
     </div>
-
 </div>
-
 </body>
 </html>

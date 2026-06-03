@@ -6,10 +6,8 @@
 <html lang="en">
 <head>
     <title>Update User</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"/>
-
     <style>
         body {
             min-height: 100vh;
@@ -93,63 +91,47 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="update-card">
-
     <h3>Update User</h3>
-
     <form:form action="/user/update" method="post" modelAttribute="userDto">
-
         <form:input type="hidden" path="id"/>
-
         <div class="mb-3">
             <label>Name</label>
             <form:input path="name" cssClass="form-control" required="true"/>
         </div>
-
         <div class="mb-3">
             <label>Email</label>
             <form:input path="username" cssClass="form-control" required="true"/>
         </div>
-
         <div class="mb-3">
             <label>Phone Number</label>
             <form:input path="phoneNo" cssClass="form-control" required="true"/>
         </div>
-
         <div class="mb-3">
             <label>Roles</label>
-
             <div class="mb-1 text-muted">
                 Current:
                 <c:forEach var="r" items="${userDto.roles}">
                     <span class="badge me-1">${r}</span>
                 </c:forEach>
             </div>
-
             <form:select path="roles" multiple="true" cssClass="form-control">
                 <form:options items="${roles}"
                     itemValue="identifier"
                     itemLabel="identifier"/>
             </form:select>
-
             <small>
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
             </small>
         </div>
-
         <button type="submit" class="btn-update mt-2">
             Update User
         </button>
-
     </form:form>
-
     <div class="text-center mt-3">
         <a href="/user/list">← Back to User List</a>
     </div>
-
 </div>
 </body>
 </html>

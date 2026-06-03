@@ -22,7 +22,6 @@ public class UserController {
 
     @GetMapping("/list")
     public String home(Model model) {
-
         model.addAttribute("users", userService.findAll());
         return "user/list";
     }
@@ -47,19 +46,15 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null) {
             String loggedInUser = authentication.getName();
-
             userService.delete(username);
-
             if (loggedInUser.equals(username)) {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";
             }
         }
-            return "redirect:/user/list";
+        return "redirect:/user/list";
     }
-
 }
