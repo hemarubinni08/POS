@@ -47,6 +47,5 @@ public class CustomerControllerApi extends BaseController {
             return false;
         }
         return true;
-
     }
 }
