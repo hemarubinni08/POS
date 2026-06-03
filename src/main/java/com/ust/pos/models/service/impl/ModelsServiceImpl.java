@@ -19,7 +19,6 @@ import java.util.List;
 @Service
 @Transactional
 public class ModelsServiceImpl implements ModelsService {
-
     @Autowired
     private ModelMapper modelMapper;
 

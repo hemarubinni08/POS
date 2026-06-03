@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerControllerApi extends BaseController {
-
     public static final String REDIRECT_ROLE_LIST = "redirect:/customer/list";
     @Autowired
     private CustomerService customerService;
@@ -23,7 +22,6 @@ public class CustomerControllerApi extends BaseController {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return customerService.findAll(pageable);
     }
-
 
     @PostMapping("/add")
     public CustomerDto addPost(@RequestBody CustomerDto customerDto) {
@@ -49,7 +47,6 @@ public class CustomerControllerApi extends BaseController {
         } catch (Exception e) {
             return false;
         }
-
         return true;
     }
 }

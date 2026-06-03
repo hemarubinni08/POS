@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/price")
 public class PriceControllerApi extends BaseController {
-
     public static final String REDIRECT_ROLE_LIST = "redirect:/price/list";
     @Autowired
     private PriceService priceService;

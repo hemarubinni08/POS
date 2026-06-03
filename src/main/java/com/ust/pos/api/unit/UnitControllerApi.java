@@ -31,13 +31,11 @@ public class UnitControllerApi extends BaseController {
     @GetMapping("/get")
     public UnitDto update(@RequestParam String identifier) {
         return unitService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public UnitDto updatePost(@RequestBody UnitDto unitDto) {
         return unitService.update(unitDto);
-
     }
 
     @GetMapping("/delete")

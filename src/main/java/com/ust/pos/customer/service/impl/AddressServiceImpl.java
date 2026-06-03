@@ -14,7 +14,6 @@ import java.util.List;
 
 @Service
 public class AddressServiceImpl implements AddressService {
-
     @Autowired
     private AddressRepository addressRepository;
 
@@ -60,7 +59,6 @@ public class AddressServiceImpl implements AddressService {
 
         modelMapper.map(addressDto, existingAddress);
         addressRepository.save(existingAddress);
-
         return addressDto;
     }
 
@@ -70,5 +68,4 @@ public class AddressServiceImpl implements AddressService {
         }.getType();
         return modelMapper.map(addressRepository.findAll(), listType);
     }
-
 }

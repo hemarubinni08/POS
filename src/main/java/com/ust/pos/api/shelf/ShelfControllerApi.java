@@ -24,7 +24,6 @@ public class ShelfControllerApi extends BaseController {
         return shelfService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
     public ShelfDto addPost(@RequestBody ShelfDto shelfDto) {
         return shelfService.save(shelfDto);
@@ -33,13 +32,11 @@ public class ShelfControllerApi extends BaseController {
     @GetMapping("/get")
     public ShelfDto update(@RequestParam String identifier) {
         return shelfService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public ShelfDto updatePost(@RequestParam ShelfDto shelfDto) {
         return shelfService.update(shelfDto);
-
     }
 
     @GetMapping("/delete")

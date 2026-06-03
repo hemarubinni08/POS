@@ -26,7 +26,6 @@ import java.util.Set;
 @Transactional
 
 public class NodeServiceImpl implements NodeService {
-
     @Autowired
     private UserRepository userRepository;
 
@@ -104,7 +103,6 @@ public class NodeServiceImpl implements NodeService {
         Page<Node> nodePage = nodeRepository.findAll(pageable);
         return modelMapper.map(nodePage.getContent(), listType);
     }
-
 
     @Override
     public NodeDto findByIdentifier(String identifier) {

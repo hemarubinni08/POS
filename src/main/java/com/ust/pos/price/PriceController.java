@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/price")
 public class PriceController {
-
     public static final String REDIRECT_ROLE_LIST = "redirect:/price/list";
     @Autowired
     private PriceService priceService;
@@ -28,7 +27,6 @@ public class PriceController {
 
     @GetMapping("/add")
     public String add(Model model) {
-
         model.addAttribute("products", productService.findAllActive());
         model.addAttribute("priceDto", new PriceDto());
         return "price/add";

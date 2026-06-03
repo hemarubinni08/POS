@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/product")
 public class ProductControllerApi extends BaseController {
-
     public static final String REDIRECT_ROLE_LIST = "redirect:/product/list";
     @Autowired
     private ProductService productService;
@@ -23,7 +22,6 @@ public class ProductControllerApi extends BaseController {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return productService.findAll(pageable);
     }
-
 
     @PostMapping("/add")
     public ProductDto addPost(@RequestBody ProductDto productDto) {
@@ -39,7 +37,6 @@ public class ProductControllerApi extends BaseController {
     @PostMapping("/update")
     public ProductDto updatePost(@RequestBody ProductDto userDto) {
         return productService.update(userDto);
-
     }
 
     @GetMapping("/delete")
@@ -49,7 +46,6 @@ public class ProductControllerApi extends BaseController {
         } catch (Exception e) {
             return false;
         }
-
         return true;
     }
 }

@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user")
 public class UserControllerApi extends BaseController {
-
     public static final String REDIRECT_ROLE_LIST = "redirect:/user/list";
     @Autowired
     private UserService userService;
@@ -24,11 +23,9 @@ public class UserControllerApi extends BaseController {
         return userService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
     public UserDto addPost(@RequestBody UserDto userDto) {
         return userService.save(userDto);
-
     }
 
     @GetMapping("/get")
@@ -39,7 +36,6 @@ public class UserControllerApi extends BaseController {
     @PostMapping("/update")
     public UserDto updatePost(@RequestBody UserDto userDto) {
         return userService.update(userDto);
-
     }
 
     @GetMapping("/delete")
@@ -49,7 +45,10 @@ public class UserControllerApi extends BaseController {
         } catch (Exception e) {
             return false;
         }
-
         return true;
     }
+    @PostMapping("/register")
+    public UserDto add(@RequestBody UserDto userDto) {
+       return userService.save(userDto);
+}
 }

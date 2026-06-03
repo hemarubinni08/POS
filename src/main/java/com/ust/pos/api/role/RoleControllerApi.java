@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/role")
 public class RoleControllerApi extends BaseController {
-
     public static final String REDIRECT_ROLE_LIST = "redirect:/role/list";
     @Autowired
     private RoleService roleService;
@@ -27,7 +26,6 @@ public class RoleControllerApi extends BaseController {
     @PostMapping("/add")
     public RoleDto addPost(@RequestBody RoleDto roleDto) {
         return roleService.save(roleDto);
-
     }
 
     @GetMapping("/get")
@@ -38,7 +36,6 @@ public class RoleControllerApi extends BaseController {
     @PostMapping("/update")
     public RoleDto updatePost(@RequestBody RoleDto userDto) {
         return roleService.update(userDto);
-
     }
 
     @GetMapping("/delete")

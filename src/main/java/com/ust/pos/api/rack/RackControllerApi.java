@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/rack")
 public class RackControllerApi extends BaseController {
-
     public static final String REDIRECT_ROLE_LIST = "redirect:/rack/list";
     @Autowired
     private RackService rackService;
@@ -24,11 +23,9 @@ public class RackControllerApi extends BaseController {
         return rackService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
     public RackDto addPost(@RequestBody RackDto rackDto) {
         return rackService.save(rackDto);
-
     }
 
     @GetMapping("/get")
@@ -39,7 +36,6 @@ public class RackControllerApi extends BaseController {
     @PostMapping("/update")
     public RackDto updatePost(@RequestBody RackDto userDto) {
         return rackService.update(userDto);
-
     }
 
     @GetMapping("/delete")
@@ -49,7 +45,6 @@ public class RackControllerApi extends BaseController {
         } catch (Exception e) {
             return false;
         }
-
         return true;
     }
 }

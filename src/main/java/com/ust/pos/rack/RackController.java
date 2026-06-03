@@ -19,7 +19,6 @@ public class RackController {
     @Autowired
     private ShelfService shelfService;
 
-
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
         model.addAttribute("racks", rackService.findAll(pageable));

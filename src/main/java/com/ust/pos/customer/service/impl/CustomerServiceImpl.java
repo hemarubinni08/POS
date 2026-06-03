@@ -19,7 +19,6 @@ import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -45,7 +44,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         String identifier = customerDto.getIdentifier();
         Customer existingCustomer = customerRepository.findByIdentifier(identifier);
-
         if (existingCustomer != null) {
 
             customerDto.setMessage("Customer with identifier - " + identifier + " already exists");
@@ -55,29 +53,22 @@ public class CustomerServiceImpl implements CustomerService {
 
         AddressDto billingAddress = customerDto.getBillingAddress();
         AddressDto shippingAddress = customerDto.getShippingAddress();
-
         billingAddress.setPhoneNo(customerDto.getPhoneNo());
         shippingAddress.setPhoneNo(customerDto.getPhoneNo());
         billingAddress.setAddressType("billing");
         shippingAddress.setAddressType("shipping");
-
         addressService.save(billingAddress);
         addressService.save(shippingAddress);
-
         Customer customer = modelMapper.map(customerDto, Customer.class);
         customerRepository.save(customer);
-
         return customerDto;
     }
 
     @Override
     public CustomerDto update(CustomerDto customerDto) {
-
         String identifier = customerDto.getIdentifier();
         Customer existingCustomer = customerRepository.findByIdentifier(identifier);
-
         if (existingCustomer == null) {
-
             customerDto.setMessage("Customer with identifier - " + identifier + " not found");
             customerDto.setSuccess(false);
             return customerDto;
@@ -85,19 +76,15 @@ public class CustomerServiceImpl implements CustomerService {
 
         AddressDto billingAddress = customerDto.getBillingAddress();
         AddressDto shippingAddress = customerDto.getShippingAddress();
-
         billingAddress.setPhoneNo(customerDto.getPhoneNo());
         shippingAddress.setPhoneNo(customerDto.getPhoneNo());
-
         addressService.save(billingAddress);
         addressService.save(shippingAddress);
-
         modelMapper.map(customerDto, existingCustomer);
         customerDto.setBillingAddress(addressService.
                 findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "billingAddress"));
         customerDto.setShippingAddress(addressService.
                 findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "shippingAddress"));
-
         customerRepository.save(existingCustomer);
         return customerDto;
     }
@@ -105,7 +92,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void delete(String identifier) {
-
         customerRepository.deleteByIdentifier(identifier);
     }
 
@@ -119,9 +105,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public String buildAddressIdentifier(AddressDto address) {
-
         if (address == null) return null;
-
         return address.getAddressLine().trim().toUpperCase()
                 + "-" + address.getZipcode()
                 + "-" + address.getAddressType().toUpperCase();
