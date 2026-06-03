@@ -43,44 +43,34 @@ public class UserServiceImpl implements UserService {
     public UserDto save(UserDto userDto) {
         String username = userDto.getUsername();
         User existingUser = userRepository.findByUsername(username);
-
         if (existingUser != null) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + username + " already exists");
             userDto.setSuccess(false);
             return userDto;
         }
-
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
-
         return userDto;
     }
 
     @Override
     public UserDto update(UserDto userDto) {
-
         Optional<User> userOptional = userRepository.findById(userDto.getId());
-
         if (userOptional.isEmpty()) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " not found");
             userDto.setSuccess(false);
             return userDto;
         }
-
         User existingUser = userOptional.get();
         String username = userDto.getUsername();
-
-        if (!username.equalsIgnoreCase(existingUser.getUsername())
-                && userRepository.findByUsername(username) != null) {
+        if (!username.equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(username) != null) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + username + " already exists");
             userDto.setSuccess(false);
             return userDto;
         }
-
         modelMapper.map(userDto, existingUser);
         userRepository.save(existingUser);
-
         return userDto;
     }
 

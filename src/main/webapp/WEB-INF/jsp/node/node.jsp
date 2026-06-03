@@ -1,31 +1,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Edit Node</title>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"/>
 
     <style>
         body {
-            background-color: #f1f3f6;
             min-height: 100vh;
+            background-color: #f1f3f6;
             font-family: "Segoe UI", sans-serif;
         }
 
         .card {
-            border-radius: 12px;
             border: none;
+            border-radius: 12px;
         }
 
         .card-header {
-            background-color: #1e272e;
             color: #ffffff;
+            background-color: #1e272e;
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
         }
@@ -90,6 +91,7 @@
                                                   itemValue="identifier"
                                                   itemLabel="identifier"/>
                                 </form:select>
+
                                 <div class="form-text">
                                     Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple roles
                                 </div>
@@ -112,7 +114,7 @@
 
                 </div>
 
-                <div class="card-footer text-muted small text-center">
+                <div class="card-footer text-center text-muted small">
                     POS Management System
                 </div>
 

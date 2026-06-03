@@ -8,27 +8,30 @@
     <meta charset="UTF-8">
     <title>POS Home</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"/>
 
-    <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
           rel="stylesheet"/>
 
     <style>
         body {
             min-height: 100vh;
+            margin: 0;
             background-color: #f1f3f6;
             font-family: "Segoe UI", sans-serif;
         }
 
-        /* Sidebar */
+        .wrapper {
+            display: flex;
+        }
+
         .sidebar {
             width: 260px;
             min-height: 100vh;
             background: linear-gradient(180deg, #1e272e, #2f3640);
             color: #fff;
+            flex-shrink: 0;
         }
 
         .brand {
@@ -54,12 +57,13 @@
         }
 
         .content-area {
+            flex-grow: 1;
             padding: 40px;
         }
 
         .content-card {
-            border-radius: 12px;
             border: none;
+            border-radius: 12px;
         }
 
         .logout-btn {
@@ -77,9 +81,8 @@
 
 <body>
 
-<div class="d-flex">
+<div class="wrapper">
 
-    <!-- Sidebar -->
     <div class="sidebar p-4">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -88,13 +91,13 @@
             </div>
 
             <form action="/logout" method="post">
-                <button type="submit" class="logout-btn" title="Logout">
+                <button type="submit" class="logout-btn">
                     <i class="bi bi-box-arrow-right"></i>
                 </button>
             </form>
         </div>
 
-        <hr class="text-secondary"/>
+        <hr class="text-secondary">
 
         <c:if test="${empty node}">
             <div class="alert alert-secondary text-center small">
@@ -117,8 +120,7 @@
 
     </div>
 
-    <!-- Content Area -->
-    <div class="content-area flex-grow-1">
+    <div class="content-area">
 
         <div class="card content-card shadow-sm">
             <div class="card-body">

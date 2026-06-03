@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -110,19 +109,15 @@
                 </div>
 
                 <div class="card-footer bg-light text-center">
-                    <div class="d-flex justify-content-center gap-3 mb-2">
-                        <a href="/" class="btn btn-secondary">
-                            Home
-                        </a>
 
-                        <a href="/register" class="btn btn-primary">
-                            Register User
-                        </a>
-                    </div>
+                    <a href="/" class="btn btn-secondary mb-2">
+                        Home
+                    </a>
 
                     <div class="text-muted small">
                         POS Management System
                     </div>
+
                 </div>
 
             </div>

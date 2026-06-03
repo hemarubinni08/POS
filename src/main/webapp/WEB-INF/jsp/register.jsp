@@ -17,9 +17,7 @@
             margin: 0;
             min-height: 100vh;
             font-family: "Segoe UI", sans-serif;
-
             background: linear-gradient(135deg, #e0e7ff, #f8fafc);
-
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,12 +26,9 @@
         .card {
             width: 420px;
             border-radius: 16px;
-
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
-
             border: 1px solid rgba(255,255,255,0.4);
-
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
@@ -109,7 +104,6 @@
 <body>
 
 <div class="card">
-
     <div class="card-header text-center py-3">
         <h5 class="mb-0">Create User Account</h5>
     </div>
@@ -117,7 +111,6 @@
     <div class="card-body p-4">
 
         <form:form action="register" method="post" modelAttribute="userDto">
-
             <div class="mb-3">
                 <label class="form-label">Name</label>
                 <form:input path="name" cssClass="form-control" required="true"/>
@@ -170,7 +163,6 @@
                     ${message}
                 </div>
             </c:if>
-
         </form:form>
 
     </div>
@@ -180,6 +172,5 @@
     </div>
 
 </div>
-
 </body>
 </html>

@@ -31,7 +31,7 @@ public class SecurityConfig {
 
         try {
             http
-                    .csrf(csrf -> csrf.disable()) // disable only for development/testing
+                    .csrf(csrf -> csrf.disable())
 
                     .authorizeHttpRequests(auth -> auth
                             .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()

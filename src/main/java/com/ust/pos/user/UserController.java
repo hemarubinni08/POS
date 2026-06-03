@@ -27,7 +27,6 @@ public class UserController {
         return "user/list";
     }
 
-
     @GetMapping("/get")
     public String update(Model model, @RequestParam String username) {
         UserDto response = userService.findByUserName(username);
@@ -35,7 +34,6 @@ public class UserController {
         model.addAttribute("userDto", response);
         return "user/user";
     }
-
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute("userDto") UserDto userDto) {
@@ -48,11 +46,9 @@ public class UserController {
         return "redirect:/user/list";
     }
 
-
     @GetMapping("/delete")
     public String delete(@RequestParam String username,
                          HttpServletRequest request) {
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth == null || !auth.isAuthenticated()) {

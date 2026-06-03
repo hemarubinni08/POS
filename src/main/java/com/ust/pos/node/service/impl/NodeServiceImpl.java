@@ -32,8 +32,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public List<NodeDto> getNodesForRoles() {
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             return Collections.emptyList();
         }
@@ -48,10 +47,8 @@ public class NodeServiceImpl implements NodeService {
         if (currentUser == null) {
             return Collections.emptyList();
         }
-
         Set<Node> allowedNodes = new HashSet<>();
         List<Node> nodes = nodeRepository.findAll();
-
         for (String role : currentUser.getRoles()) {
             for (Node node : nodes) {
                 if (node.getRoles().contains(role)) {
@@ -59,19 +56,16 @@ public class NodeServiceImpl implements NodeService {
                 }
             }
         }
-
         List<NodeDto> nodeDtos = new ArrayList<>();
         for (Node node : allowedNodes) {
             nodeDtos.add(modelMapper.map(node, NodeDto.class));
         }
-
         return nodeDtos;
     }
 
     @Override
     public NodeDto save(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
-
         Node existingNode = nodeRepository.findByIdentifier(identifier);
         if (existingNode != null) {
             nodeDto.setMessage("Node with identifier - " + identifier + " already exists");
