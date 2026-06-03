@@ -158,7 +158,6 @@
 </head>
 
 <body>
-
     <c:if test="${not empty message}">
         <div id="toast" class="toast toast-success">
             ${message}
@@ -233,6 +232,5 @@
             }
         });
     </script>
-
 </body>
 </html>

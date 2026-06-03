@@ -212,7 +212,6 @@
             </a>
         </div>
     </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const toast = document.getElementById("toast");
@@ -222,6 +221,5 @@
             }
         });
     </script>
-
 </body>
 </html>
