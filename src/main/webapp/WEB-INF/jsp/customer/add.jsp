@@ -7,6 +7,8 @@
 <head>
     <title>Add Customer</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
         body {
             margin: 0;
@@ -19,36 +21,96 @@
         }
 
         .card-container {
-            width: 440px;
+            position: relative;
+            width: 430px;
+            background: rgba(255, 255, 255, 0.95);
             padding: 35px 40px;
             border-radius: 16px;
-            background: #fff;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .back-icon {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #4b6cb7;
+            text-decoration: none;
+            font-weight: 600;
+            background: rgba(75, 108, 183, 0.08);
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+            transition: all 0.25s ease;
+        }
+
+        .back-icon:hover {
+            background: #4b6cb7;
+            color: #ffffff;
+            transform: translateX(-4px) scale(1.05);
+            box-shadow: 0 8px 18px rgba(75, 108, 183, 0.35);
+        }
+
+        .home-link {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4b6cb7;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            background: rgba(75, 108, 183, 0.08);
+            transition: all 0.25s ease;
+        }
+
+        .home-link:hover {
+            background: #4b6cb7;
+            color: #ffffff;
+            box-shadow: 0 8px 18px rgba(75, 108, 183, 0.35);
+            transform: translateY(-2px);
         }
 
         h2 {
             text-align: center;
-            color: #4b6cb7;
             margin-bottom: 25px;
+            color: #4b6cb7;
+            font-weight: 600;
         }
 
-        .form-group { margin-bottom: 16px; }
+        .form-group {
+            margin-bottom: 16px;
+        }
 
         label {
             font-size: 13px;
             font-weight: 500;
-            display: block;
+            color: #333;
             margin-bottom: 6px;
+            display: block;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
             padding: 11px 14px;
             border-radius: 8px;
             border: 1px solid #ccc;
             font-size: 14px;
-            margin-bottom: 8px;
             box-sizing: border-box;
+        }
+
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: white;
+            cursor: pointer;
         }
 
         details {
@@ -67,13 +129,13 @@
         }
 
         .btn-submit {
-            margin-top: 20px;
+            margin-top: 12px;
             width: 100%;
             padding: 13px;
-            border-radius: 10px;
-            border: none;
-            background: linear-gradient(135deg,#4b6cb7,#182848);
+            background: linear-gradient(135deg, #4b6cb7, #182848);
             color: white;
+            border: none;
+            border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -93,10 +155,13 @@
         .error-message {
             margin-bottom: 16px;
             padding: 10px;
-            background: rgba(220,53,69,.15);
+            background: rgba(220, 53, 69, 0.12);
             border: 1px solid #dc3545;
             color: #dc3545;
             border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -104,6 +169,10 @@
 <body>
 
 <div class="card-container">
+
+    <a href="/customer/list" class="back-icon">←</a>
+    <a href="/" class="home-link">Home</a>
+
     <h2>Add Customer</h2>
 
     <c:if test="${not empty message}">
@@ -119,24 +188,27 @@
 
         <div class="form-group">
             <label>Phone Number</label>
-            <form:input path="phoneno"
-                required="required"
-                maxlength="10"
-                pattern="[0-9]{10}"
-                title="Enter exactly 10 digit phone number"
-                oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
+            <form:input path="phoneNo"
+                        required="required"
+                        maxlength="10"
+                        pattern="[0-9]{10}"
+                        title="Enter exactly 10 digit phone number"
+                        oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
         </div>
+
         <div class="form-group">
             <label>Email</label>
             <form:input path="email" required="required" type="email"/>
         </div>
+
         <div class="form-group">
             <label>Address</label>
             <form:input path="address" required="required"/>
         </div>
+
         <div class="form-group">
             <label>Party Type</label>
-            <form:select path="partytype">
+            <form:select path="partyType">
                 <form:option value="" label="-- Select Party Type --"/>
                 <form:option value="Customer" label="Customer"/>
                 <form:option value="Dealer" label="Dealer"/>
@@ -146,26 +218,28 @@
 
         <details>
             <summary>Billing Address</summary>
-            <input type="text"   name="billing.addressLine" placeholder="Address Line"/>
-            <input type="text"   name="billing.city"        placeholder="City"/>
-            <input type="text"   name="billing.state"       placeholder="State"/>
-            <input type="number" name="billing.pincode"     placeholder="Pincode"/>
-            <input type="text"   name="billing.country"     placeholder="Country"/>
+            <input type="text" name="billing.addressLine" placeholder="Address Line"/>
+            <input type="text" name="billing.city" placeholder="City"/>
+            <input type="text" name="billing.state" placeholder="State"/>
+            <input type="number" name="billing.pincode" placeholder="Pincode"/>
+            <input type="text" name="billing.country" placeholder="Country"/>
         </details>
 
         <details>
             <summary>Shipping Address</summary>
-            <input type="text"   name="shipping.addressLine" placeholder="Address Line"/>
-            <input type="text"   name="shipping.city"        placeholder="City"/>
-            <input type="text"   name="shipping.state"       placeholder="State"/>
-            <input type="number" name="shipping.pincode"     placeholder="Pincode"/>
-            <input type="text"   name="shipping.country"     placeholder="Country"/>
+            <input type="text" name="shipping.addressLine" placeholder="Address Line"/>
+            <input type="text" name="shipping.city" placeholder="City"/>
+            <input type="text" name="shipping.state" placeholder="State"/>
+            <input type="number" name="shipping.pincode" placeholder="Pincode"/>
+            <input type="text" name="shipping.country" placeholder="Country"/>
         </details>
 
         <input type="submit" value="Add Customer" class="btn-submit"/>
+
         <a href="/customer/list" class="btn-cancel">Cancel</a>
 
     </form:form>
+
 </div>
 
 </body>

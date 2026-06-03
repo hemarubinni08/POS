@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 public class CustomerDto extends CommonDto {
     private String address;
-    private Long phoneno;
+    private Long phoneNo;
     private String email;
-    private String partytype;
+    private String partyType;
     private AddressDto billing;
     private AddressDto shipping;
 }

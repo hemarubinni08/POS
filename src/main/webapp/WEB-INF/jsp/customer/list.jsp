@@ -208,9 +208,9 @@
                     <tr>
                         <td>${status.count}</td>
                         <td>${customer.identifier}</td>
-                        <td>${customer.phoneno}</td>
+                        <td>${customer.phoneNo}</td>
                         <td>${customer.email}</td>
-                        <td>${customer.partytype}</td>
+                        <td>${customer.partyType}</td>
                         <td>${customer.address}</td>
                         <td>
                             <a href="/customer/get?identifier=${customer.identifier}"

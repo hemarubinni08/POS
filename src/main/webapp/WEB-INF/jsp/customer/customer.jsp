@@ -6,27 +6,80 @@
 <head>
     <title>Edit Customer</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
         body {
             margin: 0;
-            padding: 32px;
             font-family: 'Poppins', sans-serif;
-            background: #f4f6fb;
+            min-height: 100vh;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            position: relative;
+            width: 430px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px 40px;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .back-icon {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #4b6cb7;
+            text-decoration: none;
+            font-weight: 600;
+            background: rgba(75, 108, 183, 0.08);
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+            transition: all 0.25s ease;
+        }
+
+        .back-icon:hover {
+            background: #4b6cb7;
+            color: #ffffff;
+            transform: translateX(-4px) scale(1.05);
+            box-shadow: 0 8px 18px rgba(75, 108, 183, 0.35);
+        }
+
+        .home-link {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4b6cb7;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            background: rgba(75, 108, 183, 0.08);
+            transition: all 0.25s ease;
+        }
+
+        .home-link:hover {
+            background: #4b6cb7;
+            color: #ffffff;
+            box-shadow: 0 8px 18px rgba(75, 108, 183, 0.35);
+            transform: translateY(-2px);
         }
 
         h2 {
             text-align: center;
-            color: #374a9e;
-            margin-bottom: 28px;
-        }
-
-        .form-container {
-            max-width: 760px;
-            margin: auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 14px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+            color: #4b6cb7;
+            font-weight: 600;
         }
 
         .section-title {
@@ -39,45 +92,55 @@
         }
 
         .form-group {
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
 
         label {
-            display: block;
-            margin-bottom: 6px;
             font-size: 13px;
-            font-weight: 600;
-            color: #444;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+            display: block;
         }
 
-        input, select {
+        input,
+        select {
             width: 100%;
-            padding: 10px 12px;
-            border-radius: 7px;
-            border: 1px solid #ccd3ea;
+            padding: 11px 14px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
             font-size: 14px;
+            box-sizing: border-box;
         }
 
-        input:focus, select:focus {
+        input:focus,
+        select:focus {
             outline: none;
             border-color: #4b6cb7;
-            box-shadow: 0 0 0 2px rgba(75,108,183,0.15);
+            box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.15);
+        }
+
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: white;
+            cursor: pointer;
         }
 
         details {
-            margin-top: 16px;
-            padding: 14px;
+            margin-top: 15px;
+            border: 1px solid #ccc;
             border-radius: 10px;
-            background: #f7f9ff;
-            border: 1px solid #e0e5f5;
+            padding: 12px;
+            background: #fafafa;
         }
 
-        details summary {
+        summary {
             font-weight: 600;
-            font-size: 14px;
             color: #4b6cb7;
             cursor: pointer;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .address-grid {
@@ -87,47 +150,51 @@
         }
 
         .actions {
-            margin-top: 32px;
-            display: flex;
-            justify-content: center;
-            gap: 18px;
+            margin-top: 15px;
         }
 
         .btn {
-            padding: 12px 22px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 14px;
-            text-decoration: none;
+            width: 100%;
             border: none;
             cursor: pointer;
+            text-decoration: none;
+            box-sizing: border-box;
         }
 
         .btn-save {
+            margin-top: 12px;
+            width: 100%;
+            padding: 13px;
             background: linear-gradient(135deg, #4b6cb7, #182848);
-            color: #fff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
         }
 
         .btn-cancel {
-            background: #6c757d;
-            color: #fff;
-        }
-
-        .btn-save:hover {
-            opacity: 0.95;
-        }
-
-        .btn-cancel:hover {
-            background: #5a6268;
+            margin-top: 10px;
+            display: block;
+            text-align: center;
+            padding: 11px;
+            background: #f1f1f1;
+            color: #333;
+            border-radius: 10px;
+            text-decoration: none;
         }
     </style>
 </head>
 
 <body>
 
-<h2>Edit Customer</h2>
-
 <div class="form-container">
+
+    <a href="/customer/list" class="back-icon">←</a>
+    <a href="/" class="home-link">Home</a>
+
+    <h2>Edit Customer</h2>
 
     <form:form action="/customer/update" method="post" modelAttribute="customerDto">
 
@@ -140,29 +207,27 @@
             <form:input path="identifier" readonly="true"/>
         </div>
 
+        <div class="form-group">
+            <label>Phone Number</label>
 
-<div class="form-group">
-    <label>Phone Number</label>
+            <form:input
+                    path="phoneNo"
+                    type="text"
+                    maxlength="10"
+                    pattern="[0-9]{10}"
+                    required="required"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                    class="form-control"/>
 
-    <form:input
-        path="phoneno"
-        type="text"
-        maxlength="10"
-        pattern="[0-9]{10}"
-        required="required"
-        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-        class="form-control" />
-
-    <form:errors path="phoneno" cssClass="text-danger"/>
-</div>
-
+            <form:errors path="phoneNo" cssClass="text-danger"/>
+        </div>
 
         <div class="form-group">
             <label>Email Address</label>
             <form:input
-            type = "email"
-            required="required"
-            path="email"/>
+                    type="email"
+                    required="required"
+                    path="email"/>
         </div>
 
         <div class="form-group">
@@ -172,7 +237,7 @@
 
         <div class="form-group">
             <label>Customer Type</label>
-            <form:select path="partytype">
+            <form:select path="partyType">
                 <form:option value="" label="-- Select Type --"/>
                 <form:option value="Customer" label="Customer"/>
                 <form:option value="Dealer" label="Dealer"/>
@@ -182,30 +247,68 @@
 
         <details>
             <summary>Billing Address</summary>
+
             <input type="hidden" name="billing.id" value="${customerDto.billing.id}" />
+
             <div class="address-grid">
-                <input type="text" name="billing.addressLine" value="${customerDto.billing.addressLine}" placeholder="Address Line"/>
-                <input type="text" name="billing.city"        value="${customerDto.billing.city}"        placeholder="City"/>
-                <input type="text" name="billing.state"       value="${customerDto.billing.state}"       placeholder="State"/>
-                <input type="text" name="billing.pincode" value="${customerDto.billing.pincode}" placeholder="Pincode" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g,'')"/>
-                <input type="text" name="billing.country"     value="${customerDto.billing.country}"     placeholder="Country"/>
+                <input type="text" name="billing.addressLine"
+                       value="${customerDto.billing.addressLine}"
+                       placeholder="Address Line"/>
+
+                <input type="text" name="billing.city"
+                       value="${customerDto.billing.city}"
+                       placeholder="City"/>
+
+                <input type="text" name="billing.state"
+                       value="${customerDto.billing.state}"
+                       placeholder="State"/>
+
+                <input type="text"
+                       name="billing.pincode"
+                       value="${customerDto.billing.pincode}"
+                       placeholder="Pincode"
+                       maxlength="6"
+                       pattern="[0-9]{6}"
+                       inputmode="numeric"
+                       oninput="this.value = this.value.replace(/[^0-9]/g,'')"/>
+
+                <input type="text" name="billing.country"
+                       value="${customerDto.billing.country}"
+                       placeholder="Country"/>
             </div>
         </details>
+
         <details>
             <summary>Shipping Address</summary>
+
             <input type="hidden" name="shipping.id" value="${customerDto.shipping.id}" />
+
             <div class="address-grid">
-                <input type="text" name="shipping.addressLine" value="${customerDto.shipping.addressLine}" placeholder="Address Line"/>
-                <input type="text" name="shipping.city"        value="${customerDto.shipping.city}"        placeholder="City"/>
-                <input type="text" name="shipping.state"       value="${customerDto.shipping.state}"       placeholder="State"/>
-                <input type="number" name="shipping.pincode"   value="${customerDto.shipping.pincode}"     placeholder="Pincode"/>
-                <input type="text" name="shipping.country"     value="${customerDto.shipping.country}"     placeholder="Country"/>
+                <input type="text" name="shipping.addressLine"
+                       value="${customerDto.shipping.addressLine}"
+                       placeholder="Address Line"/>
+
+                <input type="text" name="shipping.city"
+                       value="${customerDto.shipping.city}"
+                       placeholder="City"/>
+
+                <input type="text" name="shipping.state"
+                       value="${customerDto.shipping.state}"
+                       placeholder="State"/>
+
+                <input type="number" name="shipping.pincode"
+                       value="${customerDto.shipping.pincode}"
+                       placeholder="Pincode"/>
+
+                <input type="text" name="shipping.country"
+                       value="${customerDto.shipping.country}"
+                       placeholder="Country"/>
             </div>
         </details>
 
         <div class="actions">
-            <button type="submit" class="btn btn-save">Update Customer</button>
-            <a href="/customer/list" class="btn btn-cancel">Cancel</a>
+            <button type="submit" class="btn-save">Update Customer</button>
+            <a href="/customer/list" class="btn-cancel">Cancel</a>
         </div>
 
     </form:form>
