@@ -4,6 +4,7 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.node.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +23,7 @@ public class CategoryControllerApi extends BaseController {
     private NodeService nodeService;
 
     @PostMapping("/list")
-    public List<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return categoryService.findAll(pageable);
     }
@@ -42,6 +43,10 @@ public class CategoryControllerApi extends BaseController {
         return categoryService.update(userDto);
     }
 
+    @GetMapping("/findAllWithSuperCategoryEmpty")
+    public List<CategoryDto> findAllWithSuperCategoryEmpty(){
+        return categoryService.findAllWithSuperCategoryEmpty();
+    }
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {

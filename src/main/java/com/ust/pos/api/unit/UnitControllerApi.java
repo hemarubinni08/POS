@@ -3,6 +3,7 @@ package com.ust.pos.api.unit;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.node.service.NodeService;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class UnitControllerApi extends BaseController {
     private NodeService nodeService;
 
     @PostMapping("/list")
-    public List<UnitDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<UnitDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return unitService.findAll(pageable);
     }

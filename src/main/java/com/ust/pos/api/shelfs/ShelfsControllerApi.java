@@ -2,6 +2,7 @@ package com.ust.pos.api.shelfs;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.dto.ShelfsDto;
 import com.ust.pos.node.service.NodeService;
 import com.ust.pos.shelfs.service.ShelfsService;
@@ -22,7 +23,7 @@ public class ShelfsControllerApi extends BaseController {
     private NodeService nodeService;
 
     @PostMapping("/list")
-    public List<ShelfsDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return shelfsService.findAll(pageable);
     }

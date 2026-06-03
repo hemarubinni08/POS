@@ -171,7 +171,7 @@ class NodeServiceTest {
         NodeDto dto = new NodeDto();
         dto.setIdentifier("NODE1");
 
-        when(modelMapper.map(node, NodeDto.class)).thenReturn(dto);
+        when(modelMapper.map(node2, NodeDto.class)).thenReturn(dto);
         List<NodeDto> result = nodeService.getNodesForRoles();
         assertEquals(1, result.size());
     }

@@ -3,6 +3,7 @@ package com.ust.pos.api.stock;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.node.service.NodeService;
 import com.ust.pos.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class StockControllerApi extends BaseController {
     private NodeService nodeService;
 
     @PostMapping("/list")
-    public List<StockDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<StockDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return stockService.findAll(pageable);
     }
