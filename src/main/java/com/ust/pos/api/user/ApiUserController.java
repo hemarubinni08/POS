@@ -28,6 +28,11 @@ public class ApiUserController extends BaseController {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return userService.findAll(pageable);
     }
+    
+    @PostMapping("/register")
+    public UserDto add(@RequestBody UserDto userDto) {
+        return userService.save(userDto);
+    }
 
     @GetMapping("/get")
     public UserDto update(@RequestParam String username) {
