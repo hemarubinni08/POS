@@ -178,7 +178,8 @@
             <tr>
                 <th>Sl.</th>
                 <th>Shelf Name</th>
-                <th>Status</th>
+                <th>description</th>
+               <th>status</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -187,6 +188,7 @@
                 <tr id="row-${shelf.identifier}">
                     <td>${loop.index + 1}</td>
                     <td><strong>${shelf.identifier}</strong></td>
+                    <td>${shelf.description}</td>
                     <td>
                         <label class="switch">
                             <input type="checkbox"

@@ -153,6 +153,13 @@
             </form:select>
         </div>
 
+        <div class="input-group">
+                    <label>Description</label>
+                    <form:textarea path="description"
+                                   placeholder="Update shelf description"
+                                    required="true"/>
+                </div>
+
         <button type="submit">Save Changes</button>
 
         <a href="${pageContext.request.contextPath}/shelf/list"
