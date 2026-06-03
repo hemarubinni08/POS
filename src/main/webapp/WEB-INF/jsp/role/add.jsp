@@ -10,51 +10,96 @@
     <meta charset="UTF-8">
     <title>Add Role</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; /* Disables all scrolling and locks viewport */
+        }
+
         body {
+            font-family: "Segoe UI", Arial, sans-serif;
             background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .card {
+        .container {
+            width: 420px;
+            background: #ffffff;
+            padding: 25px 30px;
             border-radius: 12px;
-            background-color: #ffffff;
             box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
+            box-sizing: border-box;
         }
 
-        .card-header {
-            background-color: #a78bfa !important;
-            color: #ffffff;
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #6d28d9;
+            font-weight: 600;
         }
 
-        .form-control {
-            border-radius: 8px;
+        label {
+            margin-top: 14px;
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            color: #4c1d95;
+        }
+
+        input, select {
+            width: 100%;
+            margin-top: 5px;
+            padding: 9px;
             border: 1px solid #c4b5fd;
+            border-radius: 6px;
+            font-size: 13px;
+            box-sizing: border-box;
         }
 
-        .form-control:focus {
+        input:focus, select:focus {
+            outline: none;
             border-color: #a78bfa;
             box-shadow: 0 0 0 0.15rem rgba(167, 139, 250, 0.35);
         }
 
-        .btn-primary {
-            background-color: #7c3aed;
+        button {
+            margin-top: 22px;
+            width: 100%;
+            padding: 11px;
+            background: #7c3aed;
+            color: #ffffff;
             border: none;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
         }
 
-        .btn-primary:hover {
-            background-color: #6d28d9;
+        button:hover {
+            background: #6d28d9;
         }
 
-        .card-footer {
-            color: #6b7280;
-            background-color: #fafafa;
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: #6d28d9;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 13px;
         }
 
+        a:hover {
+            text-decoration: underline;
+            color: #5b21b6;
+        }
 
         .error-message {
             background: #fee2e2;
@@ -64,83 +109,41 @@
             border-radius: 8px;
             font-size: 13px;
             text-align: center;
-            margin-bottom: 16px;
-        }
-
-        /* BACK LINK STYLE */
-        .back-link {
-            color: #7c3aed;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .back-link:hover {
-            color: #6d28d9;
-            text-decoration: underline;
+            margin-bottom: 14px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container d-flex justify-content-center align-items-center mt-5">
-    <div class="col-md-5">
+<div class="container">
 
-        <div class="card shadow-lg">
-            <div class="card-header text-center">
-                <h4 class="mb-0">Add New Role</h4>
-            </div>
+    <h2>Add New Role</h2>
 
-            <div class="card-body">
-
-
-               <c:if test="${not empty message}">
-                       <div class="error-message">
-                           ${message}
-                       </div>
-                   </c:if>
-
-                <form:form method="post"
-                           action="/role/add"
-                           modelAttribute="roleDto">
-
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Role Name</label>
-                        <form:input path="identifier"
-                                    cssClass="form-control"
-                                    placeholder="Enter role name" />
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Description</label>
-                        <form:input path="description"
-                                    cssClass="form-control"
-                                    placeholder="Description" />
-                    </div>
-
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            Add Role
-                        </button>
-                    </div>
-
-                    <!-- BACK LINK -->
-                    <div class="text-center mt-3">
-                        <a href="/role/list" class="back-link">
-                            ← Back to Role List
-                        </a>
-                    </div>
-
-                </form:form>
-
-            </div>
-
-            <div class="card-footer text-center small">
-                POS Management System
-            </div>
+    <c:if test="${not empty message}">
+        <div class="error-message">
+            ${message}
         </div>
+    </c:if>
 
-    </div>
+    <form:form method="post"
+               action="/role/add"
+               modelAttribute="roleDto">
+
+        <label>Role Name</label>
+        <form:input path="identifier" placeholder="Enter role name" />
+
+        <label>Description</label>
+        <form:input path="description" placeholder="Description" />
+
+        <button type="submit">Add Role</button>
+
+    </form:form>
+
+    <a href="/role/list">
+        ← Back to Role List
+    </a>
+
 </div>
 
 </body>

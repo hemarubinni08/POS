@@ -25,13 +25,10 @@ public class SecurityController {
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error,
                         Model model) {
-
         if (error != null) {
             model.addAttribute("errorMsg", "Invalid email or password");
         }
-
         return "login";
-
     }
 
     @GetMapping("/register")

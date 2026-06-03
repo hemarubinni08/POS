@@ -10,151 +10,150 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: #d1d5db;
-}
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden; /* Disables all scrolling and locking viewport */
+    }
 
-/* 🎯 CONTAINER */
-.container {
-    width: 520px;
-    margin: 80px auto;
-    background: #f1f5f9;
-    padding: 35px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(135deg, #ede9fe, #ddd6fe); /* light purple gradient */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-/* 🔷 TITLE */
-h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 22px;
-    color: #0891b2;
-    font-weight: 600;
-}
+    .container {
+        width: 420px;
+        background: #ffffff;
+        padding: 25px 30px;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18); /* soft purple shadow */
+        box-sizing: border-box;
+    }
 
-/* 🏷 LABEL */
-label {
-    margin-top: 16px;
-    display: block;
-    font-weight: 600;
-    font-size: 13px;
-    color: #334155;
-}
+    h2 {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 20px;
+        color: #6d28d9; /* purple heading */
+        font-weight: 600;
+        font-size: 24px;
+    }
 
-/* ✏ INPUT */
-input, select {
-    width: 100%;
-    margin-top: 6px;
-    padding: 10px;
-    border: 1px solid #cbd5f5;
-    border-radius: 8px;
-    font-size: 13px;
-    outline: none;
-    transition: 0.2s;
-}
+    label {
+        margin-top: 14px;
+        display: block;
+        font-weight: 600;
+        font-size: 13px;
+        color: #4c1d95; /* deep purple text */
+    }
 
-input:focus, select:focus {
-    border-color: #0891b2;
-    box-shadow: 0 0 0 2px rgba(8,145,178,0.2);
-}
+    input, select {
+        width: 100%;
+        margin-top: 5px;
+        padding: 9px;
+        border: 1px solid #c4b5fd;
+        border-radius: 6px;
+        font-size: 13px;
+        box-sizing: border-box;
+    }
 
-select[multiple] {
-    height: 120px;
-}
+    input:focus, select:focus {
+        outline: none;
+        border-color: #a78bfa;
+        box-shadow: 0 0 0 0.15rem rgba(167, 139, 250, 0.35);
+    }
 
-/* 🔥 UPDATE BUTTON */
-.btn-update {
-    padding: 10px 20px;
-    background: linear-gradient(135deg, #0891b2, #0e7490);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.25s;
-}
+    select[multiple] {
+        height: 100px;
+    }
 
-.btn-update:hover {
-    background: linear-gradient(135deg, #0e7490, #075985);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(8,145,178,0.4);
-}
+    button {
+        margin-top: 22px;
+        width: 100%;
+        padding: 11px;
+        background: #7c3aed; /* primary purple */
+        color: #ffffff;
+        border: none;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+    }
 
-/* 🔙 BUTTON GROUP */
-.btn-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
-}
+    button:hover {
+        background: #6d28d9;
+    }
 
-/* 🔙 BACK BUTTON */
-.back-btn {
-    background: #64748b;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: 0.25s;
-}
+    a {
+        display: block;
+        text-align: center;
+        margin-top: 16px;
+        color: #6d28d9;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 13px;
+    }
 
-.back-btn:hover {
-    background: #475569;
-}
+    a:hover {
+        text-decoration: underline;
+        color: #5b21b6;
+    }
 
-/* ⚠ SERVER MESSAGE */
-.server-msg {
-    margin-bottom: 15px;
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 13px;
-}
+    /* SERVER MESSAGE */
+    .server-msg {
+        margin-bottom: 12px;
+        padding: 8px;
+        border-radius: 6px;
+        text-align: center;
+        font-size: 13px;
+    }
 
-.server-msg.success {
-    background: #dcfce7;
-    color: #166534;
-}
+    .server-msg.success {
+        background: #dcfce7;
+        color: #166534;
+    }
 
-.server-msg.error {
-    background: #fee2e2;
-    color: #b91c1c;
-}
+    .server-msg.error {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
 
-/* FIELD ERROR */
-.invalid-feedback {
-    font-size: 12px;
-    color: #b91c1c;
-    margin-top: 4px;
-}
+    /* FIELD ERROR */
+    .invalid-feedback {
+        font-size: 12px;
+        color: #b91c1c;
+        margin-top: 3px;
+    }
 
-.error-border {
-    border: 1px solid #b91c1c !important;
-}
+    .error-border {
+        border: 1px solid #b91c1c !important;
+    }
 
-/* TOAST */
-.toast-message {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #1f2937;
-    color: white;
-    padding: 12px 16px;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: 0.3s;
-    font-size: 13px;
-}
+    /* TOAST */
+    .toast-message {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #1f2937;
+        color: white;
+        padding: 12px 16px;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: 0.3s;
+        font-size: 13px;
+    }
 
-.toast-message.show {
-    opacity: 1;
-    transform: translateY(0);
-}
+    .toast-message.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
 </style>
 
 <script>
@@ -214,54 +213,44 @@ function showToast(msg) {
 
 <div class="container">
 
-<h2>Update User</h2>
+    <h2>Update User</h2>
 
-<c:if test="${not empty message}">
-    <div class="server-msg ${messageType == 'success' ? 'success' : 'error'}">
-        ${message}
-    </div>
-</c:if>
+    <c:if test="${not empty message}">
+        <div class="server-msg ${messageType == 'success' ? 'success' : 'error'}">
+            ${message}
+        </div>
+    </c:if>
 
-<form:form action="${pageContext.request.contextPath}/user/update"
-           method="post"
-           modelAttribute="user"
-           onsubmit="return validateForm()">
+    <form:form action="${pageContext.request.contextPath}/user/update"
+               method="post"
+               modelAttribute="user"
+               onsubmit="return validateForm()">
 
-    <form:hidden path="id"/>
+        <form:hidden path="id"/>
 
-    <label>Name</label>
-    <form:input path="name"/>
+        <label>Name</label>
+        <form:input path="name"/>
 
-    <label>Email</label>
-    <form:input path="username"/>
-    <div id="emailErr" class="invalid-feedback"></div>
+        <label>Email</label>
+        <form:input path="username"/>
+        <div id="emailErr" class="invalid-feedback"></div>
 
-    <label>Phone Number</label>
-    <form:input path="phoneNo" maxlength="10"/>
-    <div id="phoneErr" class="invalid-feedback"></div>
+        <label>Phone Number</label>
+        <form:input path="phoneNo" maxlength="10"/>
+        <div id="phoneErr" class="invalid-feedback"></div>
 
-    <label>Roles</label>
-    <form:select path="roles" multiple="true">
-        <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-    </form:select>
+        <label>Roles</label>
+        <form:select path="roles" multiple="true">
+            <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+        </form:select>
 
+        <button type="submit">Update</button>
 
-    <div class="btn-group">
+    </form:form>
 
-
-        <a href="${pageContext.request.contextPath}/user/list"
-           class="back-btn">
-            Back to Users
-        </a>
-
-
-        <button type="submit" class="btn-update">
-            Update User
-        </button>
-
-    </div>
-
-</form:form>
+    <a href="${pageContext.request.contextPath}/user/list">
+        ← Back to User List
+    </a>
 
 </div>
 

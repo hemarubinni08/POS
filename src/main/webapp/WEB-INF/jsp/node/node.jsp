@@ -7,31 +7,41 @@
     <title>Edit Node</title>
 
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; /* Disables all scrolling and locks viewport */
+        }
+
         body {
             font-family: "Segoe UI", Arial, sans-serif;
             background: linear-gradient(135deg, #ede9fe, #ddd6fe); /* light purple gradient */
-            margin: 0;
-            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .container {
             width: 420px;
-            margin: 80px auto;
             background: #ffffff;
-            padding: 30px;
+            padding: 25px 30px;
             border-radius: 12px;
             box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18); /* soft purple shadow */
+            box-sizing: border-box;
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 24px;
+            margin-top: 0;
+            margin-bottom: 20px;
             color: #6d28d9; /* purple heading */
             font-weight: 600;
         }
 
         label {
-            margin-top: 16px;
+            margin-top: 14px;
             display: block;
             font-weight: 600;
             font-size: 13px;
@@ -40,11 +50,12 @@
 
         input, select {
             width: 100%;
-            margin-top: 6px;
+            margin-top: 5px;
             padding: 9px;
             border: 1px solid #c4b5fd;
             border-radius: 6px;
             font-size: 13px;
+            box-sizing: border-box;
         }
 
         input:focus, select:focus {
@@ -54,11 +65,11 @@
         }
 
         select[multiple] {
-            height: 110px;
+            height: 100px;
         }
 
         button {
-            margin-top: 26px;
+            margin-top: 22px;
             width: 100%;
             padding: 11px;
             background: #7c3aed; /* primary purple */
@@ -67,6 +78,7 @@
             font-weight: 600;
             border-radius: 6px;
             cursor: pointer;
+            font-size: 13px;
         }
 
         button:hover {
@@ -76,7 +88,7 @@
         a {
             display: block;
             text-align: center;
-            margin-top: 18px;
+            margin-top: 16px;
             color: #6d28d9;
             font-weight: 600;
             text-decoration: none;
@@ -122,6 +134,5 @@
     </a>
 
 </div>
-
 </body>
 </html>

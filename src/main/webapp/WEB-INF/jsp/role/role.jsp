@@ -7,125 +7,143 @@
 <head>
     <title>Edit Role</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
-
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; /* Disables all scrolling and locks viewport */
+        }
+
         body {
-            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
             background: linear-gradient(135deg, #ede9fe, #ddd6fe); /* light purple gradient */
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .card {
+        .container {
             width: 420px;
-            border-radius: 15px;
-            background-color: #ffffff;
+            background: #ffffff;
+            padding: 25px 30px;
+            border-radius: 12px;
             box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18); /* soft purple shadow */
+            box-sizing: border-box;
         }
 
-        h4 {
-            font-weight: 600;
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
             color: #6d28d9; /* purple heading */
+            font-weight: 600;
         }
 
-        .form-control {
-            border-radius: 8px;
+        label {
+            margin-top: 14px;
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            color: #4c1d95; /* deep purple text */
+        }
+
+        input, select {
+            width: 100%;
+            margin-top: 5px;
+            padding: 9px;
             border: 1px solid #c4b5fd;
+            border-radius: 6px;
+            font-size: 13px;
+            box-sizing: border-box;
         }
 
-        .form-control:focus {
+        input:focus, select:focus {
+            outline: none;
             border-color: #a78bfa;
             box-shadow: 0 0 0 0.15rem rgba(167, 139, 250, 0.35);
         }
 
-        .help-text {
-            font-size: 12px;
-            color: #6b7280;
-            margin-top: 6px;
-        }
-
-        .btn-primary {
-            background-color: #7c3aed;
+        button {
+            margin-top: 22px;
+            width: 100%;
+            padding: 11px;
+            background: #7c3aed; /* primary purple */
+            color: #ffffff;
             border: none;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
         }
 
-        .btn-primary:hover {
-            background-color: #6d28d9;
+        button:hover {
+            background: #6d28d9;
         }
 
-        .btn-outline-secondary {
-            color: #6b21a8;
-            border-color: #c4b5fd;
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: #6d28d9;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 13px;
         }
 
-        .btn-outline-secondary:hover {
-            background-color: #ddd6fe;
-            color: #4c1d95;
-            border-color: #c4b5fd;
+        a:hover {
+            text-decoration: underline;
+            color: #5b21b6;
+        }
+
+        .alert {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 13px;
+            margin-bottom: 14px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="card">
-    <div class="card-body">
+<div class="container">
 
-        <h4 class="text-center mb-4">Edit Role</h4>
+    <h2>Edit Role</h2>
 
-        <c:if test="${empty role}">
-            <div class="alert alert-danger text-center">
-                Role not found
-            </div>
-        </c:if>
+    <c:if test="${empty role}">
+        <div class="alert">
+            Role not found
+        </div>
+    </c:if>
 
-        <c:if test="${not empty role}">
+    <c:if test="${not empty role}">
 
-            <form:form action="/role/update"
-                       method="post"
-                       modelAttribute="role">
+        <form:form action="/role/update" method="post" modelAttribute="role">
 
-                <!-- Hidden ID -->
-                <form:hidden path="id"/>
+            <form:hidden path="id"/>
 
-                <!-- Role Identifier (READ ONLY) -->
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Role Name</label>
+            <label>Role Name</label>
+            <form:input path="identifier" placeholder="Enter role" required="true" readonly="true"/>
 
-                    <form:input path="identifier"
-                                cssClass="form-control"
-                                placeholder="Enter role"
-                                required="true"
-                                readonly="true"/>
-                </div>
+            <label>Description</label>
+            <form:input path="description" placeholder="Enter role" required="true"/>
 
-                <div class="mb-4">
-                    <label class="form-label fw-semibold">Description</label>
+            <button type="submit">Update</button>
 
-                    <form:input path="description"
-                                cssClass="form-control"
-                                placeholder="Enter role"
-                                required="true"/>
-                </div>
+        </form:form>
 
-                <div class="d-flex justify-content-between">
-                    <a href="/role/list" class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
-                    <button type="submit" class="btn btn-primary">
-                        Update
-                    </button>
-                </div>
+    </c:if>
 
-            </form:form>
+    <a href="/role/list">
+        ← Back to Role List
+    </a>
 
-        </c:if>
-
-    </div>
 </div>
+
 </body>
 </html>
