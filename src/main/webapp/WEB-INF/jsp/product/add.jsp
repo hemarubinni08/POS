@@ -127,11 +127,9 @@
         method="post"
         modelAttribute="productDto">
 
-        <!-- Product Name -->
         <label>Product Name</label>
         <form:input path="identifier" required="true"/>
 
-        <!-- Category -->
         <label>Category</label>
         <form:select path="category" multiple="true">
             <c:forEach var="cat" items="${categories}">
@@ -142,9 +140,9 @@
         </form:select>
         <div class="hint">Hold Ctrl/Cmd to select multiple</div>
 
-        <!-- Brand -->
         <label>Brand</label>
-        <form:select path="brand">
+        <form:select path="brand" required="true">
+            <form:option value="">-- Select Brand --</form:option>
             <c:forEach var="bran" items="${brand}">
                 <form:option value="${bran.identifier}">
                     ${bran.identifier}
@@ -152,9 +150,9 @@
             </c:forEach>
         </form:select>
 
-        <!-- Unit -->
         <label>Unit</label>
-        <form:select path="unit">
+        <form:select path="unit" required="true">
+            <form:option value="">-- Select Unit --</form:option>
             <c:forEach var="uni" items="${unit}">
                 <form:option value="${uni.identifier}">
                     ${uni.identifier}
@@ -162,9 +160,9 @@
             </c:forEach>
         </form:select>
 
-        <!-- Model -->
         <label>Model</label>
-        <form:select path="model">
+        <form:select path="model" required="true">
+            <form:option value="">-- Select Model --</form:option>
             <c:forEach var="mode" items="${model}">
                 <form:option value="${mode.identifier}">
                     ${mode.identifier}
@@ -172,7 +170,6 @@
             </c:forEach>
         </form:select>
 
-        <!-- SKU -->
         <label>SKU Code</label>
         <form:input path="skuCode" type="number" required="true"/>
         <button type="submit">Add Product</button>
