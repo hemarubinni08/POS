@@ -162,7 +162,7 @@
 
         <div class="form-group">
             <label>Warehouse Name</label>
-            <form:input path="identifier" placeholder="Enter warehouse name"/>
+            <form:input path="identifier" required="required" placeholder="Enter warehouse name"/>
         </div>
 
         <div class="form-group">

@@ -162,7 +162,7 @@
 
         <div class="form-group">
             <label>Brand Name</label>
-            <form:input path="identifier" placeholder="Enter brand"/>
+            <form:input path="identifier" required="required" placeholder="Enter brand"/>
         </div>
 
         <div class="form-group">

@@ -168,7 +168,7 @@
             box-shadow: 0 8px 18px rgba(75, 108, 183, 0.35);
             transform: translateY(-2px);
         }
-        /* ✅ Toggle switch */
+
         .toggle-switch {
             position: relative;
             width: 52px;

@@ -116,7 +116,6 @@
             background: #f5f5f5;
         }
 
-        /* Custom dropdown styling */
         select {
             appearance: none;
             -webkit-appearance: none;

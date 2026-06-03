@@ -194,7 +194,7 @@
 
             <div class="form-group">
                 <label>Category</label>
-                <form:input path="identifier" placeholder="Enter category" required="true" readonly="true"/>
+                <form:input path="identifier" required="required" placeholder="Enter category" required="true" readonly="true"/>
             </div>
 
             <div class="form-group">

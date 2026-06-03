@@ -149,6 +149,7 @@
         type="text"
         maxlength="10"
         pattern="[0-9]{10}"
+        required="required"
         oninput="this.value = this.value.replace(/[^0-9]/g, '')"
         class="form-control" />
 
@@ -160,6 +161,7 @@
             <label>Email Address</label>
             <form:input
             type = "email"
+            required="required"
             path="email"/>
         </div>
 
@@ -178,7 +180,6 @@
             </form:select>
         </div>
 
-        <!-- ✅ Billing Address -->
         <details>
             <summary>Billing Address</summary>
             <input type="hidden" name="billing.id" value="${customerDto.billing.id}" />

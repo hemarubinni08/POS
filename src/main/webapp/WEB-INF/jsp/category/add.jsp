@@ -171,13 +171,13 @@
 
         <div class="form-group">
             <label>Category</label>
-            <form:input path="identifier" placeholder="Enter category"/>
+            <form:input path="identifier" required="required" placeholder="Enter category"/>
         </div>
 
         <div class="form-group">
             <label>Super Category</label>
             <form:select path="superCategory">
-                <form:option value="" label="-- Select Product --"/>
+                <form:option value="" label="-- Select Category --"/>
                 <c:forEach items="${categoryList}" var="category">
                     <form:option value="${category.identifier}">
                         ${category.identifier}

@@ -168,7 +168,7 @@
             box-shadow: 0 8px 18px rgba(75, 108, 183, 0.35);
             transform: translateY(-2px);
         }
-        /* ✅ Toggle switch */
+
         .toggle-switch {
             position: relative;
             width: 52px;
@@ -186,7 +186,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #e74c3c; /* red */
+            background-color: #e74c3c;
             border-radius: 30px;
             transition: .3s;
             cursor: pointer;

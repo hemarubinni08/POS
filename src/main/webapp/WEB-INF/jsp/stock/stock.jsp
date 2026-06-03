@@ -116,7 +116,6 @@
             background: #f5f5f5;
         }
 
-        /* Custom dropdown styling */
         select {
             appearance: none;
             -webkit-appearance: none;
@@ -208,7 +207,7 @@
 
         <div class="form-group">
             <label>Product Name</label>
-            <form:select path="productName">
+            <form:select path="productName" required="required">
                 <form:option value="" label="-- Select Product --"/>
                 <c:forEach items="${products}" var="product">
                     <form:option value="${product.identifier}">
@@ -220,7 +219,7 @@
 
         <div class="form-group">
             <label>Warehouse Name</label>
-            <form:select path="warehouseName">
+            <form:select path="warehouseName" required="required">
                 <form:option value="" label="-- Select Warehouse --"/>
                 <c:forEach items="${warehouses}" var="warehouse">
                     <form:option value="${warehouse.identifier}">
@@ -232,7 +231,7 @@
 
             <div class="form-group">
                 <label>Number of Stocks</label>
-                <form:input path="quantity" placeholder="Enter Number of Stocks"/>
+                <form:input path="quantity" required="required" placeholder="Enter Number of Stocks"/>
             </div>
 
             <input type="submit" value="Update Stock" class="btn-submit"/>

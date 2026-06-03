@@ -168,12 +168,12 @@
 
         <div class="form-group">
             <label>Product Name</label>
-            <form:input path="identifier" placeholder="Enter product name"/>
+            <form:input path="identifier" required="required" placeholder="Enter product name"/>
         </div>
 
         <div class="form-group">
             <label>Category</label>
-            <form:select path="categories" multiple="true">
+            <form:select path="categories" required="required" multiple="true">
                 <form:option value="" label="-- Select Product --"/>
                 <c:forEach items="${categoryList}" var="category">
                     <form:option value="${category.identifier}">
@@ -185,7 +185,7 @@
 
         <div class="form-group">
             <label>Supplier ID</label>
-            <form:input path="supplierID" placeholder="Enter Supplier ID"/>
+            <form:input path="supplierID" required="required" placeholder="Enter Supplier ID"/>
         </div>
 
         <input type="submit" value="Add Product" class="btn-submit"/>

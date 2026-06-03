@@ -48,7 +48,7 @@
             border-radius: 8px;
             border: 1px solid #ccc;
             font-size: 14px;
-            box-sizing: border-box; /* Prevents padding from breaking width */
+            box-sizing: border-box;
         }
 
         input[type="text"],
@@ -59,7 +59,7 @@
             border: 1px solid #ccc;
             font-size: 14px;
             box-sizing: border-box;
-            background-color: white; /* Ensures dropdown is visible */
+            background-color: white;
         }
 
         label {

@@ -29,7 +29,6 @@
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
         }
 
-        /* Back Button */
         .back-icon {
             position: absolute;
             top: 16px;
@@ -143,30 +142,27 @@
 
 <div class="card-container">
 
-    <!-- Back + Home Buttons -->
     <a href="/shelf/list" class="back-icon">←</a>
     <a href="/" class="home-link">Home</a>
 
     <h2>Add Shelf</h2>
 
-    <!-- Error Message -->
     <c:if test="${not empty message}">
         <div class="error-message">
             ${message}
         </div>
     </c:if>
 
-    <!-- Form -->
     <form:form method="post" action="/shelf/add" modelAttribute="shelfDto">
 
         <div class="form-group">
             <label>Shelf Name</label>
-            <form:input path="identifier" placeholder="Enter Shelf Name" />
+            <form:input path="identifier" required="required" placeholder="Enter Shelf Name" />
         </div>
 
         <div class="form-group">
             <label>Status</label>
-            <form:select path="status">
+            <form:select path="status" required="required">
                 <form:option value="true" label="Active"/>
                 <form:option value="false" label="Inactive"/>
             </form:select>

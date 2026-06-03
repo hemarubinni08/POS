@@ -167,8 +167,8 @@
                modelAttribute="priceDto">
 
         <div class="form-group">
-            <label>Product Identifier</label>
-            <form:select path="identifier">
+            <label>Product Name</label>
+            <form:select path="identifier" required="required">
                 <form:option value="" label="-- Select Product --"/>
                 <c:forEach items="${product}" var="product">
                     <form:option value="${product.identifier}">
@@ -181,6 +181,7 @@
         <div class="form-group">
             <label>Cost Price</label>
             <form:input path="costPrice"
+                        required="required"
                         type="number"
                         placeholder="Enter cost price"/>
         </div>
@@ -188,6 +189,7 @@
         <div class="form-group">
             <label>Selling Price</label>
             <form:input path="sellingPrice"
+                        required="required"
                         type="number"
                         placeholder="Enter selling price"/>
         </div>

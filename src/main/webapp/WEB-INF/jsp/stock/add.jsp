@@ -112,7 +112,6 @@
             box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.15);
         }
 
-        /* Custom dropdown styling */
         select {
             appearance: none;
             -webkit-appearance: none;
@@ -178,7 +177,7 @@
 
         <div class="form-group">
             <label>Stock Name</label>
-            <form:input path="identifier" placeholder="Enter stock name"/>
+            <form:input path="identifier" required="required" placeholder="Enter stock name"/>
         </div>
 
         <div class="form-group">
@@ -192,7 +191,7 @@
 
         <div class="form-group">
             <label>Product Name</label>
-            <form:select path="productName">
+            <form:select path="productName" required="required">
                 <form:option value="" label="-- Select Product --"/>
                 <c:forEach items="${products}" var="product">
                     <form:option value="${product.identifier}">
@@ -204,7 +203,7 @@
 
         <div class="form-group">
             <label>Warehouse Name</label>
-            <form:select path="warehouseName">
+            <form:select path="warehouseName" required="required">
                 <form:option value="" label="-- Select Warehouse --"/>
                 <c:forEach items="${warehouses}" var="warehouse">
                     <form:option value="${warehouse.identifier}">
@@ -216,7 +215,7 @@
 
         <div class="form-group">
             <label>Number of Products</label>
-            <form:input path="quantity" placeholder="Enter Number of Products"/>
+            <form:input path="quantity" required="required" placeholder="Enter Number of Products"/>
         </div>
 
         <input type="submit" value="Add Stock" class="btn-submit"/>

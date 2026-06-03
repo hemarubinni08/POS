@@ -232,7 +232,6 @@
     </c:if>
 
     <div class="footer-actions">
-        <a href="/" class="btn btn-home">Home</a>
         <a href="/customer/add" class="btn btn-add">+ Add Customer</a>
     </div>
 

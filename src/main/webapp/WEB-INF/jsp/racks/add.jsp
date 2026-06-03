@@ -166,12 +166,12 @@
 
         <div class="form-group">
             <label>Rack Name</label>
-            <form:input path="identifier" placeholder="Enter Rack Name"/>
+            <form:input path="identifier" required="required" placeholder="Enter Rack Name"/>
         </div>
 
         <div class="form-group">
             <label>Shelf Name (Multi-Select)</label>
-            <form:select path="shelfs" multiple="true">
+            <form:select path="shelfs" required="required" multiple="true">
                 <c:forEach var="s" items="${shelf}">
                     <form:option value="${s.identifier}">
                         ${s.identifier}

@@ -160,7 +160,6 @@
 
 <div class="card-container">
 
-    <!-- ✅ Back + Home (FIXED with contextPath) -->
     <a href="${pageContext.request.contextPath}/racks/list" class="back-icon">←</a>
     <a href="${pageContext.request.contextPath}/" class="home-link">Home</a>
 
@@ -184,7 +183,7 @@
 
             <div class="form-group">
                 <label>Status</label>
-                <form:select path="status">
+                <form:select path="status" required="required">
                     <form:option value="true" label="Active"/>
                     <form:option value="false" label="Inactive"/>
                 </form:select>
@@ -192,7 +191,7 @@
 
             <div class="form-group">
                 <label>Shelf Name (Multi-Select)</label>
-                <form:select path="shelfs" multiple="true">
+                <form:select path="shelfs" multiple="true" required="required">
                     <c:forEach var="s" items="${shelf}">
                         <form:option value="${s.identifier}">
                             ${s.identifier}

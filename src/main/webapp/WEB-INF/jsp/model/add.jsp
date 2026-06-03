@@ -150,7 +150,7 @@
 
         <div class="form-group">
             <label>Model Name</label>
-            <form:input path="identifier" placeholder="Enter Model Name" />
+            <form:input path="identifier" placeholder="Enter Model Name" required="required" />
         </div>
 
         <div class="form-group">

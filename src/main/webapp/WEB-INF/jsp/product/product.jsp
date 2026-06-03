@@ -74,16 +74,32 @@
             display: block;
         }
 
-        input {
+        input,
+        select {
             width: 100%;
             padding: 11px 14px;
             border-radius: 8px;
             border: 1px solid #ccc;
             font-size: 14px;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #4b6cb7;
+            box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.15);
         }
 
         input[readonly] {
             background: #f5f5f5;
+        }
+
+        select[multiple] {
+            height: 120px;
+            background-color: #fff;
+            cursor: pointer;
         }
 
         .btn-submit {
@@ -166,7 +182,7 @@
 
         <div class="form-group">
             <label>Category</label>
-            <form:select path="categories" multiple="true">
+            <form:select path="categories" required="required" multiple="true">
                 <form:option value="" label="-- Select Product --"/>
                 <c:forEach items="${categoryList}" var="category">
                     <form:option value="${category.identifier}">
@@ -178,7 +194,7 @@
 
             <div class="form-group">
                 <label>Supplier ID</label>
-                <form:input path="supplierID" placeholder="Enter Supplier ID"/>
+                <form:input path="supplierID" required="required" placeholder="Enter Supplier ID"/>
             </div>
 
             <input type="submit" value="Update Product" class="btn-submit"/>
