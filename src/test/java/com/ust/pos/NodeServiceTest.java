@@ -26,16 +26,13 @@ import java.util.List;
 class NodeServiceTest {
 
     @Mock
+    UserRepository userRepository;
+    @Mock
     private NodeRepository nodeRepository;
-
     @Mock
     private ModelMapper modelMapper;
-
     @InjectMocks
     private NodeServiceImpl nodeService;
-
-    @Mock
-    UserRepository userRepository;
 
     @Test
     void saveTest() {

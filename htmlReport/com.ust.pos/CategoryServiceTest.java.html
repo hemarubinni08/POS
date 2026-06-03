@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CategoryServiceTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos</a> &gt; <span class="el_source">CategoryServiceTest.java</span></div><h1>CategoryServiceTest.java</h1><pre class="source lang-java linenums">package com.ust.pos;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-Type"/>
+    <link href="../jacoco-resources/report.css" rel="stylesheet" type="text/css"/>
+    <link href="../jacoco-resources/report.gif" rel="shortcut icon" type="image/gif"/>
+    <title>CategoryServiceTest.java</title>
+    <link href="../jacoco-resources/prettify.css" rel="stylesheet" type="text/css"/>
+    <script src="../jacoco-resources/prettify.js" type="text/javascript"></script>
+</head>
+<body onload="window['PR_TAB_WIDTH']=4;prettyPrint()">
+<div class="breadcrumb" id="breadcrumb"><span class="info"><a class="el_session"
+                                                              href="../jacoco-sessions.html">Sessions</a></span><a
+        class="el_report" href="../index.html">All in pos Coverage Results</a> &gt; <a class="el_package"
+                                                                                       href="index.source.html">com.ust.pos</a>
+    &gt; <span class="el_source">CategoryServiceTest.java</span></div>
+<h1>CategoryServiceTest.java</h1>
+<pre class="source lang-java linenums">package com.ust.pos;
 
 import com.ust.pos.category.service.impl.CategoryServiceImpl;
 import com.ust.pos.dto.CategoryDto;
@@ -36,7 +54,8 @@ import java.util.List;
     void saveTest() {
 <span class="fc" id="L37">        CategoryDto dto = new CategoryDto();</span>
 <span class="fc" id="L38">        dto.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L39">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc"
+      id="L39">        Mockito.when(categoryRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
 <span class="fc" id="L40">        Mockito.when(categoryRepository.save(Mockito.any(Category.class)))</span>
 <span class="fc" id="L41">                .thenReturn(new Category());</span>
 <span class="fc" id="L42">        CategoryDto response = categoryService.save(dto);</span>
@@ -101,7 +120,8 @@ import java.util.List;
 <span class="fc" id="L101">        category.setIdentifier(&quot;Admin&quot;);</span>
 <span class="fc" id="L102">        List&lt;Category&gt; categories = List.of(category);</span>
 <span class="fc" id="L103">        Page&lt;Category&gt; categoryPage =</span>
-<span class="fc" id="L104">                new PageImpl&lt;&gt;(categories, PageRequest.of(0, 2), categories.size());</span>
+<span class="fc"
+      id="L104">                new PageImpl&lt;&gt;(categories, PageRequest.of(0, 2), categories.size());</span>
 <span class="fc" id="L105">        Pageable pageable = PageRequest.of(0, 50);</span>
 <span class="fc" id="L106">        Mockito.when(categoryRepository.findAll(pageable))</span>
 <span class="fc" id="L107">                .thenReturn(categoryPage);</span>
@@ -143,9 +163,11 @@ import java.util.List;
     void findBySuperCategoryNotNullTest() {
 <span class="fc" id="L144">        Category category = new Category();</span>
 <span class="fc" id="L145">        category.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L146">        Mockito.when(categoryRepository.findByStatusTrueAndSuperCategoryIsNot(&quot;&quot;))</span>
+<span class="fc"
+      id="L146">        Mockito.when(categoryRepository.findByStatusTrueAndSuperCategoryIsNot(&quot;&quot;))</span>
 <span class="fc" id="L147">                .thenReturn(List.of(category));</span>
-<span class="fc" id="L148">        List&lt;CategoryDto&gt; response = categoryService.findBySuperCategoryNotNull();</span>
+<span class="fc"
+      id="L148">        List&lt;CategoryDto&gt; response = categoryService.findBySuperCategoryNotNull();</span>
 <span class="fc" id="L149">        Assertions.assertEquals(1, response.size());</span>
 <span class="fc" id="L150">    }</span>
 
@@ -178,4 +200,8 @@ import java.util.List;
 <span class="fc" id="L178">        Assertions.assertTrue(response.isEmpty());</span>
 <span class="fc" id="L179">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre>
+<div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span>
+</div>
+</body>
+</html>

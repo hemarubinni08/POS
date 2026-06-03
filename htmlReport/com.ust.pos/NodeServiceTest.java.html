@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NodeServiceTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos</a> &gt; <span class="el_source">NodeServiceTest.java</span></div><h1>NodeServiceTest.java</h1><pre class="source lang-java linenums">package com.ust.pos;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-Type"/>
+    <link href="../jacoco-resources/report.css" rel="stylesheet" type="text/css"/>
+    <link href="../jacoco-resources/report.gif" rel="shortcut icon" type="image/gif"/>
+    <title>NodeServiceTest.java</title>
+    <link href="../jacoco-resources/prettify.css" rel="stylesheet" type="text/css"/>
+    <script src="../jacoco-resources/prettify.js" type="text/javascript"></script>
+</head>
+<body onload="window['PR_TAB_WIDTH']=4;prettyPrint()">
+<div class="breadcrumb" id="breadcrumb"><span class="info"><a class="el_session"
+                                                              href="../jacoco-sessions.html">Sessions</a></span><a
+        class="el_report" href="../index.html">All in pos Coverage Results</a> &gt; <a class="el_package"
+                                                                                       href="index.source.html">com.ust.pos</a>
+    &gt; <span class="el_source">NodeServiceTest.java</span></div>
+<h1>NodeServiceTest.java</h1>
+<pre class="source lang-java linenums">package com.ust.pos;
 
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.model.Node;
@@ -41,7 +59,8 @@ import java.util.List;
     void saveTest() {
 <span class="fc" id="L42">        NodeDto nodeDto = new NodeDto();</span>
 <span class="fc" id="L43">        nodeDto.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L44">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc"
+      id="L44">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
 <span class="fc" id="L45">        Node node = new Node();</span>
 <span class="fc" id="L46">        Mockito.when(modelMapper.map(nodeDto, Node.class)).thenReturn(node);</span>
 <span class="fc" id="L47">        Mockito.when(nodeRepository.save(node)).thenReturn(node);</span>
@@ -68,7 +87,8 @@ import java.util.List;
 <span class="fc" id="L68">        node.setIdentifier(&quot;Admin&quot;);</span>
 <span class="fc" id="L69">        NodeDto nodeDto = new NodeDto();</span>
 <span class="fc" id="L70">        nodeDto.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L71">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(node);</span>
+<span class="fc"
+      id="L71">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(node);</span>
 <span class="fc" id="L72">        Mockito.when(modelMapper.map(node, NodeDto.class)).thenReturn(nodeDto);</span>
 <span class="fc" id="L73">        NodeDto response = nodeService.findByIdentifier(&quot;Admin&quot;);</span>
 <span class="fc" id="L74">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
@@ -93,7 +113,8 @@ import java.util.List;
 <span class="fc" id="L93">        Mockito.when(nodeRepository.findAll()).thenReturn(List.of(node));</span>
 <span class="fc" id="L94">        NodeDto nodeDto = new NodeDto();</span>
 <span class="fc" id="L95">        nodeDto.setIdentifier(&quot;dashboard&quot;);</span>
-<span class="fc" id="L96">        Mockito.when(nodeRepository.findByIdentifier(&quot;dashboard&quot;)).thenReturn(node);</span>
+<span class="fc"
+      id="L96">        Mockito.when(nodeRepository.findByIdentifier(&quot;dashboard&quot;)).thenReturn(node);</span>
 <span class="fc" id="L97">        Mockito.when(modelMapper.map(node, NodeDto.class)).thenReturn(nodeDto);</span>
 <span class="fc" id="L98">        List&lt;NodeDto&gt; response = nodeService.getNodesForRoles();</span>
 <span class="fc" id="L99">        Assertions.assertNotNull(response);</span>
@@ -184,7 +205,8 @@ import java.util.List;
 <span class="fc" id="L184">        node.setStatus(false);</span>
 <span class="fc" id="L185">        NodeDto nodeDto = new NodeDto();</span>
 <span class="fc" id="L186">        nodeDto.setStatus(true);</span>
-<span class="fc" id="L187">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(node);</span>
+<span class="fc"
+      id="L187">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(node);</span>
 <span class="fc" id="L188">        Mockito.when(modelMapper.map(node, NodeDto.class)).thenReturn(nodeDto);</span>
 <span class="fc" id="L189">        NodeDto response = nodeService.toggleStatus(&quot;Admin&quot;);</span>
 <span class="fc" id="L190">        Assertions.assertTrue(response.isStatus());</span>
@@ -196,10 +218,15 @@ import java.util.List;
 <span class="fc" id="L196">        node.setStatus(true);</span>
 <span class="fc" id="L197">        NodeDto nodeDto = new NodeDto();</span>
 <span class="fc" id="L198">        nodeDto.setStatus(false);</span>
-<span class="fc" id="L199">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(node);</span>
+<span class="fc"
+      id="L199">        Mockito.when(nodeRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(node);</span>
 <span class="fc" id="L200">        Mockito.when(modelMapper.map(node, NodeDto.class)).thenReturn(nodeDto);</span>
 <span class="fc" id="L201">        NodeDto response = nodeService.toggleStatus(&quot;Admin&quot;);</span>
 <span class="fc" id="L202">        Assertions.assertFalse(response.isStatus());</span>
 <span class="fc" id="L203">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre>
+<div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span>
+</div>
+</body>
+</html>

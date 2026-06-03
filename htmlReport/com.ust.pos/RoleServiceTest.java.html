@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoleServiceTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos</a> &gt; <span class="el_source">RoleServiceTest.java</span></div><h1>RoleServiceTest.java</h1><pre class="source lang-java linenums">package com.ust.pos;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-Type"/>
+    <link href="../jacoco-resources/report.css" rel="stylesheet" type="text/css"/>
+    <link href="../jacoco-resources/report.gif" rel="shortcut icon" type="image/gif"/>
+    <title>RoleServiceTest.java</title>
+    <link href="../jacoco-resources/prettify.css" rel="stylesheet" type="text/css"/>
+    <script src="../jacoco-resources/prettify.js" type="text/javascript"></script>
+</head>
+<body onload="window['PR_TAB_WIDTH']=4;prettyPrint()">
+<div class="breadcrumb" id="breadcrumb"><span class="info"><a class="el_session"
+                                                              href="../jacoco-sessions.html">Sessions</a></span><a
+        class="el_report" href="../index.html">All in pos Coverage Results</a> &gt; <a class="el_package"
+                                                                                       href="index.source.html">com.ust.pos</a>
+    &gt; <span class="el_source">RoleServiceTest.java</span></div>
+<h1>RoleServiceTest.java</h1>
+<pre class="source lang-java linenums">package com.ust.pos;
 
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
@@ -34,7 +52,8 @@ RoleServiceTest {
     void saveTest() {
 <span class="fc" id="L35">        RoleDto roleDto = new RoleDto();</span>
 <span class="fc" id="L36">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L37">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc"
+      id="L37">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
 <span class="fc" id="L38">        Role role = new Role();</span>
 <span class="fc" id="L39">        Mockito.when(modelMapper.map(roleDto, Role.class)).thenReturn(role);</span>
 <span class="fc" id="L40">        Mockito.when(roleRepository.save(role)).thenReturn(role);</span>
@@ -61,7 +80,8 @@ RoleServiceTest {
 <span class="fc" id="L61">        role.setIdentifier(&quot;Admin&quot;);</span>
 <span class="fc" id="L62">        RoleDto roleDto = new RoleDto();</span>
 <span class="fc" id="L63">        roleDto.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L64">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(role);</span>
+<span class="fc"
+      id="L64">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(role);</span>
 <span class="fc" id="L65">        Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(roleDto);</span>
 <span class="fc" id="L66">        RoleDto response = roleService.findByIdentifier(&quot;Admin&quot;);</span>
 <span class="fc" id="L67">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
@@ -142,7 +162,8 @@ RoleServiceTest {
 <span class="fc" id="L142">        role.setStatus(false);</span>
 <span class="fc" id="L143">        RoleDto roleDto = new RoleDto();</span>
 <span class="fc" id="L144">        roleDto.setStatus(true);</span>
-<span class="fc" id="L145">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(role);</span>
+<span class="fc"
+      id="L145">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(role);</span>
 <span class="fc" id="L146">        Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(roleDto);</span>
 <span class="fc" id="L147">        RoleDto response = roleService.toggleStatus(&quot;Admin&quot;);</span>
 <span class="fc" id="L148">        Assertions.assertTrue(response.isStatus());</span>
@@ -154,10 +175,15 @@ RoleServiceTest {
 <span class="fc" id="L154">        role.setStatus(true);</span>
 <span class="fc" id="L155">        RoleDto roleDto = new RoleDto();</span>
 <span class="fc" id="L156">        roleDto.setStatus(false);</span>
-<span class="fc" id="L157">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(role);</span>
+<span class="fc"
+      id="L157">        Mockito.when(roleRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(role);</span>
 <span class="fc" id="L158">        Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(roleDto);</span>
 <span class="fc" id="L159">        RoleDto response = roleService.toggleStatus(&quot;Admin&quot;);</span>
 <span class="fc" id="L160">        Assertions.assertFalse(response.isStatus());</span>
 <span class="fc" id="L161">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre>
+<div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span>
+</div>
+</body>
+</html>

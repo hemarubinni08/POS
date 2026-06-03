@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PosApplication.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos</a> &gt; <span class="el_source">PosApplication.java</span></div><h1>PosApplication.java</h1><pre class="source lang-java linenums">package com.ust.pos;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-Type"/>
+    <link href="../jacoco-resources/report.css" rel="stylesheet" type="text/css"/>
+    <link href="../jacoco-resources/report.gif" rel="shortcut icon" type="image/gif"/>
+    <title>PosApplication.java</title>
+    <link href="../jacoco-resources/prettify.css" rel="stylesheet" type="text/css"/>
+    <script src="../jacoco-resources/prettify.js" type="text/javascript"></script>
+</head>
+<body onload="window['PR_TAB_WIDTH']=4;prettyPrint()">
+<div class="breadcrumb" id="breadcrumb"><span class="info"><a class="el_session"
+                                                              href="../jacoco-sessions.html">Sessions</a></span><a
+        class="el_report" href="../index.html">All in pos Coverage Results</a> &gt; <a class="el_package"
+                                                                                       href="index.source.html">com.ust.pos</a>
+    &gt; <span class="el_source">PosApplication.java</span></div>
+<h1>PosApplication.java</h1>
+<pre class="source lang-java linenums">package com.ust.pos;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -50,8 +68,10 @@ import javax.sql.DataSource;
     DataSource getDataSource() {
 <span class="fc" id="L51">        DriverManagerDataSource ds = new DriverManagerDataSource();</span>
 <span class="fc" id="L52">        ds.setUrl(environment.getProperty(&quot;spring.datasource.url&quot;));</span>
-<span class="fc" id="L53">        ds.setUsername(environment.getProperty(&quot;spring.datasource.username&quot;));</span>
-<span class="fc" id="L54">        ds.setPassword(environment.getProperty(&quot;spring.datasource.password&quot;));</span>
+<span class="fc"
+      id="L53">        ds.setUsername(environment.getProperty(&quot;spring.datasource.username&quot;));</span>
+<span class="fc"
+      id="L54">        ds.setPassword(environment.getProperty(&quot;spring.datasource.password&quot;));</span>
 <span class="fc" id="L55">        String property = environment.getProperty(&quot;spring.datasource.driver-class-name&quot;);</span>
 <span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (property != null) {</span>
 <span class="fc" id="L57">            ds.setDriverClassName(property);</span>
@@ -59,4 +79,8 @@ import javax.sql.DataSource;
 <span class="fc" id="L59">        return ds;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre>
+<div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span>
+</div>
+</body>
+</html>

@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UnitServiceTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos</a> &gt; <span class="el_source">UnitServiceTest.java</span></div><h1>UnitServiceTest.java</h1><pre class="source lang-java linenums">package com.ust.pos;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-Type"/>
+    <link href="../jacoco-resources/report.css" rel="stylesheet" type="text/css"/>
+    <link href="../jacoco-resources/report.gif" rel="shortcut icon" type="image/gif"/>
+    <title>UnitServiceTest.java</title>
+    <link href="../jacoco-resources/prettify.css" rel="stylesheet" type="text/css"/>
+    <script src="../jacoco-resources/prettify.js" type="text/javascript"></script>
+</head>
+<body onload="window['PR_TAB_WIDTH']=4;prettyPrint()">
+<div class="breadcrumb" id="breadcrumb"><span class="info"><a class="el_session"
+                                                              href="../jacoco-sessions.html">Sessions</a></span><a
+        class="el_report" href="../index.html">All in pos Coverage Results</a> &gt; <a class="el_package"
+                                                                                       href="index.source.html">com.ust.pos</a>
+    &gt; <span class="el_source">UnitServiceTest.java</span></div>
+<h1>UnitServiceTest.java</h1>
+<pre class="source lang-java linenums">package com.ust.pos;
 
 import com.ust.pos.dto.UnitDto;
 import com.ust.pos.model.Unit;
@@ -33,7 +51,8 @@ import java.util.List;
     void saveTest() {
 <span class="fc" id="L34">        UnitDto unitDto = new UnitDto();</span>
 <span class="fc" id="L35">        unitDto.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L36">        Mockito.when(unitRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc"
+      id="L36">        Mockito.when(unitRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
 <span class="fc" id="L37">        Unit unit = new Unit();</span>
 <span class="fc" id="L38">        Mockito.when(modelMapper.map(unitDto, Unit.class)).thenReturn(unit);</span>
 <span class="fc" id="L39">        Mockito.when(unitRepository.save(unit)).thenReturn(unit);</span>
@@ -60,7 +79,8 @@ import java.util.List;
 <span class="fc" id="L60">        unit.setIdentifier(&quot;Admin&quot;);</span>
 <span class="fc" id="L61">        UnitDto unitDto = new UnitDto();</span>
 <span class="fc" id="L62">        unitDto.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L63">        Mockito.when(unitRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(unit);</span>
+<span class="fc"
+      id="L63">        Mockito.when(unitRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(unit);</span>
 <span class="fc" id="L64">        Mockito.when(modelMapper.map(unit, UnitDto.class)).thenReturn(unitDto);</span>
 <span class="fc" id="L65">        UnitDto response = unitService.findByIdentifier(&quot;Admin&quot;);</span>
 <span class="fc" id="L66">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
@@ -141,7 +161,8 @@ import java.util.List;
 <span class="fc" id="L141">        unit.setStatus(false);</span>
 <span class="fc" id="L142">        UnitDto unitDto = new UnitDto();</span>
 <span class="fc" id="L143">        unitDto.setStatus(true);</span>
-<span class="fc" id="L144">        Mockito.when(unitRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(unit);</span>
+<span class="fc"
+      id="L144">        Mockito.when(unitRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(unit);</span>
 <span class="fc" id="L145">        Mockito.when(modelMapper.map(unit, UnitDto.class)).thenReturn(unitDto);</span>
 <span class="fc" id="L146">        UnitDto response = unitService.toggleStatus(&quot;Admin&quot;);</span>
 <span class="fc" id="L147">        Assertions.assertTrue(response.isStatus());</span>
@@ -153,10 +174,15 @@ import java.util.List;
 <span class="fc" id="L153">        unit.setStatus(true);</span>
 <span class="fc" id="L154">        UnitDto unitDto = new UnitDto();</span>
 <span class="fc" id="L155">        unitDto.setStatus(false);</span>
-<span class="fc" id="L156">        Mockito.when(unitRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(unit);</span>
+<span class="fc"
+      id="L156">        Mockito.when(unitRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(unit);</span>
 <span class="fc" id="L157">        Mockito.when(modelMapper.map(unit, UnitDto.class)).thenReturn(unitDto);</span>
 <span class="fc" id="L158">        UnitDto response = unitService.toggleStatus(&quot;Admin&quot;);</span>
 <span class="fc" id="L159">        Assertions.assertFalse(response.isStatus());</span>
 <span class="fc" id="L160">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre>
+<div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span>
+</div>
+</body>
+</html>

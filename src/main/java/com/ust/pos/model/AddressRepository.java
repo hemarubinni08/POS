@@ -7,7 +7,9 @@ import java.util.List;
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
     Address findByIdentifier(String identifier);
+
     void deleteByIdentifier(String identifier);
+
     List<Address> findAllByPhoneNo(String phoneNo);
 
 }

@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AddressServiceTest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">All in pos Coverage Results</a> &gt; <a href="index.source.html" class="el_package">com.ust.pos</a> &gt; <span class="el_source">AddressServiceTest.java</span></div><h1>AddressServiceTest.java</h1><pre class="source lang-java linenums">package com.ust.pos;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html;charset=UTF-8" http-equiv="Content-Type"/>
+    <link href="../jacoco-resources/report.css" rel="stylesheet" type="text/css"/>
+    <link href="../jacoco-resources/report.gif" rel="shortcut icon" type="image/gif"/>
+    <title>AddressServiceTest.java</title>
+    <link href="../jacoco-resources/prettify.css" rel="stylesheet" type="text/css"/>
+    <script src="../jacoco-resources/prettify.js" type="text/javascript"></script>
+</head>
+<body onload="window['PR_TAB_WIDTH']=4;prettyPrint()">
+<div class="breadcrumb" id="breadcrumb"><span class="info"><a class="el_session"
+                                                              href="../jacoco-sessions.html">Sessions</a></span><a
+        class="el_report" href="../index.html">All in pos Coverage Results</a> &gt; <a class="el_package"
+                                                                                       href="index.source.html">com.ust.pos</a>
+    &gt; <span class="el_source">AddressServiceTest.java</span></div>
+<h1>AddressServiceTest.java</h1>
+<pre class="source lang-java linenums">package com.ust.pos;
 
 import com.ust.pos.address.service.impl.AddressServiceImpl;
 import com.ust.pos.dto.AddressDto;
@@ -33,7 +51,8 @@ import java.util.List;
     void saveTest() {
 <span class="fc" id="L34">        AddressDto addressDto = new AddressDto();</span>
 <span class="fc" id="L35">        addressDto.setIdentifier(&quot;Admin&quot;);</span>
-<span class="fc" id="L36">        Mockito.when(addressRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
+<span class="fc"
+      id="L36">        Mockito.when(addressRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(null);</span>
 <span class="fc" id="L37">        Address address = new Address();</span>
 <span class="fc" id="L38">        Mockito.when(modelMapper.map(addressDto, Address.class)).thenReturn(address);</span>
 <span class="fc" id="L39">        Mockito.when(addressRepository.save(address)).thenReturn(address);</span>
@@ -61,7 +80,8 @@ import java.util.List;
 <span class="fc" id="L61">        AddressDto addressDto = new AddressDto();</span>
 <span class="fc" id="L62">        addressDto.setIdentifier(&quot;Admin&quot;);</span>
 <span class="fc" id="L63">        Mockito.when(addressRepository.findByIdentifier(&quot;Admin&quot;)).thenReturn(address);</span>
-<span class="fc" id="L64">        Mockito.when(modelMapper.map(address, AddressDto.class)).thenReturn(addressDto);</span>
+<span class="fc"
+      id="L64">        Mockito.when(modelMapper.map(address, AddressDto.class)).thenReturn(addressDto);</span>
 <span class="fc" id="L65">        AddressDto response = addressService.findByIdentifier(&quot;Admin&quot;);</span>
 <span class="fc" id="L66">        Assertions.assertEquals(&quot;Admin&quot;, response.getIdentifier());</span>
 <span class="fc" id="L67">    }</span>
@@ -134,8 +154,13 @@ import java.util.List;
 <span class="fc" id="L134">                Mockito.eq(addresss),</span>
 <span class="fc" id="L135">                Mockito.any(java.lang.reflect.Type.class)</span>
 <span class="fc" id="L136">        )).thenReturn(addressDtos);</span>
-<span class="fc" id="L137">        List&lt;AddressDto&gt; response = addressService.findAllByPhoneNo(&quot;8919&quot;);</span>
+<span class="fc"
+      id="L137">        List&lt;AddressDto&gt; response = addressService.findAllByPhoneNo(&quot;8919&quot;);</span>
 <span class="fc" id="L138">        Assertions.assertEquals(1, response.size());</span>
 <span class="fc" id="L139">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>
+</pre>
+<div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span>
+</div>
+</body>
+</html>
