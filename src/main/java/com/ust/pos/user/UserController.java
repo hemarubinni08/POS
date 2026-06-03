@@ -17,8 +17,10 @@ public class UserController {
     public static final String MESSAGE = "message";
     public static final String ROLES = "roles";
     public static final String USER_USER = "user/user";
+
     @Autowired
     public RoleService roleService;
+
     @Autowired
     private UserService userService;
 
@@ -31,21 +33,15 @@ public class UserController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String username) {
-
         UserDto response = userService.findByUserName(username);
-
         model.addAttribute("user", response);
         model.addAttribute(ROLES, roleService.findAll());
-
         return USER_USER;
     }
 
 
     @PostMapping("/update")
-    public String updatePost(Model model,
-                             @ModelAttribute UserDto userDto,
-                             @RequestParam String oldUsername) {
-
+    public String updatePost(Model model, @ModelAttribute UserDto userDto, @RequestParam String oldUsername) {
         UserDto existingUser = userService.findByUserName(oldUsername);
 
         if (existingUser == null) {
@@ -55,20 +51,16 @@ public class UserController {
         }
 
         if (!oldUsername.equalsIgnoreCase(userDto.getUsername())) {
-
-            UserDto emailCheck =
-                    userService.findByUserName(userDto.getUsername());
+            UserDto emailCheck = userService.findByUserName(userDto.getUsername());
 
             if (emailCheck != null) {
-                model.addAttribute(MESSAGE,
-                        " Email already exists. Please use a new email.");
+                model.addAttribute(MESSAGE, " Email already exists. Please use a new email.");
                 model.addAttribute("user", userDto);
                 model.addAttribute(ROLES, roleService.findAll());
                 return USER_USER;
             }
         }
-        UserDto response =
-                userService.update(oldUsername, userDto);
+        UserDto response = userService.update(oldUsername, userDto);
 
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
@@ -81,7 +73,6 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String loggedInUser = authentication.getName();

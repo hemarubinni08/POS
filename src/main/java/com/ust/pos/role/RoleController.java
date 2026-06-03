@@ -13,6 +13,7 @@ public class RoleController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/role/list";
     public static final String ROLES = "roles";
+
     @Autowired
     private RoleService roleService;
 
@@ -31,7 +32,6 @@ public class RoleController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute RoleDto userDto) {
-
         RoleDto response = roleService.save(userDto);
 
         if (!response.isSuccess()) {
@@ -52,6 +52,7 @@ public class RoleController {
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute RoleDto userDto) {
         RoleDto response = roleService.update(userDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }

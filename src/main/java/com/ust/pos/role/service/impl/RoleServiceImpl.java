@@ -31,6 +31,7 @@ public class RoleServiceImpl implements RoleService {
     public RoleDto save(RoleDto roleDto) {
         String identifier = roleDto.getIdentifier();
         Role existingRole = roleRepository.findByIdentifier(identifier);
+
         if (existingRole != null) {
             roleDto.setMessage("Role with identifier - " + identifier + " already exists");
             roleDto.setSuccess(false);
@@ -45,6 +46,7 @@ public class RoleServiceImpl implements RoleService {
     public RoleDto update(RoleDto roleDto) {
         String identifier = roleDto.getIdentifier();
         Role existingRole = roleRepository.findByIdentifier(identifier);
+
         if (existingRole == null) {
             roleDto.setMessage("Role with identifier - " + identifier + " not found");
             roleDto.setSuccess(false);
@@ -58,7 +60,6 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public void delete(String identifier) {
-
         roleRepository.deleteByIdentifier(identifier);
     }
 

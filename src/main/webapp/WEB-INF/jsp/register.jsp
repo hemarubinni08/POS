@@ -1,4 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,71 +11,140 @@
       rel="stylesheet">
 
 <style>
+
+/* Background */
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+
+    background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* Back Button */
 .back-btn {
     position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 42px;
-    height: 42px;
+    top: 18px;
+    left: 18px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: white;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 .back-btn::before {
     content: '';
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
     border-left: 3px solid #333;
     border-bottom: 3px solid #333;
     transform: rotate(45deg);
-    margin-left: 5px;
 }
 
+/* Smaller Card */
 .register-card {
-    width: 430px;
-    background: rgba(255,255,255,0.95);
-    padding: 35px 40px;
+    width: 380px;
+    max-width: 85%;
+    background: white;
+    padding: 28px 30px;
     border-radius: 16px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
 }
 
+/* Heading */
 h2 {
     text-align: center;
-    margin-bottom: 30px;
-    color: #4b6cb7;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #374151;
 }
 
+/* Form */
 .form-group {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
 }
 
 label {
     font-size: 13px;
     font-weight: 500;
-    display: block;
-    margin-bottom: 6px;
+    color: #475569;
 }
 
 input {
     width: 100%;
-    padding: 11px 14px;
+    padding: 10px 12px;
+    margin-top: 5px;
     border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 14px;
+    border: 1px solid #d1d5db;
+    font-size: 13.5px;
+    transition: 0.2s;
+}
+
+input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99,102,241,0.15);
+    outline: none;
+}
+
+/* Roles */
+#roleList {
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 8px;
+    max-height: 130px;
+    overflow-y: auto;
+    background: #f9fafb;
+}
+
+.role-item {
+    padding: 5px 3px;
+}
+
+.role-item label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.role-item input {
+    width: 14px;
+    height: 14px;
+}
+
+/* Button */
+.btn-submit {
+    margin-top: 18px;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #6366f1, #4338ca);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(99,102,241,0.25);
+}
+
+/* Errors */
+.error-msg {
+    color: red;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .error {
@@ -81,108 +153,7 @@ input {
     display: none;
 }
 
-input:invalid:not(:placeholder-shown):not(:focus) {
-    border-color: red;
-}
-input:invalid:not(:placeholder-shown):not(:focus) + .error {
-    display: block;
-}
-
-#roleList {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 8px;
-    max-height: 150px;
-    overflow-y: auto;
-}
-.role-item {
-    padding: 6px 4px;
-}
-.role-item label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-}
-.role-item input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    margin: 0;
-}
-
-.btn-submit {
-    margin: 20px auto 0;
-    display: block;
-    width: 220px;
-    padding: 13px;
-    background: linear-gradient(135deg, #4b6cb7, #182848);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-}
 </style>
-</head>
-
-<body>
-
-<div class="back-btn" onclick="history.back()"></div>
-
-<div class="register-card">
-    <h2>User Registration</h2>
-
-    <form action="register" method="post" onsubmit="return validateRoles();">
-
-        <!-- NAME -->
-        <div class="form-group">
-            <label>Name</label>
-            <input type="text" name="name" required placeholder="Enter name">
-            <span class="error">Name is required</span>
-        </div>
-
-        <!-- EMAIL -->
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" name="username" required placeholder="Enter email">
-            <span class="error">Valid email is required</span>
-        </div>
-
-        <!-- ROLES -->
-        <div class="form-group">
-            <label>Roles</label>
-            <div id="roleList">
-                <div class="role-item">
-                    <label><input type="checkbox" name="roles" value="Admin"> Admin</label>
-                </div>
-                <div class="role-item">
-                    <label><input type="checkbox" name="roles" value="User"> User</label>
-                </div>
-                <div class="role-item">
-                    <label><input type="checkbox" name="roles" value="Manager"> Manager</label>
-                </div>
-            </div>
-            <span class="error" id="roleError">Select at least one role</span>
-        </div>
-
-        <!-- PHONE -->
-        <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" name="phoneNo" pattern="[0-9]{10}" required placeholder="10 digit number">
-            <span class="error">Enter valid 10 digit phone number</span>
-        </div>
-
-        <!-- PASSWORD -->
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" name="password" minlength="6" required placeholder="Enter password">
-            <span class="error">Minimum 6 characters required</span>
-        </div>
-
-        <input type="submit" value="Register" class="btn-submit">
-    </form>
-</div>
 
 <script>
 function validateRoles() {
@@ -203,6 +174,84 @@ function validateRoles() {
     }
 }
 </script>
+
+</head>
+
+<body>
+
+<div class="back-btn" onclick="history.back()"></div>
+
+<div class="register-card">
+
+    <h2>User Registration</h2>
+
+    <c:if test="${not empty message}">
+        <div class="error-msg">${message}</div>
+    </c:if>
+
+    <form:form action="register"
+               method="post"
+               modelAttribute="userDto"
+               onsubmit="return validateRoles();">
+
+        <!-- Name -->
+        <div class="form-group">
+            <label>Name</label>
+            <form:input path="name" placeholder="Enter name" required="true"/>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+            <label>Email</label>
+            <form:input path="username"
+                        type="email"
+                        placeholder="Enter email"
+                        pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                        required="true"/>
+        </div>
+
+        <!-- Roles -->
+        <div class="form-group">
+            <label>Roles</label>
+            <div id="roleList">
+                <c:forEach var="role" items="${roles}">
+                    <div class="role-item">
+                        <label>
+                            <input type="checkbox"
+                                   name="roles"
+                                   value="${role.identifier}"/>
+                            ${role.identifier}
+                        </label>
+                    </div>
+                </c:forEach>
+            </div>
+            <span class="error" id="roleError">Select at least one role</span>
+        </div>
+
+        <!-- Phone -->
+        <div class="form-group">
+            <label>Phone Number</label>
+            <form:input path="phoneNo"
+                        pattern="[0-9]{10}"
+                        maxlength="10"
+                        placeholder="10 digit number"
+                        required="true"/>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            <label>Password</label>
+            <form:password path="password"
+                           minlength="6"
+                           placeholder="Enter password"
+                           required="true"/>
+        </div>
+
+        <input type="submit" value="Register" class="btn-submit"/>
+
+    </form:form>
+
+</div>
 
 </body>
 </html>

@@ -15,7 +15,7 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
             min-height: 100vh;
         }
 
@@ -39,8 +39,6 @@
             <div class="card-body">
 
                 <h3 class="text-center mb-4">Edit Role</h3>
-
-                <!-- SUCCESS / INFO MESSAGE -->
                 <c:if test="${not empty message}">
                     <div class="alert alert-info text-center">
                         ${message}
@@ -51,11 +49,7 @@
                 <form:form method="post"
                            action="${pageContext.request.contextPath}/role/update"
                            modelAttribute="role">
-
-                    <!-- Hidden ID -->
                     <form:hidden path="id"/>
-
-                    <!-- Role Name (READ ONLY) -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Role Name</label>
                         <form:input path="identifier"
