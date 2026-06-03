@@ -11,5 +11,6 @@ import java.time.LocalDate;
 public class PriceDto extends CommonDto {
     private BigDecimal mrp;
     private BigDecimal sellingPrice;
+    private BigDecimal costPrice;
     private LocalDate effectiveFrom;
 }

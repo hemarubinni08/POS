@@ -1,6 +1,7 @@
 package com.ust.pos.api.models;
 
 import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.models.service.ModelsService;
@@ -22,6 +23,11 @@ public class ModelsApiController extends BaseController {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage()
                 , paginationDto.getSortDirection(), paginationDto.getSortField());
         return modelsService.findAll(pageable);
+    }
+
+    @GetMapping("/getAllActive")
+    public List<ModelsDto> getAllActive(){
+        return modelsService.findAllActive();
     }
 
     @PostMapping("/add")

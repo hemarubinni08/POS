@@ -141,6 +141,7 @@
                 <th>Product Name</th>
                 <th>MRP</th>
                 <th>Selling Price</th>
+                <th>Cost Price</th>
                 <th>Effective From</th>
                 <th>Actions</th>
             </tr>
@@ -153,6 +154,7 @@
                     <td style="font-weight:600;">${price.identifier}</td>
                     <td>₹ ${price.mrp}</td>
                     <td>₹ ${price.sellingPrice}</td>
+                    <td>₹ ${price.costPrice}</td>
                     <td>${price.effectiveFrom}</td>
                     <td>
                         <a href="${pageContext.request.contextPath}/price/get?identifier=${price.identifier}&effectiveFrom=${price.effectiveFrom}"

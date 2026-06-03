@@ -184,6 +184,16 @@
             </div>
 
             <div class="form-group">
+                <label>Cost Price</label>
+                <input type="number"
+                       name="costPrice"
+                       step="0.01"
+                       min="0"
+                       placeholder="e.g. 64999.00"
+                       required />
+            </div>
+
+            <div class="form-group">
                 <label>Effective From</label>
                 <input type="date"
                        name="effectiveFrom"

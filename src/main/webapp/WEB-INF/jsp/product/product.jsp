@@ -120,8 +120,17 @@
             <h2>Product Configuration</h2>
 
             <div class="profile-row">
-                <span class="label">Product Name</span>
+                <span class="label">SKU Code</span>
                 <span class="value readonly">${product.identifier}</span>
+            </div>
+
+            <div class="profile-row">
+                <span class="label">Product Name</span>
+                <span class="value editable-value">${product.name}</span>
+
+                <input class="editable" type="text"
+                       name="name"
+                       value="${product.name}" />
             </div>
 
             <div class="profile-row">
@@ -167,16 +176,6 @@
                         </option>
                     </c:forEach>
                 </select>
-            </div>
-
-            <div class="profile-row">
-                <span class="label">SKU Code</span>
-                <span class="value editable-value">${product.skucode}</span>
-
-                <!-- ✅ FIXED -->
-                <input class="editable" type="text"
-                       name="skucode"
-                       value="${product.skucode}" />
             </div>
 
             <div class="profile-row">

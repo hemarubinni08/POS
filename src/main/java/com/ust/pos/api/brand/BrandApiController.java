@@ -23,6 +23,11 @@ public class BrandApiController extends BaseController {
         return brandService.findAll(pageable);
     }
 
+    @GetMapping("/getAllActive")
+    public List<BrandDto> getAllActive(){
+        return brandService.findAllActive();
+    }
+
     @PostMapping("/add")
     public BrandDto add(@RequestBody BrandDto brandDto) {
         return brandService.save(brandDto);

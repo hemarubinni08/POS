@@ -134,11 +134,11 @@
             <thead>
             <tr>
                 <th>ID</th>
+                <th>SKU Code</th>
                 <th>Product Name</th>
                 <th>Category</th>
                 <th>Brand</th>
                 <th>Model</th>
-                <th>SKU Code</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -148,16 +148,14 @@
                 <tr>
                     <td>${product.id}</td>
                     <td><strong>${product.identifier}</strong></td>
-
+                    <td><strong>${product.name}</strong></td>
                     <td>
                         <c:forEach var="c" items="${product.categories}" varStatus="s">
                             ${c}<c:if test="${!s.last}">, </c:if>
                         </c:forEach>
                     </td>
-
                     <td>${product.brand}</td>
                     <td>${product.model}</td>
-                    <td>${product.skucode}</td>
 
                     <td>
                         <a href="${pageContext.request.contextPath}/product/get?identifier=${product.identifier}"

@@ -1,6 +1,7 @@
 package com.ust.pos.product.service.impl;
 
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -37,11 +38,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findAll(Pageable pageable) {
+    public WsDto<ProductDto> findAll(Pageable pageable) {
         Page<Product> productPage = productRepository.findAll(pageable);
         Type type = new TypeToken<List<ProductDto>>() {
         }.getType();
-        return modelMapper.map(productPage.getContent(), type);
+        WsDto<ProductDto> productWsDto = new WsDto<>();
+        productWsDto.setDtoList(modelMapper.map(productPage.getContent(), type));
+        productWsDto.setTotalRecords(productPage.getTotalElements());
+        productWsDto.setTotalPages(productPage.getTotalPages());
+        productWsDto.setSizePerPage(pageable.getPageSize());
+        productWsDto.setPage(pageable.getPageNumber());
+
+        return productWsDto;
     }
 
     @Override
@@ -70,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
         }
         existing.setBrand(productDto.getBrand());
         existing.setModel(productDto.getModel());
-        existing.setSkucode(productDto.getSkucode());
+        existing.setName(productDto.getName());
         existing.setCategories(productDto.getCategories() == null ? List.of() : productDto.getCategories());
         productRepository.save(existing);
         productDto.setSuccess(true);

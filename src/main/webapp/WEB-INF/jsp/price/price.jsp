@@ -147,6 +147,14 @@
                        value="${price.sellingPrice}" />
             </div>
 
+            <!-- EDITABLE -->
+            <div class="profile-row">
+                <span class="label">Cost Price</span>
+                <span class="value">₹ ${price.costPrice}</span>
+                <input class="editable" type="number" step="0.01" name="costPrice"
+                       value="${price.costPrice}" />
+            </div>
+
             <!-- READ-ONLY -->
             <div class="profile-row">
                 <span class="label">Effective From</span>

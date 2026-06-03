@@ -134,10 +134,18 @@
         <form action="${pageContext.request.contextPath}/product/add" method="post">
 
             <div class="form-group">
-                <label>Product Name</label>
+                <label>Sku Code</label>
                 <input type="text"
                        name="identifier"
-                       placeholder="e.g. IPHONE_15"
+                       placeholder="e.g. APP_IP_01"
+                       required />
+            </div>
+
+            <div class="form-group">
+                <label>Product Name</label>
+                <input type="text"
+                       name="name"
+                       placeholder="e.g. Iphone"
                        required />
             </div>
 
@@ -155,6 +163,7 @@
             <div class="form-group">
                 <label>Brand</label>
                 <select name="brand" required>
+                <option value="">-- Select Brand --</option>
                     <c:forEach var="b" items="${brands}">
                         <option value="${b.identifier}">
                             ${b.identifier}
@@ -166,20 +175,13 @@
             <div class="form-group">
                 <label>Model</label>
                 <select name="model" required>
+                <option value="">-- Select Model --</option>
                     <c:forEach var="m" items="${models}">
                         <option value="${m.identifier}">
                             ${m.identifier}
                         </option>
                     </c:forEach>
                 </select>
-            </div>
-
-            <div class="form-group">
-                <label>SKU Code</label>
-                <input type="number"
-                       name="skucode"
-                       placeholder="e.g. 1002003001"
-                       required />
             </div>
 
             <button type="submit" class="btn-submit">

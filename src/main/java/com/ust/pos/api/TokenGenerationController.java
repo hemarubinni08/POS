@@ -2,11 +2,13 @@ package com.ust.pos.api;
 
 import com.ust.pos.config.JWTUtility;
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +18,9 @@ public class TokenGenerationController {
 
     @Autowired
     UserDetailsService userDetailsService;
+
+    @Autowired
+    UserService userService;
     @Autowired
     private AuthenticationProvider authenticationProvider;
     @Autowired
@@ -27,7 +32,9 @@ public class TokenGenerationController {
             authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
             UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
             final String token = jwtUtility.generateToken(userDetails);
-            return new UserDto(token);
+            UserDto userDto1 = userService.findByUserName(userDto.getUsername());
+            userDto1.setToken(token);
+            return userDto1;
         } catch (Exception e) {
             return new UserDto("Error");
         }
