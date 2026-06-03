@@ -33,6 +33,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto save(RoleDto roleDto) {
+
         String identifier = roleDto.getIdentifier();
         Role existingRole = roleRepository.findByIdentifier(identifier);
         if (existingRole != null) {
@@ -47,6 +48,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto update(RoleDto roleDto) {
+
         String identifier = roleDto.getIdentifier();
         Role existingRole = roleRepository.findByIdentifier(identifier);
         if (existingRole == null) {
@@ -66,6 +68,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
         Page<Role> rolePage = roleRepository.findAll(pageable);
@@ -74,6 +77,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleDto> findAllActive() {
+
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
         return modelMapper.map(roleRepository.findByStatus(true), listType);
@@ -81,6 +85,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void changeStatus(String identifier, boolean status) {
+
         Role role = roleRepository.findByIdentifier(identifier);
         role.setStatus(status);
         roleRepository.save(role);

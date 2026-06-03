@@ -106,6 +106,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public List<PriceDto> findAllActive() {
+
         Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
         return modelMapper.map(priceRepository.findByStatus(true), listType);
@@ -113,6 +114,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public void changeStatus(String identifier, boolean status) {
+
         Price price = priceRepository.findByIdentifier(identifier);
         price.setStatus(status);
         priceRepository.save(price);

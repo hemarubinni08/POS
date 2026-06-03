@@ -19,6 +19,7 @@ public class RoleController {
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
+
         model.addAttribute("roles", roleService.findAll(pageable));
         return "role/list";
     }
@@ -30,6 +31,7 @@ public class RoleController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute RoleDto roleDto) {
+
         RoleDto response = roleService.save(roleDto);
         if (!response.isSuccess()) {
             model.addAttribute("error", response.getMessage());
@@ -40,6 +42,7 @@ public class RoleController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
+
         RoleDto response = roleService.findByIdentifier(identifier);
         model.addAttribute("role", response);
         return "role/role";
@@ -47,6 +50,7 @@ public class RoleController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute RoleDto roleDto) {
+
         RoleDto response = roleService.update(roleDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -58,6 +62,7 @@ public class RoleController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
+
         roleService.delete(identifier);
         return REDIRECT_ROLE_LIST;
     }

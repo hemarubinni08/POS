@@ -27,8 +27,10 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto save(BrandDto brandDto) {
+
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
+
         if (existingBrand != null) {
             brandDto.setMessage("Brand with identifier - " + identifier + " already exists");
             brandDto.setSuccess(false);
@@ -42,8 +44,10 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto update(BrandDto brandDto) {
+
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
+
         if (existingBrand == null) {
             brandDto.setMessage("Brand with identifier - " + identifier + " not found");
             brandDto.setSuccess(false);
@@ -61,6 +65,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public List<BrandDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
         Page<Brand> brandPage = brandRepository.findAll(pageable);
@@ -74,6 +79,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public List<BrandDto> findAllActive() {
+
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
         return modelMapper.map(brandRepository.findByStatus(true), listType);
@@ -81,6 +87,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public void changeStatus(String identifier, boolean status) {
+
         Brand brand = brandRepository.findByIdentifier(identifier);
         brand.setStatus(status);
         brandRepository.save(brand);

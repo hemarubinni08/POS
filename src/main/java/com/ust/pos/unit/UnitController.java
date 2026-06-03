@@ -19,6 +19,7 @@ public class UnitController {
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
+
         model.addAttribute("units", unitService.findAll(pageable));
         return "unit/list";
     }
@@ -30,6 +31,7 @@ public class UnitController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute UnitDto unitDto) {
+
         UnitDto response = unitService.save(unitDto);
         if (!response.isSuccess()) {
             model.addAttribute("error", response.getMessage());
@@ -40,6 +42,7 @@ public class UnitController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
+
         UnitDto response = unitService.findByIdentifier(identifier);
         model.addAttribute("unit", response);
         return "unit/unit";
@@ -47,6 +50,7 @@ public class UnitController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute UnitDto unitDto) {
+
         UnitDto response = unitService.update(unitDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -58,6 +62,7 @@ public class UnitController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
+
         unitService.delete(identifier);
         return REDIRECT_UNIT_LIST;
     }

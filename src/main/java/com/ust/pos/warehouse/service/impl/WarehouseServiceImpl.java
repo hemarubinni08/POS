@@ -66,7 +66,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public void delete(String identifier) {
-
         warehouseRepository.deleteByIdentifier(identifier);
     }
 
@@ -81,6 +80,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<WarehouseDto> findAllActive() {
+
         Type listType = new TypeToken<List<WarehouseDto>>() {
         }.getType();
         return modelMapper.map(warehouseRepository.findByStatus(true), listType);
@@ -88,6 +88,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public void changeStatus(String identifier, boolean status) {
+
         Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
         warehouse.setStatus(status);
         warehouseRepository.save(warehouse);

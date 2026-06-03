@@ -24,6 +24,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressDto findByPhoneNoAndAddressType(Long phoneNo, String addressType) {
+
         Address address = addressRepository.
                 findByPhoneNoAndAddressType(phoneNo, addressType);
 
@@ -32,6 +33,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressDto save(AddressDto addressDto) {
+
         Address existingAddress = addressRepository.
                 findByPhoneNoAndAddressType(addressDto.getPhoneNo(),
                         addressDto.getAddressType());
@@ -49,6 +51,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressDto update(AddressDto addressDto) {
+
         Address existingAddress = addressRepository.
                 findByPhoneNoAndAddressType(addressDto.getPhoneNo(),
                         addressDto.getAddressType());
@@ -67,6 +70,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public List<AddressDto> findAll() {
+
         Type listType = new TypeToken<List<AddressDto>>() {
         }.getType();
         return modelMapper.map(addressRepository.findAll(), listType);
@@ -77,7 +81,6 @@ public class AddressServiceImpl implements AddressService {
     public void deleteByPhone(Long phoneNo) {
         addressRepository.deleteByPhoneNo(phoneNo);
     }
-
 }
 
 

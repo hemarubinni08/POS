@@ -48,6 +48,7 @@ public class NodeServiceImpl implements NodeService {
     }
 
     private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
+
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesStr = new HashSet<>();
         List<Node> nodes = nodeRepository.findAll();
@@ -114,6 +115,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public List<NodeDto> findAllActive() {
+
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
         return modelMapper.map(nodeRepository.findByStatus(true), listType);
@@ -121,6 +123,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public void changeStatus(String identifier, boolean status) {
+
         Node node = nodeRepository.findByIdentifier(identifier);
         node.setStatus(status);
         nodeRepository.save(node);

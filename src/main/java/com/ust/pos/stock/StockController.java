@@ -29,6 +29,7 @@ public class StockController {
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
+
         model.addAttribute("stocks", stockService.findAll(pageable));
         return "stock/list";
     }
@@ -43,7 +44,9 @@ public class StockController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute StockDto stockDto) {
+
         StockDto response = stockService.save(stockDto);
+
         if (!response.isSuccess()) {
             model.addAttribute(PRODUCTS, productService.findAllActive());
             model.addAttribute(WAREHOUSES, warehouseService.findAllActive());
@@ -65,6 +68,7 @@ public class StockController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute StockDto stockDto) {
+
         StockDto response = stockService.update(stockDto);
 
         if (!response.isSuccess()) {
@@ -79,6 +83,7 @@ public class StockController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
+
         stockService.delete(identifier);
         return REDIRECT_STOCK_LIST;
     }

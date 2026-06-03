@@ -121,6 +121,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDto> findAllActive() {
+
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
         return modelMapper.map(customerRepository.findByStatus(true), listType);
@@ -128,6 +129,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void changeStatus(String identifier, boolean status) {
+
         Customer customer = customerRepository.findByIdentifier(identifier);
         customer.setStatus(status);
         customerRepository.save(customer);

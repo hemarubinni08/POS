@@ -19,6 +19,7 @@ public class ShelfController {
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
+
         model.addAttribute("shelves", shelfService.findAll(pageable));
         return "shelf/list";
     }
@@ -30,6 +31,7 @@ public class ShelfController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute ShelfDto userDto) {
+
         ShelfDto response = shelfService.save(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("error", response.getMessage());
@@ -40,6 +42,7 @@ public class ShelfController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
+
         ShelfDto response = shelfService.findByIdentifier(identifier);
         model.addAttribute("shelf", response);
         return "shelf/shelf";
@@ -47,6 +50,7 @@ public class ShelfController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute ShelfDto shelfDto) {
+
         ShelfDto response = shelfService.update(shelfDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -58,6 +62,7 @@ public class ShelfController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
+
         shelfService.delete(identifier);
         return REDIRECT_SHELF_LIST;
     }

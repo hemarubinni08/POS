@@ -80,6 +80,7 @@ public class RackServiceImpl implements RackService {
 
     @Override
     public List<RackDto> findAllActive() {
+
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
         return modelMapper.map(rackRepository.findByStatus(true), listType);
@@ -87,6 +88,7 @@ public class RackServiceImpl implements RackService {
 
     @Override
     public void changeStatus(String identifier, boolean status) {
+
         Rack rack = rackRepository.findByIdentifier(identifier);
         rack.setStatus(status);
         rackRepository.save(rack);

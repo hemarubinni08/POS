@@ -27,6 +27,7 @@ public class CustomerController {
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
+
         model.addAttribute("customer", customerService.findAll(pageable));
         return "customer/list";
     }
@@ -41,6 +42,7 @@ public class CustomerController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute CustomerDto customerDto) {
+
         CustomerDto response = customerService.save(customerDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -62,6 +64,7 @@ public class CustomerController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute CustomerDto customerDto) {
+
         CustomerDto response = customerService.update(customerDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -72,6 +75,7 @@ public class CustomerController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier, Long phoneNo) {
+
         customerService.delete(identifier, phoneNo);
         return REDIRECT_CUSTOMER_LIST;
     }

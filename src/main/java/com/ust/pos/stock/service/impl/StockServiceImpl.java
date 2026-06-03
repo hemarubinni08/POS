@@ -85,6 +85,7 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public List<StockDto> findAllActive() {
+
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
         return modelMapper.map(stockRepository.findByStatus(true), listType);
@@ -92,6 +93,7 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public void changeStatus(String identifier, boolean status) {
+
         Stock stock = stockRepository.findByIdentifier(identifier);
         stock.setStatus(status);
         stockRepository.save(stock);

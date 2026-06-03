@@ -63,6 +63,7 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public List<ModelDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<ModelDto>>() {
         }.getType();
         Page<Model> modelPage = modelRepository.findAll(pageable);
@@ -76,6 +77,7 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public List<ModelDto> findAllActive() {
+
         Type listType = new TypeToken<List<ModelDto>>() {
         }.getType();
         return modelMapper.map(modelRepository.findByStatus(true), listType);
@@ -83,6 +85,7 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void changeStatus(String identifier, boolean status) {
+
         Model model = modelRepository.findByIdentifier(identifier);
         model.setStatus(status);
         modelRepository.save(model);

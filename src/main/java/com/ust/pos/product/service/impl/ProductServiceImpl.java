@@ -27,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto findByIdentifier(String identifier) {
+
         return modelMapper.map(
                 productRepository.findByIdentifier(identifier),
                 ProductDto.class
@@ -84,6 +85,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAllActive() {
+
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         return modelMapper.map(productRepository.findByStatus(true), listType);
@@ -91,6 +93,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void changeStatus(String identifier, boolean status) {
+
         Product product = productRepository.findByIdentifier(identifier);
         product.setStatus(status);
         productRepository.save(product);

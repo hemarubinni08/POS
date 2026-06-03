@@ -27,6 +27,7 @@ public class SecurityController {
 
     @GetMapping("/register")
     public String add(Model model, @ModelAttribute UserDto userDto, Pageable pageable) {
+
         model.addAttribute("userDto", userDto);
         model.addAttribute("roles", roleService.findAll(pageable));
         return "register";
@@ -34,6 +35,7 @@ public class SecurityController {
 
     @PostMapping("/register")
     public String addPost(Model model, @ModelAttribute UserDto userDto, Pageable pageable) {
+
         UserDto response = userService.save(userDto);
 
         if (!response.isSuccess()) {
