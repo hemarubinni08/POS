@@ -17,6 +17,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private RoleService roleService;
 
@@ -45,13 +46,11 @@ public class UserController {
                 model.addAttribute("message", response.getMessage());
                 return "user/user";
             }
-            //  logout if current user updated themselves
             if (loggedInUser.equals(userDto.getOldUsername())) {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";
             }
         }
-
         return "redirect:/user/list";
     }
 

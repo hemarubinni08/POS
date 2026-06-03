@@ -15,5 +15,4 @@ public class User extends CommonFields {
     private String phoneNo;
     private List<String> roles;
     private String password;
-    private String oldUsername;
 }

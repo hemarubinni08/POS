@@ -73,25 +73,25 @@
             background-color: #c0392b;
         }
 
-.btn-home {
-    background-color: #4e73df;
-    border: none;
-    font-size: 15px;
-    padding: 9px 20px;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #ffffff;
-}
+        .btn-home {
+            background-color: #4e73df;
+            border: none;
+            font-size: 15px;
+            padding: 9px 20px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+        }
 
-.btn-home i {
-    color: #ffffff;
-}
+        .btn-home i {
+            color: #ffffff;
+        }
 
-.btn-home:hover {
-    background-color: #2e59d9;
-}
+        .btn-home:hover {
+            background-color: #2e59d9;
+        }
 
         .alert-warning {
             background-color: #fff3cd;
@@ -106,13 +106,10 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="container mt-4">
     <div class="card shadow-lg">
         <div class="card-body">
-
             <h3 class="text-center mb-4">User Management</h3>
             <div class="mb-3 text-start">
                 <a href="/" class="btn btn-home btn-sm">
@@ -120,13 +117,11 @@
                     Home
                 </a>
             </div>
-
             <c:if test="${empty users}">
                 <div class="alert alert-warning text-center">
                     No users found
                 </div>
             </c:if>
-
             <c:if test="${not empty users}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
@@ -151,7 +146,6 @@
                                        href="/user/get?username=${user.username}">
                                         Update
                                     </a>
-
                                     <a class="btn btn-danger btn-sm"
                                        href="/user/delete?username=${user.username}"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
@@ -164,17 +158,13 @@
                     </table>
                 </div>
             </c:if>
-
         </div>
-
         <div class="card-footer text-center">
             <div class="text-muted small">
                 User Management System
             </div>
         </div>
-
     </div>
 </div>
-
 </body>
 </html>

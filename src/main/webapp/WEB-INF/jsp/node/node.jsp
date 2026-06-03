@@ -139,7 +139,13 @@
         <div class="form-group">
             <label>Path</label>
             <input type="text" class="form-control"
-                   name="path" value="${node.path}" required>
+                   name = "path"
+                    value="${node.path}"
+                   placeholder="Enter node path"
+                        required
+                        pattern="^\/?[A-Za-z0-9\/]*$"
+                        title="Only letters, numbers and / are allowed"
+                        oninput="this.value = this.value.replace(/[^A-Za-z0-9/]/g, '')">
         </div>
         <div class="form-group">
             <label>Primary Roles</label>

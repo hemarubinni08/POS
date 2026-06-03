@@ -49,22 +49,20 @@
                         <label class="form-label fw-semibold">Description</label>
                         <form:input path="description"
                                     cssClass="form-control"
-                                    placeholder="Enter role description"/>
+                                    placeholder="Enter role description"
+                                    required="required"/>
                     </div>
-
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
                             Add Role
                         </button>
                     </div>
-
                     <div class="d-grid mt-3">
                         <a href="/role/list" class="btn btn-outline-primary">
                             ← Back to Role List
                         </a>
                     </div>
                 </form:form>
-
             </div>
             <div class="card-footer text-center text-muted small">
                 POS Management System
