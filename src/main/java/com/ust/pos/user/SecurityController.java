@@ -20,7 +20,7 @@ public class SecurityController {
     private RoleService roleService;
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login() {
         return "login";
     }
 
