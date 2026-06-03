@@ -33,7 +33,7 @@ public class NodeControllerApi extends BaseController {
     public WsDto<NodeDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),paginationDto.getSortField());
-        Page<NodeDto> pageResult = nodeService.findAll(pageable);
+        Page<NodeDto> pageResult = nodeService.findAll(pageable, paginationDto.getSearch());
         WsDto<NodeDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());
         response.setPage(pageResult.getNumber());

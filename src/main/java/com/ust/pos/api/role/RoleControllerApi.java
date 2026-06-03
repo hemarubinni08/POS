@@ -33,7 +33,7 @@ public class RoleControllerApi extends BaseController {
     public WsDto<RoleDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),paginationDto.getSortField());
-        Page<RoleDto> pageResult = roleService.findAll(pageable);
+        Page<RoleDto> pageResult = roleService.findAll(pageable, paginationDto.getSearch());
         WsDto<RoleDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());
         response.setPage(pageResult.getNumber());

@@ -26,7 +26,7 @@ public class UserControllerApi extends BaseController {
     public WsDto<UserDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),paginationDto.getSortField());
-        Page<UserDto> pageResult = userService.findAll(pageable);
+        Page<UserDto> pageResult = userService.findAll(pageable, paginationDto.getSearch());
         WsDto<UserDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());
         response.setPage(pageResult.getNumber());

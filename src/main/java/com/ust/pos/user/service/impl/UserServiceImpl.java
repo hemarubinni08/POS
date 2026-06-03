@@ -89,9 +89,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserDto> findAll(Pageable pageable) {
-        Page<User> userPage = userRepository.findAll(pageable);
-        return userPage.map(user -> modelMapper.map(user, UserDto.class)
-        );
+    public Page<UserDto> findAll(Pageable pageable, String search) {
+        Page<User> users;
+        if (search != null && !search.trim().isEmpty()) {
+            users = userRepository.findByUsernameContainingIgnoreCase(search, pageable);
+        } else {
+            users = userRepository.findAll(pageable);
+        }
+        return users.map(user -> modelMapper.map(user, UserDto.class));
     }
 }

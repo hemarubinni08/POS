@@ -82,8 +82,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Page<CategoryDto> findAll(Pageable pageable) {
-        Page<Category> categoryPage = categoryRepository.findAll(pageable);
-        return categoryPage.map(category -> modelMapper.map(category, CategoryDto.class));
+    public Page<CategoryDto> findAll(Pageable pageable, String search) {
+        Page<Category> categories;
+        if (search != null && !search.trim().isEmpty()) {
+            categories = categoryRepository.findByIdentifierContainingIgnoreCase(search, pageable);
+        } else {
+            categories = categoryRepository.findAll(pageable);
+        }
+        return categories.map(category -> modelMapper.map(category, CategoryDto.class));
     }
 }

@@ -38,7 +38,7 @@ public class CategoryControllerApi extends BaseController {
     public WsDto<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),paginationDto.getSortField());
-        Page<CategoryDto> pageResult = categoryService.findAll(pageable);
+        Page<CategoryDto> pageResult = categoryService.findAll(pageable, paginationDto.getSearch());
         WsDto<CategoryDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());
         response.setPage(pageResult.getNumber());
