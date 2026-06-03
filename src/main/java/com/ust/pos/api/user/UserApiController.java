@@ -3,6 +3,7 @@ package com.ust.pos.api.user;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,24 @@ public class UserApiController extends BaseController {
     private RoleService roleService;
 
     @PostMapping("/list")
-    public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<UserDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return userService.findAll(pageable);
+    }
+    @PostMapping("/listuser")
+    public UserDto list(@RequestParam String username)
+    {
+        return userService.findByUserName(username);
     }
 
     @GetMapping("/get")
     public UserDto update(@RequestParam String username, @ModelAttribute UserDto userDto) {
+        return userService.findByUserName(username);
+    }
+
+    @GetMapping("/getcurrentuser")
+    public UserDto update(@RequestParam String username)
+    {
         return userService.findByUserName(username);
     }
 

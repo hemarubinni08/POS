@@ -8,8 +8,6 @@ import org.springframework.data.domain.Sort;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@ToString
 
 public class PaginationDto {
     private int page;

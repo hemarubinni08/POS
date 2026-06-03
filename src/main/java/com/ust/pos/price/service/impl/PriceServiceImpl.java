@@ -1,6 +1,7 @@
 package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
@@ -34,7 +35,7 @@ public class PriceServiceImpl implements PriceService {
             priceDto.setSuccess(false);
             return priceDto;
         }
-        priceDto.setDifference(priceDto.getSellingPrice() - priceDto.getCostPrice());
+        priceDto.setDifference(priceDto.getSellingPrice().subtract(priceDto.getCostPrice()));
         Price price = modelMapper.map(priceDto, Price.class);
         priceRepository.save(price);
         return priceDto;
@@ -50,9 +51,9 @@ public class PriceServiceImpl implements PriceService {
             priceDto.setSuccess(false);
             return priceDto;
         }
-        priceDto.setDifference(priceDto.getSellingPrice() - priceDto.getCostPrice());
-        Price price = modelMapper.map(priceDto, Price.class);
-        priceRepository.save(price);
+        existingPrice.setDifference(priceDto.getSellingPrice().subtract(priceDto.getCostPrice()));
+        modelMapper.map(priceDto, existingPrice);
+        priceRepository.save(existingPrice);
         return priceDto;
     }
 
@@ -68,11 +69,19 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public List<PriceDto> findAll(Pageable pageable)
+    public WsDto<PriceDto> findAll(Pageable pageable)
     {
         Type listtype = new TypeToken<List<PriceDto>>(){}.getType();
         Page<Price> pricePage = priceRepository.findAll(pageable);
-        return modelMapper.map(pricePage.getContent(), listtype);
+
+        WsDto<PriceDto> priceDtoWsDto = new WsDto<>();
+        priceDtoWsDto.setDtoList(modelMapper.map(pricePage.getContent(), listtype));
+        priceDtoWsDto.setTotalRecords(pricePage.getTotalElements());
+        priceDtoWsDto.setTotalPage(pricePage.getTotalPages());
+        priceDtoWsDto.setSizePerPage(pageable.getPageSize());
+        priceDtoWsDto.setPage(pageable.getPageNumber());
+
+        return priceDtoWsDto;
     }
 
     @Override

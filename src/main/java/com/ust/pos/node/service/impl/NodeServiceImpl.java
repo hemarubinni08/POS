@@ -1,6 +1,7 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
 import org.modelmapper.ModelMapper;
@@ -99,11 +100,19 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public List<NodeDto> findAll(Pageable pageable)
+    public WsDto<NodeDto> findAll(Pageable pageable)
     {
         Type listtype = new TypeToken<List<NodeDto>>(){}.getType();
         Page<Node> nodePage = nodeRepository.findAll(pageable);
-        return modelMapper.map(nodePage.getContent(), listtype);
+
+        WsDto<NodeDto> nodeDtoWsDto = new WsDto<>();
+        nodeDtoWsDto.setDtoList(modelMapper.map(nodePage.getContent(), listtype));
+        nodeDtoWsDto.setTotalRecords(nodePage.getTotalElements());
+        nodeDtoWsDto.setTotalPage(nodePage.getTotalPages());
+        nodeDtoWsDto.setSizePerPage(pageable.getPageSize());
+        nodeDtoWsDto.setPage(pageable.getPageNumber());
+
+        return nodeDtoWsDto;
     }
 
     @Override

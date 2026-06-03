@@ -3,6 +3,7 @@ package com.ust.pos.api.product;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class ProductApiController extends BaseController {
     private WarehouseService warehouseService;
 
     @PostMapping("/list")
-    public List<ProductDto> home(@RequestBody PaginationDto paginationDto)
+    public WsDto<ProductDto> home(@RequestBody PaginationDto paginationDto)
     {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return productService.findAll(pageable);
@@ -45,9 +46,10 @@ public class ProductApiController extends BaseController {
         return productService.update(productDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier)
+    @PostMapping("/delete")
+    public Boolean delete(@RequestBody ProductDto productDto)
     {
+        String identifier = productDto.getIdentifier();
         try {
             productService.delete(identifier);
         } catch (Exception e) {
