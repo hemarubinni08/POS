@@ -3,6 +3,7 @@ package com.ust.pos.api.modelproduct;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.ModelProductDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modelproduct.service.ModelProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,7 @@ public class ModelProductApiController extends BaseController {
     private ModelProductService modelProductService;
 
     @PostMapping("/list")
-    public List<ModelProductDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<ModelProductDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return modelProductService.findAll(pageable);
 
