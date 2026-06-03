@@ -1,5 +1,6 @@
 package com.ust.pos.role.service.impl;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
@@ -88,14 +89,23 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<RoleDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
         if (pageable == null) {
             return modelMapper.map(roleRepository.findAll(), listType);
         }
         Page<Role> rolePage = roleRepository.findAll(pageable);
-        return modelMapper.map(rolePage.getContent(), listType);
+        List<RoleDto> roleDtoList = modelMapper.map(rolePage.getContent(), listType);
+
+        PaginationResponseDto<RoleDto> paginationResponseDto = new PaginationResponseDto<>();
+        paginationResponseDto.setDtoList(roleDtoList);
+        paginationResponseDto.setPage(rolePage.getNumber());
+        paginationResponseDto.setSizePerPage(rolePage.getSize());
+        paginationResponseDto.setTotalPages(rolePage.getTotalPages());
+        paginationResponseDto.setTotalRecords(rolePage.getTotalElements());
+
+        return paginationResponseDto;
     }
 
     @Override

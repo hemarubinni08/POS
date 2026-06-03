@@ -1,5 +1,6 @@
 package com.ust.pos.product.service.impl;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
@@ -26,14 +27,23 @@ public class ProductServiceImpl implements ProductService {
     private ModelMapper modelMapper;
 
     @Override
-    public List<ProductDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<ProductDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         if (pageable == null) {
             return modelMapper.map(productRepository.findAll(), listType);
         }
         Page<Product> productPage = productRepository.findAll(pageable);
-        return modelMapper.map(productPage.getContent(), listType);
+        List<ProductDto> productDtoList = modelMapper.map(productPage.getContent(), listType);
+
+        PaginationResponseDto<ProductDto> paginationResponseDto = new PaginationResponseDto<>();
+        paginationResponseDto.setDtoList(productDtoList);
+        paginationResponseDto.setPage(productPage.getNumber());
+        paginationResponseDto.setSizePerPage(productPage.getSize());
+        paginationResponseDto.setTotalPages(productPage.getTotalPages());
+        paginationResponseDto.setTotalRecords(productPage.getTotalElements());
+
+        return paginationResponseDto;
     }
 
     @Override

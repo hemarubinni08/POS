@@ -2,6 +2,7 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import io.micrometer.common.util.StringUtils;
@@ -28,14 +29,23 @@ public class CategoryServiceImpl implements CategoryService {
 
     // method to retrieve all category records from the database
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<CategoryDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         if (pageable == null) {
             return modelMapper.map(categoryRepository.findAll(), listType);
         }
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
-        return modelMapper.map(categoryPage.getContent(), listType);
+        List<CategoryDto> categoryDtoList = modelMapper.map(categoryPage.getContent(), listType);
+
+        PaginationResponseDto<CategoryDto> paginationResponseDto = new PaginationResponseDto<>();
+        paginationResponseDto.setDtoList(categoryDtoList);
+        paginationResponseDto.setPage(categoryPage.getNumber());
+        paginationResponseDto.setSizePerPage(categoryPage.getSize());
+        paginationResponseDto.setTotalPages(categoryPage.getTotalPages());
+        paginationResponseDto.setTotalRecords(categoryPage.getTotalElements());
+
+        return paginationResponseDto;
     }
 
     @Override

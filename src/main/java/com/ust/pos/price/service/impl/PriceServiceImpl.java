@@ -1,19 +1,20 @@
 package com.ust.pos.price.service.impl;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
-import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.price.service.PriceService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,31 +32,23 @@ public class PriceServiceImpl implements PriceService {
 
     // Method to list all the records from the table
     @Override
-    public List<PriceDto> findAll(Pageable pageable) {
-
-        List<Price> priceList;
-
+    public PaginationResponseDto<PriceDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<PriceDto>>() {
+        }.getType();
         if (pageable == null) {
-            priceList = priceRepository.findAll();
-        } else {
-            Page<Price> pricePage = priceRepository.findAll(pageable);
-            priceList = pricePage.getContent();
+            return modelMapper.map(priceRepository.findAll(), listType);
         }
+        Page<Price> pricePage = priceRepository.findAll(pageable);
+        List<PriceDto> priceDtoList = modelMapper.map(pricePage.getContent(), listType);
 
-        List<PriceDto> priceDtoList = new ArrayList<>();
+        PaginationResponseDto<PriceDto> paginationResponseDto = new PaginationResponseDto<>();
+        paginationResponseDto.setDtoList(priceDtoList);
+        paginationResponseDto.setPage(pricePage.getNumber());
+        paginationResponseDto.setSizePerPage(pricePage.getSize());
+        paginationResponseDto.setTotalPages(pricePage.getTotalPages());
+        paginationResponseDto.setTotalRecords(pricePage.getTotalElements());
 
-        for (Price price : priceList) {
-            PriceDto priceDto = modelMapper.map(price, PriceDto.class);
-
-            if (productRepository.existsByIdentifier(price.getProduct())) {
-                Product product = productRepository.findByIdentifier(price.getProduct());
-                priceDto.setProduct(product.getName());
-            }
-
-            priceDtoList.add(priceDto);
-        }
-
-        return priceDtoList;
+        return paginationResponseDto;
     }
 
     // Method to store the price details to the db
@@ -98,6 +91,17 @@ public class PriceServiceImpl implements PriceService {
         return modelMapper.map(price, PriceDto.class);
     }
 
+    @Override
+    public PriceDto findByIdentifier(String identifier) {
+        Price price = priceRepository.findByIdentifier(identifier);
+
+        if (price == null) {
+            return null;
+        }
+        return modelMapper.map(price, PriceDto.class);
+
+    }
+
     @Transactional
     @Override
     public PriceDto update(PriceDto priceDto) {
@@ -118,7 +122,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Transactional
     @Override
-    public void delete(long id) {
-        priceRepository.deleteById(id);
+    public void delete(String identifier) {
+        priceRepository.deleteByIdentifier(identifier);
     }
 }

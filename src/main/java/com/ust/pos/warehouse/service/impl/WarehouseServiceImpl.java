@@ -1,6 +1,7 @@
 package com.ust.pos.warehouse.service.impl;
 
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
@@ -26,14 +27,23 @@ public class WarehouseServiceImpl implements WarehouseService {
     private ModelMapper modelMapper;
 
     @Override
-    public List<WarehouseDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<WarehouseDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<WarehouseDto>>() {
         }.getType();
         if (pageable == null) {
             return modelMapper.map(warehouseRepository.findAll(), listType);
         }
         Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
-        return modelMapper.map(warehousePage.getContent(), listType);
+        List<WarehouseDto> warehouseDtoList = modelMapper.map(warehousePage.getContent(), listType);
+
+        PaginationResponseDto<WarehouseDto> paginationResponseDto = new PaginationResponseDto<>();
+        paginationResponseDto.setDtoList(warehouseDtoList);
+        paginationResponseDto.setPage(warehousePage.getNumber());
+        paginationResponseDto.setSizePerPage(warehousePage.getSize());
+        paginationResponseDto.setTotalPages(warehousePage.getTotalPages());
+        paginationResponseDto.setTotalRecords(warehousePage.getTotalElements());
+
+        return paginationResponseDto;
     }
 
     @Override

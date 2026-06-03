@@ -71,8 +71,8 @@ public class PriceController extends BaseController {
     }
 
     @GetMapping("/delete")
-    public String delete(RedirectAttributes redirectAttributes, @RequestParam long id) {
-        priceService.delete(id);
+    public String delete(RedirectAttributes redirectAttributes, @RequestParam String identifier) {
+        priceService.delete(identifier);
         redirectAttributes.addFlashAttribute(MESSAGE, "Delete success");
 
         return REDIRECT_PRICE_LIST;
