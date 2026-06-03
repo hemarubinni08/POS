@@ -13,9 +13,9 @@ import org.springframework.data.domain.Sort;
 
 public class PaginationDto {
     private int page;
-    private int sizePerPage=50;
-    private String sortDirection= Sort.Direction.DESC.toString();
-    private String sortfield="identifier";
+    private int sizePerPage = 50;
+    private String sortDirection = Sort.Direction.DESC.toString();
+    private String sortfield = "identifier";
     private int totalPages;
     private long totalRecords;
 }

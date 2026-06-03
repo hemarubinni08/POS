@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/warehouse")
 public class WarehouseController {
 
-    private static final String REDIRECT = "redirect:/warehouse/list";
     public static final String WAREHOUSE_DTO = "warehouseDto";
     public static final String MESSAGE = "message";
-
+    private static final String REDIRECT = "redirect:/warehouse/list";
     @Autowired
     private WarehouseService warehouseService;
 
@@ -43,7 +42,7 @@ public class WarehouseController {
     }
 
     @GetMapping("/get")
-    public String edit(@RequestParam String identifier, Model model,Pageable pageable) {
+    public String edit(@RequestParam String identifier, Model model, Pageable pageable) {
         WarehouseDto response = warehouseService.findByIdentifier(identifier);
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());

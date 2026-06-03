@@ -29,14 +29,14 @@ public class NodeController {
     }
 
     @GetMapping("/add")
-    public String addPage(Model model,Pageable pageable) {
+    public String addPage(Model model, Pageable pageable) {
         model.addAttribute("nodeDto", new NodeDto());
         model.addAttribute(ROLES, roleService.findAll(pageable));
         return "node/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model,@ModelAttribute NodeDto nodeDto,Pageable pageable) {
+    public String addPost(Model model, @ModelAttribute NodeDto nodeDto, Pageable pageable) {
         NodeDto response = nodeService.save(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute(ROLES, roleService.findAll(pageable));
@@ -55,7 +55,7 @@ public class NodeController {
     }
 
     @PostMapping("/update")
-    public String update(Model model, @ModelAttribute NodeDto nodeDto,Pageable pageable) {
+    public String update(Model model, @ModelAttribute NodeDto nodeDto, Pageable pageable) {
         NodeDto response = nodeService.update(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute(ROLES, roleService.findAll(pageable));

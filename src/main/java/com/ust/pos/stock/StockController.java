@@ -14,12 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/stock")
 public class StockController {
 
-    private static final String REDIRECT = "redirect:/stock/list";
     public static final String STOCK_DTO = "stockDto";
     public static final String MESSAGE = "message";
     public static final String WAREHOUSE = "warehouse";
     public static final String PRODUCT = "product";
-
+    private static final String REDIRECT = "redirect:/stock/list";
     @Autowired
     private StockService stockService;
 

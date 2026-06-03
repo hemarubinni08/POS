@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/unit")
 public class UnitController {
 
-    private static final String REDIRECT_LIST = "redirect:/unit/list";
     public static final String UNIT_DTO = "unitDto";
     public static final String MESSAGE = "message";
-
+    private static final String REDIRECT_LIST = "redirect:/unit/list";
     @Autowired
     private UnitService unitService;
 

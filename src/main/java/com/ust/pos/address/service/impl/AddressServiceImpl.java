@@ -32,7 +32,7 @@ public class AddressServiceImpl implements AddressService {
         }
 
         Address existing = addressRepository.findTopByPhoneNoAndAddressTypeOrderByIdDesc(
-                        addressDto.getPhoneNo(),addressDto.getAddressType());
+                addressDto.getPhoneNo(), addressDto.getAddressType());
         if (existing != null) {
             existing.setAddressLine(addressDto.getAddressLine());
             existing.setCity(addressDto.getCity());

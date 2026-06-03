@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/models")
 public class ModelsController {
 
-    private static final String REDIRECT_LIST = "redirect:/models/list";
     public static final String MESSAGE = "message";
-
+    private static final String REDIRECT_LIST = "redirect:/models/list";
     @Autowired
     private ModelsService modelsService;
 

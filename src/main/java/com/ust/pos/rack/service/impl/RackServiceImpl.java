@@ -60,7 +60,7 @@ public class RackServiceImpl implements RackService {
             return dto;
         }
         Rack rack = rackRepository.findByIdentifier(rackDto.getIdentifier());
-        if(rack == null) {
+        if (rack == null) {
             RackDto dto = new RackDto();
             dto.setSuccess(false);
             dto.setMessage(RACK_NOT_FOUND);
@@ -98,8 +98,9 @@ public class RackServiceImpl implements RackService {
 
     @Override
     public List<RackDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<RackDto>>() {}.getType();
-        Page<Rack> rackPage =rackRepository.findAll(pageable);
+        Type listType = new TypeToken<List<RackDto>>() {
+        }.getType();
+        Page<Rack> rackPage = rackRepository.findAll(pageable);
         return modelMapper.map(rackPage.getContent(), listType);
     }
 

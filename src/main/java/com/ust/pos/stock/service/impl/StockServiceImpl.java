@@ -19,13 +19,11 @@ import java.util.List;
 @Transactional
 public class StockServiceImpl implements StockService {
 
+    public static final String STOCK_NOT_FOUND = "Stock not found";
     @Autowired
     private StockRepository stockRepository;
-
     @Autowired
     private ModelMapper modelMapper;
-
-    public static final String STOCK_NOT_FOUND = "Stock not found";
 
     private String calculateState(Stock stock) {
         if (Boolean.FALSE.equals(stock.getStatus())) {

@@ -15,7 +15,7 @@ public interface CustomerService {
 
     void delete(String identifier);
 
-     List<CustomerDto> findAll(Pageable pageable);
+    List<CustomerDto> findAll(Pageable pageable);
 
     List<CustomerDto> findActive();
 

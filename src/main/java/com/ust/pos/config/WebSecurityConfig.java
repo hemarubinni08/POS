@@ -28,22 +28,22 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
-//@Configuration
-//@EnableWebSecurity
-//@EnableMethodSecurity
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 
 public class WebSecurityConfig {
 
     public static final String JAVA_IN_USE_SECURITY_SCHEME = "JavaInUseSecurityScheme";
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http,JwtFilter jwtFilter){
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) {
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/login", "/register", "/api/authenticate", "/api/validateToken","/swagger-ui/**","/v3/**").permitAll()
+                        .requestMatchers("/login", "/register", "/api/authenticate", "/api/validateToken", "/swagger-ui/**", "/v3/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(LogoutConfigurer::permitAll);
@@ -52,7 +52,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config){
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
         return config.getAuthenticationManager();
     }
 
@@ -78,7 +78,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider userDetailsAuthProvider(BCryptPasswordEncoder bCryptPasswordEncoder,UserDetailsService userDetailsService) {
+    public AuthenticationProvider userDetailsAuthProvider(BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailsService) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
         return authenticationProvider;

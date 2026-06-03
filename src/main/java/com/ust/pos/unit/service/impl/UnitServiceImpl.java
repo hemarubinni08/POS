@@ -81,7 +81,7 @@ public class UnitServiceImpl implements UnitService {
     public List<UnitDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
-        Page<Unit> unitPage =unitRepository.findAll(pageable);
+        Page<Unit> unitPage = unitRepository.findAll(pageable);
         return modelMapper.map(unitPage.getContent(), listType);
     }
 

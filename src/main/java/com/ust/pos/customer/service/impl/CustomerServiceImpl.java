@@ -33,7 +33,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<CustomerDto>>() {}.getType();
+        Type listType = new TypeToken<List<CustomerDto>>() {
+        }.getType();
         Page<Customer> page = customerRepository.findAll(pageable);
         return modelMapper.map(page.getContent(), listType);
     }
@@ -45,12 +46,10 @@ public class CustomerServiceImpl implements CustomerService {
             return null;
         }
         CustomerDto dto = modelMapper.map(customer, CustomerDto.class);
-        dto.setBillingAddress(
-                addressService.findByPhoneNoAndAddressType(customer.getPhoneNo(), "billing")
-        );
-        dto.setShippingAddress(
-                addressService.findByPhoneNoAndAddressType(customer.getPhoneNo(), "shipping")
-        );
+        dto.setBillingAddress(addressService.
+                findByPhoneNoAndAddressType(customer.getPhoneNo(), "billing"));
+        dto.setShippingAddress(addressService.
+                findByPhoneNoAndAddressType(customer.getPhoneNo(), "shipping"));
         return dto;
     }
 

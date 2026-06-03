@@ -14,10 +14,9 @@ import java.util.List;
 @RequestMapping("/shelf")
 public class ShelfController {
 
-    private static final String REDIRECT_LIST = "redirect:/shelf/list";
     public static final String MESSAGE = "message";
     public static final String SHELF_DTO = "shelfDto";
-
+    private static final String REDIRECT_LIST = "redirect:/shelf/list";
     @Autowired
     private ShelfService shelfService;
 

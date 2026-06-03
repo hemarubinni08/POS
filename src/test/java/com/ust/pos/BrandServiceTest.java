@@ -10,15 +10,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.quality.Strictness;
 import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -60,14 +64,15 @@ class BrandServiceTest {
         when(brandRepository.findByIdentifier("Nike")).thenReturn(existing);
         when(brandRepository.save(any(Brand.class))).thenReturn(existing);
         when(modelMapper.map(any(), any())).thenAnswer(invocation -> {
-                    Object src = invocation.getArgument(0);
-                    if (src instanceof Brand) {
-                        BrandDto res = new BrandDto();
-                        res.setSuccess(true);
-                        res.setMessage("Brand updated successfully");
-                        return res;
-                    }
-                    return existing;});
+            Object src = invocation.getArgument(0);
+            if (src instanceof Brand) {
+                BrandDto res = new BrandDto();
+                res.setSuccess(true);
+                res.setMessage("Brand updated successfully");
+                return res;
+            }
+            return existing;
+        });
         BrandDto response = brandService.update(dto);
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Brand updated successfully", response.getMessage());

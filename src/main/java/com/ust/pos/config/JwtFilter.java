@@ -30,39 +30,33 @@ public class JwtFilter extends OncePerRequestFilter {
             HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse, FilterChain filterChain)
             throws ServletException, IOException {
-
         String authorization = httpServletRequest.getHeader("Authorization");
-
         String token = null;
         String userName = null;
-
         try {
             if (authorization != null && authorization.startsWith("Bearer ")) {
                 token = authorization.substring(7);
-                userName =jwtUtility.getUsernameFromToken(token);
+                userName = jwtUtility.getUsernameFromToken(token);
             }
             if (userName != null
                     && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails =
                         userDetailsService.loadUserByUsername(userName);
-                boolean isValid = jwtUtility.validateToken(token,userDetails);
+                boolean isValid = jwtUtility.validateToken(token, userDetails);
                 if (isValid) {
                     UsernamePasswordAuthenticationToken
                             usernamePasswordAuthenticationToken =
                             new UsernamePasswordAuthenticationToken(
-                                    userDetails, null, userDetails.getAuthorities()
-                            );
+                                    userDetails, null, userDetails.getAuthorities());
                     usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource()
-                                            .buildDetails(httpServletRequest)
-                            );
+                            .buildDetails(httpServletRequest)
+                    );
                     SecurityContextHolder.getContext().setAuthentication(
-                            usernamePasswordAuthenticationToken);
-                }
+                            usernamePasswordAuthenticationToken);}
             }
-            filterChain.doFilter(httpServletRequest, httpServletResponse
-            );
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
         } catch (ExpiredJwtException e) {
-            httpServletResponse.sendError( HttpServletResponse.SC_UNAUTHORIZED,
+            httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,
                     "The token is not valid."
             );
         }

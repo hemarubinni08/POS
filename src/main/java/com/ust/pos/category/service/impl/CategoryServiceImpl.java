@@ -28,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-        Page<Category> categoryPage =categoryRepository.findAll(pageable);
+        Page<Category> categoryPage = categoryRepository.findAll(pageable);
         return modelMapper.map(categoryPage.getContent(), listType);
     }
 
@@ -71,7 +71,6 @@ public class CategoryServiceImpl implements CategoryService {
         for (Category category : categoryList) {
             if (category.getSuperCategoryIdentifier() != null
                     && !category.getSuperCategoryIdentifier().isEmpty()) {
-
                 childList.add(modelMapper.map(category, CategoryDto.class));
             }
         }

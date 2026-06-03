@@ -8,7 +8,7 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
     Stock findByIdentifier(String identifier);
 
-    Stock findByProductIdentifierAndWarehouseIdentifier(String productIdentifier,String warehouseIdentifier);
+    Stock findByProductIdentifierAndWarehouseIdentifier(String productIdentifier, String warehouseIdentifier);
 
     void deleteByIdentifier(String identifier);
 }

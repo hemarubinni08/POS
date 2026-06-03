@@ -40,8 +40,8 @@ public class ModelsServiceImpl implements ModelsService {
         model.setIdentifier(modelsDto.getModelName());
         model.setModelName(modelsDto.getModelName());
         model.setStatus(modelsDto.getStatus());
-        Models saved= modelsRepository.save(model);
-        ModelsDto dto=modelMapper.map(saved,ModelsDto.class);
+        Models saved = modelsRepository.save(model);
+        ModelsDto dto = modelMapper.map(saved, ModelsDto.class);
         dto.setSuccess(true);
         dto.setMessage("Model added successfully");
         return dto;
@@ -64,8 +64,9 @@ public class ModelsServiceImpl implements ModelsService {
 
     @Override
     public List<ModelsDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<ModelsDto>>() {}.getType();
-        Page<Models> modelsPage =modelsRepository.findAll(pageable);
+        Type listType = new TypeToken<List<ModelsDto>>() {
+        }.getType();
+        Page<Models> modelsPage = modelsRepository.findAll(pageable);
         return modelMapper.map(modelsPage.getContent(), listType);
     }
 

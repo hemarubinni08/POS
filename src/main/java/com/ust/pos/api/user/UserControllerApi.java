@@ -1,8 +1,8 @@
 package com.ust.pos.api.user;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.UserDto;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +19,8 @@ public class UserControllerApi extends BaseController {
 
     @PostMapping("/list")
     public List<UserDto> list(@RequestBody PaginationDto pagination) {
-        Pageable pageable = getPageable( pagination.getPage(), pagination.getSizePerPage(),
-                pagination.getSortDirection(),pagination.getSortfield());
+        Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
+                pagination.getSortDirection(), pagination.getSortfield());
         return userService.findAll(pageable);
     }
 

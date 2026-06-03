@@ -80,8 +80,9 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<WarehouseDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<Warehouse>>() {}.getType();
-        Page<Warehouse> warehousePage =warehouseRepository.findAll(pageable);
+        Type listType = new TypeToken<List<Warehouse>>() {
+        }.getType();
+        Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
         return modelMapper.map(warehousePage.getContent(), listType);
     }
 
