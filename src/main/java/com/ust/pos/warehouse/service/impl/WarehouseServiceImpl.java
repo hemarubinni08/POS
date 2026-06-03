@@ -20,7 +20,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Autowired
     private WarehouseRepository wareHouseRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -70,4 +69,5 @@ public class WarehouseServiceImpl implements WarehouseService {
         Page<Warehouse> warehousePage = wareHouseRepository.findAll(pageable);
         return modelMapper.map(warehousePage.getContent(), listType);
     }
+
 }

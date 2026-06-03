@@ -18,22 +18,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 
 @ExtendWith(MockitoExtension.class)
 class UnitServiceTest {
 
     @InjectMocks
     private UnitServiceImpl unitServiceImpl;
-
     @Mock
     private UnitRepository unitRepository;
-
     @Mock
     private ModelMapper modelMapper;
-
 
     @Test
     void saveTest() {

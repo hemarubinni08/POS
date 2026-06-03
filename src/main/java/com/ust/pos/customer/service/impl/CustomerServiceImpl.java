@@ -22,10 +22,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
-
     @Autowired
     private ModelMapper modelMapper;
-
     @Autowired
     private AddressService addressService;
 

@@ -18,10 +18,8 @@ public class StockApiController extends BaseController {
 
     @Autowired
     private StockService stockService;
-
     @Autowired
     private ProductService productService;
-
     @Autowired
     private WarehouseService warehouseService;
 

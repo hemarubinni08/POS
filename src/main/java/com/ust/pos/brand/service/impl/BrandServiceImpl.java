@@ -20,7 +20,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Autowired
     private BrandRepository brandRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 

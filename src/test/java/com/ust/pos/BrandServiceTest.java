@@ -28,10 +28,8 @@ class BrandServiceTest {
 
     @InjectMocks
     private BrandServiceImpl brandServiceImpl;
-
     @Mock
     private BrandRepository brandRepository;
-
     @Mock
     private ModelMapper modelMapper;
 

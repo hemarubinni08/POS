@@ -19,16 +19,13 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-
 @ExtendWith(MockitoExtension.class)
  class RoleServiceTest {
 
     @InjectMocks
     private RoleServiceImpl roleService;
-
     @Mock
     private RoleRepository roleRepository;
-
     @Mock
     private ModelMapper modelMapper;
 

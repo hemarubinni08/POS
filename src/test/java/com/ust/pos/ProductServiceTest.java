@@ -25,10 +25,8 @@ class ProductServiceTest {
 
     @InjectMocks
     private ProductServiceImpl productService;
-
     @Mock
     private ProductRepository productRepository;
-
     @Mock
     private ModelMapper modelMapper;
 

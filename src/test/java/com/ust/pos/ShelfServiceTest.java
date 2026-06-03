@@ -27,10 +27,8 @@ class ShelfServiceTest {
 
     @InjectMocks
     private ShelfServiceImpl shelfService;
-
     @Mock
     private ShelfRepository shelfRepository;
-
     @Mock
     private ModelMapper modelMapper;
 

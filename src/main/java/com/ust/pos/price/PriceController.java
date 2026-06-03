@@ -18,7 +18,6 @@ public class PriceController {
 
     @Autowired
     private PriceService priceService;
-
     @Autowired
     private ProductService productService;
 

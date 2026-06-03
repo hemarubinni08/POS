@@ -18,12 +18,11 @@ public class StockController {
     public static final String REDIRECT_STOCK_LIST = "redirect:/stock/list";
     public static final String WAREHOUSES = "warehouses";
     public static final String PRODUCTS = "products";
+
     @Autowired
     private StockService stockService;
-
     @Autowired
     private ProductService productService;
-
     @Autowired
     private WarehouseService warehouseService;
 

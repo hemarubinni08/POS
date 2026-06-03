@@ -20,7 +20,6 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Autowired
     private ShelfRepository shelfRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 

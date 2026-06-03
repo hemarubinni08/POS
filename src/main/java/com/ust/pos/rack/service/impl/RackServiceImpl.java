@@ -20,7 +20,6 @@ public class RackServiceImpl implements RackService {
 
     @Autowired
     private RackRepository rackRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 

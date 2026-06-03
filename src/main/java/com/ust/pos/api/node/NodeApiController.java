@@ -19,7 +19,6 @@ public class NodeApiController extends BaseController {
 
     @Autowired
     private NodeService nodeService;
-
     @Autowired
     private RoleService roleService;
 

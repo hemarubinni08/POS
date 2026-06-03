@@ -23,10 +23,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) {
         http
                 .csrf(csrf -> csrf.disable()) // Disable for testing
-
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-
                         .requestMatchers("/login", "/register").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -35,7 +33,6 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/", true)
                         .failureUrl("/login?error=true")
                         .permitAll()
-
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")

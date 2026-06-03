@@ -26,19 +26,14 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-
     @Autowired
     private CategoryService categoryService;
-
     @Autowired
     private ShelfService shelfService;
-
     @Autowired
     private BrandService brandService;
-
     @Autowired
     private ModelsService modelsService;
-
     @Autowired
     private UnitService unitService;
 

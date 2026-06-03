@@ -115,7 +115,6 @@
         <h2>User Management</h2>
         <div class="header-buttons">
             <a href="/" class="btn btn-home">Home</a>
-            <a href="/register" class="btn btn-add">+ Register User</a>
         </div>
     </div>
 

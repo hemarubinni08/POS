@@ -25,10 +25,8 @@ class StockServiceTest {
 
     @Mock
     private StockRepository stockRepository;
-
     @Mock
     private ModelMapper modelMapper;
-
     @InjectMocks
     private StockServiceImpl stockService;
 

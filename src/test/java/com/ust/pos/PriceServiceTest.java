@@ -30,10 +30,8 @@ class PriceServiceTest {
 
     @Mock
     private PriceRepository priceRepository;
-
     @Mock
     private ModelMapper modelMapper;
-
     @InjectMocks
     private PriceServiceImpl priceService;
 
@@ -191,4 +189,5 @@ class PriceServiceTest {
         verify(modelMapper, times(1)).map(pricePage.getContent(), listType);
 
     }
+
 }

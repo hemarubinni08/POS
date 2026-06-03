@@ -27,13 +27,10 @@ class CustomerServiceTest {
 
     @InjectMocks
     private CustomerServiceImpl customerService;
-
     @Mock
     private CustomerRepository customerRepository;
-
     @Mock
     private ModelMapper modelMapper;
-
     @Mock
     private AddressService addressService;
 

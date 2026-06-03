@@ -17,7 +17,6 @@ public class ProductApiController extends BaseController {
 
     @Autowired
     private ProductService productService;
-
     @Autowired
     private CategoryService categoryService;
 

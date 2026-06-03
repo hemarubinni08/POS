@@ -25,17 +25,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class ModelsServiceTest {
+
     @InjectMocks
     private ModelsServiceImpl modelsService;
     @Mock
     private ModelsRepository modelsRepository;
-
     @Mock
     private ModelMapper modelMapper;
 
 
     @Test
     void saveTest() {
+
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("Admin");
 
@@ -53,6 +54,7 @@ class ModelsServiceTest {
 
     @Test
     void saveTestFailure() {
+
         ModelsDto modelsDto = new ModelsDto();
         modelsDto.setIdentifier("Admin");
 
@@ -69,6 +71,7 @@ class ModelsServiceTest {
 
     @Test
     void findByIdentifierTest() {
+
         Models models = new Models();
         models.setIdentifier("Admin");
 

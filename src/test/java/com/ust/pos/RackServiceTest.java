@@ -27,10 +27,8 @@ class RackServiceTest {
 
     @InjectMocks
     private RackServiceImpl rackService;
-
     @Mock
     private RackRepository rackRepository;
-
     @Mock
     private ModelMapper modelMapper;
 

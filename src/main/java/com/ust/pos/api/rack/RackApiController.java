@@ -17,7 +17,6 @@ public class RackApiController extends BaseController {
 
     @Autowired
     private RackService rackService;
-
     @Autowired
     private ShelfService shelfService;
 

@@ -19,7 +19,6 @@ public class RackController {
 
     @Autowired
     private RackService rackService;
-
     @Autowired
     private ShelfService shelfService;
 

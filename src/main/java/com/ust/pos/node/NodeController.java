@@ -18,7 +18,6 @@ public class NodeController {
 
     @Autowired
     private NodeService nodeService;
-
     @Autowired
     private RoleService roleService;
 

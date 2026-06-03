@@ -37,13 +37,10 @@ class NodeServiceTest {
 
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private NodeRepository nodeRepository;
-
     @Mock
     private ModelMapper modelMapper;
-
     @InjectMocks
     private NodeServiceImpl nodeService;
 

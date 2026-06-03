@@ -38,7 +38,6 @@ public class WebSecurityConfig {
     
     @Autowired
     private UserDetailsService userDetailsService;
-    
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -50,7 +49,6 @@ public class WebSecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-
                         .requestMatchers("/login", "/register", "/api/authenticate", "/api/validateToken", "/swagger-ui/**", "/v3/**").permitAll()
                         .anyRequest().authenticated()
                 )

@@ -18,10 +18,8 @@ public class CustomerApiController extends BaseController {
 
     @Autowired
     private CustomerService customerService;
-
     @Autowired
     private ProductService productService;
-
     @Autowired
     private AddressService addressService;
 

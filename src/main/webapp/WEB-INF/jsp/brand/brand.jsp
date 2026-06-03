@@ -176,8 +176,6 @@
             <form:option value="false">Inactive</form:option>
         </form:select>
 
-
-
         <!-- SUBMIT -->
         <input type="submit" value="Update Brand" class="btn"/>
 

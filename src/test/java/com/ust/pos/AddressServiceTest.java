@@ -20,10 +20,8 @@ class AddressServiceTest {
 
     @InjectMocks
     private AddressServiceImpl addressService;
-
     @Mock
     private AddressRepository addressRepository;
-
     @Mock
     private ModelMapper modelMapper;
 

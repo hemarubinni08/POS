@@ -24,10 +24,8 @@ class WarehouseServiceTest {
 
     @InjectMocks
     private WarehouseServiceImpl warehouseService;
-
     @Mock
     private WarehouseRepository warehouseRepository;
-
     @Mock
     private ModelMapper modelMapper;
 

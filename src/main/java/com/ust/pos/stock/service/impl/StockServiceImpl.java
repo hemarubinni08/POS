@@ -20,7 +20,6 @@ public class StockServiceImpl implements StockService {
 
     @Autowired
     private ModelMapper modelMapper;
-
     @Autowired
     private StockRepository stockRepository;
 

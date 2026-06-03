@@ -27,10 +27,8 @@ public class NodeServiceImpl implements NodeService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private NodeRepository nodeRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -92,7 +90,6 @@ public class NodeServiceImpl implements NodeService {
         return nodeDtos;
     }
 
-    @Override
     private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesStr = new HashSet<>();
