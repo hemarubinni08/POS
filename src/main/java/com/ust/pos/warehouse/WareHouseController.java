@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/wareHouse")
 public class WareHouseController {
+
     public static final String REDIRECT_WAREHOUSE_LIST = "redirect:/wareHouse/list";
+
     @Autowired
     private WareHouseService wareHouseService;
 

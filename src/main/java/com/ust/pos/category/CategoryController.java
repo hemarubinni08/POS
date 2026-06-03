@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
+
     public static final String REDIRECT_CATEGORY_LIST = "redirect:/category/list";
 
     private static final String CATEGORIES = "categories";

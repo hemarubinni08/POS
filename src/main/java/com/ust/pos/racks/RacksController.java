@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/racks")
 public class RacksController {
+
     public static final String REDIRECT_RACKS_LIST = "redirect:/racks/list";
 
     private static final String SHELVES = "shelves";

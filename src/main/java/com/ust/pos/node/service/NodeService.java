@@ -24,5 +24,4 @@ public interface NodeService {
 
     List<NodeDto> findIfTrue();
 
-
 }

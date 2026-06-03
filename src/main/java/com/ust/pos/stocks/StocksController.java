@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/stocks")
 public class StocksController {
+
     public static final String REDIRECT_STOCKS_LIST = "redirect:/stocks/list";
 
     private static final String PRODUCTS = "products";

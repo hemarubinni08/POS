@@ -16,5 +16,4 @@ public class Price extends CommonFields {
     private BigDecimal sellingPrice;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate effectiveFrom;
-
 }

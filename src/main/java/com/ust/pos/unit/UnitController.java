@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/unit")
 public class UnitController{
+
     public static final String REDIRECT_UNIT_LIST = "redirect:/unit/list";
 
     @Autowired

@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/price")
 public class PriceController {
-    public static final String REDIRECT_PRICE_LIST = "redirect:/price/list";
-    private static final String PRODUCTS = "products";
 
+    public static final String REDIRECT_PRICE_LIST = "redirect:/price/list";
+
+    private static final String PRODUCTS = "products";
 
     @Autowired
     private PriceService priceService;

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/models")
 public class ModelsController{
+
     public static final String REDIRECT_MODELS_LIST = "redirect:/models/list";
+
     @Autowired
     private ModelsService modelsService;
 
