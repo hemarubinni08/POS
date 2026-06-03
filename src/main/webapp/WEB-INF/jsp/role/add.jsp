@@ -7,6 +7,7 @@
 <head>
     <title>Add Role</title>
 </head>
+
 <body>
 <h2>Add New Role</h2>
 <!-- Success Message -->

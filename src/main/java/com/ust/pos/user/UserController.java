@@ -11,16 +11,15 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private RoleService roleService;
-
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("user", userService.findAll());
         return "user/list";
     }
 
@@ -37,6 +36,7 @@ public class UserController {
         UserDto response = userService.update(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            model.addAttribute("user", userDto);
             return "user/user";
         }
         return "redirect:/user/list";

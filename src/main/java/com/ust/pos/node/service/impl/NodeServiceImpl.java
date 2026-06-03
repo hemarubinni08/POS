@@ -1,12 +1,17 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.model.*;
+import com.ust.pos.model.Node;
+import com.ust.pos.model.NodeRepository;
+import com.ust.pos.model.User;
+import com.ust.pos.model.UserRepository;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -17,8 +22,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Transactional
 @Service
+@Transactional
 public class NodeServiceImpl implements NodeService {
     @Autowired
     private UserRepository userRepository;
@@ -31,16 +36,9 @@ public class NodeServiceImpl implements NodeService {
 
     public List<NodeDto> getNodesForRoles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        List<NodeDto> nodeDtos = new ArrayList<>();
-        if (authentication != null) {
-            org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-            if (principalObject != null) findEligibleNodes(principalObject, nodeDtos);
-        }
-        return nodeDtos;
-    }
-
-    private void findEligibleNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
+        org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
+        List<NodeDto> nodeDtos = new ArrayList<>();
         Set<String> nodesStr = new HashSet<>();
         List<Node> nodes = nodeRepository.findAll();
         for (String role : currentUser.getRoles()) {
@@ -53,13 +51,14 @@ public class NodeServiceImpl implements NodeService {
         for (String nodeStr : nodesStr) {
             nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
         }
+        return nodeDtos;
     }
 
     @Override
     public NodeDto save(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
-        Node existingRole = nodeRepository.findByIdentifier(identifier);
-        if (existingRole != null) {
+        Node existingNode = nodeRepository.findByIdentifier(identifier);
+        if (existingNode != null) {
             nodeDto.setMessage("Node with identifier - " + identifier + " already exists");
             nodeDto.setSuccess(false);
             return nodeDto;
@@ -69,17 +68,18 @@ public class NodeServiceImpl implements NodeService {
         return nodeDto;
     }
 
+
     @Override
     public NodeDto update(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
-        Node existingRole = nodeRepository.findByIdentifier(identifier);
-        if (existingRole == null) {
-            nodeDto.setMessage("Role with identifier - " + identifier + " not found");
+        Node existingNode = nodeRepository.findByIdentifier(identifier);
+        if (existingNode == null) {
+            nodeDto.setMessage("Node with identifier - " + identifier + " not found");
             nodeDto.setSuccess(false);
             return nodeDto;
         }
-        modelMapper.map(nodeDto, existingRole);
-        nodeRepository.save(existingRole);
+        modelMapper.map(nodeDto, existingNode);
+        nodeRepository.save(existingNode);
         return nodeDto;
     }
 
@@ -93,11 +93,23 @@ public class NodeServiceImpl implements NodeService {
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
         return modelMapper.map(nodeRepository.findAll(), listType);
-    
     }
 
     @Override
     public NodeDto findByIdentifier(String identifier) {
         return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);
+    }
+
+    @Override
+    public Page<NodeDto> findAll(Pageable pageable ,String search ) {
+        Page<Node> nodePage;
+        if(search !=null && !search.trim().isEmpty()){
+            nodePage = nodeRepository.findByIdentifierContainingIgnoreCase
+                    (search,pageable);
+        }
+        else {
+            nodePage = nodeRepository.findAll(pageable);
+        }
+        return nodePage.map(node ->modelMapper.map(node , NodeDto.class));
     }
 }
