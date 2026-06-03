@@ -1,9 +1,9 @@
 package com.ust.pos;
 
+import com.ust.pos.category.service.impl.CategoryServiceImpl;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
-import com.ust.pos.category.service.impl.CategoryServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +20,8 @@ import org.springframework.data.domain.Pageable;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -164,6 +165,7 @@ class CategoryServiceTest {
         // Step 7: Verify
         Mockito.verify(categoryRepository).findAll(pageable);
     }
+
     @Test
     void toggleStatusTest_TrueToFalse() {
 
@@ -232,6 +234,7 @@ class CategoryServiceTest {
         // Verify interactions
         Mockito.verify(categoryRepository).findByStatusTrue();
     }
+
     @Test
     void findChildCategoriesTest() {
 

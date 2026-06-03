@@ -154,6 +154,7 @@ class ShelfServiceTest {
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("S1", response.get(0).getIdentifier());
     }
+
     @Test
     void toggleStatusTest_TrueToFalse() {
 

@@ -55,6 +55,7 @@ class CustomerServiceTest {
 
         Assertions.assertNotNull(response);
     }
+
     @Test
     void findByIdentifier_NotFound() {
 
@@ -65,6 +66,7 @@ class CustomerServiceTest {
 
         Assertions.assertNull(response);
     }
+
     @Test
     void saveTest_Success() {
 
@@ -95,6 +97,7 @@ class CustomerServiceTest {
         Mockito.verify(addressService).save(billing);
         Mockito.verify(addressService).save(shipping);
     }
+
     @Test
     void saveTest_Duplicate() {
 
@@ -111,6 +114,7 @@ class CustomerServiceTest {
 
         Mockito.verify(customerRepository, Mockito.never()).save(Mockito.any());
     }
+
     @Test
     void updateTest_Success() {
 
@@ -141,6 +145,7 @@ class CustomerServiceTest {
         Assertions.assertNotNull(response);
 
     }
+
     @Test
     void updateTest_NotFound() {
 
@@ -155,6 +160,7 @@ class CustomerServiceTest {
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertTrue(response.getMessage().contains("not found"));
     }
+
     @Test
     void deleteTest_Success() {
 
@@ -169,6 +175,7 @@ class CustomerServiceTest {
         Mockito.verify(addressService).deleteByPhoneNumber(123L);
         Mockito.verify(customerRepository).deleteByIdentifier("C1");
     }
+
     @Test
     void deleteTest_NotFound() {
 
@@ -180,6 +187,7 @@ class CustomerServiceTest {
         Mockito.verify(customerRepository, Mockito.never())
                 .deleteByIdentifier(Mockito.any());
     }
+
     @Test
     void findAllTest() {
 

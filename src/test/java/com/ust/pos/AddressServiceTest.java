@@ -45,6 +45,7 @@ class AddressServiceTest {
 
         Assertions.assertNotNull(response);
     }
+
     @Test
     void saveTest_Success() {
 
@@ -66,6 +67,7 @@ class AddressServiceTest {
         Assertions.assertEquals("BILLING", response.getAddressType());
         Mockito.verify(addressRepository).save(address);
     }
+
     @Test
     void saveTest_Duplicate() {
 
@@ -84,6 +86,7 @@ class AddressServiceTest {
 
         Mockito.verify(addressRepository, Mockito.never()).save(Mockito.any());
     }
+
     @Test
     void updateTest_Success() {
 
@@ -102,6 +105,7 @@ class AddressServiceTest {
         Assertions.assertNotNull(response);
         Mockito.verify(addressRepository).save(existing);
     }
+
     @Test
     void updateTest_NotFound() {
 
@@ -118,6 +122,7 @@ class AddressServiceTest {
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertTrue(response.getMessage().contains("not found"));
     }
+
     @Test
     void findAllTest() {
 
@@ -136,6 +141,7 @@ class AddressServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
+
     @Test
     void deleteTest() {
 

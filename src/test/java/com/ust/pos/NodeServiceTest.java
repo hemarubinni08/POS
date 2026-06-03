@@ -218,7 +218,7 @@ class NodeServiceTest {
         User domainUser = new User();
         domainUser.setUsername("john");
         domainUser.setRoles(List.of("ROLE_ADMIN"));
-        when(userRepository.findByUsername("john")).thenReturn(domainUser);
+        when(userRepository.findByIdentifier("john")).thenReturn(domainUser);
 
         // Nodes in DB — one matches ROLE_ADMIN, one does not
         Node adminNode = new Node();
@@ -258,7 +258,7 @@ class NodeServiceTest {
         User domainUser = new User();
         domainUser.setUsername("john");
         domainUser.setRoles(List.of("ROLE_CASHIER")); // No node has this role
-        when(userRepository.findByUsername("john")).thenReturn(domainUser);
+        when(userRepository.findByIdentifier("john")).thenReturn(domainUser);
 
         Node adminNode = new Node();
         adminNode.setIdentifier("NODE-ADMIN");
@@ -286,7 +286,7 @@ class NodeServiceTest {
         User domainUser = new User();
         domainUser.setUsername("john");
         domainUser.setRoles(List.of("ROLE_ADMIN"));
-        when(userRepository.findByUsername("john")).thenReturn(domainUser);
+        when(userRepository.findByIdentifier("john")).thenReturn(domainUser);
 
         Node nodeWithNullRoles = new Node();
         nodeWithNullRoles.setIdentifier("NODE-NULL");

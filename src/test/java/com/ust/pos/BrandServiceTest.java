@@ -1,9 +1,9 @@
 package com.ust.pos;
 
+import com.ust.pos.brand.service.impl.BrandServiceImpl;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
-import com.ust.pos.brand.service.impl.BrandServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -164,6 +164,7 @@ class BrandServiceTest {
         // Step 7: Verify
         Mockito.verify(brandRepository).findAll(pageable);
     }
+
     @Test
     void toggleStatusTest_TrueToFalse() {
 

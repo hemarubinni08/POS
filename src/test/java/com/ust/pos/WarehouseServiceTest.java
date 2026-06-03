@@ -21,7 +21,7 @@ import java.util.List;
 
 
 @ExtendWith(MockitoExtension.class)
- class WarehouseServiceTest {
+class WarehouseServiceTest {
     @InjectMocks
     private WarehouseServiceImpl warehouseService;
     @Mock

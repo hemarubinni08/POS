@@ -48,6 +48,7 @@ class ProductServiceTest {
 
         Assertions.assertNotNull(response);
     }
+
     @Test
     void saveTest_Success() {
 
@@ -67,6 +68,7 @@ class ProductServiceTest {
         Assertions.assertEquals("P1", response.getIdentifier());
         Mockito.verify(productRepository).save(product);
     }
+
     @Test
     void saveTest_Duplicate() {
 
@@ -83,6 +85,7 @@ class ProductServiceTest {
 
         Mockito.verify(productRepository, Mockito.never()).save(Mockito.any());
     }
+
     @Test
     void updateTest_Success() {
 
@@ -99,6 +102,7 @@ class ProductServiceTest {
         Assertions.assertNotNull(response);
         Mockito.verify(productRepository).save(existing);
     }
+
     @Test
     void updateTest_NotFound() {
 
@@ -113,6 +117,7 @@ class ProductServiceTest {
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertTrue(response.getMessage().contains("not found"));
     }
+
     @Test
     void deleteTest() {
 
@@ -120,6 +125,7 @@ class ProductServiceTest {
 
         Mockito.verify(productRepository).deleteByIdentifier("P1");
     }
+
     @Test
     void findAllTest() {
 
@@ -159,6 +165,7 @@ class ProductServiceTest {
         // Step 7: Verify
         Mockito.verify(productRepository).findAll(pageable);
     }
+
     @Test
     void toggleStatus_Success() {
 
@@ -173,6 +180,7 @@ class ProductServiceTest {
         Assertions.assertFalse(product.isStatus());
         Mockito.verify(productRepository).save(product);
     }
+
     @Test
     void toggleStatus_NotFound() {
 
@@ -186,6 +194,7 @@ class ProductServiceTest {
 
         Assertions.assertEquals("Product not found", exception.getMessage());
     }
+
     @Test
     void findActiveProductsTest() {
 

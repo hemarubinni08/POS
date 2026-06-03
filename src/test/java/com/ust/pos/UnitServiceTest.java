@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(MockitoExtension.class)
- class UnitServiceTest {
+class UnitServiceTest {
     @InjectMocks
     private UnitServiceImpl unitServiceImpl;
     @Mock
@@ -154,6 +154,7 @@ import static org.junit.jupiter.api.Assertions.*;
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("U1", response.get(0).getIdentifier());
     }
+
     @Test
     void toggleStatusTest_TrueToFalse() {
 
