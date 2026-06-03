@@ -128,7 +128,6 @@ button:hover {
            method="post"
            modelAttribute="role">
 
-    <!-- ID (hidden) -->
     <form:hidden path="id"/>
 
     <div class="input-group">

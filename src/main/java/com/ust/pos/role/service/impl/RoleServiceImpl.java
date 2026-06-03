@@ -31,6 +31,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto save(RoleDto roleDto) {
+
         String identifier = roleDto.getIdentifier();
         Role existingRole = roleRepository.findByIdentifier(identifier);
         if (existingRole != null) {
@@ -45,6 +46,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto update(RoleDto roleDto) {
+
         String identifier = roleDto.getIdentifier();
         Role existingRole = roleRepository.findByIdentifier(identifier);
         if (existingRole == null) {
@@ -64,6 +66,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleDto> findAll() {
+
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
         return modelMapper.map(roleRepository.findAll(), listType);

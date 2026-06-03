@@ -170,7 +170,6 @@ function validateRoles() {
 
 <h2>Create Account</h2>
 
-<!-- ERROR MESSAGE -->
 <c:if test="${not empty message}">
     <div class="error-msg">${message}</div>
 </c:if>
@@ -215,7 +214,6 @@ function validateRoles() {
         </c:forEach>
     </div>
 
-    <!-- ROLE ERROR MESSAGE -->
     <div id="roleError" class="error-msg"></div>
 
     <button type="submit">Register</button>

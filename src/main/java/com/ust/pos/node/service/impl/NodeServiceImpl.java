@@ -41,7 +41,9 @@ public class NodeServiceImpl implements NodeService {
         }
         return nodeDtos;
     }
+
     private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
+
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesStr = new HashSet<>();
         List<Node> nodes = nodeRepository.findAll();

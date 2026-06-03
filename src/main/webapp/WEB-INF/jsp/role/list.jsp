@@ -187,15 +187,12 @@ tbody tr:hover {
 
                             <td>${role.description}</td>
 
-                            <!-- Actions -->
                             <td>
-                                <!-- EDIT -->
                                 <a class="action-btn edit-btn"
                                    href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}">
                                     Edit
                                 </a>
 
-                                <!-- DELETE -->
                                 <a class="action-btn delete-btn"
                                    href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
                                    onclick="return confirm('Are you sure you want to delete this role?');">

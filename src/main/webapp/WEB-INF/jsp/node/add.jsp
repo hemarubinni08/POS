@@ -175,7 +175,6 @@ button:hover {
 
 </form:form>
 
-<!-- Error Message -->
 <c:if test="${not empty message}">
     <div class="bottom-error">
         ${message}

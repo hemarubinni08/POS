@@ -118,7 +118,6 @@
 
 <div class="wrapper">
 
-    <!-- Sidebar -->
     <div class="sidebar">
         <h2>POS System</h2>
 
@@ -148,7 +147,6 @@
 
     </div>
 
-    <!-- Main Content -->
     <div class="content">
         <div class="center-box">
             <h1>POS Dashboard</h1>
