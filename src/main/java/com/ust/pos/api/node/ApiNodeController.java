@@ -46,7 +46,6 @@ public class ApiNodeController extends BaseController {
     public boolean delete(@RequestBody String identifier) {
         try {
             nodeService.delete(identifier);
-
         } catch (Exception e) {
             return false;
         }

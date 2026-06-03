@@ -32,32 +32,28 @@ import java.util.Arrays;
 import java.util.List;
 
 
-@Configuration
-
-@EnableWebSecurity
-
-@EnableMethodSecurity
-
+//@Configuration
+//
+//@EnableWebSecurity
+//
+//@EnableMethodSecurity
 public class WebSecurityConfig {
 
     @Autowired
-
     private UserDetailsService userDetailsService;
 
     @Autowired
-
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-
     private JwtFilter jwtFilter;
+
     private static final String SECURITY_SCHEME_NAME = "JavaInUseSecurityScheme";
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
 
-        http
-                .csrf(csrf -> csrf.disable())
+        http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
@@ -73,50 +69,31 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .logout(LogoutConfigurer::permitAll);
-
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 
     @Bean
-
     public AuthenticationManager authenticationManager(
-
             AuthenticationConfiguration config)  {
-
         return config.getAuthenticationManager();
-
     }
 
     @Autowired
-
     public void configureGlobal(AuthenticationManagerBuilder auth){
-
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-
     }
 
     @Bean
-
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration configuration = new CorsConfiguration();
-
         configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Allow the specific origin
-
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-
         configuration.setAllowCredentials(true); // Allow credentials if needed
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
         source.registerCorsConfiguration("/**", configuration); // Apply CORS settings to all paths
-
         return source;
-
     }
 
     @Bean

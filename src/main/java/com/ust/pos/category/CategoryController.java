@@ -34,6 +34,7 @@ public class CategoryController {
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute("category") CategoryDto categoryDto, Pageable pageable) {
         CategoryDto response = categoryService.save(categoryDto);
+
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
@@ -52,6 +53,7 @@ public class CategoryController {
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute("category") CategoryDto categoryDto, Pageable pageable) {
         CategoryDto response = categoryService.update(categoryDto);
+
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(CATEGORIES, categoryService.findAll(pageable));

@@ -49,11 +49,6 @@ public class ApiShelfController extends BaseController {
         return true;
     }
 
-    @ModelAttribute("shelf")
-    public ShelfDto shelfFallback() {
-        return new ShelfDto();
-    }
-
     @GetMapping("/toggle")
     public boolean toggle(@RequestParam String identifier) {
         try {

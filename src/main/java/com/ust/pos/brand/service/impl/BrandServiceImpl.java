@@ -43,6 +43,7 @@ public class BrandServiceImpl implements BrandService {
     public BrandDto update(BrandDto brandDto) {
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
+
         if (existingBrand == null) {
             brandDto.setMessage("Brand with identifier - " + identifier + " not found");
             brandDto.setSuccess(false);

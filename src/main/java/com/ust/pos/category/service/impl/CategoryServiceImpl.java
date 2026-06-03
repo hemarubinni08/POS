@@ -27,6 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
+
         if (categoryRepository.findByIdentifier(categoryDto.getIdentifier()) != null) {
             categoryDto.setSuccess(false);
             categoryDto.setMessage("Category already exists");
@@ -34,6 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         Category category = new Category();
         category.setIdentifier(categoryDto.getIdentifier());
+
         if (categoryDto.getSuperCategory() == null ||
                 categoryDto.getSuperCategory().trim().isEmpty()) {
             category.setSuperCategory(null);
@@ -48,18 +50,21 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto update(CategoryDto categoryDto) {
         Optional<Category> optional =
                 categoryRepository.findById(categoryDto.getId());
+
         if (optional.isEmpty()) {
             categoryDto.setSuccess(false);
             categoryDto.setMessage("Category not found");
             return categoryDto;
         }
         Category existing = optional.get();
+
         if (!existing.getIdentifier().equalsIgnoreCase(categoryDto.getIdentifier()) && (categoryRepository.findByIdentifier(categoryDto.getIdentifier()) != null)) {
             categoryDto.setSuccess(false);
             categoryDto.setMessage("Category already exists");
             return categoryDto;
         }
         existing.setIdentifier(categoryDto.getIdentifier());
+
         if (categoryDto.getSuperCategory() == null ||
                 categoryDto.getSuperCategory().trim().isEmpty()) {
             existing.setSuperCategory(null);
@@ -73,6 +78,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void deleteByIdentifier(String identifier) {
+
         if (categoryRepository.existsBySuperCategory(identifier)) {
             throw new IllegalStateException(
                     "Cannot delete category. It is used as a super category."
