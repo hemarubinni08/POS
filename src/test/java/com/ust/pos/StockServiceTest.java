@@ -55,6 +55,7 @@ class StockServiceTest {
         Assertions.assertEquals("Stock created successfully", response.getMessage());
         Assertions.assertNotNull(response.getIdentifier());
     }
+
     @Test
     void saveTestFailure_whenStockAlreadyExists() {
         // given

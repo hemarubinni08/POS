@@ -22,12 +22,10 @@ public class ModelsControllerApi extends BaseController {
     private ModelsService modelsService;
 
     @PostMapping("/list")
-    public List<ModelsDto> home(@RequestBody PaginationDto paginationDto) {
+    public List<ModelsDto> list(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return modelsService.findAll(pageable);
-
-
     }
 
 

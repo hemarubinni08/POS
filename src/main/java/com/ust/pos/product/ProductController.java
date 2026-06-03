@@ -30,7 +30,7 @@ public class ProductController {
     public String findAll(Model model, Pageable pageable) {
         model.addAttribute(PRODUCT_DTO, productService.findAll(pageable));
         model.addAttribute("brand", brandService.findAll(pageable));
-        model.addAttribute(MODELS,modelsService.findAll(pageable));
+        model.addAttribute(MODELS, modelsService.findAll(pageable));
         return "product/list";
     }
 
@@ -39,7 +39,7 @@ public class ProductController {
         model.addAttribute(PRODUCT_DTO, new ProductDto());
         model.addAttribute("categories", categoryService.findSubCategories());
         model.addAttribute("brand", brandService.findAll(pageable));
-        model.addAttribute(MODELS,modelsService.findAll(pageable));
+        model.addAttribute(MODELS, modelsService.findAll(pageable));
         return "product/add";
     }
 
@@ -59,12 +59,12 @@ public class ProductController {
     }
 
     @GetMapping("/update")
-    public String update(Model model, @RequestParam Long id,Pageable pageable) {
+    public String update(Model model, @RequestParam Long id, Pageable pageable) {
         ProductDto response = productService.findById(id);
         model.addAttribute(PRODUCT_DTO, response);
         model.addAttribute("categories", categoryService.findSubCategories());
-        model.addAttribute("brands",brandService.findAll(pageable));
-        model.addAttribute(MODELS,modelsService.findAll(pageable));
+        model.addAttribute("brands", brandService.findAll(pageable));
+        model.addAttribute(MODELS, modelsService.findAll(pageable));
         return "product/product";
     }
 

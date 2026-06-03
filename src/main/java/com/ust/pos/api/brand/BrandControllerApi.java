@@ -18,9 +18,9 @@ public class BrandControllerApi extends BaseController {
     BrandService brandService;
 
     @PostMapping("/list")
-    public List<BrandDto> listCategories(@RequestBody PaginationDto paginationDto) {
+    public List<BrandDto> list(@RequestBody PaginationDto paginationDto) {
 
-        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return brandService.findAll(pageable);
 
     }
@@ -29,7 +29,6 @@ public class BrandControllerApi extends BaseController {
     public BrandDto saveBrand(@RequestBody BrandDto brandDto) {
 
         return brandService.save(brandDto);
-
     }
 
 

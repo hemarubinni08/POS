@@ -29,7 +29,7 @@ public class PriceController {
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute(PRICE_DTO, new PriceDto());
-        model.addAttribute("product",productService.findAllActiveProduct());
+        model.addAttribute("product", productService.findAllActiveProduct());
         return "price/add";
     }
 
@@ -53,7 +53,7 @@ public class PriceController {
     public String update(Model model, @RequestParam String identifier) {
         PriceDto response = priceService.findByIdentifier(identifier);
         model.addAttribute(PRICE_DTO, response);
-        model.addAttribute("product",productService.findAllActiveProduct());
+        model.addAttribute("product", productService.findAllActiveProduct());
         return "price/price";
     }
 

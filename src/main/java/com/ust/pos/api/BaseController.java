@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
 public class BaseController {
     protected Pageable getPageable(int pageNumber, int pageSize, String sortDirection, String... sort) {
         Sort.Direction direction = sortDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;

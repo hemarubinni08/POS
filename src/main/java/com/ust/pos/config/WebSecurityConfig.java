@@ -67,7 +67,7 @@ public class WebSecurityConfig {
 
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 
-                        .requestMatchers("/login", "/api/user/add","/api/role/list", "/api/authenticate", "/api/validateToken","/swagger-ui/**","/v3/**").permitAll()
+                        .requestMatchers("/login", "/api/user/add", "/api/role/list", "/api/authenticate", "/api/validateToken", "/swagger-ui/**", "/v3/**").permitAll()
 
                         .anyRequest().authenticated()
 
@@ -105,7 +105,7 @@ public class WebSecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:3000","http://localhost:5173")); // Allow the specific origin
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173")); // Allow the specific origin
 
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 

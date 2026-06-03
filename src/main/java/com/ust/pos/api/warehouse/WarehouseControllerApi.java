@@ -21,14 +21,12 @@ public class WarehouseControllerApi extends BaseController {
 
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return warehouseService.findAll(pageable);
-
     }
 
     @PostMapping("/add")
     public WarehouseDto saveWarehouse(@RequestBody WarehouseDto warehouseDto) {
 
         return warehouseService.save(warehouseDto);
-
     }
 
     @GetMapping("/update")
@@ -38,8 +36,8 @@ public class WarehouseControllerApi extends BaseController {
 
     @PostMapping("/update")
     public WarehouseDto updateWarehouse(@RequestBody WarehouseDto warehouseDto) {
-        return warehouseService.update(warehouseDto);
 
+        return warehouseService.update(warehouseDto);
     }
 
     @GetMapping("/delete")

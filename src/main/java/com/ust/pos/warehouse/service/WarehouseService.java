@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface WarehouseService {
 
-
     WarehouseDto save(WarehouseDto warehouseDto);
 
     WarehouseDto update(WarehouseDto warehouseDto);
@@ -23,6 +22,5 @@ public interface WarehouseService {
     WarehouseDto changeWarehouseStatus(String identifier, boolean status);
 
     WarehouseDto findByIdentifier(String identifier);
-
 
 }

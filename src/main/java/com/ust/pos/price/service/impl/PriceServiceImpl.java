@@ -23,9 +23,8 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto save(PriceDto dto) {
-        String identifier= dto.getIdentifier();
-        if(priceRepository.existsByIdentifier(identifier))
-        {
+        String identifier = dto.getIdentifier();
+        if (priceRepository.existsByIdentifier(identifier)) {
             dto.setMessage("Already Exist!");
             dto.setSuccess(false);
             return dto;
@@ -86,6 +85,5 @@ public class PriceServiceImpl implements PriceService {
 
         Price price = priceRepository.findByIdentifier(identifier);
         return modelMapper.map(price, PriceDto.class);
-
     }
 }

@@ -17,15 +17,15 @@ public class StockControllerApi extends BaseController {
     StockService stockService;
 
     @PostMapping("/list")
-    public List<StockDto> listCategories(@RequestBody PaginationDto paginationDto) {
+    public List<StockDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return stockService.findAll(pageable);
     }
 
     @PostMapping("/add")
     public StockDto saveStock(@RequestBody StockDto stockDto) {
-        return stockService.save(stockDto);
 
+        return stockService.save(stockDto);
     }
 
 
@@ -34,7 +34,6 @@ public class StockControllerApi extends BaseController {
 
         // stock being edited
         return stockService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")

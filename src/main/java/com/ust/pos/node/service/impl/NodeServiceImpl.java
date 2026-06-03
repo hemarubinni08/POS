@@ -101,6 +101,5 @@ public class NodeServiceImpl implements NodeService {
         }.getType();
         Page<Node> nodePage = nodeRepository.findAll(pageable);
         return modelMapper.map(nodePage.getContent(), listType);
-
     }
 }

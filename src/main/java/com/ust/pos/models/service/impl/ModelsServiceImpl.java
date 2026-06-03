@@ -24,11 +24,10 @@ public class ModelsServiceImpl implements ModelsService {
     @Override
     public ModelsDto save(ModelsDto modelsDto) {
 
-        Models existingModels=modelsRepository.findByIdentifier(modelsDto.getIdentifier());
-        if(existingModels!=null)
-        {
+        Models existingModels = modelsRepository.findByIdentifier(modelsDto.getIdentifier());
+        if (existingModels != null) {
             modelsDto.setSuccess(false);
-            modelsDto.setMessage("Models with Identifier"+modelsDto.getIdentifier()+"already exist!");
+            modelsDto.setMessage("Models with Identifier" + modelsDto.getIdentifier() + "already exist!");
             return modelsDto;
         }
         Models models = modelMapper.map(modelsDto, Models.class);
@@ -48,10 +47,10 @@ public class ModelsServiceImpl implements ModelsService {
     @Override
     public List<ModelsDto> findAll(Pageable pageable) {
 
-        Type listType = new TypeToken<List<ModelsDto>>() {}.getType();
-        Page<Models> modelsPage=modelsRepository.findAll(pageable);
+        Type listType = new TypeToken<List<ModelsDto>>() {
+        }.getType();
+        Page<Models> modelsPage = modelsRepository.findAll(pageable);
         return modelMapper.map(modelsPage.getContent(), listType);
-
 
     }
 

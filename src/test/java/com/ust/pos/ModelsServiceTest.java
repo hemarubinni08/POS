@@ -110,7 +110,8 @@ class ModelsServiceTest {
         Mockito.when(modelsRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(page);
 
-        Type listType = new TypeToken<List<ModelsDto>>() {}.getType();
+        Type listType = new TypeToken<List<ModelsDto>>() {
+        }.getType();
         Mockito.when(modelMapper.map(page.getContent(), listType))
                 .thenReturn(List.of(dto));
 

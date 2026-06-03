@@ -18,12 +18,12 @@ public class UserControllerApi extends BaseController {
     private UserService userService;
 
     @PostMapping("/list")
-    public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable
-                = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return userService.findAll(pageable);
+    public List<UserDto> list(@RequestBody PaginationDto paginationDto) {
 
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        return userService.findAll(pageable);
     }
+
     @PostMapping("/add")
     public UserDto addPost(@RequestBody UserDto userDto) {
         return userService.save(userDto);
@@ -32,8 +32,8 @@ public class UserControllerApi extends BaseController {
 
     @GetMapping("/get")
     public UserDto update(@RequestParam String username) {
-        return userService.findByUserName(username);
 
+        return userService.findByUserName(username);
     }
 
     @PostMapping("/update")

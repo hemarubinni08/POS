@@ -17,7 +17,7 @@ public class CategoryControllerApi extends BaseController {
     CategoryService categoryService;
 
     @PostMapping("/list")
-    public List<CategoryDto> listCategories(@RequestBody PaginationDto paginationDto) {
+    public List<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable
                 = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return categoryService.findAll(pageable);
@@ -51,7 +51,6 @@ public class CategoryControllerApi extends BaseController {
             return false;
         }
         return true;
-
     }
 
     @GetMapping("/findSubCategories")

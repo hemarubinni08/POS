@@ -49,6 +49,7 @@ public class PriceControllerApi extends BaseController {
         return true;
 
     }
+
     @PostMapping("/update")
     public PriceDto update(@RequestBody PriceDto priceDto) {
 

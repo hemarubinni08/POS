@@ -9,6 +9,6 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-public class Racks extends CommonFields{
+public class Racks extends CommonFields {
     private List<String> shelf;
 }

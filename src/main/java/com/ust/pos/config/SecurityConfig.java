@@ -22,7 +22,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http){
+    public SecurityFilterChain filterChain(HttpSecurity http) {
 
         http
                 .csrf(csrf -> csrf.disable()) // Disable for testing
@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 
-                        .requestMatchers(LOGIN, "/register","/api/**").permitAll()
+                        .requestMatchers(LOGIN, "/register", "/api/**").permitAll()
                         .anyRequest().authenticated()
                 )
 

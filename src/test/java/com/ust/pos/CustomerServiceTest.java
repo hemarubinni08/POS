@@ -154,7 +154,8 @@ class CustomerServiceTest {
         Mockito.when(customerRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(page);
 
-        Type listType = new TypeToken<List<CustomerDto>>(){}.getType();
+        Type listType = new TypeToken<List<CustomerDto>>() {
+        }.getType();
         Mockito.when(modelMapper.map(Mockito.any(), Mockito.eq(listType)))
                 .thenReturn(List.of(new CustomerDto()));
 

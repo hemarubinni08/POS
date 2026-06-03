@@ -16,7 +16,7 @@ public class ModelsController {
     ModelsService modelsService;
 
     @GetMapping("/list")
-    public String listCategories(Model model, Pageable pageable) {
+    public String list(Model model, Pageable pageable) {
         model.addAttribute("Models", modelsService.findAll(pageable));
         return "models/list";
     }

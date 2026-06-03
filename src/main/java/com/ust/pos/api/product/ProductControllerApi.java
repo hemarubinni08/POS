@@ -26,6 +26,7 @@ public class ProductControllerApi extends BaseController {
 
     @PostMapping("/add")
     public ProductDto save(@RequestBody ProductDto productDto) {
+
         return productService.save(productDto);
 
     }
@@ -42,6 +43,7 @@ public class ProductControllerApi extends BaseController {
 
     @GetMapping("/update")
     public ProductDto update(@RequestParam Long id) {
+
         return productService.findById(id);
 
     }
