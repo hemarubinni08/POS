@@ -49,7 +49,6 @@
 
         <form id="nodeForm" action="/node/add" method="post">
 
-            <!-- Identifier -->
             <div class="mb-3">
                 <label class="form-label">Identifier</label>
                 <input type="text"
@@ -59,7 +58,6 @@
                        required>
             </div>
 
-            <!-- Path -->
             <div class="mb-3">
                 <label class="form-label">Path</label>
                 <input type="text"
@@ -69,7 +67,6 @@
                        required>
             </div>
 
-            <!-- Roles -->
             <div class="mb-4">
                 <label class="form-label fw-semibold">Roles (Multiple)</label>
 
@@ -95,13 +92,11 @@
 
                 </div>
 
-                <!-- ERROR MESSAGE -->
                 <small id="roleError" class="text-danger d-none">
                     Please select at least one role
                 </small>
             </div>
 
-            <!-- Buttons -->
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary w-100">
                     Save

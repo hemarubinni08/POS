@@ -48,17 +48,12 @@
             </div>
         </c:if>
 
-        <c:if test="${not empty userDto.message}">
-            <div class="alert alert-danger text-center">
-                ${userDto.message}
-            </div>
-        </c:if>
-
         <c:if test="${not empty userDto}">
 
             <form:form action="/user/update"
                        method="post"
-                       modelAttribute="userDto">
+                       modelAttribute="userDto"
+                       id="userForm">
 
                 <form:hidden path="id"/>
                 <form:hidden path="oldUsername"/>
@@ -67,7 +62,6 @@
                     <label class="form-label fw-semibold">Name</label>
                     <form:input path="name"
                                 cssClass="form-control"
-                                placeholder="Enter name"
                                 required="required"/>
                 </div>
 
@@ -75,17 +69,14 @@
                     <label class="form-label fw-semibold">Email</label>
                     <form:input path="username"
                                 cssClass="form-control"
-                                placeholder="Enter email"
                                 required="required"
-                                type="email"
-                                />
+                                type="email"/>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Phone</label>
                     <form:input path="phoneNo"
                                 cssClass="form-control"
-                                placeholder="Enter phone number"
                                 required="required"
                                 type="number"
                                 maxlength="10"
@@ -97,12 +88,13 @@
                     <label class="form-label fw-semibold">Roles</label>
 
                     <div class="border rounded p-2">
+
                         <c:forEach items="${roles}" var="role">
                             <div class="form-check">
 
                                 <form:checkbox path="roles"
                                                value="${role.identifier}"
-                                               cssClass="form-check-input"
+                                               cssClass="form-check-input role-check"
                                                id="role_${role.identifier}"/>
 
                                 <label class="form-check-label"
@@ -112,7 +104,12 @@
 
                             </div>
                         </c:forEach>
+
                     </div>
+
+                    <small id="roleError" class="text-danger d-none">
+                        Please select at least one role
+                    </small>
                 </div>
 
                 <div class="d-flex gap-2">
@@ -131,6 +128,39 @@
 
     </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("userForm");
+    const checks = document.querySelectorAll(".role-check");
+    const error = document.getElementById("roleError");
+
+    function isRoleSelected() {
+        return Array.from(checks).some(c => c.checked);
+    }
+
+    function hideError() {
+        if (isRoleSelected()) {
+            error.classList.add("d-none");
+        }
+    }
+
+    checks.forEach(c => {
+        c.addEventListener("change", hideError);
+    });
+
+    form.addEventListener("submit", function (e) {
+
+        if (!isRoleSelected()) {
+            e.preventDefault();
+            error.classList.remove("d-none");
+        }
+
+    });
+
+});
+</script>
 
 </body>
 </html>
