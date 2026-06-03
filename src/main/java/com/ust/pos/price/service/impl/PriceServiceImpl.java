@@ -95,4 +95,15 @@ public class PriceServiceImpl implements PriceService {
         return modelMapper.map(price, PriceDto.class);
 
     }
+
+    @Override
+    public PriceDto changePriceStatus(String identifier, boolean status) {
+        Price price = priceRepository.findByIdentifier(identifier);
+        if (price == null) {
+            return null; // test expects null
+        }
+        price.setStatus(status);
+        priceRepository.save(price);
+        return modelMapper.map(price, PriceDto.class);
+    }
 }

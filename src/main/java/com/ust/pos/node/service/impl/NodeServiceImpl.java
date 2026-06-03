@@ -1,5 +1,6 @@
 package com.ust.pos.node.service.impl;
 
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.*;
@@ -44,7 +45,7 @@ public class NodeServiceImpl implements NodeService {
     private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesStr = new HashSet<>();
-        List<Node> nodes = nodeRepository.findAll();
+        List<Node> nodes = nodeRepository.findByStatusTrue(true);
         for (String role : currentUser.getRoles()) {
             for (Node node : nodes) {
                 if (node.getRoles() != null && node.getRoles().contains(role)) {
@@ -70,6 +71,13 @@ public class NodeServiceImpl implements NodeService {
             nodeRepository.save(node);
         }
         return modelMapper.map(node,NodeDto.class);
+    }
+
+    @Override
+    public List<NodeDto> findActiveNode() {
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
+        return modelMapper.map(nodeRepository.findByStatusTrue(true), listType);
     }
 
     @Override

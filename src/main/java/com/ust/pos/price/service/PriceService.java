@@ -18,4 +18,6 @@ public interface PriceService {
     PriceDto update(PriceDto priceDto);
 
     PriceDto findByIdentifier(String identifier);
+
+    PriceDto changePriceStatus(String identifier, boolean status);
 }

@@ -4,6 +4,7 @@ package com.ust.pos.api.price;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.price.service.PriceService;
 import jakarta.transaction.Transactional;
@@ -38,6 +39,12 @@ public class PriceControllerApi extends BaseController {
         return priceService.findById(id);
     }
 
+    @PostMapping("/update")
+    public PriceDto update(@RequestBody PriceDto priceDto) {
+
+        return priceService.update(priceDto);
+    }
+
     @GetMapping("/delete")
     @Transactional
     public boolean delete(@RequestParam String identifier) {
@@ -49,9 +56,9 @@ public class PriceControllerApi extends BaseController {
         return true;
 
     }
-    @PostMapping("/update")
-    public PriceDto update(@RequestBody PriceDto priceDto) {
 
-        return priceService.update(priceDto);
+    @PostMapping("/changeStatus")
+    public PriceDto changestatus(@RequestBody PriceDto priceDto) {
+        return priceService.changePriceStatus(priceDto.getIdentifier(), priceDto.isStatus());
     }
 }

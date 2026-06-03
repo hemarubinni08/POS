@@ -21,4 +21,6 @@ public interface NodeService {
     NodeDto findByIdentifier(String identifier);
 
     NodeDto changeNodeStatus(String identifier, boolean status);
+
+    List<NodeDto> findActiveNode();
 }
