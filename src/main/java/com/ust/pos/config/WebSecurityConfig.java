@@ -64,7 +64,7 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/login",
                                 "/register",
-                                "/api/role/list",
+                                "/api/role/all",
                                 "/api/authenticate",
                                 "/api/validateToken",
                                 "/swagger-ui/**",

@@ -23,7 +23,7 @@ public class ProductControllerApi extends BaseController {
     private ProductService productService;
 
     @PostMapping("/list")
-    public WsDto<ProductDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<ProductDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),paginationDto.getSortField());
         Page<ProductDto> pageResult = productService.findAll(pageable);

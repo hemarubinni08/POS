@@ -82,10 +82,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
-        Type listtype = new TypeToken<List<CategoryDto>>() {
-        }.getType();
+    public Page<CategoryDto> findAll(Pageable pageable) {
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
-        return modelMapper.map(categoryPage.getContent(), listtype);
+        return categoryPage.map(category -> modelMapper.map(category, CategoryDto.class));
     }
 }

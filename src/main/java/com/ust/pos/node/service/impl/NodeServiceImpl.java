@@ -74,7 +74,6 @@ public class NodeServiceImpl implements NodeService {
     public NodeDto save(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
         Node existingNode = nodeRepository.findByIdentifier(identifier);
-
         if (existingNode != null) {
             nodeDto.setMessage("Nole with identifier - " + identifier + " already exists");
             nodeDto.setSuccess(false);
@@ -115,10 +114,8 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public List<NodeDto> findAll(Pageable pageable) {
-        Type listtype = new TypeToken<List<NodeDto>>() {
-        }.getType();
+    public Page<NodeDto> findAll(Pageable pageable) {
         Page<Node> nodePage = nodeRepository.findAll(pageable);
-        return modelMapper.map(nodePage.getContent(), listtype);
+        return nodePage.map(node ->  modelMapper.map(node, NodeDto.class));
     }
 }
