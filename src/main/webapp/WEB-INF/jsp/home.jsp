@@ -10,13 +10,10 @@
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-
-            /* SAME DARK BACKGROUND */
             background: linear-gradient(135deg, #232526, #414345);
             color: #fff;
         }
 
-        /* 🔝 TOP BAR */
         .topbar {
             height: 56px;
             background: #111827;
@@ -44,8 +41,6 @@
             margin: 5px 0;
             border-radius: 2px;
         }
-
-        /* 🔴 LOGOUT BUTTON */
         .logout-btn {
             background: linear-gradient(to right, #ff4b2b, #ff416c);
             border: none;
@@ -60,8 +55,6 @@
         .logout-btn:hover {
             opacity: 0.9;
         }
-
-        /* 📂 SIDEBAR */
         .sidebar {
             position: fixed;
             top: 56px;
@@ -91,8 +84,6 @@
             background: linear-gradient(to right, #4facfe, #00f2fe);
             color: #fff;
         }
-
-        /* 📄 CONTENT */
         .content {
             margin-top: 56px;
             padding: 40px;
@@ -120,7 +111,6 @@
 
 <body>
 
-<!-- 🔝 TOP BAR -->
 <div class="topbar">
     <div class="topbar-left">
         <div class="menu" onclick="toggleMenu()">
@@ -136,7 +126,6 @@
     </form>
 </div>
 
-<!-- 📂 SIDEBAR -->
 <div class="sidebar" id="sidebar">
     <c:forEach var="node" items="${nodes}">
         <a href="${pageContext.request.contextPath}${node.path}">
@@ -145,7 +134,6 @@
     </c:forEach>
 </div>
 
-<!-- 📄 CONTENT -->
 <div class="content">
     <div class="welcome">Welcome to Role Management</div>
     <div class="welcome-sub">

@@ -6,7 +6,6 @@
 <head>
     <title>Role List</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"/>
 
@@ -31,7 +30,6 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
         }
 
-        /* Header */
         .card-header {
             background: transparent;
             border-bottom: none;
@@ -44,7 +42,6 @@
             color: #333;
         }
 
-        /* Table */
         .table th {
             background-color: #f4f6fb;
             color: #555;
@@ -66,7 +63,6 @@
             background: #f9fafb;
         }
 
-        /* Buttons */
         .edit-btn {
             background: linear-gradient(90deg, #4facfe, #00f2fe);
             color: #fff;
@@ -90,7 +86,6 @@
             font-size: 0.85rem;
         }
 
-        /* Footer Buttons */
         .card-footer {
             border-top: none;
             background: transparent;
@@ -123,14 +118,12 @@
 
         <div class="card-body">
 
-            <!-- No Roles -->
             <c:if test="${empty roles}">
                 <div class="alert alert-warning text-center">
                     No roles found
                 </div>
             </c:if>
 
-            <!-- Role Table -->
             <c:if test="${not empty roles}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle">
@@ -170,7 +163,6 @@
 
         </div>
 
-        <!-- Footer -->
         <div class="card-footer d-flex justify-content-center gap-3 pb-4">
             <a href="/" class="btn btn-secondary">
                 Home

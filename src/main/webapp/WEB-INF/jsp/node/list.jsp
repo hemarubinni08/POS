@@ -30,7 +30,6 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.25);
         }
 
-        /* ===== Header ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -49,7 +48,6 @@
             gap: 12px;
         }
 
-        /* ===== Buttons ===== */
         .btn-home {
             background: linear-gradient(90deg, #22c55e, #16a34a);
             border: none;
@@ -73,7 +71,6 @@
             opacity: 0.9;
         }
 
-        /* ===== Table ===== */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -104,7 +101,6 @@
             font-size: 13px;
         }
 
-        /* ===== Actions ===== */
         .actions a {
             display: inline-block;
             padding: 6px 14px;
@@ -147,7 +143,6 @@
 <div class="container">
     <div class="card p-4">
 
-        <!-- Header -->
         <div class="header">
             <h2>Node Management</h2>
 
@@ -162,7 +157,6 @@
             </div>
         </div>
 
-        <!-- Content -->
         <c:choose>
             <c:when test="${empty nodes}">
                 <div class="empty">

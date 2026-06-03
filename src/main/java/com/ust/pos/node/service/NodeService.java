@@ -5,6 +5,7 @@ import com.ust.pos.dto.NodeDto;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Transactional
 public interface NodeService {
     List<NodeDto> getNodesForRoles();

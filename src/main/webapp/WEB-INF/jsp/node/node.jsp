@@ -6,7 +6,6 @@
 <head>
     <title>Edit Node</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"/>
 
@@ -55,7 +54,6 @@
             height: 120px;
         }
 
-        /* Gradient Update Button */
         button {
             width: 100%;
             margin-top: 25px;
@@ -98,15 +96,12 @@
 
     <form action="${pageContext.request.contextPath}/node/update" method="post">
 
-        <!-- Hidden fields -->
         <input type="hidden" name="id" value="${node.id}" />
         <input type="hidden" name="identifier" value="${node.identifier}" />
 
-        <!-- Path -->
         <label>Path</label>
         <input type="text" name="path" value="${node.path}" required />
 
-        <!-- Roles -->
         <label>Roles</label>
         <select name="roles" multiple required>
             <c:forEach var="role" items="${roles}">
@@ -117,7 +112,6 @@
             </c:forEach>
         </select>
 
-        <!-- Update -->
         <button type="submit">Update Node</button>
 
     </form>

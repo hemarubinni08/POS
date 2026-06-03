@@ -96,7 +96,6 @@
 
         <div class="card-body">
 
-            <!-- ✅ NODE ALREADY EXISTS MESSAGE -->
             <c:if test="${not empty message}">
                 <div class="alert alert-danger text-center">
                     ${message}

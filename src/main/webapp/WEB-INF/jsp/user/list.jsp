@@ -49,7 +49,6 @@
             border-color: #eee;
         }
 
-        /* Edit button (gradient like Register) */
         .edit-btn {
             background: linear-gradient(90deg, #4facfe, #00f2fe);
             color: #fff;
@@ -99,14 +98,12 @@
 
             <h3 class="text-center mb-4">User Management</h3>
 
-            <!-- No Users -->
             <c:if test="${empty users}">
                 <div class="alert alert-warning text-center">
                     No users found
                 </div>
             </c:if>
 
-            <!-- User Table -->
             <c:if test="${not empty users}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle">
@@ -146,7 +143,6 @@
 
         </div>
 
-        <!-- Footer -->
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
                 <a href="/" class="btn btn-secondary">Home</a>
