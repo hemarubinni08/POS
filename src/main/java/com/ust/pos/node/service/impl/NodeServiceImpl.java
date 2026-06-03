@@ -55,7 +55,6 @@ public class NodeServiceImpl implements NodeService {
         }
     }
 
-
     @Override
     public NodeDto findByIdentifier(String identifier) {
         return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);

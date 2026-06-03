@@ -90,7 +90,6 @@
             box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.2);
         }
 
-        /* ✅ Success Message */
         .alert {
             padding: 10px;
             border-radius: 8px;
@@ -101,7 +100,6 @@
             color: #155724;
         }
 
-        /* ✅ Error / Info Message */
         .error-message {
             padding: 10px;
             border-radius: 8px;
@@ -146,14 +144,12 @@
 
     <h2>Add New Role</h2>
 
-    <!-- ✅ Success Message -->
     <c:if test="${not empty role}">
         <div class="alert">
             ${role}
         </div>
     </c:if>
 
-    <!-- ✅ Error / Info Message -->
     <c:if test="${not empty message}">
         <div class="error-message">
             ${message}
@@ -190,6 +186,5 @@
     </div>
 
 </div>
-
 </body>
 </html>

@@ -216,8 +216,6 @@
     <div class="footer-text">
         POS Management System
     </div>
-
 </div>
-
 </body>
 </html>

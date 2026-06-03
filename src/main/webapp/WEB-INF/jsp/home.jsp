@@ -1,5 +1,3 @@
-
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
@@ -126,7 +124,6 @@
         <div class="header">
             <span>Dashboard</span>
 
-            <!-- ✅ Logout Form -->
             <form action="${pageContext.request.contextPath}/logout" method="post">
                 <input type="hidden"
                        name="${_csrf.parameterName}"
