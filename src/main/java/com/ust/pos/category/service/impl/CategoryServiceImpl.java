@@ -80,11 +80,23 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<CategoryDto>>() {
-        }.getType();
-        Page<Category> categoryPage = categoryRepository.findAll(pageable);
-        return modelMapper.map(categoryPage.getContent(), listType);
+    public Page<CategoryDto> findAll(Pageable pageable , String search) {
+        Page<Category> categories;
+        if(search!= null && !search.trim().isEmpty()){
+            categories = categoryRepository.findByIdentifierContainingIgnoreCase(search , pageable);
+        }
+        else {
+            categories = categoryRepository.findAll(pageable);
+        }
+        return categories.map(category -> modelMapper.map(category , CategoryDto.class));
     }
 
+    @Override
+    public void toggleStatus(String identifier) {
+        Category category = categoryRepository.findByIdentifier(identifier);
+        if (category != null) {
+            category.setStatus(!category.isStatus());
+            categoryRepository.save(category);
+        }
+    }
 }

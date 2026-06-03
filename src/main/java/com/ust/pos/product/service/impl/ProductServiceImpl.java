@@ -1,6 +1,8 @@
 package com.ust.pos.product.service.impl;
 
+import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.model.Price;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -71,10 +73,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<ProductDto>>() {
-        }.getType();
-        Page<Product> productPage = productRepository.findAll(pageable);
-        return modelMapper.map(productPage.getContent(), listType);
+    public Page<ProductDto> findAll(Pageable pageable , String search ) {
+        Page<Product> productPage;
+        if(search !=null && !search.trim().isEmpty()){
+            productPage = productRepository.findByIdentifierContainingIgnoreCase
+                    (search,pageable);
+        }
+        else {
+            productPage = productRepository.findAll(pageable);
+        }
+        return productPage.map(node ->modelMapper.map(node , ProductDto.class));
+    }
+
+    @Override
+    public void toggleStatus(String identifier) {
+        Product products = productRepository.findByIdentifier(identifier);
+        if (products != null) {
+            products.setStatus(!products.isStatus());
+            productRepository.save(products);
+        }
     }
 }

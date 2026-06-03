@@ -69,5 +69,4 @@ public class BrandController {
         brandService.toggleStatus(identifier);
         return REDIRECT_BRAND_LIST;
     }
-
 }

@@ -1,6 +1,8 @@
 package com.ust.pos.user.service.impl;
 
+import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.model.Price;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
@@ -91,10 +93,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<UserDto>>() {
-        }.getType();
-        Page<User> userPage = userRepository.findAll(pageable);
-        return modelMapper.map(userPage.getContent(), listType);
+    public Page<UserDto> findAll(Pageable pageable , String search ) {
+        Page<User> userPage;
+        if(search != null && !search.trim().isEmpty()){
+            userPage =
+                    userRepository
+                            .findByNameContainingIgnoreCaseOrUsernameContainingIgnoreCase(
+                                    search,
+                                    search,
+                                    pageable
+                            );
+        }
+        else {
+            userPage = userRepository.findAll(pageable);
+        }
+        return userPage.map(node ->modelMapper.map(node , UserDto.class));
     }
 }
