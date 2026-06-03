@@ -46,7 +46,11 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource())).csrf(csrf -> csrf.disable()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll().requestMatchers("/api/authenticate", "/api/validateToken", "/api/user/register", "/api/role/findByStatus", "/swagger-ui/**", "/v3/**").permitAll().anyRequest().authenticated()).logout(logout -> logout.permitAll());
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                        .requestMatchers("/api/user/add", "/api/authenticate", "/api/validateToken", "/api/user/register", "/api/role/findByStatus", "/swagger-ui/**", "/v3/**").permitAll().anyRequest().authenticated()).logout(logout -> logout.permitAll());
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -87,6 +91,12 @@ public class WebSecurityConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        return new OpenAPI().info(new Info().title("Authentication Service")).addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME)).components(new Components().addSecuritySchemes(SECURITY_SCHEME, new SecurityScheme().name(SECURITY_SCHEME).type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
+        return new OpenAPI().info(new Info()
+                        .title("Authentication Service"))
+                .addSecurityItem(new SecurityRequirement()
+                        .addList(SECURITY_SCHEME)).components(new Components()
+                        .addSecuritySchemes(SECURITY_SCHEME, new SecurityScheme()
+                                .name(SECURITY_SCHEME).type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer").bearerFormat("JWT")));
     }
 }

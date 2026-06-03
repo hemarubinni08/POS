@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
     @Override
     public UserDto findByIdentifier(String identifier) {
         User user = userRepository.findByIdentifier(identifier);

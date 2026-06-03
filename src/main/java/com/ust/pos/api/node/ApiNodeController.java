@@ -67,12 +67,15 @@ public class ApiNodeController extends BaseController {
 
     @GetMapping("/findByStatus")
     public List<NodeDto> findByStatus() {
+
         return nodeService.findIfTrue();
     }
 
     @GetMapping("/getAll")
     public List<NodeDto> getAll() {
+
         return nodeService.getNodesForRoles();
+
     }
 
 }
