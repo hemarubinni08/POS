@@ -38,6 +38,6 @@ public class SecurityController {
             model.addAttribute("message", response.getMessage());
             return "register";
         }
-        return "login";
+        return "redirect:/user/list";
     }
 }

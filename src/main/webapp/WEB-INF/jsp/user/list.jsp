@@ -2,196 +2,129 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>All Users</title>
+    <title>User Management</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
-            background: #f0f2f5;
-            padding: 40px;
+            background-color: #f5f6fa;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 15px;
+        .card-custom {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
         }
 
-        .top-bar {
-            width: 90%;
-            margin: 0 auto 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .add-btn,
+        .back-btn {
+            font-size: 18px;
+            padding: 12px 30px;
+            border-radius: 30px;
         }
 
         .back-btn {
-            background-color: #6c757d;
-            color: #fff;
-            padding: 10px 18px;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        .email-link {
+            font-weight: 700;
+            color: #0d6efd;
             text-decoration: none;
         }
 
-        .back-btn:hover {
-            background-color: #5a6268;
-        }
-
-        .add-btn {
-            background-color: #5563DE;
-            color: #fff;
-            padding: 10px 18px;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .add-btn:hover {
-            background-color: #4450c7;
-        }
-
-        table {
-            width: 90%;
-            margin: auto;
-            border-collapse: collapse;
-            background: #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        th {
-            background-color: #5563DE;
-            color: #fff;
-        }
-
-        tr:hover {
-            background-color: #f5f7ff;
-        }
-
-        .btn {
-            padding: 6px 14px;
-            text-decoration: none;
-            color: #fff;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .view-btn {
-            background-color: #28a745;
-        }
-
-        .delete-btn {
-            background-color: #dc3545;
-        }
-
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .id-link {
-            color: #5563DE;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .id-link:hover {
+        .email-link:hover {
             text-decoration: underline;
         }
 
-        .footer-actions {
-            margin-top: 25px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .footer-actions a {
-            padding: 10px 20px;
-            border-radius: 6px;
+        .user-role {
             font-weight: 600;
-            text-decoration: none;
-            color: #fff;
-        }
-
-        .home-btn {
-            background-color: #6c757d;
-        }
-
-        .register-btn {
-            background-color: #28a745;
+            color: #198754;
         }
     </style>
 </head>
 
 <body>
 
-<h2>Registered Users</h2>
+<div class="container mt-4">
+    <div class="card card-custom p-4">
 
-<div class="top-bar">
-    <a href="${pageContext.request.contextPath}/register" class="add-btn">
-        + Add New User
-    </a>
-</div>
+        <h2 class="text-center mb-4">User Management</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Roles</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
+        <div class="text-center mb-4">
+            <a href="${pageContext.request.contextPath}/"
+               class="btn btn-secondary back-btn">
+                <i class="bi bi-arrow-left-circle"></i>
+                Back to Home
+            </a>
 
-    <tbody>
-        <c:forEach var="u" items="${users}">
+            <a href="${pageContext.request.contextPath}/register"
+               class="btn btn-success add-btn">
+                <i class="bi bi-person-plus-fill"></i>
+                Add New User
+            </a>
+        </div>
+
+        <table class="table table-hover table-bordered align-middle">
+            <thead class="table-dark text-center">
             <tr>
-                <td>
-                    <a class="id-link"
-                       href="${pageContext.request.contextPath}/user/get?username=${u.username}">
-                        ${u.username}
-                    </a>
-                </td>
-
-                <td>${u.name}</td>
-                <td>${u.phoneNo}</td>
-                <td>${u.roles}</td>
-
-                <td>
-                    <div class="action-buttons">
-                        <a class="btn view-btn"
-                           href="${pageContext.request.contextPath}/user/get?username=${u.username}">
-                            Edit
-                        </a>
-
-                        <a class="btn delete-btn"
-                           href="${pageContext.request.contextPath}/user/delete?username=${u.username}"
-                           onclick="return confirm('Are you sure you want to delete this user?');">
-                            Delete
-                        </a>
-                    </div>
-                </td>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Roles</th>
+                <th>Actions</th>
             </tr>
-        </c:forEach>
-    </tbody>
-</table>
+            </thead>
 
-<div class="footer-actions">
-    <a href="${pageContext.request.contextPath}/" class="home-btn">
-        Home
-    </a>
+            <tbody>
+            <c:forEach var="u" items="${users}">
+                <tr>
+                    <td>
+                        <a class="email-link"
+                           href="${pageContext.request.contextPath}/user/get?username=${u.username}">
+                            ${u.username}
+                        </a>
+                    </td>
+
+                    <td>${u.name}</td>
+
+                    <td>${u.phoneNo}</td>
+
+                    <td>
+                        <span class="user-role">${u.roles}</span>
+                    </td>
+
+                    <td class="text-center">
+                        <a href="${pageContext.request.contextPath}/user/get?username=${u.username}"
+                           class="btn btn-sm btn-warning me-1">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+
+                        <a href="${pageContext.request.contextPath}/user/delete?username=${u.username}"
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('Are you sure you want to delete this user?');">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+
+            <c:if test="${empty users}">
+                <tr>
+                    <td colspan="5" class="text-center text-muted">
+                        No users available
+                    </td>
+                </tr>
+            </c:if>
+            </tbody>
+
+        </table>
+
+    </div>
 </div>
 
 </body>

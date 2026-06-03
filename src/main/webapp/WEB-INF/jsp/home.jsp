@@ -25,7 +25,7 @@
             height: 100vh;
         }
 
-        /* Sidebar */
+
         .sidebar {
             width: 240px;
             background: linear-gradient(180deg, #1e272e, #2f3640);
@@ -62,7 +62,7 @@
             padding-left: 25px;
         }
 
-        /* Logout at bottom */
+
         .logout-section {
             padding: 15px;
             border-top: 1px solid rgba(255,255,255,0.1);
@@ -83,7 +83,7 @@
             background: red;
         }
 
-        /* Content */
+
         .content {
             flex: 1;
             display: flex;
@@ -117,7 +117,7 @@
 
 <div class="container">
 
-    <!-- Sidebar -->
+
     <div class="sidebar">
 
         <div class="logo">POS System</div>
@@ -131,7 +131,7 @@
             </c:forEach>
         </div>
 
-        <!-- Logout at Bottom -->
+
         <div class="logout-section">
             <form action="${pageContext.request.contextPath}/logout" method="post">
                 <button type="submit" class="logout-btn">
@@ -142,7 +142,7 @@
 
     </div>
 
-    <!-- Content -->
+
     <div class="content">
         <div class="welcome-box">
             <h1>Welcome to POS Application</h1>

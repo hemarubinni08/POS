@@ -18,6 +18,7 @@ public class UserController {
     private UserService userService;
     @Autowired
     private RoleService roleService;
+
     @GetMapping("/list")
     public String list(Model model) {
         model.addAttribute("users", userService.findAll());
@@ -43,6 +44,7 @@ public class UserController {
         }
         return "redirect:/user/list";
     }
+
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
 

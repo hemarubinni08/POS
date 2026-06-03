@@ -58,6 +58,7 @@ public class NodeController {
         }
         return REDIRECT_NODE_LIST;
     }
+
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         nodeService.delete(identifier);

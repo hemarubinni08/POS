@@ -4,8 +4,10 @@
 <head>
     <title>Role List</title>
 
+
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
 
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -16,67 +18,92 @@
         }
 
         .card-custom {
-            max-width: 800px;
-            margin: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .action-btn {
-            min-width: 80px;
+        .add-btn {
+            font-size: 18px;
+            padding: 12px 30px;
+            border-radius: 30px;
+        }
+
+        .back-btn {
+            font-size: 18px;
+            padding: 12px 30px;
+            border-radius: 30px;
+            margin-right: 15px;
+        }
+
+        .role-name {
+            font-weight: 700;
+            color: #0d6efd;
+        }
+
+        .role-desc {
+            font-weight: 600;
+            color: #198754;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
+<div class="container mt-4">
+
     <div class="card card-custom p-4">
+        <h2 class="text-center mb-4">Role Management</h2>
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="mb-0">Role List</h3>
+        <!-- Top Buttons -->
+        <div class="text-center mb-4">
+            <a href="${pageContext.request.contextPath}/"
+               class="btn btn-secondary back-btn">
+                <i class="bi bi-arrow-left-circle"></i>
+                Back to Home
+            </a>
 
-            <div>
-                <a href="${pageContext.request.contextPath}/"
-                   class="btn btn-outline-secondary me-2">
-                    <i class="bi bi-arrow-left-circle"></i>
-                    Back to Home
-                </a>
-
-                <a href="${pageContext.request.contextPath}/role/add"
-                   class="btn btn-success">
-                    <i class="bi bi-plus-circle"></i>
-                    Add Role
-                </a>
-            </div>
+            <a href="${pageContext.request.contextPath}/role/add"
+               class="btn btn-success add-btn">
+                <i class="bi bi-plus-circle"></i>
+                Add New Role
+            </a>
         </div>
 
         <table class="table table-hover table-bordered align-middle">
             <thead class="table-dark text-center">
             <tr>
-                <th>Role ID</th>
+                <th>ID</th>
                 <th>Role Identifier</th>
-                <th>description</th>
-                <th>Action</th>
-
+                <th>Description</th>
+                <th>Actions</th>
             </tr>
             </thead>
 
             <tbody>
             <c:forEach var="role" items="${roles}">
                 <tr>
+
                     <td class="text-center">${role.id}</td>
-                    <td class="text-center fw-semibold">${role.identifier}</td>
-                    <td> ${role.description}</td>
+
+                    <td>
+                        <span class="role-name">${role.identifier}</span>
+                    </td>
+
+                    <td>
+                        <span class="role-desc">${role.description}</span>
+                    </td>
+
                     <td class="text-center">
                         <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
-                           class="btn btn-sm btn-warning action-btn me-1">
+                           class="btn btn-sm btn-warning">
+                            <i class="bi bi-pencil-square"></i>
                             Edit
                         </a>
 
                         <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
-                           class="btn btn-sm btn-danger action-btn"
-                           onclick="return confirm('Are you sure you want to delete this role?');">
+                           class="btn btn-sm btn-danger"
+                           onclick="return confirm('Are you sure you want to delete this role?')">
+                            <i class="bi bi-trash"></i>
                             Delete
                         </a>
                     </td>
@@ -86,6 +113,7 @@
         </table>
 
     </div>
+
 </div>
 
 </body>
