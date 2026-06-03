@@ -33,8 +33,8 @@ public class NodeController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute NodeDto userDto) {
-        NodeDto response = nodeService.save(userDto);
+    public String addPost(Model model, @ModelAttribute NodeDto nodeDto) {
+        NodeDto response = nodeService.save(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
         }

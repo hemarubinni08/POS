@@ -14,5 +14,6 @@ public interface UserService {
     void delete(String username);
 
     List<UserDto> findAll();
+
     boolean getCurrentUser(String username);
 }

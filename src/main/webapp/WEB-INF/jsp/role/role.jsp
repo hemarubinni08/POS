@@ -36,17 +36,29 @@ input {
 }
 
 button {
-    width: 100%;
-    margin-top: 15px;
-    padding: 10px;
-    background: #2B2B2B;
-    color: white;
-    border: none;
+    padding: 10px 16px;
     border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
 }
 
-button:hover {
+.btn-primary {
+    background: #2B2B2B;
+    color: white;
+}
+
+.btn-primary:hover {
     background: #111111;
+}
+
+.btn-cancel {
+    background: #E5E7EB;
+    color: #111827;
+}
+
+.btn-cancel:hover {
+    background: #D1D5DB;
 }
 </style>
 </head>
@@ -57,13 +69,21 @@ button:hover {
 
 <h2>Edit Role</h2>
 
-<form:form method="post" action="/role/update" modelAttribute="roleDto">
+<form:form method="post" action="/role/update" modelAttribute="role">
 
 <form:hidden path="id"/>
 
-<form:input path="identifier"/>
+<form:input path="identifier" readOnly="true"/>
+<form:input path="description"/>
 
-<button type="submit">Update</button>
+
+<div style="display:flex;justify-content:space-between;margin-top:15px;">
+    <a href="/role/list">
+        <button type="button" class="btn-cancel">Cancel</button>
+    </a>
+
+    <button type="submit" class="btn-primary">Update</button>
+</div>
 
 </form:form>
 

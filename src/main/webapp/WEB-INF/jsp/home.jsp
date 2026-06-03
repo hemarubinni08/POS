@@ -12,7 +12,6 @@ body {
     background: #F6F7F9;
 }
 
-/* HEADER */
 .header {
     height: 60px;
     background: #2B2B2B;
@@ -23,7 +22,6 @@ body {
     font-weight: 600;
 }
 
-/* SIDEBAR */
 .sidebar {
     position: fixed;
     top: 60px;
@@ -51,7 +49,6 @@ body {
     background: #F3F4F6;
 }
 
-/* CONTENT */
 .content {
     padding: 30px;
     transition: margin-left 0.3s;
@@ -61,7 +58,6 @@ body {
     margin-left: 260px;
 }
 
-/* WELCOME BOX */
 .welcome-box {
     background: #FFFFFF;
     padding: 30px;
@@ -71,7 +67,6 @@ body {
     max-width: 700px;
 }
 
-/* LOGOUT */
 .logout-link {
     margin-left: auto;
     background: #B91C1C;
@@ -85,7 +80,6 @@ body {
     background: #7F1D1D;
 }
 
-/* HAMBURGER */
 .hamburger {
     font-size: 22px;
     cursor: pointer;
@@ -104,15 +98,13 @@ function toggleSidebar() {
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
     <span class="hamburger" onclick="toggleSidebar()">☰</span>
     POS Dashboard
 
-    <a href="/login?logout" class="logout-link">Logout</a>
+    <a href="/logout" class="logout-link">Logout</a>
 </div>
 
-<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
 
     <c:forEach var="node" items="${nodes}">
@@ -121,7 +113,6 @@ function toggleSidebar() {
 
 </div>
 
-<!-- CONTENT -->
 <div class="content" id="content">
 
     <div class="welcome-box">

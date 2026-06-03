@@ -17,7 +17,6 @@ body {
     align-items: center;
 }
 
-/* CARD */
 form {
     width: 420px;
     background: #FFFFFF;
@@ -27,14 +26,12 @@ form {
     box-shadow: 0 8px 20px rgba(0,0,0,0.06);
 }
 
-/* TITLE */
 h4 {
     text-align: center;
     color: #111827;
     margin-bottom: 20px;
 }
 
-/* LABEL */
 label {
     font-weight: 600;
     color: #111827;
@@ -42,7 +39,6 @@ label {
     margin-top: 10px;
 }
 
-/* INPUTS */
 input, select {
     width: 100%;
     padding: 10px;
@@ -57,7 +53,6 @@ input:focus, select:focus {
     outline: none;
 }
 
-/* BUTTONS */
 button {
     padding: 10px 16px;
     border-radius: 8px;
@@ -84,7 +79,6 @@ button {
     background: #D1D5DB;
 }
 
-/* ERROR */
 .error {
     color: #B91C1C;
     font-size: 12px;
@@ -126,12 +120,8 @@ button {
 
 
 <label>Roles</label>
-<form:select path="roles" multiple="true">
-    <c:forEach var="role" items="${roles}">
-        <option value="${role.identifier}">
-            ${role.identifier}
-        </option>
-    </c:forEach>
+<form:select path="roles" multiple="true" required="true">
+     <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
 </form:select>
 
 <div style="display:flex;justify-content:space-between;margin-top:15px;">

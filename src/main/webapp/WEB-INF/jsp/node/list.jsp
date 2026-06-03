@@ -36,12 +36,54 @@ a {
     font-weight: 600;
     text-decoration: none;
 }
+.top-right-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+.top-right-actions button {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .add-btn {
+            background: #2B2B2B;
+            color: white;
+        }
+
+        .add-btn:hover {
+            background: #111111;
+        }
+
+        .back-btn {
+            background: #E5E7EB;
+            color: #111827;
+        }
+
+        .back-btn:hover {
+            background: #D1D5DB;
+        }
 </style>
 </head>
 
 <body>
 
 <h2 style="text-align:center;">Node List</h2>
+
+<div class="top-right-actions">
+    <a href="/node/add">
+        <button class="add-btn">Add Node</button>
+    </a>
+    <a href="/">
+        <button class="back-btn">Back</button>
+    </a>
+</div>
 
 <table>
 <tr>
