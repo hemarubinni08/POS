@@ -22,7 +22,7 @@ public class NodeController {
 
     @GetMapping("/list")
     public String list(Model model) {
-        model.addAttribute("nodes", nodeService.getNodesForRoles());
+        model.addAttribute("nodes", nodeService.findAll());
         return "node/list";
     }
 
