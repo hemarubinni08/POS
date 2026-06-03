@@ -3,6 +3,7 @@ package com.ust.pos.api.user;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class UserApiController extends BaseController {
     private RoleService roleService;
 
     @PostMapping("/list")
-    public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<UserDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -32,8 +33,8 @@ public class UserApiController extends BaseController {
         return userService.findAll(pageable);
     }
 
-    @GetMapping("/get")
-    public UserDto update(@RequestParam String username) {
+    @PostMapping("/get")
+    public UserDto update(@RequestBody String username) {
         return userService.findByUserName(username);
     }
 
@@ -42,8 +43,8 @@ public class UserApiController extends BaseController {
         return userService.update(userDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String username) {
+    @PostMapping("/delete")
+    public boolean delete(@RequestBody String username) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null) {
@@ -59,5 +60,14 @@ public class UserApiController extends BaseController {
             return false;
         }
         return true;
+    }
+
+    @PostMapping("/register")
+    public UserDto registerUser(@RequestBody UserDto userDto){
+
+        if(userService.findByUserName(userDto.getUsername())==null){
+            return userService.save(userDto);
+        }
+        return userDto;
     }
 }

@@ -3,6 +3,7 @@ package com.ust.pos.api.stock;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ public class StockApiController extends BaseController {
     private StockService stockService;
 
     @PostMapping("/list")
-    public List<StockDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<StockDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -32,8 +33,8 @@ public class StockApiController extends BaseController {
 
     }
 
-    @GetMapping("/get")
-    public StockDto update(@RequestParam String identifier) {
+    @PostMapping("/get")
+    public StockDto update(@RequestBody String identifier) {
         return stockService.findByIdentifier(identifier);
     }
 
@@ -43,8 +44,8 @@ public class StockApiController extends BaseController {
 
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public boolean delete(@RequestBody String identifier) {
         try {
             stockService.delete(identifier);
         } catch (Exception e) {
