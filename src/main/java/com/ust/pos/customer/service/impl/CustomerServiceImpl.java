@@ -61,7 +61,6 @@ public class CustomerServiceImpl implements CustomerService {
             customerDto.setSuccess(false);
             return customerDto;
         }
-
         Customer customer = modelMapper.map(customerDto, Customer.class);
         customerRepository.save(customer);
 
@@ -89,7 +88,6 @@ public class CustomerServiceImpl implements CustomerService {
             customerDto.setSuccess(false);
             return customerDto;
         }
-
         modelMapper.map(customerDto, existingCustomer);
         customerRepository.save(existingCustomer);
 

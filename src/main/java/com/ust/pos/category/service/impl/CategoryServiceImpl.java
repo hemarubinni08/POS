@@ -58,7 +58,6 @@ public class CategoryServiceImpl implements CategoryService {
 
         if (!existing.getIdentifier().equalsIgnoreCase(categoryDto.getIdentifier()) &&
                 categoryRepository.findByIdentifier(categoryDto.getIdentifier()) != null) {
-
             categoryDto.setSuccess(false);
             categoryDto.setMessage("Category already exists");
             return categoryDto;

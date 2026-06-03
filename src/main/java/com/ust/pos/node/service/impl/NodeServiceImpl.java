@@ -66,7 +66,6 @@ public class NodeServiceImpl implements NodeService {
             nodeDto.setSuccess(false);
             return nodeDto;
         }
-
         Node node = modelMapper.map(nodeDto, Node.class);
         nodeRepository.save(node);
         return nodeDto;
@@ -82,7 +81,6 @@ public class NodeServiceImpl implements NodeService {
             nodeDto.setSuccess(false);
             return nodeDto;
         }
-
         modelMapper.map(nodeDto, existingNode);
         nodeRepository.save(existingNode);
         return nodeDto;
