@@ -21,7 +21,7 @@ public class NodeController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("node", nodeService.getNodesForRoles());
+        model.addAttribute("node", nodeService.findAll());
         return "node/list";
     }
 

@@ -7,10 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Update User</title>
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
     <style>
         body {
@@ -31,8 +28,7 @@
         .card-header {
             background-color: #1e272e;
             color: #ffffff;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
+            border-radius: 12px 12px 0 0;
         }
 
         .form-label {
@@ -60,35 +56,54 @@
 
     <div class="card-body p-4">
 
-        <!-- Optional message -->
         <c:if test="${not empty message}">
             <div class="alert alert-info text-center">
                 ${message}
             </div>
         </c:if>
 
-<form:form action="/user/update" method="post" modelAttribute="userDto">
+        <form:form action="/user/update" method="post" modelAttribute="userDto">
+
             <form:hidden path="id"/>
 
             <div class="mb-3">
                 <label class="form-label">Name</label>
-                <form:input path="name"
-                            cssClass="form-control"
-                            required="true"/>
+                <form:input
+                    path="name"
+                    cssClass="form-control"
+                    required="true"
+                    minlength="3"
+                    maxlength="50"
+                    placeholder="Enter full name"
+                />
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <form:input path="username"
-                            cssClass="form-control"
-                            />
+                <form:input
+                    path="username"
+                    cssClass="form-control"
+                    type="email"
+                    readonly="true"
+                />
+                <div class="form-text">
+                    Email cannot be modified
+                </div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Phone Number</label>
-                <form:input path="phoneNo"
-                            cssClass="form-control"
-                            required="true"/>
+                <form:input
+                    path="phoneNo"
+                    cssClass="form-control"
+                    required="true"
+                    pattern="[0-9]{10}"
+                    maxlength="10"
+                    placeholder="Enter 10 digit number"
+                />
+                <div class="form-text">
+                    Enter valid 10-digit number
+                </div>
             </div>
 
             <div class="mb-3">
@@ -101,12 +116,17 @@
                     </c:forEach>
                 </div>
 
-                <form:select path="roles"
-                             multiple="true"
-                             cssClass="form-control">
-                    <form:options items="${roles}"
-                                  itemValue="identifier"
-                                  itemLabel="identifier"/>
+                <form:select
+                    path="roles"
+                    multiple="true"
+                    cssClass="form-control"
+                    required="true"
+                >
+                    <form:options
+                        items="${roles}"
+                        itemValue="identifier"
+                        itemLabel="identifier"
+                    />
                 </form:select>
 
                 <div class="form-text">

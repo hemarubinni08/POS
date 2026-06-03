@@ -8,9 +8,7 @@
     <meta charset="UTF-8">
     <title>Edit Role</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
@@ -31,8 +29,7 @@
         .card-header {
             background-color: #1e272e;
             color: #ffffff;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
+            border-radius: 12px 12px 0 0;
         }
 
         .form-label {
@@ -52,7 +49,6 @@
 
     <div class="card-body p-4">
 
-        <!-- Optional message -->
         <c:if test="${not empty message}">
             <div class="alert alert-info text-center">
                 ${message}
@@ -67,27 +63,31 @@
 
         <c:if test="${not empty role}">
 
-            <form:form action="/role/update"
-                       method="post"
-                       modelAttribute="role">
+            <form:form action="/role/update" method="post" modelAttribute="role">
 
-                <!-- Hidden fields -->
                 <form:hidden path="id"/>
                 <form:hidden path="identifier"/>
 
                 <div class="mb-3">
                     <label class="form-label">Role Name</label>
-                    <input type="text"
-                           class="form-control"
-                           value="${role.identifier}"
-                           readonly>
+                    <input
+                        type="text"
+                        class="form-control"
+                        value="${role.identifier}"
+                        readonly
+                    >
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Description</label>
-                    <form:input path="description"
-                                cssClass="form-control"
-                                required="true"/>
+                    <form:input
+                        path="description"
+                        cssClass="form-control"
+                        required="true"
+                        minlength="3"
+                        maxlength="100"
+                        placeholder="Enter description"
+                    />
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">

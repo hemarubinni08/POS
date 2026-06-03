@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -9,31 +7,30 @@
     <meta charset="UTF-8">
     <title>All Nodes</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
     <style>
         body {
-            min-height: 100vh;
             background-color: #f1f3f6;
+            min-height: 100vh;
             font-family: "Segoe UI", sans-serif;
         }
 
         .card {
-            border: none;
             border-radius: 12px;
+            border: none;
         }
 
         .card-header {
-            color: #ffffff;
             background-color: #1e272e;
+            color: #ffffff;
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
         }
 
         table th {
-            font-weight: 600;
             background-color: #f8f9fa;
+            font-weight: 600;
         }
 
         .action-btns a {
@@ -61,43 +58,42 @@
             </c:if>
 
             <c:if test="${not empty node}">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover text-center align-middle">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Node Name</th>
-                                <th>Path</th>
-                                <th>Roles</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
+                <table class="table table-bordered table-hover text-center align-middle">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Node Name</th>
+                        <th>Path</th>
+                        <th>Roles</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
 
-                        <tbody>
-                            <c:forEach var="node" items="${node}">
-                                <tr>
-                                    <td>${node.id}</td>
-                                    <td class="fw-semibold">${node.identifier}</td>
-                                    <td>${node.path}</td>
-                                    <td>${node.roles}</td>
+                    <tbody>
+                    <c:forEach var="node" items="${node}">
+                        <tr>
+                            <td>${node.id}</td>
+                            <td class="fw-semibold">${node.identifier}</td>
+                            <td>${node.path}</td>
+                            <td>${node.roles}</td>
+                            <td class="action-btns">
 
-                                    <td class="action-btns">
-                                        <a href="/node/get?identifier=${node.identifier}"
-                                           class="btn btn-sm btn-warning">
-                                            Update
-                                        </a>
+                                <a href="/node/get?identifier=${node.identifier}"
+                                   class="btn btn-sm btn-warning">
+                                    Update
+                                </a>
 
-                                        <a href="/node/delete?identifier=${node.identifier}"
-                                           class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Are you sure you want to delete this node?');">
-                                            Delete
-                                        </a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
+                                <a href="/node/delete?identifier=${node.identifier}"
+                                   class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Are you sure you want to delete this node?');">
+                                    Delete
+                                </a>
+
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </c:if>
 
             <div class="d-flex justify-content-center gap-3 mt-4">
@@ -109,10 +105,8 @@
                     Add New Node
                 </a>
             </div>
-
         </div>
-
-        <div class="card-footer text-center text-muted small">
+        <div class="card-footer text-muted small text-center">
             POS Management System
         </div>
 

@@ -88,7 +88,6 @@ public class NodeServiceImpl implements NodeService {
             nodeDto.setSuccess(false);
             return nodeDto;
         }
-
         modelMapper.map(nodeDto, existingNode);
         nodeRepository.save(existingNode);
         return nodeDto;

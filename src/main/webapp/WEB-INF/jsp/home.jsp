@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -80,7 +79,6 @@
 </head>
 
 <body>
-
 <div class="wrapper">
 
     <div class="sidebar p-4">
@@ -133,7 +131,6 @@
                     Use the navigation menu on the left to manage users, roles,
                     configurations, and other system operations.
                 </p>
-
             </div>
         </div>
 

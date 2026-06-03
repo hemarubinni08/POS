@@ -7,9 +7,7 @@
     <meta charset="UTF-8">
     <title>User Management</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
@@ -47,23 +45,19 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-10">
-
             <div class="card shadow-sm">
-
                 <div class="card-header text-center py-3">
                     <h5 class="mb-0">User Management</h5>
                 </div>
 
                 <div class="card-body">
 
-                    <!-- NO USERS -->
                     <c:if test="${empty users}">
                         <div class="alert alert-warning text-center">
                             No users found
                         </div>
                     </c:if>
 
-                    <!-- USERS TABLE -->
                     <c:if test="${not empty users}">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover text-center align-middle">

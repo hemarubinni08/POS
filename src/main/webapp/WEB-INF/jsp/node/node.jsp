@@ -1,32 +1,28 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
     <title>Edit Node</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
 
     <style>
         body {
-            min-height: 100vh;
             background-color: #f1f3f6;
+            min-height: 100vh;
             font-family: "Segoe UI", sans-serif;
         }
 
         .card {
-            border: none;
             border-radius: 12px;
+            border: none;
         }
 
         .card-header {
-            color: #ffffff;
             background-color: #1e272e;
+            color: #ffffff;
             border-top-left-radius: 12px;
             border-top-right-radius: 12px;
         }
@@ -63,7 +59,6 @@
                     </c:if>
 
                     <c:if test="${not empty node}">
-
                         <form:form method="post"
                                    action="/node/update"
                                    modelAttribute="node">
@@ -91,7 +86,6 @@
                                                   itemValue="identifier"
                                                   itemLabel="identifier"/>
                                 </form:select>
-
                                 <div class="form-text">
                                     Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple roles
                                 </div>
@@ -109,17 +103,13 @@
                             </div>
 
                         </form:form>
-
                     </c:if>
-
                 </div>
-
-                <div class="card-footer text-center text-muted small">
+                <div class="card-footer text-muted small text-center">
                     POS Management System
                 </div>
 
             </div>
-
         </div>
     </div>
 </div>

@@ -7,10 +7,7 @@
     <meta charset="UTF-8">
     <title>Role List</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"/>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <style>
         body {
             background-color: #f1f3f6;
@@ -80,7 +77,6 @@
                                     <td class="fw-semibold">
                                         ${role.identifier}
                                     </td>
-
                                     <td>${role.description}</td>
 
                                     <td class="action-btns">
