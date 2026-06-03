@@ -35,8 +35,10 @@ import java.util.List;
 public class WebSecurityConfig {
 
     public static final String JAVA_IN_USE_SECURITY_SCHEME = "JavaInUseSecurityScheme";
+    
     @Autowired
     private UserDetailsService userDetailsService;
+    
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 

@@ -1,6 +1,5 @@
 package com.ust.pos.api.user;
 
-
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UserDto;
@@ -21,8 +20,14 @@ public class UserApiController extends BaseController {
 
     @Autowired
     private UserService userService;
+    
     @Autowired
     private RoleService roleService;
+
+    @PostMapping("/register")
+    public UserDto add(@RequestBody UserDto userDto) {
+        return userService.save(userDto);
+    }
 
     @PostMapping("/list")
     public List<UserDto> list(@RequestBody PaginationDto paginationDto) {
@@ -47,9 +52,7 @@ public class UserApiController extends BaseController {
             if (authentication != null) {
                 String loggedInUser = authentication.getName();
                 if (loggedInUser != null) {
-
                     userService.delete(username);
-
                     if (loggedInUser.equals(username)) {
                         SecurityContextHolder.clearContext();
                         return true;

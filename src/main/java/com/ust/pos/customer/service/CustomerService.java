@@ -15,7 +15,6 @@ public interface CustomerService {
 
     List<CustomerDto> findAll(Pageable pageable);
 
-
     CustomerDto findByIdentifier(String identifier);
 
 }

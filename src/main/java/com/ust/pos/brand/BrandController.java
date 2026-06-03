@@ -63,9 +63,11 @@ public class BrandController {
         brandService.delete(identifier);
         return REDIRECT_LIST;
     }
+    
     @GetMapping("/toggle")
     public String toggle(@RequestParam String identifier) {
         brandService.toggleStatus(identifier);
         return REDIRECT_LIST;
     }
+    
 }

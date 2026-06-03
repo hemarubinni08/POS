@@ -81,6 +81,7 @@ public class ShelfServiceImpl implements ShelfService {
         shelfRepository.save(shelf);
     }
 
+    @Override
     public List<ShelfDto> findActiveShelves() {
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();

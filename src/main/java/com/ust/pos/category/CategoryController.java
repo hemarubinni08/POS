@@ -14,6 +14,7 @@ public class CategoryController {
 
     public static final String REDIRECT_CATEGORY_LIST = "redirect:/category/list";
     public static final String CATEGORIES = "categories";
+    
     @Autowired
     private CategoryService categoryService;
 

@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping("/api/shelf")
 public class ShelfApiController extends BaseController {
 
-
     @Autowired
     private ShelfService shelfService;
 

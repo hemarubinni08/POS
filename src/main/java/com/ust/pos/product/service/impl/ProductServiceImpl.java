@@ -81,6 +81,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    @Override
     public List<ProductDto> findActiveProducts() {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
