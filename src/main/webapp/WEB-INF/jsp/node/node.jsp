@@ -91,7 +91,8 @@
                     <label class="form-label">Update Roles</label>
                     <form:select path="roles"
                                  multiple="true"
-                                 cssClass="form-control">
+                                 cssClass="form-control"
+                                 required="true">
                         <form:options items="${roles}"
                                       itemValue="identifier"
                                       itemLabel="identifier"/>
