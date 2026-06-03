@@ -9,14 +9,12 @@
 
 <style>
 
-/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* BODY */
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
     background: linear-gradient(135deg, #e0e7ff, #f8fafc);
@@ -27,13 +25,11 @@ body {
     justify-content: center;
 }
 
-/* MAIN CONTAINER */
 .container {
     width: 100%;
     max-width: 700px;
 }
 
-/* TITLE */
 h2 {
     text-align: center;
     margin-bottom: 30px;
@@ -42,7 +38,6 @@ h2 {
     color: #0f172a;
 }
 
-/* CARD */
 .form-container {
     background: #ffffff;
     border-radius: 16px;
@@ -51,7 +46,6 @@ h2 {
     box-shadow: 0 12px 30px rgba(0,0,0,0.08);
 }
 
-/* LABEL */
 label {
     display: block;
     margin-top: 18px;
@@ -60,7 +54,6 @@ label {
     color: #334155;
 }
 
-/* INPUT + SELECT */
 input, select {
     width: 100%;
     padding: 12px;
@@ -79,7 +72,6 @@ input:focus, select:focus {
     box-shadow: 0 0 0 2px rgba(99,102,241,0.15);
 }
 
-/* BUTTON */
 button {
     width: 100%;
     padding: 14px;
@@ -99,7 +91,6 @@ button:hover {
     box-shadow: 0 6px 15px rgba(79,70,229,0.25);
 }
 
-/* ERROR */
 .error {
     margin-top: 15px;
     color: #ef4444;
@@ -107,7 +98,6 @@ button:hover {
     text-align: center;
 }
 
-/* FOOTER BUTTON */
 .btn-container {
     text-align: center;
     margin-top: 25px;
@@ -177,7 +167,6 @@ function validateForm() {
               method="post"
               onsubmit="return validateForm()">
 
-            <!-- PRODUCT DROPDOWN -->
             <label>Select Product</label>
             <select name="product" required>
                 <option value="">-- Select Product --</option>
@@ -188,7 +177,6 @@ function validateForm() {
                 </c:forEach>
             </select>
 
-            <!-- WAREHOUSE DROPDOWN -->
             <label>Select Warehouse</label>
             <select name="warehouse" required>
                 <option value="">-- Select Warehouse --</option>
@@ -199,7 +187,6 @@ function validateForm() {
                 </c:forEach>
             </select>
 
-            <!-- MINIMUM STOCK -->
             <label>Minimum Stock</label>
             <input type="number"
                    name="minimumStock"
@@ -207,7 +194,6 @@ function validateForm() {
                    min="0"
                    required />
 
-            <!-- QUANTITY -->
             <label>Quantity</label>
             <input type="number"
                    name="quantity"

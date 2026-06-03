@@ -22,14 +22,12 @@ body {
     padding: 40px 20px;
 }
 
-/* Container */
 .container {
     width: 95%;
     max-width: 1100px;
     margin: auto;
 }
 
-/* Title */
 h2 {
     text-align: center;
     margin-bottom: 30px;
@@ -37,7 +35,6 @@ h2 {
     color: #0f172a;
 }
 
-/* Card */
 .table-container {
     background: #ffffff;
     border-radius: 12px;
@@ -46,13 +43,11 @@ h2 {
     box-shadow: 0 8px 20px rgba(0,0,0,0.05);
 }
 
-/* Table */
 table {
     width: 100%;
     border-collapse: collapse;
 }
 
-/* Header */
 thead {
     background: #6366f1;
     color: white;
@@ -64,7 +59,6 @@ th {
     text-transform: uppercase;
 }
 
-/* Rows */
 td {
     padding: 12px;
     text-align: center;
@@ -76,7 +70,6 @@ tbody tr:hover {
     background: #f1f5f9;
 }
 
-/* Badge */
 .badge {
     padding: 4px 10px;
     border-radius: 6px;
@@ -85,7 +78,6 @@ tbody tr:hover {
     color: #3730a3;
 }
 
-/* Action buttons */
 .action-btn {
     display: inline-block;
     padding: 6px 10px;
@@ -112,13 +104,11 @@ tbody tr:hover {
     background: #dc2626;
 }
 
-/* Empty */
 .empty {
     padding: 20px;
     color: #64748b;
 }
 
-/* Buttons */
 .btn-container {
     text-align: center;
     margin-top: 25px;
@@ -150,7 +140,6 @@ tbody tr:hover {
     background: #0284c7;
 }
 
-/* TOGGLE SWITCH */
 .switch {
     position: relative;
     display: inline-block;
@@ -187,7 +176,6 @@ input:checked + .slider:before {
     transform: translateX(20px);
 }
 
-/* Status label */
 .status-label {
     margin-left: 8px;
     font-size: 13px;
@@ -198,7 +186,6 @@ input:checked + .slider:before {
 .status-label.active { color: #10b981; }
 .status-label.inactive { color: #ef4444; }
 
-/* Toast */
 .toast {
     position: fixed;
     top: 20px;
@@ -244,24 +231,16 @@ input:checked + .slider:before {
 
                         <tr>
 
-                            <!-- ID -->
                             <td>${warehouse.id}</td>
 
-                            <!-- Warehouse Name -->
-                            <td>
-                                <span class="badge">${warehouse.identifier}</span>
-                            </td>
+                            <td><span class="badge">${warehouse.identifier}</span></td>
 
-                            <!-- Country -->
                             <td>${warehouse.country}</td>
 
-                            <!-- Region -->
                             <td>${warehouse.region}</td>
 
-                            <!-- Address -->
                             <td>${warehouse.address}</td>
 
-                            <!-- Phone -->
                             <td>${warehouse.phoneNumber}</td>
 
                             <td>
@@ -284,7 +263,6 @@ input:checked + .slider:before {
                                 </span>
                             </td>
 
-                            <!-- Actions -->
                             <td>
 
                                 <a class="action-btn edit-btn"

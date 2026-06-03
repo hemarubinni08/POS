@@ -24,7 +24,6 @@ body {
     color: #1e293b;
 }
 
-/* Card */
 .container {
     width: 100%;
     max-width: 520px;
@@ -36,7 +35,6 @@ body {
     animation: fadeIn 0.6s ease-in-out;
 }
 
-/* Headings */
 .main-title {
     text-align: center;
     font-size: 28px;
@@ -54,12 +52,10 @@ body {
     margin-bottom: 25px;
 }
 
-/* Input group */
 .input-group {
     margin-bottom: 18px;
 }
 
-/* Label */
 label {
     font-size: 13px;
     color: #475569;
@@ -67,7 +63,6 @@ label {
     margin-bottom: 6px;
 }
 
-/* Input */
 input {
     width: 100%;
     padding: 13px;
@@ -85,7 +80,6 @@ input:focus {
     background: #ffffff;
 }
 
-/* Button */
 button {
     width: 100%;
     padding: 15px;
@@ -105,7 +99,6 @@ button:hover {
     box-shadow: 0 8px 20px rgba(99,102,241,0.3);
 }
 
-/* Footer */
 .footer {
     margin-top: 18px;
     text-align: center;
@@ -123,7 +116,6 @@ button:hover {
     text-decoration: underline;
 }
 
-/* Error */
 .error-msg {
     margin-bottom: 15px;
     padding: 12px;
@@ -134,7 +126,6 @@ button:hover {
     font-size: 13px;
 }
 
-/* Animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -153,13 +144,11 @@ button:hover {
 
 <div class="container">
 
-    <!-- Heading -->
     <div class="main-title">POS SYSTEM</div>
     <div class="sub-title">LOGIN</div>
 
     <form th:action="@{/login}" method="post">
 
-        <!-- Error -->
         <c:if test="${param.error != null}">
             <div class="error-msg">
                 Invalid username or password

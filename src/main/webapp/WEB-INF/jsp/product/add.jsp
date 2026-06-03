@@ -67,7 +67,6 @@ input:focus, select:focus {
     border-color: #6366f1;
 }
 
-/* Checkbox list (same style as sample) */
 .checkbox-list {
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -191,14 +190,12 @@ function showError(input, message) {
               method="post"
               onsubmit="return validateForm()">
 
-            <!-- Product Name -->
             <div class="form-group">
                 <label>Product Name</label>
                 <input type="text" name="identifier" required />
                 <div class="field-error"></div>
             </div>
 
-            <!-- Categories (Checkbox Multi Select) -->
             <div class="form-group">
                 <label>Categories</label>
 
@@ -223,7 +220,6 @@ function showError(input, message) {
                 <div class="field-error" id="categoryError"></div>
             </div>
 
-            <!-- Brand -->
             <div class="form-group">
                 <label>Brand</label>
                 <select name="brand" required>
@@ -234,7 +230,6 @@ function showError(input, message) {
                 </select>
             </div>
 
-            <!-- Model -->
             <div class="form-group">
                 <label>Model</label>
                 <select name="model" required>
@@ -245,7 +240,6 @@ function showError(input, message) {
                 </select>
             </div>
 
-            <!-- Unit -->
             <div class="form-group">
                 <label>Unit</label>
                 <select name="unit" required>

@@ -36,7 +36,6 @@ h2 {
     color: #0f172a;
 }
 
-/* Card */
 .table-container {
     background: #ffffff;
     border-radius: 14px;
@@ -45,13 +44,11 @@ h2 {
     box-shadow: 0 10px 25px rgba(0,0,0,0.06);
 }
 
-/* Table */
 table {
     width: 100%;
     border-collapse: collapse;
 }
 
-/* Header */
 thead {
     background: #6366f1;
     color: white;
@@ -64,7 +61,6 @@ th {
     letter-spacing: 0.5px;
 }
 
-/* Rows */
 td {
     padding: 14px;
     text-align: center;
@@ -76,7 +72,6 @@ tbody tr:hover {
     background: #f1f5f9;
 }
 
-/* Badge */
 .badge {
     padding: 5px 12px;
     border-radius: 8px;
@@ -86,7 +81,6 @@ tbody tr:hover {
     font-weight: 500;
 }
 
-/* Actions */
 .action-btn {
     display: inline-block;
     padding: 6px 12px;
@@ -113,14 +107,12 @@ tbody tr:hover {
     background: #dc2626;
 }
 
-/* Empty */
 .empty {
     padding: 25px;
     color: #64748b;
     font-size: 15px;
 }
 
-/* Bottom Buttons */
 .btn-container {
     text-align: center;
     margin-top: 30px;
@@ -152,7 +144,6 @@ tbody tr:hover {
     background: #4f46e5;
 }
 
-/* TOGGLE SWITCH */
 .switch {
     position: relative;
     display: inline-block;
@@ -189,7 +180,6 @@ input:checked + .slider:before {
     transform: translateX(20px);
 }
 
-/* Status label */
 .status-label {
     margin-left: 8px;
     font-size: 13px;
@@ -200,7 +190,6 @@ input:checked + .slider:before {
 .status-label.active { color: #10b981; }
 .status-label.inactive { color: #ef4444; }
 
-/* Toast */
 .toast {
     position: fixed;
     top: 20px;
@@ -243,15 +232,12 @@ input:checked + .slider:before {
 
                         <tr>
 
-                            <!-- SL No -->
                             <td>${brand.id}</td>
 
-                            <!-- Brand Name -->
                             <td>
                                 <span class="badge">${brand.identifier}</span>
                             </td>
 
-                            <!-- Description -->
                             <td>
                                 <c:choose>
                                     <c:when test="${not empty brand.description}">
@@ -283,7 +269,6 @@ input:checked + .slider:before {
                                 </span>
                             </td>
 
-                            <!-- Actions -->
                             <td>
 
                                 <a class="action-btn edit-btn"
@@ -320,7 +305,6 @@ input:checked + .slider:before {
 
     </div>
 
-    <!-- Bottom Buttons -->
     <div class="btn-container">
 
         <a href="${pageContext.request.contextPath}/" class="btn home-btn">

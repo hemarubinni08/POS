@@ -26,7 +26,6 @@ body {
     color: #1e293b;
 }
 
-/* Card */
 .container {
     width: 400px;
     background: #ffffff;
@@ -36,7 +35,6 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-/* Title */
 h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -44,12 +42,10 @@ h2 {
     color: #0f172a;
 }
 
-/* Input group */
 .input-group {
     margin-bottom: 14px;
 }
 
-/* Inputs */
 input {
     width: 100%;
     padding: 10px;
@@ -66,13 +62,11 @@ input:focus {
     background: #ffffff;
 }
 
-/* Label */
 label {
     font-size: 13px;
     color: #475569;
 }
 
-/* Button */
 button {
     width: 100%;
     padding: 12px;
@@ -89,7 +83,6 @@ button:hover {
     box-shadow: 0 5px 15px rgba(99,102,241,0.3);
 }
 
-/* Error */
 .bottom-error {
     margin-top: 12px;
     padding: 10px;
@@ -100,7 +93,6 @@ button:hover {
     font-size: 13px;
 }
 
-/* Link */
 .link-btn {
     display: block;
     text-align: center;
@@ -128,7 +120,6 @@ button:hover {
            method="post"
            modelAttribute="role">
 
-    <!-- ID (hidden) -->
     <form:hidden path="id"/>
 
     <div class="input-group">
@@ -151,7 +142,6 @@ button:hover {
 
 </form:form>
 
-<!-- Error Message -->
 <c:if test="${not empty message}">
     <div class="bottom-error">
         ${message}

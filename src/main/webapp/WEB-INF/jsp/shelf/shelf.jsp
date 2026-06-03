@@ -35,7 +35,6 @@ h2 {
     font-weight: 600;
 }
 
-/* Card */
 .form-card {
     background: #ffffff;
     border-radius: 14px;
@@ -44,7 +43,6 @@ h2 {
     box-shadow: 0 10px 25px rgba(0,0,0,0.06);
 }
 
-/* Input group */
 .form-group {
     margin-bottom: 20px;
 }
@@ -56,7 +54,6 @@ label {
     font-weight: 500;
 }
 
-/* Inputs */
 input {
     width: 100%;
     padding: 10px;
@@ -70,13 +67,11 @@ input:focus {
     border-color: #6366f1;
 }
 
-/* Disabled */
 input[disabled] {
     background: #f1f5f9;
     cursor: not-allowed;
 }
 
-/* Error */
 .error {
     background: #fee2e2;
     color: #b91c1c;
@@ -86,7 +81,6 @@ input[disabled] {
     font-size: 14px;
 }
 
-/* Buttons */
 .btn-container {
     text-align: center;
     margin-top: 25px;
@@ -124,7 +118,6 @@ input[disabled] {
 
 <script>
 function validateForm() {
-    // No major validation needed since identifier is locked
     return true;
 }
 </script>
@@ -139,7 +132,6 @@ function validateForm() {
 
     <div class="form-card">
 
-        <!-- Backend Message -->
         <c:if test="${not empty message}">
             <div class="error">${message}</div>
         </c:if>
@@ -149,10 +141,8 @@ function validateForm() {
               method="post"
               onsubmit="return validateForm()">
 
-            <!-- Hidden Identifier -->
             <input type="hidden" name="identifier" value="${shelf.identifier}" />
 
-            <!-- Shelf Name (Non-editable) -->
             <div class="form-group">
                 <label>Shelf</label>
                 <input type="text"
@@ -164,7 +154,6 @@ function validateForm() {
                 <input type="text" name="description"
                        value="${shelf.description}" required />
 
-            <!-- Buttons -->
             <div class="btn-container">
 
                 <button type="submit" class="btn update-btn">

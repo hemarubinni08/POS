@@ -35,7 +35,6 @@ h2 {
     font-weight: 600;
 }
 
-/* Card */
 .form-card {
     background: #ffffff;
     border-radius: 14px;
@@ -44,7 +43,6 @@ h2 {
     box-shadow: 0 10px 25px rgba(0,0,0,0.06);
 }
 
-/* Input group */
 .form-group {
     margin-bottom: 20px;
 }
@@ -56,7 +54,6 @@ label {
     font-weight: 500;
 }
 
-/* Inputs */
 input, textarea {
     width: 100%;
     padding: 10px;
@@ -75,13 +72,11 @@ input:focus {
     border-color: #6366f1;
 }
 
-/* Disabled */
 input[disabled] {
     background: #f1f5f9;
     cursor: not-allowed;
 }
 
-/* Error */
 .error {
     background: #fee2e2;
     color: #b91c1c;
@@ -91,7 +86,6 @@ input[disabled] {
     font-size: 14px;
 }
 
-/* Buttons */
 .btn-container {
     text-align: center;
     margin-top: 25px;
@@ -137,7 +131,6 @@ input[disabled] {
 
     <div class="form-card">
 
-        <!-- Backend Message -->
         <c:if test="${not empty message}">
             <div class="error">${message}</div>
         </c:if>
@@ -146,13 +139,10 @@ input[disabled] {
               action="${pageContext.request.contextPath}/model/update"
               method="post">
 
-            <!-- Hidden ID -->
             <input type="hidden" name="id" value="${model.id}" />
 
-            <!-- Hidden Identifier (important for your current backend logic) -->
             <input type="hidden" name="identifier" value="${model.identifier}" />
 
-            <!-- Model Name (Non-editable) -->
             <div class="form-group">
                 <label>Model Name</label>
                 <input type="text"
@@ -160,7 +150,6 @@ input[disabled] {
                        disabled>
             </div>
 
-             <!-- Description -->
             <div class="form-group">
                 <label>Description *</label>
                 <textarea name="description" rows="3"
@@ -168,7 +157,6 @@ input[disabled] {
                           required>${model.description}</textarea>
             </div>
 
-            <!-- Buttons -->
             <div class="btn-container">
 
                 <button type="submit" class="btn update-btn">

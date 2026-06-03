@@ -132,7 +132,6 @@ function validateForm() {
         valid = false;
     }
 
-    // Prevent same category as parent
     if (category.value.trim() && superCategory.value) {
         if (category.value.trim().toLowerCase() === superCategory.value.toLowerCase()) {
             showError(superCategory, "Category cannot be its own parent");
@@ -159,7 +158,6 @@ function showError(input, message) {
 
     <div class="form-container">
 
-        <!-- Backend message -->
         <c:if test="${not empty message}">
             <div class="error-box">${message}</div>
         </c:if>
@@ -168,14 +166,12 @@ function showError(input, message) {
               method="post"
               onsubmit="return validateForm()">
 
-            <!-- Category Name -->
             <div class="form-group">
                 <label>Category Name</label>
                 <input type="text" name="identifier" />
                 <div class="field-error"></div>
             </div>
 
-            <!-- Super Category Dropdown -->
             <div class="form-group">
                 <label>Super Category</label>
 

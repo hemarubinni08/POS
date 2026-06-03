@@ -25,7 +25,6 @@ body {
     margin: 0;
 }
 
-/* Card */
 .container {
     background: #ffffff;
     padding: 30px;
@@ -35,7 +34,6 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-/* Title */
 h2 {
     text-align: center;
     margin-bottom: 22px;
@@ -43,7 +41,6 @@ h2 {
     color: #0f172a;
 }
 
-/* Labels */
 label {
     font-size: 13px;
     margin-bottom: 5px;
@@ -51,7 +48,6 @@ label {
     display: block;
 }
 
-/* Inputs */
 input {
     width: 100%;
     padding: 10px;
@@ -63,7 +59,6 @@ input {
     font-size: 14px;
 }
 
-/* Focus */
 input:focus {
     outline: none;
     border-color: #6366f1;
@@ -71,7 +66,6 @@ input:focus {
     background-color: #ffffff;
 }
 
-/* Role list */
 .role-list {
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -82,7 +76,6 @@ input:focus {
     background: #f9fafb;
 }
 
-/* Checkbox RIGHT layout */
 .role-item {
     display: grid;
     grid-template-columns: 1fr 30px;
@@ -100,7 +93,6 @@ input:focus {
     justify-self: center;
 }
 
-/* Button */
 button {
     width: 100%;
     padding: 12px;
@@ -116,7 +108,6 @@ button:hover {
     box-shadow: 0 5px 15px rgba(99,102,241,0.3);
 }
 
-/* Error message */
 .error-msg {
     color: red;
     font-size: 13px;
@@ -124,7 +115,6 @@ button:hover {
     margin-bottom: 10px;
 }
 
-/* Link */
 .link-btn {
     display: block;
     text-align: center;
@@ -170,7 +160,6 @@ function validateRoles() {
 
 <h2>Create Account</h2>
 
-<!-- ERROR MESSAGE -->
 <c:if test="${not empty message}">
     <div class="error-msg">${message}</div>
 </c:if>
@@ -215,7 +204,6 @@ function validateRoles() {
         </c:forEach>
     </div>
 
-    <!-- ROLE ERROR MESSAGE -->
     <div id="roleError" class="error-msg"></div>
 
     <button type="submit">Register</button>

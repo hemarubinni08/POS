@@ -28,7 +28,6 @@ body {
     margin: auto;
 }
 
-/* Title */
 h2 {
     text-align: center;
     margin-bottom: 30px;
@@ -36,7 +35,6 @@ h2 {
     font-weight: 600;
 }
 
-/* Card */
 .form-card {
     background: #ffffff;
     border-radius: 14px;
@@ -45,7 +43,6 @@ h2 {
     box-shadow: 0 10px 25px rgba(0,0,0,0.06);
 }
 
-/* Input group */
 .form-group {
     margin-bottom: 20px;
 }
@@ -57,7 +54,6 @@ label {
     font-weight: 500;
 }
 
-/* Inputs */
 input, textarea {
     width: 100%;
     padding: 10px;
@@ -71,7 +67,6 @@ input:focus, textarea:focus {
     border-color: #6366f1;
 }
 
-/* Error */
 .error {
     background: #fee2e2;
     color: #b91c1c;
@@ -81,7 +76,6 @@ input:focus, textarea:focus {
     font-size: 14px;
 }
 
-/* Buttons */
 .btn-container {
     text-align: center;
     margin-top: 25px;
@@ -127,7 +121,6 @@ input:focus, textarea:focus {
 
     <div class="form-card">
 
-        <!-- Backend Error -->
         <c:if test="${not empty error}">
             <div class="error">${error}</div>
         </c:if>
@@ -136,7 +129,6 @@ input:focus, textarea:focus {
               action="${pageContext.request.contextPath}/brand/add"
               method="post">
 
-            <!-- Brand Name -->
             <div class="form-group">
                 <label>Brand Name *</label>
                 <input type="text" name="identifier"
@@ -146,7 +138,6 @@ input:focus, textarea:focus {
                        minlength="2">
             </div>
 
-            <!-- Description -->
             <div class="form-group">
                 <label>Description *</label>
                 <textarea name="description" rows="3"
@@ -154,7 +145,6 @@ input:focus, textarea:focus {
                           required>${brand.description}</textarea>
             </div>
 
-            <!-- Buttons -->
             <div class="btn-container">
 
                 <button type="submit" class="btn save-btn">

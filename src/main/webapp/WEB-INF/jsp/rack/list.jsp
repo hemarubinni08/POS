@@ -9,7 +9,6 @@
 
 <style>
 
-/* --- BASE UI --- */
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body {
@@ -58,7 +57,6 @@ tbody tr:hover { background:#f1f5f9; }
     color:#3730a3;
 }
 
-/* --- SHELF CHIPS --- */
 .shelf-chip {
     display:inline-block;
     background:#e0f2fe;
@@ -69,7 +67,6 @@ tbody tr:hover { background:#f1f5f9; }
     font-size:12px;
 }
 
-/* Actions */
 .action-btn {
     padding:6px 12px;
     margin:2px;
@@ -82,8 +79,6 @@ tbody tr:hover { background:#f1f5f9; }
 .edit-btn { background:#6366f1; }
 .delete-btn { background:#ef4444; }
 
-
-/* Buttons */
 .btn-container {
     text-align: center;
     margin-top: 25px;
@@ -115,7 +110,6 @@ tbody tr:hover { background:#f1f5f9; }
     background: #0284c7;
 }
 
-/* TOGGLE SWITCH */
 .switch {
     position: relative;
     display: inline-block;
@@ -152,7 +146,6 @@ input:checked + .slider:before {
     transform: translateX(20px);
 }
 
-/* Status label */
 .status-label {
     margin-left: 8px;
     font-size: 13px;
@@ -163,7 +156,6 @@ input:checked + .slider:before {
 .status-label.active { color: #10b981; }
 .status-label.inactive { color: #ef4444; }
 
-/* Toast */
 .toast {
     position: fixed;
     top: 20px;
@@ -206,16 +198,10 @@ input:checked + .slider:before {
 <c:forEach var="rack" items="${racks}">
 
 <tr>
-
-    <!-- SL No -->
     <td>${rack.id}</td>
 
-    <!-- Rack -->
-    <td>
-        ${rack.identifier}
-    </td>
+    <td>${rack.identifier}</td>
 
-    <!--SHELVES-->
     <td>
         <c:choose>
             <c:when test="${not empty rack.shelves}">
@@ -231,7 +217,6 @@ input:checked + .slider:before {
 
     <td> ${rack.description} </td>
 
-    <!-- Status -->
     <td>
         <label class="switch">
             <input type="checkbox"
@@ -252,7 +237,6 @@ input:checked + .slider:before {
         </span>
     </td>
 
-    <!-- Actions -->
     <td>
 
         <a class="action-btn edit-btn"
@@ -288,7 +272,6 @@ input:checked + .slider:before {
 
 </div>
 
-<!-- Buttons -->
 <div class="btn-container">
 
     <a href="${pageContext.request.contextPath}/" class="btn home-btn">

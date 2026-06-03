@@ -9,7 +9,6 @@
 
 <style>
 
-/* EXISTING STYLES UNCHANGED */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -85,7 +84,6 @@ tbody tr:hover {
     color: #64748b;
 }
 
-/* Buttons */
 .btn-container {
     text-align: center;
     margin-top: 25px;
@@ -117,7 +115,6 @@ tbody tr:hover {
     background: #0284c7;
 }
 
-/*  TOGGLE SWITCH */
 .switch {
     position: relative;
     display: inline-block;
@@ -154,7 +151,6 @@ input:checked + .slider:before {
     transform: translateX(20px);
 }
 
-/* Status label */
 .status-label {
     margin-left: 8px;
     font-size: 13px;
@@ -165,7 +161,6 @@ input:checked + .slider:before {
 .status-label.active { color: #10b981; }
 .status-label.inactive { color: #ef4444; }
 
-/* Toast */
 .toast {
     position: fixed;
     top: 20px;
@@ -209,16 +204,12 @@ input:checked + .slider:before {
 
 <tr>
 
-    <!-- SL No -->
     <td>${shelf.id}</td>
 
-    <!-- Shelf -->
     <td>${shelf.identifier}</td>
 
-    <!-- Description -->
-        <td>${shelf.description}</td>
+    <td>${shelf.description}</td>
 
-    <!-- ✅ STATUS TOGGLE -->
    <td>
        <label class="switch">
            <input type="checkbox"
@@ -227,7 +218,6 @@ input:checked + .slider:before {
            <span class="slider"></span>
        </label>
 
-       <!-- Status Label -->
        <span class="status-label">
            <c:choose>
                <c:when test="${shelf.status}">
@@ -240,7 +230,6 @@ input:checked + .slider:before {
        </span>
    </td>
 
-    <!-- Actions -->
     <td>
 
         <a class="action-btn edit-btn"
@@ -277,7 +266,6 @@ input:checked + .slider:before {
 
 </div>
 
-<!-- Buttons -->
 <div class="btn-container">
 
     <a href="${pageContext.request.contextPath}/" class="btn home-btn">
@@ -292,12 +280,10 @@ input:checked + .slider:before {
 
 </div>
 
-<!-- TOAST -->
 <div id="toast" class="toast">Status Updated</div>
 
 <script>
 
-/* AJAX TOGGLE */
 function toggleStatus(identifier, el) {
 
     let status = el.checked;
@@ -310,26 +296,21 @@ function toggleStatus(identifier, el) {
     .then(res => res.text())
     .then(() => {
 
-        //  Update label text
         let label = el.closest("td").querySelector(".status-label");
         label.innerText = status ? "Active" : "Inactive";
 
-        //  Update color class
         label.classList.remove("active", "inactive");
         label.classList.add(status ? "active" : "inactive");
 
-        //  Fixed toast message
         showToast();
     })
     .catch(() => {
         alert("Error updating status");
 
-        //  revert toggle if failed
         el.checked = !status;
     });
 }
 
-/* TOAST */
 function showToast() {
     let t = document.getElementById("toast");
     t.innerText = "Status Updated";

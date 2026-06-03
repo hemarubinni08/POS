@@ -9,7 +9,6 @@
 <title>Edit Profile</title>
 
 <style>
-/* ✅ UI unchanged */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -106,7 +105,6 @@ button:hover {
     font-weight: 600;
 }
 
-/* Link */
 .link-btn {
     display: block;
     text-align: center;
@@ -181,7 +179,6 @@ function validateRoles() {
                 title="Enter a valid 10-digit phone number"
                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
 
-    <!-- MULTI ROLES -->
     <label> Roles </label>
 
     <div class="role-list">

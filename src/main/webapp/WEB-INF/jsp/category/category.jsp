@@ -67,13 +67,11 @@ input:focus, select:focus {
     border-color: #6366f1;
 }
 
-/* Readonly */
 input[readonly] {
     background: #f1f5f9;
     cursor: not-allowed;
 }
 
-/* Error styles */
 .error-box {
     background: #fee2e2;
     color: #7f1d1d;
@@ -89,7 +87,6 @@ input[readonly] {
     margin-top: 4px;
 }
 
-/* Buttons */
 .btn-container {
     text-align: center;
     margin-top: 20px;
@@ -139,7 +136,6 @@ function validateForm() {
         valid = false;
     }
 
-    // Prevent self-parent
     if (superCategory.value &&
         identifier.value.trim().toLowerCase() === superCategory.value.toLowerCase()) {
         showError(superCategory, "Category cannot be its own parent");
@@ -165,7 +161,6 @@ function showError(input, message) {
 
     <div class="form-container">
 
-        <!-- Backend Message -->
         <c:if test="${not empty message}">
             <div class="error-box">${message}</div>
         </c:if>
@@ -174,16 +169,13 @@ function showError(input, message) {
               method="post"
               onsubmit="return validateForm()">
 
-            <!-- Hidden Identifier -->
             <input type="hidden" name="identifier" value="${category.identifier}" />
 
-            <!-- Category Name (READ ONLY) -->
             <div class="form-group">
                 <label>Category Name</label>
                 <input type="text" value="${category.identifier}" readonly />
             </div>
 
-            <!-- Super Category Dropdown -->
             <div class="form-group">
                 <label>Super Category</label>
 
