@@ -114,6 +114,7 @@
         <form:select path="priceType" required="true">
             <form:option value="COST_PRICE">Cost Price</form:option>
             <form:option value="SELLING_PRICE">Selling Price</form:option>
+            <form:option value="MRP" label="MRP"/>
         </form:select>
 
         <div class="btn-group">
