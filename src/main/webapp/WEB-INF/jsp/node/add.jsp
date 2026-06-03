@@ -12,19 +12,18 @@
 body {
     margin: 0;
     font-family: "Segoe UI", Arial, sans-serif;
-    background: linear-gradient(135deg, #0f766e, #020617);
+    background: #f8fafc;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* CARD */
 .card {
     width: 420px;
-    background: #f8fafc;
+    background: white;
     border-radius: 16px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     padding: 30px;
 }
 
@@ -34,7 +33,6 @@ h3 {
     color: #0f172a;
 }
 
-/* ERROR */
 .error {
     background: #fee2e2;
     color: #991b1b;
@@ -45,7 +43,6 @@ h3 {
     margin-bottom: 15px;
 }
 
-/* LABEL */
 label {
     font-size: 13px;
     font-weight: 600;
@@ -54,7 +51,6 @@ label {
     margin-bottom: 6px;
 }
 
-/* INPUT */
 input {
     width: 100%;
     padding: 11px;
@@ -64,7 +60,6 @@ input {
     font-size: 14px;
 }
 
-/* ✅ DROPDOWN */
 .dropdown {
     position: relative;
     margin-bottom: 18px;
@@ -117,10 +112,8 @@ input {
 .role-item input[type="checkbox"] {
     width: 16px;
     height: 16px;
-    cursor: pointer;
 }
 
-/* BUTTONS */
 .btn-group {
     display: flex;
     gap: 10px;
@@ -149,11 +142,11 @@ button, a.btn {
 }
 
 .btn-cancel {
-    background: #64748b;
+    background: #334155;
 }
 
 .btn-cancel:hover {
-    background: #475569;
+    background: #1e293b;
 }
 </style>
 
@@ -197,6 +190,7 @@ document.addEventListener("click", function(e) {
         <input type="text" name="path" value="${param.path}" required>
 
         <label>Assign Roles</label>
+
         <div class="dropdown" id="roleDropdown">
             <div class="dropdown-btn" onclick="toggleDropdown()">
                 <span id="selectedRoles">Select Roles</span>
@@ -215,13 +209,18 @@ document.addEventListener("click", function(e) {
                 </c:forEach>
             </div>
         </div>
+
         <div class="btn-group">
             <button type="submit" class="btn-save">SAVE NODE</button>
-            <a href="${pageContext.request.contextPath}/node/list" class="btn btn-cancel">
+
+            <a href="${pageContext.request.contextPath}/node/list"
+               class="btn btn-cancel">
                 CANCEL
             </a>
         </div>
+
     </form>
 </div>
+
 </body>
 </html>

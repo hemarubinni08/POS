@@ -32,15 +32,14 @@ public class SecurityController {
     }
 
     @PostMapping("/register")
-    public String addPost(Model model, @ModelAttribute UserDto userDto, RedirectAttributes redirectAttributes
-    ) {
+    public String addPost(Model model, @ModelAttribute UserDto userDto, RedirectAttributes redirectAttributes) {
         UserDto response = userService.save(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("roles", roleService.findAll());
             model.addAttribute("message", response.getMessage());
             return "register";
         }
-        redirectAttributes.addFlashAttribute("message","Register Success, Please login");
-        return "redirect:/login";
+        redirectAttributes.addFlashAttribute("message", "Register Success, Please login");
+        return "redirect:/";
     }
 }

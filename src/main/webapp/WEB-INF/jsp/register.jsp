@@ -11,14 +11,13 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0f766e, #020617);
+    background: white;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* 🔷 CARD */
 .card {
     width: 420px;
     background: rgba(255,255,255,0.95);
@@ -27,7 +26,6 @@ body {
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
 
-/* 🔙 BACK */
 .back {
     text-decoration: none;
     font-size: 13px;
@@ -36,7 +34,6 @@ body {
     margin-bottom: 10px;
 }
 
-/* 🧾 TITLE */
 .card h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -44,7 +41,6 @@ body {
     font-size: 22px;
 }
 
-/* ❌ ERROR */
 .error-message {
     background: #fee2e2;
     color: #991b1b;
@@ -55,14 +51,12 @@ body {
     margin-bottom: 15px;
 }
 
-/* 🏷 LABEL */
 label {
     font-size: 13px;
     font-weight: 600;
     color: #334155;
 }
 
-/* ✏ INPUT */
 input, select {
     width: 100%;
     padding: 12px;
@@ -84,13 +78,12 @@ select[multiple] {
     height: 120px;
 }
 
-/* ✅ BUTTON */
 button {
     width: 100%;
     padding: 13px;
     border: none;
     border-radius: 25px;
-    background: linear-gradient(135deg, #0f766e, #134e4a);
+    background: #0f172a;
     color: white;
     font-size: 15px;
     font-weight: bold;
@@ -183,6 +176,5 @@ function validateForm() {
 
     </form:form>
 </div>
-
 </body>
 </html>

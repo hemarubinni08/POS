@@ -7,26 +7,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Edit Role</title>
+<meta charset="UTF-8">
+<title>POS | Edit Role</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet">
 
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
-        }
+<style>
+body {
+    background: #f8fafc;
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
 
-        .card {
-            border-radius: 12px;
-        }
+.card {
+    border-radius: 16px;
+    border: none;
+}
 
-        .form-control {
-            border-radius: 8px;
-        }
-    </style>
+.page-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #0f172a;
+}
+
+.form-control {
+    border-radius: 8px;
+}
+
+.btn-update {
+    background: #0f766e;
+    border: none;
+    color: white;
+}
+
+.btn-update:hover {
+    background: #115e59;
+}
+
+.btn-cancel {
+    background: #334155;
+    border: none;
+    color: white;
+}
+
+.btn-cancel:hover {
+    background: #1e293b;
+}
+
+.alert-info {
+    background: #e0f2fe;
+    color: #075985;
+    border: none;
+}
+
+.card-footer {
+    background: #f1f5f9;
+}
+</style>
 </head>
 
 <body>
@@ -38,7 +76,7 @@
 
             <div class="card-body">
 
-                <h3 class="text-center mb-4">Edit Role</h3>
+                <h3 class="page-title">Edit Role</h3>
 
                 <c:if test="${not empty message}">
                     <div class="alert alert-info text-center">
@@ -54,9 +92,11 @@
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Role Name</label>
+
                         <form:input path="identifier"
                                     cssClass="form-control"
                                     readonly="true"/>
+
                         <small class="text-muted">
                             Role name cannot be changed
                         </small>
@@ -64,6 +104,7 @@
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Description</label>
+
                         <form:textarea path="description"
                                        cssClass="form-control"
                                        rows="3"
@@ -72,12 +113,13 @@
 
                     <div class="d-flex gap-2">
 
-                        <button type="submit" class="btn btn-secondary btn-lg w-100">
+                        <button type="submit"
+                                class="btn btn-update btn-lg w-100">
                             Update Role
                         </button>
 
                         <a href="${pageContext.request.contextPath}/role/list"
-                           class="btn btn-secondary btn-lg w-100 text-center">
+                           class="btn btn-cancel btn-lg w-100 text-center">
                             Cancel
                         </a>
 

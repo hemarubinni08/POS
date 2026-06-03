@@ -11,19 +11,70 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
+            background: #f8fafc;
             min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
         }
+
         .card {
             border-radius: 16px;
+            border: none;
         }
+
         .card-header {
+            background: #0f172a;
+            color: #e2e8f0;
             border-top-left-radius: 16px;
             border-top-right-radius: 16px;
         }
+
         table th {
-            background-color: #0d6efd;
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+
+        table {
+            background: white;
+        }
+
+        .btn-edit {
+            background: #0f766e;
             color: white;
+            border: none;
+        }
+
+        .btn-edit:hover {
+            background: #0d5f59;
+        }
+
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+            border: none;
+        }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+        }
+
+        .btn-add {
+            background: #16a34a;
+            color: white;
+            border: none;
+        }
+
+        .btn-add:hover {
+            background: #15803d;
+        }
+
+        .btn-home {
+            background: #334155;
+            color: white;
+            border: none;
+        }
+
+        .btn-home:hover {
+            background: #1e293b;
         }
     </style>
 </head>
@@ -35,7 +86,8 @@
         <div class="col-md-9">
 
             <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white text-center">
+
+                <div class="card-header text-center">
                     <h4 class="mb-0">List of Roles</h4>
                 </div>
 
@@ -82,12 +134,12 @@
 
                                     <td class="d-flex justify-content-center gap-2">
 
-                                        <a class="btn btn-sm btn-warning"
+                                        <a class="btn btn-sm btn-edit"
                                            href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}">
                                             Edit
                                         </a>
 
-                                        <a class="btn btn-sm btn-danger"
+                                        <a class="btn btn-sm btn-delete"
                                            href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
                                            onclick="return confirm('Are you sure you want to delete this role?');">
                                             Delete
@@ -102,8 +154,13 @@
                 </div>
 
                 <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
-                    <a href="/" class="btn btn-secondary">Home</a>
-                    <a href="/role/add" class="btn btn-success">+ Add New Role</a>
+
+                    <a href="/" class="btn btn-home">Home</a>
+
+                    <a href="/role/add" class="btn btn-add">
+                        + Add New Role
+                    </a>
+
                 </div>
 
             </div>

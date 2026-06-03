@@ -4,14 +4,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>POS | Login</title>
 
 <style>
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0f766e, #020617);
-    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: white;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,7 +20,7 @@ body {
 
 .card {
     width: 380px;
-    background: rgba(255,255,255,0.95);
+    background: white;
     border-radius: 18px;
     padding: 35px 40px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);
@@ -29,7 +30,6 @@ body {
     text-align: center;
     margin-bottom: 20px;
     color: #0f172a;
-    font-size: 22px;
 }
 
 .error {
@@ -65,9 +65,6 @@ input {
     margin-bottom: 18px;
     border-radius: 10px;
     border: 1px solid #cbd5e1;
-    font-size: 14px;
-    outline: none;
-    transition: 0.2s;
 }
 
 input:focus {
@@ -80,17 +77,14 @@ button {
     padding: 13px;
     border: none;
     border-radius: 25px;
-    background: linear-gradient(135deg, #0f766e, #134e4a);
+    background: #0f172a;
     color: white;
-    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.3s;
 }
 
 button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 25px rgba(15,118,110,0.5);
 }
 
 .register-link {
@@ -105,12 +99,7 @@ button:hover {
     font-weight: bold;
     text-decoration: none;
 }
-
-.register-link a:hover {
-    text-decoration: underline;
-}
 </style>
-
 </head>
 <body>
 
@@ -119,15 +108,11 @@ button:hover {
     <h2>Login</h2>
 
     <c:if test="${param.error != null}">
-        <div class="error">
-            Invalid username or password
-        </div>
+        <div class="error">Invalid username or password</div>
     </c:if>
 
     <c:if test="${param.logout != null}">
-        <div class="success">
-            You have logged out successfully
-        </div>
+        <div class="success">You have logged out successfully</div>
     </c:if>
 
     <form action="${pageContext.request.contextPath}/login" method="post">
@@ -145,6 +130,8 @@ button:hover {
         New user?
         <a href="${pageContext.request.contextPath}/register">Register here</a>
     </div>
+
 </div>
+
 </body>
 </html>

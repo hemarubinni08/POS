@@ -24,14 +24,14 @@ public class NodeController {
     @GetMapping("/list")
     public String home(Model model) {
         model.addAttribute("nodes", nodeService.findAll());
-        model.addAttribute(ROLES,roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         return "node/list";
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute NodeDto userDto) {
         model.addAttribute("nodes", nodeService.findAll());
-        model.addAttribute(ROLES,roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         return "node/add";
     }
 
@@ -51,7 +51,7 @@ public class NodeController {
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         NodeDto response = nodeService.findByIdentifier(identifier);
-        model.addAttribute(ROLES,roleService.findAll());
+        model.addAttribute(ROLES, roleService.findAll());
         model.addAttribute("node", response);
         return "node/node";
     }

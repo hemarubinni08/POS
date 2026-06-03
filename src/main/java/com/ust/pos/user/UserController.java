@@ -41,9 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model,
-                             @ModelAttribute UserDto userDto,
-                             @RequestParam String oldUsername) {
+    public String updatePost(Model model, @ModelAttribute UserDto userDto, @RequestParam String oldUsername) {
 
         UserDto existingUser = userService.findByUserName(oldUsername);
 
@@ -55,20 +53,17 @@ public class UserController {
 
         if (!oldUsername.equalsIgnoreCase(userDto.getUsername())) {
 
-            UserDto emailCheck =
-                    userService.findByUserName(userDto.getUsername());
+            UserDto emailCheck = userService.findByUserName(userDto.getUsername());
 
             if (emailCheck != null) {
-                model.addAttribute(MESSAGE,
-                        "❌ Email already exists. Please use a new email.");
+                model.addAttribute(MESSAGE, " Email already exists. Please use a new email.");
                 model.addAttribute("user", userDto);
                 model.addAttribute(ROLES, roleService.findAll());
                 return USER_USER;
             }
         }
 
-        UserDto response =
-                userService.update(oldUsername, userDto);
+        UserDto response = userService.update(oldUsername, userDto);
 
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
@@ -78,6 +73,7 @@ public class UserController {
         }
         return "redirect:/user/list";
     }
+
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
 

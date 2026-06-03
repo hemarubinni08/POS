@@ -11,23 +11,79 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
+            background: #f8fafc;
             min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
         }
+
         .card {
             border-radius: 16px;
+            border: none;
         }
+
         .card-header {
+            background: #0f172a;
+            color: #e2e8f0;
             border-top-left-radius: 16px;
             border-top-right-radius: 16px;
         }
+
         table th {
-            background-color: #0d6efd;
-            color: white;
+            background-color: #1e293b;
+            color: #e2e8f0;
         }
+
+        table {
+            background: white;
+        }
+
         .badge-role {
-            background-color: #6c757d;
+            background-color: #475569;
+            color: #e2e8f0;
             margin: 2px;
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .btn-edit {
+            background: #0f766e;
+            color: white;
+            border: none;
+        }
+
+        .btn-edit:hover {
+            background: #0d5f59;
+        }
+
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+            border: none;
+        }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+        }
+
+        .btn-add {
+            background: #16a34a;
+            color: white;
+            border: none;
+        }
+
+        .btn-add:hover {
+            background: #15803d;
+        }
+
+        .btn-home {
+            background: #334155;
+            color: white;
+            border: none;
+        }
+
+        .btn-home:hover {
+            background: #1e293b;
         }
     </style>
 </head>
@@ -39,7 +95,8 @@
         <div class="col-md-10">
 
             <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white text-center">
+
+                <div class="card-header text-center">
                     <h4 class="mb-0">List of Nodes</h4>
                 </div>
 
@@ -78,19 +135,19 @@
                                         </c:if>
 
                                         <c:forEach var="role" items="${node.roles}">
-                                            <span class="badge badge-role">${role}</span>
+                                            <span class="badge-role">${role}</span>
                                         </c:forEach>
                                     </td>
 
                                     <td class="d-flex justify-content-center gap-2">
 
                                         <a href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}"
-                                           class="btn btn-sm btn-warning">
+                                           class="btn btn-sm btn-edit">
                                             Edit
                                         </a>
 
                                         <a href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
-                                           class="btn btn-sm btn-danger"
+                                           class="btn btn-sm btn-delete"
                                            onclick="return confirm('Are you sure you want to delete this node?');">
                                             Delete
                                         </a>
@@ -105,15 +162,17 @@
                 </div>
 
                 <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
+
                     <a href="${pageContext.request.contextPath}/"
-                       class="btn btn-secondary">
+                       class="btn btn-home">
                         Home
                     </a>
 
                     <a href="${pageContext.request.contextPath}/node/add"
-                       class="btn btn-success">
+                       class="btn btn-add">
                         + Add New Node
                     </a>
+
                 </div>
 
             </div>

@@ -13,7 +13,7 @@
 body {
     margin: 0;
     font-family: "Segoe UI", Arial, sans-serif;
-    background: linear-gradient(135deg, #0f766e, #020617);
+    background: #f8fafc;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -22,10 +22,10 @@ body {
 
 .card {
     width: 450px;
-    background: #f8fafc;
+    background: white;
     border-radius: 16px;
     padding: 30px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
 h3 {
@@ -143,11 +143,11 @@ button, a.btn {
 }
 
 .btn-cancel {
-    background: #64748b;
+    background: #334155;
 }
 
 .btn-cancel:hover {
-    background: #475569;
+    background: #1e293b;
 }
 </style>
 
@@ -202,11 +202,13 @@ window.onload = updateSelectedRoles;
             <form:input path="path" required="true"/>
 
             <label>Assign Roles</label>
+
             <div class="dropdown" id="roleDropdown">
                 <div class="dropdown-btn" onclick="toggleDropdown()">
                     <span id="selectedRoles">Select Roles</span>
                     <span>▼</span>
                 </div>
+
                 <div class="dropdown-content">
                     <c:forEach items="${roles}" var="role">
                         <div class="role-item">
@@ -224,13 +226,20 @@ window.onload = updateSelectedRoles;
                     </c:forEach>
                 </div>
             </div>
+
             <div class="btn-group">
                 <button type="submit" class="btn-save">UPDATE NODE</button>
+
                 <a href="${pageContext.request.contextPath}/node/list"
-                   class="btn btn-cancel">CANCEL</a>
+                   class="btn btn-cancel">
+                    CANCEL
+                </a>
             </div>
+
         </form:form>
     </c:if>
+
 </div>
+
 </body>
 </html>

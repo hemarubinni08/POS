@@ -59,7 +59,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void delete(String identifier) {
 
-         roleRepository.deleteByIdentifier(identifier);
+        roleRepository.deleteByIdentifier(identifier);
     }
 
     @Override

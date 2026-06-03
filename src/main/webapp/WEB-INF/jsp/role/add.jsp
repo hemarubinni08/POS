@@ -7,24 +7,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Add Role</title>
+<meta charset="UTF-8">
+<title>POS | Add Role</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet">
 
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            min-height: 100vh;
-        }
-        .card {
-            border-radius: 12px;
-        }
-        .form-control {
-            border-radius: 8px;
-        }
-    </style>
+<style>
+body {
+    background: #f8fafc;
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.card {
+    border-radius: 16px;
+    border: none;
+}
+
+.card-header {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.form-control {
+    border-radius: 8px;
+}
+
+.btn-primary {
+    background: #0f766e;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #115e59;
+}
+
+.back-link {
+    color: #0f766e;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.card-footer {
+    background: #f1f5f9;
+}
+</style>
 </head>
 
 <body>
@@ -33,7 +67,8 @@
     <div class="col-md-5">
 
         <div class="card shadow-lg">
-            <div class="card-header text-center bg-primary text-white">
+
+            <div class="card-header text-center">
                 <h4 class="mb-0">Add New Role</h4>
             </div>
 
@@ -53,6 +88,7 @@
                         <label class="form-label fw-semibold">
                             Role Identifier <span class="text-danger">*</span>
                         </label>
+
                         <form:input
                                 path="identifier"
                                 cssClass="form-control"
@@ -61,7 +97,10 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold">Description</label>
+                        <label class="form-label fw-semibold">
+                            Description
+                        </label>
+
                         <form:textarea
                                 path="description"
                                 cssClass="form-control"
@@ -77,7 +116,7 @@
 
                     <div class="text-center mt-3">
                         <a href="${pageContext.request.contextPath}/role/list"
-                           class="text-decoration-none fw-semibold">
+                           class="back-link">
                             ← Back to Role List
                         </a>
                     </div>
@@ -89,6 +128,7 @@
             <div class="card-footer text-center text-muted small">
                 POS Management System
             </div>
+
         </div>
 
     </div>
