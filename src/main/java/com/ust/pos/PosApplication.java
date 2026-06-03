@@ -54,5 +54,9 @@ public class PosApplication {
         }
         return ds;
     }
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 
 }

@@ -16,11 +16,9 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
-@Transactional
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-    public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
 
     public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
     @Autowired
