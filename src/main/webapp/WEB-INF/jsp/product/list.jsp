@@ -160,9 +160,9 @@
     <c:if test="${not empty products}">
         <table>
             <tr>
-                <th>Product Name</th>
+                <th>Sku Code</th>
                 <th>Category</th>
-                <th>SKU Code</th>
+                <th>Product Name</th>
                 <th>Brand</th>
                 <th>Model</th>
                 <th>Unit</th>
@@ -174,7 +174,7 @@
                 <tr>
                     <td>${product.identifier}</td>
                     <td>${product.category}</td>
-                    <td>${product.skuCode}</td>
+                    <td>${product.name}</td>
                     <td>${product.brand}</td>
                     <td>${product.model}</td>
                     <td>${product.unit}</td>

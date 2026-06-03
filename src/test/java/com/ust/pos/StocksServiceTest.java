@@ -36,7 +36,7 @@ class StocksServiceTest {
         StocksDto stocksDto = new StocksDto();
         stocksDto.setIdentifier("Admin");
         ProductDto productDto = new ProductDto();
-        productDto.setSkuCode(123L);
+        productDto.setName("Srujan");
 
         Mockito.when(stocksRepository.findByIdentifier("Admin")).thenReturn(null);
         Stocks stocks = new Stocks();

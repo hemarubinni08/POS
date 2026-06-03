@@ -1,6 +1,7 @@
 package com.ust.pos.node.service;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,13 +17,12 @@ public interface NodeService {
 
     boolean delete(String identifier);
 
-    List<NodeDto> findAll(Pageable pageable);
+    WsDto<NodeDto> findAll(Pageable pageable);
 
     NodeDto findByIdentifier(String identifier);
 
     NodeDto toggleStatus(String identifier);
 
     List<NodeDto> findIfTrue();
-
 
 }

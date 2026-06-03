@@ -82,9 +82,10 @@
     <c:if test="${not empty prices}">
         <table>
             <tr>
-                <th>Product Name</th>
+                <th>Sku Code</th>
                 <th>MRP</th>
                 <th>Selling Price</th>
+                <th>Cost Price</th>
                 <th>Effective From</th>
                 <th>Action</th>
             </tr>
@@ -94,6 +95,7 @@
     <td>${price.identifier}</td>
     <td>${price.mrp}</td>
     <td>${price.sellingPrice}</td>
+    <td>${price.costPrice}</td>
     <td>${price.effectiveFrom}</td>
     <td>
         <a href="${pageContext.request.contextPath}/price/get?identifier=${price.identifier}"

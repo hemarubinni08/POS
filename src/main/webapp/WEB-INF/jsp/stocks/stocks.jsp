@@ -165,7 +165,7 @@
 
         <form:hidden path="id"/>
 
-        <label>Product Name</label>
+        <label>Sku Code</label>
 
         <form:select path="identifier" disabled="true">
             <c:forEach var="product" items="${products}">

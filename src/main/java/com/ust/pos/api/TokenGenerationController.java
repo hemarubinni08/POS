@@ -5,7 +5,10 @@ import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,16 +37,23 @@ public class TokenGenerationController {
 
     @PostMapping("/api/authenticate")
     @ResponseBody
-    public UserDto authenticate(@RequestBody UserDto userDto) {
+    public ResponseEntity<?> authenticate(@RequestBody UserDto userDto) {
         try {
-            authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken
-                    (userDto.getUsername(), userDto.getPassword()));
-            UserDetails userDetails = userDetailsService.loadUserByUsername
-                    (userDto.getUsername());
+            authenticationProvider.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            userDto.getUsername(), userDto.getPassword()
+                    )
+            );
+            UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
             final String token = jwtUtility.generateToken(userDetails);
-            return new UserDto(token);
+            return ResponseEntity.ok(new UserDto(token));
+
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid username or password.");
         } catch (Exception e) {
-            return new UserDto("Error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Authentication failed.");
         }
     }
 

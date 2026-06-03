@@ -138,10 +138,10 @@
         method="post"
         modelAttribute="stocksDto">
 
-        <!-- Product Name -->
-       <label>Product Name</label>
+        <!-- Sku Code -->
+       <label>Sku Code</label>
        <form:select path="identifier" required="true">
-           <form:option value="">-- Select Product --</form:option>
+           <form:option value="">-- Select SkuCode --</form:option>
 
            <c:forEach var="product" items="${products}">
                <form:option value="${product.identifier}">

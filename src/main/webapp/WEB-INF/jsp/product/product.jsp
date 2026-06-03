@@ -117,8 +117,8 @@
 
         <form:hidden path="id"/>
 
-        <!--  Product Name -->
-        <label>Product Name</label>
+        <!-- Sku Code -->
+        <label>Sku Code</label>
         <form:input path="identifier" readonly="true"/>
 
         <!-- Category Multi-Select -->
@@ -165,9 +165,9 @@ ${bran.identifier}
                          </c:forEach>
                      </form:select>
 
-        <!-- SKU Code -->
-        <label>SKU Code</label>
-        <form:input path="skuCode" readonly="true"/>
+        <!-- Product Name -->
+        <label>Product Name</label>
+        <form:input path="name" required="true"/>
 
         <button type="submit">Update Product</button>
 

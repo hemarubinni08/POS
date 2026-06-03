@@ -61,24 +61,6 @@ class ProductServiceTest {
     }
 
     @Test
-    void saveTestFailure2() {
-        ProductDto productDto = new ProductDto();
-        productDto.setIdentifier("Admin");
-        productDto.setSkuCode(123L);
-
-        Product existingProduct = new Product();
-        existingProduct.setIdentifier("Admin");
-        existingProduct.setSkuCode(123L);
-
-        Mockito.when(productRepository.findBySkuCode(123L))
-                .thenReturn(existingProduct);
-
-        ProductDto response = productService.save(productDto);
-
-        Assertions.assertFalse(response.isSuccess());
-    }
-
-    @Test
     void findByIdentifierTest() {
         Product product = new Product();
         product.setIdentifier("Admin");

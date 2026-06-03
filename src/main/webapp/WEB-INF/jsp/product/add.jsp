@@ -145,8 +145,8 @@
         method="post"
         modelAttribute="productDto">
 
-        <!-- Product Name -->
-        <label>Product Name</label>
+        <!-- SKU CODE -->
+        <label>SKU Code</label>
         <form:input path="identifier" required="true"/>
 
         <!-- Category Multi-Select -->
@@ -195,9 +195,9 @@
                                                  </form:select>
 
 
-        <!-- SKU Code -->
-        <label>SKU Code</label>
-        <form:input path="skuCode" type="number" required="true"/>
+        <!-- Product Name -->
+        <label>Product Name</label>
+        <form:input path="name" type="text" required="true"/>
 
         <button type="submit">Add Product</button>
 
