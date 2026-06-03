@@ -2,6 +2,8 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.PaginatedResponseDto;
+import com.ust.pos.dto.UnitDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import jakarta.transaction.Transactional;
@@ -61,12 +63,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
+    public PaginatedResponseDto<CategoryDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
-        return modelMapper.map(categoryPage.getContent(), listType);
+
+        List<CategoryDto> items = modelMapper.map(categoryPage.getContent(), listType);
+
+        PaginatedResponseDto<CategoryDto> response = new PaginatedResponseDto<>();
+        response.setItems(items);
+        response.setTotalRecords(categoryPage.getTotalElements());
+        response.setTotalPages(categoryPage.getTotalPages());
+        response.setSizePerPage(pageable.getPageSize());
+        response.setPage(pageable.getPageNumber());
+
+        return response;
     }
 
     @Override

@@ -14,8 +14,6 @@ import java.util.List;
 @RequestMapping("/api/model")
 public class ModelControllerApi extends BaseController {
 
-    public static final String REDIRECT_MODEL_LIST = "redirect:/model/list";
-
     @Autowired
     private ModelService modelService;
 

@@ -1,6 +1,8 @@
 package com.ust.pos.user.service.impl;
 
+import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.PaginatedResponseDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
@@ -81,11 +83,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAll(Pageable pageable) {
+    public PaginatedResponseDto<UserDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
         Page<User> userPage = userRepository.findAll(pageable);
-        return modelMapper.map(userPage.getContent(), listType);
+
+        List<UserDto> items = modelMapper.map(userPage.getContent(), listType);
+
+        PaginatedResponseDto<UserDto> response = new PaginatedResponseDto<>();
+        response.setItems(items);
+        response.setTotalRecords(userPage.getTotalElements());
+        response.setTotalPages(userPage.getTotalPages());
+        response.setSizePerPage(pageable.getPageSize());
+        response.setPage(pageable.getPageNumber());
+
+        return response;
     }
 
     @Override

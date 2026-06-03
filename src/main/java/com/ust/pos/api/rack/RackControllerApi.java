@@ -14,8 +14,6 @@ import java.util.List;
 @RequestMapping("/api/rack")
 public class RackControllerApi extends BaseController {
 
-    public static final String REDIRECT_RACK_LIST = "redirect:/rack/list";
-
     @Autowired
     private RackService rackService;
 

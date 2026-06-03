@@ -2,6 +2,7 @@ package com.ust.pos.api.price;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
+import com.ust.pos.dto.PaginatedResponseDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.price.service.PriceService;
@@ -16,8 +17,6 @@ import java.util.List;
 @RequestMapping("/api/price")
 public class PriceControllerApi extends BaseController {
 
-    public static final String REDIRECT_PRICE_LIST = "redirect:/price/list";
-
     @Autowired
     private PriceService priceService;
 
@@ -25,7 +24,7 @@ public class PriceControllerApi extends BaseController {
     private CategoryService categoryService;
 
     @PostMapping("/list")
-    public List<PriceDto> home(@RequestBody PaginationDto paginationDto) {
+    public PaginatedResponseDto<PriceDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -47,10 +46,10 @@ public class PriceControllerApi extends BaseController {
         return priceService.update(priceDto);
     }
 
-    @GetMapping("/delete")
-    public Boolean delete(Model model, @RequestParam String identifier) {
+    @PostMapping("/delete")
+    public Boolean delete(@RequestBody PriceDto priceDto) {
         try {
-            priceService.delete(identifier);
+            priceService.delete(priceDto.getIdentifier());
         } catch (Exception e) {
             return false;
         }
