@@ -1,8 +1,11 @@
 package com.ust.pos.models.service.impl;
 
 import com.ust.pos.dto.ModelsDto;
+import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Models;
 import com.ust.pos.model.ModelsRepository;
+import com.ust.pos.model.Node;
 import com.ust.pos.models.service.ModelsService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -61,11 +64,18 @@ public class ModelsServiceImpl implements ModelsService {
     }
 
     @Override
-    public List<ModelsDto> findAll(Pageable pageable) {
+    public WsDto<ModelsDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ModelsDto>>() {
         }.getType();
         Page<Models> modelsPage = modelsRepository.findAll(pageable);
-        return modelMapper.map(modelsPage.getContent(), listType);
+        WsDto<ModelsDto> modelsWsDto = new WsDto<>();
+        modelsWsDto.setDtoList(modelMapper.map(modelsPage.getContent(), listType));
+        modelsWsDto.setTotalRecords(modelsPage.getTotalElements());
+        modelsWsDto.setTotalPages(modelsPage.getTotalPages());
+        modelsWsDto.setSizePerPage(pageable.getPageSize());
+        modelsWsDto.setPage(pageable.getPageNumber());
+
+        return modelsWsDto;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,8 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-//@RestController
+@RestController
 public class TokenGenerationController {
 
     @Autowired
@@ -31,10 +33,15 @@ public class TokenGenerationController {
     @ResponseBody
     public UserDto authenticate(@RequestBody UserDto userDto) {
         try {
-            authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
-            final String token = jwtUtility.generateToken(userDetails);
-            return new UserDto(token);
+            authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(
+                            userDto.getUsername(),
+                            userDto.getPassword()));
+            UserDetails userDetails = userDetailsService.loadUserByUsername(
+                    userDto.getUsername());
+            final String token =jwtUtility.generateToken(userDetails);
+            UserDto response =userService.findByUserName(userDto.getUsername());
+            response.setToken(token);
+            return response;
         } catch (Exception e) {
             return new UserDto("Error");
         }

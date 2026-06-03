@@ -4,8 +4,11 @@ import com.ust.pos.customer.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
+import com.ust.pos.model.Node;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,11 +112,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerDto> findAll(Pageable pageable) {
+    public WsDto<CustomerDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
         Page<Customer> customerPage = customerRepository.findAll(pageable);
-        return modelMapper.map(customerPage.getContent(), listType);
+        WsDto<CustomerDto> customerWsDto = new WsDto<>();
+        customerWsDto.setDtoList(modelMapper.map(customerPage.getContent(), listType));
+        customerWsDto.setTotalRecords(customerPage.getTotalElements());
+        customerWsDto.setTotalPages(customerPage.getTotalPages());
+        customerWsDto.setSizePerPage(pageable.getPageSize());
+        customerWsDto.setPage(pageable.getPageNumber());
+
+        return customerWsDto;
     }
 
     @Override

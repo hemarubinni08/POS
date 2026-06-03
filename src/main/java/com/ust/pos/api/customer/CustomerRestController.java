@@ -5,6 +5,7 @@ import com.ust.pos.customer.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +28,7 @@ public class CustomerRestController extends BaseController {
     private AddressService addressService;
 
     @PostMapping("/list")
-    public List<CustomerDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<CustomerDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -39,8 +40,8 @@ public class CustomerRestController extends BaseController {
         return customerService.save(customerDto);
     }
 
-    @GetMapping("/get")
-    public CustomerDto update(Model model, @RequestParam String identifier) {
+    @PostMapping("/get")
+    public CustomerDto update(Model model, @RequestBody String identifier) {
 
         CustomerDto response = customerService.findByIdentifier(identifier);
         response.setBillingAddress(addressService.
@@ -56,8 +57,8 @@ public class CustomerRestController extends BaseController {
         return customerService.update(customerDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public boolean delete(@RequestBody String identifier) {
         try {
             customerService.delete(identifier);
         } catch (Exception e) {
