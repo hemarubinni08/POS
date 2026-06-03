@@ -11,113 +11,120 @@
       rel="stylesheet">
 
 <style>
-body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-}
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden; /* Disables all scrolling and locks viewport */
+    }
 
-/* ✅ BACK ARROW (EXACT STYLE LIKE IMAGE) */
-.back-arrow {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 42px;
-    height: 42px;
-    background: #ffffff;
-    border: 1px solid #c4b5fd;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: #6d28d9;
-    font-size: 18px;
-    font-weight: 600;
-    box-shadow: 0 6px 15px rgba(76, 29, 149, 0.18);
-    transition: 0.2s;
-}
+    body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.back-arrow:hover {
-    background: #7c3aed;
-    color: #ffffff;
-}
+    .back-arrow {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        width: 42px;
+        height: 42px;
+        background: #ffffff;
+        border: 1px solid #c4b5fd;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #6d28d9;
+        font-size: 18px;
+        font-weight: 600;
+        box-shadow: 0 6px 15px rgba(76, 29, 149, 0.18);
+        transition: 0.2s;
+    }
 
-/* 🎯 CONTAINER */
-.register-card {
-    width: 430px;
-    margin: 100px auto;
-    background: #ffffff;
-    padding: 35px 40px;
-    border-radius: 16px;
-    box-shadow: 0 15px 35px rgba(76, 29, 149, 0.18);
-}
+    .back-arrow:hover {
+        background: #7c3aed;
+        color: #ffffff;
+    }
 
-/* 🔷 TITLE */
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 22px;
-    color: #6d28d9;
-    font-weight: 600;
-}
+    .register-card {
+        width: 420px;
+        background: #ffffff;
+        padding: 25px 30px;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
+        box-sizing: border-box;
+    }
 
-/* ❌ ERROR MESSAGE */
-.error-message {
-    margin-bottom: 15px;
-    padding: 10px 12px;
-    background-color: #efe9ff;
-    color: #5b21b6;
-    border: 1px solid #c4b5fd;
-    border-radius: 8px;
-    font-size: 13px;
-    text-align: center;
-}
+    h2 {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 20px;
+        color: #6d28d9;
+        font-weight: 600;
+    }
 
-/* 🏷 LABEL */
-label {
-    margin-top: 16px;
-    display: block;
-    font-weight: 600;
-    font-size: 13px;
-    color: #4c1d95;
-}
+    .error-message {
+        margin-bottom: 14px;
+        padding: 10px 12px;
+        background-color: #efe9ff;
+        color: #5b21b6;
+        border: 1px solid #c4b5fd;
+        border-radius: 8px;
+        font-size: 13px;
+        text-align: center;
+    }
 
-/* ✏ INPUT */
-input, select {
-    width: 100%;
-    margin-top: 6px;
-    padding: 10px;
-    border: 1px solid #c4b5fd;
-    border-radius: 8px;
-    font-size: 13px;
-}
+    label {
+        margin-top: 14px;
+        display: block;
+        font-weight: 600;
+        font-size: 13px;
+        color: #4c1d95;
+    }
 
-input:focus, select:focus {
-    border-color: #7c3aed;
-    box-shadow: 0 0 0 2px rgba(124,58,237,0.25);
-}
+    input, select {
+        width: 100%;
+        margin-top: 5px;
+        padding: 9px;
+        border: 1px solid #c4b5fd;
+        border-radius: 6px;
+        font-size: 13px;
+        box-sizing: border-box;
+    }
 
-select[multiple] {
-    height: 130px;
-}
+    input:focus, select:focus {
+        outline: none;
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 2px rgba(124,58,237,0.25);
+    }
 
-/* 🔥 BUTTON */
-.btn-submit {
-    margin-top: 28px;
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, #7c3aed, #6d28d9);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
-}
+    select[multiple] {
+        height: 100px;
+    }
 
-.btn-submit:hover {
-    background: linear-gradient(135deg, #6d28d9, #5b21b6);
-}
+    .btn-submit {
+        margin-top: 22px;
+        width: 100%;
+        padding: 11px;
+        background: linear-gradient(135deg, #7c3aed, #6d28d9);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+    .btn-submit:hover {
+        background: linear-gradient(135deg, #6d28d9, #5b21b6);
+    }
 </style>
 
 <script>
@@ -148,8 +155,6 @@ function validateForm() {
 </head>
 
 <body>
-
-<!-- ✅ BACK ARROW -->
 <a href="${pageContext.request.contextPath}/user/list" class="back-arrow">←</a>
 
 <div class="register-card">
@@ -198,4 +203,4 @@ function validateForm() {
 </div>
 
 </body>
-</html>r
+</html>
