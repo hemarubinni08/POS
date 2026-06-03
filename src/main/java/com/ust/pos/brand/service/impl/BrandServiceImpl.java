@@ -88,4 +88,13 @@ public class BrandServiceImpl implements BrandService {
         return response;
     }
 
+    public List<BrandDto> findActiveBrands() {
+        Type listType = new TypeToken<List<BrandDto>>() {
+        }.getType();
+        return modelMapper.map(
+                brandRepository.findByStatusTrue(),
+                listType
+        );
+    }
+
 }

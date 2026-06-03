@@ -39,10 +39,10 @@ public class ProductController extends BaseController {
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute ProductDto productDto) {
         model.addAttribute("categories", categoryService.findSubCategories());
-        model.addAttribute("brands", brandService.findAll(null));
+        model.addAttribute("brands", brandService.findActiveBrands());
         model.addAttribute(SHELFS, shelfService.findActiveShelves());
         model.addAttribute(RACKS, rackService.findActiveRacks());
-        model.addAttribute("units", unitService.findAll(null));
+        model.addAttribute("units", unitService.findActiveUnits());
         return "product/add";
     }
 
@@ -71,10 +71,10 @@ public class ProductController extends BaseController {
         ProductDto response = productService.findByIdentifier(identifier);
         model.addAttribute("categories", categoryService.findSubCategories());
         model.addAttribute("product", response);
-        model.addAttribute("brands", brandService.findAll(null));
+        model.addAttribute("brands", brandService.findActiveBrands());
         model.addAttribute(SHELFS, shelfService.findActiveShelves());
         model.addAttribute(RACKS, rackService.findActiveRacks());
-        model.addAttribute("units", unitService.findAll(null));
+        model.addAttribute("units", unitService.findActiveUnits());
         return "product/product";
     }
 

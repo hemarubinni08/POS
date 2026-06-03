@@ -87,4 +87,13 @@ public class UnitServiceImpl implements UnitService {
         return response;
     }
 
+    public List<UnitDto> findActiveUnits() {
+        Type listType = new TypeToken<List<UnitDto>>() {
+        }.getType();
+        return modelMapper.map(
+                unitRepository.findByStatusTrue(),
+                listType
+        );
+    }
+
 }
