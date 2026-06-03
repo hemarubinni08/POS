@@ -28,11 +28,8 @@ public class RoleController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model,
-                          @ModelAttribute("roleDto") RoleDto roleDto) {
-
+    public String addPost(Model model,@ModelAttribute("roleDto") RoleDto roleDto) {
         RoleDto response = roleService.save(roleDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "role/add";
@@ -43,18 +40,14 @@ public class RoleController {
 
 
     @GetMapping("/get")
-    public String updatePage(Model model,
-                             @RequestParam String identifier) {
-
+    public String updatePage(Model model,@RequestParam String identifier) {
         RoleDto roleDto = roleService.findByIdentifier(identifier);
         model.addAttribute("roleDto", roleDto);
         return "role/role";
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model,
-                             @ModelAttribute("roleDto") RoleDto roleDto) {
-
+    public String updatePost(Model model,@ModelAttribute("roleDto") RoleDto roleDto) {
         RoleDto response = roleService.update(roleDto);
 
         if (!response.isSuccess()) {

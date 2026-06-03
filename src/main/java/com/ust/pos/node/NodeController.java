@@ -34,9 +34,7 @@ public class NodeController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model,
-                          @ModelAttribute NodeDto nodeDto) {
-
+    public String addPost(Model model,@ModelAttribute NodeDto nodeDto) {
         NodeDto response = nodeService.save(nodeDto);
 
         if (!response.isSuccess()) {
@@ -44,13 +42,11 @@ public class NodeController {
             model.addAttribute("message", response.getMessage());
             return "node/add";
         }
-
         return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/get")
-    public String update(Model model,
-                         @RequestParam String identifier) {
+    public String update(Model model,@RequestParam String identifier) {
 
         NodeDto nodeDto = nodeService.findByIdentifier(identifier);
         model.addAttribute("nodeDto", nodeDto);
