@@ -20,7 +20,6 @@
             margin-bottom: 40px;
         }
 
-        /* ===== Header ===== */
         .page-header {
             background: #ffffff;
             padding: 22px 26px;
@@ -32,7 +31,6 @@
             align-items: center;
         }
 
-        /* ===== Table Card ===== */
         .table-container {
             background: #ffffff;
             border-radius: 14px;
@@ -51,7 +49,6 @@
             vertical-align: middle;
         }
 
-        /* ===== Text styles ===== */
         .warehouse-name {
             font-weight: 600;
             color: #2c3e50;
@@ -65,13 +62,11 @@
             border-radius: 6px;
         }
 
-        /* ===== Toggle ===== */
         .status-label {
             font-size: 0.9rem;
             font-weight: 600;
         }
 
-        /* ===== Buttons ===== */
         .btn-action {
             padding: 5px 12px;
             border-radius: 8px;
@@ -83,7 +78,6 @@
 
 <div class="container">
 
-    <!-- ✅ HEADER -->
     <div class="page-header">
         <h3 class="mb-0 text-primary">Warehouse Management</h3>
 
@@ -100,7 +94,6 @@
         </div>
     </div>
 
-    <!-- ✅ TABLE -->
     <div class="table-container">
         <table class="table table-hover align-middle">
 
@@ -130,7 +123,6 @@
 
                     <td>${w.manager}</td>
 
-                    <!-- ✅ STATUS TOGGLE -->
                     <td class="text-center">
                         <form method="get"
                               action="${pageContext.request.contextPath}/warehouse/toggle"
@@ -152,7 +144,6 @@
                         </form>
                     </td>
 
-                    <!-- ✅ ACTIONS -->
                     <td class="text-center">
                         <div class="d-flex justify-content-center gap-1">
 

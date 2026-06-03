@@ -8,11 +8,9 @@
     <meta charset="UTF-8">
     <title>POS | Edit Product</title>
 
-    <!-- Bootstrap 5 & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
     <style>
-        /* ========= Modern Variables ========= */
         :root {
             --primary-blue: #0d6efd;
             --bg-light: #f4f7f6;
@@ -33,7 +31,6 @@
             max-width: 900px;
         }
 
-        /* ========= Back Button ========= */
         .back-btn {
             background: #ffffff;
             color: #64748b !important;
@@ -56,7 +53,6 @@
             transform: translateY(-2px);
         }
 
-        /* ========= Main Card ========= */
         .card-edit {
             background: #ffffff;
             border: none;
@@ -78,7 +74,6 @@
             font-weight: 700;
         }
 
-        /* ========= Section Dividers ========= */
         .section-title {
             font-size: 0.85rem;
             font-weight: 800;
@@ -98,7 +93,6 @@
             background: var(--border-color);
         }
 
-        /* ========= Form Styling ========= */
         .form-label {
             font-size: 0.85rem;
             color: #64748b;
@@ -125,7 +119,6 @@
             font-weight: 600;
         }
 
-        /* ========= Footer Button ========= */
         .btn-update {
             background-color: var(--primary-blue);
             border: none;
@@ -166,7 +159,6 @@
 
         <div class="card-body p-4 p-md-5">
 
-            <!-- Alert for errors/messages from controller -->
             <c:if test="${not empty message}">
                 <div class="alert alert-danger shadow-sm mb-4">
                     <i class="bi bi-exclamation-octagon-fill me-2"></i> ${message}
@@ -175,10 +167,8 @@
 
             <form:form method="post" action="${pageContext.request.contextPath}/product/update" modelAttribute="product">
 
-                <!-- HIDDEN ID FOR HIBERNATE -->
                 <form:hidden path="id" />
 
-                <!-- IDENTITY SECTION -->
                 <div class="section-title" style="margin-top: 0;">Identity & Description</div>
 
                 <div class="row g-4 mb-4">
@@ -204,7 +194,6 @@
                     </div>
                 </div>
 
-                <!-- CLASSIFICATION SECTION -->
                 <div class="section-title">Classification Update</div>
 
                 <div class="row g-4 mb-4">
@@ -233,7 +222,6 @@
                     </div>
                 </div>
 
-                <!-- STATUS SECTION -->
                 <div class="section-title">Availability</div>
 
                 <div class="row g-4 mb-5">

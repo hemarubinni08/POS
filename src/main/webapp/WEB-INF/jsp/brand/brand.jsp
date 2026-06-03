@@ -35,7 +35,7 @@
                         </div>
                     </c:if>
 
-                    <form:form action="${pageContext.request.contextPath}/brand/update" method="post" modelAttribute="brands">
+                    <form:form action="/brand/update" method="post" modelAttribute="brands">
 
                         <form:hidden path="id" />
 
@@ -50,20 +50,19 @@
                             <form:textarea path="description" cssClass="form-control" rows="3" required="true" />
                         </div>
 
-                        <!-- STATUS -->
-                                    <div class="mb-4">
-                                        <label class="form-label fw-bold">Status</label>
-                                        <form:select path="status" class="form-select">
-                                            <form:option value="true">Active</form:option>
-                                            <form:option value="false">Deactive</form:option>
-                                        </form:select>
-                                    </div>
+                        <div class="mb-4">
+                             <label class="form-label fw-bold">Status</label>
+                                 <form:select path="status" class="form-select">
+                                     <form:option value="true">Active</form:option>
+                                     <form:option value="false">Deactive</form:option>
+                                 </form:select>
+                        </div>
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success py-2 fw-bold">
                                 <i class="bi bi-check2-circle me-1"></i> Update Changes
                             </button>
-                            <a href="${pageContext.request.contextPath}/brand/list" class="btn btn-outline-secondary">
+                            <a href="/brand/list" class="btn btn-outline-secondary">
                                 Cancel
                             </a>
                         </div>

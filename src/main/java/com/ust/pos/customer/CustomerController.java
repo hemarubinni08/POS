@@ -18,6 +18,7 @@ public class CustomerController {
     public static final String CUSTOMER = "customer";
     public static final String REDIRECT_CUSTOMER_LIST = "redirect:/customer/list";
     public static final String CUSTOMERS = "customers";
+
     @Autowired
     CustomerService customerService;
     @Autowired

@@ -113,7 +113,6 @@
 
     <div class="card-body">
 
-        <%-- Display message based on success/failure --%>
         <c:if test="${not empty message}">
             <div class="alert ${success ? 'alert-success' : 'alert-danger'} alert-dismissible fade show" role="alert">
                 ${message}
@@ -125,7 +124,6 @@
                    method="post"
                    modelAttribute="productDto">
 
-            <%-- Hidden ID for persistence --%>
             <form:hidden path="id"/>
 
             <div class="mb-3">
@@ -139,17 +137,9 @@
             <div class="mb-3">
                 <label class="form-label">Category</label>
 
-                <%--
-                   'path="category"' binds the selected value to the category field in your ProductDto.
-                --%>
                 <form:select path="category" cssClass="form-select" required="true">
                     <option value="" disabled selected>-- Select Category Identifier --</option>
 
-                    <%--
-                       We iterate over the 'category' list passed from the controller.
-                       Value: This is the identifier string saved to the Product table.
-                       Label: This is what the user sees in the dropdown.
-                    --%>
                     <c:forEach var="c" items="${category}">
                         <option value="${c.identifier}">
                             ${c.identifier}

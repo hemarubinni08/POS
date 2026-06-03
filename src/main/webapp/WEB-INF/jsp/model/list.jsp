@@ -6,11 +6,8 @@
 <head>
     <title>Model Management</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-
 
     <style>
         .add-model-btn {
@@ -51,7 +48,6 @@
 
         <h2 class="text-center mb-4">Model Management</h2>
 
-        <!-- ACTION BUTTONS -->
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary back-btn">
@@ -66,14 +62,12 @@
             </a>
         </div>
 
-        <!-- EMPTY MESSAGE -->
         <c:if test="${empty models}">
             <div class="text-center text-muted p-5">
                 No models available
             </div>
         </c:if>
 
-        <!-- MODEL TABLE -->
         <c:if test="${not empty models}">
             <table class="table table-hover table-bordered align-middle">
                 <thead class="table-dark text-center">
@@ -89,13 +83,10 @@
                 <c:forEach var="model" items="${models}">
                     <tr>
 
-                        <!-- ID -->
                         <td class="text-center">${model.id}</td>
 
-                        <!-- IDENTIFIER -->
                         <td class="fw-semibold">${model.identifier}</td>
 
-                        <!-- ✅ STATUS TOGGLE -->
                         <td class="text-center">
                             <form method="get"
                                   action="${pageContext.request.contextPath}/model/toggle"
@@ -117,7 +108,6 @@
                             </form>
                         </td>
 
-                        <!-- ACTIONS -->
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/model/get?identifier=${model.identifier}"
                                class="btn btn-sm btn-warning">

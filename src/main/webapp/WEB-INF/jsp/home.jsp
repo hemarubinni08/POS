@@ -14,24 +14,23 @@
             background: #f2f2f2;
             display: flex;
             height: 100vh;
-            overflow: hidden; /* ✅ Prevent body scrolling */
+            overflow: hidden;
         }
 
-        /* ✅ LEFT SIDEBAR */
         .sidebar {
             width: 240px;
             background: #343a40;
             color: #fff;
             padding: 15px;
-            height: 100vh;        /* ✅ Full viewport height */
-            overflow-y: auto;     /* ✅ Scrollbar appears */
+            height: 100vh;
+            overflow-y: auto;
             overflow-x: hidden;
         }
 
         .sidebar h3 {
             margin: 0 0 15px 0;
             font-size: 18px;
-            position: sticky;     /* ✅ Stays visible while scrolling */
+            position: sticky;
             top: 0;
             background: #343a40;
             padding: 10px 0;
@@ -57,7 +56,6 @@
             background: #5a6268;
         }
 
-        /* ✅ RIGHT CONTENT */
         .main {
             flex: 1;
             display: flex;
@@ -74,7 +72,7 @@
             align-items: center;
             font-size: 18px;
             font-weight: bold;
-            flex-shrink: 0;       /* ✅ Prevent resizing */
+            flex-shrink: 0;
         }
 
         .logout-btn {
@@ -94,14 +92,13 @@
             padding: 20px;
             flex: 1;
             background: #fff;
-            overflow-y: auto;     /* ✅ Content scroll */
+            overflow-y: auto;
         }
     </style>
 </head>
 
 <body>
 
-<!-- ✅ LEFT NAVIGATION (SCROLLABLE) -->
 <div class="sidebar">
     <h3>Navigation</h3>
 
@@ -118,7 +115,6 @@
     </c:forEach>
 </div>
 
-<!-- ✅ RIGHT CONTENT -->
 <div class="main">
 
     <div class="top-bar">

@@ -85,15 +85,12 @@
 <div class="update-card">
     <h3>Update User</h3>
 
-    <!-- ✅ Update User Form -->
     <form:form action="${pageContext.request.contextPath}/user/update"
                method="post"
                modelAttribute="userDto">
 
-        <!-- ✅ Hidden ID -->
         <form:hidden path="id"/>
 
-        <!-- ✅ Name -->
         <div class="mb-3">
             <label>Name</label>
             <form:input path="name"
@@ -102,7 +99,6 @@
             <form:errors path="name" cssClass="error"/>
         </div>
 
-        <!-- ✅ Email -->
         <div class="mb-3">
             <label>Email</label>
             <form:input path="username"
@@ -114,7 +110,6 @@
             <form:errors path="username" cssClass="error"/>
         </div>
 
-        <!-- ✅ Phone Number -->
         <div class="mb-3">
             <label>Phone Number</label>
             <form:input path="phoneNo"
@@ -125,7 +120,6 @@
             <form:errors path="phoneNo" cssClass="error"/>
         </div>
 
-        <!-- ✅ Roles -->
         <div class="mb-3">
             <label>Roles</label>
 
@@ -150,7 +144,6 @@
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
             </small>
 
-            <!-- STATUS -->
                         <div class="mb-4">
                             <label class="form-label fw-bold">Status</label>
                             <form:select path="status" class="form-select">
@@ -160,7 +153,6 @@
                         </div>
         </div>
 
-        <!-- ✅ Submit -->
         <button type="submit" class="btn-update">
             Update User
         </button>

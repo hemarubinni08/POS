@@ -6,11 +6,8 @@
 <head>
     <title>Unit Management</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-
 
     <style>
             body {
@@ -23,7 +20,6 @@
                 margin-bottom: 40px;
             }
 
-            /* ===== Header ===== */
             .page-header {
                 background: #ffffff;
                 padding: 22px 26px;
@@ -35,7 +31,6 @@
                 align-items: center;
             }
 
-            /* ===== Table Card ===== */
             .table-container {
                 background: #ffffff;
                 border-radius: 14px;
@@ -54,7 +49,6 @@
                 vertical-align: middle;
             }
 
-            /* ===== Text styles ===== */
             .warehouse-name {
                 font-weight: 600;
                 color: #2c3e50;
@@ -68,13 +62,11 @@
                 border-radius: 6px;
             }
 
-            /* ===== Toggle ===== */
             .status-label {
                 font-size: 0.9rem;
                 font-weight: 600;
             }
 
-            /* ===== Buttons ===== */
             .btn-action {
                 padding: 5px 12px;
                 border-radius: 8px;
@@ -89,7 +81,6 @@
 
         <h2 class="text-center mb-4">Unit Management</h2>
 
-        <!-- ACTION BUTTONS -->
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary back-btn">
@@ -104,14 +95,12 @@
             </a>
         </div>
 
-        <!-- EMPTY MESSAGE -->
         <c:if test="${empty units}">
             <div class="text-center text-muted p-5">
                 No units available
             </div>
         </c:if>
 
-        <!-- UNIT TABLE -->
         <c:if test="${not empty units}">
             <table class="table table-hover table-bordered align-middle">
                 <thead class="table-dark text-center">
@@ -127,13 +116,10 @@
                 <c:forEach var="unit" items="${units}">
                     <tr>
 
-                        <!-- ID -->
                         <td class="text-center">${unit.id}</td>
 
-                        <!-- UNIT NAME -->
                         <td class="fw-semibold">${unit.identifier}</td>
 
-                        <!-- ✅ STATUS TOGGLE -->
                         <td class="text-center">
                             <form method="get"
                                   action="${pageContext.request.contextPath}/unit/toggle"
@@ -157,7 +143,6 @@
                             </form>
                         </td>
 
-                        <!-- ACTIONS -->
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/unit/get?identifier=${unit.identifier}"
                                class="btn btn-sm btn-warning">

@@ -7,11 +7,9 @@
     <meta charset="UTF-8">
     <title>POS | Product Management</title>
 
-    <!-- Bootstrap 5 & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
     <style>
-        /* ========= Modern Variables ========= */
         :root {
             --primary-blue: #0d6efd;
             --bg-light: #f4f7f6;
@@ -29,7 +27,6 @@
             padding: 40px 0;
         }
 
-        /* ========= Header Section ========= */
         .page-header {
             background: #ffffff;
             padding: 22px 26px;
@@ -41,7 +38,6 @@
             align-items: center;
         }
 
-        /* ========= Table Card ========= */
         .table-container {
             background: #ffffff;
             border-radius: 14px;
@@ -65,7 +61,6 @@
             border-bottom: 1px solid #f1f4f8;
         }
 
-        /* ========= Data Highlighting ========= */
         .product-desc {
             font-weight: 600;
             color: var(--text-dark);
@@ -89,7 +84,6 @@
         .model-badge { background-color: #faf5ff; color: #6b21a8; border: 1px solid #f3e8ff; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
         .category-badge { background-color: #f1f5f9; color: #475569; border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
 
-        /* ========= Proper Action Buttons ========= */
         .btn-action {
             padding: 7px 14px;
             font-weight: 700;
@@ -132,7 +126,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
 
-        /* ========= Toggle & Layout ========= */
         .form-check-input:checked { background-color: #10b981 !important; border-color: #10b981 !important; }
         .status-label { font-size: 0.75rem; font-weight: 700; }
 
@@ -151,7 +144,6 @@
 
 <div class="container-fluid px-5">
 
-    <!-- ✅ HEADER SECTION -->
     <div class="page-header">
         <h3 class="mb-0 fw-bold text-primary">
             <i class="bi bi-box-seam me-2"></i>Product Management
@@ -166,7 +158,6 @@
         </div>
     </div>
 
-    <!-- ✅ TABLE SECTION -->
     <div class="table-container">
         <div class="table-responsive">
             <table class="table table-hover align-middle">
@@ -236,7 +227,6 @@
                                 </form>
                             </td>
 
-                            <!-- ✅ PROPER ACTIONS COLUMN -->
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
                                     <a href="${pageContext.request.contextPath}/product/get?identifier=${product.identifier}"

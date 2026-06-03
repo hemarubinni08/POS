@@ -72,7 +72,6 @@
                                     <td>${node.path}</td>
                                     <td>${node.roles}</td>
 
-                                    <!-- ✅ TOGGLE STATUS -->
                                     <td>
                                         <form method="get"
                                               action="${pageContext.request.contextPath}/node/toggle"
@@ -94,7 +93,6 @@
                                         </form>
                                     </td>
 
-                                    <!-- ✅ ACTIONS -->
                                     <td class="d-flex justify-content-center gap-2">
                                         <a href="${pageContext.request.contextPath}/node/get?identifier=${node.identifier}"
                                            class="btn btn-warning btn-sm">

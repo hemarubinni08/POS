@@ -41,13 +41,11 @@ public class ApiBrandController extends BaseController {
 
     @GetMapping("/get")
     public BrandDto update(@RequestParam String identifier) {
-
         return brandService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
     public BrandDto updateCategory(@RequestBody BrandDto brandDto) {
-
         return brandService.update(brandDto);
     }
 

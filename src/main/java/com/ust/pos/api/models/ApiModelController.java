@@ -19,7 +19,7 @@ public class ApiModelController extends BaseController {
 
     @PostMapping("/list")
     public List<ModelDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable= getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return modelService.findAll(pageable);
     }
 

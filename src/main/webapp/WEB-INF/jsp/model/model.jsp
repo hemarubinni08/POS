@@ -7,11 +7,8 @@
 <head>
     <title>Edit Model</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-
 
     <style>
         .card-custom {
@@ -60,7 +57,6 @@
 
 <div class="container mt-5">
 
-    <!-- BACK BUTTON -->
     <div class="mb-4 text-center">
         <a href="${pageContext.request.contextPath}/model/list"
            class="btn btn-secondary back-btn">
@@ -72,22 +68,18 @@
     <div class="card card-custom p-4">
         <h3 class="text-center mb-4">Edit Model</h3>
 
-        <!-- ERROR MESSAGE -->
         <c:if test="${not empty message}">
             <div class="error-msg">
                 ${message}
             </div>
         </c:if>
 
-        <!-- ✅ EDIT FORM -->
         <form:form action="${pageContext.request.contextPath}/model/update"
                    method="post"
                    modelAttribute="models">
 
-            <!-- ID -->
             <form:hidden path="id"/>
 
-            <!-- IDENTIFIER -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Model Name</label>
                 <form:input path="identifier"
@@ -95,7 +87,6 @@
                             readonly="true"/>
             </div>
 
-            <!-- ✅ STATUS TOGGLE -->
             <div class="mb-4 d-flex justify-content-between align-items-center">
 
                 <div>
@@ -105,7 +96,6 @@
                     </div>
                 </div>
 
-                <!-- Toggle Form -->
                 <form method="get"
                       action="${pageContext.request.contextPath}/model/toggle"
                       class="d-inline">
@@ -122,7 +112,6 @@
                 </form>
             </div>
 
-            <!-- SUBMIT -->
             <button type="submit" class="btn btn-success w-100 btn-submit">
                 <i class="bi bi-check-circle"></i>
                 Update Model

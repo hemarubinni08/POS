@@ -55,17 +55,13 @@ public class UserController {
     @Transactional
     @GetMapping("/delete")
     public String delete(@RequestParam String username) {
-
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-
             String loggedInUsername = authentication.getName();
-
             if (username.equals(loggedInUsername)) {
                 return "redirect:/user/list?error=loggedInUser";
             }
-
             userRepository.deleteByUsername(username);
             return REDIRECT_USER_LIST;
         }

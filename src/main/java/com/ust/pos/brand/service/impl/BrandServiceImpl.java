@@ -85,7 +85,6 @@ public class BrandServiceImpl implements BrandService {
     public List<BrandDto> findActiveStatus() {
         List<Brand> allBrands = brandRepository.findAll();
         List<Brand> activeBrands = allBrands.stream().filter(Brand::isStatus).toList();
-
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
         return modelMapper.map(activeBrands, listType);

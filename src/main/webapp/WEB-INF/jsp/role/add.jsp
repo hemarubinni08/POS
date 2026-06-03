@@ -10,7 +10,6 @@
     <meta charset="UTF-8">
     <title>Add Role</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -40,21 +39,18 @@
 
             <div class="card-body">
 
-                <!-- ✅ Duplicate / Error Message -->
                 <c:if test="${not empty message}">
                     <div class="alert alert-danger text-center">
                         ${message}
                     </div>
                 </c:if>
 
-                <!-- ✅ Success Message (Optional) -->
                 <c:if test="${empty message && not empty success}">
                     <div class="alert alert-success text-center">
                         ${success}
                     </div>
                 </c:if>
 
-                <!-- ✅ Add Role Form -->
                 <form:form method="post"
                            action="${pageContext.request.contextPath}/role/add"
                            modelAttribute="roleDto">

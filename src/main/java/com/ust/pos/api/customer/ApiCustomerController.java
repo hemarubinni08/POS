@@ -31,7 +31,6 @@ public class ApiCustomerController extends BaseController {
     @PostMapping("/add")
     public CustomerDto addcustomer(@RequestBody CustomerDto customerDto) {
         return customerService.save(customerDto);
-
     }
 
     @GetMapping("/delete")
@@ -47,7 +46,6 @@ public class ApiCustomerController extends BaseController {
     @GetMapping("/get")
     public CustomerDto update(@RequestParam String identifier) {
         return customerService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")

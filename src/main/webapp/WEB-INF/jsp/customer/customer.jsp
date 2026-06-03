@@ -134,7 +134,6 @@
             color: #475569;
         }
 
-        /* ========= Address Box ========= */
         .address-box {
             background-color: #fbfcfd;
             border: 1px solid var(--border-color);
@@ -143,7 +142,6 @@
             margin-bottom: 30px;
         }
 
-        /* ========= Submit Button ========= */
         .btn-submit {
             background-color: var(--primary-blue);
             border: none;
@@ -186,10 +184,8 @@
 
             <form method="post" action="${pageContext.request.contextPath}/customer/update">
 
-                <!-- Hidden ID -->
                 <input type="hidden" name="id" value="${customer.id}">
 
-                <!-- BASIC INFORMATION -->
                 <div class="section-title">Basic Information</div>
 
                 <div class="row g-3 mb-4">
@@ -243,9 +239,7 @@
                     </div>
                 </div>
 
-                <!-- ADDRESS SECTIONS -->
                 <div class="row">
-                    <!-- Billing Address -->
                     <div class="col-lg-6">
                         <div class="section-title">Billing Address</div>
                         <div class="address-box">
@@ -264,7 +258,6 @@
                         </div>
                     </div>
 
-                    <!-- Shipping Address -->
                     <div class="col-lg-6">
                         <div class="section-title">Shipping Address</div>
                         <div class="address-box">

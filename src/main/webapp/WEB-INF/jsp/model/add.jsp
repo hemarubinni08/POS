@@ -86,7 +86,6 @@
 <div class="card">
     <h2>Add Brand</h2>
 
-    <!-- ERROR MESSAGE -->
     <c:if test="${not empty message}">
         <div class="error-msg">
             ${message}
@@ -98,11 +97,9 @@
                method="post"
                modelAttribute="modelDto">
 
-
         <label>Product Name</label>
         <form:input path="identifier" required="true"/>
         <form:errors path="identifier" cssClass="error-msg"/>
-
 
         <label>Status</label>
         <form:select path="status">
@@ -110,11 +107,9 @@
             <form:option value="false">Deactive</form:option>
         </form:select>
 
-
         <input type="submit" value="Add Brand" class="btn-submit"/>
 
     </form:form>
-
 </div>
 
 </body>

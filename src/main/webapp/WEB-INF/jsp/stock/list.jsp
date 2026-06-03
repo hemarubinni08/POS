@@ -7,11 +7,9 @@
     <meta charset="UTF-8">
     <title>POS | Stock Management</title>
 
-    <!-- Bootstrap 5 & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
 
     <style>
-        /* ========= Modern Variables ========= */
         :root {
             --primary-blue: #0d6efd;
             --bg-light: #f4f7f6;
@@ -29,7 +27,6 @@
             padding: 40px 0;
         }
 
-        /* ========= Header Section ========= */
         .page-header {
             background: #ffffff;
             padding: 22px 26px;
@@ -41,7 +38,6 @@
             align-items: center;
         }
 
-        /* ========= Table Card ========= */
         .table-container {
             background: #ffffff;
             border-radius: 14px;
@@ -65,7 +61,6 @@
             border-bottom: 1px solid #f1f4f8;
         }
 
-        /* ========= Badges & Highlights ========= */
         .identifier-badge {
             font-size: 0.8rem;
             font-weight: 600;
@@ -103,7 +98,6 @@
             color: var(--text-dark);
         }
 
-        /* ========= Action Buttons ========= */
         .btn-action {
             padding: 7px 14px;
             font-weight: 700;
@@ -140,7 +134,6 @@
 
 <div class="container-fluid px-5">
 
-    <!-- ✅ HEADER SECTION -->
     <div class="page-header">
         <h3 class="mb-0 fw-bold text-primary">
             <i class="bi bi-boxes me-2"></i>Stock Management
@@ -155,7 +148,6 @@
         </div>
     </div>
 
-    <!-- ✅ TABLE SECTION -->
     <div class="table-container shadow-sm">
         <div class="table-responsive">
             <table class="table table-hover align-middle">
@@ -191,7 +183,6 @@
                                 <span class="qty-text">${stock.quantity}</span>
                             </td>
 
-                            <!-- ✅ UNIT COLUMN -->
                             <td class="text-center">
                                 <span class="unit-badge">
                                     ${stock.unit != null ? stock.unit : 'PCS'}

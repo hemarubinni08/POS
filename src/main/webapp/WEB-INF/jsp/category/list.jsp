@@ -101,7 +101,6 @@
 
                     <td>${item.superCategory}</td>
 
-                    <!-- ✅ STATUS TOGGLE -->
                     <td class="text-center">
                         <form method="get"
                               action="${pageContext.request.contextPath}/category/toggle"
@@ -123,7 +122,6 @@
                         </form>
                     </td>
 
-                    <!-- ACTIONS -->
                     <td class="text-center">
                         <a href="${pageContext.request.contextPath}/category/get?identifier=${item.identifier}"
                            class="btn btn-outline-primary btn-sm me-1">

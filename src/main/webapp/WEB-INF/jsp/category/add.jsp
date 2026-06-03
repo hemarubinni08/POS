@@ -40,7 +40,6 @@
 
             <div class="card card-add">
 
-                <!-- ✅ HEADER WITH HOME BUTTON -->
                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">
                         <i class="bi bi-plus-square"></i> Create Sub-Category
@@ -61,7 +60,6 @@
                                    required />
                         </div>
 
-                        <!-- ✅ MULTI-SELECTION SUPER CATEGORY -->
                         <div class="mb-4">
                             <label class="form-label">Parent Super Category</label>
 

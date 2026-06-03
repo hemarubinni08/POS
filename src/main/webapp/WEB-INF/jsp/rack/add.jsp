@@ -46,17 +46,14 @@
 
     <div class="card-body p-4">
 
-        <!-- ✅ Message -->
         <c:if test="${not empty message}">
             <div class="alert ${success ? 'alert-success' : 'alert-danger'} text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- ✅ Add Form -->
         <form action="${pageContext.request.contextPath}/rack/add" method="post">
 
-            <!-- Identifier -->
             <div class="mb-3">
                 <label class="form-label">Identifier</label>
                 <input type="text"
@@ -66,7 +63,6 @@
                        required />
             </div>
 
-            <!-- Shelfs -->
             <div class="mb-3">
                 <label class="form-label">Shelfs</label>
 
@@ -81,7 +77,6 @@
                 </select>
             </div>
 
-            <!-- Status -->
             <div class="mb-4">
                 <label class="form-label">Status</label>
                 <select class="form-select" name="status">
@@ -90,7 +85,6 @@
                 </select>
             </div>
 
-            <!-- Buttons -->
             <div class="d-flex justify-content-between">
                 <a href="${pageContext.request.contextPath}/rack/list"
                    class="btn btn-light">
