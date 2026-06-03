@@ -2,6 +2,7 @@ package com.ust.pos.api.user;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.user.service.UserService;
@@ -18,15 +19,26 @@ public class UserApiController extends BaseController {
     private UserService userService;
 
     @PostMapping("/list")
-    public WsDto<UserDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(), paginationDto.getSortField());
-        Page<UserDto> pageResult = userService.findAll(pageable);
+    public WsDto<UserDto> home(
+            @RequestBody PaginationDto paginationDto) {
+
+        Pageable pageable = getPageable(
+                paginationDto.getPage(),
+                paginationDto.getSizePerPage(),
+                paginationDto.getSortField());
+
+        Page<UserDto> pageResult =
+                userService.findAll(
+                        pageable,
+                        paginationDto.getSearch());
+
         WsDto<UserDto> response = new WsDto<>();
+
         response.setContent(pageResult.getContent());
         response.setPage(pageResult.getNumber());
         response.setSizePerPage(pageResult.getSize());
         response.setTotalPages(pageResult.getTotalPages());
+
         return response;
     }
 

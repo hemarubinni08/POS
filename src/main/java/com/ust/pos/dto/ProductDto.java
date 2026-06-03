@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class ProductDto extends CommonDto {
     private String name;
-    private String warehouseName;
     private Long supplierId;
+    private String warehouseName;
     private String category;
 }

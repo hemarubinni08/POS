@@ -1,6 +1,8 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
@@ -21,7 +23,6 @@ import java.util.Set;
 
 @Transactional
 @Service
-@Transactional
 public class NodeServiceImpl implements NodeService {
     @Autowired
     private UserRepository userRepository;
@@ -99,6 +100,16 @@ public class NodeServiceImpl implements NodeService {
     
     }
 
+    @Override
+    public Page<NodeDto> findAll(Pageable pageable, String search) {
+        Page<Node> rolePage;
+        if (search != null && !search.trim().isEmpty()) {
+            rolePage = nodeRepository.findByIdentifierContainingIgnoreCase(search, pageable);
+        } else {
+            rolePage = nodeRepository.findAll(pageable);
+        }
+        return rolePage.map(node -> modelMapper.map(node, NodeDto.class));
+    }
     @Override
     public NodeDto findByIdentifier(String identifier) {
         return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);

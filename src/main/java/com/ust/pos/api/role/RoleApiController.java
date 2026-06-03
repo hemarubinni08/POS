@@ -1,24 +1,50 @@
 package com.ust.pos.api.role;
 
+import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/role")
-public class RoleApiController {
+public class RoleApiController extends BaseController {
 
     @Autowired
     private RoleService roleService;
 
     @GetMapping("/list")
     public List<RoleDto> home() {
-//        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
-//                paginationDto.getSortField());
         return roleService.findAll();
+    }
+    @PostMapping("/list")
+    public WsDto<RoleDto> home(
+            @RequestBody PaginationDto paginationDto) {
+
+        Pageable pageable = getPageable(
+                paginationDto.getPage(),
+                paginationDto.getSizePerPage(),
+                paginationDto.getSortField());
+
+        Page<RoleDto> pageResult =
+                roleService.findAll(
+                        pageable,
+                        paginationDto.getSearch());
+
+        WsDto<RoleDto> response = new WsDto<>();
+
+        response.setContent(pageResult.getContent());
+        response.setPage(pageResult.getNumber());
+        response.setSizePerPage(pageResult.getSize());
+        response.setTotalPages(pageResult.getTotalPages());
+
+        return response;
     }
 
     @PostMapping("/add")

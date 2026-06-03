@@ -1,6 +1,8 @@
 package com.ust.pos.category.service;
 
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.NodeDto;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -16,7 +18,7 @@ public interface CategoryService {
 
     List<CategoryDto> findAllWithoutNull();
 
-    List<CategoryDto> findAll(Pageable pageable);
+    Page<CategoryDto> findAll(Pageable pageable,String search);
 
     CategoryDto findByIdentifier(String identifier);
 }

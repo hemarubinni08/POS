@@ -1,6 +1,8 @@
 package com.ust.pos.user.service.impl;
 
+import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.model.Role;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
@@ -18,11 +20,9 @@ import java.util.List;
 import java.util.Optional;
 @Transactional
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
     public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
 
-    public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
     @Autowired
     private UserRepository userRepository;
 
@@ -92,9 +92,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserDto> findAll(Pageable pageable) {
-        Page<User> userPage = userRepository.findAll(pageable);
-        return userPage.map(product ->
-                modelMapper.map(product, UserDto.class));
+    public Page<UserDto> findAll(Pageable pageable, String search) {
+        Page<User> rolePage;
+        if (search != null && !search.trim().isEmpty()) {
+            rolePage = userRepository.findByUsernameContainingIgnoreCase(search, pageable);
+        } else {
+            rolePage = userRepository.findAll(pageable);
+        }
+        return rolePage.map(user -> modelMapper.map(user, UserDto.class));
     }
 }

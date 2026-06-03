@@ -2,8 +2,12 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
+import com.ust.pos.model.Node;
+import com.ust.pos.model.Role;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -84,10 +88,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
-        Type listOfType = new TypeToken<List<CategoryDto>>() {
-        }.getType();
-        Page<Category> brandPage = categoryRepository.findAll(pageable);
-        return modelMapper.map(brandPage.getContent(), listOfType);
+    public Page<CategoryDto> findAll(Pageable pageable, String search) {
+        Page<Category> rolePage;
+        if (search != null && !search.trim().isEmpty()) {
+            rolePage = categoryRepository.findByIdentifierContainingIgnoreCase(search, pageable);
+        } else {
+            rolePage = categoryRepository.findAll(pageable);
+        }
+        return rolePage.map(category -> modelMapper.map(category, CategoryDto.class));
     }
 }
