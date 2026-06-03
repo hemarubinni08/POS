@@ -8,4 +8,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Racks extends  CommonFields{
+    private String shelfs;
 }

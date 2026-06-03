@@ -1,5 +1,6 @@
 package com.ust.pos.api.role;
 import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.role.service.RoleService;
@@ -18,7 +19,7 @@ public class RoleControllerApi extends BaseController {
     private RoleService roleService;
 
     @PostMapping("/list")
-    public List<RoleDto> role(@RequestBody PaginationDto paginationDto) {
+    public PageDto<RoleDto> role(@RequestBody PaginationDto paginationDto) {
         Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
         return roleService.findAll(pageable);
     }
@@ -51,5 +52,13 @@ public class RoleControllerApi extends BaseController {
        }
        return true;
 
+    }
+    @GetMapping("/toggleStatus")
+    public void toggleStatus(@RequestParam String identifier) {
+        roleService.toggleStatus(identifier);
+    }
+    @GetMapping("/findByStatus")
+    public List<RoleDto> findByStatus() {
+        return roleService.findActiveRoles();
     }
 }

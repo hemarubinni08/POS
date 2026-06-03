@@ -1,5 +1,6 @@
 package com.ust.pos.api.stock;
 import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.StockDto;
@@ -26,11 +27,10 @@ public class StockControllerApi extends BaseController {
     private ProductService productService;
 
     @PostMapping("/list")
-    public List<StockDto> home(@RequestBody PaginationDto paginationDto) {
+    public PageDto<StockDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
         return stockService.findAll(pageable);
     }
-
 
     @PostMapping("/add")
     public StockDto addPost(@RequestBody StockDto stockDto) {

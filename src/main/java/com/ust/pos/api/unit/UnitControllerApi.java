@@ -1,5 +1,6 @@
 package com.ust.pos.api.unit;
 import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UnitDto;
 import com.ust.pos.unit.service.UnitService;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("api/unit")
 public class UnitControllerApi extends BaseController {
@@ -17,7 +19,7 @@ public class UnitControllerApi extends BaseController {
     private UnitService unitService;
 
     @PostMapping("/list")
-    public List<UnitDto> home(@RequestBody PaginationDto paginationDto) {
+    public PageDto<UnitDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
        return unitService.findAll(pageable);
 
@@ -44,9 +46,13 @@ public class UnitControllerApi extends BaseController {
         return true;
 
     }
-
     @GetMapping("/toggleStatus")
     public void toggleStatus(@RequestParam String identifier) {
         unitService.toggleStatus(identifier);
+    }
+
+    @GetMapping("/findByStatus")
+    public List<UnitDto> findByStatus() {
+        return unitService.findActiveUnits();
     }
 }

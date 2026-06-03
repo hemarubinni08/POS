@@ -2,6 +2,8 @@ package com.ust.pos.api.brand;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
+import com.ust.pos.dto.ModelDto;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +18,7 @@ public class BrandControllerApi  extends BaseController {
     private BrandService brandService;
 
     @PostMapping("/list")
-    public List<BrandDto> brand(@RequestBody PaginationDto paginationDto) {
+    public PageDto<BrandDto> brand(@RequestBody PaginationDto paginationDto) {
         Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
         return brandService.findAll(pageable);
     }
@@ -53,5 +55,10 @@ public class BrandControllerApi  extends BaseController {
     @GetMapping("/toggleStatus")
     public void toggleStatus(@RequestParam String identifier) {
         brandService.toggleStatus(identifier);
+    }
+
+    @GetMapping("/findByStatus")
+    public List<BrandDto> findByStatus() {
+        return brandService.findActiveBrands();
     }
 }

@@ -1,6 +1,8 @@
 package com.ust.pos.node.service.impl;
 
+import com.ust.pos.dto.ModelDto;
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
 import org.modelmapper.ModelMapper;
@@ -69,6 +71,23 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
+    public void toggleStatus(String identifier) {
+        Node node= nodeRepository.findByIdentifier(identifier);
+        if (node != null) {
+            boolean currentStatus = Boolean.TRUE.equals(node.getStatus());
+            node.setStatus(!currentStatus);
+
+            nodeRepository.save(node);
+        }
+    }
+
+    @Override
+    public List<NodeDto> findActiveNodes() {
+        Type listType = new TypeToken<List<NodeDto>>() {}.getType();
+        return modelMapper.map(nodeRepository.findByStatusTrue(),listType);
+    }
+
+    @Override
     public NodeDto save(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
         Node existingNode = nodeRepository.findByIdentifier(identifier);
@@ -103,10 +122,16 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public List<NodeDto> findAll(Pageable pageable) {
+    public PageDto<NodeDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
-        Page<Node> nodePage=nodeRepository.findAll(pageable);
-        return modelMapper.map(nodePage.getContent(), listType);
+        Page<Node> nodePage = nodeRepository.findAll(pageable);
+        PageDto<NodeDto> pageDto = new PageDto<>();
+        pageDto.setDtoList(modelMapper.map(nodePage.getContent(), listType));
+        pageDto.setTotalRecords(nodePage.getTotalElements());
+        pageDto.setTotalPages(nodePage.getTotalPages());
+        pageDto.setSizePerPage(pageable.getPageSize());
+        pageDto.setPage(pageable.getPageNumber());
+        return pageDto;
     }
 }

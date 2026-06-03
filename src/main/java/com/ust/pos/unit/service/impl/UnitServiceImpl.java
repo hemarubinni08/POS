@@ -1,8 +1,12 @@
 package com.ust.pos.unit.service.impl;
 
+import com.ust.pos.dto.ModelDto;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
+import com.ust.pos.model.User;
 import com.ust.pos.unit.service.UnitService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -55,11 +59,17 @@ public class UnitServiceImpl implements UnitService {
     }
 
     @Override
-    public List<UnitDto> findAll(Pageable pageable) {
+    public PageDto<UnitDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
-        Page<Unit> unitPage=unitRepository.findAll(pageable);
-        return modelMapper.map(unitPage.getContent(), listType);
+        Page<Unit> unitPage = unitRepository.findAll(pageable);
+        PageDto<UnitDto> pageDto = new PageDto<>();
+        pageDto.setDtoList(modelMapper.map(unitPage.getContent(), listType));
+        pageDto.setTotalRecords(unitPage.getTotalElements());
+        pageDto.setTotalPages(unitPage.getTotalPages());
+        pageDto.setSizePerPage(pageable.getPageSize());
+        pageDto.setPage(pageable.getPageNumber());
+        return pageDto;
     }
 
     @Override
@@ -76,5 +86,11 @@ public class UnitServiceImpl implements UnitService {
 
             unitRepository.save(unit);
         }
+    }
+
+    @Override
+    public List<UnitDto> findActiveUnits() {
+        Type listType = new TypeToken<List<UnitDto>>() {}.getType();
+        return modelMapper.map(unitRepository.findByStatusTrue(),listType);
     }
 }

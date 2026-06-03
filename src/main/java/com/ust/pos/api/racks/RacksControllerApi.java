@@ -1,5 +1,6 @@
 package com.ust.pos.api.racks;
 import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RacksDto;
 import com.ust.pos.racks.service.RacksService;
@@ -17,7 +18,7 @@ public class RacksControllerApi extends BaseController {
     private RacksService racksService;
 
     @PostMapping("/list")
-    public List<RacksDto> racks(@RequestBody PaginationDto paginationDto) {
+    public PageDto<RacksDto> racks(@RequestBody PaginationDto paginationDto) {
         Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
         return racksService.findAll(pageable);
     }

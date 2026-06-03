@@ -62,10 +62,10 @@
                    value="${product.identifier}"
                    required>
 
-            <label>SKU</label>
+            <label>Product Name</label>
             <input type="text"
-                   name="sku"
-                   value="${product.sku}"
+                   name="productname"
+                   value="${product.productname}"
                    required>
 
             <label>Category</label>

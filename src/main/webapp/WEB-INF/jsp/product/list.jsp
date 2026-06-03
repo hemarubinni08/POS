@@ -163,7 +163,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>Identifier</th>
-                            <th>SKU</th>
+                            <th>Product Name</th>
                             <th>Category</th>
                             <th>Brand</th>
                             <th>Model</th>
@@ -176,7 +176,7 @@
                         <c:forEach var="product" items="${products}">
                             <tr>
                                 <td>${product.identifier}</td>
-                                <td>${product.sku}</td>
+                                <td>${product.productname}</td>
                                 <td>${product.category}</td>
                                  <td>${product.brand}</td>
                                   <td>${product.model}</td>

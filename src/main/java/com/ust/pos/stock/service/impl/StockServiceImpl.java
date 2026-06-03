@@ -1,7 +1,10 @@
 package com.ust.pos.stock.service.impl;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.UnitDto;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
+import com.ust.pos.model.Unit;
 import com.ust.pos.stock.service.StockService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -55,11 +58,17 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public List<StockDto> findAll(Pageable pageable) {
+    public PageDto<StockDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
-        Page<Stock> stockPage=stockRepository.findAll(pageable);
-        return modelMapper.map(stockPage.getContent(), listType);
+        Page<Stock> stockPage = stockRepository.findAll(pageable);
+        PageDto<StockDto> pageDto = new PageDto<>();
+        pageDto.setDtoList(modelMapper.map(stockPage.getContent(), listType));
+        pageDto.setTotalRecords(stockPage.getTotalElements());
+        pageDto.setTotalPages(stockPage.getTotalPages());
+        pageDto.setSizePerPage(pageable.getPageSize());
+        pageDto.setPage(pageable.getPageNumber());
+        return pageDto;
     }
 
     @Override

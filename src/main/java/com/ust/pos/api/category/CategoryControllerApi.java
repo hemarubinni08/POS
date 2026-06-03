@@ -2,6 +2,7 @@ package com.ust.pos.api.category;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -17,11 +18,10 @@ public class CategoryControllerApi extends BaseController {
     private CategoryService categoryService;
 
     @PostMapping("/list")
-    public List<CategoryDto> category(@RequestBody PaginationDto paginationDto) {
+    public PageDto<CategoryDto> category(@RequestBody PaginationDto paginationDto) {
         Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
         return categoryService.findAll(pageable);
     }
-
 
     @GetMapping("/identifier")
     public CategoryDto getCategoryByIdentifier(@RequestParam String identifier) {
@@ -55,7 +55,13 @@ public class CategoryControllerApi extends BaseController {
             return false;
         }
         return true;
-
     }
-    
+    @GetMapping("/toggleStatus")
+    public void toggleStatus(@RequestParam String identifier) {
+        categoryService.toggleStatus(identifier);
+    }
+    @GetMapping("/findByStatus")
+    public List<CategoryDto> findByStatus() {
+        return categoryService.findActiveCategories();
+    }
 }

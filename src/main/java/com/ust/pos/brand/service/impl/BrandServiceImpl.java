@@ -2,8 +2,11 @@ package com.ust.pos.brand.service.impl;
 
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
+import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
+import com.ust.pos.model.Category;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -59,11 +62,17 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public List<BrandDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<BrandDto>>() {
+    public PageDto<BrandDto> findAll(Pageable pageable) {
+        Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         Page<Brand> brandPage = brandRepository.findAll(pageable);
-        return modelMapper.map(brandPage.getContent(), listType);
+        PageDto<BrandDto> pageDto = new PageDto<>();
+        pageDto.setDtoList(modelMapper.map(brandPage.getContent(), listType));
+        pageDto.setTotalRecords(brandPage.getTotalElements());
+        pageDto.setTotalPages(brandPage.getTotalPages());
+        pageDto.setSizePerPage(pageable.getPageSize());
+        pageDto.setPage(pageable.getPageNumber());
+        return pageDto;
     }
 
 
@@ -82,6 +91,12 @@ public class BrandServiceImpl implements BrandService {
             brandRepository.save(brand);
         }
 
+    }
+
+    @Override
+    public List<BrandDto> findActiveBrands() {
+        Type listType = new TypeToken<List<BrandDto>>() {}.getType();
+        return modelMapper.map(brandRepository.findByStatusTrue(),listType);
     }
 }
 

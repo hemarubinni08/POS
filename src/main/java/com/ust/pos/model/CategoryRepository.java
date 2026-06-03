@@ -10,4 +10,6 @@ public interface CategoryRepository  extends JpaRepository<Category, Long> {
     void deleteByIdentifier(String identifier);
 
     List<Category> findBySupercategoryIsNot(String supercategory);
+
+    List<Category> findByStatusTrue();
 }

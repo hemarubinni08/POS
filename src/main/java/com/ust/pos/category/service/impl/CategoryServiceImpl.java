@@ -1,11 +1,8 @@
 package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
-import com.ust.pos.dto.CategoryDto;
-import com.ust.pos.dto.CustomerDto;
-import com.ust.pos.model.Category;
-import com.ust.pos.model.CategoryRepository;
-import com.ust.pos.model.Customer;
+import com.ust.pos.dto.*;
+import com.ust.pos.model.*;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -59,11 +56,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
+    public PageDto<CategoryDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-        Page<Category> categoryPage=categoryRepository.findAll(pageable);
-        return modelMapper.map(categoryPage.getContent(), listType);
+        Page<Category> categoryPage = categoryRepository.findAll(pageable);
+        PageDto<CategoryDto> pageDto = new PageDto<>();
+        pageDto.setDtoList(modelMapper.map(categoryPage.getContent(), listType));
+        pageDto.setTotalRecords(categoryPage.getTotalElements());
+        pageDto.setTotalPages(categoryPage.getTotalPages());
+        pageDto.setSizePerPage(pageable.getPageSize());
+        pageDto.setPage(pageable.getPageNumber());
+        return pageDto;
     }
 
     @Override
@@ -76,5 +79,21 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findBySupercategoryIsNot("").stream()
                 .map(cat -> modelMapper.map(cat, CategoryDto.class))
                 .toList();
+    }
+
+    @Override
+    public void toggleStatus(String identifier) {
+        Category category = categoryRepository.findByIdentifier(identifier);
+        if (category != null) {
+            boolean currentStatus = Boolean.TRUE.equals(category.getStatus());
+            category.setStatus(!currentStatus);
+            categoryRepository.save(category);
+        }
+    }
+
+    @Override
+    public List<CategoryDto> findActiveCategories() {
+        Type listType = new TypeToken<List<RoleDto>>() {}.getType();
+        return modelMapper.map(categoryRepository.findByStatusTrue(),listType);
     }
 }

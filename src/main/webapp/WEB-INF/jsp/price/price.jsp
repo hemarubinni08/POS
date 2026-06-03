@@ -95,6 +95,7 @@
 
         <label>Cost Price (₹)</label>
         <input type="number"
+               step="0.01"
                name="costprice"
                value="${price.costprice}"
                min="0"
@@ -102,8 +103,17 @@
 
         <label>Selling Price (₹)</label>
         <input type="number"
+               step="0.01"
                name="sellingprice"
                value="${price.sellingprice}"
+               min="0"
+               required />
+
+        <label>MRP Price (₹)</label>
+        <input type="number"
+               step="0.01"
+               name="mrpprice"
+               value="${price.mrpprice}"
                min="0"
                required />
 

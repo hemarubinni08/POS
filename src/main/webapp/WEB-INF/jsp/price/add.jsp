@@ -81,18 +81,25 @@
 
             <form action="${pageContext.request.contextPath}/price/add" method="post">
 
+                <!-- Product Selection -->
                 <div class="mb-3">
-                    <label for="identifier" class="form-label">Identifier</label>
-                    <input type="text"
-                           class="form-control"
-                           id="identifier"
-                           name="identifier"
-                           required />
+                    <label for="identifier" class="form-label">Product</label>
+
+                    <select class="form-control" id="identifier" name="identifier" required>
+                        <option value="">-- Select Product --</option>
+
+                        <c:forEach var="p" items="${products}">
+                            <option value="${p.identifier}">
+                                ${p.identifier}
+                            </option>
+                        </c:forEach>
+                    </select>
                 </div>
 
                 <div class="mb-3">
                     <label for="costprice" class="form-label">Cost Price</label>
                     <input type="number"
+                           step="0.01"
                            class="form-control"
                            id="costprice"
                            name="costprice"
@@ -100,12 +107,24 @@
                            min="0" />
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-3">
                     <label for="sellingprice" class="form-label">Selling Price</label>
                     <input type="number"
+                           step="0.01"
                            class="form-control"
                            id="sellingprice"
                            name="sellingprice"
+                           required
+                           min="0" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="mrpprice" class="form-label">MRP Price</label>
+                    <input type="number"
+                           step="0.01"
+                           class="form-control"
+                           id="mrpprice"
+                           name="mrpprice"
                            required
                            min="0" />
                 </div>

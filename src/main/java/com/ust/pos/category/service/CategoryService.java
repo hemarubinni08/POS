@@ -2,6 +2,7 @@ package com.ust.pos.category.service;
 
 import com.ust.pos.dto.CategoryDto;
 
+import com.ust.pos.dto.PageDto;
 import org.springframework.data.domain.Pageable;
 
 
@@ -14,9 +15,12 @@ public interface CategoryService {
 
     boolean delete(String identifier);
 
-    List<CategoryDto> findAll(Pageable pageable);
+    PageDto<CategoryDto> findAll(Pageable pageable);
 
    CategoryDto findByIdentifier(String identifier);
 
    List<CategoryDto> findBySubCategory();
+
+    void toggleStatus(String identifier);
+    List<CategoryDto> findActiveCategories();
 }

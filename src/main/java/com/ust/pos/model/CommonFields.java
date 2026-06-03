@@ -14,6 +14,4 @@ public class CommonFields {
     private String identifier;
     private String description ;
     private Boolean status=true;
-    private String shelfs;
-
 }

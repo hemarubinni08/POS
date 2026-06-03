@@ -1,8 +1,11 @@
 package com.ust.pos.price.service.impl;
 
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
+import com.ust.pos.model.Product;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -56,15 +59,32 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public List<PriceDto> findAll(Pageable pageable) {
+    public PageDto<PriceDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
-        Page<Price> pricePage=priceRepository.findAll(pageable);
-        return modelMapper.map(pricePage.getContent(), listType);
+        Page<Price> pricePage = priceRepository.findAll(pageable);
+        PageDto<PriceDto> pageDto = new PageDto<>();
+        pageDto.setDtoList(modelMapper.map(pricePage.getContent(), listType));
+        pageDto.setTotalRecords(pricePage.getTotalElements());
+        pageDto.setTotalPages(pricePage.getTotalPages());
+        pageDto.setSizePerPage(pageable.getPageSize());
+        pageDto.setPage(pageable.getPageNumber());
+        return pageDto;
     }
 
     @Override
     public PriceDto findByIdentifier(String identifier) {
-        return modelMapper.map(priceRepository.findByIdentifier(identifier),PriceDto.class);
+
+        Price price = priceRepository.findByIdentifier(identifier);
+
+        PriceDto priceDto = new PriceDto();
+
+        if (price == null) {
+            priceDto.setSuccess(false);
+            priceDto.setMessage("Price not found");
+            return priceDto;
+        }
+
+        return modelMapper.map(price, PriceDto.class);
     }
 }

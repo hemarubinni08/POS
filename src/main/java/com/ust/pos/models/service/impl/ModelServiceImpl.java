@@ -1,8 +1,12 @@
 package com.ust.pos.models.service.impl;
 
 import com.ust.pos.dto.ModelDto;
+import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.PageDto;
+import com.ust.pos.dto.ShelfsDto;
 import com.ust.pos.model.Model;
 import com.ust.pos.model.ModelRepository;
+import com.ust.pos.model.Node;
 import com.ust.pos.models.service.ModelService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -58,11 +62,17 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public List<ModelDto> findAll(Pageable pageable) {
+    public PageDto<ModelDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ModelDto>>() {
         }.getType();
-        Page<Model> modelPage=modelRepository.findAll(pageable);
-        return modelMapper.map(modelPage.getContent(), listType);
+        Page<Model>modelPage = modelRepository.findAll(pageable);
+        PageDto<ModelDto> pageDto = new PageDto<>();
+        pageDto.setDtoList(modelMapper.map(modelPage.getContent(), listType));
+        pageDto.setTotalRecords(modelPage.getTotalElements());
+        pageDto.setTotalPages(modelPage.getTotalPages());
+        pageDto.setSizePerPage(pageable.getPageSize());
+        pageDto.setPage(pageable.getPageNumber());
+        return pageDto;
     }
 
     @Override
@@ -79,6 +89,12 @@ public class ModelServiceImpl implements ModelService {
 
             modelRepository.save(model);
         }
+    }
+
+    @Override
+    public List<ModelDto> findActiveModels() {
+        Type listType = new TypeToken<List<ModelDto>>() {}.getType();
+        return modelMapper.map(modelRepository.findByStatusTrue(),listType);
     }
     }
 

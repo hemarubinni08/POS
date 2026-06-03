@@ -1,6 +1,8 @@
 package com.ust.pos.product.service.impl;
 
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -56,11 +58,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> findAll(Pageable pageable) {
+    public PageDto<ProductDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
-        Page<Product> productPage=productRepository.findAll(pageable);
-        return modelMapper.map(productPage.getContent(), listType);
+        Page<Product> productPage = productRepository.findAll(pageable);
+        PageDto<ProductDto> pageDto = new PageDto<>();
+        pageDto.setDtoList(modelMapper.map(productPage.getContent(), listType));
+        pageDto.setTotalRecords(productPage.getTotalElements());
+        pageDto.setTotalPages(productPage.getTotalPages());
+        pageDto.setSizePerPage(pageable.getPageSize());
+        pageDto.setPage(pageable.getPageNumber());
+        return pageDto;
     }
 
     @Override
@@ -78,4 +86,11 @@ public class ProductServiceImpl implements ProductService {
             productRepository.save(product);
         }
     }
+
+    @Override
+    public List<ProductDto> findActiveProducts() {
+        Type listType = new TypeToken<List<RoleDto>>() {}.getType();
+        return modelMapper.map(productRepository.findByStatusTrue(),listType);
+    }
+
 }

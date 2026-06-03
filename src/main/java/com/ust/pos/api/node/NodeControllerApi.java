@@ -2,7 +2,9 @@ package com.ust.pos.api.node;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.RoleDto;
 import com.ust.pos.node.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +20,7 @@ public class NodeControllerApi extends BaseController {
     private NodeService nodeService;
 
     @PostMapping("/list")
-    public List<NodeDto> node(@RequestBody PaginationDto paginationDto) {
+    public PageDto  <NodeDto> node(@RequestBody PaginationDto paginationDto) {
         Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
         return nodeService.findAll(pageable);
     }
@@ -53,5 +55,13 @@ public class NodeControllerApi extends BaseController {
         return nodeService.getNodesForRoles();
     }
 
+    @GetMapping("/toggleStatus")
+    public void toggleStatus(@RequestParam String identifier) {
+        nodeService.toggleStatus(identifier);
+    }
+    @GetMapping("/findByStatus")
+    public List<NodeDto> findByStatus() {
+        return nodeService.findActiveNodes();
+    }
 }
 
