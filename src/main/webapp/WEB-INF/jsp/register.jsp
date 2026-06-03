@@ -174,7 +174,6 @@
         <a href="${pageContext.request.contextPath}/login">
             Back to Login
         </a>
-
     </form:form>
 
 </div>
