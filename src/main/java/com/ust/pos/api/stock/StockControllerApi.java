@@ -19,12 +19,6 @@ public class StockControllerApi extends BaseController {
     @Autowired
     private StockService stockService;
 
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private WarehouseService warehouseService;
-
     @PostMapping("/list")
     public List<StockDto> home(@RequestBody PaginationDto paginationDto) {
 

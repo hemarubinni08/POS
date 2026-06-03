@@ -15,8 +15,6 @@ import java.util.List;
 @RequestMapping("/api/warehouse")
 public class WarehouseControllerApi extends BaseController {
 
-    public static final String REDIRECT_WAREHOUSE_LIST = "redirect:/warehouse/list";
-
     @Autowired
     private WarehouseService warehouseService;
 

@@ -18,9 +18,6 @@ public class UserControllerApi extends BaseController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private RoleService roleService;
-
     @PostMapping("/list")
     public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
 
@@ -47,5 +44,10 @@ public class UserControllerApi extends BaseController {
             return false;
         }
         return true;
+    }
+
+    @PostMapping("/register")
+    public UserDto add(@RequestBody UserDto userDto) {
+        return userService.save(userDto);
     }
 }

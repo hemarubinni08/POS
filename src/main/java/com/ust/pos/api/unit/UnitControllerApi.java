@@ -14,8 +14,6 @@ import java.util.List;
 @RequestMapping("/api/unit")
 public class UnitControllerApi extends BaseController {
 
-    public static final String REDIRECT_UNIT_LIST = "redirect:/unit/list";
-
     @Autowired
     private UnitService unitService;
 
