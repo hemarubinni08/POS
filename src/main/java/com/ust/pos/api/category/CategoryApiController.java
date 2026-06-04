@@ -34,7 +34,7 @@ public class CategoryApiController extends BaseController {
         return categoryService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/get")
+    @PostMapping("/update")
     public CategoryDto get(@RequestBody CategoryDto categoryDto) {
         return categoryService.update(categoryDto);
 
