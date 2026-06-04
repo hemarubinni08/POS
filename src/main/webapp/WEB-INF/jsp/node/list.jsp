@@ -67,7 +67,6 @@
             font-weight: 600;
         }
 
-        /* ===== TABLE ===== */
         table {
             width: 100%;
             border-collapse: collapse;
