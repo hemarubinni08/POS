@@ -253,7 +253,7 @@
         </c:if>
 
         <form:form
-                action="${pageContext.request.contextPath}/user/register"
+                action="${pageContext.request.contextPath}/register"
                 method="post"
                 modelAttribute="userDto"
                 onsubmit="return validateForm()">
@@ -265,12 +265,17 @@
 
                     <div class="mb-3">
                         <label>Name</label>
-                        <form:input path="name" cssClass="form-control" required="true"/>
+                        <form:input path="name"
+                                    cssClass="form-control"
+                                    required="true"/>
                     </div>
 
                     <div class="mb-3">
                         <label>Email</label>
-                        <form:input path="username" type="email" cssClass="form-control" required="true"/>
+                        <form:input path="username"
+                                    type="email"
+                                    cssClass="form-control"
+                                    required="true"/>
                     </div>
 
                     <div class="mb-3">
@@ -289,12 +294,17 @@
 
                     <div class="mb-3">
                         <label>Password</label>
-                        <form:password path="password" cssClass="form-control" required="true"/>
+                        <form:password path="password"
+                                       cssClass="form-control"
+                                       required="true"/>
                     </div>
 
                     <div class="mb-3">
                         <label>Roles</label>
-                        <form:select path="roles" multiple="true" cssClass="form-control" required="true">
+                        <form:select path="roles"
+                                     multiple="true"
+                                     cssClass="form-control"
+                                     required="true">
                             <form:options items="${roles}"
                                           itemValue="identifier"
                                           itemLabel="identifier"/>

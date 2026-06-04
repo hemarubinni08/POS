@@ -5,6 +5,7 @@ import com.ust.pos.dto.UserDto;
 import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,6 @@ public class SecurityController {
 
     @GetMapping("/roles")
     public List<RoleDto> roles() {
-        return roleService.findAll(null);
+        return roleService.findAll(Pageable.unpaged());
     }
 }
