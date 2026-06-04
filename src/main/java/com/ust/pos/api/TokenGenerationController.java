@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-//@RestController
+@RestController
 public class TokenGenerationController {
 
     @Autowired
@@ -33,7 +33,6 @@ public class TokenGenerationController {
     private UserService userService;
 
     @PostMapping("/api/authenticate")
-    @ResponseBody
     public UserDto authenticate(@RequestBody UserDto userDto) {
         try {
             authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken
@@ -48,7 +47,6 @@ public class TokenGenerationController {
     }
 
     @PostMapping("/api/validateToken")
-    @ResponseBody
     public Boolean validateToken(@RequestBody UserDto jwtRequest) {
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername

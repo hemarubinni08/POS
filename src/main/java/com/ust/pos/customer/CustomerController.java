@@ -2,7 +2,6 @@ package com.ust.pos.customer;
 
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
-import com.ust.pos.shelfs.service.ShelfsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -17,9 +16,6 @@ public class CustomerController{
 
     @Autowired
     private CustomerService customerService;
-
-    @Autowired
-    private ShelfsService shelfsService;
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
