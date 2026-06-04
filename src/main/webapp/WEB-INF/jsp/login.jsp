@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Login</title>
+    <title>POS Retail Management | Login</title>
 
     <style>
         body {
@@ -168,7 +168,7 @@
 
     <div class="login-card">
         <div class="brand-header">
-            <h1>POS Management</h1>
+            <h1>POS Retail Management</h1>
         </div>
 
         <h2>User Login</h2>

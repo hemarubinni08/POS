@@ -117,7 +117,6 @@
         <div class="brand-header">
             <h1>POS Management</h1>
         </div>
-
         <div class="form-body">
             <h2>Create New Node</h2>
 

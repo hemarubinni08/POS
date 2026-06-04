@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Node Profile</title>
+    <title>POS Retail Management | Node Details</title>
 
     <style>
         body {
@@ -168,7 +168,7 @@
 
     <div class="profile-card">
         <div class="brand-header">
-            <h1>POS Management</h1>
+            <h1>POS Retail Management</h1>
         </div>
 
         <div class="profile-body">

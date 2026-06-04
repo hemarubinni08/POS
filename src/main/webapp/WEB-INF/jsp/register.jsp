@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>POS Management | Register</title>
+    <title>POS Retail Management | Register</title>
 
     <style>
         body {
@@ -26,7 +26,6 @@
             padding: 40px;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            position: relative;
         }
 
         .brand-header {
@@ -42,21 +41,18 @@
             margin: 0;
             font-size: 22px;
             font-weight: 600;
-            letter-spacing: 0.8px;
         }
 
         h2 {
-            color: #1F2937;
-            font-size: 18px;
-            margin-bottom: 8px;
             text-align: center;
+            margin-bottom: 8px;
         }
 
         .subtitle {
-            color: #6B7280;
-            font-size: 14px;
-            margin-bottom: 25px;
             text-align: center;
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 25px;
         }
 
         .form-group {
@@ -67,7 +63,6 @@
             display: block;
             font-size: 13px;
             font-weight: 600;
-            color: #4B5563;
             margin-bottom: 6px;
         }
 
@@ -76,9 +71,7 @@
             padding: 12px;
             border: 1px solid #E5E7EB;
             border-radius: 8px;
-            box-sizing: border-box;
             font-size: 14px;
-            transition: border-color 0.2s;
         }
 
         input:focus, select:focus {
@@ -98,10 +91,7 @@
             color: #FFFFFF;
             border: none;
             border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.2s;
             margin-top: 15px;
         }
 
@@ -110,109 +100,111 @@
         }
 
         .error-message {
-            background: #FEE2E2;
             color: #B91C1C;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .global-error {
+            background: #FEE2E2;
             padding: 10px;
             border-radius: 8px;
-            font-size: 13px;
             margin-bottom: 20px;
-            border: 1px solid #FECACA;
-            font-weight: 500;
             text-align: center;
         }
 
-        .footer {
-            margin-top: 30px;
-            font-size: 12px;
-            color: #9CA3AF;
+        .login-link, .footer {
             text-align: center;
-        }
-
-        .login-link {
             margin-top: 20px;
             font-size: 14px;
-            color: #6B7280;
-            text-align: center;
-        }
-
-        .login-link a {
-            color: #0B3C5D;
-            text-decoration: none;
-            font-weight: 600;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="register-card">
-        <div class="brand-header">
-            <h1>POS Management</h1>
+<div class="register-card">
+    <div class="brand-header">
+        <h1>POS Retail Management</h1>
+    </div>
+    <h2>Registration</h2>
+    <p class="subtitle">Enter all the details to register</p>
+
+    <c:if test="${not empty message}">
+        <div class="global-error">${message}</div>
+    </c:if>
+
+    <form:form action="register" method="post" modelAttribute="userDto">
+        <div class="form-group">
+            <label>Full Name *</label>
+            <form:input
+                    path="name"
+                    required="required"
+                    minlength="3"
+                    maxlength="50"
+                    pattern="^[A-Za-z ]+$"
+                    placeholder="eg. kushal"
+                    title="Only alphabets allowed (3–50 characters)"
+            />
+            <form:errors path="name" cssClass="error-message"/>
         </div>
-
-        <h2>Registration</h2>
-        <p class="subtitle">Enter all the Details to register.</p>
-
-        <c:if test="${not empty message}">
-            <div class="error-message">
-                ${message}
-            </div>
-        </c:if>
-
-        <form:form action="register" method="post" modelAttribute="userDto">
-
-            <div class="form-group">
-                <label>Full Name *</label>
-                <form:input path="name" required="required" placeholder="eg. kushal"/>
-            </div>
-
-            <div class="form-group">
-                <label>Email Address *</label>
-                <form:input
-                        path="username"
-                        type="email"
-                        required="required"
-                        placeholder="eg. user@ust.com"
-                        pattern="^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|outlook\.com|ust\.com)$"
-                        title="Only @gmail.com, @yahoo.com, @outlook.com, @ust.com allowed"
-                />
-            </div>
-
-            <div class="form-group">
-                <label>Roles *</label>
-                <form:select path="roles" multiple="true" required="required">
-                    <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-                </form:select>
-            </div>
-
-            <div class="form-group">
-                <label>Phone Number *</label>
-                <form:input
-                        path="phoneNo"
-                        required="required"
-                        inputmode="numeric"
-                        placeholder="10-digit mobile number"
-                        pattern="[0-9]{10}"
-                        title="Phone number must be exactly 10 digits"/>
-            </div>
-
-            <div class="form-group">
-                <label>Password *</label>
-                <form:password path="password" required="required" placeholder="eg. @#!%$"/>
-            </div>
-
-            <input type="submit" value="Register User" class="btn-submit"/>
-
-        </form:form>
-
-        <div class="login-link">
-            Already have an account? <a href="${pageContext.request.contextPath}/login">Login here</a>
+        <div class="form-group">
+            <label>Email Address *</label>
+            <form:input
+                    path="username"
+                    type="email"
+                    required="required"
+                    placeholder="eg. user@ust.com"
+                    pattern="^[a-zA-Z0-9._%+-]+@(ust\.com|gmail\.com|yahoo\.com|outlook\.com)$"
+                    title="Only ust, gmail, yahoo, outlook domains allowed"
+            />
+            <form:errors path="username" cssClass="error-message"/>
         </div>
-
-        <div class="footer">
-            Developed by <strong>UST Global</strong> Trainees
+        <div class="form-group">
+            <label>Roles *</label>
+            <form:select path="roles" multiple="true" required="required">
+                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+            </form:select>
+            <form:errors path="roles" cssClass="error-message"/>
         </div>
+        <div class="form-group">
+            <label>Phone Number *</label>
+            <form:input
+                    path="phoneNo"
+                    required="required"
+                    inputmode="numeric"
+                    maxlength="10"
+                    pattern="^[6-9][0-9]{9}$"
+                    placeholder="10-digit mobile number"
+                    title="Must be 10 digits starting from 6–9"
+            />
+            <form:errors path="phoneNo" cssClass="error-message"/>
+        </div>
+        <div class="form-group">
+            <label>Password *</label>
+            <form:password
+                    path="password"
+                    required="required"
+                    minlength="8"
+                    maxlength="18"
+                    pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=]).{8,18}$"
+                    placeholder="Strong password"
+                    title="8–18 chars with letter, number & special character"
+            />
+            <form:errors path="password" cssClass="error-message"/>
+        </div>
+        <input type="submit" value="Register User" class="btn-submit"/>
+    </form:form>
+
+    <div class="login-link">
+        Already have an account?
+        <a href="${pageContext.request.contextPath}/login">Login here</a>
     </div>
 
+    <div class="footer">
+        Developed by <strong>UST Global</strong> | Dev POD-1
+    </div>
+</div>
 </body>
 </html>

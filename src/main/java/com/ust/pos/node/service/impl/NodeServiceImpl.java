@@ -6,7 +6,6 @@ import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.node.service.NodeService;
-import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Transactional
 @Service
 public class NodeServiceImpl implements NodeService {
     @Autowired

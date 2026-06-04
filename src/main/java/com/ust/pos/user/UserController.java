@@ -59,7 +59,6 @@ public class UserController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username, RedirectAttributes redirectAttributes) {
-
         String loggedInUsername = AUTHENTICATION.getName();
         if (loggedInUsername.equalsIgnoreCase(username)) {
             redirectAttributes.addFlashAttribute(MESSAGE,
@@ -67,7 +66,6 @@ public class UserController {
             redirectAttributes.addFlashAttribute(COLOUR, "red");
             return "redirect:/user/list";
         }
-
         userService.delete(username);
         redirectAttributes.addFlashAttribute(MESSAGE,
                 "User '" + username + "' deleted successfully");

@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Role Profile</title>
+    <title>POS Retail Management | Role Details</title>
 
     <style>
         body {
@@ -166,7 +166,7 @@
 
     <div class="profile-card">
         <div class="brand-header">
-            <h1>POS Management</h1>
+            <h1>POS Retail Management</h1>
         </div>
 
         <div class="profile-body">
@@ -176,7 +176,7 @@
                 <h2>Role Configuration</h2>
 
                 <div class="profile-row">
-                    <span class="label">Role Identifier</span>
+                    <span class="label">Role Name</span>
                     <span class="static-value">${role.identifier}</span>
                     <input type="hidden" name="identifier" value="${role.identifier}" />
                 </div>
@@ -215,15 +215,12 @@
         function enableEdit() {
             document.querySelectorAll('.value')
                 .forEach(v => v.style.display = 'none');
-
             document.querySelectorAll('input[type="text"]')
                 .forEach(i => i.style.display = 'inline-block');
-
             document.querySelector('.edit-btn').style.display = 'none';
             document.querySelector('.save-btn').style.display = 'inline-block';
             document.querySelector('h2').innerText = "Edit Role Details";
         }
-
         document.addEventListener("DOMContentLoaded", function () {
             const toast = document.getElementById("toast");
             if (toast) {

@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | User List</title>
+    <title>POS Retail Management | User List</title>
 
     <style>
         body {
@@ -201,7 +201,7 @@
 
     <div class="container">
         <div class="brand-header">
-            <h1>POS Management</h1>
+            <h1>POS Retail Management</h1>
         </div>
 
         <div class="content-body">
@@ -211,7 +211,6 @@
                     + Add New User
                 </a>
             </div>
-
             <table>
                 <thead>
                     <tr>
@@ -223,7 +222,6 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     <c:choose>
                         <c:when test="${not empty users}">
@@ -271,7 +269,6 @@
                     </c:choose>
                 </tbody>
             </table>
-
             <a href="${pageContext.request.contextPath}/" class="back-link">
                 ← Back to Dashboard
             </a>

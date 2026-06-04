@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>POS Management | Dashboard</title>
+    <title>POS Retail Management | Home</title>
     <style>
         body {
             margin: 0;
@@ -166,18 +166,16 @@
     </c:if>
 
     <div class="header">
-        <div class="header-left">POS Management</div>
+        <div class="header-left">POS Retail Management</div>
         <a href="${pageContext.request.contextPath}/logout" class="logout-btn">Logout</a>
     </div>
 
     <div class="container">
 
         <div class="sidebar">
-            <div class="sidebar-title">Core Navigation</div>
-            <a href="${pageContext.request.contextPath}/" class="active">Home Dashboard</a>
-
+            <div class="sidebar-title">Navigation</div>
+            <a href="${pageContext.request.contextPath}/" class="active">User Home</a>
             <hr>
-
             <div class="sidebar-title">Management Modules</div>
             <c:forEach items="${nodes}" var="node">
                 <a href="${pageContext.request.contextPath}${node.path}">

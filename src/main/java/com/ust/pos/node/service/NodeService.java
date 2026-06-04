@@ -5,11 +5,11 @@ import com.ust.pos.dto.NodeDto;
 import java.util.List;
 
 public interface NodeService {
-    NodeDto save(NodeDto userDto);
+    NodeDto save(NodeDto nodeDto);
 
-    NodeDto update(NodeDto userDto);
+    NodeDto update(NodeDto nodeDto);
 
-    boolean delete(String username);
+    boolean delete(String identifier);
 
     List<NodeDto> findAll();
 
