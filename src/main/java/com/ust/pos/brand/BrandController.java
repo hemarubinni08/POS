@@ -3,8 +3,6 @@ package com.ust.pos.brand;
 
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
-import com.ust.pos.product.service.ProductService;
-import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +14,6 @@ public class BrandController {
     private static final String REDIRECT_LIST = "redirect:/brand/list";
     @Autowired
     BrandService brandService;
-    @Autowired
-    ProductService productService;
-    @Autowired
-    WarehouseService warehouseService;
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -29,8 +23,7 @@ public class BrandController {
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute BrandDto brandDto) {
-        model.addAttribute("products", productService.findAll());
-        model.addAttribute("warehouses", warehouseService.findAll());
+        model.addAttribute("brands",brandService.findAll());
         return "brand/add";
     }
 

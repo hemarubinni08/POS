@@ -5,8 +5,6 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.product.service.ProductService;
-import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +16,6 @@ import java.util.List;
 public class BrandApiController extends BaseController {
     @Autowired
     BrandService brandService;
-    @Autowired
-    ProductService productService;
-    @Autowired
-    WarehouseService warehouseService;
 
     @PostMapping("/list")
     public List<BrandDto> list(@RequestBody PaginationDto paginationDto) {
