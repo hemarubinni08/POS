@@ -3,7 +3,6 @@ package com.ust.pos.api.user;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UserDto;
-import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -21,9 +20,6 @@ public class ApiUserController extends BaseController {
     public static final String MESSAGE = "message";
     public static final String ROLES = "roles";
     public static final String USER_USER = "user/user";
-
-    @Autowired
-    public RoleService roleService;
 
     @Autowired
     private UserService userService;

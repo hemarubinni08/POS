@@ -32,7 +32,6 @@ public class ApiRackController extends BaseController {
     @PostMapping("/add")
     public RackDto addPost(@RequestBody RackDto rackDto) {
         return rackService.save(rackDto);
-
     }
 
     @GetMapping("/get")

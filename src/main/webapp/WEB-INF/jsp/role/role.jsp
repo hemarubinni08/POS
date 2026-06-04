@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <title>Edit Role</title>
 
-    https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
@@ -46,6 +46,10 @@
         .btn {
             border-radius: 6px;
         }
+
+        textarea.form-control {
+            resize: none;
+        }
     </style>
 </head>
 
@@ -58,7 +62,6 @@
     </div>
 
     <div class="card-body">
-
         <c:if test="${not empty message}">
             <div class="alert alert-info text-center">
                 ${message}

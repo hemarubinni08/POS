@@ -18,9 +18,6 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @Autowired
-    private ShelfService shelfService;
-
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
         model.addAttribute("customers", customerService.findAll(pageable));

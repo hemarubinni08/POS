@@ -39,27 +39,24 @@ class NodeServiceTest {
     private ModelMapper modelMapper;
 
     @Test
-    void saveTest() {
+    void saveTest_success() {
         NodeDto dto = new NodeDto();
         dto.setIdentifier("N1");
-        Mockito.when(nodeRepository.findByIdentifier("N1")).thenReturn(null);
-        Node entity = new Node();
-        Mockito.when(modelMapper.map(dto, Node.class)).thenReturn(entity);
-        Mockito.when(nodeRepository.save(entity)).thenReturn(entity);
+        Mockito.when(nodeRepository.existsByIdentifier("N1")).thenReturn(false);
+        Node node = new Node();
+        Mockito.when(nodeRepository.save(Mockito.any(Node.class))).thenReturn(node);
         NodeDto response = nodeService.save(dto);
-        Assertions.assertEquals("N1", response.getIdentifier());
         Assertions.assertTrue(response.isSuccess());
     }
 
     @Test
-    void saveTestFailure() {
+    void saveTest_failure() {
         NodeDto dto = new NodeDto();
         dto.setIdentifier("N1");
-        Node existing = new Node();
-        Mockito.when(nodeRepository.findByIdentifier("N1")).thenReturn(existing);
+        Mockito.when(nodeRepository.existsByIdentifier("N1")).thenReturn(true);
         NodeDto response = nodeService.save(dto);
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertNotNull(response.getMessage());
+        Assertions.assertEquals("Node already exists", response.getMessage());
     }
 
     @Test

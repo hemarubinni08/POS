@@ -16,14 +16,15 @@ import java.io.IOException;
 
 @Component
 public class JWTFilter extends OncePerRequestFilter {
+
     @Autowired
     private com.ust.pos.config.JWTUtility jwtUtility;
+
     @Autowired
     private UserDetailsService userService;
 
     @Override
-    protected void doFilterInternal(jakarta.servlet.http.HttpServletRequest httpServletRequest,
-                                    jakarta.servlet.http.HttpServletResponse httpServletResponse, jakarta.servlet.FilterChain filterChain)
+    protected void doFilterInternal(jakarta.servlet.http.HttpServletRequest httpServletRequest, jakarta.servlet.http.HttpServletResponse httpServletResponse, jakarta.servlet.FilterChain filterChain)
             throws jakarta.servlet.ServletException, IOException {
         String authorization = httpServletRequest.getHeader("Authorization");
         String token = null;

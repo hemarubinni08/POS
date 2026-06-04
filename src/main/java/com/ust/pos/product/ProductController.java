@@ -39,7 +39,6 @@ public class ProductController {
 
     @GetMapping("/add")
     public String add(Model model, Pageable pageable) {
-
         model.addAttribute("product", new ProductDto());
         model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
         model.addAttribute(BRANDS, brandService.findAll(pageable));

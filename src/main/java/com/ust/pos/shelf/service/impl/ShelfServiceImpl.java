@@ -1,4 +1,4 @@
-package com.ust.pos.shelf.impl;
+package com.ust.pos.shelf.service.impl;
 
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.modell.Shelf;
@@ -43,7 +43,6 @@ public class ShelfServiceImpl implements ShelfService {
 
         Shelf shelf = modelMapper.map(shelfDto, Shelf.class);
         shelfRepository.save(shelf);
-
         return shelfDto;
     }
 
@@ -60,7 +59,6 @@ public class ShelfServiceImpl implements ShelfService {
 
         modelMapper.map(shelfDto, existingShelf);
         shelfRepository.save(existingShelf);
-
         return shelfDto;
     }
 
@@ -98,3 +96,4 @@ public class ShelfServiceImpl implements ShelfService {
         shelfRepository.save(shelf);
     }
 }
+

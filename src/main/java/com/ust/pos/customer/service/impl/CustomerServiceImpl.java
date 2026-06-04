@@ -90,17 +90,13 @@ public class CustomerServiceImpl implements CustomerService {
         }
         modelMapper.map(customerDto, existingCustomer);
         customerRepository.save(existingCustomer);
-
         List<AddressDto> addresses = addressService.findAllByPhoneNo(customerDto.getPhoneNo());
-
         AddressDto billingAddress = addresses.get(0);
         billingAddress.setPhoneNo(existingCustomer.getPhoneNo());
         addressService.update(billingAddress);
-
         AddressDto shippingAddress = addresses.get(1);
         shippingAddress.setPhoneNo(existingCustomer.getPhoneNo());
         addressService.update(shippingAddress);
-
         return customerDto;
     }
 

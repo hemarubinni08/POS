@@ -35,26 +35,12 @@
             border-radius: 12px 12px 0 0;
         }
 
-        .form-control {
-            border-radius: 6px;
-        }
+        .form-control { border-radius: 6px; }
+        .form-label { font-weight: 500; }
 
-        .form-label {
-            font-weight: 500;
-        }
+        .btn { border-radius: 6px; }
 
-        .input-error {
-            border: 2px solid #dc3545 !important;
-            background-color: #fff5f5;
-        }
-
-        .btn {
-            border-radius: 6px;
-        }
-
-        .dropdown-check {
-            position: relative;
-        }
+        .dropdown-check { position: relative; }
 
         .dropdown-btn {
             width: 100%;
@@ -114,15 +100,13 @@
                 ${error}
             </div>
         </c:if>
-
         <form action="${pageContext.request.contextPath}/node/add" method="post">
 
             <div class="mb-3">
                 <label class="form-label">Node Identifier</label>
                 <input type="text"
                        name="identifier"
-                       value="${param.identifier}"
-                       class="form-control ${not empty error && error.contains('already') ? 'input-error' : ''}"
+                       class="form-control"
                        placeholder="e.g. NODE_VIEW"
                        required>
             </div>
@@ -131,23 +115,9 @@
                 <label class="form-label">Node Path</label>
                 <input type="text"
                        name="path"
-                       value="${param.path}"
                        class="form-control"
                        placeholder="/node/list"
                        required>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Product</label>
-
-                <select name="product" class="form-control" required>
-                    <option value="">Select Product</option>
-                    <c:forEach items="${products}" var="product">
-                        <option value="${product.identifier}">
-                            ${product.identifier}
-                        </option>
-                    </c:forEach>
-                </select>
             </div>
 
             <div class="mb-3">
@@ -214,7 +184,7 @@ checkboxes.forEach(cb => {
     cb.addEventListener("change", () => {
         let selected = Array.from(checkboxes)
             .filter(c => c.checked)
-            .map(c => c.value);
+            .map(c => c.nextSibling.textContent.trim());
 
         selectedText.innerText = selected.length > 0
             ? selected.join(", ")

@@ -54,8 +54,7 @@ public class StockServiceImpl implements StockService {
         stock.setWarehouseIdentifier(stockDto.getWarehouseIdentifier());
         stock.setQuantity(stockDto.getQuantity());
         stock.setMinimumStock(stockDto.getMinimumStock());
-        stock.setStatus(
-                stockDto.getQuantity() > stockDto.getMinimumStock()
+        stock.setStatus(stockDto.getQuantity() > stockDto.getMinimumStock()
         );
         return mapToDto(stockRepository.save(stock));
     }

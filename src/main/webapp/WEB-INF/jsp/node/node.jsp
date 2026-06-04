@@ -112,7 +112,6 @@
 
                 <form:hidden path="id"/>
 
-                <!-- Identifier -->
                 <div class="mb-3">
                     <label class="form-label">Node Identifier</label>
                     <form:input path="identifier"
@@ -120,7 +119,6 @@
                                 readonly="true"/>
                 </div>
 
-                <!-- Path -->
                 <div class="mb-3">
                     <label class="form-label">Node Path</label>
                     <form:input path="path"
@@ -128,7 +126,6 @@
                                 required="true"/>
                 </div>
 
-                <!-- Roles -->
                 <div class="mb-4 role-dropdown position-relative" id="roleDropdown">
 
                     <label class="form-label">Assign Roles</label>

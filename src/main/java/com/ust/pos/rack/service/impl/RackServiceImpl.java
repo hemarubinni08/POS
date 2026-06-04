@@ -36,12 +36,14 @@ public class RackServiceImpl implements RackService {
         Rack existingRack = rackRepository.findByIdentifier(identifier);
 
         if (existingRack != null) {
-            rackDto.setMessage("Shelf with identifier - " + identifier + " already exists");
+            rackDto.setMessage("Rack with identifier - " + identifier + " already exists");
             rackDto.setSuccess(false);
             return rackDto;
         }
         Rack rack = modelMapper.map(rackDto, Rack.class);
+        rack.setShelfs(rackDto.getShelfs());
         rackRepository.save(rack);
+        rackDto.setSuccess(true);
         return rackDto;
     }
 

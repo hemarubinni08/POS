@@ -39,7 +39,6 @@ public class NodeServiceImpl implements NodeService {
             org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
 
             if (principalObject != null) {
-
                 User currentUser = userRepository.findByUsername(principalObject.getUsername());
                 List<Node> nodes = nodeRepository.findByRoles(currentUser.getRoles());
                 Type listType = new TypeToken<List<NodeDto>>() {
@@ -56,19 +55,22 @@ public class NodeServiceImpl implements NodeService {
         );
     }
 
-    @Override
     public NodeDto save(NodeDto nodeDto) {
-        String identifier = nodeDto.getIdentifier();
-        Node existingNode = nodeRepository.findByIdentifier(identifier);
+        NodeDto response = new NodeDto();
 
-        if (existingNode != null) {
-            nodeDto.setMessage("Role with identifier - " + identifier + " already exists");
-            nodeDto.setSuccess(false);
-            return nodeDto;
+        if (nodeRepository.existsByIdentifier(nodeDto.getIdentifier())) {
+            response.setSuccess(false);
+            response.setMessage("Node already exists");
+            return response;
         }
-        Node node = modelMapper.map(nodeDto, Node.class);
+
+        Node node = new Node();
+        node.setIdentifier(nodeDto.getIdentifier());
+        node.setPath(nodeDto.getPath());
+        node.setRoles(nodeDto.getRoles());
         nodeRepository.save(node);
-        return nodeDto;
+        response.setSuccess(true);
+        return response;
     }
 
     @Override

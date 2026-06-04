@@ -77,11 +77,9 @@
                    action="${pageContext.request.contextPath}/price/update"
                    modelAttribute="price">
 
-            <!-- Hidden fields -->
             <form:hidden path="id"/>
             <form:hidden path="identifier"/>
 
-            <!-- Identifier -->
             <div class="mb-3">
                 <label>Identifier</label>
                 <input type="text"
