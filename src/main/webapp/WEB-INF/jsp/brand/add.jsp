@@ -127,13 +127,7 @@
         <div class="error-message">${message}</div>
     </c:if>
 
-    <!-- IMPORTANT: multipart for image upload -->
-    <form:form method="post"
-               action="/brand/add"
-               modelAttribute="brandDto"
-               enctype="multipart/form-data">
-
-        <div class="form-group">
+    <div class="form-group">
             <label>Brand Name</label>
             <form:input path="identifier" placeholder="Enter brand name"/>
         </div>
@@ -146,7 +140,7 @@
         <div class="btn-row">
             <button type="reset" class="btn-reset">Reset</button>
             <button type="submit" class="btn-submit">Save</button>
-        </div>
+    </div>
 
     </form:form>
 </div>
