@@ -47,7 +47,7 @@ public class ShelfController {
                     ERROR_MESSAGE,
                     response.getMessage()
             );
-            return "shelf/add";
+            return "redirect:/shelf/add";
         }
 
         redirectAttributes.addFlashAttribute(

@@ -33,33 +33,33 @@ public class WareHouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public WarehouseDto save(WarehouseDto dto) {
+    public WarehouseDto save(WarehouseDto warehouseDto) {
 
-        Warehouse existing = warehouseRepository.findByIdentifier(dto.getIdentifier());
+        Warehouse existing = warehouseRepository.findByIdentifier(warehouseDto.getIdentifier());
         if (existing != null) {
-            dto.setSuccess(false);
-            dto.setMessage("Warehouse already exists : " + dto.getIdentifier());
-            return dto;
+            warehouseDto.setSuccess(false);
+            warehouseDto.setMessage("Warehouse already exists : " + warehouseDto.getIdentifier());
+            return warehouseDto;
         }
 
-        Warehouse warehouse = modelMapper.map(dto, Warehouse.class);
+        Warehouse warehouse = modelMapper.map(warehouseDto, Warehouse.class);
         warehouseRepository.save(warehouse);
-        return dto;
+        return warehouseDto;
     }
 
     @Override
-    public WarehouseDto update(WarehouseDto dto) {
+    public WarehouseDto update(WarehouseDto warehouseDto) {
 
-        Warehouse existing = warehouseRepository.findByIdentifier(dto.getIdentifier());
+        Warehouse existing = warehouseRepository.findByIdentifier(warehouseDto.getIdentifier());
         if (existing == null) {
-            dto.setSuccess(false);
-            dto.setMessage("Warehouse not found : " + dto.getIdentifier());
-            return dto;
+            warehouseDto.setSuccess(false);
+            warehouseDto.setMessage("Warehouse not found : " + warehouseDto.getIdentifier());
+            return warehouseDto;
         }
 
-        modelMapper.map(dto, existing);
+        modelMapper.map(warehouseDto, existing);
         warehouseRepository.save(existing);
-        return dto;
+        return warehouseDto;
     }
 
     @Transactional

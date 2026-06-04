@@ -49,8 +49,6 @@ class ProductServiceTest {
         productDto.setStatus(true);
     }
 
-    /* ===================== FIND BY IDENTIFIER ===================== */
-
     @Test
     void findByIdentifier_shouldReturnProductDto() {
         when(productRepository.findByIdentifier("P001")).thenReturn(product);
@@ -61,8 +59,6 @@ class ProductServiceTest {
         assertNotNull(result);
         assertEquals("P001", result.getIdentifier());
     }
-
-    /* ===================== SAVE ===================== */
 
     @Test
     void save_shouldSaveProduct_whenNotExists() {
@@ -86,8 +82,6 @@ class ProductServiceTest {
         verify(productRepository, never()).save(any());
     }
 
-    /* ===================== UPDATE ===================== */
-
     @Test
     void update_shouldUpdateProduct_whenExists() {
         when(productRepository.findByIdentifier("P001")).thenReturn(product);
@@ -110,8 +104,6 @@ class ProductServiceTest {
         verify(productRepository, never()).save(any());
     }
 
-    /* ===================== DELETE ===================== */
-
     @Test
     void delete_shouldDeleteProduct() {
         doNothing().when(productRepository).deleteByIdentifier("P001");
@@ -120,8 +112,6 @@ class ProductServiceTest {
 
         verify(productRepository).deleteByIdentifier("P001");
     }
-
-    /* ===================== FIND ALL ===================== */
 
     @Test
     void findAllTest() {
@@ -149,12 +139,9 @@ class ProductServiceTest {
         Assertions.assertEquals(1, response.size());
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
-    // Line 87: status false → true  (!false == true)
     @Test
     void toggleStatus_shouldFlipFalseToTrue() {
-        product.setStatus(false);                                      // start false
+        product.setStatus(false);
 
         ProductDto toggledDto = new ProductDto();
         toggledDto.setStatus(true);
@@ -164,16 +151,15 @@ class ProductServiceTest {
 
         ProductDto result = productService.toggleStatus("P001");
 
-        assertTrue(product.isStatus());                                // entity flipped to true
+        assertTrue(product.isStatus());
         verify(productRepository).save(product);
         assertNotNull(result);
         assertTrue(result.isStatus());
     }
 
-    // Line 87: status true → false  (!true == false)
     @Test
     void toggleStatus_shouldFlipTrueToFalse() {
-        product.setStatus(true);                                       // start true
+        product.setStatus(true);
 
         ProductDto toggledDto = new ProductDto();
         toggledDto.setStatus(false);
@@ -183,13 +169,11 @@ class ProductServiceTest {
 
         ProductDto result = productService.toggleStatus("P001");
 
-        assertFalse(product.isStatus());                               // entity flipped to false
+        assertFalse(product.isStatus());
         verify(productRepository).save(product);
         assertNotNull(result);
         assertFalse(result.isStatus());
     }
-
-    /* ===================== FIND IF TRUE ===================== */
 
     @Test
     void findIfTrue_shouldReturnActiveProducts() {

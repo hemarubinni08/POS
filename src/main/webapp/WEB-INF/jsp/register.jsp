@@ -35,7 +35,9 @@
             margin-bottom: 10px;
         }
 
-        .left-panel p { opacity: 0.8; }
+        .left-panel p {
+            opacity: 0.8;
+        }
 
         .right-panel {
             flex: 1;
@@ -59,7 +61,9 @@
             color: #333;
         }
 
-        .form-group { margin-bottom: 16px; }
+        .form-group {
+            margin-bottom: 16px;
+        }
 
         .form-group label.field-label {
             display: block;
@@ -68,7 +72,9 @@
             margin-bottom: 5px;
         }
 
-        .input-box { position: relative; }
+        .input-box {
+            position: relative;
+        }
 
         .input-box i {
             position: absolute;
@@ -94,7 +100,9 @@
             border-color: #4b6cb7;
         }
 
-        .input-box input.input-error { border-color: #e74c3c; }
+        .input-box input.input-error {
+            border-color: #e74c3c;
+        }
 
         #roleList {
             border: 1.5px solid #ccc;
@@ -103,10 +111,11 @@
             background: #fafafa;
             max-height: 140px;
             overflow-y: auto;
-            transition: border-color 0.2s;
         }
 
-        #roleList.input-error { border-color: #e74c3c; }
+        #roleList.input-error {
+            border-color: #e74c3c;
+        }
 
         .role-row {
             display: flex;
@@ -117,7 +126,9 @@
             cursor: pointer;
         }
 
-        .role-row:hover { background: #f0f2ff; }
+        .role-row:hover {
+            background: #f0f2ff;
+        }
 
         .role-row input[type="checkbox"] {
             width: 15px;
@@ -127,8 +138,6 @@
         }
 
         .role-row label {
-            margin: 0;
-            cursor: pointer;
             font-size: 13px;
             color: #333;
         }
@@ -152,7 +161,9 @@
             gap: 5px;
         }
 
-        .chip:hover { background: #3953a4; }
+        .chip:hover {
+            background: #3953a4;
+        }
 
         .error-msg {
             font-size: 12px;
@@ -161,7 +172,9 @@
             display: none;
         }
 
-        .error-msg.show { display: block; }
+        .error-msg.show {
+            display: block;
+        }
 
         .error {
             font-size: 12px;
@@ -178,12 +191,11 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            margin-top: 4px;
-            transition: background 0.2s;
         }
 
-        .btn:hover { background: #3953a4; }
+        .btn:hover {
+            background: #3953a4;
+        }
 
         .login-link {
             text-align: center;
@@ -198,7 +210,9 @@
             font-weight: 500;
         }
 
-        .login-link a:hover { text-decoration: underline; }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -235,6 +249,7 @@
 
             <div class="form-group">
                 <label class="field-label">Roles</label>
+
                 <div id="roleList">
                     <c:forEach items="${roles}" var="role">
                         <div class="role-row">
@@ -247,6 +262,7 @@
                         </div>
                     </c:forEach>
                 </div>
+
                 <div id="selectedRoles"></div>
                 <div class="error-msg" id="roleErr">Please select at least one role.</div>
                 <form:errors path="roles" cssClass="error"/>
@@ -308,6 +324,7 @@
     function clearError(inputId, errId) {
         const input = document.getElementById(inputId);
         const err = document.getElementById(errId);
+
         if (input) input.classList.remove('input-error');
         if (err) err.classList.remove('show');
     }
@@ -315,7 +332,9 @@
     function showError(inputId, errId, msg) {
         const input = document.getElementById(inputId);
         const err = document.getElementById(errId);
+
         if (input) input.classList.add('input-error');
+
         if (err) {
             if (msg) err.textContent = msg;
             err.classList.add('show');
@@ -323,69 +342,54 @@
     }
 
     ['name', 'email', 'phone', 'password'].forEach(function (id) {
-        var el = document.getElementById(id);
+        const el = document.getElementById(id);
         if (!el) return;
 
         el.addEventListener('input', function () {
-            var errMap = { name: 'nameErr', email: 'emailErr', phone: 'phoneErr', password: 'passErr' };
+            const errMap = {
+                name: 'nameErr',
+                email: 'emailErr',
+                phone: 'phoneErr',
+                password: 'passErr'
+            };
             clearError(id, errMap[id]);
         });
     });
 
     function validateForm() {
-        var valid = true;
+        let valid = true;
 
-        var name = document.getElementById('name');
-        if (!name || name.value.trim() === '') {
-            showError('name', 'nameErr', 'Full name is required.');
+        const name = document.getElementById('name');
+        if (!name.value.trim()) {
+            showError('name', 'nameErr');
             valid = false;
-        } else clearError('name', 'nameErr');
+        }
 
-        var email = document.getElementById('email');
-        var emailVal = email ? email.value.trim() : '';
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const email = document.getElementById('email').value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!emailVal) {
-            showError('email', 'emailErr', 'Email is required.');
+        if (!email || !emailRegex.test(email)) {
+            showError('email', 'emailErr');
             valid = false;
-        } else if (!emailRegex.test(emailVal)) {
-            showError('email', 'emailErr', 'Please enter a valid email address.');
-            valid = false;
-        } else clearError('email', 'emailErr');
+        }
 
-        var checked = document.querySelectorAll('input[name="roles"]:checked');
+        const checked = document.querySelectorAll('input[name="roles"]:checked');
         if (checked.length === 0) {
             document.getElementById('roleList').classList.add('input-error');
             document.getElementById('roleErr').classList.add('show');
             valid = false;
-        } else clearError('roleList', 'roleErr');
+        }
 
-        var phone = document.getElementById('phone');
-        var phoneVal = phone ? phone.value.trim() : '';
-        var phoneRegex = /^\d{10}$/;
-
-        if (!phoneVal) {
-            showError('phone', 'phoneErr', 'Phone number is required.');
+        const phone = document.getElementById('phone').value.trim();
+        if (!/^\d{10}$/.test(phone)) {
+            showError('phone', 'phoneErr');
             valid = false;
-        } else if (!phoneRegex.test(phoneVal)) {
-            showError('phone', 'phoneErr', 'Please enter a valid 10-digit phone number.');
-            valid = false;
-        } else clearError('phone', 'phoneErr');
+        }
 
-        var pass = document.getElementById('password');
-        var passVal = pass ? pass.value : '';
-
-        if (!passVal) {
-            showError('password', 'passErr', 'Password is required.');
+        const password = document.getElementById('password').value;
+        if (!password || password.length < 8) {
+            showError('password', 'passErr');
             valid = false;
-        } else if (passVal.length < 8) {
-            showError('password', 'passErr', 'Password must be at least 8 characters.');
-            valid = false;
-        } else clearError('password', 'passErr');
-
-        if (!valid) {
-            var firstErr = document.querySelector('.input-error, #roleList.input-error');
-            if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         return valid;

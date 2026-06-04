@@ -40,9 +40,9 @@ public class ApiWarehouseController extends BaseController {
     }
 
     @PostMapping("/update")
-    public WarehouseDto updatePost(@RequestBody WarehouseDto userDto) {
+    public WarehouseDto updatePost(@RequestBody WarehouseDto warehousDto) {
 
-        return warehouseService.update(userDto);
+        return warehouseService.update(warehousDto);
     }
 
     @GetMapping("/delete")

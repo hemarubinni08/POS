@@ -9,9 +9,9 @@ public interface BrandService {
 
     BrandDto findByIdentifier(String identifier);
 
-    BrandDto save(BrandDto dto);
+    BrandDto save(BrandDto brandDto);
 
-    BrandDto update(BrandDto dto);
+    BrandDto update(BrandDto brandDto);
 
     void delete(String identifier);
 

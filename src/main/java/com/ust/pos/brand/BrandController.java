@@ -35,10 +35,10 @@ public class BrandController extends BaseController {
     }
 
     @PostMapping("/add")
-    public String addPost(@ModelAttribute BrandDto dto,
+    public String addPost(@ModelAttribute BrandDto brandDto,
                           RedirectAttributes redirectAttributes) {
 
-        BrandDto response = brandService.save(dto);
+        BrandDto response = brandService.save(brandDto);
 
         if (!response.isSuccess()) {
             redirectAttributes.addFlashAttribute(ERROR_MESSAGE, response.getMessage());
@@ -63,14 +63,14 @@ public class BrandController extends BaseController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute BrandDto dto,
+    public String update(@ModelAttribute BrandDto brandDto,
                          RedirectAttributes redirectAttributes) {
 
-        BrandDto response = brandService.update(dto);
+        BrandDto response = brandService.update(brandDto);
 
         if (!response.isSuccess()) {
             redirectAttributes.addFlashAttribute(ERROR_MESSAGE, response.getMessage());
-            return "redirect:/brand/get?identifier=" + dto.getIdentifier();
+            return "redirect:/brand/get?identifier=" + brandDto.getIdentifier();
         }
 
         redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, "Brand updated successfully!");

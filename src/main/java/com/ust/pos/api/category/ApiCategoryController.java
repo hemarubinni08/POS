@@ -39,9 +39,9 @@ public class ApiCategoryController extends BaseController {
     }
 
     @PostMapping("/update")
-    public CategoryDto updatePost(@RequestBody CategoryDto userDto) {
+    public CategoryDto updatePost(@RequestBody CategoryDto categoryDto) {
 
-        return categoryService.update(userDto);
+        return categoryService.update(categoryDto);
     }
 
     @GetMapping("/delete")

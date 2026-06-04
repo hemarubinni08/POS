@@ -41,9 +41,9 @@ public class ApiPriceController extends BaseController {
     }
 
     @PostMapping("/update")
-    public PriceDto updatePost(@RequestBody PriceDto userDto) {
+    public PriceDto updatePost(@RequestBody PriceDto priceDto) {
 
-        return priceService.update(userDto);
+        return priceService.update(priceDto);
     }
 
     @GetMapping("/delete")

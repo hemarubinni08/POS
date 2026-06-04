@@ -39,9 +39,9 @@ public class ApiRoleController extends BaseController {
     }
 
     @PostMapping("/update")
-    public RoleDto updatePost(@RequestBody RoleDto userDto) {
+    public RoleDto updatePost(@RequestBody RoleDto roleDto) {
 
-        return roleService.update(userDto);
+        return roleService.update(roleDto);
     }
 
     @GetMapping("/delete")

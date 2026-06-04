@@ -85,12 +85,17 @@
 <div class="card">
     <h2>Add Rack</h2>
 
-    <!-- ERROR MESSAGE -->
-    <c:if test="${not empty message}">
-        <div class="error-msg">
-            ${message}
-        </div>
-    </c:if>
+          <c:if test="${not empty successMessage}">
+               <div class="alert alert-success text-center">
+                   ${successMessage}
+               </div>
+           </c:if>
+
+           <c:if test="${not empty errorMessage}">
+               <div class="alert alert-danger text-center">
+                   ${errorMessage}
+               </div>
+           </c:if>
 
     <form:form action="${pageContext.request.contextPath}/rack/add"
                method="post"

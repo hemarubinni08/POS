@@ -9,9 +9,9 @@ public interface PriceService {
 
     PriceDto findByIdentifier(String identifier);
 
-    PriceDto save(PriceDto dto);
+    PriceDto save(PriceDto priceDto);
 
-    PriceDto update(PriceDto dto);
+    PriceDto update(PriceDto priceDto);
 
     void delete(String identifier);
 

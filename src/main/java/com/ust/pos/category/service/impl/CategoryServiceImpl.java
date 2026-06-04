@@ -120,7 +120,6 @@ public class CategoryServiceImpl implements CategoryService {
                 categoryRepository.findBySuperCategoryIsNotNull(),
                 listType
         );
-
     }
 
     @Override

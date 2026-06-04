@@ -19,7 +19,7 @@ public class ApiUnitController extends BaseController {
     @Autowired
     private UnitService unitService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<UnitDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -40,9 +40,9 @@ public class ApiUnitController extends BaseController {
     }
 
     @PostMapping("/update")
-    public UnitDto updatePost(@RequestBody UnitDto userDto) {
+    public UnitDto updatePost(@RequestBody UnitDto unitDto) {
 
-        return unitService.update(userDto);
+        return unitService.update(unitDto);
     }
 
     @GetMapping("/delete")

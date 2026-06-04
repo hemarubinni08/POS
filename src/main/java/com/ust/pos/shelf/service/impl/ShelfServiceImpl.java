@@ -65,6 +65,7 @@ public class ShelfServiceImpl implements ShelfService {
     @Transactional
     @Override
     public void delete(String identifier) {
+
         shelfRepository.deleteByIdentifier(identifier);
     }
 

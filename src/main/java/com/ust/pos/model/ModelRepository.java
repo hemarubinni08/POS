@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ModelRepository extends JpaRepository<Model, Long> {
-
     Model findByIdentifier(String identifier);
 
     void deleteByIdentifier(String identifier);

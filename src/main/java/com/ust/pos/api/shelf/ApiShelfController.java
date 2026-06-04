@@ -63,7 +63,5 @@ public class ApiShelfController extends BaseController {
 
         return shelfService.findIfTrue();
     }
-
-
 }
  

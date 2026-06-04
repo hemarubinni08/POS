@@ -31,6 +31,7 @@ public class ApiUserController extends BaseController {
 
     @GetMapping("/register")
     public UserDto add(@RequestBody UserDto userDto) {
+
         return userService.save(userDto);
     }
 

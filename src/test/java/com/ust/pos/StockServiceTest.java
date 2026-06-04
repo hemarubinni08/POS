@@ -55,8 +55,6 @@ class StockServiceTest {
         stockDto.setStatus(true);
     }
 
-    /* ===================== SAVE ===================== */
-
     @Test
     void save_shouldSaveStock_whenNotExists() {
         when(stockRepository.findByIdentifier(anyString())).thenReturn(null);
@@ -79,14 +77,10 @@ class StockServiceTest {
         verify(stockRepository, never()).save(any());
     }
 
-    /* ===================== UPDATE ===================== */
-
-    // Happy path: identifier unchanged → equalsIgnoreCase true → inner-if skipped → save
     @Test
     void update_shouldUpdateStock_whenExists_sameIdentifier() {
-        // existingStock.identifier == stockDto.identifier  →  line 55 condition FALSE
-        // so the duplicate-check block (lines 56-61) is entirely skipped
-        stock.setIdentifier("STK_P001_W001");           // same as stockDto
+
+        stock.setIdentifier("STK_P001_W001");
         when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
 
         StockDto result = stockService.update(stockDto);
@@ -96,7 +90,7 @@ class StockServiceTest {
         assertEquals("STK_P001_W001", result.getIdentifier());
     }
 
-    // Stock not found → empty Optional branch
+
     @Test
     void update_shouldFail_whenStockNotFound() {
         when(stockRepository.findById(1L)).thenReturn(Optional.empty());
@@ -108,14 +102,14 @@ class StockServiceTest {
         verify(stockRepository, never()).save(any());
     }
 
-    // LINE 57 TRUE branch: identifier changed AND duplicate found → failure
+
     @Test
     void update_shouldFail_whenDuplicateIdentifierExists() {
-        stock.setIdentifier("STK_P001_W001");            // existing has old identifier
-        stockDto.setIdentifier("STK_DUPLICATE");         // dto carries a NEW identifier
+        stock.setIdentifier("STK_P001_W001");
+        stockDto.setIdentifier("STK_DUPLICATE");
 
         Stock duplicate = new Stock();
-        duplicate.setIdentifier("STK_DUPLICATE");        // already taken by another record
+        duplicate.setIdentifier("STK_DUPLICATE");
 
         when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
         when(stockRepository.findByIdentifier("STK_DUPLICATE")).thenReturn(duplicate);
@@ -127,11 +121,10 @@ class StockServiceTest {
         verify(stockRepository, never()).save(any());
     }
 
-    // LINE 57 FALSE branch: identifier changed BUT no duplicate found → save proceeds
     @Test
     void update_shouldSucceed_whenIdentifierChangedAndNoDuplicate() {
-        stock.setIdentifier("STK_P001_W001");            // existing identifier
-        stockDto.setIdentifier("STK_NEW_IDENTIFIER");    // new identifier (different)
+        stock.setIdentifier("STK_P001_W001");
+        stockDto.setIdentifier("STK_NEW_IDENTIFIER");
 
         when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
         // duplicate check returns null → no conflict → line 57 evaluates to FALSE
@@ -139,13 +132,11 @@ class StockServiceTest {
 
         StockDto result = stockService.update(stockDto);
 
-        // save must still be called since there is no duplicate
+
         verify(modelMapper).map(stockDto, stock);
         verify(stockRepository).save(stock);
         assertNotNull(result);
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     void deleteByIdentifier_shouldDeleteStock() {
@@ -155,8 +146,6 @@ class StockServiceTest {
 
         verify(stockRepository).deleteByIdentifier("STK_P001_W001");
     }
-
-    /* ===================== FIND BY IDENTIFIER ===================== */
 
     @Test
     void findByIdentifier_shouldReturnStockDto() {
@@ -168,8 +157,6 @@ class StockServiceTest {
         assertNotNull(result);
         assertEquals("STK_P001_W001", result.getIdentifier());
     }
-
-    /* ===================== FIND ALL ===================== */
 
     @Test
     void findAllTest() {
@@ -190,9 +177,6 @@ class StockServiceTest {
         Assertions.assertEquals(1, response.size());
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
-    // LINE 92: status true → false  (!true == false)
     @Test
     void toggleStatus_shouldFlipTrueToFalse() {
         stock.setStatus(true);
@@ -205,12 +189,11 @@ class StockServiceTest {
 
         StockDto result = stockService.toggleStatus("STK_P001_W001");
 
-        assertFalse(stock.isStatus());          // entity flipped true → false
+        assertFalse(stock.isStatus());
         verify(stockRepository).save(stock);
         assertFalse(result.isStatus());
     }
 
-    // LINE 92: status false → true  (!false == true)
     @Test
     void toggleStatus_shouldFlipFalseToTrue() {
         stock.setStatus(false);
@@ -223,12 +206,10 @@ class StockServiceTest {
 
         StockDto result = stockService.toggleStatus("STK_P001_W001");
 
-        assertTrue(stock.isStatus());           // entity flipped false → true
+        assertTrue(stock.isStatus());
         verify(stockRepository).save(stock);
         assertTrue(result.isStatus());
     }
-
-    /* ===================== FIND IF TRUE ===================== */
 
     @Test
     void findIfTrue_shouldReturnActiveStocks() {

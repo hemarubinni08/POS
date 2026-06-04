@@ -36,7 +36,7 @@ class UserServiceTest {
     @InjectMocks
     private UserServiceImpl userService;
 
-    /* ===================== FIND BY USERNAME ===================== */
+
 
     @Test
     void findByUserNameTest() {
@@ -64,19 +64,32 @@ class UserServiceTest {
         Assertions.assertNull(response);
     }
 
-    /* ===================== SAVE ===================== */
+
 
     @Test
     void saveTest() {
+
         UserDto userDto = new UserDto();
         userDto.setUsername("admin@test.com");
         userDto.setPassword("123456");
 
-        Mockito.when(userRepository.findByUsername("admin@test.com")).thenReturn(null);
+        Mockito.when(userRepository.findByUsername("admin@test.com"))
+                .thenReturn(null);
 
         User user = new User();
-        Mockito.when(modelMapper.map(userDto, User.class)).thenReturn(user);
-        Mockito.when(passwordEncoder.encode("123456")).thenReturn("hashedpassword");
+        Mockito.when(modelMapper.map(userDto, User.class))
+                .thenReturn(user);
+
+        Mockito.when(passwordEncoder.encode("123456"))
+                .thenReturn("hashedpassword");
+
+        Mockito.when(userRepository.save(user))
+                .thenReturn(user);
+
+
+        UserDto response = userService.save(userDto);
+
+
         Mockito.verify(userRepository).save(user);
         Assertions.assertEquals("hashedpassword", user.getPassword());
         Assertions.assertNotNull(response);
@@ -197,7 +210,7 @@ class UserServiceTest {
                 .deleteByUsername("admin@test.com");
     }
 
-    /* ===================== FIND ALL ===================== */
+
 
     @Test
     void findAllTest() {
@@ -220,9 +233,7 @@ class UserServiceTest {
         Assertions.assertEquals(1, response.size());
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
 
-    // status starts false → toggled to true
     @Test
     void toggleStatusFalseToTrueTest() {
         User user = new User();
@@ -241,7 +252,7 @@ class UserServiceTest {
         Assertions.assertTrue(response.isStatus());       
     }
 
-    // status starts true → toggled to false
+
     @Test
     void toggleStatusTrueToFalseTest() {
         User user = new User();
@@ -260,7 +271,7 @@ class UserServiceTest {
         Assertions.assertFalse(response.isStatus());
     }
 
-    /* ===================== FIND IF TRUE ===================== */
+
 
     @Test
     void findIfTrueTest() {

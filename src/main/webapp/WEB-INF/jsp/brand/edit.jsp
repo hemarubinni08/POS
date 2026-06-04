@@ -6,12 +6,8 @@
 <html>
 <head>
     <title>Edit Brand</title>
-
-
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-
-
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -62,13 +58,17 @@
 
     <div class="card card-custom p-4">
         <h3 class="text-center mb-4">Edit Brand</h3>
+        <c:if test="${not empty errorMessage}">
+        <div class="error-msg">
+            ${errorMessage}
+        </div>
+    </c:if>
 
-
-        <c:if test="${not empty message}">
-            <div class="error-msg">
-                ${message}
-            </div>
-        </c:if>
+    <c:if test="${not empty successMessage}">
+        <div class="alert alert-success text-center">
+            ${successMessage}
+        </div>
+    </c:if>
 
 
         <form:form action="${pageContext.request.contextPath}/brand/update"
@@ -83,7 +83,7 @@
                 <label class="form-label fw-bold">Brand Name</label>
                 <form:input path="identifier"
                             class="form-control"
-                            required="true"/>
+                            required="true" readonly="true"/>
                 <form:errors path="identifier" cssClass="text-danger"/>
             </div>
 

@@ -41,9 +41,9 @@ public class ApiProductController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ProductDto updatePost(@RequestBody ProductDto userDto) {
+    public ProductDto updatePost(@RequestBody ProductDto productDto) {
 
-        return productService.update(userDto);
+        return productService.update(productDto);
     }
 
     @GetMapping("/delete")

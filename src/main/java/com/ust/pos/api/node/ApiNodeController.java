@@ -33,6 +33,7 @@ public class ApiNodeController extends BaseController {
 
     @PostMapping("/add")
     public NodeDto addPost(@RequestBody NodeDto nodeDto) {
+
         return nodeService.save(nodeDto);
     }
 

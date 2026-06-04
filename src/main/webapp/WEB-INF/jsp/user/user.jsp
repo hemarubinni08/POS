@@ -28,7 +28,7 @@
             background: #ffffff;
             padding: 30px 35px;
             border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         h3 {
@@ -109,7 +109,7 @@
             <form:input path="name"
                         cssClass="form-control"
                         value="${user.name}"
-                        required="true" />
+                        required="true"/>
         </div>
 
         <div class="mb-3">
@@ -118,8 +118,8 @@
                         type="email"
                         cssClass="form-control"
                         value="${user.username}"
-                        required="true" />
-            <form:errors path="username" cssClass="text-danger small" />
+                        required="true"/>
+            <form:errors path="username" cssClass="text-danger small"/>
         </div>
 
         <div class="mb-3">
@@ -130,7 +130,7 @@
                         maxlength="10"
                         pattern="[0-9]{10}"
                         title="Phone number must be exactly 10 digits"
-                        required="true" />
+                        required="true"/>
         </div>
 
         <div class="mb-3">
@@ -146,7 +146,7 @@
             <form:select path="roles" multiple="true" cssClass="form-control">
                 <form:options items="${roles}"
                               itemValue="identifier"
-                              itemLabel="identifier" />
+                              itemLabel="identifier"/>
             </form:select>
 
             <small class="text-muted">

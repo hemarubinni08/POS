@@ -39,9 +39,9 @@ public class PosApplication {
 
     @Bean
     public JdbcTemplate jdbcTemplate() {
+
         return new JdbcTemplate(getDataSource());
     }
-
 
     @Bean
     DataSource getDataSource() {

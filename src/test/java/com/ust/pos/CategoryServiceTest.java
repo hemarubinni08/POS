@@ -52,9 +52,7 @@ class CategoryServiceTest {
         categoryDto.setStatus(true);
     }
 
-    /* ===================== SAVE ===================== */
 
-    // Branch: identifier already exists → failure
     @Test
     void save_shouldFail_whenCategoryAlreadyExists() {
         when(categoryRepository.findByIdentifier("CAT001")).thenReturn(category);
@@ -66,15 +64,12 @@ class CategoryServiceTest {
         verify(categoryRepository, never()).save(any());
     }
 
-    // Branch: superCategory is null → setSuperCategory(null)
+
     @Test
     void save_shouldSave_whenSuperCategoryIsNull() {
         categoryDto.setSuperCategory(null);
         when(categoryRepository.findByIdentifier("CAT001")).thenReturn(null);
-
         CategoryDto result = categoryService.save(categoryDto);
-
-        // Capture the saved entity and assert directly — avoids argThat lambda branches
         org.mockito.ArgumentCaptor<Category> captor =
                 org.mockito.ArgumentCaptor.forClass(Category.class);
         verify(categoryRepository).save(captor.capture());
@@ -82,56 +77,46 @@ class CategoryServiceTest {
         assertNotNull(result);
     }
 
-    // Branch: superCategory is blank/whitespace → setSuperCategory(null)
     @Test
     void save_shouldSave_whenSuperCategoryIsBlank() {
         categoryDto.setSuperCategory("   ");
         when(categoryRepository.findByIdentifier("CAT001")).thenReturn(null);
 
         CategoryDto result = categoryService.save(categoryDto);
-
-        // Capture the saved entity and assert directly — avoids argThat lambda branches
         org.mockito.ArgumentCaptor<Category> captor =
                 org.mockito.ArgumentCaptor.forClass(Category.class);
         verify(categoryRepository).save(captor.capture());
         assertNull(captor.getValue().getSuperCategory());
         assertNotNull(result);
     }
-
-    // Branch: superCategory has a value → setSuperCategory(value)
     @Test
     void save_shouldSave_whenSuperCategoryIsPresent() {
         categoryDto.setSuperCategory("PARENT001");
         when(categoryRepository.findByIdentifier("CAT001")).thenReturn(null);
 
         CategoryDto result = categoryService.save(categoryDto);
-
-        // Capture the saved entity and assert directly — avoids argThat lambda branches
         org.mockito.ArgumentCaptor<Category> captor =
                 org.mockito.ArgumentCaptor.forClass(Category.class);
+
         verify(categoryRepository).save(captor.capture());
         assertEquals("PARENT001", captor.getValue().getSuperCategory());
         assertNotNull(result);
     }
 
-    /* ===================== UPDATE ===================== */
-
-    // Branch: optional is empty → not found failure
     @Test
     void update_shouldFail_whenCategoryNotFound() {
         when(categoryRepository.findById(1L)).thenReturn(Optional.empty());
-
         CategoryDto result = categoryService.update(categoryDto);
 
         assertFalse(result.isSuccess());
+
         assertEquals("Category not found", result.getMessage());
         verify(categoryRepository, never()).save(any());
     }
 
-    // Branch: identifier unchanged (equalsIgnoreCase true) → no duplicate check → save
     @Test
     void update_shouldSucceed_whenIdentifierUnchanged() {
-        category.setIdentifier("CAT001");           // same as dto
+        category.setIdentifier("CAT001");
         categoryDto.setSuperCategory("PARENT001");
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
 
@@ -141,47 +126,38 @@ class CategoryServiceTest {
         assertNotNull(result);
     }
 
-    // Branch: identifier changed AND duplicate found → failure
     @Test
     void update_shouldFail_whenNewIdentifierAlreadyExists() {
-        category.setIdentifier("CAT001");           // existing record
-        categoryDto.setIdentifier("CAT_NEW");       // dto wants to rename to CAT_NEW
-
+        category.setIdentifier("CAT001");
+        categoryDto.setIdentifier("CAT_NEW");
         Category conflict = new Category();
         conflict.setIdentifier("CAT_NEW");
-
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
         when(categoryRepository.findByIdentifier("CAT_NEW")).thenReturn(conflict);
-
         CategoryDto result = categoryService.update(categoryDto);
-
         assertFalse(result.isSuccess());
         assertEquals("Category already exists", result.getMessage());
         verify(categoryRepository, never()).save(any());
     }
 
-    // Branch: identifier changed AND no duplicate → save proceeds
     @Test
     void update_shouldSucceed_whenIdentifierChangedAndNoDuplicate() {
         category.setIdentifier("CAT001");
-        categoryDto.setIdentifier("CAT_NEW");       // different identifier
-        categoryDto.setSuperCategory(null);         // null superCategory branch in update
-
+        categoryDto.setIdentifier("CAT_NEW");
+        categoryDto.setSuperCategory(null);
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
-        when(categoryRepository.findByIdentifier("CAT_NEW")).thenReturn(null); // no conflict
-
+        when(categoryRepository.findByIdentifier("CAT_NEW")).thenReturn(null);
         CategoryDto result = categoryService.update(categoryDto);
-
         verify(categoryRepository).save(category);
         assertNull(category.getSuperCategory());
         assertNotNull(result);
     }
 
-    // Branch: superCategory blank in update → setSuperCategory(null)
+
     @Test
     void update_shouldSetSuperCategoryNull_whenBlank() {
         category.setIdentifier("CAT001");
-        categoryDto.setSuperCategory("   ");        // blank
+        categoryDto.setSuperCategory("   ");
 
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
 
@@ -191,7 +167,6 @@ class CategoryServiceTest {
         verify(categoryRepository).save(category);
     }
 
-    // Branch: superCategory has value in update → setSuperCategory(value)
     @Test
     void update_shouldSetSuperCategory_whenPresent() {
         category.setIdentifier("CAT001");
@@ -217,10 +192,6 @@ class CategoryServiceTest {
 
         verify(categoryRepository).deleteByIdentifier("CAT001");
     }
-
-    // Branch: existsBySuperCategory true → throws IllegalStateException
-    // assertThrows is used here; the lambda IS the executable under test.
-    // JaCoCo tracks coverage of the service method, not the lambda wrapper.
     @Test
     void deleteByIdentifier_shouldThrow_whenUsedAsSuperCategory() {
         when(categoryRepository.existsBySuperCategory("CAT001")).thenReturn(true);
@@ -230,8 +201,6 @@ class CategoryServiceTest {
 
         verify(categoryRepository, never()).deleteByIdentifier(any());
     }
-
-    /* ===================== FIND BY IDENTIFIER ===================== */
 
     @Test
     void findByIdentifier_shouldReturnCategoryDto() {
@@ -243,8 +212,6 @@ class CategoryServiceTest {
         assertNotNull(result);
         assertEquals("CAT001", result.getIdentifier());
     }
-
-    /* ===================== FIND ALL ===================== */
 
     @Test
     void findAllTest() {
@@ -265,8 +232,6 @@ class CategoryServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
-
-    /* ===================== FIND CHILD CATEGORIES ===================== */
 
     @Test
     void findChildCategories_shouldReturnChildCategoryDtos() {
@@ -290,9 +255,6 @@ class CategoryServiceTest {
         assertEquals("CHILD001", result.get(0).getIdentifier());
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
-    // status true → false
     @Test
     void toggleStatus_shouldFlipTrueToFalse() {
         category.setStatus(true);
@@ -309,7 +271,6 @@ class CategoryServiceTest {
         assertFalse(result.isStatus());
     }
 
-    // status false → true
     @Test
     void toggleStatus_shouldFlipFalseToTrue() {
         category.setStatus(false);
@@ -325,8 +286,6 @@ class CategoryServiceTest {
         verify(categoryRepository).save(category);
         assertTrue(result.isStatus());
     }
-
-    /* ===================== FIND IF TRUE ===================== */
 
     @Test
     void findIfTrue_shouldReturnActiveCategories() {

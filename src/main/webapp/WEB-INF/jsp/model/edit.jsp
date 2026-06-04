@@ -83,7 +83,7 @@
                 <label class="form-label fw-bold">Model Name</label>
                 <form:input path="identifier"
                             class="form-control"
-                            required="true"/>
+                            required="true" readonly="true"/>
                 <form:errors path="identifier" cssClass="text-danger"/>
             </div>
 
@@ -97,7 +97,7 @@
                 </form:select>
             </div>
 
-            <!-- SUBMIT -->
+
             <button type="submit" class="btn btn-success w-100 btn-submit">
                 <i class="bi bi-check-circle"></i>
                 Update Model

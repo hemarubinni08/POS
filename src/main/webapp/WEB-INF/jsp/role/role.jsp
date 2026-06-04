@@ -3,8 +3,6 @@
 <html>
 <head>
     <title>Edit Role</title>
-
-    <!-- ✅ Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
@@ -68,7 +66,6 @@
 
         <form action="${pageContext.request.contextPath}/role/update" method="post">
 
-            <!-- ✅ Identifier (readonly) -->
             <div class="mb-3">
                 <label class="form-label">Role Identifier</label>
                 <input type="text"
@@ -78,7 +75,6 @@
                        readonly />
             </div>
 
-            <!-- ✅ Description -->
             <div class="mb-3">
                 <label class="form-label">Description</label>
                 <input type="text"
@@ -88,7 +84,6 @@
                        required />
             </div>
 
-            <!-- ✅ STATUS (VERY IMPORTANT) -->
             <div class="mb-3">
                 <label class="form-label">Status</label>
                 <select name="status" class="form-control">
@@ -101,7 +96,6 @@
                 </select>
             </div>
 
-            <!-- ✅ ACTION BUTTONS -->
             <div class="action-buttons">
                 <button type="submit" class="btn btn-primary">
                     Update

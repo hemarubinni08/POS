@@ -33,7 +33,7 @@ public class NodeController {
 
     @GetMapping("/add")
     public String add(Model model) {
-        model.addAttribute("node", new NodeDto());
+        model.addAttribute("nodeDto", new NodeDto());
         model.addAttribute(ROLES, roleService.findIfTrue());
         return "node/add";
     }

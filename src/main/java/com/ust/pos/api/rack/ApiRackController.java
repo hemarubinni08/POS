@@ -40,9 +40,9 @@ public class ApiRackController extends BaseController {
     }
 
     @PostMapping("/update")
-    public RackDto updatePost(@RequestBody RackDto userDto) {
+    public RackDto updatePost(@RequestBody RackDto rackDto) {
 
-        return rackService.update(userDto);
+        return rackService.update(rackDto);
     }
 
     @GetMapping("/delete")

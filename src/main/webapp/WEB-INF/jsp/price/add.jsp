@@ -20,7 +20,7 @@
             background: linear-gradient(135deg, #f5f7fb, #eef2ff);
         }
 
-        /* Back Button */
+
         .back-btn {
             position: fixed;
             top: 20px;
@@ -37,7 +37,6 @@
             background: #5a6268;
         }
 
-        /* Card */
         .card {
             width: 460px;
             margin: 90px auto;
@@ -82,7 +81,6 @@
             border-color: var(--primary-color);
         }
 
-        /* Error Message */
         .error-msg {
             margin-bottom: 15px;
             padding: 10px;
@@ -93,7 +91,6 @@
             font-size: 14px;
         }
 
-        /* Submit Button */
         .btn-submit {
             margin-top: 30px;
             width: 100%;
@@ -127,11 +124,17 @@
 
     <div class="card-body">
 
-        <c:if test="${not empty message}">
-            <div class="error-msg">
-                ${message}
-            </div>
-        </c:if>
+         <c:if test="${not empty successMessage}">
+                    <div class="alert alert-success text-center">
+                        ${successMessage}
+                    </div>
+                </c:if>
+
+                <c:if test="${not empty errorMessage}">
+                    <div class="alert alert-danger text-center">
+                        ${errorMessage}
+                    </div>
+                </c:if>
 
         <form:form action="add" method="post" modelAttribute="prices">
 

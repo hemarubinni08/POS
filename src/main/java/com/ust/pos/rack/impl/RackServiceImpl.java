@@ -33,33 +33,33 @@ public class RackServiceImpl implements RackService {
     }
 
     @Override
-    public RackDto save(RackDto dto) {
+    public RackDto save(RackDto rackDto) {
 
-        Rack existing = rackRepository.findByIdentifier(dto.getIdentifier());
+        Rack existing = rackRepository.findByIdentifier(rackDto.getIdentifier());
         if (existing != null) {
-            dto.setSuccess(false);
-            dto.setMessage("Rack already exists : " + dto.getIdentifier());
-            return dto;
+            rackDto.setSuccess(false);
+            rackDto.setMessage("Rack already exists : " + rackDto.getIdentifier());
+            return rackDto;
         }
 
-        Rack rack = modelMapper.map(dto, Rack.class);
+        Rack rack = modelMapper.map(rackDto, Rack.class);
         rackRepository.save(rack);
-        return dto;
+        return rackDto;
     }
 
     @Override
-    public RackDto update(RackDto dto) {
+    public RackDto update(RackDto rackDto) {
 
-        Rack existing = rackRepository.findByIdentifier(dto.getIdentifier());
+        Rack existing = rackRepository.findByIdentifier(rackDto.getIdentifier());
         if (existing == null) {
-            dto.setSuccess(false);
-            dto.setMessage("Rack not found : " + dto.getIdentifier());
-            return dto;
+            rackDto.setSuccess(false);
+            rackDto.setMessage("Rack not found : " + rackDto.getIdentifier());
+            return rackDto;
         }
 
-        modelMapper.map(dto, existing);
+        modelMapper.map(rackDto, existing);
         rackRepository.save(existing);
-        return dto;
+        return rackDto;
     }
 
     @Transactional

@@ -45,7 +45,7 @@ public class RoleController {
                     ERROR_MESSAGE,
                     response.getMessage()
             );
-            return "/role/add";
+            return "redirect:/role/add";
         }
 
         redirectAttributes.addFlashAttribute(

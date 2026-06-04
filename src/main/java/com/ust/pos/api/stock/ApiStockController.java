@@ -19,7 +19,7 @@ public class ApiStockController extends BaseController {
     @Autowired
     private StockService stockService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<StockDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -41,9 +41,9 @@ public class ApiStockController extends BaseController {
     }
 
     @PostMapping("/update")
-    public StockDto updatePost(@RequestBody StockDto userDto) {
+    public StockDto updatePost(@RequestBody StockDto stockDto) {
 
-        return stockService.update(userDto);
+        return stockService.update(stockDto);
     }
 
     @GetMapping("/delete")

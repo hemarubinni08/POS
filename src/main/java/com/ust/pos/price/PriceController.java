@@ -39,13 +39,13 @@ public class PriceController {
 
     @PostMapping("/add")
     public String addPost(Model model,
-                          @ModelAttribute PriceDto dto,
+                          @ModelAttribute PriceDto priceDto,
                           RedirectAttributes redirectAttributes) {
 
-        PriceDto response = priceService.save(dto);
+        PriceDto response = priceService.save(priceDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute(PRICES, dto);
+            model.addAttribute(PRICES, priceDto);
             model.addAttribute("message", response.getMessage());
             return "price/add";
         }
@@ -63,14 +63,14 @@ public class PriceController {
 
     @PostMapping("/update")
     public String update(Model model,
-                         @ModelAttribute PriceDto dto,
+                         @ModelAttribute PriceDto priceDto,
                          Pageable pageable,
                          RedirectAttributes redirectAttributes) {
 
-        PriceDto response = priceService.update(dto);
+        PriceDto response = priceService.update(priceDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute(PRICES, dto);
+            model.addAttribute(PRICES, priceDto);
             model.addAttribute("message", response.getMessage());
             return "price/edit";
         }

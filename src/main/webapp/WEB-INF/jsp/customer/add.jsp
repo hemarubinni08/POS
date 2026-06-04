@@ -41,11 +41,17 @@
         <h2 class="text-center mb-4">Add Customer</h2>
 
 
-        <c:if test="${not empty message}">
-            <div class="alert alert-danger text-center">
-                ${message}
-            </div>
-        </c:if>
+       <c:if test="${not empty errorMessage}">
+               <div class="error-msg">
+                   ${errorMessage}
+               </div>
+           </c:if>
+
+           <c:if test="${not empty successMessage}">
+               <div class="alert alert-success text-center">
+                   ${successMessage}
+               </div>
+           </c:if>
 
 
         <form:form method="post"

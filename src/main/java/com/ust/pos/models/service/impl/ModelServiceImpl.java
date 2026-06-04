@@ -33,33 +33,33 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ModelDto save(ModelDto dto) {
+    public ModelDto save(ModelDto modelDto) {
 
-        Model existing = modelRepository.findByIdentifier(dto.getIdentifier());
+        Model existing = modelRepository.findByIdentifier(modelDto.getIdentifier());
         if (existing != null) {
-            dto.setSuccess(false);
-            dto.setMessage("Model already exists : " + dto.getIdentifier());
-            return dto;
+            modelDto.setSuccess(false);
+            modelDto.setMessage("Model already exists : " + modelDto.getIdentifier());
+            return modelDto;
         }
 
-        Model model = modelMapper.map(dto, Model.class);
+        Model model = modelMapper.map(modelDto, Model.class);
         modelRepository.save(model);
-        return dto;
+        return modelDto;
     }
 
     @Override
-    public ModelDto update(ModelDto dto) {
+    public ModelDto update(ModelDto modelDto) {
 
-        Model existing = modelRepository.findByIdentifier(dto.getIdentifier());
+        Model existing = modelRepository.findByIdentifier(modelDto.getIdentifier());
         if (existing == null) {
-            dto.setSuccess(false);
-            dto.setMessage("Model not found : " + dto.getIdentifier());
-            return dto;
+            modelDto.setSuccess(false);
+            modelDto.setMessage("Model not found : " + modelDto.getIdentifier());
+            return modelDto;
         }
 
-        modelMapper.map(dto, existing);
+        modelMapper.map(modelDto, existing);
         modelRepository.save(existing);
-        return dto;
+        return modelDto;
     }
 
     @Transactional

@@ -33,33 +33,33 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public PriceDto save(PriceDto dto) {
+    public PriceDto save(PriceDto priceDto) {
 
-        Price existing = priceRepository.findByIdentifier(dto.getIdentifier());
+        Price existing = priceRepository.findByIdentifier(priceDto.getIdentifier());
         if (existing != null) {
-            dto.setSuccess(false);
-            dto.setMessage("Price already exists : " + dto.getIdentifier());
-            return dto;
+            priceDto.setSuccess(false);
+            priceDto.setMessage("Price already exists : " + priceDto.getIdentifier());
+            return priceDto;
         }
 
-        Price price = modelMapper.map(dto, Price.class);
+        Price price = modelMapper.map(priceDto, Price.class);
         priceRepository.save(price);
-        return dto;
+        return priceDto;
     }
 
     @Override
-    public PriceDto update(PriceDto dto) {
+    public PriceDto update(PriceDto priceDto) {
 
-        Price existing = priceRepository.findByIdentifier(dto.getIdentifier());
+        Price existing = priceRepository.findByIdentifier(priceDto.getIdentifier());
         if (existing == null) {
-            dto.setSuccess(false);
-            dto.setMessage("Price not found : " + dto.getIdentifier());
-            return dto;
+            priceDto.setSuccess(false);
+            priceDto.setMessage("Price not found : " + priceDto.getIdentifier());
+            return priceDto;
         }
 
-        modelMapper.map(dto, existing);
+        modelMapper.map(priceDto, existing);
         priceRepository.save(existing);
-        return dto;
+        return priceDto;
     }
 
     @Transactional

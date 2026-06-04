@@ -34,38 +34,39 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandDto save(BrandDto dto) {
+    public BrandDto save(BrandDto brandDto) {
 
-        Brand existing = brandRepository.findByIdentifier(dto.getIdentifier());
+        Brand existing = brandRepository.findByIdentifier(brandDto.getIdentifier());
         if (existing != null) {
-            dto.setSuccess(false);
-            dto.setMessage("Brand already exists : " + dto.getIdentifier());
-            return dto;
+            brandDto.setSuccess(false);
+            brandDto.setMessage("Brand already exists : " + brandDto.getIdentifier());
+            return brandDto;
         }
 
-        Brand brand = modelMapper.map(dto, Brand.class);
+        Brand brand = modelMapper.map(brandDto, Brand.class);
         brandRepository.save(brand);
-        return dto;
+        return brandDto;
     }
 
     @Override
-    public BrandDto update(BrandDto dto) {
+    public BrandDto update(BrandDto brandDto) {
 
-        Brand existing = brandRepository.findByIdentifier(dto.getIdentifier());
+        Brand existing = brandRepository.findByIdentifier(brandDto.getIdentifier());
         if (existing == null) {
-            dto.setSuccess(false);
-            dto.setMessage("Brand not found : " + dto.getIdentifier());
-            return dto;
+            brandDto.setSuccess(false);
+            brandDto.setMessage("Brand not found : " + brandDto.getIdentifier());
+            return brandDto;
         }
 
-        modelMapper.map(dto, existing);
+        modelMapper.map(brandDto, existing);
         brandRepository.save(existing);
-        return dto;
+        return brandDto;
     }
 
     @Transactional
     @Override
     public void delete(String identifier) {
+
         brandRepository.deleteByIdentifier(identifier);
     }
 

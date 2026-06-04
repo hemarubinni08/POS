@@ -9,9 +9,9 @@ public interface WarehouseService {
 
     WarehouseDto findByIdentifier(String identifier);
 
-    WarehouseDto save(WarehouseDto dto);
+    WarehouseDto save(WarehouseDto warehouseDto);
 
-    WarehouseDto update(WarehouseDto dto);
+    WarehouseDto update(WarehouseDto warehouseDto);
 
     void delete(String identifier);
 

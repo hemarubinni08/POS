@@ -139,7 +139,8 @@ class RoleServiceTest {
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
 
         Mockito.when(roleRepository.findAll(pageable)).thenReturn(rolePage);
-        Mockito.when(modelMapper.map(Mockito.eq(roles), Mockito.any(java.lang.reflect.Type.class))).thenReturn(roleDtos);
+        Mockito.when(modelMapper.map(Mockito.eq(roles),
+                Mockito.any(java.lang.reflect.Type.class))).thenReturn(roleDtos);
 
         List<RoleDto> response = roleService.findAll(pageable);
 

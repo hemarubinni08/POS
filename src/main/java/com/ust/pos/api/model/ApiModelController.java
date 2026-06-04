@@ -42,10 +42,10 @@ public class ApiModelController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ModelDto updatePost(@RequestBody ModelDto userDto) {
+    public ModelDto updatePost(@RequestBody ModelDto modelDto) {
 
 
-        return modelService.update(userDto);
+        return modelService.update(modelDto);
     }
 
     @GetMapping("/delete")

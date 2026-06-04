@@ -49,7 +49,7 @@ public class StockController {
             model.addAttribute(PRODUCTS, productService.findIfTrue());
             model.addAttribute(WAREHOUSES, warehouseService.findIfTrue());
             model.addAttribute("message", response.getMessage());
-            return "stock/add";
+            return "redirect:/stock/add";
         }
         return REDIRECT_LIST;
     }

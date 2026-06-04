@@ -74,8 +74,6 @@
         <form:form action="${pageContext.request.contextPath}/shelf/update"
                    method="post"
                    modelAttribute="shelf">
-
-            <!-- ID -->
             <form:hidden path="id"/>
 
 
@@ -83,7 +81,7 @@
                 <label class="form-label fw-bold">Shelf Name</label>
                 <form:input path="identifier"
                             class="form-control"
-                            required="true"/>
+                            required="true"  readonly="true"/>
                 <form:errors path="identifier" cssClass="text-danger"/>
             </div>
 

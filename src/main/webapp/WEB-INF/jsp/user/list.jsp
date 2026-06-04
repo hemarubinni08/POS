@@ -45,19 +45,19 @@
 
 <body>
 
-<!-- ✅ REDIRECT SUCCESS MESSAGE -->
-<c:if test="${not empty successMessage}">
-    <div class="alert alert-success text-center">
-        ${successMessage}
-    </div>
-</c:if>
 
-<!-- ✅ REDIRECT INFO MESSAGE -->
-<c:if test="${not empty infoMessage}">
-    <div class="alert alert-info text-center">
-        ${infoMessage}
+    <c:if test="${not empty successMessage}">
+    <div class="alert alert-success text-center">
+    ${successMessage}
     </div>
-</c:if>
+    </c:if>
+
+
+    <c:if test="${not empty infoMessage}">
+    <div class="alert alert-info text-center">
+    ${infoMessage}
+    </div>
+    </c:if>
 
 <div class="container mt-4">
 
