@@ -55,7 +55,7 @@ class AddressServiceTest {
 
     @Test
     void save_validation_failure() {
-        AddressDto dto = new AddressDto(); // empty
+        AddressDto dto = new AddressDto();
         addressService.save(dto);
         Assertions.assertFalse(dto.isSuccess());
         Assertions.assertEquals("All address fields are required", dto.getMessage());

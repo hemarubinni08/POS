@@ -128,19 +128,16 @@
 
 <div class="main">
 
-    <!-- LEFT SIDE -->
     <div class="left">
         <h1>POS MADE SIMPLE</h1>
         <p>Modern retail application</p>
     </div>
 
-    <!-- RIGHT SIDE -->
     <div class="right">
         <div class="form-box">
 
             <h2>Login to your account</h2>
 
-            <!-- ERROR MESSAGE (FROM SESSION) -->
             <c:if test="${not empty sessionScope.errorMessage}">
                 <div class="error-msg">
                     ${sessionScope.errorMessage}
@@ -148,14 +145,12 @@
                 <c:remove var="errorMessage" scope="session"/>
             </c:if>
 
-            <!-- LOGOUT MESSAGE -->
             <c:if test="${not empty param.logout}">
                 <div class="error-msg" style="background:#dcfce7;color:#166534;border-color:#86efac;">
                     Logged out successfully
                 </div>
             </c:if>
 
-            <!-- LOGIN FORM -->
             <form action="${pageContext.request.contextPath}/login" method="post">
 
                 <input type="text" name="username" placeholder="Enter username" required>

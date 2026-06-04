@@ -26,7 +26,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT) // IMPORTANT FIX
+@MockitoSettings(strictness = Strictness.LENIENT)
 class BrandServiceTest {
 
     @InjectMocks
