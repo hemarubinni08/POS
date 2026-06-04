@@ -28,9 +28,8 @@
 
         .top-bar {
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
+            justify-content: space-between;
+            margin-bottom: 20 px;
         }
 
         .btn {
@@ -144,7 +143,9 @@
 <div class="container">
     <div class="top-bar">
         <a href="${pageContext.request.contextPath}/" class="btn">Home</a>
-        <a href="${pageContext.request.contextPath}/category/add" class="btn">+ Add Category</a>
+        <a href="${pageContext.request.contextPath}/category/add" class="btn">
+            + Add Category
+        </a>
     </div>
     <h2>Category List</h2>
     <table>

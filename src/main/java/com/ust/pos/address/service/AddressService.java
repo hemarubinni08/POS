@@ -11,5 +11,4 @@ public interface AddressService {
     void update(AddressDto addressDto);
 
     void delete(String identifier);
-
 }

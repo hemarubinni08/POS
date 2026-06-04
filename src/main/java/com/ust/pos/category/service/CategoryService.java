@@ -19,5 +19,4 @@ public interface CategoryService {
     CategoryDto update(CategoryDto categoryDto);
 
     CategoryDto toggleStatus(String identifier, boolean status);
-
 }

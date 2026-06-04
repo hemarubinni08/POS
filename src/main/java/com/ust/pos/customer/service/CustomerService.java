@@ -17,5 +17,4 @@ public interface CustomerService {
     void delete(String identifier);
 
     CustomerDto toggleStatus(String identifier, boolean status);
-
 }

@@ -155,6 +155,7 @@
                         <form:input path="name"
                               cssClass="form-control"
                               placeholder="Enter Customer Name"
+                              required="required"
                         />
                     </div>
                     <div class="col-md-6">
@@ -163,6 +164,7 @@
                               cssClass="form-control"
                               pattern="^[6-9][0-9]{9}$"
                               placeholder="Enter Phone Number"
+                              required="required"
                         />
                     </div>
                 </div>

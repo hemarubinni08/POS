@@ -25,7 +25,8 @@ public class UserController extends BaseController {
 
     @GetMapping("/list")
     public String home(Model model, @ModelAttribute PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(),paginationDto.getSortField());
         model.addAttribute("users", userService.findAll(pageable));
         return "user/list";
     }

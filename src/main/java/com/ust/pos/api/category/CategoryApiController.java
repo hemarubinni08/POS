@@ -25,7 +25,7 @@ public class CategoryApiController extends BaseController {
     @PostMapping("/list")
     public List<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
-                paginationDto.getSortField(),paginationDto.getSortDirection());
+                paginationDto.getSortDirection(),paginationDto.getSortField());
         return categoryService.findAll(pageable);
     }
 

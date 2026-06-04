@@ -64,5 +64,4 @@ public class WarehouseController extends BaseController {
         warehouseService.delete(identifier);
         return REDIRECT_WAREHOUSE_LIST;
     }
-
 }

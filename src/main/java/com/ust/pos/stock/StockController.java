@@ -54,7 +54,8 @@ public class StockController extends BaseController {
 
     @GetMapping("/list")
     public String home(Model model, @ModelAttribute PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(),paginationDto.getSortField());
         model.addAttribute("stocks", stockService.findAll(pageable));
         return "stock/list";
     }

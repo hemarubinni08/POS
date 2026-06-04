@@ -17,6 +17,7 @@ import java.util.List;
 
 @Service
 public class StockServiceImpl implements StockService {
+
     @Autowired
     private StockRepository stockRepository;
 

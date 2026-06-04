@@ -36,7 +36,6 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto findByIdentifier(String identifier) {
         Customer customer = customerRepository.findByIdentifier(identifier);
         if (customer == null) {
-
             return null;
         }
         CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);

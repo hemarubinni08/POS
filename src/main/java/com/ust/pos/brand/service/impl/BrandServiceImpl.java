@@ -78,7 +78,7 @@ public class BrandServiceImpl implements BrandService {
     public BrandDto toggleStatus(String identifier, boolean status) {
         Brand brand = brandRepository.findByIdentifier(identifier);
         if (brand != null) {
-            brand.setStatus(!brand.isStatus()); //  boolean toggle
+            brand.setStatus(!brand.isStatus()); 
             brandRepository.save(brand);
         }
         return modelMapper.map(brand, BrandDto.class);

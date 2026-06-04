@@ -85,7 +85,7 @@ public class UnitServiceImpl implements UnitService {
     public UnitDto toggleStatus(String identifier, boolean status) {
         Unit unit = unitRepository.findByIdentifier(identifier);
         if (unit != null) {
-            unit.setStatus(!unit.isStatus()); //  boolean toggle
+            unit.setStatus(!unit.isStatus());
             unitRepository.save(unit);
         }
         return modelMapper.map(unit,UnitDto.class);
