@@ -158,7 +158,7 @@ class StockServiceTest {
     }
 
     @Test
-    void toggleStatusNullTest() {
+    void toggleStatus() {
         Mockito.when(stockRepository.findByIdentifier("S1"))
                 .thenReturn(null);
 
