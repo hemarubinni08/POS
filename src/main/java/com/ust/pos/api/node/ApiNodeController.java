@@ -19,9 +19,6 @@ public class ApiNodeController extends BaseController {
     public static final String ROLES = "roles";
 
     @Autowired
-    public RoleService roleService;
-
-    @Autowired
     private NodeService nodeService;
 
     @PostMapping("/list")
