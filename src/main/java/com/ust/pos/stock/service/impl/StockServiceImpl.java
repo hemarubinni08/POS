@@ -1,14 +1,16 @@
 package com.ust.pos.stock.service.impl;
 
-import com.ust.pos.model.*;
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.model.ProductRepository;
+import com.ust.pos.model.Stock;
+import com.ust.pos.model.StockRepository;
+import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.stock.service.StockService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 

@@ -59,8 +59,7 @@ public class RoleController extends BaseController {
         try {
             roleService.delete(identifier);
             return ResponseEntity.ok(true);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }

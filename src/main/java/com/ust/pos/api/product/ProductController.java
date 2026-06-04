@@ -69,8 +69,7 @@ public class ProductController extends BaseController {
         try {
             boolean deleted = productService.delete(identifier);
             return ResponseEntity.ok(deleted);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }

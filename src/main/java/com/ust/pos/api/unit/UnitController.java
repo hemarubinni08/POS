@@ -59,8 +59,7 @@ public class UnitController extends BaseController {
         try {
             unitService.delete(identifier);
             return ResponseEntity.ok(true);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }

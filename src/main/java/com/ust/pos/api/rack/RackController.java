@@ -64,8 +64,7 @@ public class RackController extends BaseController {
         try {
             rackService.deleteRack(id);
             return ResponseEntity.ok(true);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }

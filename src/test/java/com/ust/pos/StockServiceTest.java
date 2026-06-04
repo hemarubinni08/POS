@@ -1,20 +1,15 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.StockDto;
-import com.ust.pos.model.Product;
-import com.ust.pos.model.ProductRepository;
-import com.ust.pos.model.Stock;
-import com.ust.pos.model.StockRepository;
-import com.ust.pos.model.Warehouse;
-import com.ust.pos.model.WarehouseRepository;
+import com.ust.pos.model.*;
 import com.ust.pos.stock.service.impl.StockServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;

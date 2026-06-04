@@ -45,8 +45,7 @@ public class PriceController extends BaseController {
         try {
             PriceDto response = priceService.createPrice(priceDto);
             return ResponseEntity.ok(response);
-        }
-        catch (RuntimeException ex) {
+        } catch (RuntimeException ex) {
             PriceDto errorResponse = new PriceDto();
             errorResponse.setSuccess(false);
             errorResponse.setMessage(ex.getMessage());
@@ -60,8 +59,7 @@ public class PriceController extends BaseController {
             priceDto.setId(id);
             PriceDto response = priceService.updatePrice(priceDto);
             return ResponseEntity.ok(response);
-        }
-        catch (RuntimeException ex) {
+        } catch (RuntimeException ex) {
             PriceDto errorResponse = new PriceDto();
             errorResponse.setSuccess(false);
             errorResponse.setMessage(ex.getMessage());

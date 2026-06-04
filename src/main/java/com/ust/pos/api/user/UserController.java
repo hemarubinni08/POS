@@ -50,8 +50,7 @@ public class UserController extends BaseController {
         try {
             userService.delete(username);
             return ResponseEntity.ok(true);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
         }
     }
