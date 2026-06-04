@@ -12,5 +12,5 @@ public interface ShelfRepository extends JpaRepository<Shelf, Long> {
 
     void deleteByIdentifier(String identifier);
 
-    List<Shelf> findByStatusTrue();   // ONLY ACTIVE
+    List<Shelf> findByStatusTrue();
 }

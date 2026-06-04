@@ -15,5 +15,5 @@ public class Customer extends CommonFields {
     private Double balance;
     private String balanceType;
     private String partyType;
-    private Long creditLimit;
+    private Double creditLimit;
 }

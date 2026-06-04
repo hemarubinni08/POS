@@ -90,33 +90,33 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto save(CategoryDto dto) {
+    public CategoryDto save(CategoryDto categoryDto) {
         CategoryDto response = new CategoryDto();
-        if (categoryRepository.existsByIdentifier(dto.getIdentifier())) {
+        if (categoryRepository.existsByIdentifier(categoryDto.getIdentifier())) {
             response.setSuccess(false);
             response.setMessage("Identifier already exists");
             return response;
         }
         Category category = new Category();
-        category.setIdentifier(dto.getIdentifier());
-        category.setName(dto.getName());
-        category.setSuperCategoryIdentifier(dto.getSuperCategoryIdentifier());
+        category.setIdentifier(categoryDto.getIdentifier());
+        category.setName(categoryDto.getName());
+        category.setSuperCategoryIdentifier(categoryDto.getSuperCategoryIdentifier());
         categoryRepository.save(category);
         response.setSuccess(true);
         return response;
     }
 
     @Override
-    public CategoryDto update(CategoryDto dto) {
+    public CategoryDto update(CategoryDto categoryDto) {
         CategoryDto response = new CategoryDto();
-        Category category = categoryRepository.findByIdentifier(dto.getIdentifier()).orElse(null);
+        Category category = categoryRepository.findByIdentifier(categoryDto.getIdentifier()).orElse(null);
         if (category == null) {
             response.setSuccess(false);
             response.setMessage("Category not found");
             return response;
         }
-        category.setName(dto.getName());
-        category.setSuperCategoryIdentifier(dto.getSuperCategoryIdentifier());
+        category.setName(categoryDto.getName());
+        category.setSuperCategoryIdentifier(categoryDto.getSuperCategoryIdentifier());
         categoryRepository.save(category);
         response.setSuccess(true);
         return response;

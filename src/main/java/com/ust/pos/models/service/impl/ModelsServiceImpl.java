@@ -88,21 +88,21 @@ public class ModelsServiceImpl implements ModelsService {
 
     @Override
     public ModelsDto toggleStatus(String identifier) {
-        ModelsDto response = new ModelsDto();
+        ModelsDto modelDto = new ModelsDto();
         Models model = modelsRepository.findByIdentifier(identifier);
         if (model == null) {
-            response.setSuccess(false);
-            response.setMessage("Model not found");
-            return response;
+            modelDto.setSuccess(false);
+            modelDto.setMessage("Model not found");
+            return modelDto;
         }
         model.setStatus(!Boolean.TRUE.equals(model.getStatus()));
         Models saved = modelsRepository.save(model);
-        response.setIdentifier(saved.getIdentifier());
-        response.setModelName(saved.getModelName());
-        response.setStatus(saved.getStatus());
-        response.setSuccess(true);
-        response.setMessage("Status updated successfully");
-        return response;
+        modelDto.setIdentifier(saved.getIdentifier());
+        modelDto.setModelName(saved.getModelName());
+        modelDto.setStatus(saved.getStatus());
+        modelDto.setSuccess(true);
+        modelDto.setMessage("Status updated successfully");
+        return modelDto;
     }
 
     @Override
@@ -111,11 +111,11 @@ public class ModelsServiceImpl implements ModelsService {
         List<ModelsDto> result = new ArrayList<>();
         for (Models model : list) {
             if (model.getStatus() != null && model.getStatus()) {
-                ModelsDto dto = new ModelsDto();
-                dto.setIdentifier(model.getIdentifier());
-                dto.setModelName(model.getModelName());
-                dto.setStatus(model.getStatus());
-                result.add(dto);
+                ModelsDto modelsDto = new ModelsDto();
+                modelsDto.setIdentifier(model.getIdentifier());
+                modelsDto.setModelName(model.getModelName());
+                modelsDto.setStatus(model.getStatus());
+                result.add(modelsDto);
             }
         }
         return result;

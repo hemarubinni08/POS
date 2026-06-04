@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface RoleService {
 
-    RoleDto save(RoleDto userDto);
+    RoleDto save(RoleDto role);
 
-    RoleDto update(RoleDto userDto);
+    RoleDto update(RoleDto roleDto);
 
     void delete(String username);
 

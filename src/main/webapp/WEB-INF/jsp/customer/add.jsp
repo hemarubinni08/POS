@@ -146,11 +146,11 @@
                 <select name="balanceType"
                         class="form-select">
 
-                    <option value="CR">
+                    <option value="CREDIT">
                         Credit
                     </option>
 
-                    <option value="DR">
+                    <option value="DUE">
                         Debit
                     </option>
 

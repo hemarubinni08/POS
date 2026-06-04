@@ -53,7 +53,6 @@ public class StockControllerApi extends BaseController {
         return response;
     }
 
-
     @GetMapping("/toggle")
     public StockDto toggle(@RequestParam String identifier) {
         return stockService.toggleStatus(identifier);

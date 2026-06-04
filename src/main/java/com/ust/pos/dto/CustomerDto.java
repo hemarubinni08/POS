@@ -13,7 +13,7 @@ public class CustomerDto extends CommonDto {
     private Double balance;
     private String balanceType;
     private String partyType;
-    private Long creditLimit;
+    private Double creditLimit;
     private AddressDto billingAddress;
     private AddressDto shippingAddress;
 }
