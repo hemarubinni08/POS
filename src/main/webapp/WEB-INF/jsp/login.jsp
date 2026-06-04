@@ -8,8 +8,7 @@
     <title>Login</title>
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
@@ -47,21 +46,18 @@
 <body>
 
 <div class="card login-card shadow-sm">
-
     <div class="login-header">
         <h5 class="mb-0">POS System Login</h5>
     </div>
 
     <div class="card-body p-4">
 
-        <!-- Login Error -->
         <c:if test="${param.error == 'true'}">
             <div class="alert alert-danger text-center small">
                 Invalid username or password
             </div>
         </c:if>
 
-        <!-- Optional message -->
         <c:if test="${not empty message}">
             <div class="alert alert-info text-center small">
                 ${message}

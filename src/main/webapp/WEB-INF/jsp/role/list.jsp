@@ -73,7 +73,6 @@
                             <c:forEach var="role" items="${roles}">
                                 <tr>
                                     <td>${role.id}</td>
-
                                     <td class="fw-semibold">
                                         ${role.identifier}
                                     </td>

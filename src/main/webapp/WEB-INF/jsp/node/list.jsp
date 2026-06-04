@@ -79,10 +79,7 @@
                             <td class="action-btns">
 
                                 <a href="/node/get?identifier=${node.identifier}"
-                                   class="btn btn-sm btn-warning">
-                                    Update
-                                </a>
-
+                                   class="btn btn-sm btn-warning">Update</a>
                                 <a href="/node/delete?identifier=${node.identifier}"
                                    class="btn btn-sm btn-danger"
                                    onclick="return confirm('Are you sure you want to delete this node?');">
@@ -106,9 +103,7 @@
                 </a>
             </div>
         </div>
-        <div class="card-footer text-muted small text-center">
-            POS Management System
-        </div>
+        <div class="card-footer text-muted small text-center">POS Management System</div>
 
     </div>
 

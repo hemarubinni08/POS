@@ -51,7 +51,6 @@
                 </div>
 
                 <div class="card-body p-4">
-
                     <c:if test="${empty node}">
                         <div class="alert alert-danger text-center">
                             Node not found

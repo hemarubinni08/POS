@@ -103,17 +103,9 @@
                 </div>
 
                 <div class="card-footer bg-light text-center">
-
-                    <a href="/" class="btn btn-secondary mb-2">
-                        Home
-                    </a>
-
-                    <div class="text-muted small">
-                        POS Management System
-                    </div>
-
+                    <a href="/" class="btn btn-secondary mb-2">Home</a>
+                    <div class="text-muted small">POS Management System</div>
                 </div>
-
             </div>
 
         </div>

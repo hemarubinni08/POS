@@ -108,7 +108,6 @@
 
             <div class="mb-3">
                 <label class="form-label">Roles</label>
-
                 <div class="mb-2 text-muted small">
                     Current:
                     <c:forEach var="r" items="${userDto.roles}">
@@ -128,7 +127,6 @@
                         itemLabel="identifier"
                     />
                 </form:select>
-
                 <div class="form-text">
                     Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple roles
                 </div>
@@ -139,7 +137,6 @@
                     Update User
                 </button>
             </div>
-
         </form:form>
 
     </div>
@@ -151,6 +148,5 @@
     </div>
 
 </div>
-
 </body>
 </html>
