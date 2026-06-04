@@ -4,6 +4,7 @@ import com.ust.pos.address.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.model.AddressRepository;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
 import org.modelmapper.ModelMapper;
@@ -29,6 +30,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private AddressService addressService;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
     @Override
     public CustomerDto findByIdentifier(String identifier) {
         Customer customer = customerRepository.findByIdentifier(identifier);
@@ -51,6 +55,8 @@ public class CustomerServiceImpl implements CustomerService {
         AddressDto shipAddr = customerDto.getShippingAddress();
         billAddr.setPhoneNo(customerDto.getPhoneNo());
         shipAddr.setPhoneNo(customerDto.getPhoneNo());
+        billAddr.setAddressType("billingAddress");
+        shipAddr.setAddressType("shippingAddress");
         addressService.save(billAddr);
         addressService.save(shipAddr);
         Customer customer = modelMapper.map(customerDto, Customer.class);
@@ -74,10 +80,8 @@ public class CustomerServiceImpl implements CustomerService {
         addressService.save(billAddr);
         addressService.save(shipAddr);
         modelMapper.map(customerDto, existingCustomer);
-        customerDto.setBillingAddress(addressService.
-                findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "billingAddress"));
-        customerDto.setShippingAddress(addressService.
-                findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "shippingAddress"));
+        customerDto.setBillingAddress(addressService.findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "billingAddress"));
+        customerDto.setShippingAddress(addressService.findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "shippingAddress"));
         customerRepository.save(existingCustomer);
         return customerDto;
     }
@@ -85,7 +89,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void delete(String identifier) {
+        Customer customer = customerRepository.findByIdentifier(identifier);
         customerRepository.deleteByIdentifier(identifier);
+        addressRepository.deleteByPhoneNo(customer.getPhoneNo());
     }
 
     @Override

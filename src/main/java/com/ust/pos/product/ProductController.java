@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/product")
-public class ProductController extends BaseController {
+public class
+ProductController extends BaseController {
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
     @Autowired
     CategoryService categoryService;

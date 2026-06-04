@@ -50,8 +50,7 @@ public class PriceController extends BaseController {
 
     @GetMapping("/get")
     public String get(Model model, @RequestParam String identifier) {
-        model.addAttribute("priceDto",
-                priceService.findByIdentifier(identifier));
+        model.addAttribute("priceDto", priceService.findByIdentifier(identifier));
         return "price/price";
     }
 

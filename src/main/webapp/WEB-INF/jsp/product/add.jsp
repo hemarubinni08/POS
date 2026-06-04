@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -32,12 +31,11 @@ body {
     width: 450px;
     padding: 30px;
     border-radius: 15px;
-
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(12px);
-
     border: 1px solid rgba(255,255,255,0.2);
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    position: relative;
 }
 
 h2 {
@@ -65,11 +63,9 @@ label {
     padding: 10px;
     margin-top: 6px;
     margin-bottom: 15px;
-
     border-radius: 8px;
     border: none;
     outline: none;
-
     background: rgba(255,255,255,0.1);
     color: #fff;
 }
@@ -89,7 +85,6 @@ select option {
     padding: 12px;
     border-radius: 8px;
     border: none;
-
     background: #00ffff;
     color: #000;
     font-weight: bold;
@@ -130,13 +125,23 @@ select option {
                modelAttribute="productDto">
 
         <label>Identifier</label>
-        <form:input path="identifier"
-                    cssClass="form-control"
-                    placeholder="Enter Sku name"/>
+        <form:input
+            path="identifier"
+            cssClass="form-control"
+            placeholder="Enter Sku name"
+            required="true"
+            minlength="2"
+            maxlength="50"
+            pattern="[A-Za-z0-9 ]+"
+            title="Enter valid identifier"
+        />
 
         <label>Category</label>
-        <form:select path="category"
-                     cssClass="form-control">
+        <form:select
+            path="category"
+            cssClass="form-control"
+            required="true"
+        >
             <form:option value="">-- Select Category --</form:option>
             <form:options items="${category}"
                           itemValue="identifier"
@@ -144,8 +149,11 @@ select option {
         </form:select>
 
         <label>Brand</label>
-        <form:select path="brand"
-                     cssClass="form-control">
+        <form:select
+            path="brand"
+            cssClass="form-control"
+            required="true"
+        >
             <form:option value="">-- Select Brand --</form:option>
             <form:options items="${brand}"
                           itemValue="identifier"
@@ -153,8 +161,11 @@ select option {
         </form:select>
 
         <label>Unit</label>
-        <form:select path="unit"
-                     cssClass="form-control">
+        <form:select
+            path="unit"
+            cssClass="form-control"
+            required="true"
+        >
             <form:option value="">-- Select Unit --</form:option>
             <form:options items="${unit}"
                           itemValue="identifier"
@@ -162,8 +173,11 @@ select option {
         </form:select>
 
         <label>Model</label>
-        <form:select path="model"
-                     cssClass="form-control">
+        <form:select
+            path="model"
+            cssClass="form-control"
+            required="true"
+        >
             <form:option value="">-- Select Model --</form:option>
             <form:options items="${model}"
                           itemValue="identifier"
@@ -171,9 +185,16 @@ select option {
         </form:select>
 
         <label>Product Name</label>
-        <form:input path="productName"
-                    cssClass="form-control"
-                    placeholder="Enter product Name"/>
+        <form:input
+            path="productName"
+            cssClass="form-control"
+            placeholder="Enter product Name"
+            required="true"
+            minlength="2"
+            maxlength="100"
+            pattern="[A-Za-z0-9 ,.]+"
+            title="Enter valid product name"
+        />
 
         <button type="submit" class="btn-submit">
             Add Product

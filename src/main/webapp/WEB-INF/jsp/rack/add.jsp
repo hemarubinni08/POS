@@ -27,10 +27,8 @@ body {
     width: 420px;
     padding: 30px;
     border-radius: 15px;
-
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(12px);
-
     border: 1px solid rgba(255,255,255,0.2);
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
 }
@@ -51,11 +49,9 @@ input, select {
     padding: 10px;
     margin-top: 6px;
     margin-bottom: 15px;
-
     border-radius: 8px;
     border: none;
     outline: none;
-
     background: rgba(255,255,255,0.1);
     color: #fff;
 }
@@ -127,13 +123,21 @@ input:focus, select:focus {
                modelAttribute="rackDto">
 
         <label>Rack Name</label>
-        <form:input path="identifier"
-                    placeholder="Enter rack name"
-                    required="true"/>
+        <form:input
+            path="identifier"
+            placeholder="Enter rack name"
+            required="true"
+            minlength="2"
+            maxlength="50"
+            pattern="[A-Za-z0-9 ]+"
+            title="Enter valid rack name"
+        />
 
         <label>Select Shelf</label>
-        <form:select path="shelfs">
-
+        <form:select
+            path="shelfs"
+            required="true"
+        >
             <form:option value="">-- Select Shelf --</form:option>
 
             <c:forEach var="s" items="${shelfs}">
@@ -141,7 +145,6 @@ input:focus, select:focus {
                     ${s.identifier}
                 </form:option>
             </c:forEach>
-
         </form:select>
 
         <div class="btn-group">

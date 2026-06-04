@@ -67,8 +67,7 @@ public class RackServiceImpl implements RackService {
 
     @Override
     public RackDto findByIdentifier(String identifier) {
-        return modelMapper.map(
-                rackRepository.findByIdentifier(identifier.trim()), RackDto.class
+        return modelMapper.map(rackRepository.findByIdentifier(identifier.trim()), RackDto.class
         );
     }
 

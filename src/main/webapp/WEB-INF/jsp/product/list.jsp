@@ -130,11 +130,12 @@ tr:hover {
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Product Name</th>
+                <th>Identifier</th>
                 <th>Category</th>
                 <th>Brand</th>
                 <th>Unit</th>
                 <th>Model</th>
+                <th>Product Name</th>
                 <th>Action</th>
             </tr>
             </thead>

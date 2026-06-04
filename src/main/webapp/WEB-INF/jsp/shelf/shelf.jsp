@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -8,39 +7,81 @@
 <title>Update Shelf</title>
 
 <style>
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
 body {
-    font-family:'Poppins';
+    min-height:100vh;
     background:linear-gradient(135deg,#1a1b26,#2a2b3d);
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100vh;
 }
 
 .card {
-    width:350px;
+    width:400px;
     padding:30px;
     border-radius:12px;
     background:rgba(255,255,255,0.05);
 }
 
-h2 { color:#fff; text-align:center; }
+h2 {
+    color:#fff;
+    text-align:center;
+    margin-bottom:15px;
+}
 
-input, select {
+label {
+    color:#ccc;
+    font-size:13px;
+    display:block;
+    margin-top:10px;
+}
+
+input, textarea, select {
     width:100%;
     padding:10px;
-    margin:10px 0;
-    border:none;
+    margin-top:6px;
+    margin-bottom:15px;
     border-radius:6px;
+    border:none;
     background:rgba(255,255,255,0.1);
     color:#fff;
 }
 
+input[readonly] {
+    background:rgba(255,255,255,0.05);
+    color:#aaa;
+}
+
+textarea {
+    min-height:90px;
+    resize:none;
+}
+
+input:focus, textarea:focus, select:focus {
+    border:1px solid #00ffff;
+    box-shadow:0 0 6px #00ffff;
+}
+
 button {
     width:100%;
-    padding:10px;
+    padding:12px;
     background:#00ffff;
     border:none;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.error {
+    color:#ff8080;
+    text-align:center;
+    margin-bottom:10px;
 }
 </style>
 </head>
@@ -51,22 +92,29 @@ button {
 
 <h2>Update Shelf</h2>
 
-<form:form method="post" action="/shelf/update" modelAttribute="shelfDto">
+<c:if test="${not empty message}">
+    <div class="error">${message}</div>
+</c:if>
 
-<form:hidden path="id"/>
+<c:set var="s" value="${shelf[0]}" />
 
-<label>Identifier</label>
-<form:input path="identifier" readonly="true"/>
+<form method="post" action="/shelf/update">
 
-<label>Status</label>
-<form:select path="status">
-    <form:option value="true">Active</form:option>
-    <form:option value="false">Inactive</form:option>
-</form:select>
+    <label>Identifier</label>
+    <input name="identifier" value="${s.identifier}" readonly />
 
-<button type="submit">Update</button>
+    <label>Description</label>
+    <textarea name="description">${s.description}</textarea>
 
-</form:form>
+    <label>Status</label>
+    <select name="status">
+        <option value="true" <c:if test="${s.status == true}">selected</c:if>>Active</option>
+        <option value="false" <c:if test="${s.status == false}">selected</c:if>>Inactive</option>
+    </select>
+
+    <button type="submit">Update</button>
+
+</form>
 
 </div>
 

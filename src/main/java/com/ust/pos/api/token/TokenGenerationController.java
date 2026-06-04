@@ -12,18 +12,23 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-//@RestController
+@RestController
 public class TokenGenerationController {
 
     @Autowired
     UserDetailsService userDetailsService;
+
     @Autowired
     private AuthenticationProvider authenticationProvider;
+
     @Autowired
     private JWTUtility jwtUtility;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private UserService userService;
 

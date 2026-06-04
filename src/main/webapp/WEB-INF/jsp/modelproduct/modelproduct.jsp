@@ -1,172 +1,218 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Edit Model Product</title>
+<title>Model Product List</title>
 
 <style>
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
 }
 
 body {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #1a1b26, #2a2b3d);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    min-height:100vh;
+    background:linear-gradient(135deg,#1a1b26,#2a2b3d);
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-.card {
-    width: 450px;
-    padding: 30px;
-    border-radius: 15px;
-
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(12px);
-
-    border: 1px solid rgba(255,255,255,0.2);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+.container {
+    width:1000px;
+    padding:30px;
+    border-radius:15px;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(12px);
 }
 
-h4 {
-    text-align: center;
-    color: #fff;
-    margin-bottom: 20px;
+h2 {
+    text-align:center;
+    color:#fff;
+    margin-bottom:25px;
+    font-size:28px;
 }
 
-label {
-    color: #ccc;
-    font-size: 14px;
+table {
+    width:100%;
+    border-collapse:collapse;
 }
 
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 6px;
-    margin-bottom: 15px;
-
-    border-radius: 8px;
-    border: none;
-    outline: none;
-
-    background: rgba(255,255,255,0.1);
-    color: #fff;
+th {
+    background:#2f4f59;
+    color:#00ffff;
+    padding:14px;
+    font-size:16px;
 }
 
-select option {
-    background: #1a1b26;
-    color: #fff;
+td {
+    padding:14px;
+    text-align:center;
+    color:#ddd;
 }
 
-input:focus, select:focus {
-    border: 1px solid #00ffff;
-    box-shadow: 0 0 8px #00ffff;
+.switch {
+    position:relative;
+    width:60px;
+    height:30px;
+    display:inline-block;
 }
 
-input[readonly] {
-    background: rgba(255,255,255,0.05);
-    color: #aaa;
+.switch input {
+    display:none;
+}
+
+.slider {
+    position:absolute;
+    inset:0;
+    background:#ff4d4d;
+    border-radius:30px;
+    transition:0.3s;
+}
+
+.slider:before {
+    content:"";
+    position:absolute;
+    width:24px;
+    height:24px;
+    left:3px;
+    bottom:3px;
+    background:white;
+    border-radius:50%;
+    transition:0.3s;
+}
+
+input:checked + .slider {
+    background:#00ff99;
+}
+
+input:checked + .slider:before {
+    transform:translateX(28px);
 }
 
 .btn {
-    padding: 10px 14px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 13px;
-    border: none;
-    cursor: pointer;
+    padding:8px 14px;
+    border-radius:8px;
+    text-decoration:none;
+    font-size:13px;
+    margin:3px;
 }
 
-.btn-primary {
-    background: #00ffff;
-    color: #000;
+.update {
+    background:#ffc107;
+    color:#000;
 }
 
-.btn-primary:hover {
-    box-shadow: 0 0 15px #00ffff;
-}
-
-.btn-secondary {
-    background: #666;
-    color: #fff;
-}
-
-.btn-secondary:hover {
-    background: #555;
-}
-
-.btn-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-.alert {
-    text-align: center;
-    padding: 10px;
-    margin-bottom: 10px;
-    color: #ff8080;
+.delete {
+    background:#ff4d4d;
+    color:#fff;
 }
 
 .footer {
-    text-align: center;
-    margin-top: 10px;
-    color: #aaa;
-    font-size: 12px;
+    margin-top:25px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+.home-btn {
+    background:#777;
+    color:#fff;
+    padding:12px 20px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.add-btn {
+    background:#00ffff;
+    color:#000;
+    padding:12px 20px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.add-btn:hover {
+    box-shadow:0 0 15px #00ffff;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="container">
 
-    <h4>Edit Model Product</h4>
+<h2>Model Product List</h2>
 
-    <c:if test="${empty modelProductDto}">
-        <div class="alert">
-            Model Product not found
-        </div>
-    </c:if>
+<table>
 
-    <c:if test="${not empty modelProductDto}">
-        <form:form method="post"
-                   action="${pageContext.request.contextPath}/modelproduct/update"
-                   modelAttribute="modelProductDto">
+<tr>
+<th>SL</th>
+<th>Model</th>
+<th>Description</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
 
-            <label>Model Identifier</label>
-            <form:input path="identifier" readonly="true"/>
+<c:forEach var="m" items="${modelProducts}" varStatus="i">
 
-            <label>Status</label>
-            <form:select path="status">
-                <form:option value="true" label="Active"/>
-                <form:option value="false" label="Inactive"/>
-            </form:select>
+<tr>
 
-            <div class="btn-group">
-                <a href="${pageContext.request.contextPath}/modelproduct/list"
-                   class="btn btn-secondary">
-                    Cancel
-                </a>
+<td>${i.index + 1}</td>
+<td>${m.identifier}</td>
+<td>${m.description}</td>
 
-                <button type="submit" class="btn btn-primary">
-                    Update
-                </button>
-            </div>
+<td>
+<form action="${pageContext.request.contextPath}/modelproduct/toggleStatus"
+      method="post">
 
-        </form:form>
-    </c:if>
+<input type="hidden" name="identifier" value="${m.identifier}"/>
 
-    <div class="footer">
-        POS Management System
-    </div>
+<label class="switch">
+<input type="checkbox"
+       <c:if test="${m.status == true}">checked</c:if>
+       onchange="this.form.submit()">
+<span class="slider"></span>
+</label>
+
+</form>
+</td>
+
+<td>
+
+<a class="btn update"
+   href="${pageContext.request.contextPath}/modelproduct/get?identifier=${m.identifier}">
+   Update
+</a>
+
+<a class="btn delete"
+   href="${pageContext.request.contextPath}/modelproduct/delete?identifier=${m.identifier}">
+   Delete
+</a>
+
+</td>
+
+</tr>
+
+</c:forEach>
+
+</table>
+
+<div class="footer">
+
+<a href="${pageContext.request.contextPath}/" class="home-btn">
+Home
+</a>
+
+<a href="${pageContext.request.contextPath}/modelproduct/add" class="add-btn">
++ Add Model
+</a>
+
+</div>
 
 </div>
 

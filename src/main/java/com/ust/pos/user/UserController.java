@@ -56,8 +56,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam String username,
-                         HttpServletRequest request) {
+    public String delete(@RequestParam String username, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) {
             throw new IllegalStateException("User is not authenticated");

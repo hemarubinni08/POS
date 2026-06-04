@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -28,7 +27,7 @@ h2 { color:#fff; text-align:center; }
 
 label { color:#ccc; font-size:13px; }
 
-input, select {
+input, select, textarea {
     width:100%;
     padding:10px;
     margin:10px 0;
@@ -38,12 +37,23 @@ input, select {
     color:#fff;
 }
 
+textarea {
+    min-height:90px;
+    resize:none;
+}
+
+input:focus, select:focus, textarea:focus {
+    border:1px solid #00ffff;
+    box-shadow:0 0 6px #00ffff;
+}
+
 button {
     width:100%;
     padding:10px;
     background:#00ffff;
     border:none;
     border-radius:6px;
+    cursor:pointer;
 }
 </style>
 </head>
@@ -58,20 +68,31 @@ button {
     <div style="color:red;text-align:center">${message}</div>
 </c:if>
 
-<form:form method="post" action="/shelf/add" modelAttribute="shelf">
+<!-- ✅ NORMAL FORM -->
+<form method="post" action="/shelf/add">
 
     <label>Identifier</label>
-    <form:input path="identifier"/>
+    <input name="identifier"
+           required
+           minlength="2"
+           maxlength="50"
+           pattern="[A-Za-z0-9 ]+"
+           placeholder="Shelf code" />
+
+    <label>Description</label>
+    <textarea name="description"
+              placeholder="Enter description"
+              maxlength="200"></textarea>
 
     <label>Status</label>
-    <form:select path="status">
-        <form:option value="true">Active</form:option>
-        <form:option value="false">Inactive</form:option>
-    </form:select>
+    <select name="status">
+        <option value="true">Active</option>
+        <option value="false">Inactive</option>
+    </select>
 
     <button type="submit">Save</button>
 
-</form:form>
+</form>
 
 </div>
 

@@ -8,7 +8,7 @@ import lombok.Setter;
 public class CustomerDto extends CommonDto {
 
     private String name;
-    private long phoneNo;
+    private Long phoneNo;
     private String partyType;
     private Double balance;
     private Double creditLimit;

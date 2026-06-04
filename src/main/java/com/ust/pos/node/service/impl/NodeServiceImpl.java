@@ -34,8 +34,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public List<NodeDto> getNodesForRoles() {
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             return Collections.emptyList();
         }
@@ -43,8 +42,7 @@ public class NodeServiceImpl implements NodeService {
         if (!(principalObj instanceof org.springframework.security.core.userdetails.User)) {
             return Collections.emptyList();
         }
-        org.springframework.security.core.userdetails.User principal =
-                (org.springframework.security.core.userdetails.User) principalObj;
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) principalObj;
         User currentUser = userRepository.findByUsername(principal.getUsername());
         if (currentUser == null) {
             return Collections.emptyList();
@@ -58,26 +56,22 @@ public class NodeServiceImpl implements NodeService {
                 }
             }
         }
-
         List<NodeDto> nodeDtos = new ArrayList<>();
         for (Node node : allowedNodes) {
             nodeDtos.add(modelMapper.map(node, NodeDto.class));
         }
-
         return nodeDtos;
     }
 
     @Override
     public NodeDto save(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
-
         Node existingNode = nodeRepository.findByIdentifier(identifier);
         if (existingNode != null) {
             nodeDto.setMessage("Node with identifier - " + identifier + " already exists");
             nodeDto.setSuccess(false);
             return nodeDto;
         }
-
         Node node = modelMapper.map(nodeDto, Node.class);
         nodeRepository.save(node);
         return nodeDto;
@@ -86,14 +80,12 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public NodeDto update(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
-
         Node existingNode = nodeRepository.findByIdentifier(identifier);
         if (existingNode == null) {
             nodeDto.setMessage("Node with identifier - " + identifier + " not found");
             nodeDto.setSuccess(false);
             return nodeDto;
         }
-
         modelMapper.map(nodeDto, existingNode);
         nodeRepository.save(existingNode);
         return nodeDto;
@@ -110,7 +102,13 @@ public class NodeServiceImpl implements NodeService {
         }.getType();
         Page<Node> nodePage = nodeRepository.findAll(pageable);
         return modelMapper.map(nodePage.getContent(), listType);
+    }
 
+    @Override
+    public List<NodeDto> findAll() {
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
+        return modelMapper.map(nodeRepository.findAll(), listType);
     }
 
     @Override

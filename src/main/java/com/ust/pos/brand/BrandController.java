@@ -27,7 +27,7 @@ public class BrandController extends BaseController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute BrandDto userDto) {
+    public String add(Model model, @ModelAttribute BrandDto brandDto) {
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("brand", brandService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField())));
@@ -35,8 +35,8 @@ public class BrandController extends BaseController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute BrandDto userDto) {
-        BrandDto response = brandService.save(userDto);
+    public String addPost(Model model, @ModelAttribute BrandDto brandDto) {
+        BrandDto response = brandService.save(brandDto);
         PaginationDto paginationDto = new PaginationDto();
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());

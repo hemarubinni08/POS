@@ -28,10 +28,8 @@ body {
     width: 420px;
     padding: 30px;
     border-radius: 15px;
-
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(12px);
-
     border: 1px solid rgba(255,255,255,0.2);
     box-shadow: 0 8px 32px rgba(0,0,0,0.4);
 }
@@ -52,11 +50,9 @@ h5 {
     padding: 10px;
     margin-top: 6px;
     margin-bottom: 15px;
-
     border-radius: 8px;
     border: none;
     outline: none;
-
     background: rgba(255,255,255,0.1);
     color: #fff;
 }
@@ -80,7 +76,6 @@ select[multiple] {
     padding: 12px;
     border-radius: 8px;
     border: none;
-
     background: #00ffff;
     color: #000;
     font-weight: bold;
@@ -119,17 +114,36 @@ select[multiple] {
     <form:form action="register" method="post" modelAttribute="userDto">
 
         <label class="form-label">Name</label>
-        <form:input path="name" cssClass="form-control" required="true"/>
+        <form:input
+            path="name"
+            cssClass="form-control"
+            required="true"
+            minlength="3"
+            maxlength="50"
+            pattern="[A-Za-z ]+"
+            title="Enter valid name (only letters)"
+        />
 
         <label class="form-label">Email</label>
-        <form:input path="username" type="email"
-                    cssClass="form-control" required="true"/>
+        <form:input
+            path="username"
+            type="email"
+            cssClass="form-control"
+            required="true"
+        />
 
         <label class="form-label">Roles</label>
-        <form:select path="roles" multiple="true" cssClass="form-control">
-            <form:options items="${roles}"
-                          itemValue="identifier"
-                          itemLabel="identifier"/>
+        <form:select
+            path="roles"
+            multiple="true"
+            cssClass="form-control"
+            required="true"
+        >
+            <form:options
+                items="${roles}"
+                itemValue="identifier"
+                itemLabel="identifier"
+            />
         </form:select>
 
         <div class="form-text">
@@ -137,18 +151,27 @@ select[multiple] {
         </div>
 
         <label class="form-label">Phone Number</label>
-        <form:input path="phoneNo"
-                    type="tel"
-                    cssClass="form-control"
-                    pattern="[0-9]{10}"
-                    maxlength="10"
-                    title="Enter a valid 10-digit mobile number"
-                    required="true"/>
+        <form:input
+            path="phoneNo"
+            type="tel"
+            cssClass="form-control"
+            pattern="[0-9]{10}"
+            maxlength="10"
+            minlength="10"
+            required="true"
+            title="Enter a valid 10-digit number"
+        />
 
         <label class="form-label">Password</label>
-        <form:password path="password"
-                       cssClass="form-control"
-                       required="true"/>
+        <form:password
+            path="password"
+            cssClass="form-control"
+            required="true"
+            minlength="6"
+            maxlength="20"
+            pattern="^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@$!%*?&]{6,20}$"
+            title="Minimum 6 characters, include letters and numbers"
+        />
 
         <button type="submit" class="btn-primary">
             Register User
