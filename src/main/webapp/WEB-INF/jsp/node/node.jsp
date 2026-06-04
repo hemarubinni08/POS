@@ -12,12 +12,12 @@
             padding: 0;
             height: 100vh;
             width: 100vw;
-            overflow: hidden; /* Disables all scrolling and locks viewport */
+            overflow: hidden;
         }
 
         body {
             font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe); /* light purple gradient */
+            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,7 +28,7 @@
             background: #ffffff;
             padding: 25px 30px;
             border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18); /* soft purple shadow */
+            box-shadow: 0 20px 40px rgba(76, 29, 149, 0.18);
             box-sizing: border-box;
         }
 
@@ -36,7 +36,7 @@
             text-align: center;
             margin-top: 0;
             margin-bottom: 20px;
-            color: #6d28d9; /* purple heading */
+            color: #6d28d9;
             font-weight: 600;
         }
 
@@ -45,7 +45,7 @@
             display: block;
             font-weight: 600;
             font-size: 13px;
-            color: #4c1d95; /* deep purple text */
+            color: #4c1d95;
         }
 
         input, select {
@@ -72,7 +72,7 @@
             margin-top: 22px;
             width: 100%;
             padding: 11px;
-            background: #7c3aed; /* primary purple */
+            background: #7c3aed;
             color: #ffffff;
             border: none;
             font-weight: 600;

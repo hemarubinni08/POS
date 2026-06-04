@@ -12,7 +12,7 @@
             padding: 0;
             height: 100vh;
             width: 100vw;
-            overflow: hidden; /* Disables all scrolling and locks viewport */
+            overflow: hidden;
         }
 
         body {

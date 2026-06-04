@@ -192,6 +192,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Role</th>
+                        <th>Description</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -204,6 +205,8 @@
                             </td>
 
                             <td>${role.identifier}</td>
+
+                            <td>${role.description}</td>
 
                             <td class="actions">
                                 <a href="/role/get?identifier=${role.identifier}"

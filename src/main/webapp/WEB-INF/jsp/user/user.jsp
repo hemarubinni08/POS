@@ -39,7 +39,7 @@
         text-align: center;
         margin-top: 0;
         margin-bottom: 20px;
-        color: #6d28d9; /* purple heading */
+        color: #6d28d9;
         font-weight: 600;
         font-size: 24px;
     }
@@ -49,7 +49,7 @@
         display: block;
         font-weight: 600;
         font-size: 13px;
-        color: #4c1d95; /* deep purple text */
+        color: #4c1d95;
     }
 
     input, select {
@@ -76,7 +76,7 @@
         margin-top: 22px;
         width: 100%;
         padding: 11px;
-        background: #7c3aed; /* primary purple */
+        background: #7c3aed;
         color: #ffffff;
         border: none;
         font-weight: 600;

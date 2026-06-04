@@ -10,12 +10,12 @@
         body {
             margin: 0;
             font-family: 'Inter', sans-serif;
-            background-color: #f5f3ff; /* light lavender */
+            background-color: #f5f3ff;
         }
 
         .topbar {
             height: 56px;
-            background-color: #6d28d9; /* dark purple */
+            background-color: #6d28d9;
             display: flex;
             align-items: center;
             padding: 0 16px;
@@ -62,7 +62,7 @@
             left: -240px;
             width: 240px;
             height: calc(100vh - 56px);
-            background: #ede9fe; /* very light violet */
+            background: #ede9fe;
             transition: left 0.3s ease;
         }
 
@@ -73,14 +73,14 @@
         .sidebar a {
             display: block;
             padding: 16px 24px;
-            color: #5b21b6; /* purple text */
+            color: #5b21b6;
             text-decoration: none;
             font-size: 15px;
             font-weight: 500;
         }
 
         .sidebar a:hover {
-            background: #ddd6fe; /* light lavender */
+            background: #ddd6fe;
             color: #4c1d95;
         }
 
@@ -95,13 +95,13 @@
         .welcome {
             font-size: 23px;
             font-weight: 600;
-            color: #4c1d95; /* deep soft purple */
+            color: #4c1d95;
         }
 
         .welcome-sub {
             margin-top: 4px;
             font-size: 14px;
-            color: #6d28d9; /* muted purple */
+            color: #6d28d9;
         }
     </style>
 
