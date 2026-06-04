@@ -55,7 +55,6 @@ public class BrandApiController extends BaseController {
 
     @GetMapping("/findByStatus")
     public List<BrandDto> findByStatus() {
-
         return brandService.findIfTrue();
     }
 }

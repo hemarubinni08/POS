@@ -60,7 +60,6 @@ public class CategoryApiController extends BaseController {
 
     @GetMapping("/findByStatus")
     public List<CategoryDto> findByStatus() {
-
         return categoryService.findIfTrue();
     }
 }
