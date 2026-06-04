@@ -27,21 +27,21 @@ public class RoleController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute RoleDto userDto) {
+    public String add(Model model, @ModelAttribute RoleDto roleDto) {
         model.addAttribute("roleDto", new RoleDto());
         return ROLE_ADD;
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute RoleDto userDto) {
+    public String addPost(Model model, @ModelAttribute RoleDto roleDto) {
 
-        if (userDto.getIdentifier() == null || userDto.getIdentifier().trim().isEmpty()) {
+        if (roleDto.getIdentifier() == null || roleDto.getIdentifier().trim().isEmpty()) {
             model.addAttribute(MESSAGE, "Role Identifier is mandatory");
             model.addAttribute(ROLES, roleService.findAll());
             return ROLE_ADD;
         }
-        userDto.setIdentifier(userDto.getIdentifier().trim().toUpperCase());
-        RoleDto response = roleService.save(userDto);
+        roleDto.setIdentifier(roleDto.getIdentifier().trim().toUpperCase());
+        RoleDto response = roleService.save(roleDto);
 
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
@@ -59,8 +59,8 @@ public class RoleController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RoleDto userDto) {
-        RoleDto response = roleService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute RoleDto roleDto) {
+        RoleDto response = roleService.update(roleDto);
 
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
