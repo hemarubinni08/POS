@@ -38,7 +38,6 @@ public class NodeController {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(ROLES, roleService.findAll());
             return "node/add";
-
         }
         return REDIRECT_NODE_LIST;
     }

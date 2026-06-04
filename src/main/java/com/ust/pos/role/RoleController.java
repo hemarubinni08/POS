@@ -31,7 +31,7 @@ public class RoleController {
         RoleDto response = roleService.save(roleDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("roleDto", roleDto); // retain form values
+            model.addAttribute("roleDto", roleDto);
             return "role/add";
 
         }
