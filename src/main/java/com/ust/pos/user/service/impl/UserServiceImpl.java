@@ -32,11 +32,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findByUserName(String username) {
         User user = userRepository.findByUsername(username);
-
         if (user == null) {
             return null;
         }
-
         return modelMapper.map(user, UserDto.class);
     }
 
@@ -59,7 +57,6 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
         String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
-
         if (userOptional.isEmpty()) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " not found");
             userDto.setSuccess(false);
@@ -80,7 +77,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(String username) {
-
         userRepository.deleteByUsername(username);
     }
 

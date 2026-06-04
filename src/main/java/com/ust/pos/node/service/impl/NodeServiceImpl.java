@@ -33,20 +33,20 @@ public class NodeServiceImpl implements NodeService {
     private ModelMapper modelMapper;
 
     public List<NodeDto> getNodesForRoles() {
-        List<NodeDto> nodeDtos = new ArrayList<>();
+        List<NodeDto> nodeDto = new ArrayList<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
             if (principalObject != null) {
                 User currentUser = userRepository.findByUsername(principalObject.getUsername());
-                if (currentUser != null && currentUser.getRoles() != null) findEligibleNodes(currentUser, nodeDtos);
+                if (currentUser != null && currentUser.getRoles() != null) findEligibleNodes(currentUser, nodeDto);
 
             }
         }
-        return nodeDtos;
+        return nodeDto;
     }
 
-    private void findEligibleNodes(User currentUser, List<NodeDto> nodeDtos) {
+    private void findEligibleNodes(User currentUser, List<NodeDto> nodeDto) {
         Set<String> nodesStr = new HashSet<>();
         List<Node> nodes = nodeRepository.findAll();
         for (String role : currentUser.getRoles()) {
@@ -57,14 +57,13 @@ public class NodeServiceImpl implements NodeService {
             }
         }
         for (String nodeStr : nodesStr) {
-            nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
+            nodeDto.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
         }
     }
 
     @Override
     public NodeDto findByIdentifier(String identifier) {
         Node node = nodeRepository.findByIdentifier(identifier);
-
         if (node == null) {
             return null;
         }
