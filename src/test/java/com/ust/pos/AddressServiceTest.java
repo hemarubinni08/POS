@@ -139,4 +139,68 @@ class AddressServiceTest {
 
         verify(addressRepository).findAll();
     }
+
+    @Test
+    void findByPhoneNoAndAddressTypeNullPhoneTest() {
+        AddressDto result = addressService.findByPhoneNoAndAddressType(null, "billingAddress");
+
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    void findByPhoneNoAndAddressTypeZeroPhoneTest() {
+        AddressDto result = addressService.findByPhoneNoAndAddressType(0L, "billingAddress");
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    void findByPhoneNoAndAddressTypeNotFoundTest() {
+        Mockito.when(addressRepository.findByPhoneNoAndAddressType(9999999999L, "billingAddress")).thenReturn(null);
+
+        AddressDto result = addressService.findByPhoneNoAndAddressType(9999999999L, "billingAddress");
+
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    void saveNullPhoneTest() {
+        AddressDto dto = new AddressDto();
+
+        AddressDto result = addressService.save(dto);
+
+        Assertions.assertFalse(result.isSuccess());
+        Assertions.assertEquals("Phone number is required to save address", result.getMessage());
+    }
+
+    @Test
+    void saveZeroPhoneTest() {
+        AddressDto dto = new AddressDto();
+        dto.setPhoneNo(0L);
+
+        AddressDto result = addressService.save(dto);
+
+        Assertions.assertFalse(result.isSuccess());
+        Assertions.assertEquals("Phone number is required to save address", result.getMessage());
+    }
+
+    @Test
+    void updateNullPhoneTest() {
+        AddressDto dto = new AddressDto();
+
+        AddressDto result = addressService.update(dto);
+
+        Assertions.assertFalse(result.isSuccess());
+        Assertions.assertEquals("Phone number is required to update address", result.getMessage());
+    }
+
+    @Test
+    void updateZeroPhoneTest() {
+        AddressDto dto = new AddressDto();
+        dto.setPhoneNo(0L);
+
+        AddressDto result = addressService.update(dto);
+
+        Assertions.assertFalse(result.isSuccess());
+        Assertions.assertEquals("Phone number is required to update address", result.getMessage());
+    }
 }
