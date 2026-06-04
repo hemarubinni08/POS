@@ -97,7 +97,6 @@
 
 <div class="container">
 
-    <!-- HEADER -->
     <div class="header">
         <h2>Role List</h2>
         <div class="header-buttons">
@@ -106,12 +105,10 @@
         </div>
     </div>
 
-    <!-- EMPTY -->
     <c:if test="${empty roles}">
         <div class="empty-msg">No roles found</div>
     </c:if>
 
-    <!-- TABLE -->
     <c:if test="${not empty roles}">
         <table>
             <thead>
@@ -126,11 +123,8 @@
             <tbody>
             <c:forEach var="role" items="${roles}">
                 <tr>
-
                     <td>${role.id}</td>
-
                     <td>${role.identifier}</td>
-
                     <td>
                         <c:choose>
                             <c:when test="${empty role.description}">
@@ -139,8 +133,6 @@
                             <c:otherwise>${role.description}</c:otherwise>
                         </c:choose>
                     </td>
-
-                    <!-- ACTIONS -->
                     <td>
                         <div class="action-buttons">
                             <a href="/role/get?identifier=${role.identifier}"
@@ -152,7 +144,6 @@
                             </a>
                         </div>
                     </td>
-
                 </tr>
             </c:forEach>
             </tbody>

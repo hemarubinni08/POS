@@ -93,18 +93,15 @@
 </head>
 <body>
 <div class="container">
-    <!-- HEADER -->
     <div class="header">
         <h2>User Management</h2>
         <div class="header-buttons">
             <a href="/" class="btn btn-home">Home</a>
         </div>
     </div>
-    <!-- EMPTY -->
     <c:if test="${empty users}">
         <div class="empty-msg">No users found</div>
     </c:if>
-    <!-- TABLE -->
     <c:if test="${not empty users}">
         <table>
             <thead>
@@ -124,7 +121,6 @@
                     <td>${user.username}</td>
                     <td>${user.name}</td>
                     <td>${user.phoneNo}</td>
-                    <!-- ROLES -->
                     <td>
                         <c:choose>
                             <c:when test="${not empty user.roles}">
@@ -137,7 +133,6 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-                    <!-- ACTIONS -->
                     <td>
                         <div class="action-buttons">
                             <a href="/user/get?username=${user.username}"

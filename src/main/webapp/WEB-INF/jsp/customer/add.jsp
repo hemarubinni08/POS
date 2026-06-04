@@ -114,19 +114,16 @@
 
     <h2>Add Customer</h2>
 
-    <!-- SUCCESS -->
     <c:if test="${not empty customer}">
         <div class="success">${customer}</div>
     </c:if>
 
-    <!-- ERROR -->
     <c:if test="${not empty message}">
         <div class="error">${message}</div>
     </c:if>
 
     <form:form action="/customer/add" method="post" modelAttribute="customerDto">
 
-        <!-- BASIC DETAILS -->
         <label>Name</label>
         <form:input path="customerName" required="true"/>
 
@@ -154,7 +151,6 @@
         <label>Credit Limit</label>
         <form:input path="creditLimit" type="number" step="0.01" required="true"/>
 
-        <!-- SHIPPING -->
         <h4>Shipping Address</h4>
 
         <label>Address Line</label>
@@ -172,10 +168,8 @@
         <label>Country</label>
         <form:input path="shippingAddress.country" required="true"/>
 
-        <!-- hidden type -->
         <form:hidden path="shippingAddress.addressType" value="SHIPPING"/>
 
-        <!-- BILLING -->
         <h4>Billing Address</h4>
 
         <label>Address Line</label>
@@ -193,7 +187,6 @@
         <label>Country</label>
         <form:input path="billingAddress.country" required="true"/>
 
-        <!-- hidden type -->
         <form:hidden path="billingAddress.addressType" value="BILLING"/>
 
         <input type="submit" value="Save Customer" class="btn-submit"/>

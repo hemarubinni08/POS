@@ -31,10 +31,10 @@ public class BrandController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute BrandDto dto) {
-        BrandDto response = brandService.save(dto);
+    public String addPost(Model model, @ModelAttribute BrandDto brandDto) {
+        BrandDto response = brandService.save(brandDto);
         if (!response.isSuccess()) {
-            model.addAttribute(BRAND, dto);
+            model.addAttribute(BRAND, brandDto);
             model.addAttribute("message", response.getMessage());
             return "brand/add";
         }
@@ -48,10 +48,10 @@ public class BrandController {
     }
 
     @PostMapping("/update")
-    public String update(Model model, @ModelAttribute BrandDto dto) {
-        BrandDto response = brandService.update(dto);
+    public String update(Model model, @ModelAttribute BrandDto brandDto) {
+        BrandDto response = brandService.update(brandDto);
         if (!response.isSuccess()) {
-            model.addAttribute(BRAND, dto);
+            model.addAttribute(BRAND, brandDto);
             model.addAttribute("message", response.getMessage());
             return "brand/brand";
         }

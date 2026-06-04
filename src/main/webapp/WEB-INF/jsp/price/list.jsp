@@ -104,7 +104,6 @@
 
 <div class="container">
 
-    <!-- HEADER -->
     <div class="header">
 
         <h2>Price List</h2>
@@ -123,7 +122,6 @@
 
     </div>
 
-    <!-- EMPTY -->
     <c:if test="${empty price}">
 
         <div class="empty-msg">
@@ -132,42 +130,27 @@
 
     </c:if>
 
-    <!-- TABLE -->
     <c:if test="${not empty price}">
-
         <table>
-
             <thead>
-
             <tr>
-
                 <th>ID</th>
                 <th>Identifier</th>
                 <th>Product</th>
                 <th>Price</th>
                 <th>Price Type</th>
                 <th>Actions</th>
-
             </tr>
-
             </thead>
-
             <tbody>
 
             <c:forEach var="itemPrice" items="${price}">
-
                 <tr>
                     <td>${itemPrice.id}</td>
-
                     <td>${itemPrice.identifier}</td>
-
                     <td>${itemPrice.product}</td>
-
                     <td>${itemPrice.priceAmount}</td>
-
                     <td>${itemPrice.priceType}</td>
-
-                    <!-- ACTIONS -->
                     <td>
                         <a href="/price/get?identifier=${itemPrice.identifier}"
                            class="btn btn-edit">

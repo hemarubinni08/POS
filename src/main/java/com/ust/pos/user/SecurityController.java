@@ -26,7 +26,7 @@ public class SecurityController {
     }
 
     @GetMapping("/register")
-    public String add(Model model, @ModelAttribute UserDto userDto, Pageable pageable) {
+    public String add(Model model,Pageable pageable) {
         model.addAttribute("roles", roleService.findAll(pageable));
         return "register";
     }

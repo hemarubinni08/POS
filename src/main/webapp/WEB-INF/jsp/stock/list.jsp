@@ -118,7 +118,6 @@
 
 <div class="container">
 
-    <!-- HEADER -->
     <div class="header">
 
         <h2>Stock List</h2>
@@ -137,7 +136,6 @@
 
     </div>
 
-    <!-- EMPTY -->
     <c:if test="${empty stocks}">
 
         <div class="empty-msg">
@@ -146,15 +144,11 @@
 
     </c:if>
 
-    <!-- TABLE -->
     <c:if test="${not empty stocks}">
 
         <table>
-
             <thead>
-
             <tr>
-
                 <th>ID</th>
                 <th>Product </th>
                 <th>Warehouse </th>
@@ -162,32 +156,18 @@
                 <th>Minimum Stock</th>
                 <th>Status</th>
                 <th>Actions</th>
-
             </tr>
-
             </thead>
-
             <tbody>
-
             <c:forEach var="stock" items="${stocks}">
-
                 <tr>
-
                     <td>${stock.id}</td>
-
                     <td>${stock.product}</td>
-
                     <td>${stock.warehouse}</td>
-
                     <td>${stock.quantity}</td>
-
                     <td>${stock.minimumStock}</td>
-
-                    <!-- STATUS -->
                     <td>
-
                         <c:choose>
-
                             <c:when test="${stock.stockStatus == 'Available'}">
                                 <span class="status-active">
                                     AVAILABLE
@@ -209,7 +189,6 @@
                         </c:choose>
 
                     </td>
-                    <!-- ACTIONS -->
                     <td>
 
                         <a href="/stock/get?identifier=${stock.identifier}"

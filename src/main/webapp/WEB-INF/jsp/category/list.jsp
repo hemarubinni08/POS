@@ -81,7 +81,6 @@
 
         .text-muted { color: #999; }
 
-        /* TOGGLE */
         .switch {
             position: relative;
             display: inline-block;
@@ -134,7 +133,6 @@
 
 <div class="container">
 
-    <!-- HEADER -->
     <div class="header">
         <h2>Category List</h2>
         <div style="display: flex; gap: 8px;">
@@ -143,12 +141,10 @@
         </div>
     </div>
 
-    <!-- EMPTY -->
     <c:if test="${empty categories}">
         <div class="empty-msg">No categories available</div>
     </c:if>
 
-    <!-- TABLE -->
     <c:if test="${not empty categories}">
         <table>
             <thead>
@@ -169,7 +165,6 @@
 
                     <td>${category.identifier}</td>
 
-                    <!-- SUPER CATEGORY -->
                     <td>
                         <c:choose>
                             <c:when test="${empty category.superCategory}">
@@ -181,7 +176,6 @@
                         </c:choose>
                     </td>
 
-                    <!-- STATUS TOGGLE -->
                     <td>
                         <div class="toggle-container"
                              onclick="window.location.href='${pageContext.request.contextPath}/category/toggle?identifier=${category.identifier}'">
@@ -192,7 +186,6 @@
                         </div>
                     </td>
 
-                    <!-- ACTIONS -->
                     <td>
                         <div class="action-buttons">
                             <a href="/category/get?identifier=${category.identifier}" class="btn btn-edit">

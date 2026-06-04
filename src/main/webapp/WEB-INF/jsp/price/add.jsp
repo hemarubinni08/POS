@@ -15,7 +15,6 @@
             background-color: #f4f7f6;
         }
 
-        /* BACK BUTTON */
         .back-btn {
             position: fixed;
             top: 20px;
@@ -32,7 +31,6 @@
             background: #5a6268;
         }
 
-        /* CARD */
         .card {
             width: 420px;
             margin: 100px auto;
@@ -74,7 +72,6 @@
             border-color: #007bff;
         }
 
-        /* ERROR MESSAGE */
         .error-msg {
             margin-bottom: 12px;
             padding: 10px;
@@ -85,7 +82,6 @@
             font-size: 13px;
         }
 
-        /* BUTTON */
         .btn-submit {
             margin-top: 25px;
             width: 100%;
@@ -116,7 +112,6 @@
 
     <h2>Add Price</h2>
 
-    <!-- ERROR MESSAGE -->
     <c:if test="${not empty message}">
         <div class="error-msg">
             ${message}
@@ -127,7 +122,6 @@
                action="/price/add"
                modelAttribute="priceDto">
 
-        <!-- PRODUCT -->
         <label>Product</label>
 
         <form:select path="product"
@@ -143,7 +137,6 @@
 
         </form:select>
 
-        <!-- PRICE -->
         <label>Price Amount</label>
 
         <form:input path="priceAmount"
@@ -152,14 +145,12 @@
                     placeholder="Enter Price"
                     required="true"/>
 
-        <!-- PRICE TYPE -->
         <label>Price Type</label>
 
         <form:input path="priceType"
                     placeholder="Enter Price Type"
                     required="true"/>
 
-        <!-- SUBMIT -->
         <input type="submit"
                value="Add Price"
                class="btn-submit"/>

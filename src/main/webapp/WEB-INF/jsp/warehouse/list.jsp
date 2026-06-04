@@ -56,13 +56,11 @@
             background-color: #fafafa;
         }
 
-        /* Address column */
         .address-col {
             max-width: 200px;
             white-space: normal;
         }
 
-        /* Actions column */
         .actions-col {
             width: 160px;
             white-space: nowrap;

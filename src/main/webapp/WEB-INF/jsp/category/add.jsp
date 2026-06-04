@@ -76,18 +76,15 @@
 
     <h2>Add Category</h2>
 
-    <!-- ERROR -->
     <c:if test="${not empty message}">
         <div class="error-msg">${message}</div>
     </c:if>
 
     <form:form action="/category/add" method="post" modelAttribute="categoryDto">
 
-        <!-- CATEGORY IDENTIFIER -->
         <label>Category Identifier</label>
         <form:input path="identifier" required="true"/>
 
-        <!-- SUPER CATEGORY -->
         <label>Super Category (Optional)</label>
         <form:select path="superCategory">
             <form:option value="">-- None --</form:option>
@@ -100,7 +97,6 @@
 
         </form:select>
 
-        <!-- STATUS -->
         <label>Status</label>
         <form:select path="status">
             <form:option value="true">Active</form:option>

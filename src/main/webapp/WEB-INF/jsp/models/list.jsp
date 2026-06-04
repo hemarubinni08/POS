@@ -119,7 +119,6 @@
 
 <div class="container">
 
-    <!-- HEADER -->
     <div class="header">
         <h2>Model List</h2>
         <div>
@@ -128,12 +127,10 @@
         </div>
     </div>
 
-    <!-- EMPTY -->
     <c:if test="${empty models}">
         <div style="text-align:center;">No model available</div>
     </c:if>
 
-    <!-- TABLE -->
     <c:if test="${not empty models}">
         <table>
             <thead>
@@ -152,7 +149,6 @@
                     <td>${m.id}</td>
                     <td><strong>${m.identifier}</strong></td>
 
-                    <!-- STATUS -->
                     <td>
                         <div class="toggle-container"
                              onclick="window.location.href='${pageContext.request.contextPath}/models/toggle?identifier=${m.identifier}'">
@@ -165,7 +161,6 @@
                         </div>
                     </td>
 
-                    <!-- ACTIONS -->
                     <td>
                         <div class="actions">
                             <a href="${pageContext.request.contextPath}/models/get?identifier=${m.identifier}"

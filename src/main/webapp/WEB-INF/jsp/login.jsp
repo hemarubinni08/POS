@@ -31,7 +31,6 @@
             overflow: hidden;
         }
 
-        /* LEFT PANEL */
         .left-panel {
             width: 320px;
             background-color: #007bff;
@@ -76,7 +75,6 @@
             font-size: 16px;
         }
 
-        /* RIGHT PANEL */
         .right-panel {
             flex: 1;
             padding: 50px 40px;
@@ -168,7 +166,6 @@
 
 <div class="login-wrapper">
 
-    <!-- LEFT PANEL -->
     <div class="left-panel">
         <h1>POS System</h1>
         <div class="divider"></div>
@@ -188,13 +185,11 @@
         </div>
     </div>
 
-    <!-- RIGHT PANEL -->
     <div class="right-panel">
 
         <h2>Welcome Back</h2>
         <div class="sub">Sign in to your account to continue</div>
 
-        <!-- ERROR -->
         <c:if test="${param.error != null}">
             <div class="error-msg">Invalid username or password</div>
         </c:if>

@@ -52,7 +52,6 @@
             background-color: #f5f7f9;
         }
 
-        /* BUTTONS */
         .btn {
             padding: 6px 12px;
             text-decoration: none;
@@ -72,7 +71,6 @@
             gap: 8px;
         }
 
-        /* TOGGLE */
         .switch {
             position: relative;
             display: inline-block;
@@ -123,7 +121,6 @@
 
 <div class="container">
 
-    <!-- HEADER -->
     <div class="header">
         <h2>Shelf List</h2>
         <div>
@@ -132,12 +129,10 @@
         </div>
     </div>
 
-    <!-- EMPTY -->
     <c:if test="${empty shelf}">
         <div style="text-align:center;">No shelf available</div>
     </c:if>
 
-    <!-- TABLE -->
     <c:if test="${not empty shelf}">
         <table>
             <thead>
@@ -156,7 +151,6 @@
                     <td>${s.id}</td>
                     <td><strong>${s.identifier}</strong></td>
 
-                    <!-- STATUS -->
                     <td>
                         <div class="toggle-container"
                              onclick="window.location.href='${pageContext.request.contextPath}/shelf/toggle?identifier=${s.identifier}'">
@@ -169,7 +163,6 @@
                         </div>
                     </td>
 
-                    <!-- ACTIONS -->
                     <td>
                         <div class="actions">
                             <a href="${pageContext.request.contextPath}/shelf/get?identifier=${s.identifier}"

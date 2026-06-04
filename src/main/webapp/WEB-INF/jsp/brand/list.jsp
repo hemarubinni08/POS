@@ -23,7 +23,6 @@
             box-shadow: 0 3px 12px rgba(0,0,0,0.1);
         }
 
-        /* HEADER */
         .header {
             display: flex;
             justify-content: space-between;
@@ -36,7 +35,6 @@
             font-weight: 600;
         }
 
-        /* TABLE */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -60,7 +58,6 @@
             background-color: #f5f7f9;
         }
 
-        /* COLUMN WIDTHS */
         th:nth-child(1), td:nth-child(1) {
             width: 60px;
         }
@@ -86,7 +83,6 @@
             width: 180px;
         }
 
-        /* BUTTONS */
         .btn {
             padding: 6px 12px;
             text-decoration: none;
@@ -101,21 +97,18 @@
         .btn-delete { background: #dc3545; }
         .btn-back { background: #6c757d; }
 
-        /* ACTIONS */
         .actions {
             display: flex;
             justify-content: center;
             gap: 10px;
         }
 
-        /* EMPTY */
         .empty {
             text-align: center;
             padding: 40px;
             color: #888;
         }
 
-        /* TOGGLE */
         .switch {
             position: relative;
             display: inline-block;
@@ -172,7 +165,6 @@
 
 <div class="container">
 
-    <!-- HEADER -->
     <div class="header">
         <h2>Brand List</h2>
         <div>
@@ -181,12 +173,10 @@
         </div>
     </div>
 
-    <!-- EMPTY -->
     <c:if test="${empty brands}">
         <div class="empty">No brands available</div>
     </c:if>
 
-    <!-- TABLE -->
     <c:if test="${not empty brands}">
         <table>
             <thead>
@@ -203,13 +193,10 @@
             <c:forEach var="brand" items="${brands}">
                 <tr>
 
-                    <!-- ID -->
                     <td>${brand.id}</td>
 
-                    <!-- NAME -->
                     <td><strong>${brand.identifier}</strong></td>
 
-                    <!-- DESCRIPTION -->
                     <td>
                         <c:choose>
                             <c:when test="${empty brand.description}">
@@ -221,7 +208,6 @@
                         </c:choose>
                     </td>
 
-                    <!-- STATUS -->
                     <td>
                         <div class="toggle-container"
                              onclick="window.location.href='/brand/toggle?identifier=${brand.identifier}'">
@@ -234,7 +220,6 @@
                         </div>
                     </td>
 
-                    <!-- ACTIONS -->
                     <td>
                         <div class="actions">
                             <a href="/brand/get?identifier=${brand.identifier}" class="btn btn-edit">

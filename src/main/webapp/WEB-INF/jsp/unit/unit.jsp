@@ -96,7 +96,6 @@
 
     <h2>Edit Unit</h2>
 
-    <!-- ERROR -->
     <c:if test="${not empty message}">
         <div class="error">${message}</div>
     </c:if>
@@ -105,18 +104,15 @@
                method="post"
                modelAttribute="unit">
 
-        <!-- UNIT NAME -->
         <label>Unit Name</label>
         <form:input path="identifier" readonly="true"/>
 
-        <!-- Status -->
         <label>Status</label>
         <form:select path="status">
             <form:option value="true">Active</form:option>
             <form:option value="false">Inactive</form:option>
         </form:select>
 
-        <!-- SUBMIT -->
         <input type="submit" value="Update Unit" class="btn"/>
 
     </form:form>

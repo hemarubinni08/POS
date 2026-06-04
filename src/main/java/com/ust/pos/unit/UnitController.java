@@ -30,10 +30,10 @@ public class UnitController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute UnitDto dto) {
-        UnitDto response = unitService.save(dto);
+    public String addPost(Model model, @ModelAttribute UnitDto unitDto) {
+        UnitDto response = unitService.save(unitDto);
         if (!response.isSuccess()) {
-            model.addAttribute("unit", dto);
+            model.addAttribute("unit", unitDto);
             model.addAttribute("message", response.getMessage());
             return "unit/add";
         }
@@ -47,10 +47,10 @@ public class UnitController {
     }
 
     @PostMapping("/update")
-    public String update(Model model, @ModelAttribute UnitDto dto) {
-        UnitDto response = unitService.update(dto);
+    public String update(Model model, @ModelAttribute UnitDto unitDto) {
+        UnitDto response = unitService.update(unitDto);
         if (!response.isSuccess()) {
-            model.addAttribute("unit", dto);
+            model.addAttribute("unit", unitDto);
             model.addAttribute("message", response.getMessage());
             return "unit/unit";
         }

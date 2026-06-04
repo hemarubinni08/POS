@@ -31,10 +31,10 @@ public class ModelsController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute ModelsDto dto) {
-        ModelsDto response = modelsService.save(dto);
+    public String addPost(Model model, @ModelAttribute ModelsDto modelsDto) {
+        ModelsDto response = modelsService.save(modelsDto);
         if (!response.isSuccess()) {
-            model.addAttribute(MODELS, dto);
+            model.addAttribute(MODELS, model);
             model.addAttribute("message", response.getMessage());
             return "models/add";
         }
@@ -48,10 +48,10 @@ public class ModelsController {
     }
 
     @PostMapping("/update")
-    public String update(Model model, @ModelAttribute ModelsDto dto) {
-        ModelsDto response = modelsService.update(dto);
+    public String update(Model model, @ModelAttribute ModelsDto modelsDto) {
+        ModelsDto response = modelsService.update(modelsDto);
         if (!response.isSuccess()) {
-            model.addAttribute(MODELS, dto);
+            model.addAttribute(MODELS, model);
             model.addAttribute("message", response.getMessage());
             return "models/models";
         }

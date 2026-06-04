@@ -103,7 +103,6 @@
 
     <h2>Edit Role</h2>
 
-    <!-- ERROR -->
     <c:if test="${not empty message}">
         <div class="error-msg">${message}</div>
     </c:if>
@@ -112,15 +111,12 @@
 
         <form:hidden path="id"/>
 
-        <!-- ROLE NAME -->
         <label>Role Name</label>
         <form:input path="identifier" readonly="true"/>
 
-        <!-- DESCRIPTION -->
         <label>Description</label>
         <form:input path="description" required="true"/>
 
-        <!-- SUBMIT -->
         <input type="submit" value="Update Role" class="btn-submit"/>
 
     </form:form>
