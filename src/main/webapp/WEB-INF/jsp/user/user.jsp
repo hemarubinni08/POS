@@ -15,7 +15,6 @@
             background-color: #ffffff;
         }
 
-        /* ===== CARD ===== */
         .page-wrapper {
             display: flex;
             justify-content: center;
@@ -59,7 +58,6 @@
             font-size: 20px;
         }
 
-        /* ===== FORM ===== */
         label {
             display: block;
             margin-top: 10px;

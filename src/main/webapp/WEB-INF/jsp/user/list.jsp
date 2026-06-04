@@ -14,7 +14,6 @@
             background-color: #ffffff;
         }
 
-        /* ===== CONTAINER ===== */
         .container {
             width: 95%;
             max-width: 1000px;
@@ -39,7 +38,6 @@
             margin-bottom: 10px;
         }
 
-        /* ===== ACTIONS ===== */
         .list-actions {
             display: flex;
             justify-content: flex-end;
@@ -58,7 +56,6 @@
             border: 1px solid teal;
         }
 
-        /* ===== MESSAGE ===== */
         .msg {
             margin: 0 auto 12px;
             max-width: 1000px;
@@ -71,7 +68,6 @@
             font-weight: 600;
         }
 
-        /* ===== TABLE ===== */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -101,7 +97,6 @@
             background-color: #f8fafc;
         }
 
-        /* ===== ACTION BUTTONS ===== */
         .action-link {
             padding: 6px 12px;
             border-radius: 18px;

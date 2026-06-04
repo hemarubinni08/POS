@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,6 @@ class ProductServiceTest {
     @InjectMocks
     private ProductServiceImpl productService;
 
-    /* ===================== SAVE ===================== */
     @Test
     void saveTest() {
         ProductDto productDto = new ProductDto();
@@ -52,7 +52,6 @@ class ProductServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-
     @Test
     void saveTestFailure2() {
         ProductDto productDto = new ProductDto();
@@ -66,7 +65,6 @@ class ProductServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    /* ===================== FIND BY IDENTIFIER ===================== */
     @Test
     void findByIdentifierTest() {
         Product product = new Product();
@@ -79,7 +77,6 @@ class ProductServiceTest {
         Assertions.assertEquals("Admin", response.getIdentifier());
     }
 
-    /* ===================== UPDATE ===================== */
     @Test
     void updateTest() {
         ProductDto productDto = new ProductDto();
@@ -101,7 +98,6 @@ class ProductServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    /* ===================== DELETE ===================== */
     @Test
     void deleteTest() {
         Mockito.doNothing().when(productRepository).deleteByIdentifier("Admin");
@@ -109,7 +105,6 @@ class ProductServiceTest {
         Assertions.assertEquals(true, response);
     }
 
-    /* ===================== FIND ALL ===================== */
     @Test
     void findAllTest() {
         Product product = new Product();
@@ -129,7 +124,6 @@ class ProductServiceTest {
         List<ProductDto> response = productService.findAll(pageable);
         Assertions.assertEquals(1, response.size());
     }
-
 
     @Test
     void findByStatusTest() {

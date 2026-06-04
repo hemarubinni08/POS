@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,8 +98,6 @@ class AddressServiceTest {
         boolean response = addressService.delete("8919");
         Assertions.assertEquals(true, response);
     }
-
-    /* ===================== FIND ALL ===================== */
 
     @Test
     void findAllTest() {

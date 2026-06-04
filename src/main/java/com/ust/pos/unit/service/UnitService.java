@@ -10,11 +10,17 @@ import java.util.List;
 public interface UnitService {
 
     UnitDto save(UnitDto unitDto);
+
     UnitDto update(UnitDto unitDto);
+
     boolean delete(String identifier);
+
     List<UnitDto> findAll(Pageable pageable);
+
     UnitDto findByIdentifier(String identifier);
+
     UnitDto toggleStatus(String identifier);
+
     List<UnitDto> findIfTrue();
 
 }

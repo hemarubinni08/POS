@@ -15,7 +15,6 @@
             background-color: #ffffff;
         }
 
-        /* ===== CARD ===== */
         .page-wrapper {
             display: flex;
             justify-content: center;

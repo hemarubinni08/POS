@@ -53,7 +53,6 @@
             font-size: 20px;
         }
 
-        /* ===== FORM ===== */
         label {
             display: block;
             margin-top: 10px;

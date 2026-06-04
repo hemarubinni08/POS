@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,6 @@ RoleServiceTest {
     @InjectMocks
     private RoleServiceImpl roleService;
 
-    /* ===================== SAVE ===================== */
     @Test
     void saveTest() {
         RoleDto roleDto = new RoleDto();
@@ -54,7 +54,6 @@ RoleServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    /* ===================== FIND BY IDENTIFIER ===================== */
     @Test
     void findByIdentifierTest() {
         Role role = new Role();
@@ -67,7 +66,6 @@ RoleServiceTest {
         Assertions.assertEquals("Admin", response.getIdentifier());
     }
 
-    /* ===================== UPDATE ===================== */
     @Test
     void updateTest() {
         RoleDto roleDto = new RoleDto();
@@ -89,7 +87,6 @@ RoleServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    /* ===================== DELETE ===================== */
     @Test
     void deleteTest() {
         Mockito.doNothing().when(roleRepository).deleteByIdentifier("Admin");
@@ -97,7 +94,6 @@ RoleServiceTest {
         Assertions.assertEquals(true, response);
     }
 
-    /* ===================== FIND ALL ===================== */
     @Test
     void findAllTest() {
         Role role = new Role();

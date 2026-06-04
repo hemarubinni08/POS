@@ -15,7 +15,6 @@
             color: #020617;
         }
 
-        /* ===== CONTAINER ===== */
         .container {
             width: 95%;
             max-width: 1000px;
@@ -40,7 +39,6 @@
             margin-bottom: 12px;
         }
 
-        /* ===== ACTION BAR ===== */
         .list-actions {
             display: flex;
             justify-content: flex-end;
@@ -69,7 +67,6 @@
             font-weight: 600;
         }
 
-        /* ===== TABLE ===== */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -91,7 +88,6 @@
             background: #f8fafc;
         }
 
-        /* ===== STATUS BUTTON ===== */
         .status-toggle {
             padding: 5px 12px;
             border-radius: 18px;
@@ -105,7 +101,6 @@
         .status-true { background: teal; }
         .status-false { background: #9ca3af; }
 
-        /* ===== ACTION BUTTONS ===== */
         .action-link {
             padding: 6px 12px;
             border-radius: 18px;

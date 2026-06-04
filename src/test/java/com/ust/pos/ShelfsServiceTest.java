@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +28,8 @@ class ShelfsServiceTest {
     @InjectMocks
     private ShelfsServiceImpl shelfsService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     void saveTest() {
-
         ShelfsDto shelfsDto = new ShelfsDto();
         shelfsDto.setIdentifier("Admin");
         Mockito.when(shelfsRepository.findByIdentifier("Admin")).thenReturn(null);
@@ -41,12 +39,10 @@ class ShelfsServiceTest {
         ShelfsDto response = shelfsService.save(shelfsDto);
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void saveTestFailure() {
-
         ShelfsDto shelfsDto = new ShelfsDto();
         shelfsDto.setIdentifier("Admin");
         Shelfs existingShelfs = new Shelfs();
@@ -54,13 +50,10 @@ class ShelfsServiceTest {
         Mockito.when(shelfsRepository.findByIdentifier("Admin")).thenReturn(existingShelfs);
         ShelfsDto response = shelfsService.save(shelfsDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
-    /* ===================== FIND BY IDENTIFIER ===================== */
     @Test
     void findByIdentifierTest() {
-
         Shelfs shelfs = new Shelfs();
         shelfs.setIdentifier("Admin");
         ShelfsDto shelfsDto = new ShelfsDto();
@@ -69,13 +62,10 @@ class ShelfsServiceTest {
         Mockito.when(modelMapper.map(shelfs, ShelfsDto.class)).thenReturn(shelfsDto);
         ShelfsDto response = shelfsService.findByIdentifier("Admin");
         Assertions.assertEquals("Admin", response.getIdentifier());
-
     }
 
-    /* ===================== UPDATE ===================== */
     @Test
     void updateTest() {
-
         ShelfsDto shelfsDto = new ShelfsDto();
         shelfsDto.setIdentifier("Admin");
         Shelfs existingShelfs = new Shelfs();
@@ -84,34 +74,26 @@ class ShelfsServiceTest {
         Mockito.when(shelfsRepository.save(existingShelfs)).thenReturn(existingShelfs);
         ShelfsDto response = shelfsService.update(shelfsDto);
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void updateTestFailure() {
-
         ShelfsDto shelfsDto = new ShelfsDto();
         shelfsDto.setIdentifier("Admin");
         Mockito.when(shelfsRepository.findByIdentifier("Admin")).thenReturn(null);
         ShelfsDto response = shelfsService.update(shelfsDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
-    /* ===================== DELETE ===================== */
     @Test
     void deleteTest() {
-
         Mockito.doNothing().when(shelfsRepository).deleteByIdentifier("Admin");
         boolean response = shelfsService.delete("Admin");
         Assertions.assertEquals(true, response);
-
     }
 
-    /* ===================== FIND ALL ===================== */
     @Test
     void findAllTest() {
-
         Shelfs shelfs = new Shelfs();
         shelfs.setIdentifier("Admin");
         ShelfsDto shelfsDto = new ShelfsDto();
@@ -127,12 +109,10 @@ class ShelfsServiceTest {
         )).thenReturn(shelfsDtos);
         List<ShelfsDto> response = shelfsService.findAll(pageable);
         Assertions.assertEquals(1, response.size());
-
     }
 
     @Test
     void findByStatusTest() {
-
         Shelfs shelfs = new Shelfs();
         shelfs.setIdentifier("Admin");
         ShelfsDto shelfsDto = new ShelfsDto();
@@ -143,12 +123,10 @@ class ShelfsServiceTest {
         Mockito.when(modelMapper.map(Mockito.eq(shelfss), Mockito.any(java.lang.reflect.Type.class))).thenReturn(shelfsDtos);
         List<ShelfsDto> response = shelfsService.findIfTrue();
         Assertions.assertEquals(1, response.size());
-
     }
 
     @Test
     void toggleTestActive() {
-
         Shelfs shelfs = new Shelfs();
         shelfs.setStatus(false);
         ShelfsDto shelfsDto = new ShelfsDto();
@@ -157,12 +135,10 @@ class ShelfsServiceTest {
         Mockito.when(modelMapper.map(shelfs, ShelfsDto.class)).thenReturn(shelfsDto);
         ShelfsDto response = shelfsService.toggleStatus("Admin");
         Assertions.assertTrue(response.isStatus());
-
     }
 
     @Test
     void toggleTestInactive() {
-
         Shelfs shelfs = new Shelfs();
         shelfs.setStatus(true);
         ShelfsDto shelfsDto = new ShelfsDto();
@@ -171,6 +147,5 @@ class ShelfsServiceTest {
         Mockito.when(modelMapper.map(shelfs, ShelfsDto.class)).thenReturn(shelfsDto);
         ShelfsDto response = shelfsService.toggleStatus("Admin");
         Assertions.assertFalse(response.isStatus());
-
     }
 }

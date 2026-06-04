@@ -15,7 +15,6 @@
             background: #ffffff;
         }
 
-        /* ===== CARD ===== */
         .card {
             width: 360px;
             margin: 40px auto;
@@ -54,7 +53,6 @@
             font-size: 20px;
         }
 
-        /* ===== FORM ===== */
         label {
             display: block;
             margin-top: 12px;

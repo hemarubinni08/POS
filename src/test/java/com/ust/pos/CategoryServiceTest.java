@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,7 +32,6 @@ class CategoryServiceTest {
     @InjectMocks
     private CategoryServiceImpl categoryService;
 
-    /* ===================== SAVE ===================== */
     @Test
     void saveTest() {
 
@@ -57,7 +57,6 @@ class CategoryServiceTest {
 
     }
 
-    /* ===================== FIND ===================== */
     @Test
     void findByIdentifierTest() {
 
@@ -70,10 +69,8 @@ class CategoryServiceTest {
 
     }
 
-    /* ===================== UPDATE ===================== */
     @Test
     void updateTest() {
-
         Category category = new Category();
         category.setIdentifier("Admin");
         Mockito.when(categoryRepository.findByIdentifier("Admin")).thenReturn(category);
@@ -82,7 +79,6 @@ class CategoryServiceTest {
         dto.setIdentifier("Admin");
         CategoryDto response = categoryService.update(dto);
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
@@ -96,7 +92,6 @@ class CategoryServiceTest {
 
     }
 
-    /* ===================== DELETE ===================== */
     @Test
     void deleteTest() {
 
@@ -106,7 +101,6 @@ class CategoryServiceTest {
 
     }
 
-    /* ===================== FIND ALL ===================== */
     @Test
     void findAllTest() {
 
@@ -121,7 +115,6 @@ class CategoryServiceTest {
 
     }
 
-    /* ===================== FIND TRUE ===================== */
     @Test
     void findByStatusTest() {
 
@@ -133,7 +126,6 @@ class CategoryServiceTest {
 
     }
 
-    /* ===================== TOGGLE ===================== */
     @Test
     void toggleTestActive() {
 
@@ -156,7 +148,6 @@ class CategoryServiceTest {
 
     }
 
-    /* ===================== SUPER CATEGORY ===================== */
     @Test
     void findBySuperCategoryNotNullTest() {
 
@@ -169,7 +160,6 @@ class CategoryServiceTest {
 
     }
 
-    /* ===================== FIND ALL ACTIVE (NEW METHOD) ===================== */
     @Test
     void findAllActiveTest() {
 
@@ -193,7 +183,6 @@ class CategoryServiceTest {
 
     }
 
-    /* ===================== EMPTY LIST EDGE CASE ===================== */
     @Test
     void findAllActiveEmptyTest() {
 

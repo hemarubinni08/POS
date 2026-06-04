@@ -14,7 +14,6 @@
             background: #ffffff;
         }
 
-        /* ===== CONTAINER ===== */
         .container {
             width: 95%;
             max-width: 1000px;
@@ -39,7 +38,6 @@
             margin-bottom: 12px;
         }
 
-        /* ===== ACTIONS ===== */
         .list-actions {
             display: flex;
             justify-content: flex-end;
@@ -68,7 +66,6 @@
             font-weight: 600;
         }
 
-        /* ===== TABLE ===== */
         table {
             width: 100%;
             border-collapse: collapse;

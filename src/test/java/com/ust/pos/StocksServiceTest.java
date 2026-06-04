@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +31,8 @@ class StocksServiceTest {
     @InjectMocks
     private StocksServiceImpl stocksService;
 
-    /* ===================== SAVE ===================== */
     @Test
     void saveTest() {
-
         StocksDto stocksDto = new StocksDto();
         stocksDto.setIdentifier("Admin");
         ProductDto productDto = new ProductDto();
@@ -46,12 +45,10 @@ class StocksServiceTest {
         StocksDto response = stocksService.save(stocksDto);
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void saveTestFailure() {
-
         StocksDto stocksDto = new StocksDto();
         stocksDto.setIdentifier("Admin");
         Stocks existingStocks = new Stocks();
@@ -59,13 +56,10 @@ class StocksServiceTest {
         Mockito.when(stocksRepository.findByIdentifier("Admin")).thenReturn(existingStocks);
         StocksDto response = stocksService.save(stocksDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
-    /* ===================== FIND BY IDENTIFIER ===================== */
     @Test
     void findByIdentifierTest() {
-
         Stocks stocks = new Stocks();
         stocks.setIdentifier("Admin");
         StocksDto stocksDto = new StocksDto();
@@ -74,13 +68,10 @@ class StocksServiceTest {
         Mockito.when(modelMapper.map(stocks, StocksDto.class)).thenReturn(stocksDto);
         StocksDto response = stocksService.findByIdentifier("Admin");
         Assertions.assertEquals("Admin", response.getIdentifier());
-
     }
 
-    /* ===================== UPDATE ===================== */
     @Test
     void updateTest() {
-
         StocksDto stocksDto = new StocksDto();
         stocksDto.setIdentifier("Admin");
         Stocks existingStocks = new Stocks();
@@ -89,34 +80,26 @@ class StocksServiceTest {
         Mockito.when(stocksRepository.save(existingStocks)).thenReturn(existingStocks);
         StocksDto response = stocksService.update(stocksDto);
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void updateTestFailure() {
-
         StocksDto stocksDto = new StocksDto();
         stocksDto.setIdentifier("Admin");
         Mockito.when(stocksRepository.findByIdentifier("Admin")).thenReturn(null);
         StocksDto response = stocksService.update(stocksDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
-    /* ===================== DELETE ===================== */
     @Test
     void deleteTest() {
-
         Mockito.doNothing().when(stocksRepository).deleteByIdentifier("Admin");
         boolean response = stocksService.delete("Admin");
         Assertions.assertEquals(true, response);
-
     }
 
-    /* ===================== FIND ALL ===================== */
     @Test
     void findAllTest() {
-
         Stocks stocks = new Stocks();
         stocks.setIdentifier("Admin");
         StocksDto stocksDto = new StocksDto();
@@ -132,13 +115,11 @@ class StocksServiceTest {
         )).thenReturn(stocksDtos);
         List<StocksDto> response = stocksService.findAll(pageable);
         Assertions.assertEquals(1, response.size());
-
     }
 
 
     @Test
     void findByStatusTest() {
-
         Stocks stocks = new Stocks();
         stocks.setIdentifier("Admin");
         StocksDto stocksDto = new StocksDto();
@@ -152,12 +133,10 @@ class StocksServiceTest {
         )).thenReturn(stocksDtos);
         List<StocksDto> response = stocksService.findIfTrue();
         Assertions.assertEquals(1, response.size());
-
     }
 
     @Test
     void toggleTestActive() {
-
         Stocks stocks = new Stocks();
         stocks.setStatus(false);
         StocksDto stocksDto = new StocksDto();
@@ -166,12 +145,10 @@ class StocksServiceTest {
         Mockito.when(modelMapper.map(stocks, StocksDto.class)).thenReturn(stocksDto);
         StocksDto response = stocksService.toggleStatus("Admin");
         Assertions.assertTrue(response.isStatus());
-
     }
 
     @Test
     void toggleTestInactive() {
-
         Stocks stocks = new Stocks();
         stocks.setStatus(true);
         StocksDto stocksDto = new StocksDto();
@@ -180,7 +157,6 @@ class StocksServiceTest {
         Mockito.when(modelMapper.map(stocks, StocksDto.class)).thenReturn(stocksDto);
         StocksDto response = stocksService.toggleStatus("Admin");
         Assertions.assertFalse(response.isStatus());
-
     }
 
 }

@@ -106,7 +106,6 @@
 
 <div class="container">
 
-    <!-- Back -->
     <a href="${pageContext.request.contextPath}/login" class="back-btn">
         Back
     </a>
@@ -120,7 +119,6 @@
         </div>
     </c:if>
 
-    <!-- Form -->
     <form:form action="${pageContext.request.contextPath}/register"
                method="post"
                modelAttribute="userDto">

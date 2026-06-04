@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,6 @@ class BrandServiceTest {
     private BrandServiceImpl brandService;
 
 
-    /* ===================== SAVE ===================== */
     @Test
     void saveTest() {
         BrandDto brandDto = new BrandDto();
@@ -55,7 +55,6 @@ class BrandServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    /* ===================== FIND BY IDENTIFIER ===================== */
     @Test
     void findByIdentifierTest() {
         Brand brand = new Brand();
@@ -68,7 +67,6 @@ class BrandServiceTest {
         Assertions.assertEquals("Admin", response.getIdentifier());
     }
 
-    /* ===================== UPDATE ===================== */
     @Test
     void updateTest() {
         BrandDto brandDto = new BrandDto();
@@ -93,7 +91,6 @@ class BrandServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    /* ===================== DELETE ===================== */
     @Test
     void deleteTest() {
         Mockito.doNothing().when(brandRepository)
@@ -102,7 +99,6 @@ class BrandServiceTest {
         Assertions.assertEquals(true, response);
     }
 
-    /* ===================== FIND ALL ===================== */
     @Test
     void findAllTest() {
         Brand brand = new Brand();

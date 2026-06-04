@@ -37,7 +37,6 @@
             margin-bottom: 12px;
         }
 
-        /* ===== ACTIONS ===== */
         .actions {
             display: flex;
             justify-content: flex-end;

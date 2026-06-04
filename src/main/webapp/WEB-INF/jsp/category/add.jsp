@@ -29,7 +29,7 @@
             text-align: center;
             font-size: 14px;
             font-weight: 600;
-            color: #14b8a6; /* light teal */
+            color: #14b8a6;
             margin-bottom: 4px;
         }
 

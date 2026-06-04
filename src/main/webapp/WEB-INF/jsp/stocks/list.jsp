@@ -13,7 +13,6 @@
             background: #ffffff;
         }
 
-        /* ===== CONTAINER ===== */
         .container {
             width: 95%;
             max-width: 1000px;
@@ -38,7 +37,6 @@
             font-size: 22px;
         }
 
-        /* ===== ACTIONS ===== */
         .list-actions {
             display: flex;
             justify-content: flex-end;
@@ -67,7 +65,6 @@
             font-weight: 600;
         }
 
-        /* ===== TABLE ===== */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -93,7 +90,6 @@
             background: #f8fafc;
         }
 
-        /* ===== ACTION BUTTONS ===== */
         .action-link {
             padding: 6px 12px;
             border-radius: 18px;
