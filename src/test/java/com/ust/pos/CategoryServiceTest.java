@@ -27,10 +27,8 @@ class CategoryServiceTest {
 
     @InjectMocks
     private CategoryServiceImpl categoryService;
-
     @Mock
     private CategoryRepository categoryRepository;
-
     @Mock
     private ModelMapper modelMapper;
 
