@@ -8,7 +8,6 @@
     <title>Create Brand</title>
 
     <style>
-        * { box-sizing: border-box; }
 
         body {
             font-family: "Segoe UI", Tahoma, Arial, sans-serif;

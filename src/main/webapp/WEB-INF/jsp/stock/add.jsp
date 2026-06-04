@@ -116,8 +116,8 @@
            <form:select path="productname" id="productname" required="true">
            <form:option value="" label="-- Select productname --"/>
             <c:forEach var="wh" items="${products}">
-            <form:option value="${wh.identifier}">
-             ${wh.identifier}
+            <form:option value="${wh.name}">
+             ${wh.name}
              </form:option>
              </c:forEach>
              </form:select>

@@ -30,6 +30,8 @@ public class NodeController extends BaseController {
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute NodeDto nodeDto) {
+        PaginationDto paginationDto = new PaginationDto();
+        model.addAttribute(ROLES, roleService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "node/add";
     }
 

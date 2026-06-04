@@ -38,7 +38,7 @@
             display: block;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
             margin-top: 6px;
@@ -60,6 +60,11 @@
             font-weight: 600;
             border-radius: 25px;
             font-size: 1rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.95;
         }
 
         .back-link {
@@ -87,11 +92,17 @@
 
     <form action="${pageContext.request.contextPath}/price/update" method="post">
 
-        <label>Identifier</label>
-        <input type="text"
-               name="identifier"
-               value="${price.identifier}"
-               readonly />
+        <label> Identifier</label>
+        <select name="identifier" required>
+            <option value="">-- Select --</option>
+
+            <c:forEach var="product" items="${products}">
+                <option value="${product.identifier}"
+                    ${product.identifier == price.identifier ? 'selected' : ''}>
+                    ${product.identifier}
+                </option>
+            </c:forEach>
+        </select>
 
         <label>Cost Price (₹)</label>
         <input type="number"

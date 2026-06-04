@@ -6,7 +6,6 @@
 <head>
     <title>Edit Node</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"/>
 
@@ -55,7 +54,6 @@
             height: 120px;
         }
 
-        /* Gradient Update Button */
         button {
             width: 100%;
             margin-top: 25px;

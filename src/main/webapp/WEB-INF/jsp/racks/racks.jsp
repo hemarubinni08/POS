@@ -122,9 +122,7 @@
 
         <div class="form-group">
             <label for="identifier">Rack Name</label>
-            <form:input path="identifier"
-                        id="identifier"
-                        readonly="true"/>
+            <form:input path="identifier" id="identifier" readonly="true"/>
         </div>
 
           <div class="form-group">
@@ -133,7 +131,6 @@
            <form:options items="${shelfs}" itemValue="identifier" itemLabel="identifier"/>
            </form:select>
            </div>
-
 
         <div class="form-group">
             <label>Status</label>

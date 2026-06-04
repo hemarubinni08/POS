@@ -22,12 +22,10 @@ public class CategoryControllerApi extends BaseController {
         return categoryService.findAll(pageable);
     }
 
-
     @GetMapping("/identifier")
     public CategoryDto getCategoryByIdentifier(@RequestParam String identifier) {
         return categoryService.findByIdentifier(identifier);
     }
-
 
     @GetMapping("/subcategory")
     public List<CategoryDto> getCategoriesBySubCategory() {
@@ -55,7 +53,5 @@ public class CategoryControllerApi extends BaseController {
             return false;
         }
         return true;
-
     }
-    
 }

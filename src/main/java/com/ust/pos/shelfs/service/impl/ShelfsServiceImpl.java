@@ -3,6 +3,7 @@ import com.ust.pos.dto.ShelfsDto;
 import com.ust.pos.model.Shelfs;
 import com.ust.pos.model.ShelfsRepository;
 import com.ust.pos.shelfs.service.ShelfsService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class ShelfsServiceImpl implements ShelfsService {
         shelfsRepository.save(existingShelfs);
         return shelfsDto;
     }
-
+    @Transactional
     @Override
     public boolean delete(String identifier) {
         shelfsRepository.deleteByIdentifier(identifier);

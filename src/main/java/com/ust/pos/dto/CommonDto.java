@@ -12,5 +12,4 @@ public class CommonDto extends PaginationDto{
     private boolean success = true;
     private String description;
     private Boolean status=true;
-    private String shelfs;
 }

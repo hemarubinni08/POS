@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -96,6 +97,7 @@ public class NodeServiceImpl implements NodeService {
         return nodeDto;
     }
 
+    @Transactional
     @Override
     public boolean delete(String identifier) {
         nodeRepository.deleteByIdentifier(identifier);

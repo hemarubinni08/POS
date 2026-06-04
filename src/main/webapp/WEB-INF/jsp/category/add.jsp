@@ -127,10 +127,15 @@
                         required="true"/>
         </div>
 
+
         <div class="form-group">
-            <label for="description">Description</label>
-            <form:textarea path="description"
-                           id="description"/>
+            <label>Super Category</label>
+            <form:select path="supercategory" required="true">
+                <form:option value="">-- Select Super Category --</form:option>
+                <form:options items="${category}"
+                              itemValue="identifier"
+                              itemLabel="identifier"/>
+            </form:select>
         </div>
 
         <div class="form-group">

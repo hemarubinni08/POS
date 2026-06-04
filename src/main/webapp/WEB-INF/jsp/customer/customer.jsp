@@ -59,7 +59,6 @@
 
                 <div class="col-md-6">
                     <label class="form-label">Phone Number</label>
-                    <!-- ✅ Phone number locked -->
                     <form:input path="phoneNo"
                                 cssClass="form-control"
                                 readonly="true"/>
@@ -173,8 +172,6 @@
                     <form:input path="shippingAddress.country" cssClass="form-control"/>
                 </div>
             </div>
-
-
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary">
                     Update Customer
