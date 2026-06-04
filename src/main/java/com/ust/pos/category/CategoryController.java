@@ -25,14 +25,14 @@ public class CategoryController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, Pageable pageable, @ModelAttribute CategoryDto userDto) {
-        model.addAttribute("CATEGORIES", categoryService.findAll(pageable));
+    public String add(Model model, Pageable pageable, @ModelAttribute CategoryDto categoryDto) {
+        model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
         return "category/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute CategoryDto userDto) {
-        CategoryDto response = categoryService.save(userDto);
+    public String addPost(Model model, @ModelAttribute CategoryDto categoryDto) {
+        CategoryDto response = categoryService.save(categoryDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "category/add";
@@ -43,14 +43,14 @@ public class CategoryController {
     @GetMapping("/get")
     public String update(Model model, Pageable pageable, @RequestParam String identifier) {
         CategoryDto response = categoryService.findByIdentifier(identifier);
-        model.addAttribute("CATEGORIES", categoryService.findAll(pageable));
+        model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
         model.addAttribute("categoryDto", response);
         return "category/category";
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute CategoryDto userDto) {
-        CategoryDto response = categoryService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute CategoryDto categoryDto) {
+        CategoryDto response = categoryService.update(categoryDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }

@@ -19,7 +19,6 @@ public class ShelfApiController extends BaseController {
 
     @PostMapping("/list")
     public List<ShelfDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -27,22 +26,18 @@ public class ShelfApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ShelfDto addPost(@RequestBody ShelfDto userDto) {
-
-        return shelfService.save(userDto);
+    public ShelfDto addPost(@RequestBody ShelfDto shelfDto) {
+        return shelfService.save(shelfDto);
     }
 
     @GetMapping("/get")
     public ShelfDto update(@RequestParam String identifier) {
-
         return shelfService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
-    public ShelfDto updatePost(@RequestBody ShelfDto userDto) {
-
-        return shelfService.update(userDto);
+    public ShelfDto updatePost(@RequestBody ShelfDto shelfDto) {
+        return shelfService.update(shelfDto);
     }
 
     @GetMapping("/delete")

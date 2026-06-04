@@ -59,7 +59,6 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
         String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
-
         if (userOptional.isEmpty()) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " not found");
             userDto.setSuccess(false);
@@ -85,7 +84,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<UserDto>>() {}.getType();
+        Type listType = new TypeToken<List<UserDto>>() {
+        }.getType();
         Page<User> userPage = userRepository.findAll(pageable);
         return modelMapper.map(userPage.getContent(), listType);
     }

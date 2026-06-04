@@ -19,7 +19,6 @@ public class StockApiController extends BaseController {
 
     @PostMapping("/list")
     public List<StockDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -27,9 +26,8 @@ public class StockApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public StockDto addPost(@RequestBody StockDto userDto) {
-        return stockService.save(userDto);
-
+    public StockDto addPost(@RequestBody StockDto stockDto) {
+        return stockService.save(stockDto);
     }
 
     @GetMapping("/get")
@@ -38,9 +36,8 @@ public class StockApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public StockDto updatePost(@RequestBody StockDto userDto) {
-        return stockService.update(userDto);
-
+    public StockDto updatePost(@RequestBody StockDto stockDto) {
+        return stockService.update(stockDto);
     }
 
     @GetMapping("/delete")

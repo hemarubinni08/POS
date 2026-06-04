@@ -17,9 +17,8 @@ public class BrandApiController extends BaseController {
     @Autowired
     private BrandService brandService;
 
-    @PostMapping ("/list")
+    @PostMapping("/list")
     public List<BrandDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -27,8 +26,8 @@ public class BrandApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public BrandDto addPost(@RequestBody BrandDto userDto) {
-        return brandService.save(userDto);
+    public BrandDto addPost(@RequestBody BrandDto brandDto) {
+        return brandService.save(brandDto);
     }
 
     @GetMapping("/get")
@@ -38,8 +37,8 @@ public class BrandApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public BrandDto updatePost(@RequestBody BrandDto userDto) {
-        return brandService.update(userDto);
+    public BrandDto updatePost(@RequestBody BrandDto brandDto) {
+        return brandService.update(brandDto);
     }
 
     @GetMapping("/delete")

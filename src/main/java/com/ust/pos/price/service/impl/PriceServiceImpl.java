@@ -27,7 +27,6 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDto findByIdentifier(String identifier) {
         Price price = priceRepository.findByIdentifier(identifier);
-
         if (price == null) {
             return null;
         }
@@ -66,7 +65,6 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public void delete(String identifier) {
-
         priceRepository.deleteByIdentifier(identifier);
     }
 

@@ -28,7 +28,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto findByIdentifier(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
-
         if (product == null) {
             return null;
         }
@@ -65,7 +64,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void delete(String identifier) {
-
         productRepository.deleteByIdentifier(identifier);
     }
 

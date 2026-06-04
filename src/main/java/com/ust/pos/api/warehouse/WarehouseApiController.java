@@ -19,7 +19,6 @@ public class WarehouseApiController extends BaseController {
 
     @PostMapping("/list")
     public List<WarehouseDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -27,9 +26,8 @@ public class WarehouseApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public WarehouseDto addPost(@RequestBody WarehouseDto userDto) {
-        return warehouseService.save(userDto);
-
+    public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
+        return warehouseService.save(warehouseDto);
     }
 
     @GetMapping("/get")
@@ -38,9 +36,8 @@ public class WarehouseApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public WarehouseDto updatePost(@RequestBody WarehouseDto userDto) {
-        return warehouseService.update(userDto);
-
+    public WarehouseDto updatePost(@RequestBody WarehouseDto warehouseDto) {
+        return warehouseService.update(warehouseDto);
     }
 
     @GetMapping("/delete")

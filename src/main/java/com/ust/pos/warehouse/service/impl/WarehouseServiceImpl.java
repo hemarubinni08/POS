@@ -28,7 +28,6 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public WarehouseDto findByIdentifier(String identifier) {
         Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
-
         if (warehouse == null) {
             return null;
         }
@@ -65,7 +64,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public void delete(String identifier) {
-
         warehouseRepository.deleteByIdentifier(identifier);
     }
 

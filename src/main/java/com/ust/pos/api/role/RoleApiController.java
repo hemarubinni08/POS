@@ -19,7 +19,6 @@ public class RoleApiController extends BaseController {
 
     @PostMapping("/list")
     public List<RoleDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -27,22 +26,18 @@ public class RoleApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public RoleDto addPost(@RequestBody RoleDto userDto) {
-
-        return roleService.save(userDto);
+    public RoleDto addPost(@RequestBody RoleDto roleDto) {
+        return roleService.save(roleDto);
     }
 
     @GetMapping("/get")
     public RoleDto update(@RequestParam String identifier) {
-
         return roleService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
-    public RoleDto updatePost(@RequestBody RoleDto userDto) {
-
-        return roleService.update(userDto);
+    public RoleDto updatePost(@RequestBody RoleDto roleDto) {
+        return roleService.update(roleDto);
     }
 
     @GetMapping("/delete")

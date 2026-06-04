@@ -19,7 +19,6 @@ public class ModelsApiController extends BaseController {
 
     @PostMapping("/list")
     public List<ModelsDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -28,9 +27,8 @@ public class ModelsApiController extends BaseController {
 
 
     @PostMapping("/add")
-    public ModelsDto addPost(@RequestBody ModelsDto userDto) {
-        return modelsService.save(userDto);
-
+    public ModelsDto addPost(@RequestBody ModelsDto modelsDto) {
+        return modelsService.save(modelsDto);
     }
 
     @GetMapping("/get")
@@ -39,9 +37,8 @@ public class ModelsApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ModelsDto updatePost(@RequestBody ModelsDto userDto) {
-        return modelsService.update(userDto);
-
+    public ModelsDto updatePost(@RequestBody ModelsDto modelsDto) {
+        return modelsService.update(modelsDto);
     }
 
     @GetMapping("/delete")

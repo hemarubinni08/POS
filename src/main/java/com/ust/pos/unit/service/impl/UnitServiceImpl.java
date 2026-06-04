@@ -71,11 +71,8 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public void toggleStatus(String identifier) {
-
         Unit unit = unitRepository.findByIdentifier(identifier);
-
         unit.setStatus(!Boolean.TRUE.equals(unit.getStatus()));
-
         unitRepository.save(unit);
     }
 }

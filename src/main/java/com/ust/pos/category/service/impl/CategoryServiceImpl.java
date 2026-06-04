@@ -64,7 +64,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void delete(String identifier) {
-
         categoryRepository.deleteByIdentifier(identifier);
     }
 
@@ -78,14 +77,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAllCategoriesWithNoSuper() {
-
         List<Category> category = categoryRepository.findAll();
         List<Category> categorys = category.stream().filter(category1 ->
                 !category1.getSuperCategory().isEmpty()).toList();
 
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-
         return modelMapper.map(categorys, listType);
 
 

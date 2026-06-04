@@ -77,5 +77,4 @@ public class ModelsServiceImpl implements ModelsService {
             modelsRepository.save(models);
         }
     }
-
 }

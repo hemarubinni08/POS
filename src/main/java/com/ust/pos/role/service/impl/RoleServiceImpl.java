@@ -28,7 +28,6 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDto findByIdentifier(String identifier) {
         Role role = roleRepository.findByIdentifier(identifier);
-
         if (role == null) {
             return null;
         }
@@ -65,7 +64,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void delete(String identifier) {
-
         roleRepository.deleteByIdentifier(identifier);
     }
 

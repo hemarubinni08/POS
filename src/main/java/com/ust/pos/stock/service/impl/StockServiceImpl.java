@@ -28,7 +28,6 @@ public class StockServiceImpl implements StockService {
     @Override
     public StockDto findByIdentifier(String identifier) {
         Stock stock = stockRepository.findByIdentifier(identifier);
-
         if (stock == null) {
             return null;
         }
@@ -67,7 +66,6 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public void delete(String identifier) {
-
         stockRepository.deleteByIdentifier(identifier);
     }
 

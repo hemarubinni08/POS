@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CustomerDto extends CommonDto {
-
     private String name;
     private Long phoneNo;
     private String userType;

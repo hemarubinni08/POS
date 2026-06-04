@@ -42,7 +42,6 @@ public class NodeServiceImpl implements NodeService {
             if (principalObject != null) {
                 User currentUser = userRepository.findByUsername(principalObject.getUsername());
                 if (currentUser != null && currentUser.getRoles() != null) findEligibleNodes(currentUser, nodeDtos);
-
             }
         }
         return nodeDtos;
@@ -66,7 +65,6 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public NodeDto findByIdentifier(String identifier) {
         Node node = nodeRepository.findByIdentifier(identifier);
-
         if (node == null) {
             return null;
         }
