@@ -119,7 +119,6 @@ body {
     max-width: 650px;
     margin: 90px auto;
     text-align: center;
-
     border: 1px solid rgba(148,163,184,0.3);
     box-shadow: 0 20px 40px rgba(0,0,0,0.25);
     color: #e2e8f0;
