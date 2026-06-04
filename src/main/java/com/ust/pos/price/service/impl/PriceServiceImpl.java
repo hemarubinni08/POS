@@ -17,14 +17,15 @@ import java.util.List;
 
 @Service
 public class PriceServiceImpl implements PriceService {
+
     @Autowired
     ModelMapper modelMapper;
+
     @Autowired
     PriceRepository priceRepository;
 
     @Override
     public List<PriceDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
         Page<Price> pricePage=priceRepository.findAll(pageable);

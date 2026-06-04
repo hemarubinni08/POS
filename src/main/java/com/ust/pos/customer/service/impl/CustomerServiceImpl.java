@@ -110,7 +110,6 @@ public class CustomerServiceImpl implements CustomerService {
             customerDto.setMessage("Customer not found : " + customerDto.getIdentifier());
             return customerDto;
         }
-
         modelMapper.map(customerDto, existingCustomer);
         customerRepository.save(existingCustomer);
         List<AddressDto> existingAddresses = addressService.findAllByPhoneNumber(identifier);

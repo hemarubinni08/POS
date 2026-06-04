@@ -32,7 +32,6 @@ public class BrandController{
     @PostMapping("/add")
     public String addproduct(Model model, @ModelAttribute BrandDto brandDto) {
         BrandDto response = brandService.save(brandDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("brandDto", response);
@@ -58,7 +57,6 @@ public class BrandController{
     public String updateCategory(Model model, @ModelAttribute BrandDto brandDto) {
         BrandDto response = brandService.update(brandDto);
         model.addAttribute(BRANDS, response);
-
         if (!response.isSuccess()) {
             model.addAttribute(BRANDS, response);
             model.addAttribute("message", response.getMessage());

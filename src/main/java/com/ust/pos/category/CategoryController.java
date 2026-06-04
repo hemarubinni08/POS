@@ -31,15 +31,12 @@ public class CategoryController {
 
     @PostMapping("/add")
     public String addproduct(Model model, @ModelAttribute CategoryDto categoryDto) {
-
         CategoryDto response = categoryService.save(categoryDto);
-
         if (!response.isSuccess()) {
             model.addAttribute("categoryDto", response);
             model.addAttribute("message", response.getMessage());
             return "category/add";
         }
-
         return REDIRECT_CATEGORY_LIST;
     }
 

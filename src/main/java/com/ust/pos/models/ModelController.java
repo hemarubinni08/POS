@@ -33,7 +33,6 @@ public class ModelController {
 
     @PostMapping("/add")
     public String addModel(Model model, @ModelAttribute ModelDto modelDto) {
-
         ModelDto response = modelService.save(modelDto);
 
         if (!response.isSuccess()) {

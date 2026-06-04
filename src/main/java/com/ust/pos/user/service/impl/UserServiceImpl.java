@@ -20,6 +20,7 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
+
     @Autowired
     private UserRepository userRepository;
 
@@ -65,10 +66,8 @@ public class UserServiceImpl implements UserService {
                 userDto.setSuccess(false);
                 return userDto;
             }
-
             modelMapper.map(userDto, existingUser);
             userRepository.save(existingUser);
-
             return userDto;
         }
 

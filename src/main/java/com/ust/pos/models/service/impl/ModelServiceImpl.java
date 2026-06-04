@@ -85,7 +85,6 @@ public class ModelServiceImpl implements ModelService {
     public List<ModelDto> findActiveStatus() {
         List<Model> allModels = modelRepository.findAll();
         List<Model> activeModels = allModels.stream().filter(Model::isStatus).toList();
-
         Type listType = new TypeToken<List<ModelDto>>() {
         }.getType();
         return modelMapper.map(activeModels, listType);

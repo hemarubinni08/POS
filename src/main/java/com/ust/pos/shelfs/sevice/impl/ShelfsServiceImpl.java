@@ -17,8 +17,10 @@ import java.util.List;
 
 @Service
 public class ShelfsServiceImpl implements ShelfsService {
+
     @Autowired
     ShelfsRepository shelfsRepository;
+
     @Autowired
     ModelMapper modelMapper;
 
@@ -33,7 +35,6 @@ public class ShelfsServiceImpl implements ShelfsService {
     public List<ShelfsDto> findActiveStatus() {
         List<Shelfs> allShelves = shelfsRepository.findAll();
         List<Shelfs> activeShelves = allShelves.stream().filter(Shelfs::isStatus).toList();
-
         Type listType = new TypeToken<List<ShelfsDto>>() {
         }.getType();
         return modelMapper.map(activeShelves, listType);

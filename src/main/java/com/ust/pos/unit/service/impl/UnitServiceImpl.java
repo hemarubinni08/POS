@@ -17,6 +17,7 @@ import java.util.List;
 
 @Service
 public class UnitServiceImpl implements UnitService {
+
     @Autowired
     ModelMapper modelMapper;
 
@@ -85,7 +86,6 @@ public class UnitServiceImpl implements UnitService {
     public List<UnitDto> findActiveStatus() {
         List<Unit> allUnits = unitRepository.findAll();
         List<Unit> activeUnits = allUnits.stream().filter(Unit::isStatus).toList();
-
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
         return modelMapper.map(activeUnits, listType);

@@ -17,8 +17,10 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
     @Autowired
     ModelMapper modelMapper;
+
     @Autowired
     ProductRepository productRepository;
 
@@ -79,7 +81,6 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDto> findActiveStatus() {
         List<Product> allProducts = productRepository.findAll();
         List<Product> activeProducts = allProducts.stream().filter(Product::isStatus).toList();
-
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         return modelMapper.map(activeProducts, listType);

@@ -16,12 +16,16 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     public static final String PRODUCT = "product";
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
+
     @Autowired
     ProductService productService;
+
     @Autowired
     CategoryService categoryService;
+
     @Autowired
     BrandService brandService;
+
     @Autowired
     ModelService modelService;
 
@@ -42,7 +46,6 @@ public class ProductController {
 
     @PostMapping("/add")
     public String addproduct(Model model, @ModelAttribute ProductDto productDto) {
-
         ProductDto response = productService.save(productDto);
 
         if (!response.isSuccess()) {
@@ -50,7 +53,6 @@ public class ProductController {
             model.addAttribute("message", response.getMessage());
             return "product/add";
         }
-
         return REDIRECT_PRODUCT_LIST;
     }
 

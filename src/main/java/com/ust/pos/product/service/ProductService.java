@@ -19,6 +19,5 @@ public interface ProductService {
 
     ProductDto changeToggleStatus(String identifier, boolean status);
 
-
     List<ProductDto> findActiveStatus();
 }

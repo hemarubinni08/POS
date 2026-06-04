@@ -44,7 +44,6 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleDto> findActiveStatus() {
         List<Role> allRoles = roleRepository.findAll();
         List<Role> activeRoles = allRoles.stream().filter(Role::isStatus).toList();
-
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
         return modelMapper.map(activeRoles, listType);

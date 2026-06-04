@@ -19,6 +19,7 @@ public class StockController {
     public static final String WAREHOUSE = "warehouse";
     public static final String STOCK = "stock";
     public static final String REDIRECT_STOCK_LIST = "redirect:/stock/list";
+
     @Autowired
     StockService stockService;
 
@@ -42,13 +43,11 @@ public class StockController {
         model.addAttribute(WAREHOUSE, warehouseService.findActiveStatus());
         model.addAttribute(PRODUCT, productService.findActiveStatus());
         model.addAttribute("units", unitService.findActiveStatus());
-
         return "stock/add";
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute StockDto stockDto) {
-
         StockDto response = stockService.save(stockDto);
 
         if (!response.isSuccess()) {
@@ -56,7 +55,6 @@ public class StockController {
             model.addAttribute("message", response.getMessage());
             return "stock/add";
         }
-
         return REDIRECT_STOCK_LIST;
     }
 
@@ -72,7 +70,6 @@ public class StockController {
         model.addAttribute(WAREHOUSE, warehouseService.findAll(pageable));
         model.addAttribute(PRODUCT, productService.findAll(pageable));
         model.addAttribute("units", unitService.findAll(pageable));
-
         model.addAttribute(STOCK, response);
         return "stock/stock";
     }
@@ -83,7 +80,6 @@ public class StockController {
         model.addAttribute(STOCK, response);
         model.addAttribute(WAREHOUSE, warehouseService.findAll(pageable));
         model.addAttribute(PRODUCT, productService.findAll(pageable));
-
 
         if (!response.isSuccess()) {
             model.addAttribute(STOCK, response);

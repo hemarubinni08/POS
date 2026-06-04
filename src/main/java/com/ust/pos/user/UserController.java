@@ -19,10 +19,13 @@ public class UserController {
     public static final String USER_USER1 = "user/user";
     public static final String USER_USER = "user/user";
     public static final String REDIRECT_USER_LIST = "redirect:/user/list";
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private RoleService roleService;
+
     @Autowired
     private UserRepository userRepository;
 

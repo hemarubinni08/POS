@@ -17,8 +17,10 @@ import java.util.List;
 
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
+
     @Autowired
     ModelMapper modelMapper;
+
     @Autowired
     WarehouseRepository warehouseRepository;
 
@@ -53,7 +55,6 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public WarehouseDto findByIdentifier(String identifier) {
         return modelMapper.map(warehouseRepository.findByIdentifier(identifier), WarehouseDto.class);
-
     }
 
     @Override
