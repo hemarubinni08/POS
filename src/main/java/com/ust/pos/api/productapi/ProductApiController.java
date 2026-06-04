@@ -23,57 +23,43 @@ public class ProductApiController extends BaseController {
 
     @PostMapping("/list")
     public List<ProductDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return productService.findAll(pageable);
-
     }
 
     @PostMapping("/add")
     public ProductDto addPost(@RequestBody ProductDto productDto) {
-
         return productService.save(productDto);
-
     }
 
     @GetMapping("/get/{identifier}")
     public ProductDto update(@PathVariable String identifier) {
-
         return productService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public ProductDto updatePost(@RequestBody ProductDto productDto) {
-
         return productService.update(productDto);
-
     }
 
     @GetMapping("/delete/{identifier}")
     public boolean delete(@PathVariable String identifier) {
-
         try {
             productService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
         return true;
-
     }
 
     @PostMapping("/toggle-status")
     public ProductDto toggle(@RequestParam String identifier) {
-
         return productService.toggleStatus(identifier);
-
     }
 
 
     @GetMapping("/findByStatus")
     public List<ProductDto> findByStatus() {
-
         return productService.findIfTrue();
-
     }
 }
