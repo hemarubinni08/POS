@@ -36,7 +36,6 @@ public class NodeController {
     @PostMapping("/add")
     public String addPost(Model model,@ModelAttribute NodeDto nodeDto) {
         NodeDto response = nodeService.save(nodeDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(ROLES, roleService.findAll());
             model.addAttribute("message", response.getMessage());
@@ -47,25 +46,20 @@ public class NodeController {
 
     @GetMapping("/get")
     public String update(Model model,@RequestParam String identifier) {
-
         NodeDto nodeDto = nodeService.findByIdentifier(identifier);
         model.addAttribute("nodeDto", nodeDto);
         model.addAttribute(ROLES, roleService.findAll());
-
         return "node/node";
     }
 
     @PostMapping("/update")
     public String update(Model model, @ModelAttribute NodeDto nodeDto) {
-
         NodeDto response = nodeService.update(nodeDto);
-
         if (!response.isSuccess()) {
             model.addAttribute(ROLES, roleService.findAll());
             model.addAttribute("message", response.getMessage());
             return "node/node";
         }
-
         return REDIRECT_NODE_LIST;
     }
 

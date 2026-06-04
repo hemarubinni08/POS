@@ -31,11 +31,6 @@ public class UserController {
     @GetMapping("/get")
     public String getUser(Model model, @RequestParam String username) {
         UserDto userDto = userService.findByUserName(username);
-        if (userDto == null) {
-            model.addAttribute("message", "User not found");
-            return USER_USER;
-        }
-        userDto.setOldUsername(userDto.getUsername());
         model.addAttribute("userDto", userDto);
         model.addAttribute("roles", roleService.findAll());
         return USER_USER;

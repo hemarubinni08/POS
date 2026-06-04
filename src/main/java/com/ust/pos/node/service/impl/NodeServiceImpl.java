@@ -101,7 +101,6 @@ public class NodeServiceImpl implements NodeService {
                 }
             }
         }
-
         for (String nodeStr : nodesStr) {
             nodeDtoList.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
         }

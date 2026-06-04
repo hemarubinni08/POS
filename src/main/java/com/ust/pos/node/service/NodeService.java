@@ -5,6 +5,7 @@ import com.ust.pos.dto.NodeDto;
 import java.util.List;
 
 public interface NodeService {
+
     NodeDto save(NodeDto nodeDto);
 
     NodeDto update(NodeDto nodeDto);

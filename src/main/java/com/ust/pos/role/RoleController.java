@@ -33,7 +33,6 @@ public class RoleController {
             model.addAttribute("message", response.getMessage());
             return "role/add";
         }
-
         return REDIRECT_ROLE_LIST;
     }
 
@@ -53,7 +52,6 @@ public class RoleController {
             model.addAttribute("message", response.getMessage());
             return "role/role";
         }
-
         return REDIRECT_ROLE_LIST;
     }
 
