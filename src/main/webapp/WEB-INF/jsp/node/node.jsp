@@ -13,10 +13,15 @@
     <style>
         body {
             min-height: 100vh;
-           background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
             display: flex;
             justify-content: center;
             align-items: center;
+            color: black;
+        }
+
+        * {
+            color: black !important;
         }
 
         .card {
@@ -69,6 +74,18 @@
         .dropdown-list label:hover {
             background: #f1f1f1;
         }
+
+        .btn {
+            color: black !important;
+        }
+
+        .text-primary {
+            color: black !important;
+        }
+
+        .text-muted {
+            color: black !important;
+        }
     </style>
 </head>
 
@@ -83,7 +100,7 @@
 <div class="card shadow-lg">
     <div class="card-body">
 
-        <h4 class="text-center mb-4 text-primary">Edit Node</h4>
+        <h4 class="text-center mb-4">Edit Node</h4>
 
         <c:if test="${empty node}">
             <div class="alert alert-danger text-center">

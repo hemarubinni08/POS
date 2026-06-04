@@ -17,6 +17,11 @@
         body {
             background: linear-gradient(135deg, #eef2ff, #e0e7ff);
             min-height: 100vh;
+            color: black;
+        }
+
+        * {
+            color: black !important;
         }
 
         .card {
@@ -25,6 +30,14 @@
 
         .form-control {
             border-radius: 8px;
+        }
+
+        .btn {
+            color: black !important;
+        }
+
+        .text-muted {
+            color: black !important;
         }
     </style>
 </head>
@@ -39,28 +52,29 @@
             <div class="card-body">
 
                 <h3 class="text-center mb-4">Edit Role</h3>
+
                 <c:if test="${not empty message}">
                     <div class="alert alert-info text-center">
                         ${message}
                     </div>
                 </c:if>
 
-                <!-- FORM -->
                 <form:form method="post"
                            action="${pageContext.request.contextPath}/role/update"
                            modelAttribute="role">
+
                     <form:hidden path="id"/>
+
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Role Name</label>
                         <form:input path="identifier"
                                     cssClass="form-control"
                                     readonly="true"/>
-                        <small class="text-muted">
+                        <small>
                             Role name cannot be changed
                         </small>
                     </div>
 
-                    <!-- Description -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Description</label>
                         <form:textarea path="description"
@@ -69,15 +83,12 @@
                                        placeholder="Update role description"/>
                     </div>
 
-                    <!-- BUTTONS -->
                     <div class="d-flex gap-2">
 
-                        <!-- UPDATE -->
                         <button type="submit" class="btn btn-secondary btn-lg w-100">
                             Update Role
                         </button>
 
-                        <!-- CANCEL -->
                         <a href="${pageContext.request.contextPath}/role/list"
                            class="btn btn-secondary btn-lg w-100 text-center">
                             Cancel
@@ -89,7 +100,7 @@
 
             </div>
 
-            <div class="card-footer text-center text-muted small">
+            <div class="card-footer text-center small">
                 POS Management System
             </div>
 

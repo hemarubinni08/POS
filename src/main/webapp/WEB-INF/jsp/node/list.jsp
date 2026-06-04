@@ -18,19 +18,24 @@
             min-height: 100vh;
         }
 
+        body, h1, h2, h3, h4, h5, h6,
+        p, span, td, th, label, small {
+            color: black;
+        }
+
         .card {
             border-radius: 15px;
         }
 
         .table th {
             background-color: #343a40;
-            color: white;
+            color: white; /* keep header readable */
         }
 
         a.node-link {
             text-decoration: none;
             font-weight: 500;
-            color: #0d6efd;
+            color: black;
         }
 
         a.node-link:hover {
@@ -41,8 +46,16 @@
             display: inline-block;
             margin: 2px 6px;
             font-size: 15px;
-            color: blue;
+            color: black;
             font-weight: 500;
+        }
+
+        .action-icons a.text-primary {
+            color: #0d6efd !important;
+        }
+
+        .action-icons a.text-danger {
+            color: #dc3545 !important;
         }
 
         .action-icons a {
@@ -53,6 +66,10 @@
 
         .action-icons a:hover {
             opacity: 0.7;
+        }
+
+        .text-muted {
+            color: black !important;
         }
     </style>
 </head>
@@ -103,7 +120,7 @@
 
                                 <td>
                                     <c:if test="${empty node.roles}">
-                                        <span class="text-muted">No roles</span>
+                                        <span>No roles</span>
                                     </c:if>
 
                                     <c:forEach var="role" items="${node.roles}">
@@ -149,7 +166,7 @@
                 </a>
             </div>
 
-            <div class="text-muted small mt-2">
+            <div class="small mt-2">
                 Node Management System
             </div>
         </div>

@@ -91,26 +91,20 @@
                                     </a>
                                 </td>
 
-                                <!-- NAME -->
                                 <td>${user.name}</td>
 
-                                <!-- PHONE -->
                                 <td>${user.phoneNo}</td>
 
-                                <!-- ROLES -->
                                 <td>${user.roles}</td>
 
-                                <!-- ACTION ICONS -->
                                 <td class="action-icons">
 
-                                    <!-- EDIT ICON -->
                                     <a href="${pageContext.request.contextPath}/user/get?username=${user.username}"
                                        class="text-primary"
                                        title="Edit">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
 
-                                    <!-- DELETE ICON -->
                                     <a href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
                                        class="text-danger"
                                        title="Delete"
@@ -130,7 +124,6 @@
 
         </div>
 
-        <!-- FOOTER -->
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
                 <a href="${pageContext.request.contextPath}/" class="btn btn-secondary">

@@ -112,10 +112,8 @@
                     </div>
                 </c:if>
 
-                <!-- FORM -->
                 <form action="${pageContext.request.contextPath}/node/add" method="post">
 
-                    <!-- Identifier -->
                     <div class="mb-3">
                         <label class="form-label">Node Identifier</label>
                         <input type="text"
@@ -126,7 +124,6 @@
                                required>
                     </div>
 
-                    <!-- Path -->
                     <div class="mb-3">
                         <label class="form-label">Node Path</label>
                         <input type="text"
@@ -137,7 +134,6 @@
                                required>
                     </div>
 
-                    <!-- Roles -->
                     <div class="mb-3">
                         <label class="form-label">Assign Roles</label>
 
@@ -162,7 +158,6 @@
                         </div>
                     </div>
 
-                    <!-- BUTTONS -->
                     <div class="d-flex gap-2 mt-4">
 
                         <button type="submit" class="btn btn-grey w-100">

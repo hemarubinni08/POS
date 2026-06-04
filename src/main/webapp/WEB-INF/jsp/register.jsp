@@ -12,7 +12,6 @@
 
 <style>
 
-/* Background */
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
@@ -25,7 +24,6 @@ body {
     align-items: center;
 }
 
-/* Back Button */
 .back-btn {
     position: fixed;
     top: 18px;
@@ -49,7 +47,6 @@ body {
     transform: rotate(45deg);
 }
 
-/* Smaller Card */
 .register-card {
     width: 380px;
     max-width: 85%;
@@ -59,7 +56,6 @@ body {
     box-shadow: 0 12px 30px rgba(0,0,0,0.12);
 }
 
-/* Heading */
 h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -67,7 +63,6 @@ h2 {
     color: #374151;
 }
 
-/* Form */
 .form-group {
     margin-bottom: 14px;
 }
@@ -94,7 +89,6 @@ input:focus {
     outline: none;
 }
 
-/* Roles */
 #roleList {
     border: 1px solid #d1d5db;
     border-radius: 8px;
@@ -120,7 +114,6 @@ input:focus {
     height: 14px;
 }
 
-/* Button */
 .btn-submit {
     margin-top: 18px;
     width: 100%;
@@ -140,7 +133,6 @@ input:focus {
     box-shadow: 0 6px 15px rgba(99,102,241,0.25);
 }
 
-/* Errors */
 .error-msg {
     color: red;
     text-align: center;
@@ -194,13 +186,11 @@ function validateRoles() {
                modelAttribute="userDto"
                onsubmit="return validateRoles();">
 
-        <!-- Name -->
         <div class="form-group">
             <label>Name</label>
             <form:input path="name" placeholder="Enter name" required="true"/>
         </div>
 
-        <!-- Email -->
         <div class="form-group">
             <label>Email</label>
             <form:input path="username"
@@ -210,7 +200,6 @@ function validateRoles() {
                         required="true"/>
         </div>
 
-        <!-- Roles -->
         <div class="form-group">
             <label>Roles</label>
             <div id="roleList">
@@ -228,7 +217,6 @@ function validateRoles() {
             <span class="error" id="roleError">Select at least one role</span>
         </div>
 
-        <!-- Phone -->
         <div class="form-group">
             <label>Phone Number</label>
             <form:input path="phoneNo"
@@ -238,7 +226,6 @@ function validateRoles() {
                         required="true"/>
         </div>
 
-        <!-- Password -->
         <div class="form-group">
             <label>Password</label>
             <form:password path="password"

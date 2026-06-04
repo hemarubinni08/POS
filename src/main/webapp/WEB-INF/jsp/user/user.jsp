@@ -25,11 +25,12 @@
             padding: 30px 35px;
             border-radius: 15px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            color: #000;
         }
 
         h3 {
             text-align: center;
-            color: #4b6cb7;
+            color: #000;
             margin-bottom: 15px;
             font-weight: 600;
         }
@@ -37,12 +38,13 @@
         label {
             font-weight: 600;
             font-size: 14px;
-            color: #333;
+            color: #000;
         }
 
         .form-control {
             border-radius: 8px;
             padding: 10px 12px;
+            color: #000;
         }
 
         .dropdown-box {
@@ -53,6 +55,7 @@
             background: #fff;
             font-size: 14px;
             min-height: 42px;
+            color: #000;
         }
 
         .dropdown-list {
@@ -66,6 +69,7 @@
             border-radius: 8px;
             z-index: 1000;
             margin-top: 5px;
+            color: #000;
         }
 
         .role-dropdown.active .dropdown-list {
@@ -78,6 +82,7 @@
             gap: 8px;
             padding: 8px;
             cursor: pointer;
+            color: #000;
         }
 
         .dropdown-list label:hover {
