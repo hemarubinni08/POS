@@ -20,7 +20,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -30,23 +29,10 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleDto save(RoleDto roleDto) {
-        String identifier = roleDto.getIdentifier();
-        Role existingRole = roleRepository.findByIdentifier(identifier);
-        if (existingRole != null) {
-            roleDto.setMessage("Role with identifier - " + identifier + " already exists");
-            roleDto.setSuccess(false);
-            return roleDto;
-        }
-        Role role = modelMapper.map(roleDto, Role.class);
-        roleRepository.save(role);
-        return roleDto;
-    }
-
-    @Override
     public RoleDto update(RoleDto roleDto) {
         String identifier = roleDto.getIdentifier();
         Role existingRole = roleRepository.findByIdentifier(identifier);
+
         if (existingRole == null) {
             roleDto.setMessage("Role with identifier - " + identifier + " not found");
             roleDto.setSuccess(false);
@@ -58,16 +44,34 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public RoleDto save(RoleDto roleDto) {
+        String identifier = roleDto.getIdentifier();
+        Role existingRole = roleRepository.findByIdentifier(identifier);
+
+        if (existingRole != null) {
+            roleDto.setMessage("Role with identifier - " + identifier + " already exists");
+            roleDto.setSuccess(false);
+            return roleDto;
+        }
+        Role role = modelMapper.map(roleDto, Role.class);
+        roleRepository.save(role);
+        return roleDto;
+    }
+
     @Transactional
+    @Override
     public void delete(String identifier) {
         roleRepository.deleteByIdentifier(identifier);
     }
 
     @Override
     public List<RoleDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<RoleDto>>() {
-        }.getType();
+        Type listType = new TypeToken<List<RoleDto>>() {}.getType();
+        if (pageable == null) {
+            return modelMapper.map(roleRepository.findAll(), listType);
+        }
         Page<Role> rolePage = roleRepository.findAll(pageable);
         return modelMapper.map(rolePage.getContent(), listType);
     }
+
 }
