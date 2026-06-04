@@ -37,7 +37,7 @@ public class StockController {
             model.addAttribute("message", result.getMessage());
             return ADD_STOCK;
         }
-        return ADD_STOCK;
+        return REDIRECT;
     }
 
     @GetMapping("/get")
