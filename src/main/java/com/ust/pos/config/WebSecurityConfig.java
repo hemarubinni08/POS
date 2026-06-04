@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -43,7 +44,7 @@ public class WebSecurityConfig {
     private JwtFilter jwtFilter;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http){
 
         http
                 .csrf(csrf -> csrf.disable())
@@ -55,19 +56,19 @@ public class WebSecurityConfig {
                         .requestMatchers("/login", "/register", "/api/authenticate", "/api/validateToken", "/swagger-ui/**", "/v3/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .logout(logout -> logout.permitAll());
+                .logout(LogoutConfigurer::permitAll);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
+            AuthenticationConfiguration config){
         return config.getAuthenticationManager();
     }
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth){
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 

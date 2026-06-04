@@ -23,7 +23,7 @@ import java.util.List;
 
 
 @ExtendWith(MockitoExtension.class)
-public class ProductServiceTest {
+class ProductServiceTest {
     @InjectMocks
     private ProductServiceImpl productService;
     @Mock
