@@ -10,7 +10,7 @@ public interface RacksService {
 
     RacksDto update(RacksDto racksDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
     List<RacksDto> findAll(Pageable pageable);
 

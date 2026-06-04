@@ -10,7 +10,7 @@ public interface BrandService {
 
     BrandDto update(BrandDto brandDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
     void toggleStatus(String identifier);
 

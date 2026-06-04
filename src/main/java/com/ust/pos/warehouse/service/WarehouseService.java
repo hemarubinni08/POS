@@ -10,7 +10,7 @@ public interface WarehouseService {
 
     WarehouseDto update(WarehouseDto warehouseDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
     List<WarehouseDto> findAll(Pageable pageable);
 

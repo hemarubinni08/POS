@@ -10,7 +10,7 @@ public interface UnitService {
 
     UnitDto update(UnitDto unitDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
     List<UnitDto> findAll(Pageable pageable);
 
