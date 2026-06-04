@@ -221,7 +221,7 @@
             <input type="text" name="billing.addressLine" placeholder="Address Line"/>
             <input type="text" name="billing.city" placeholder="City"/>
             <input type="text" name="billing.state" placeholder="State"/>
-            <input type="number" name="billing.pincode" placeholder="Pincode"/>
+            <input type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" name="billing.pincode" placeholder="Pincode"/>
             <input type="text" name="billing.country" placeholder="Country"/>
         </details>
 
@@ -230,7 +230,7 @@
             <input type="text" name="shipping.addressLine" placeholder="Address Line"/>
             <input type="text" name="shipping.city" placeholder="City"/>
             <input type="text" name="shipping.state" placeholder="State"/>
-            <input type="number" name="shipping.pincode" placeholder="Pincode"/>
+            <input type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" name="shipping.pincode" placeholder="Pincode"/>
             <input type="text" name="shipping.country" placeholder="Country"/>
         </details>
 

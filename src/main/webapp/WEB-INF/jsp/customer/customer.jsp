@@ -296,7 +296,7 @@
                        value="${customerDto.shipping.state}"
                        placeholder="State"/>
 
-                <input type="number" name="shipping.pincode"
+                <input type="number" pattern="[0-9]{6}" maxlength="6" name="shipping.pincode"
                        value="${customerDto.shipping.pincode}"
                        placeholder="Pincode"/>
 
