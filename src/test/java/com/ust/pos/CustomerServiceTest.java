@@ -4,6 +4,7 @@ import com.ust.pos.address.service.AddressService;
 import com.ust.pos.customer.service.impl.CustomerServiceImpl;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.model.AddressRepository;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
@@ -33,6 +34,9 @@ class CustomerServiceTest {
 
     @Mock
     private CustomerRepository customerRepository;
+
+    @Mock
+    private AddressRepository addressRepository;
 
     @Mock
     private ModelMapper modelMapper;
@@ -163,9 +167,18 @@ class CustomerServiceTest {
 
     @Test
     void deleteTest() {
+        Customer customer = new Customer();
+        customer.setIdentifier("C1");
+        customer.setPhoneNo(123L);
+
+        Mockito.when(customerRepository.findByIdentifier("C1"))
+                .thenReturn(customer);
+
         customerService.delete("C1");
 
+        verify(customerRepository).findByIdentifier("C1");
         verify(customerRepository).deleteByIdentifier("C1");
+        verify(addressRepository).deleteByPhoneNo(123L);
     }
 
     @Test

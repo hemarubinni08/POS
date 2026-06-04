@@ -116,7 +116,6 @@ class PriceServiceTest {
     @Test
     void deleteTest() {
         priceService.delete("PRICE4");
-
         Mockito.verify(priceRepository).deleteByIdentifier("PRICE4");
     }
 

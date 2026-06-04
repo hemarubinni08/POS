@@ -45,14 +45,11 @@ class NodeServiceTest {
 
     @Test
     void getNodesForRolesTest() {
-        Authentication authentication =
-                Mockito.mock(Authentication.class);
+        Authentication authentication = Mockito.mock(Authentication.class);
 
-        SecurityContext securityContext =
-                Mockito.mock(SecurityContext.class);
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
 
-        org.springframework.security.core.userdetails.User principal =
-                new org.springframework.security.core.userdetails.User(
+        org.springframework.security.core.userdetails.User principal = new org.springframework.security.core.userdetails.User(
                         "user", "pass", Arrays.asList());
 
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
@@ -172,7 +169,6 @@ class NodeServiceTest {
     @Test
     void deleteTest() {
         nodeService.delete("N1");
-
         verify(nodeRepository).deleteByIdentifier("N1");
     }
 

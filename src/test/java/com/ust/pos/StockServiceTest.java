@@ -117,7 +117,6 @@ class StockServiceTest {
     @Test
     void deleteTest() {
         stockService.delete("STOCK4");
-
         Mockito.verify(stockRepository).deleteByIdentifier("STOCK4");
     }
 

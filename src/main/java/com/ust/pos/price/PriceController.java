@@ -1,5 +1,4 @@
 package com.ust.pos.price;
-
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.PriceDto;

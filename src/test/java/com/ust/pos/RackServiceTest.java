@@ -104,7 +104,6 @@ class RackServiceTest {
     @Test
     void deleteTest() {
         rackService.delete("RACK3");
-
         Mockito.verify(rackRepository).deleteByIdentifier("RACK3");
     }
 

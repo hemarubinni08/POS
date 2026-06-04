@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ModelProductRepository extends JpaRepository<ModelProduct, Long> {
+
     ModelProduct findByIdentifier(String identifier);
 
     void deleteByIdentifier(String identifier);

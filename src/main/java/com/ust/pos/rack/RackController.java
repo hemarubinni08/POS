@@ -1,5 +1,4 @@
 package com.ust.pos.rack;
-
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RackDto;
@@ -16,10 +15,13 @@ import org.springframework.web.bind.annotation.*;
 public class RackController extends BaseController {
 
     private static final String REDIRECT_LIST = "redirect:/rack/list";
+
     @Autowired
     ShelfsRepository shelfsRepository;
+
     @Autowired
     private RackService rackService;
+
     @Autowired
     private ShelfsService shelfsService;
 

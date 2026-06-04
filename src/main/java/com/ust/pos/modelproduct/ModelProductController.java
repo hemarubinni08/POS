@@ -1,5 +1,4 @@
 package com.ust.pos.modelproduct;
-
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.ModelProductDto;
 import com.ust.pos.dto.PaginationDto;

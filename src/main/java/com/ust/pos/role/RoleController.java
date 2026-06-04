@@ -1,5 +1,4 @@
 package com.ust.pos.role;
-
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RoleDto;

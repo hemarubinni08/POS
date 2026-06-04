@@ -173,7 +173,6 @@ class UnitServiceTest {
     @Test
     void deleteTest() {
         unitService.delete("UNIT5");
-
         Mockito.verify(unitRepository).deleteByIdentifier("UNIT5");
     }
 

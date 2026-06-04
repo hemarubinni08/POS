@@ -1,5 +1,4 @@
 package com.ust.pos.config;
-
 import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

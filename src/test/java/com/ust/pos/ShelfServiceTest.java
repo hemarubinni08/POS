@@ -102,7 +102,6 @@ class ShelfsServiceTest {
     @Test
     void deleteTest() {
         shelfsService.delete("SHELF3");
-
         Mockito.verify(shelfRepository).deleteByIdentifier("SHELF3");
     }
 

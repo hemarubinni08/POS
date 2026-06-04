@@ -100,7 +100,6 @@ class BrandServiceTest {
     @Test
     void deleteTest() {
         brandService.delete("BRAND3");
-
         Mockito.verify(brandRepository).deleteByIdentifier("BRAND3");
     }
 

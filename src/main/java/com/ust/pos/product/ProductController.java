@@ -1,5 +1,4 @@
 package com.ust.pos.product;
-
 import com.ust.pos.api.BaseController;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.category.service.CategoryService;
@@ -19,14 +18,19 @@ import org.springframework.web.bind.annotation.*;
 public class
 ProductController extends BaseController {
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
+
     @Autowired
     CategoryService categoryService;
+
     @Autowired
     BrandService brandService;
+
     @Autowired
     UnitService unitService;
+
     @Autowired
     ModelProductService modelProductService;
+
     @Autowired
     private ProductService productService;
 

@@ -1,5 +1,4 @@
 package com.ust.pos.category.service.impl;
-
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.model.Category;
@@ -11,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.lang.reflect.Type;
 import java.util.List;
 

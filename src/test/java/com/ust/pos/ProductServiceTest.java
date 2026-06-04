@@ -105,7 +105,6 @@ class ProductServiceTest {
     @Test
     void deleteTest() {
         productService.delete("PRD003");
-
         verify(productRepository, times(1)).deleteByIdentifier("PRD003");
     }
 
