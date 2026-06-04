@@ -204,11 +204,12 @@
                         </div>
                         <div class="mb-3">
                             <label>Zip Code</label>
-                            <form:input path="shippingAddress.zipcode" required="true"/>
+                            <form:input path="shippingAddress.zipcode" maxlength= "10" required="true"/>
                         </div>
                         <div class="mb-3">
                             <label>Country</label>
-                            <form:input path="shippingAddress.country" required="true"/>
+                            <form:input path="shippingAddress.country" pattern="^[A-Za-z ]{3,50}$"
+                              title="Country should contain only letters and spaces" required="true"/>
                         </div>
                         <div class="mb-3">
                             <label>Address Types</label>

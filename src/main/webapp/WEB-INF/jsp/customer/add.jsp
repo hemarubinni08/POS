@@ -124,7 +124,7 @@
             <form:input path="shippingAddress.state" type="text" required="true"/>
 
             <label>Zip Code</label>
-            <form:input path="shippingAddress.zipcode" type="number" required="true"/>
+            <form:input path="shippingAddress.zipcode" type="number" minlength="10" required="true"/>
 
             <label>Country</label>
             <form:input path="shippingAddress.country" type="text" required="true"/>
@@ -149,7 +149,8 @@
             <form:input path="billingAddress.zipcode" type="number" required="true"/>
 
             <label>Country</label>
-            <form:input path="billingAddress.country" type="text" required="true"/>
+            <form:input path="billingAddress.country" type="text" pattern="^[A-Za-z ]{3,50}$"
+            title="Country should contain only letters and spaces" required="true"/>
 
             <label>Address Types</label>
             <form:select path="billingAddress.addressType" required="true">

@@ -4,6 +4,7 @@ import com.ust.pos.brand.service.impl.BrandServiceImpl;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
+import com.ust.pos.model.CommonFields;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -160,8 +161,7 @@ class BrandServiceTest {
         when(brandRepository.findByIdentifier("BR001")).thenReturn(brand);
         brandService.toggleStatus("BR001");
         assertTrue(brand.isStatus());
-        verify(brandRepository).save(argThat(saved ->
-                saved.isStatus()
+        verify(brandRepository).save(argThat(CommonFields::isStatus
         ));
     }
 

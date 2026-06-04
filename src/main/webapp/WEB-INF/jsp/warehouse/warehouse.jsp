@@ -64,7 +64,9 @@
                                 cssClass="form-control"
                                 type="text"
                                 placeholder="Enter region"
-                                required="true"/>
+                                required="true"
+                                pattern="^[A-Za-z ]{2,50}$"
+                                title="Region should contain only letters and spaces"/>
                 </div>
 
                 <div class="mb-4">
@@ -73,7 +75,9 @@
                                 cssClass="form-control"
                                 type="text"
                                 placeholder="Enter country"
-                                required="true"/>
+                                required="true"
+                                pattern="^[A-Za-z ]{2,50}$"
+                                title="Country should contain only letters and spaces"/>
                 </div>
 
                 <div class="mb-4">
@@ -82,7 +86,9 @@
                                 cssClass="form-control"
                                 type="text"
                                 placeholder="Enter Contact Name"
-                                required="true"/>
+                                required="true"
+                                pattern="^[A-Za-z ]{3,50}$"
+                                                                    title="Contact name should contain only letters and spaces"/>
                 </div>
 
                 <div class="mb-4">
@@ -91,7 +97,9 @@
                                 cssClass="form-control"
                                 type="tel"
                                 placeholder="Enter Contact Number"
-                                required="true"/>
+                                required="true"
+                                pattern="[0-9]{10}"
+                                title="Enter a valid 10-digit mobile number"/>
                 </div>
 
                 <div class="mb-4">

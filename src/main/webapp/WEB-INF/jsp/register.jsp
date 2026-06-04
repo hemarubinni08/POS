@@ -128,7 +128,7 @@
 
     <div class="pos-banner">
         <h1>POS Application</h1>
-        <a href="/login" class="banner-signin">Sign In</a>
+        <a href="/user/list" class="banner-signin">Go Back</a>
     </div>
 
     <div class="register-card">
@@ -159,9 +159,9 @@
             <div class="form-group">
                 <label>Phone Number</label>
                 <form:input path="phoneNo"
-                            type="number"
+                            type="text"
                             maxlength="10"
-                            pattern="[0-9]"
+                            pattern="[0-9]{10}"
                             required="true"/>
             </div>
 

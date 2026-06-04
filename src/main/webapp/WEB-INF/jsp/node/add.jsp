@@ -105,13 +105,16 @@
 
                 </form:form>
 
+                <div class="text-center mt-3">
+                        <a href="/node/list">← Back to Node List</a>
+                </div>
+
             </div>
 
             <div class="card-footer text-center text-muted small">
                 POS Management System
             </div>
         </div>
-
     </div>
 
     <c:if test="${not empty message}">

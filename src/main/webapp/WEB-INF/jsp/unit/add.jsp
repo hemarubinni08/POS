@@ -63,6 +63,13 @@
                                     placeholder="Enter Unit Name"
                                     required="true"/>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Unit Description</label>
+                        <form:input path="description"
+                                     cssClass="form-control"
+                                     type="text"
+                                     placeholder="Enter Unit Description"/>
+                    </div>
 
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
@@ -94,7 +101,6 @@
                 ${message}
             </div>
         </c:if>
-
     </div>
 </div>
 

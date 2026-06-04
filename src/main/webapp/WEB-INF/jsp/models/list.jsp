@@ -152,7 +152,7 @@
                                         </td>
 
                                         <td>
-                                            category/delete?identifier=${model.identifier}"
+                                           <a href="/models/delete?identifier=${model.identifier}"
                                                class="btn btn-pos-delete btn-sm"
                                                onclick="return confirm('Are you sure you want to delete this unit?');">
                                                 Delete

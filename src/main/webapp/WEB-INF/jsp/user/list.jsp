@@ -124,7 +124,6 @@
                     </table>
                 </div>
             </c:if>
-
         </div>
 
         <div class="card-footer text-center">
@@ -134,7 +133,7 @@
                 </a>
 
                 <a href="/register" class="btn btn-success">
-                    Register
+                    Add User
                 </a>
             </div>
 
@@ -145,6 +144,5 @@
 
     </div>
 </div>
-
 </body>
 </html>
