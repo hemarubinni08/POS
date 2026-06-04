@@ -175,15 +175,6 @@
                                     </div>
                                 </div>
 
-            <div class="mb-3">
-                <label class="form-label">Barcode ($)</label>
-                <form:input path="barcode"
-                            type="number"
-                            step="0.01"
-                            cssClass="form-control"
-                            placeholder="0.00"
-                            required="true"/>
-            </div>
 
             <div class="mb-4">
                 <label class="form-label">Description</label>

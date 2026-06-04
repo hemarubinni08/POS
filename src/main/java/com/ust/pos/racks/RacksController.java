@@ -37,8 +37,15 @@ public class RacksController {
 
     @PostMapping("/add")
     public String addracks(Model model, @ModelAttribute RacksDto racksDto) {
-        racksService.save(racksDto);
-        model.addAttribute(RACKS, racksDto);
+
+        RacksDto response = racksService.save(racksDto);
+
+        if (!response.isSuccess()) {
+            model.addAttribute("racksDto", response);
+            model.addAttribute("message", response.getMessage());
+            return "rack/add";
+        }
+
         return REDIRECT_RACK_LIST;
     }
 

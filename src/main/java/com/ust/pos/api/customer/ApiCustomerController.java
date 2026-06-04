@@ -33,7 +33,7 @@ public class ApiCustomerController extends BaseController {
         return customerService.save(customerDto);
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             customerService.delete(identifier);
@@ -43,7 +43,7 @@ public class ApiCustomerController extends BaseController {
         return true;
     }
 
-    @GetMapping("/get")
+    @PostMapping("/get")
     public CustomerDto update(@RequestParam String identifier) {
         return customerService.findByIdentifier(identifier);
     }

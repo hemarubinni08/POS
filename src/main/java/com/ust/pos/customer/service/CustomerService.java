@@ -10,7 +10,7 @@ public interface CustomerService {
 
     CustomerDto save(CustomerDto customerDto);
 
-    boolean delete(String identifier);
+    void delete(String identifier);
 
     void updateStatus(String identifier);
 

@@ -39,8 +39,15 @@ public class CustomerController {
 
     @PostMapping("/add")
     public String addcustomer(Model model, @ModelAttribute CustomerDto customerDto) {
-        customerService.save(customerDto);
-        model.addAttribute(CUSTOMERS, customerDto);
+
+        CustomerDto response = customerService.save(customerDto);
+
+        if (!response.isSuccess()) {
+            model.addAttribute("customerDto", response);
+            model.addAttribute("message", response.getMessage());
+            return "customer/add";
+        }
+
         return REDIRECT_CUSTOMER_LIST;
     }
 

@@ -115,9 +115,10 @@ class CustomerServiceTest {
         Mockito.doNothing()
                 .when(addressService).delete("CUST01");
 
-        boolean result = customerService.delete("CUST01");
+        customerService.delete("CUST01");
 
-        Assertions.assertTrue(result);
+        Mockito.verify(customerRepository)
+                .deleteByIdentifier("CUST01");
 
         Mockito.verify(addressService)
                 .delete("CUST01");

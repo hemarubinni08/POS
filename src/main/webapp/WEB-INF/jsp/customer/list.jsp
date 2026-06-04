@@ -236,7 +236,7 @@
                                     </a>
 
                                     <!-- DELETE: Proper POST Form -->
-                                    <form action="${pageContext.request.contextPath}/customer/delete" method="POST"
+                                    <form action="${pageContext.request.contextPath}/customer/delete?identifier=${p.identifier}" method="GET"
                                           onsubmit="return confirm('Delete customer ${p.customerName}? This action cannot be undone.');">
                                         <input type="hidden" name="identifier" value="${p.identifier}">
                                         <button type="submit" class="btn-action btn-delete">

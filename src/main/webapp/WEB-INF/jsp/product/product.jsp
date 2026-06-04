@@ -180,13 +180,6 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <label class="form-label">Barcode</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
-                            <form:input path="barcode" class="form-control" placeholder="Update barcode"/>
-                        </div>
-                    </div>
 
                     <div class="col-12">
                         <label class="form-label">Product Name / Description</label>

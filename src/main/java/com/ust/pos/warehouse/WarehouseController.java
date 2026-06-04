@@ -30,7 +30,15 @@ public class WarehouseController {
 
     @PostMapping("/add")
     public String addWarehouse(Model model, @ModelAttribute WarehouseDto warehouseDto) {
-        warehouseService.save(warehouseDto);
+
+        WarehouseDto response = warehouseService.save(warehouseDto);
+
+        if (!response.isSuccess()) {
+            model.addAttribute("warehouseDto", response);
+            model.addAttribute("message", response.getMessage());
+            return "warehouse/add";
+        }
+
         return REDIRECT_WAREHOUSE_LIST;
     }
 

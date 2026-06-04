@@ -48,7 +48,15 @@ public class StockController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute StockDto stockDto) {
-        stockService.save(stockDto);
+
+        StockDto response = stockService.save(stockDto);
+
+        if (!response.isSuccess()) {
+            model.addAttribute("stockDto", response);
+            model.addAttribute("message", response.getMessage());
+            return "stock/add";
+        }
+
         return REDIRECT_STOCK_LIST;
     }
 

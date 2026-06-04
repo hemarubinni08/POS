@@ -31,8 +31,13 @@ public class UnitController {
 
     @PostMapping("/add")
     public String addunit(Model model, @ModelAttribute UnitDto unitDto) {
-        unitService.save(unitDto);
-        model.addAttribute(UNITS,unitDto);
+        UnitDto response = unitService.save(unitDto);
+
+        if (!response.isSuccess()) {
+            model.addAttribute("message", response.getMessage());
+            model.addAttribute("unitDto", response);
+            return "unit/add";
+        }
         return REDIRECT_UNIT_LIST;
     }
 

@@ -33,8 +33,15 @@ public class ModelController {
 
     @PostMapping("/add")
     public String addModel(Model model, @ModelAttribute ModelDto modelDto) {
-        modelService.save(modelDto);
-        model.addAttribute(MODELS,modelDto);
+
+        ModelDto response = modelService.save(modelDto);
+
+        if (!response.isSuccess()) {
+            model.addAttribute("modelDto", response);
+            model.addAttribute("message", response.getMessage());
+            return "model/add";
+        }
+
         return REDIRECT_MODEL_LIST;
     }
 

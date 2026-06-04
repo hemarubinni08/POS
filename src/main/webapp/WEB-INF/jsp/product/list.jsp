@@ -169,7 +169,6 @@
                         <th>Category</th>
                         <th>Brand</th>
                         <th>Model</th>
-                        <th class="text-center">Barcode</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Actions</th>
                     </tr>
@@ -205,10 +204,6 @@
                                 <span class="model-badge">
                                     <i class="bi bi-cpu me-1"></i>${product.models}
                                 </span>
-                            </td>
-
-                            <td class="text-center text-muted small fw-bold">
-                                ${product.barcode}
                             </td>
 
                             <td class="text-center">

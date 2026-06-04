@@ -8,7 +8,6 @@ import lombok.Setter;
 public class ProductDto extends CommonDto{
     private String description;
     private String category;
-    private Long barcode;
     private String brand;
     private String models;
 }

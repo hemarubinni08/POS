@@ -31,8 +31,13 @@ public class BrandController{
 
     @PostMapping("/add")
     public String addproduct(Model model, @ModelAttribute BrandDto brandDto) {
-        brandService.save(brandDto);
-        return REDIRECT_BRAND_LIST;
+        BrandDto response = brandService.save(brandDto);
+
+        if (!response.isSuccess()) {
+            model.addAttribute("message", response.getMessage());
+            model.addAttribute("brandDto", response);
+            return "brand/add";
+        }        return REDIRECT_BRAND_LIST;
     }
 
     @GetMapping("/delete")

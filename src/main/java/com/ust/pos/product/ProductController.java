@@ -42,7 +42,15 @@ public class ProductController {
 
     @PostMapping("/add")
     public String addproduct(Model model, @ModelAttribute ProductDto productDto) {
-        productService.save(productDto);
+
+        ProductDto response = productService.save(productDto);
+
+        if (!response.isSuccess()) {
+            model.addAttribute("productDto", response);
+            model.addAttribute("message", response.getMessage());
+            return "product/add";
+        }
+
         return REDIRECT_PRODUCT_LIST;
     }
 

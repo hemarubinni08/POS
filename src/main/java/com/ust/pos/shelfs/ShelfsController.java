@@ -30,8 +30,15 @@ public class ShelfsController {
 
     @PostMapping("/add")
     public String addshelfs(Model model, @ModelAttribute ShelfsDto shelfsDto) {
-        shelfsService.save(shelfsDto);
-        model.addAttribute(SHELVES, shelfsDto);
+
+        ShelfsDto response = shelfsService.save(shelfsDto);
+
+        if (!response.isSuccess()) {
+            model.addAttribute("message", response.getMessage());
+            model.addAttribute("shelfsDto", response);
+            return "shelfs/add";
+        }
+
         return REDIRECT_SHELFS_LIST;
     }
 

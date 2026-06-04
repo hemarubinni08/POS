@@ -76,10 +76,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public boolean delete(String identifier) {
+    public void delete(String identifier) {
         customerRepository.deleteByIdentifier(identifier);
         addressService.delete(identifier);
-        return true;
     }
 
     @Override

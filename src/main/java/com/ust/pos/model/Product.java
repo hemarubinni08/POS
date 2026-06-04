@@ -10,7 +10,6 @@ import lombok.Setter;
 public class Product extends CommonFields{
     private String description;
     private String category;
-    private Long barcode;
     private String brand;
     private String models;
 
