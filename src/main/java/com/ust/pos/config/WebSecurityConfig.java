@@ -42,10 +42,6 @@ public class WebSecurityConfig {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private JwtFilter jwtFilter;
-
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,JwtFilter jwtFilter) {
 
@@ -66,7 +62,6 @@ public class WebSecurityConfig {
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(
