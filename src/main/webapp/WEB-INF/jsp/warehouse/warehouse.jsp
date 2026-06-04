@@ -203,7 +203,15 @@
 
             <div class="form-group">
                 <label>Pincode</label>
-                <form:input path="pincode" placeholder="Enter Pincode"/>
+                <form:input
+                    path="pincode"
+                    type="text"
+                    placeholder="Enter Pincode"
+                    maxlength="6"
+                    pattern="[0-9]{6}"
+                    required="required"
+                    inputmode="numeric"
+                    oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
             </div>
 
             <div class="form-group">
