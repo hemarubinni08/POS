@@ -30,18 +30,13 @@ class StockServiceTest {
 
     @Test
     void findMethods_shouldHandleBothCases() {
-
         Stock stock = TestData.stock();
-
         when(stockRepository.findByIdentifier("STK")).thenReturn(Optional.of(stock));
         when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
-
         assertEquals("STK-PRD-WH", service.findByIdentifier("STK").getIdentifier());
         assertEquals(1L, service.findById(1L).getId());
-
         when(stockRepository.findByIdentifier("X")).thenReturn(Optional.empty());
         when(stockRepository.findById(99L)).thenReturn(Optional.empty());
-
         assertThrows(RuntimeException.class, () -> service.findByIdentifier("X"));
         assertThrows(RuntimeException.class, () -> service.findById(99L));
     }
@@ -53,78 +48,54 @@ class StockServiceTest {
         dto.setWarehouseId(1L);
         dto.setQuantity(20);
         dto.setMinimumStock(10);
-
         when(productRepository.findById(1L)).thenReturn(Optional.of(TestData.product()));
         when(warehouseRepository.findById(1L)).thenReturn(Optional.of(TestData.warehouse()));
         when(stockRepository.findByProductIdAndWarehouseId(1L, 1L)).thenReturn(Optional.empty());
         when(stockRepository.save(any())).thenAnswer(i -> i.getArgument(0));
-
         StockDto result = service.save(dto);
-
         assertEquals("STK-PRD-WH", result.getIdentifier());
         assertTrue(result.isStatus());
-
         when(stockRepository.findByProductIdAndWarehouseId(1L, 1L))
                 .thenReturn(Optional.of(new Stock()));
-
         RuntimeException ex1 = assertThrows(RuntimeException.class,
                 () -> service.save(dto));
-
         assertEquals(
                 "Stock already exists for this Product and Warehouse",
                 ex1.getMessage());
-
         RuntimeException ex2 = assertThrows(RuntimeException.class,
                 () -> service.save(new StockDto()));
-
         assertEquals("Product and Warehouse are required", ex2.getMessage());
-
         when(productRepository.findById(1L)).thenReturn(Optional.empty());
-
         StockDto invalidDto = new StockDto();
         invalidDto.setProductId(1L);
         invalidDto.setWarehouseId(1L);
-
         RuntimeException ex3 = assertThrows(RuntimeException.class,
                 () -> service.save(invalidDto));
-
         assertEquals("Product not found", ex3.getMessage());
-
         when(productRepository.findById(1L)).thenReturn(Optional.of(TestData.product()));
         when(warehouseRepository.findById(1L)).thenReturn(Optional.empty());
-
         RuntimeException ex4 = assertThrows(RuntimeException.class,
                 () -> service.save(invalidDto));
-
         assertEquals("Warehouse not found", ex4.getMessage());
     }
 
     @Test
     void update_shouldHandleAllCases() {
-
         Stock existing = TestData.stock();
-
         when(stockRepository.findById(1L)).thenReturn(Optional.of(existing));
         when(stockRepository.save(any())).thenAnswer(i -> i.getArgument(0));
-
         StockDto dto = new StockDto();
         dto.setId(1L);
         dto.setQuantity(5);
         dto.setMinimumStock(10);
-
         StockDto result = service.update(dto);
-
         assertFalse(result.isStatus());
         assertEquals(5, result.getQuantity());
-
         when(stockRepository.findById(99L)).thenReturn(Optional.empty());
-
         StockDto failDto = new StockDto();
         failDto.setId(99L);
-
         RuntimeException ex = assertThrows(RuntimeException.class,
                 () -> service.update(failDto));
-
         assertEquals("Stock not found", ex.getMessage());
     }
 
@@ -136,29 +107,23 @@ class StockServiceTest {
 
     @Test
     void update_shouldHandleProductAndWarehouseChange() {
-
         Stock existing = TestData.stock();
-
         when(stockRepository.findById(1L)).thenReturn(Optional.of(existing));
         when(productRepository.findById(2L)).thenReturn(Optional.of(TestData.product2()));
         when(warehouseRepository.findById(2L)).thenReturn(Optional.of(TestData.warehouse2()));
         when(stockRepository.save(any())).thenAnswer(i -> i.getArgument(0));
-
         StockDto dto = new StockDto();
         dto.setId(1L);
         dto.setProductId(2L);
         dto.setWarehouseId(2L);
         dto.setQuantity(20);
         dto.setMinimumStock(10);
-
         StockDto result = service.update(dto);
-
         assertEquals(2L, result.getProductId());
         assertEquals(2L, result.getWarehouseId());
     }
 
     static class TestData {
-
         static Product product() {
             Product p = new Product();
             p.setId(1L);

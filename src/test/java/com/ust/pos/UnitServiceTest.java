@@ -36,18 +36,13 @@ class UnitServiceTest {
     void findByIdentifier_shouldHandleBothCases() {
         Unit unit = new Unit();
         unit.setIdentifier("KG");
-
         UnitDto dto = new UnitDto();
         dto.setIdentifier("KG");
-
         when(repository.findByIdentifier("KG")).thenReturn(unit);
         when(mapper.map(unit, UnitDto.class)).thenReturn(dto);
-
         assertEquals("KG", service.findByIdentifier("KG").getIdentifier());
-
         when(repository.findByIdentifier("X")).thenReturn(null);
         when(mapper.map(null, UnitDto.class)).thenReturn(null);
-
         assertNull(service.findByIdentifier("X"));
     }
 
@@ -55,24 +50,16 @@ class UnitServiceTest {
     void save_shouldHandleAllCases() {
         UnitDto dto = new UnitDto();
         dto.setIdentifier("KG");
-
         Unit unit = new Unit();
         unit.setIdentifier("KG");
-
         when(repository.findByIdentifier("KG")).thenReturn(null);
         when(mapper.map(dto, Unit.class)).thenReturn(unit);
-
         UnitDto result = service.save(dto);
-
         verify(mapper).map(dto, Unit.class);
         verify(repository).save(unit);
-
         assertTrue(result.isSuccess() || result.getMessage() == null);
-
         when(repository.findByIdentifier("KG")).thenReturn(unit);
-
         UnitDto duplicate = service.save(dto);
-
         assertFalse(duplicate.isSuccess());
         assertTrue(duplicate.getMessage().contains("already exists"));
     }
@@ -81,22 +68,15 @@ class UnitServiceTest {
     void update_shouldHandleBothCases() {
         UnitDto dto = new UnitDto();
         dto.setIdentifier("KG");
-
         Unit unit = new Unit();
         unit.setIdentifier("KG");
-
         when(repository.findByIdentifier("KG")).thenReturn(unit);
-
         service.update(dto);
-
         verify(mapper).map(dto, unit);
         verify(repository).save(unit);
-
         when(repository.findByIdentifier("X")).thenReturn(null);
         dto.setIdentifier("X");
-
         UnitDto failure = service.update(dto);
-
         assertFalse(failure.isSuccess());
         assertTrue(failure.getMessage().contains("not found"));
     }
@@ -111,53 +91,37 @@ class UnitServiceTest {
     void findAll_shouldHandleDataAndEmpty() {
         Pageable pageable = PageRequest.of(0, 10);
         Type type = new TypeToken<List<UnitDto>>() {}.getType();
-
         Unit unit = new Unit();
         unit.setIdentifier("KG");
-
         UnitDto dto = new UnitDto();
         dto.setIdentifier("KG");
-
         Page<Unit> page = new PageImpl<>(List.of(unit), pageable, 1);
-
         when(repository.findAll(pageable)).thenReturn(page);
         when(mapper.map(any(), eq(type))).thenReturn(List.of(dto));
-
         assertEquals(1, service.findAll(pageable).size());
-
         Page<Unit> emptyPage =
                 new PageImpl<>(List.of(), pageable, 0);
-
         when(repository.findAll(pageable)).thenReturn(emptyPage);
-        when(mapper.map(eq(List.of()), eq(type))).thenReturn(List.of());
-
+        when(mapper.map(List.of(), type)).thenReturn(List.of());
         assertTrue(service.findAll(pageable).isEmpty());
     }
 
     @Test
     void toggleStatus_shouldCoverAllBranches() {
-
         Unit unit = new Unit();
         unit.setIdentifier("KG");
         unit.setStatus(true);
-
         when(repository.findByIdentifier("KG")).thenReturn(unit);
-
         service.toggleStatus("KG");
         assertFalse(unit.isStatus());
-
         service.toggleStatus("KG");
         assertTrue(unit.isStatus());
-
         verify(repository, times(2)).save(unit);
-
         when(repository.findByIdentifier("X")).thenReturn(null);
-
         RuntimeException ex = assertThrows(
                 RuntimeException.class,
                 () -> service.toggleStatus("X")
         );
-
         assertEquals("Unit not found", ex.getMessage());
     }
 }

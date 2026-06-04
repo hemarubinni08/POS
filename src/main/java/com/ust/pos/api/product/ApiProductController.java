@@ -1,7 +1,6 @@
 package com.ust.pos.api.product;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.product.service.ProductService;
@@ -17,9 +16,6 @@ public class ApiProductController extends BaseController {
 
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private CategoryService categoryService;
 
     @PostMapping("/list")
     public List<ProductDto> list(@RequestBody PaginationDto paginationDto) {

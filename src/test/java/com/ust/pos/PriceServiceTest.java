@@ -36,18 +36,13 @@ class PriceServiceTest {
     void findByIdentifier_shouldHandleBothCases() {
         Price price = new Price();
         price.setIdentifier("PR1");
-
         PriceDto dto = new PriceDto();
         dto.setIdentifier("PR1");
-
         when(repository.findByIdentifier("PR1")).thenReturn(price);
         when(mapper.map(price, PriceDto.class)).thenReturn(dto);
-
         assertEquals("PR1", service.findByIdentifier("PR1").getIdentifier());
-
         when(repository.findByIdentifier("X")).thenReturn(null);
         when(mapper.map(null, PriceDto.class)).thenReturn(null);
-
         assertNull(service.findByIdentifier("X"));
     }
 
@@ -55,22 +50,15 @@ class PriceServiceTest {
     void save_shouldHandleBothCases() {
         PriceDto dto = new PriceDto();
         dto.setIdentifier("PR1");
-
         Price price = new Price();
         price.setIdentifier("PR1");
-
         when(repository.findByIdentifier("PR1")).thenReturn(null);
         when(mapper.map(dto, Price.class)).thenReturn(price);
-
         PriceDto result = service.save(dto);
-
         verify(repository).save(price);
         assertTrue(result.isSuccess() || result.getMessage() == null);
-
         when(repository.findByIdentifier("PR1")).thenReturn(price);
-
         PriceDto duplicate = service.save(dto);
-
         assertFalse(duplicate.isSuccess());
         assertTrue(duplicate.getMessage().contains("already exists"));
     }
@@ -79,22 +67,15 @@ class PriceServiceTest {
     void update_shouldHandleBothCases() {
         PriceDto dto = new PriceDto();
         dto.setIdentifier("PR1");
-
         Price price = new Price();
         price.setIdentifier("PR1");
-
         when(repository.findByIdentifier("PR1")).thenReturn(price);
-
-        PriceDto success = service.update(dto);
-
+        service.update(dto);
         verify(mapper).map(dto, price);
         verify(repository).save(price);
-
         when(repository.findByIdentifier("X")).thenReturn(null);
         dto.setIdentifier("X");
-
         PriceDto failure = service.update(dto);
-
         assertFalse(failure.isSuccess());
         assertTrue(failure.getMessage().contains("already exists")); // matches service bug
     }
@@ -102,7 +83,6 @@ class PriceServiceTest {
     @Test
     void delete_shouldCallRepository() {
         service.delete("PR1");
-
         verify(repository).deleteByIdentifier("PR1");
     }
 
@@ -110,27 +90,19 @@ class PriceServiceTest {
     void findAll_shouldHandleDataAndEmpty() {
         Pageable pageable = PageRequest.of(0, 10);
         Type type = new TypeToken<List<PriceDto>>() {}.getType();
-
         Price price = new Price();
         price.setIdentifier("PR1");
-
         PriceDto dto = new PriceDto();
         dto.setIdentifier("PR1");
-
         Page<Price> page =
                 new PageImpl<>(List.of(price), pageable, 1);
-
         when(repository.findAll(pageable)).thenReturn(page);
         when(mapper.map(any(), eq(type))).thenReturn(List.of(dto));
-
         assertEquals(1, service.findAll(pageable).size());
-
         Page<Price> emptyPage =
                 new PageImpl<>(List.of(), pageable, 0);
-
         when(repository.findAll(pageable)).thenReturn(emptyPage);
-        when(mapper.map(eq(List.of()), eq(type))).thenReturn(List.of());
-
+        when(mapper.map(List.of(), type)).thenReturn(List.of());
         assertTrue(service.findAll(pageable).isEmpty());
     }
 }

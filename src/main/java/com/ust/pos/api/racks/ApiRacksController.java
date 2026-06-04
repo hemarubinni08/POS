@@ -4,7 +4,6 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RacksDto;
 import com.ust.pos.racks.service.RacksService;
-import com.ust.pos.shelf.service.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +16,6 @@ public class ApiRacksController extends BaseController {
 
     @Autowired
     private RacksService racksService;
-
-    @Autowired
-    private ShelfService shelfService;
 
     @PostMapping("/add")
     public RacksDto addPost(@RequestBody RacksDto racksDto) {

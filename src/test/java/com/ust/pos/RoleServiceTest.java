@@ -1,5 +1,6 @@
 package com.ust.pos;
 
+import com.ust.pos.dao.RoleDao;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.modell.Role;
 import com.ust.pos.modell.RoleRepository;
@@ -27,110 +28,112 @@ class RoleServiceTest {
     private RoleServiceImpl service;
 
     @Mock
-    private RoleRepository repository;
+    private RoleRepository roleRepository;
 
     @Mock
-    private ModelMapper mapper;
+    private RoleDao roleDao;
+
+    @Mock
+    private ModelMapper modelMapper;
 
     @Test
-    void findByIdentifier_shouldHandleBothCases() {
+    void findByIdentifier_success() {
         Role role = new Role();
-        role.setIdentifier("Admin");
-
+        role.setIdentifier("ADMIN");
         RoleDto dto = new RoleDto();
-        dto.setIdentifier("Admin");
-
-        when(repository.findByIdentifier("Admin")).thenReturn(role);
-        when(mapper.map(role, RoleDto.class)).thenReturn(dto);
-
-        assertEquals("Admin",
-                service.findByIdentifier("Admin").getIdentifier());
-
-        when(repository.findByIdentifier("X")).thenReturn(null);
-        when(mapper.map(null, RoleDto.class)).thenReturn(null);
-
-        assertNull(service.findByIdentifier("X"));
+        dto.setIdentifier("ADMIN");
+        when(roleRepository.findByIdentifier("ADMIN")).thenReturn(role);
+        when(modelMapper.map(role, RoleDto.class)).thenReturn(dto);
+        RoleDto result = service.findByIdentifier("ADMIN");
+        assertNotNull(result);
+        assertEquals("ADMIN", result.getIdentifier());
     }
 
     @Test
-    void save_shouldHandleAllCases() {
+    void findByIdentifier_notFound() {
+        when(roleRepository.findByIdentifier("X")).thenReturn(null);
+        when(modelMapper.map(null, RoleDto.class)).thenReturn(null);
+        RoleDto result = service.findByIdentifier("X");
+        assertNull(result);
+    }
+
+    @Test
+    void save_success() {
         RoleDto dto = new RoleDto();
-        dto.setIdentifier("Admin");
-
-        Role role = new Role();
-        role.setIdentifier("Admin");
-
-        when(repository.findByIdentifier("Admin")).thenReturn(null);
-        when(mapper.map(dto, Role.class)).thenReturn(role);
-
+        dto.setIdentifier("ADMIN");
+        when(roleDao.findByIdentifier("ADMIN")).thenReturn(null);
         RoleDto result = service.save(dto);
-
-        verify(repository).save(role);
-        assertTrue(result.isSuccess() || result.getMessage() == null);
-
-        when(repository.findByIdentifier("Admin")).thenReturn(role);
-
-        RoleDto duplicate = service.save(dto);
-
-        assertFalse(duplicate.isSuccess());
-        assertTrue(duplicate.getMessage().contains("already exists"));
+        verify(roleDao).save(dto);
+        assertEquals(dto, result);
     }
 
     @Test
-    void update_shouldHandleBothCases() {
+    void save_duplicate() {
         RoleDto dto = new RoleDto();
-        dto.setIdentifier("Admin");
-
-        Role role = new Role();
-        role.setIdentifier("Admin");
-
-        when(repository.findByIdentifier("Admin")).thenReturn(role);
-
-        service.update(dto);
-
-        verify(mapper).map(dto, role);
-        verify(repository).save(role);
-
-        when(repository.findByIdentifier("X")).thenReturn(null);
-        dto.setIdentifier("X");
-
-        RoleDto fail = service.update(dto);
-
-        assertFalse(fail.isSuccess());
-        assertTrue(fail.getMessage().contains("not found"));
+        dto.setIdentifier("ADMIN");
+        Role existing = new Role();
+        existing.setIdentifier("ADMIN");
+        when(roleDao.findByIdentifier("ADMIN")).thenReturn(existing);
+        RoleDto result = service.save(dto);
+        verify(roleDao, never()).save(any());
+        assertFalse(result.isSuccess());
+        assertTrue(result.getMessage().contains("already exists"));
     }
 
     @Test
-    void delete_shouldCallRepository() {
-        service.delete("Admin");
-        verify(repository).deleteByIdentifier("Admin");
+    void update_success() {
+        RoleDto dto = new RoleDto();
+        dto.setIdentifier("ADMIN");
+        Role existing = new Role();
+        existing.setIdentifier("ADMIN");
+        when(roleDao.findByIdentifier("ADMIN")).thenReturn(existing);
+        RoleDto result = service.update(dto);
+        verify(roleDao).update(dto);
+        assertEquals(dto, result);
     }
 
     @Test
-    void findAll_shouldHandleDataAndEmpty() {
+    void update_notFound() {
+        RoleDto dto = new RoleDto();
+        dto.setIdentifier("ADMIN");
+        when(roleDao.findByIdentifier("ADMIN")).thenReturn(null);
+        RoleDto result = service.update(dto);
+        verify(roleDao, never()).update(any());
+        assertFalse(result.isSuccess());
+        assertTrue(result.getMessage().contains("not found"));
+    }
+
+    @Test
+    void delete_success() {
+        service.delete("ADMIN");
+        verify(roleDao).deleteByIdentifier("ADMIN");
+    }
+
+    @Test
+    void findAll_withData() {
         Pageable pageable = PageRequest.of(0, 10);
-        Type type = new TypeToken<List<RoleDto>>() {}.getType();
-
         Role role = new Role();
-        role.setIdentifier("Admin");
-
+        role.setIdentifier("ADMIN");
         RoleDto dto = new RoleDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("ADMIN");
+        Page<Role> page = new PageImpl<>(List.of(role));
+        Type targetType = new TypeToken<List<RoleDto>>() {}.getType();
+        when(roleRepository.findAll(pageable)).thenReturn(page);
+        when(modelMapper.map(page.getContent(), targetType)).thenReturn(List.of(dto));
+        List<RoleDto> result = service.findAll(pageable);
+        assertEquals(1, result.size());
+        assertEquals("ADMIN", result.get(0).getIdentifier());
+    }
 
-        Page<Role> page =
-                new PageImpl<>(List.of(role), pageable, 1);
-
-        when(repository.findAll(pageable)).thenReturn(page);
-        when(mapper.map(any(), eq(type))).thenReturn(List.of(dto));
-
-        assertEquals(1, service.findAll(pageable).size());
-
-        Page<Role> empty =
-                new PageImpl<>(List.of(), pageable, 0);
-
-        when(repository.findAll(pageable)).thenReturn(empty);
-        when(mapper.map(eq(List.of()), eq(type))).thenReturn(List.of());
-
-        assertTrue(service.findAll(pageable).isEmpty());
+    @Test
+    void findAll_empty() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Role> emptyPage = new PageImpl<>(List.of());
+        Type targetType = new TypeToken<List<RoleDto>>() {}.getType();
+        when(roleRepository.findAll(pageable)).thenReturn(emptyPage);
+        when(modelMapper.map(List.of(), targetType)).thenReturn(List.of());
+        List<RoleDto> result = service.findAll(pageable);
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 }

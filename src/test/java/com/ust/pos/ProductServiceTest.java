@@ -36,18 +36,13 @@ class ProductServiceTest {
     void findByIdentifier_shouldHandleBothCases() {
         Product product = new Product();
         product.setIdentifier("P1");
-
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P1");
-
         when(repository.findByIdentifier("P1")).thenReturn(product);
         when(mapper.map(product, ProductDto.class)).thenReturn(dto);
-
         assertEquals("P1", service.findByIdentifier("P1").getIdentifier());
-
         when(repository.findByIdentifier("X")).thenReturn(null);
         when(mapper.map(null, ProductDto.class)).thenReturn(null);
-
         assertNull(service.findByIdentifier("X"));
     }
 
@@ -55,23 +50,16 @@ class ProductServiceTest {
     void save_shouldHandleAllCases() {
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P1");
-
         Product product = new Product();
         product.setIdentifier("P1");
-
         when(repository.findByIdentifier("P1")).thenReturn(null);
         when(mapper.map(dto, Product.class)).thenReturn(product);
-
         ProductDto result = service.save(dto);
-
         verify(mapper).map(dto, Product.class);
         verify(repository).save(product);
         assertEquals("P1", result.getIdentifier());
-
         when(repository.findByIdentifier("P1")).thenReturn(product);
-
         ProductDto duplicate = service.save(dto);
-
         assertFalse(duplicate.isSuccess());
         assertTrue(duplicate.getMessage().contains("already exists"));
     }
@@ -80,22 +68,15 @@ class ProductServiceTest {
     void update_shouldHandleBothCases() {
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P1");
-
         Product product = new Product();
         product.setIdentifier("P1");
-
         when(repository.findByIdentifier("P1")).thenReturn(product);
-
         service.update(dto);
-
         verify(mapper).map(dto, product);
         verify(repository).save(product);
-
         when(repository.findByIdentifier("X")).thenReturn(null);
         dto.setIdentifier("X");
-
         ProductDto fail = service.update(dto);
-
         assertFalse(fail.isSuccess());
         assertTrue(fail.getMessage().contains("not found"));
     }
@@ -110,25 +91,17 @@ class ProductServiceTest {
     void findAll_shouldHandleDataAndEmpty() {
         Pageable pageable = PageRequest.of(0, 10);
         Type type = new TypeToken<List<ProductDto>>() {}.getType();
-
         Product product = new Product();
         product.setIdentifier("P1");
-
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P1");
-
         Page<Product> page = new PageImpl<>(List.of(product), pageable, 1);
-
         when(repository.findAll(pageable)).thenReturn(page);
         when(mapper.map(any(), eq(type))).thenReturn(List.of(dto));
-
         assertEquals(1, service.findAll(pageable).size());
-
         Page<Product> empty = new PageImpl<>(List.of(), pageable, 0);
-
         when(repository.findAll(pageable)).thenReturn(empty);
-        when(mapper.map(eq(List.of()), eq(type))).thenReturn(List.of());
-
+        when(mapper.map(List.of(), type)).thenReturn(List.of());
         assertTrue(service.findAll(pageable).isEmpty());
     }
 
@@ -137,35 +110,23 @@ class ProductServiceTest {
         Product product = new Product();
         product.setIdentifier("P1");
         product.setStatus(true);
-
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P1");
-
         when(repository.findByIdentifier("P1")).thenReturn(product);
-
         service.toggleStatus("P1");
-
         assertFalse(product.getStatus());
         verify(repository).save(product);
-
         when(repository.findByIdentifier("X")).thenReturn(null);
-
         RuntimeException ex = assertThrows(
                 RuntimeException.class,
                 () -> service.toggleStatus("X")
         );
-
         assertEquals("product not found", ex.getMessage());
-
         when(repository.findByStatusTrue()).thenReturn(List.of(product));
         when(mapper.map(product, ProductDto.class)).thenReturn(dto);
-
         List<ProductDto> result = service.findAllActive();
-
         assertEquals(1, result.size());
-
         when(repository.findByStatusTrue()).thenReturn(List.of());
-
         assertTrue(service.findAllActive().isEmpty());
     }
 }

@@ -40,7 +40,6 @@ class AddressServiceTest {
         address = new Address();
         address.setPhoneNo("9876543210");
         address.setAddressType("HOME");
-
         dto = new AddressDto();
         dto.setPhoneNo("9876543210");
         dto.setAddressType("HOME");
@@ -50,44 +49,33 @@ class AddressServiceTest {
     void findByIdentifier_shouldHandleFoundAndNotFound() {
         when(repository.findByIdentifier("ID1")).thenReturn(address);
         when(mapper.map(address, AddressDto.class)).thenReturn(dto);
-
         AddressDto result = service.findByIdentifier("ID1");
         assertNotNull(result);
-
         when(repository.findByIdentifier("ID2")).thenReturn(null);
         when(mapper.map(null, AddressDto.class)).thenReturn(null);
-
         assertNull(service.findByIdentifier("ID2"));
-
         verify(repository, times(2)).findByIdentifier(anyString());
     }
 
     @Test
     void findAllByPhoneNo_shouldHandleDataAndEmpty() {
         Type type = new TypeToken<List<AddressDto>>() {}.getType();
-
         when(repository.findAllByPhoneNo("987"))
                 .thenReturn(List.of(address));
         when(mapper.map(any(), eq(type)))
                 .thenReturn(List.of(dto));
-
         List<AddressDto> result = service.findAllByPhoneNo("987");
         assertEquals(1, result.size());
-
         when(repository.findAllByPhoneNo("000"))
                 .thenReturn(List.of());
-        when(mapper.map(eq(List.of()), eq(type)))
-                .thenReturn(List.of());
-
+        when(mapper.map(List.of(), type)).thenReturn(List.of());
         assertTrue(service.findAllByPhoneNo("000").isEmpty());
     }
 
     @Test
     void save_shouldMapAndPersist() {
         when(mapper.map(dto, Address.class)).thenReturn(address);
-
         AddressDto result = service.save(dto);
-
         verify(mapper).map(dto, Address.class);
         verify(repository).save(address);
         assertEquals(dto, result);
@@ -97,13 +85,10 @@ class AddressServiceTest {
     void update_shouldFetchMapAndSave() {
         when(repository.findByPhoneNoAndAddressType("9876543210", "HOME"))
                 .thenReturn(address);
-
         AddressDto result = service.update(dto);
-
         verify(repository).findByPhoneNoAndAddressType("9876543210", "HOME");
         verify(mapper).map(dto, address);
         verify(repository).save(address);
-
         assertEquals("9876543210", result.getPhoneNo());
     }
 
@@ -111,13 +96,10 @@ class AddressServiceTest {
     void delete_shouldHandleDataAndEmptyList() {
         when(repository.findAllByPhoneNo("987"))
                 .thenReturn(List.of(address));
-
         assertTrue(service.delete("987"));
         verify(repository).deleteAll(anyList());
-
         when(repository.findAllByPhoneNo("000"))
                 .thenReturn(List.of());
-
         assertTrue(service.delete("000"));
         verify(repository).deleteAll(List.of());
     }
@@ -125,15 +107,11 @@ class AddressServiceTest {
     @Test
     void findAll_shouldHandleDataAndEmpty() {
         Type type = new TypeToken<List<AddressDto>>() {}.getType();
-
         when(repository.findAll()).thenReturn(List.of(address));
         when(mapper.map(any(), eq(type))).thenReturn(List.of(dto));
-
         assertEquals(1, service.findAll().size());
-
         when(repository.findAll()).thenReturn(List.of());
-        when(mapper.map(eq(List.of()), eq(type))).thenReturn(List.of());
-
+        when(mapper.map(List.of(), type)).thenReturn(List.of());
         assertTrue(service.findAll().isEmpty());
     }
 }

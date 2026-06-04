@@ -25,31 +25,24 @@ class PosUserDetailsServiceTest {
 
     @Test
     void loadUserByUsername_shouldHandleSuccessAndFailure() {
-
         UserDto userDto = new UserDto();
         userDto.setUsername("admin");
         userDto.setPassword("encodedPwd");
-
         when(userService.findByUserName("admin"))
                 .thenReturn(userDto);
-
         UserDetails userDetails =
                 service.loadUserByUsername("admin");
-
         assertAll(
                 () -> assertNotNull(userDetails),
                 () -> assertEquals("admin", userDetails.getUsername()),
                 () -> assertEquals("encodedPwd", userDetails.getPassword())
         );
-
         when(userService.findByUserName("missing"))
                 .thenReturn(null);
-
         UsernameNotFoundException ex = assertThrows(
                 UsernameNotFoundException.class,
                 () -> service.loadUserByUsername("missing")
         );
-
         assertEquals("User not found: missing", ex.getMessage());
     }
 }
