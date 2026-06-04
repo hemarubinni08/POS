@@ -20,44 +20,35 @@ public class ModelsController extends BaseController {
 
     @GetMapping("/list")
     public String home(Model model) {
-
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("modelss", modelsService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "models/list";
-
     }
 
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute ModelsDto modelsDto) {
-
         return "models/add";
-
     }
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute ModelsDto modelsDto) {
-
         ModelsDto response = modelsService.save(modelsDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "models/add";
         }
         return REDIRECT_MODELS_LIST;
-
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         ModelsDto response = modelsService.findByIdentifier(identifier);
         model.addAttribute("models", response);
         return "models/models";
-
     }
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute ModelsDto modelsDto) {
-
         ModelsDto response = modelsService.update(modelsDto);
         if (!response.isSuccess()) {
             model.addAttribute("models", response);
@@ -65,22 +56,17 @@ public class ModelsController extends BaseController {
             return "models/models";
         }
         return REDIRECT_MODELS_LIST;
-
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
-
         modelsService.delete(identifier);
         return REDIRECT_MODELS_LIST;
-
     }
 
     @PostMapping("/toggle-status")
     @ResponseBody
     public void toggle(Model model, @RequestParam String identifier) {
-
         modelsService.toggleStatus(identifier);
-
     }
 }

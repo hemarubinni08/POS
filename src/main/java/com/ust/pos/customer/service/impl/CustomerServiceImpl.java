@@ -31,26 +31,21 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto findByIdentifier(String identifier) {
-
         return modelMapper.map(customerRepository.findByIdentifier(identifier), CustomerDto.class);
-
     }
 
     @Override
     public CustomerDto findByIdentifierWithAddressDto(String identifier) {
-
         Customer customer = customerRepository.findByIdentifier(identifier);
         CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
         List<AddressDto> addressDtoList = addressService.findAllByPhoneNo(identifier);
         customerDto.setBillingAddress(addressDtoList.get(0));
         customerDto.setShippingAddress(addressDtoList.get(1));
         return customerDto;
-
     }
 
     @Override
     public CustomerDto save(CustomerDto customerDto) {
-
         String identifier = customerDto.getIdentifier();
         Customer existingCustomer = customerRepository.findByIdentifier(identifier);
         if (existingCustomer != null) {
@@ -72,12 +67,10 @@ public class CustomerServiceImpl implements CustomerService {
         shippingAddress.setPhoneNo(customerDto.getIdentifier());
         addressService.save(shippingAddress);
         return customerDto;
-
     }
 
     @Override
     public CustomerDto update(CustomerDto customerDto) {
-
         String identifier = customerDto.getIdentifier();
         Customer existingCustomer = customerRepository.findByIdentifier(identifier);
         if (existingCustomer == null) {
@@ -95,44 +88,35 @@ public class CustomerServiceImpl implements CustomerService {
         shippingAddress.setIdentifier(addresses.get(1).getIdentifier());
         addressService.update(shippingAddress);
         return customerDto;
-
     }
 
     @Override
     public boolean delete(String identifier) {
-
         customerRepository.deleteByIdentifier(identifier);
         addressService.delete(identifier);
         return true;
-
     }
 
     @Override
     public List<CustomerDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
         Page<Customer> customerPage = customerRepository.findAll(pageable);
         return modelMapper.map(customerPage.getContent(), listType);
-
     }
 
     @Override
     public CustomerDto toggleStatus(String identifier) {
-
         Customer customer = customerRepository.findByIdentifier(identifier);
         customer.setStatus(!customer.isStatus());
         customerRepository.save(customer);
         return modelMapper.map(customer, CustomerDto.class);
-
     }
 
     @Override
     public List<CustomerDto> findIfTrue() {
-
         Type listType = new TypeToken<List<ShelfsDto>>() {
         }.getType();
         return modelMapper.map(customerRepository.findByStatusIsTrue(), listType);
-
     }
 }

@@ -29,7 +29,6 @@ public class CategoryServiceImpl implements CategoryService {
         return modelMapper.map(categoryRepository.findByIdentifier(identifier), CategoryDto.class);
     }
 
-
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
         String identifier = categoryDto.getIdentifier();

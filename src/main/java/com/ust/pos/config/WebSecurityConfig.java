@@ -61,7 +61,6 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config) {
@@ -102,4 +101,5 @@ public class WebSecurityConfig {
         return authenticationProvider;
 
     }
+
 }

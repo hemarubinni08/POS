@@ -35,7 +35,6 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public List<NodeDto> getNodesForRoles() {
-
         List<NodeDto> nodeDtos = new ArrayList<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
@@ -43,11 +42,9 @@ public class NodeServiceImpl implements NodeService {
             if (principalObject != null) findNodes(principalObject, nodeDtos);
         }
         return nodeDtos;
-
     }
 
     private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
-
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesStr = new HashSet<>();
         List<Node> nodes = nodeRepository.findAll();
@@ -57,26 +54,20 @@ public class NodeServiceImpl implements NodeService {
                     nodesStr.add(node.getIdentifier());
                 }
             }
-
         }
         for (String nodeStr : nodesStr) {
-
             nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
-
         }
     }
 
 
     @Override
     public NodeDto findByIdentifier(String identifier) {
-
         return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);
-
     }
 
     @Override
     public NodeDto save(NodeDto nodeDto) {
-
         String identifier = nodeDto.getIdentifier();
         Node existingNode = nodeRepository.findByIdentifier(identifier);
         if (existingNode != null) {
@@ -87,12 +78,10 @@ public class NodeServiceImpl implements NodeService {
         Node node = modelMapper.map(nodeDto, Node.class);
         nodeRepository.save(node);
         return nodeDto;
-
     }
 
     @Override
     public NodeDto update(NodeDto nodeDto) {
-
         String identifier = nodeDto.getIdentifier();
         Node existingNode = nodeRepository.findByIdentifier(identifier);
         if (existingNode == null) {
@@ -103,43 +92,34 @@ public class NodeServiceImpl implements NodeService {
         modelMapper.map(nodeDto, existingNode);
         nodeRepository.save(existingNode);
         return nodeDto;
-
     }
 
     @Override
     public boolean delete(String identifier) {
-
         nodeRepository.deleteByIdentifier(identifier);
         return true;
-
     }
 
     @Override
     public List<NodeDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
         Page<Node> nodePage = nodeRepository.findAll(pageable);
         return modelMapper.map(nodePage.getContent(), listType);
-
     }
 
     @Override
     public List<NodeDto> findIfTrue() {
-
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
         return modelMapper.map(nodeRepository.findByStatusIsTrue(), listType);
-
     }
 
     @Override
     public NodeDto toggleStatus(String identifier) {
-
         Node node = nodeRepository.findByIdentifier(identifier);
         node.setStatus(!node.isStatus());
         nodeRepository.save(node);
         return modelMapper.map(node, NodeDto.class);
-
     }
 }
