@@ -28,7 +28,6 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public BrandDto findByIdentifier(String identifier) {
         Brand brand = brandRepository.findByIdentifier(identifier);
-
         if (brand == null) {
             return null;
         }

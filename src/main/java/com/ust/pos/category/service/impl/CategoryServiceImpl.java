@@ -27,7 +27,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto findByIdentifier(String identifier) {
         Category category = categoryRepository.findByIdentifier(identifier);
-
         if (category == null) {
             return null;
         }
@@ -84,7 +83,5 @@ public class CategoryServiceImpl implements CategoryService {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         return modelMapper.map(categorys, listType);
-
-
     }
 }
