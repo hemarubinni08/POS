@@ -9,4 +9,6 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     List<Category> findBySupercategoryIsNot(String supercategory);
+
+    Category findByIdentifier(String identifier);
 }

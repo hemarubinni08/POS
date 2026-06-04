@@ -76,7 +76,7 @@
                 <!-- Buttons -->
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-success">
-                        Update Stock
+                        Add Stock
                     </button>
                     <a href="${pageContext.request.contextPath}/stock/list"
                        class="btn btn-secondary">

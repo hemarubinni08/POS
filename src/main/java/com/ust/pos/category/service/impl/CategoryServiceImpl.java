@@ -23,11 +23,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
-
+        String identifier = categoryDto.getIdentifier();
+        Category existingCategory = categoryRepository.findByIdentifier(identifier);
+        if (existingCategory != null) {
+            categoryDto.setMessage("Category with identifier - " + identifier + " already exists");
+            categoryDto.setSuccess(false);
+            return categoryDto;
+        }
         Category category = modelMapper.map(categoryDto, Category.class);
-        Category savedCategory = categoryRepository.save(category);
-        return modelMapper.map(savedCategory, CategoryDto.class);
-
+        categoryRepository.save(category);
+        return categoryDto;
     }
 
     @Override

@@ -51,14 +51,16 @@ class CategoryServiceTest {
 
     @Test
     void save_shouldSaveCategory() {
+        when(categoryRepository.findByIdentifier("FOOD")).thenReturn(null);
+
         when(modelMapper.map(categoryDto, Category.class)).thenReturn(category);
         when(categoryRepository.save(category)).thenReturn(category);
-        when(modelMapper.map(category, CategoryDto.class)).thenReturn(categoryDto);
 
         CategoryDto result = categoryService.save(categoryDto);
 
         assertNotNull(result);
         assertEquals("FOOD", result.getIdentifier());
+
         verify(categoryRepository, times(1)).save(category);
     }
 
