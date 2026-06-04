@@ -6,8 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Display Nodes</title>
-
-<!-- Bootstrap Icons (ONLY for the Home icon) -->
 <link rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
