@@ -27,7 +27,6 @@ public class StocksServiceImpl implements StocksService {
     @Autowired
     private ProductService productService;
 
-
     @Override
     public StocksDto findByIdentifier(String identifier) {
         return modelMapper.map(stocksRepository.findByIdentifier(identifier), StocksDto.class);

@@ -240,7 +240,6 @@
             </div>
         </div>
 
-        <!-- BILLING ADDRESS -->
         <div class="section">
             <div class="section-title">Billing Address</div>
             <div class="grid-2">
@@ -273,7 +272,6 @@
             </div>
         </div>
 
-        <!-- SHIPPING ADDRESS -->
         <div class="section">
             <div class="section-title">Shipping Address</div>
             <div class="grid-2">

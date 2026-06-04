@@ -14,7 +14,6 @@
             background-color: #f6f7f9;
         }
 
-        /* ===== TOP BAR ===== */
         .topbar {
             height: 56px;
             background-color: #020617;
@@ -110,7 +109,6 @@
             font-weight: 700;
         }
 
-        /* STATUS TOGGLE */
         .status-toggle {
             padding: 6px 14px;
             border-radius: 999px;

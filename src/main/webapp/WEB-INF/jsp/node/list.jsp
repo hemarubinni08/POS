@@ -97,7 +97,6 @@
             background-color: #1d4ed8;
         }
 
-        /* ===== TABLE ===== */
         table {
             width: 100%;
             border-collapse: separate;
@@ -176,7 +175,6 @@
 
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
     <div class="topbar-left">
         <div class="top-title">POS Application</div>
@@ -192,7 +190,6 @@
 
 <div class="container">
 
-    <!-- ADD NODE -->
     <div class="list-actions">
         <a class="add-btn" href="${pageContext.request.contextPath}/node/add">
             Add Node

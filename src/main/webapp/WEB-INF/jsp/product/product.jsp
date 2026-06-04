@@ -114,21 +114,21 @@
 
         <form:hidden path="id"/>
 
-        <label>Product Name</label>
-        <form:input path="identifier" readonly="true"/>
+<label>Product Name</label>
+<form:input path="identifier" readonly="true"/>
 
-        <label>Category</label>
-        <form:select path="category" multiple="true">
-            <c:forEach var="cat" items="${categories}">
-                <form:option value="${cat.identifier}">
-                    ${cat.identifier}
-                </form:option>
-            </c:forEach>
-        </form:select>
-        <div class="hint">
-            Hold <b>Ctrl</b> (Windows) or <b>Cmd</b> (Mac) to select multiple categories
-        </div>
-        <label>Brand</label>
+<label>Category</label>
+<form:select path="category" multiple="true">
+    <c:forEach var="cat" items="${categories}">
+        <form:option value="${cat.identifier}">
+            ${cat.identifier}
+        </form:option>
+    </c:forEach>
+</form:select>
+<div class="hint">
+    Hold <b>Ctrl</b> (Windows) or <b>Cmd</b> (Mac) to select multiple categories
+</div>
+<label>Brand</label>
 <form:select path="brand" required="true">
 <form:option value="">-- Select Brand --</form:option>
 <c:forEach var="bran" items="${brand}">

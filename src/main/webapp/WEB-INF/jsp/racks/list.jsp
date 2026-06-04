@@ -195,17 +195,16 @@
                 <td>${r.id}</td>
                 <td>${r.identifier}</td>
 
-
-                <td>
-                    <c:choose>
-                        <c:when test="${not empty r.shelfs}">
-                            <c:forEach var="sh" items="${r.shelfs}" varStatus="st">
-                                ${sh}<c:if test="${!st.last}">, </c:if>
-                            </c:forEach>
-                        </c:when>
-                        <c:otherwise>—</c:otherwise>
-                    </c:choose>
-                </td>
+        <td>
+    <c:choose>
+        <c:when test="${not empty r.shelfs}">
+            <c:forEach var="sh" items="${r.shelfs}" varStatus="st">
+                ${sh}<c:if test="${!st.last}">, </c:if>
+            </c:forEach>
+        </c:when>
+        <c:otherwise>—</c:otherwise>
+    </c:choose>
+        </td>
 
     <td>
         <button class="status-toggle ${r.status ? 'status-true' : 'status-false'}"

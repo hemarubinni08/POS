@@ -9,7 +9,6 @@
     <style>
         body { margin:0; font-family:"Segoe UI", Roboto, Arial, sans-serif; background:#f6f7f9; }
 
-        /* TOP BAR */
         .topbar {
             height:56px; background:#020617; display:flex;
             justify-content:space-between; align-items:center;
@@ -27,7 +26,6 @@
             cursor: pointer;
         }
 
-        /* PAGE */
         .container {
             width:95%; max-width:1100px; margin:28px auto;
             background:#fff; padding:26px; border-radius:12px;

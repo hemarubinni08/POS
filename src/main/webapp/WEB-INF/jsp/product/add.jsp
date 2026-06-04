@@ -165,7 +165,6 @@
                 </c:forEach>
             </form:select>
 
-
          <label>Unit</label>
             <form:select path="unit" required="true">
             <form:option value="">-- Select Unit --</form:option>
@@ -176,26 +175,20 @@
                 </c:forEach>
             </form:select>
 
-
                     <label>Model</label>
-                                                 <form:select path="model" required="true">
-                                                 <form:option value="">-- Select Model --</form:option>
-                                                     <c:forEach var="mode" items="${model}">
-                                                       <form:option value="${mode.identifier}">
-                                                           ${mode.identifier}
-                                                       </form:option>
-                                                     </c:forEach>
-                                                 </form:select>
-
-
+         <form:select path="model" required="true">
+         <form:option value="">-- Select Model --</form:option>
+             <c:forEach var="mode" items="${model}">
+               <form:option value="${mode.identifier}">
+                   ${mode.identifier}
+               </form:option>
+             </c:forEach>
+         </form:select>
 
         <label>SKU Code</label>
         <form:input path="skuCode" type="number" required="true"/>
-
         <button type="submit">Add Product</button>
-
     </form:form>
-
 </div>
 
 </body>

@@ -205,28 +205,28 @@
         <tbody>
         <c:forEach var="s" items="${shelfss}">
             <tr>
-                <td>${s.id}</td>
-                <td>${s.identifier}</td>
+    <td>${s.id}</td>
+    <td>${s.identifier}</td>
 
-                <td>
-                    <button
-                        class="status-toggle ${s.status ? 'status-true' : 'status-false'}"
-                        onclick="toggleStatus('${s.identifier}')">
-                        ${s.status ? 'Active' : 'Inactive'}
-                    </button>
-                </td>
+    <td>
+        <button
+            class="status-toggle ${s.status ? 'status-true' : 'status-false'}"
+            onclick="toggleStatus('${s.identifier}')">
+            ${s.status ? 'Active' : 'Inactive'}
+        </button>
+    </td>
 
-                <td>
-                    <a href="${pageContext.request.contextPath}/shelfs/get?identifier=${s.identifier}"
-                       class="action-link edit">
-                        Edit
-                    </a>
+    <td>
+        <a href="${pageContext.request.contextPath}/shelfs/get?identifier=${s.identifier}"
+           class="action-link edit">
+            Edit
+        </a>
 
-                    <a href="${pageContext.request.contextPath}/shelfs/delete?identifier=${s.identifier}"
-                       class="action-link delete"
-                       onclick="return confirm('Are you sure you want to delete this shelf?');">
-                        Delete
-                    </a>
+        <a href="${pageContext.request.contextPath}/shelfs/delete?identifier=${s.identifier}"
+           class="action-link delete"
+           onclick="return confirm('Are you sure you want to delete this shelf?');">
+            Delete
+        </a>
                 </td>
             </tr>
         </c:forEach>
