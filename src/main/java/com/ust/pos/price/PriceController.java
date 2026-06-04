@@ -27,14 +27,14 @@ public class PriceController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute PriceDto userDto, Pageable pageable) {
+    public String add(Model model, @ModelAttribute PriceDto priceDto, Pageable pageable) {
         model.addAttribute("products", productService.findAll(pageable));
         return ROLE_ADD;
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute PriceDto userDto) {
-        PriceDto response = priceService.save(userDto);
+    public String addPost(Model model, @ModelAttribute PriceDto priceDto) {
+        PriceDto response = priceService.save(priceDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return ROLE_ADD;
@@ -50,8 +50,8 @@ public class PriceController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute PriceDto userDto) {
-        PriceDto response = priceService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute PriceDto priceDto) {
+        PriceDto response = priceService.update(priceDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return ROLE_ADD;

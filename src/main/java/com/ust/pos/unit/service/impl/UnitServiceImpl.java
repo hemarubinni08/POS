@@ -20,6 +20,7 @@ public class UnitServiceImpl implements UnitService {
 
     @Autowired
     private UnitRepository unitRepository;
+
     @Autowired
     private ModelMapper modelMapper;
 
@@ -71,11 +72,8 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public void toggleStatus(String identifier) {
-
         Unit unit = unitRepository.findByIdentifier(identifier);
-
         unit.setStatus(!Boolean.TRUE.equals(unit.getStatus()));
-
         unitRepository.save(unit);
     }
 }

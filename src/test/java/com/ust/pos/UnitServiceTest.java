@@ -162,7 +162,6 @@ class UnitServiceTest {
         unitService.toggleStatus("Admin");
 
         Assertions.assertFalse(unit.getStatus());
-
         verify(unitRepository).save(unit);
     }
 
@@ -177,7 +176,6 @@ class UnitServiceTest {
         unitService.toggleStatus("Admin");
 
         Assertions.assertTrue(unit.getStatus());
-
         verify(unitRepository).save(unit);
     }
 }

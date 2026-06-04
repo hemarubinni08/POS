@@ -28,8 +28,8 @@ public class WarehouseRestController extends BaseController {
     }
 
     @PostMapping("/add")
-    public WarehouseDto addPost(@RequestBody WarehouseDto userDto) {
-        return warehouseService.save(userDto);
+    public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
+        return warehouseService.save(warehouseDto);
     }
 
     @GetMapping("/get")
@@ -38,8 +38,8 @@ public class WarehouseRestController extends BaseController {
     }
 
     @PostMapping("/update")
-    public WarehouseDto updatePost(@RequestBody WarehouseDto userDto) {
-        return warehouseService.update(userDto);
+    public WarehouseDto updatePost(@RequestBody WarehouseDto warehouseDto) {
+        return warehouseService.update(warehouseDto);
     }
 
     @GetMapping("/delete")

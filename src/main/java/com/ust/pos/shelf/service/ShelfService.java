@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ShelfService {
-    ShelfDto save(ShelfDto userDto);
+    ShelfDto save(ShelfDto shelfDto);
 
-    ShelfDto update(ShelfDto userDto);
+    ShelfDto update(ShelfDto shelfDto);
 
     void delete(String username);
 

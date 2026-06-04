@@ -58,7 +58,6 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
         String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
-
         if (userOptional.isEmpty()) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " not found");
             userDto.setSuccess(false);

@@ -28,8 +28,8 @@ public class PriceRestController extends BaseController {
     }
 
     @PostMapping("/add")
-    public PriceDto addPost(@RequestBody PriceDto userDto) {
-        return priceService.save(userDto);
+    public PriceDto addPost(@RequestBody PriceDto priceDto) {
+        return priceService.save(priceDto);
     }
 
     @GetMapping("/get")
@@ -38,8 +38,8 @@ public class PriceRestController extends BaseController {
     }
 
     @PostMapping("/update")
-    public PriceDto updatePost(@RequestBody PriceDto userDto) {
-        return priceService.update(userDto);
+    public PriceDto updatePost(@RequestBody PriceDto priceDto) {
+        return priceService.update(priceDto);
     }
 
     @GetMapping("/delete")

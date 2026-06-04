@@ -152,18 +152,18 @@
             </div>
 
             <div class="form-group">
-                <label>Cost Price</label>
-                <form:input path="costPrice"/>
+                <label>Price</label>
+                <form:input path="priceAmount"/>
             </div>
 
             <div class="form-group">
-                <label>Selling Price</label>
-                <form:input path="sellingPrice"/>
-            </div>
-
-            <div class="form-group">
-                <label>Discount</label>
-                <form:input path="discount"/>
+                <label>Price Type</label>
+                <form:select path="priceType">
+                    <form:option value="" label="Select Price Type"/>
+                    <form:option value="COST_PRICE" label="Cost Price"/>
+                    <form:option value="SELLING_PRICE" label="Selling Price"/>
+                    <form:option value="DISCOUNT" label="Discount"/>
+                </form:select>
             </div>
 
             <div class="button-group">

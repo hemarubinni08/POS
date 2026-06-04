@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface CategoryService {
-    CategoryDto save(CategoryDto userDto);
+    CategoryDto save(CategoryDto categoryDto);
 
-    CategoryDto update(CategoryDto userDto);
+    CategoryDto update(CategoryDto categoryDto);
 
     void delete(String username);
 

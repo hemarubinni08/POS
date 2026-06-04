@@ -38,29 +38,26 @@ public class RacksController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute RacksDto userDto, Pageable pageable) {
-        RacksDto response = racksService.save(userDto);
-
+    public String addPost(Model model, @ModelAttribute RacksDto racksDto, Pageable pageable) {
+        RacksDto response = racksService.save(racksDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(SHELVES, shelfService.findAll(pageable));
             return RACKS_ADD;
         }
-
         return REDIRECT_RACKS_LIST;
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String identifier) {
+    public String update(Model model, @RequestParam String identifier, Pageable pageable) {
         model.addAttribute(RACKS, racksService.findByIdentifier(identifier));
-        model.addAttribute(SHELVES, shelfService.findAll(null));
+        model.addAttribute(SHELVES, shelfService.findAll(pageable));
         return RACKS_ADD;
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RacksDto userDto, Pageable pageable) {
-        RacksDto response = racksService.update(userDto);
-
+    public String updatePost(Model model, @ModelAttribute RacksDto racksDto, Pageable pageable) {
+        RacksDto response = racksService.update(racksDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(SHELVES, shelfService.findAll(pageable));

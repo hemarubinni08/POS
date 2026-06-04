@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface UnitService {
-    UnitDto save(UnitDto userDto);
+    UnitDto save(UnitDto unitDto);
 
-    UnitDto update(UnitDto userDto);
+    UnitDto update(UnitDto unitDto);
 
     void delete(String username);
 

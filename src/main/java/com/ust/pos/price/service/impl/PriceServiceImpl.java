@@ -63,7 +63,6 @@ public class PriceServiceImpl implements PriceService {
     @Override
     @Transactional
     public void delete(String identifier) {
-
         priceRepository.deleteByIdentifier(identifier);
     }
 

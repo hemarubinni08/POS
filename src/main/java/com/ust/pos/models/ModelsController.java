@@ -22,13 +22,13 @@ public class ModelsController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute ModelsDto userDto) {
+    public String add(Model model, @ModelAttribute ModelsDto modelsDto) {
         return "models/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute ModelsDto userDto) {
-        ModelsDto response = modelsService.save(userDto);
+    public String addPost(Model model, @ModelAttribute ModelsDto modelsDto) {
+        ModelsDto response = modelsService.save(modelsDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "models/add";
@@ -44,11 +44,10 @@ public class ModelsController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute ModelsDto userDto) {
-        ModelsDto response = modelsService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute ModelsDto modelsDto) {
+        ModelsDto response = modelsService.update(modelsDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-
         }
         return REDIRECT_MODELS_LIST;
     }
