@@ -1,5 +1,6 @@
 package com.ust.pos.role.service.impl;
 
+import com.ust.pos.dao.RoleDao;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
@@ -22,6 +23,8 @@ public class RoleServiceImpl implements RoleService {
     private RoleRepository roleRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private RoleDao roleDao;
 
     @Override
     public RoleDto findByIdentifier(String identifier) {
@@ -59,7 +62,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     @Override
     public void delete(String identifier) {
-        roleRepository.deleteByIdentifier(identifier);
+        roleDao.deleteByIdentifier(identifier);
     }
 
     @Override
