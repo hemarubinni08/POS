@@ -78,6 +78,8 @@ ${message}
                      <label class="form-label">Region</label>
                      <form:input path="region"
                                  cssClass="form-control"
+                                 pattern="^[a-zA-Z ]{2,30}"
+                                 title= "Region name should only contain alphabets"
                                  placeholder="Enter Region"
                                  required="true"/>
                 </div>
@@ -87,6 +89,8 @@ ${message}
                      <form:input path="country"
                                  cssClass="form-control"
                                  placeholder="Enter Country"
+                                 pattern="^[a-zA-Z ]{2,30}"
+                                 title= "Region name should only contain alphabets"
                                  required="true"/>
                 </div>
 
@@ -94,8 +98,12 @@ ${message}
                       <label class="form-label">Contact</label>
                       <form:input path="phoneNo"
                                   cssClass="form-control"
-                                  type="number"
+                                  type="tel"
+                                  maxlength="10"
+                                  oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                   placeholder="Enter Phone No"
+                                  pattern="[0-9]{10}"
+                                  title="Phone no. should be exactly 10 digits"
                                   required="true"/>
                 </div>
 

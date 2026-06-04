@@ -59,6 +59,7 @@
                         <label>Phone Number</label>
                         <form:input path="phoneNo"
                                     type="number"
+                                    maxlength="10"
                                     class="form-control"
                                     title="10 digits"
                                     pattern="[0-9]{10}"
@@ -117,7 +118,12 @@
 
                     <div class="col-md-6">
                         <label>Zip Code</label>
-                        <form:input path="shippingAddress.zipcode" class="form-control" pattern="[0-9]{6}" type="number" required="true"/>
+                        <form:input path="shippingAddress.zipcode"
+                                    class="form-control"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                    pattern="[0-9]{6}"
+                                    inputmode="numeric"
+                                    required="true"/>
                     </div>
 
                     <div class="col-md-6">
@@ -151,8 +157,13 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label>Zip Code</label>
-                        <form:input path="billingAddress.zipcode" class="form-control" pattern="[0-9]{6}" type="number" required="true"/>
+                          <label>Zip Code</label>
+                          <form:input path="shippingAddress.zipcode"
+                                      class="form-control"
+                                      oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                      pattern="[0-9]{6}"
+                                      inputmode="numeric"
+                                      required="true"/>
                     </div>
 
                     <div class="col-md-6">

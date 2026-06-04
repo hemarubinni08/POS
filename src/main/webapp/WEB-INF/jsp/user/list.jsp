@@ -102,9 +102,6 @@
                 <a href="${pageContext.request.contextPath}/" class="btn btn-secondary">
                     Home
                 </a>
-                <a href="${pageContext.request.contextPath}/register" class="btn btn-success">
-                    Register
-                </a>
             </div>
 
             <div class="text-muted small mt-2">

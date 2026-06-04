@@ -99,9 +99,14 @@
                             <form:input path="shippingAddress.state" cssClass="form-control" required="true"/>
                         </div>
 
-                        <div class="mb-3">
-                            <label>Zip Code</label>
-                            <form:input path="shippingAddress.zipcode" cssClass="form-control" type="number" pattern="[0-9]{6}" required="true"/>
+                        <div class="col-md-6">
+                             <label>Zip Code</label>
+                             <form:input path="shippingAddress.zipcode"
+                                         class="form-control"
+                                         oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                         pattern="[0-9]{6}"
+                                         inputmode="numeric"
+                                         required="true"/>
                         </div>
 
                         <div class="mb-3">
@@ -132,9 +137,14 @@
                             <form:input path="billingAddress.state" cssClass="form-control" required="true"/>
                         </div>
 
-                        <div class="mb-3">
-                            <label>Zip Code</label>
-                            <form:input path="billingAddress.zipcode" cssClass="form-control" pattern="[0-9]{6}" type="number" required="true"/>
+                        <div class="col-md-6">
+                             <label>Zip Code</label>
+                             <form:input path="shippingAddress.zipcode"
+                                         class="form-control"
+                                         oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                         pattern="[0-9]{6}"
+                                         inputmode="numeric"
+                                         required="true"/>
                         </div>
 
                         <div class="mb-3">

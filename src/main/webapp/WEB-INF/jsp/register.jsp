@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> <!-- IMPORTANT -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
 <html>
@@ -129,10 +129,13 @@
 
         <div class="form-group">
             <label>Email</label>
-            <form:input path="username"
-                        type="email"
-                        required="required"
-                        cssClass="${not empty message ? 'error-input' : ''}"/>
+            <input
+                    type="email"
+                    name="username"
+                    cssClass="form-control"
+                    pattern="^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+                    title="Enter a valid email address"
+                    required>
         </div>
 
         <div class="form-group">
@@ -146,6 +149,7 @@
             <label>Phone Number</label>
             <form:input path="phoneNo"
                         pattern="[0-9]{10}"
+                        maxlength="10"
                         inputmode="numeric"
                         required="required"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
@@ -155,6 +159,7 @@
             <label>Password</label>
             <form:password path="password"
                            minlength="6"
+                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                            required="required"/>
         </div>
 

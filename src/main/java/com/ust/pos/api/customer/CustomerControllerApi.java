@@ -5,7 +5,6 @@ import com.ust.pos.customer.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +17,6 @@ public class CustomerControllerApi extends BaseController {
 
     @Autowired
     private CustomerService customerService;
-
-    @Autowired
-    private ProductService productService;
 
     @Autowired
     private AddressService addressService;

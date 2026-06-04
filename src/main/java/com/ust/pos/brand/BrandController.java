@@ -58,7 +58,7 @@ public class BrandController {
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam String identifier) {
+    public String delete(@RequestParam String identifier) {
         brandService.delete(identifier);
         return REDIRECT_BRAND_LIST;
     }

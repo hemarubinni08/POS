@@ -52,7 +52,6 @@ public class BrandServiceImpl implements BrandService {
         return brandDto;
     }
 
-
     @Override
     @Transactional
     public void delete(String identifier) {

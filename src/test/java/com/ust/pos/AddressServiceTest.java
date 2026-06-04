@@ -17,7 +17,6 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class AddressServiceTest {
-
     @InjectMocks
     private AddressServiceImpl addressService;
 
