@@ -23,7 +23,7 @@ public class RoleController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute RoleDto userDto) {
+    public String add(Model model, @ModelAttribute RoleDto roleDto) {
         return "role/add";
     }
 
@@ -48,8 +48,8 @@ public class RoleController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RoleDto userDto) {
-        RoleDto response = roleService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute RoleDto roleDto) {
+        RoleDto response = roleService.update(roleDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
