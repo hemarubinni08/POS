@@ -141,8 +141,8 @@ class CustomerServiceTest {
 
         CustomerDto result = customerService.update(dto);
 
-        verify(addressService).save(billing);
-        verify(addressService).save(shipping);
+        verify(addressService).update(billing);
+        verify(addressService).update(shipping);
         verify(modelMapper).map(dto, customer);
         verify(customerRepository).save(customer);
 

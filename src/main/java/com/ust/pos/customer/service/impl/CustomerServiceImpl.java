@@ -77,8 +77,10 @@ public class CustomerServiceImpl implements CustomerService {
         AddressDto shipAddr = customerDto.getShippingAddress();
         billAddr.setPhoneNo(customerDto.getPhoneNo());
         shipAddr.setPhoneNo(customerDto.getPhoneNo());
-        addressService.save(billAddr);
-        addressService.save(shipAddr);
+        billAddr.setAddressType("billingAddress");
+        shipAddr.setAddressType("shippingAddress");
+        addressService.update(billAddr);
+        addressService.update(shipAddr);
         modelMapper.map(customerDto, existingCustomer);
         customerDto.setBillingAddress(addressService.findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "billingAddress"));
         customerDto.setShippingAddress(addressService.findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "shippingAddress"));

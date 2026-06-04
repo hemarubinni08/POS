@@ -20,7 +20,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-class ShelfsServiceTest {
+class ShelfServiceTest {
 
     @Mock
     private ShelfsRepository shelfRepository;
