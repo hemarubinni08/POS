@@ -84,7 +84,7 @@ class ProductServiceTest {
         when(modelMapper.map(productDto, Product.class)).thenReturn(mappedProduct);
 
         ProductDto response = productService.update(productDto);
-        Assertions.assertEquals("PRD002",response.getIdentifier());
+        Assertions.assertEquals("PRD002", response.getIdentifier());
 
         verify(productRepository).save(mappedProduct);
     }

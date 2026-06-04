@@ -85,7 +85,8 @@ class AddressServiceTest {
         Assertions.assertFalse(result.isSuccess());
         Assertions.assertTrue(result.getMessage().contains("already exists"));
 
-        Mockito.verify(addressRepository, Mockito.never()).save(Mockito.any());}
+        Mockito.verify(addressRepository, Mockito.never()).save(Mockito.any());
+    }
 
     @Test
     void updateSuccessTest() {

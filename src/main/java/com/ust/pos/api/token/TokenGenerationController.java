@@ -1,4 +1,5 @@
 package com.ust.pos.api.token;
+
 import com.ust.pos.config.JWTUtility;
 import com.ust.pos.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+//@RestController
 public class TokenGenerationController {
 
     @Autowired
@@ -24,7 +23,6 @@ public class TokenGenerationController {
     private JWTUtility jwtUtility;
 
     @PostMapping("/api/authenticate")
-    @ResponseBody
     public UserDto authenticate(@RequestBody UserDto userDto) {
         try {
             authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
@@ -37,7 +35,6 @@ public class TokenGenerationController {
     }
 
     @PostMapping("/api/validateToken")
-    @ResponseBody
     public Boolean validateToken(@RequestBody UserDto jwtRequest) {
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());

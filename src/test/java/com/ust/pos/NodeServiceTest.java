@@ -50,7 +50,7 @@ class NodeServiceTest {
         SecurityContext securityContext = Mockito.mock(SecurityContext.class);
 
         org.springframework.security.core.userdetails.User principal = new org.springframework.security.core.userdetails.User(
-                        "user", "pass", Arrays.asList());
+                "user", "pass", Arrays.asList());
 
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
 

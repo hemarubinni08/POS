@@ -1,4 +1,5 @@
 package com.ust.pos.address.service.impl;
+
 import com.ust.pos.address.service.AddressService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.model.Address;
@@ -39,44 +40,55 @@ public class AddressServiceImpl implements AddressService {
             addressDto.setMessage("Phone number is required to save address");
             return addressDto;
         }
-        Address existingAddress = addressRepository.findByPhoneNoAndAddressType(addressDto.getPhoneNo(), addressDto.getAddressType());
+
+        Address existingAddress = addressRepository.findByPhoneNoAndAddressType(
+                addressDto.getPhoneNo(), addressDto.getAddressType());
+
         if (existingAddress != null) {
-            Long existingId = existingAddress.getId();
-            modelMapper.map(addressDto, existingAddress);
-            existingAddress.setId(existingId);
-            addressRepository.save(existingAddress);
+            addressDto.setSuccess(false);
+            addressDto.setMessage("Address already exists");
             return addressDto;
         }
+
         Address address = modelMapper.map(addressDto, Address.class);
-        address.setId(null); // ensure clean insert
+        address.setId(null);
         addressRepository.save(address);
+
+        addressDto.setSuccess(true);
+        addressDto.setMessage("Address saved successfully");
         return addressDto;
     }
 
-    @Override
     public AddressDto update(AddressDto addressDto) {
         if (addressDto.getPhoneNo() == null || addressDto.getPhoneNo() == 0) {
             addressDto.setSuccess(false);
             addressDto.setMessage("Phone number is required to update address");
             return addressDto;
         }
-        Address existingAddress = addressRepository.findByPhoneNoAndAddressType(addressDto.getPhoneNo(), addressDto.getAddressType());
+
+        Address existingAddress = addressRepository.findByPhoneNoAndAddressType(
+                addressDto.getPhoneNo(), addressDto.getAddressType());
+
         if (existingAddress == null) {
-            Address address = modelMapper.map(addressDto, Address.class);
-            address.setId(null);
-            addressRepository.save(address);
+            addressDto.setSuccess(false);
+            addressDto.setMessage("Address not found");
             return addressDto;
         }
+
         Long existingId = existingAddress.getId();
         modelMapper.map(addressDto, existingAddress);
         existingAddress.setId(existingId);
         addressRepository.save(existingAddress);
+
+        addressDto.setSuccess(true);
+        addressDto.setMessage("Address updated successfully");
         return addressDto;
     }
 
     @Override
     public List<AddressDto> findAll() {
-        Type listType = new TypeToken<List<AddressDto>>() {}.getType();
+        Type listType = new TypeToken<List<AddressDto>>() {
+        }.getType();
         return modelMapper.map(addressRepository.findAll(), listType);
     }
 }

@@ -1,4 +1,5 @@
 package com.ust.pos.price;
+
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.PriceDto;
@@ -13,12 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/price")
 public class PriceController extends BaseController {
     public static final String REDIRECT_LIST = "redirect:/price/list";
-
-    @Autowired
-    private PriceService priceService;
-
     @Autowired
     ProductService productService;
+    @Autowired
+    private PriceService priceService;
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -32,7 +31,7 @@ public class PriceController extends BaseController {
     public String add(Model model) {
         PaginationDto paginationDto = new PaginationDto();
         model.addAttribute("priceDto", new PriceDto());
-        model.addAttribute("product",productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+        model.addAttribute("product", productService.findAll(getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField())));
         return "price/add";
     }
