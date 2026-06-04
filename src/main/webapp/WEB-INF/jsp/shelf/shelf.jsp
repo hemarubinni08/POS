@@ -50,10 +50,6 @@
                            modelAttribute="shelfDto">
 
              <div class="mb-3">
-
-
-
-
                    <div class="mb-3">
                                     <label class="form-label fw-semibold">Shelf Name</label>
                                    <form:input path="identifier"
@@ -61,9 +57,6 @@
                                          type="text"
                                           readonly="true"/>
                                      </div>
-
-
-
 
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
@@ -96,9 +89,6 @@
                     </c:if>
 
     </div>
-
-
 </div>
-
 </body>
 </html>

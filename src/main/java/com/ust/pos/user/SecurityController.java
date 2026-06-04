@@ -22,6 +22,7 @@ public class SecurityController {
 
     @GetMapping("/login")
     public String login(Model model) {
+
         return "login";
     }
 

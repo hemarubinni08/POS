@@ -24,13 +24,19 @@ public class UserApiController extends BaseController {
     private RoleService roleService;
 
     @PostMapping("/list")
-    public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
+    public List<UserDto> list(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
 
         return userService.findAll(pageable);
+    }
+
+    @PostMapping("/add")
+    public UserDto addPost(@RequestBody UserDto userDto){
+
+        return userService.save(userDto);
     }
 
     @GetMapping("/get")

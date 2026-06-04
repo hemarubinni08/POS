@@ -127,9 +127,7 @@
     <a href="/logout" class="navbar-logout">Logout</a>
 </div>
 
-
 <input type="checkbox" id="menuToggle">
-
 <div class="side-menu">
     <h4>Menu</h4>
 
@@ -138,12 +136,12 @@
             ${node.identifier}
         </a>
     </c:forEach>
+
 </div>
 
 <div class="content">
     <h1> Welcome ${name}</h1>
-    <p>POS Appplication Dashboard </p>
+    <p>POS Application Dashboard </p>
 </div>
-
 </body>
 </html>

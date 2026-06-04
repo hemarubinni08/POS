@@ -18,7 +18,7 @@ public class CategoryApiController extends BaseController {
     private CategoryService categoryService;
 
     @PostMapping("/list")
-    public List<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
+    public List<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -30,7 +30,7 @@ public class CategoryApiController extends BaseController {
     @GetMapping("/getCategoriesWithoutParent")
     public List<CategoryDto> listAllCategoryWithNoSuper() {
 
-        return categoryService.findAllCategoriesWithNoSuper();
+        return categoryService.findAllCategoriesWithSuper();
     }
 
     @PostMapping("/add")

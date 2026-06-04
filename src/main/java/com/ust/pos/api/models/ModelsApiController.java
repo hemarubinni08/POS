@@ -24,7 +24,7 @@ public class ModelsApiController extends BaseController {
     private CategoryService categoryService;
 
     @PostMapping("/list")
-    public List<ModelsDto> home(@RequestBody PaginationDto paginationDto) {
+    public List<ModelsDto> list(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -32,7 +32,6 @@ public class ModelsApiController extends BaseController {
 
         return modelsService.findAll(pageable);
     }
-
 
     @PostMapping("/add")
     public ModelsDto addPost(@RequestBody ModelsDto modelsDto) {

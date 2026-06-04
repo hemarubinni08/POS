@@ -18,7 +18,7 @@ public class PriceApiController extends BaseController {
     private PriceService priceService;
 
     @PostMapping("/list")
-    public List<PriceDto> home(@RequestBody PaginationDto paginationDto) {
+    public List<PriceDto> list(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -28,9 +28,9 @@ public class PriceApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public PriceDto addPost(@RequestBody PriceDto userDto) {
+    public PriceDto addPost(@RequestBody PriceDto priceDto) {
 
-        return priceService.save(userDto);
+        return priceService.save(priceDto);
     }
 
     @GetMapping("/get")

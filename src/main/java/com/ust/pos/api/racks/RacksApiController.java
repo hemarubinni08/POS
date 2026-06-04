@@ -18,7 +18,7 @@ public class RacksApiController extends BaseController {
     private RacksService racksService;
 
     @PostMapping("/list")
-    public List<RacksDto> home(@RequestBody PaginationDto paginationDto) {
+    public List<RacksDto> list(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -28,9 +28,9 @@ public class RacksApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public RacksDto addPost(@RequestBody RacksDto userDto) {
+    public RacksDto addPost(@RequestBody RacksDto racksDto) {
 
-        return racksService.save(userDto);
+        return racksService.save(racksDto);
     }
 
     @GetMapping("/get")

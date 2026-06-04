@@ -13,7 +13,7 @@
 
     <style>
         body {
-             background: linear-gradient(to bottom, #ffffff, #e5e5e5, #bbbbbb);
+            background: linear-gradient(to bottom, #ffffff, #e5e5e5, #bbbbbb);
             min-height: 100vh;
         }
         .card {
@@ -22,11 +22,12 @@
         .form-control {
             border-radius: 8px;
         }
-        .card-header{
+        .card-header {
             background: #ffffff;
         }
     </style>
 </head>
+
 <body>
 
 <div class="container d-flex justify-content-center align-items-center mt-5">
@@ -51,38 +52,45 @@
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Product</label>
-                         <form:select path="product" cssClass="form-control" required="true" required="true">
-                         <form:options items="${products}"
-                         itemValue="name" itemLabel="name"/>
-                         </form:select>
-                    </div>
-
-
-                    <div class="mb-3">
-                   <label class="form-label fw-semibold">Price</label>
-                   <form:input path="priceAmount"
-                        cssClass="form-control"
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        placeholder="Enter Price"
-                        required="true"/>
+                        <form:select path="product" cssClass="form-control" required="true">
+                            <form:options items="${products}"
+                                          itemValue="name"
+                                          itemLabel="name"/>
+                        </form:select>
                     </div>
 
                     <div class="mb-3">
-                    <label class="form-label fw-semibold">Price Type</label>
-                       <form:input path="priceType"
-                        cssClass="form-control"
-                     placeholder="Enter Price-type"
-                   required="true"/>
-                                        </div>
+                        <label class="form-label fw-semibold">Price</label>
+                        <form:input path="priceAmount"
+                                    cssClass="form-control"
+                                    type="number"
+                                    min="0"
+                                    step="0.01"
+                                    placeholder="Enter Price"
+                                    required="true"/>
+                    </div>
+
+                    <div class="mb-3">
+                         <label class="form-label fw-semibold">Price Type</label>
+                            <form:select path="priceType"
+                                         cssClass="form-control"
+                                         required="true">
+
+                                <form:option value="" label="-- Select Price Type --"/>
+                                <form:option value="MRP" label="MRP"/>
+                                <form:option value="Cost Price" label="Cost Price"/>
+                                <form:option value="Selling Price" label="Selling Price"/>
+                            </form:select>
+                    </div>
 
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
                             Add Price
                         </button>
                     </div>
+
                 </form:form>
+
             </div>
 
             <div class="card-footer text-center text-muted small">
@@ -90,24 +98,23 @@
             </div>
 
             <div class="text-center mt-3">
-                            <a href="/price/list">← Back to Price List</a>
-                        </div>
+                <a href="/price/list">← Back to Price List</a>
+            </div>
         </div>
-         <c:if test="${not empty message}">
-                        <div style="
-                            background:#f8d7da;
-                            color:#721c24;
-                            padding:10px;
-                            margin-bottom:15px;
-                            border-radius:4px;
-                            text-align:center;">
-                            ${message}
-                        </div>
-                    </c:if>
+
+        <c:if test="${not empty message}">
+            <div style="
+                background:#f8d7da;
+                color:#721c24;
+                padding:10px;
+                margin-bottom:15px;
+                border-radius:4px;
+                text-align:center;">
+                ${message}
+            </div>
+        </c:if>
 
     </div>
-
-
 </div>
 
 </body>

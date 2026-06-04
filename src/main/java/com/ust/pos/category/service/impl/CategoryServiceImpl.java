@@ -90,7 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAllCategoriesWithNoSuper() {
+    public List<CategoryDto> findAllCategoriesWithSuper() {
 
         List<Category> category = categoryRepository.findAll();
         List<Category> categorys = category.stream().filter(category1 ->

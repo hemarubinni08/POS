@@ -14,43 +14,47 @@
             background: linear-gradient(to bottom, #ffffff, #e5e5e5, #bbbbbb);
             min-height: 100vh;
         }
+
         .card {
             border-radius: 16px;
         }
+
         .card-header {
             border-top-left-radius: 16px;
             border-top-right-radius: 16px;
         }
+
         table th {
             background-color: #0d6efd;
             color: white;
         }
-        h4{
+
+        h4 {
             background-color: #ffffff;
         }
 
         .btn-pos-update {
-                        background-color: #fdfafc;
-                        border-color: #4b6cb7;
-                        color: #000;
-                }
+            background-color: #fdfafc;
+            border-color: #4b6cb7;
+            color: #000;
+        }
 
-                .btn-pos-update:hover {
-                    background-color: #3f5fa7;
-                    border-color: #3f5fa7;
-                    color: #fff;
-                }
+        .btn-pos-update:hover {
+            background-color: #3f5fa7;
+            border-color: #3f5fa7;
+            color: #fff;
+        }
 
-                .btn-pos-delete {
-                    background-color: #f5f7fa;
-                    border: 1px solid #dc3545;
-                    color: #dc3545;
-                }
+        .btn-pos-delete {
+            background-color: #f5f7fa;
+            border: 1px solid #dc3545;
+            color: #dc3545;
+        }
 
-                .btn-pos-delete:hover {
-                    background-color: #dc3545;
-                    color: #fff;
-             }
+        .btn-pos-delete:hover {
+            background-color: #dc3545;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -76,47 +80,49 @@
                     <c:if test="${not empty stocks}">
                         <table class="table table-bordered table-hover text-center align-middle">
                             <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Stock Identifier</th>
-                                <th>Product</th>
-                                <th>Quantity</th>
-                                <th>Warehouse Location</th>
-                                <th>Status</th>
-                                <th>Delete</th>
-                                <th>Update</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach var="stock" items="${stocks}">
                                 <tr>
-                                    <td>
-                                        <a href=""
-                                           class="text-decoration-none fw-semibold">
-                                            ${stock.id}
-                                        </a>
-                                    </td>
-                                    <td>${stock.identifier}</td>
-                                    <td>${stock.product}</td>
-                                    <td>${stock.quantity}</td>
-                                    <td>${stock.warehouse}</td>
-                                    <td>${stock.stockStatus}</td>
-                                    <td>
-                                        <a href="/stock/delete?identifier=${stock.identifier}"
-                                           class="btn btn-pos-delete btn-sm"
-                                           onclick="return confirm('Are you sure you want to delete this stock?');">
-                                            Delete
-                                        </a>
-                                    </td>
-                                    <td>
-                                          <a class="btn btn-pos-update btn-sm"
-                                     href="/stock/get?identifier=${stock.identifier}"
-                                                                    >
-                                                                             Update
-                                                                   </a>
-                                                                    </td>
+                                    <th>ID</th>
+                                    <th>Stock Identifier</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Warehouse Location</th>
+                                    <th>Status</th>
+                                    <th>Delete</th>
+                                    <th>Update</th>
                                 </tr>
-                            </c:forEach>
+                            </thead>
+
+                            <tbody>
+                                <c:forEach var="stock" items="${stocks}">
+                                    <tr>
+                                        <td>
+
+                                                ${stock.id}
+                                            </a>
+                                        </td>
+
+                                        <td>${stock.identifier}</td>
+                                        <td>${stock.product}</td>
+                                        <td>${stock.quantity}</td>
+                                        <td>${stock.warehouse}</td>
+                                        <td>${stock.stockStatus}</td>
+
+                                        <td>
+                                            <a href="/stock/delete?identifier=${stock.identifier}"
+                                               class="btn btn-pos-delete btn-sm"
+                                               onclick="return confirm('Are you sure you want to delete this stock?');">
+                                                Delete
+                                            </a>
+                                        </td>
+
+                                        <td>
+                                            <a class="btn btn-pos-update btn-sm"
+                                               href="/stock/get?identifier=${stock.identifier}">
+                                                Update
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </c:if>

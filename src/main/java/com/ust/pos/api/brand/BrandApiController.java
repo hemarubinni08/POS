@@ -18,7 +18,7 @@ public class BrandApiController extends BaseController {
     private BrandService brandService;
 
     @PostMapping("/list")
-    public List<BrandDto> home(@RequestBody PaginationDto paginationDto) {
+    public List<BrandDto> list(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),

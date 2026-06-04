@@ -154,7 +154,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testFindAllCategoriesWithNoSuper() {
+    void testFindAllCategoriesWithSuper() {
 
         Category category1 = new Category();
         category1.setSuperCategory(List.of("parent"));
@@ -169,7 +169,7 @@ class CategoryServiceTest {
         when(modelMapper.map(any(), any(java.lang.reflect.Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<CategoryDto> result = categoryService.findAllCategoriesWithNoSuper();
+        List<CategoryDto> result = categoryService.findAllCategoriesWithSuper();
         assertNotNull(result);
         assertEquals(1, result.size());
         verify(categoryRepository).findAll();

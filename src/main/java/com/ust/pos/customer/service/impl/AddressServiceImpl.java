@@ -73,7 +73,6 @@ public class AddressServiceImpl implements AddressService {
 
         Type listType = new TypeToken<List<AddressDto>>() {
         }.getType();
-
         return modelMapper.map(addressRepository.findAll(), listType);
     }
 

@@ -106,7 +106,6 @@ public class ModelServiceImpl implements ModelService {
 
         Type listType = new TypeToken<List<ModelsDto>>() {
         }.getType();
-
         return modelMapper.map(modelsRepository.findByStatus(true), listType);
     }
 }

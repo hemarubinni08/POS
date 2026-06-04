@@ -6,7 +6,6 @@
 <html>
 <head>
     <title>Customer Registration</title>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,35 +13,29 @@
             margin: 0;
             padding: 40px 0;
         }
-
         .container {
             max-width: 600px;
             margin: auto;
         }
-
         .card {
             background: #ffffff;
             padding: 20px;
             border-radius: 6px;
             border: 1px solid #ddd;
         }
-
         .card-header {
             text-align: center;
             border-bottom: 1px solid #ddd;
             margin-bottom: 20px;
         }
-
         h4, h5 {
             margin: 10px 0;
         }
-
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: 600;
         }
-
         input, select {
             width: 100%;
             padding: 8px;
@@ -51,7 +44,6 @@
             border-radius: 4px;
             border: 1px solid #ccc;
         }
-
         .btn-submit {
             width: 100%;
             padding: 10px;
@@ -61,27 +53,22 @@
             cursor: pointer;
             border-radius: 4px;
         }
-
         .btn-submit:hover {
             background: #555;
         }
-
         .alert {
             padding: 10px;
             margin-bottom: 15px;
             border-radius: 4px;
             text-align: center;
         }
-
         .alert-success {
             background: #e6f4ea;
             color: #1e7e34;
         }
     </style>
 </head>
-
 <body>
-
 <div class="container">
     <div class="card">
         <div class="card-header">
@@ -97,7 +84,7 @@
         <form:form action="/customer/add" method="post" modelAttribute="customerDto">
 
             <label>Name</label>
-            <form:input path="name" type="text" required="true"/>
+            <form:input path="name" type="text" title="Enter Name" required="true"/>
 
             <label>Phone Number</label>
             <form:input

@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface CategoryService {
 
-
     CategoryDto save(CategoryDto categoryDto);
 
     CategoryDto update(CategoryDto categoryDto);
@@ -16,7 +15,7 @@ public interface CategoryService {
 
     List<CategoryDto> findAll(Pageable pageable);
 
-    List<CategoryDto> findAllCategoriesWithNoSuper();
+    List<CategoryDto> findAllCategoriesWithSuper();
 
     CategoryDto findByIdentifier(String identifier);
 }

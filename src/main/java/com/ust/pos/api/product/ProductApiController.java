@@ -18,7 +18,7 @@ public class ProductApiController extends BaseController {
     private ProductService productService;
 
     @PostMapping("/list")
-    public List<ProductDto> home(@RequestBody PaginationDto paginationDto) {
+    public List<ProductDto> list(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -28,9 +28,9 @@ public class ProductApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ProductDto addPost(@RequestBody ProductDto userDto) {
+    public ProductDto addPost(@RequestBody ProductDto productDto) {
 
-        return productService.save(userDto);
+        return productService.save(productDto);
     }
 
     @GetMapping("/get")

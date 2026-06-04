@@ -25,7 +25,7 @@
         }
 
         h4 {
-            background: #ffffff
+            background: #ffffff;
             font-weight: 600;
         }
     </style>
@@ -59,51 +59,49 @@
                 </div>
 
                 <div class="mb-4">
-                  <label class="form-label">Region</label>
-                                                    <form:input path="region"
-                                                                cssClass="form-control"
-                                                                type="text"
-                                                                placeholder="Enter region"
-                                                                required="true"/>
-                                                </div>
+                    <label class="form-label">Region</label>
+                    <form:input path="region"
+                                cssClass="form-control"
+                                type="text"
+                                placeholder="Enter region"
+                                required="true"/>
+                </div>
 
                 <div class="mb-4">
-                                                    <label class="form-label">Country</label>
-                                                    <form:input path="country"
-                                                                cssClass="form-control"
-                                                                type="text"
-                                                                placeholder="Enter country"
-                                                                required="true"/>
-                                                </div>
+                    <label class="form-label">Country</label>
+                    <form:input path="country"
+                                cssClass="form-control"
+                                type="text"
+                                placeholder="Enter country"
+                                required="true"/>
+                </div>
 
                 <div class="mb-4">
-                                                    <label class="form-label">Contact Name</label>
-                                                    <form:input path="contactName"
-                                                                cssClass="form-control"
-                                                                type="text"
-                                                                placeholder="Enter Location"
-                                                                required="true"/>
-                                                </div>
+                    <label class="form-label">Contact Name</label>
+                    <form:input path="contactName"
+                                cssClass="form-control"
+                                type="text"
+                                placeholder="Enter Contact Name"
+                                required="true"/>
+                </div>
 
                 <div class="mb-4">
-                                                    <label class="form-label">Contact Number</label>
-                                                    <form:input path="contactNumber"
-                                                                cssClass="form-control"
-                                                                type="tel"
-                                                                placeholder="Enter Location"
-                                                                required="true"/>
-                                                </div>
+                    <label class="form-label">Contact Number</label>
+                    <form:input path="contactNumber"
+                                cssClass="form-control"
+                                type="tel"
+                                placeholder="Enter Contact Number"
+                                required="true"/>
+                </div>
 
                 <div class="mb-4">
-                                    <label class="form-label">Location</label>
-                                    <form:input path="location"
-                                                cssClass="form-control"
-                                                type="text"
-                                                placeholder="Enter Location"
-                                                required="true"/>
-                                </div>
-
-
+                    <label class="form-label">Location</label>
+                    <form:input path="location"
+                                cssClass="form-control"
+                                type="text"
+                                placeholder="Enter Location"
+                                required="true"/>
+                </div>
 
                 <div class="d-flex justify-content-between">
                     <a href="/warehouse/list" class="btn btn-outline-secondary">
@@ -116,23 +114,25 @@
 
             </form:form>
         </c:if>
+
         <div class="text-center mt-3">
-                <a href="/warehouse/list">← Back to Warehouse List</a>
-            </div>
+            <a href="/warehouse/list">← Back to Warehouse List</a>
+        </div>
 
     </div>
 
-     <c:if test="${not empty message}">
-            <div style="
-                background:#f8d7da;
-                color:#721c24;
-                padding:10px;
-                margin-bottom:15px;
-                border-radius:4px;
-                text-align:center;">
-                ${message}
-            </div>
-        </c:if>
+    <c:if test="${not empty message}">
+        <div style="
+            background:#f8d7da;
+            color:#721c24;
+            padding:10px;
+            margin-bottom:15px;
+            border-radius:4px;
+            text-align:center;">
+            ${message}
+        </div>
+    </c:if>
+
 </div>
 
 </body>

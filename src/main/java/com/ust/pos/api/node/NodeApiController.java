@@ -18,7 +18,7 @@ public class NodeApiController extends BaseController {
     private NodeService nodeService;
 
     @PostMapping("/list")
-    public List<NodeDto> home(@RequestBody PaginationDto paginationDto) {
+    public List<NodeDto> list(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -28,9 +28,9 @@ public class NodeApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public NodeDto addPost(@RequestBody NodeDto userDto) {
+    public NodeDto addPost(@RequestBody NodeDto nodeDto) {
 
-        return nodeService.save(userDto);
+        return nodeService.save(nodeDto);
     }
 
     @GetMapping("/get")
