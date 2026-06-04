@@ -27,16 +27,16 @@ public class NodeController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute NodeDto userDto) {
-        model.addAttribute("userDto",userDto);
+    public String add(Model model, @ModelAttribute NodeDto nodeDto) {
+        model.addAttribute("nodeDto",nodeDto);
         model.addAttribute(ROLES,roleService.findAll());
         return "node/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute NodeDto userDto) {
-        NodeDto response = nodeService.save(userDto);
-        model.addAttribute("userDto",response);
+    public String addPost(Model model, @ModelAttribute NodeDto nodeDto) {
+        NodeDto response = nodeService.save(nodeDto);
+        model.addAttribute("nodeDto",response);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "node/add";
@@ -53,8 +53,8 @@ public class NodeController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute NodeDto userDto) {
-        NodeDto response = nodeService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute NodeDto nodeDto) {
+        NodeDto response = nodeService.update(nodeDto);
         model.addAttribute(ROLES,roleService.findAll());
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
