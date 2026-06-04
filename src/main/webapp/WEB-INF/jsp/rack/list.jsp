@@ -155,7 +155,6 @@
                             </tbody>
                         </table>
                     </c:if>
-
                 </div>
 
                 <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
@@ -167,12 +166,9 @@
                         + Add New Rack
                     </a>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
-
 </body>
 </html>

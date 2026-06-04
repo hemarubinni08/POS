@@ -3,7 +3,6 @@ package com.ust.pos.customer;
 import com.ust.pos.customer.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
-import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -17,9 +16,6 @@ public class CustomerController {
     public static final String REDIRECT_ROLE_LIST = "redirect:/customer/list";
     @Autowired
     private CustomerService customerService;
-
-    @Autowired
-    private ProductService productService;
 
     @Autowired
     private AddressService addressService;
@@ -49,12 +45,10 @@ public class CustomerController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         CustomerDto response = customerService.findByIdentifier(identifier);
         response.setBillingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNo(), "billingAddress"));
         response.setShippingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNo(), "shippingAddress"));
         model.addAttribute("customerDto", response);
-
         return "customer/customer";
     }
 

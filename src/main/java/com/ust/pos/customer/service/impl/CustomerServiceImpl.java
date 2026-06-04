@@ -53,10 +53,8 @@ public class CustomerServiceImpl implements CustomerService {
         }
         AddressDto billingAddress = customerDto.getBillingAddress();
         AddressDto shippingAddress = customerDto.getShippingAddress();
-
         billingAddress.setPhoneNo(customerDto.getPhoneNo());
         shippingAddress.setPhoneNo(customerDto.getPhoneNo());
-
         addressService.save(billingAddress);
         addressService.save(shippingAddress);
         Customer customer = modelMapper.map(customerDto, Customer.class);
@@ -93,10 +91,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void delete(String identifier, Long phoneNo) {
-
         customerRepository.deleteByIdentifier(identifier);
         addressService.deleteByPhone(phoneNo);
-
     }
 
     @Override

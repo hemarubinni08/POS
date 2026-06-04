@@ -70,7 +70,8 @@ ${message}
                   <div class="form-group">
                        <label>Select Brand</label>
                        <form:select path="brand"
-                                    cssClass="form-control">
+                                    cssClass="form-control"
+                                    required="true">
                                     <form:option value="" label="-- Select Brand--"/>
                                     <form:options items="${brand}"
                                                   itemValue="identifier"
@@ -83,7 +84,8 @@ ${message}
                   <div class="form-group">
                        <label>Select Model</label>
                        <form:select path="model"
-                                    cssClass="form-control">
+                                    cssClass="form-control"
+                                    required="true">
                                     <form:option value="" label="-- Select Model--"/>
                                     <form:options items="${model}"
                                                   itemValue="identifier"
@@ -96,7 +98,8 @@ ${message}
                   <div class="form-group">
                        <label>Select Unit</label>
                        <form:select path="unit"
-                                    cssClass="form-control">
+                                    cssClass="form-control"
+                                    required="true">
                                     <form:option value="" label="-- Select Unit--"/>
                                     <form:options items="${unit}"
                                                   itemValue="identifier"
@@ -110,7 +113,8 @@ ${message}
                          <label>Super Category List</label>
                              <form:select path="category"
                                    multiple="true"
-                                   cssClass="form-control">
+                                   cssClass="form-control"
+                                   required="true">
                                    <form:option value="" label="-- Select Super Categories--"/>
                                    <form:options items="${categories}"
                                    itemValue="identifier"
@@ -127,12 +131,9 @@ ${message}
                         Update
                     </button>
                 </div>
-
             </form:form>
         </c:if>
-
     </div>
 </div>
-
 </body>
 </html>

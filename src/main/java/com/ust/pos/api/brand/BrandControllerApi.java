@@ -37,8 +37,8 @@ public class BrandControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public BrandDto updatePost(@RequestBody BrandDto userDto) {
-        return brandService.update(userDto);
+    public BrandDto updatePost(@RequestBody BrandDto brandDto) {
+        return brandService.update(brandDto);
     }
 
     @GetMapping("/delete")

@@ -60,8 +60,8 @@ public class StockController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, Pageable pageable, @ModelAttribute StockDto userDto) {
-        StockDto response = stockService.update(userDto);
+    public String updatePost(Model model, Pageable pageable, @ModelAttribute StockDto stockDto) {
+        StockDto response = stockService.update(stockDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("stock", stockService.findAll(pageable));

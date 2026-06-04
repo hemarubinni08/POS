@@ -74,7 +74,6 @@
             transition: 0.4s;
         }
 
-
         input:not(:checked) + .slider {
         background-color: #dc2626; /* RED */
         }
@@ -127,13 +126,13 @@
                                     <td>${models.identifier}</td>
                                     <td>${models.description}</td>
                                     <td>
-                                         <div class="toggle-container"
-                                              onclick="window.location.href='${pageContext.request.contextPath}/models/toggle?identifier=${models.identifier}'">
-                                              <label class="switch">
-                                              <input type="checkbox" ${models.status ? "checked" : ""} disabled>
-                                                <span class="slider"></span>
-                                              </label>
-                                    </div>
+                                        <div class="toggle-container"
+                                             onclick="window.location.href='${pageContext.request.contextPath}/models/toggle?identifier=${models.identifier}'">
+                                             <label class="switch">
+                                             <input type="checkbox" ${models.status ? "checked" : ""} disabled>
+                                               <span class="slider"></span>
+                                             </label>
+                                        </div>
                                     </td>
                                     <td>
                                     <a class="btn btn-warning btn-sm"
@@ -153,24 +152,19 @@
                             </tbody>
                         </table>
                     </c:if>
-
                 </div>
 
                 <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
                     <a href="/" class="btn btn-secondary">
                         Home
                     </a>
-
                     <a href="/models/add" class="btn btn-success">
                         + Add New Models
                     </a>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
-
 </body>
 </html>

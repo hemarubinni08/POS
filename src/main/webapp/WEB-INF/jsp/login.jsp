@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -143,7 +142,6 @@
 
 <div class="container">
 
-    <!-- LEFT SIDE -->
     <div class="left-panel">
         <div class="left-content">
             <h1>POS System</h1>
@@ -161,27 +159,19 @@
         </div>
     </div>
 
-    <!-- RIGHT SIDE -->
     <div class="right-panel">
         <div class="login-card">
 
             <h2>Login</h2>
 
-            <!-- Success Message -->
-            <%
-                String logout = request.getParameter("logout");
-                if ("true".equals(logout)) {
-            %>
+            <%String logout = request.getParameter("logout");
+                if ("true".equals(logout)) {%>
                 <div class="alert">You have logged out successfully</div>
-            <%
-                }
-            %>
+            <%}%>
 
-            <!-- Login Form -->
             <form action="login" method="post">
                 <input type="email" name="username" placeholder="Enter your email" required />
                 <input type="password" name="password" placeholder="Enter your password" required />
-
                 <button type="submit">Login</button>
             </form>
 
@@ -192,8 +182,6 @@
 
         </div>
     </div>
-
 </div>
-
 </body>
 </html>

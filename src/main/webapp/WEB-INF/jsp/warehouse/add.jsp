@@ -24,6 +24,16 @@
         .form-control {
             border-radius: 8px;
         }
+
+        .bottom-error {
+            margin-top: 12px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            background: #fee2e2;
+            color: #b91c1c;
+            font-size: 13px;
+            }
     </style>
 </head>
 <body>
@@ -92,6 +102,8 @@
                            <label class="form-label fw-semibold">Contact</label>
                            <form:input path="phoneNo"
                                        cssClass="form-control"
+                                       pattern="[0-9]+"
+                                       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                        type="number"
                                        placeholder="Enter Phone Number"
                                        required="true"/>
@@ -111,20 +123,18 @@
                     </div>
 
                 <c:if test="${not empty message}">
-                        <p class="error">${message}</p>
+                        <div class="bottom-error">
+                        ${message}
+                        </div>
                     </c:if>
 
                 </form:form>
-
             </div>
-
             <div class="card-footer text-center text-muted small">
                 POS Management System
             </div>
         </div>
-
     </div>
 </div>
-
 </body>
 </html>

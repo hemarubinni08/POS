@@ -6,7 +6,6 @@
 <head>
     <title>Customer Management</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -35,7 +34,6 @@
 </head>
 
 <body>
-
 <div class="container mt-5">
     <div class="card shadow-lg">
            <div class="card-header bg-primary text-white text-center">
@@ -44,14 +42,12 @@
 
         <div class="card-body">
 
-            <!-- NO CUSTOMERS -->
             <c:if test="${empty customer}">
                 <div class="alert alert-warning text-center">
                     No customers found
                 </div>
             </c:if>
 
-            <!-- CUSTOMER TABLE -->
             <c:if test="${not empty customer}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle text-center">
@@ -78,7 +74,6 @@
                                 <td>${cat.balance}</td>
                                 <td>${cat.creditLimit}</td>
 
-                                <!-- Actions -->
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
                                         <a class="btn btn-warning btn-sm"
@@ -102,7 +97,6 @@
 
         </div>
 
-        <!-- FOOTER -->
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
                 <a href="/" class="btn btn-success">

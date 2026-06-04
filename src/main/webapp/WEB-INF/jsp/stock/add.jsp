@@ -24,6 +24,16 @@
         .form-control {
             border-radius: 8px;
         }
+
+        .bottom-error {
+            margin-top: 12px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            background: #fee2e2;
+            color: #b91c1c;
+            font-size: 13px;
+            }
     </style>
 </head>
 <body>
@@ -51,7 +61,7 @@
                      <div class="mb-3">
                       <div class="form-group">
                           <label>Product List</label>
-                          <form:select path="identifier"
+                          <form:select path="product"
                                        cssClass="form-control"
                                        required="required">
                                    <form:option value="" label="-- Select Product --"/>
@@ -80,7 +90,9 @@
                          <label class="form-label fw-semibold">Quantity to Add</label>
                          <form:input path="quantity"
                                      cssClass="form-control"
+                                     oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                      placeholder="Enter quantity"
+                                     pattern="[0-9]+"
                                      type="number"
                                      required="true"/>
                      </div>
@@ -89,7 +101,9 @@
                          <label class="form-label fw-semibold">Minimum Count</label>
                          <form:input path="minimumStock"
                                      cssClass="form-control"
+                                     oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                      placeholder="Enter the Minimum Count"
+                                     pattern="[0-9]+"
                                      required="true"
                                      type="number"/>
                      </div>
@@ -108,7 +122,9 @@
                     </div>
 
                 <c:if test="${not empty message}">
-                        <p class="error">${message}</p>
+                        <div class="bottom-error">
+                        ${message}
+                        </div>
                     </c:if>
 
                 </form:form>
@@ -118,9 +134,7 @@
                 POS Management System
             </div>
         </div>
-
     </div>
 </div>
-
 </body>
 </html>

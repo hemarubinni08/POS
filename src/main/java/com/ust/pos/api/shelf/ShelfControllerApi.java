@@ -25,8 +25,8 @@ public class ShelfControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    public ShelfDto addPost(@RequestBody ShelfDto userDto) {
-        return shelfService.save(userDto);
+    public ShelfDto addPost(@RequestBody ShelfDto shelfDto) {
+        return shelfService.save(shelfDto);
     }
 
     @GetMapping("/get")
@@ -35,8 +35,8 @@ public class ShelfControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public ShelfDto updatePost(@RequestBody ShelfDto userDto) {
-        return shelfService.update(userDto);
+    public ShelfDto updatePost(@RequestBody ShelfDto shelfDto) {
+        return shelfService.update(shelfDto);
     }
 
     @GetMapping("/delete")

@@ -5,7 +5,6 @@ import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.models.service.ModelsService;
 import com.ust.pos.product.service.ProductService;
-import com.ust.pos.shelf.service.ShelfService;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +21,6 @@ ProductController {
     public static final String CATEGORIES = "categories";
     public static final String PRODUCTS = "products";
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
-    public static final String SHELF = "shelf";
     public static final String BRAND = "brand";
     public static final String MODEL = "model";
     @Autowired
@@ -40,11 +38,8 @@ ProductController {
     @Autowired
     private UnitService unitService;
 
-    @Autowired
-    private ShelfService shelfService;
-
     @GetMapping("/list")
-    public String home(Model model, Pageable pageable) {
+    public String list(Model model, Pageable pageable) {
         model.addAttribute(PRODUCTS, productService.findAll(pageable));
         return "product/list";
     }
@@ -55,7 +50,6 @@ ProductController {
         model.addAttribute(BRAND, brandService.findActiveBrands());
         model.addAttribute(MODEL, modelsService.findActiveModels());
         model.addAttribute("unit", unitService.findActiveUnits());
-        model.addAttribute(SHELF, shelfService.findActiveShelves());
         return "product/add";
     }
 
@@ -68,7 +62,6 @@ ProductController {
             model.addAttribute(BRAND, brandService.findActiveBrands());
             model.addAttribute(MODEL, modelsService.findActiveModels());
             model.addAttribute("unit", unitService.findActiveUnits());
-            model.addAttribute(SHELF, shelfService.findActiveShelves());
             model.addAttribute(CATEGORIES, categoryService.findAllWithSuperCategory());
             return "product/add";
         }
@@ -83,21 +76,19 @@ ProductController {
         model.addAttribute(BRAND, brandService.findActiveBrands());
         model.addAttribute(MODEL, modelsService.findActiveModels());
         model.addAttribute("unit", unitService.findActiveUnits());
-        model.addAttribute(SHELF, shelfService.findActiveShelves());
         model.addAttribute("product", response);
         return "product/product";
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, Pageable pageable, @ModelAttribute ProductDto userDto) {
-        ProductDto response = productService.update(userDto);
+    public String updatePost(Model model, Pageable pageable, @ModelAttribute ProductDto productDto) {
+        ProductDto response = productService.update(productDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("product", productService.findAll(pageable));
             model.addAttribute(BRAND, brandService.findActiveBrands());
             model.addAttribute(MODEL, modelsService.findActiveModels());
             model.addAttribute("unit", unitService.findActiveUnits());
-            model.addAttribute(SHELF, shelfService.findActiveShelves());
             model.addAttribute(CATEGORIES, categoryService.findAllWithSuperCategory());
         }
         return REDIRECT_PRODUCT_LIST;

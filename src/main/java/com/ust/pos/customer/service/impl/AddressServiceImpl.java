@@ -24,8 +24,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressDto findByPhoneNoAndAddressType(Long phoneNo, String addressType) {
-        Address address = addressRepository.
-                findByPhoneNoAndAddressType(phoneNo, addressType);
+        Address address = addressRepository.findByPhoneNoAndAddressType(phoneNo, addressType);
         return modelMapper.map(address, AddressDto.class);
     }
 

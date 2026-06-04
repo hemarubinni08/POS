@@ -1,7 +1,6 @@
 package com.ust.pos.brand;
 
 import com.ust.pos.brand.service.BrandService;
-import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.BrandDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -17,9 +16,6 @@ public class BrandController {
 
     @Autowired
     private BrandService brandService;
-
-    @Autowired
-    private CategoryService categoryService;
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
@@ -52,8 +48,8 @@ public class BrandController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, Pageable pageable, @ModelAttribute BrandDto userDto) {
-        BrandDto response = brandService.update(userDto);
+    public String updatePost(Model model, Pageable pageable, @ModelAttribute BrandDto brandDto) {
+        BrandDto response = brandService.update(brandDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("brand", brandService.findAll(pageable));

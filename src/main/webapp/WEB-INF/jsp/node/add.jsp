@@ -103,9 +103,7 @@
                 POS Management System
             </div>
         </div>
-
     </div>
 </div>
-
 </body>
 </html>

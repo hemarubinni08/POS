@@ -29,7 +29,7 @@ public class UserControllerApi extends BaseController {
     }
 
     @PostMapping("/register")
-    public UserDto add(@RequestBody UserDto userDto){
+    public UserDto add(@RequestBody UserDto userDto) {
         return userService.save(userDto);
     }
 

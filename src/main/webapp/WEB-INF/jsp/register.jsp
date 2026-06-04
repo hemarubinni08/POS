@@ -114,7 +114,6 @@
 <div class="register-card">
     <h2>User Registration</h2>
 
-    <!-- MESSAGE -->
     <c:if test="${not empty message}">
         <div class="${fn:contains(message,'success') ? 'success-box' : 'error-box'}">
             ${message}
@@ -123,13 +122,11 @@
 
     <form:form action="register" method="post" modelAttribute="userDto">
 
-        <!-- Name -->
         <div class="form-group">
             <label>Name</label>
             <form:input path="name" required="required"/>
         </div>
 
-        <!-- Email -->
         <div class="form-group">
             <label>Email</label>
             <form:input path="username"
@@ -138,7 +135,6 @@
                         cssClass="${not empty message ? 'error-input' : ''}"/>
         </div>
 
-        <!-- Roles -->
         <div class="form-group">
             <label>Roles</label>
             <form:select path="roles" multiple="true" required="required">
@@ -146,7 +142,6 @@
             </form:select>
         </div>
 
-        <!-- Phone -->
         <div class="form-group">
             <label>Phone Number</label>
             <form:input path="phoneNo"
@@ -156,7 +151,6 @@
                         oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
         </div>
 
-        <!-- Password -->
         <div class="form-group">
             <label>Password</label>
             <form:password path="password"
@@ -170,8 +164,6 @@
         </a>
 
     </form:form>
-
 </div>
-
 </body>
 </html>

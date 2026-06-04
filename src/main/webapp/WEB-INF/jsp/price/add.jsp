@@ -87,7 +87,6 @@
                     </div>
 
                 </form:form>
-
             </div>
 
             <div class="card-footer text-center text-muted small">
@@ -95,19 +94,19 @@
             </div>
 
             <div class="text-center mt-3">
-                      <a href="/price/list">← Back to Price List</a>
+                 <a href="/price/list">← Back to Price List</a>
             </div>
         </div>
          <c:if test="${not empty message}">
-                        <div style="
-                            background:#f8d7da;
-                            color:#721c24;
-                            padding:10px;
-                            margin-bottom:15px;
-                            border-radius:4px;
-                            text-align:center;">
-                            ${message}
-                        </div>
+            <div style="
+                background:#f8d7da;
+                color:#721c24;
+                padding:10px;
+                margin-bottom:15px;
+                border-radius:4px;
+                text-align:center;">
+                ${message}
+            </div>
          </c:if>
     </div>
 </div>

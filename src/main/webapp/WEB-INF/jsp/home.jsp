@@ -30,7 +30,7 @@
             left: -260px;
             top: 0;
             width: 260px;
-            height: 100%;
+            height: 100vh;
             background: linear-gradient(180deg, #0f766e, #022c43);
             padding: 25px 15px;
             display: flex;
@@ -52,6 +52,21 @@
 
         .menu {
             flex-grow: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .menu::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .menu::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+
+        .menu::-webkit-scrollbar-track {
+            background: transparent;
         }
 
         .menu a {
@@ -148,17 +163,16 @@
 </head>
 
 <body>
-
 <div class="wrapper">
 
-    <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
         <h2>POS System</h2>
 
         <div class="menu">
             <c:if test="${not empty nodes}">
                 <c:forEach var="n" items="${nodes}">
-                    <a href="${pageContext.request.contextPath}${n.path}">
+                    <a
+                        href="${pageContext.request.contextPath}${n.path}">
                         ${n.identifier}
                     </a>
                 </c:forEach>
@@ -176,36 +190,28 @@
         </div>
     </div>
 
-    <!-- MAIN -->
     <div class="main" id="main">
-
-        <!-- TOPBAR -->
         <div class="topbar">
             <span class="toggle-btn" onclick="toggleSidebar()">☰</span>
             <h3>POS Dashboard</h3>
         </div>
 
-        <!-- CONTENT -->
         <div class="content">
             <div class="center-box">
                 <h1>POS Dashboard</h1>
                 <p>Welcome to your POS system management panel</p>
             </div>
         </div>
-
     </div>
-
 </div>
 
 <script>
     function toggleSidebar() {
         const sidebar = document.getElementById("sidebar");
         const main = document.getElementById("main");
-
         sidebar.classList.toggle("active");
         main.classList.toggle("shift");
     }
 </script>
-
 </body>
 </html>
