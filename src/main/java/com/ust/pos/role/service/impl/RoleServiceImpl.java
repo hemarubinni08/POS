@@ -1,5 +1,6 @@
 package com.ust.pos.role.service.impl;
 
+import com.ust.pos.dao.RoleDao;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
@@ -17,6 +18,9 @@ import java.util.List;
 
 @Service
 public class RoleServiceImpl implements RoleService {
+
+    @Autowired
+    private RoleDao roleDao;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -43,6 +47,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<RoleDto> findActiveStatus() {
         List<Role> allRoles = roleRepository.findAll();
+
         List<Role> activeRoles = allRoles.stream().filter(Role::isStatus).toList();
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
