@@ -81,7 +81,5 @@ public class CategoryServiceImpl implements CategoryService {
         }.getType();
 
         return modelMapper.map(categories, listType);
-
-
     }
 }

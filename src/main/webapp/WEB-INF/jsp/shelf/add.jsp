@@ -92,8 +92,6 @@
         <label>Shelf Name</label>
         <form:input path="identifier" required="true"/>
 
-
-
         <div class="btn-group">
             <button type="submit" class="save-btn">Save</button>
             <a href="/shelf/list" class="back-btn">Back</a>

@@ -55,9 +55,4 @@ public class UserRestController extends BaseController {
         }
         return true;
     }
-
-    @GetMapping("/test")
-    public String test() {
-        return "working";
-    }
 }

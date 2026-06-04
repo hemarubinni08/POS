@@ -81,9 +81,7 @@
 
 <div class="form-container">
 
-
     <form:form action="/unit/update" method="post" modelAttribute="unit">
-
 
         <form:hidden path="id"/>
         <form:hidden path="identifier"/>

@@ -100,10 +100,15 @@
         <form:input path="location" required="true"/>
 
         <label>Contact Name</label>
-        <form:input path="contactName"/>
+        <form:input path="contactName" required="true"/>
 
         <label>Contact Number</label>
-        <form:input path="contactNumber"/>
+        <form:input path="contactNumber" type="text"
+                                             inputmode="numeric"
+                                             maxlength="10"
+                                             pattern="^[0-9]{10}$"
+                                             oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                                             required="true"/>
 
         <div class="btn-group">
             <button type="submit" class="btn save-btn">Update</button>

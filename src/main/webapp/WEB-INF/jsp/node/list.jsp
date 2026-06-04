@@ -95,25 +95,25 @@ a {
             background: #444;
         }
         .back-btn {
-                    background: #E5E7EB;
-                    color: #111827;
-                }
+            background: #E5E7EB;
+            color: #111827;
+        }
 
-                .back-btn:hover {
-                    background: #D1D5DB;
-                }
-                .btn-secondary {
-                                    padding: 10px 16px;
-                                    background: #2B2B2B;
-                                    color: white;
-                                    border-radius: 6px;
-                                    font-weight: 600;
-                                    text-decoration: none;
-                                }
+        .back-btn:hover {
+            background: #D1D5DB;
+        }
+        .btn-secondary {
+            padding: 10px 16px;
+            background: #2B2B2B;
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+        }
 
-                                .btn-secondary:hover {
-                                    background: #444;
-                                }
+        .btn-secondary:hover {
+             background: #444;
+        }
 
 </style>
 </head>
@@ -132,7 +132,6 @@ a {
             <button class="btn-secondary">Back</button>
         </a>
 </div>
-
 
 <table>
 <tr>

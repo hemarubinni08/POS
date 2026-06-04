@@ -84,8 +84,6 @@
 
     <form:form action="/brand/update" method="post" modelAttribute="brand">
 
-
-
         <label>Brand Name</label>
         <form:input path="identifier" readonly="true"/>
 

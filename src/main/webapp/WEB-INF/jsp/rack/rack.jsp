@@ -73,6 +73,7 @@
             border-radius: 6px;
             font-weight: 600;
         }
+
     </style>
 </head>
 
@@ -86,26 +87,17 @@
 
         <form:hidden path="id"/>
 
-
         <label>Rack Name</label>
         <form:input path="identifier" readonly="true"/>
 
-
         <label>Shelf</label>
-                <form:select path="shelves" multiple="true">
+                <form:select path="shelves" multiple="true" required="true">
                     <form:option value="" label="-- Select Shelf --"/>
                     <form:options
                         items="${shelves}"
                         itemValue="identifier"
                         itemLabel="identifier"/>
                 </form:select>
-
-
-        <label>Status</label>
-        <form:select path="status">
-            <form:option value="ACTIVE">ACTIVE</form:option>
-            <form:option value="INACTIVE">INACTIVE</form:option>
-        </form:select>
 
         <div class="btn-group">
             <button type="submit" class="update-btn">Update</button>

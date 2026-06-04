@@ -101,5 +101,4 @@ public class ModelServiceImpl implements ModelService {
     public List<Models> findActiveModels() {
         return modelsRepository.findByStatus(true);
     }
-
 }

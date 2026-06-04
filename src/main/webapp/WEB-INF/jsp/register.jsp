@@ -138,9 +138,10 @@ button:hover {
                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}"/>
         <form:errors path="password" cssClass="error"/>
 
-<button type="submit">Register</button>
 
-<a href="/login">
+    <button type="submit">Register</button>
+
+<a href= "/user/list">
     <button type="button" class="back-btn">Back</button>
 </a>
 

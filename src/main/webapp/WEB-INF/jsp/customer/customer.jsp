@@ -125,7 +125,6 @@
             </div>
         </div>
 
-
         <div class="section">
             <h3>Billing Address</h3>
 
@@ -156,7 +155,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="section">
             <h3>Shipping Address</h3>
