@@ -32,7 +32,6 @@ RoleServiceTest {
     /* ===================== SAVE ===================== */
     @Test
     void saveTest() {
-
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
         Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(null);
@@ -42,12 +41,10 @@ RoleServiceTest {
         RoleDto response = roleService.save(roleDto);
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void saveTestFailure() {
-
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
         Role existingRole = new Role();
@@ -55,13 +52,11 @@ RoleServiceTest {
         Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(existingRole);
         RoleDto response = roleService.save(roleDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
     /* ===================== FIND BY IDENTIFIER ===================== */
     @Test
     void findByIdentifierTest() {
-
         Role role = new Role();
         role.setIdentifier("Admin");
         RoleDto roleDto = new RoleDto();
@@ -70,13 +65,11 @@ RoleServiceTest {
         Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(roleDto);
         RoleDto response = roleService.findByIdentifier("Admin");
         Assertions.assertEquals("Admin", response.getIdentifier());
-
     }
 
     /* ===================== UPDATE ===================== */
     @Test
     void updateTest() {
-
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
         Role existingRole = new Role();
@@ -85,35 +78,28 @@ RoleServiceTest {
         Mockito.when(roleRepository.save(existingRole)).thenReturn(existingRole);
         RoleDto response = roleService.update(roleDto);
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void updateTestFailure() {
-
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
         Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(null);
         RoleDto response = roleService.update(roleDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
     /* ===================== DELETE ===================== */
     @Test
     void deleteTest() {
-
         Mockito.doNothing().when(roleRepository).deleteByIdentifier("Admin");
         boolean response = roleService.delete("Admin");
         Assertions.assertEquals(true, response);
-
     }
-
 
     /* ===================== FIND ALL ===================== */
     @Test
     void findAllTest() {
-
         Role role = new Role();
         role.setIdentifier("Admin");
         RoleDto roleDto = new RoleDto();
@@ -129,12 +115,10 @@ RoleServiceTest {
         )).thenReturn(roleDtos);
         List<RoleDto> response = roleService.findAll(pageable);
         Assertions.assertEquals(1, response.size());
-
     }
 
     @Test
     void findByStatusTest() {
-
         Role role = new Role();
         role.setIdentifier("Admin");
         RoleDto roleDto = new RoleDto();
@@ -148,12 +132,10 @@ RoleServiceTest {
         )).thenReturn(roleDtos);
         List<RoleDto> response = roleService.findIfTrue();
         Assertions.assertEquals(1, response.size());
-
     }
 
     @Test
     void toggleTestActive() {
-
         Role role = new Role();
         role.setStatus(false);
         RoleDto roleDto = new RoleDto();
@@ -162,12 +144,10 @@ RoleServiceTest {
         Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(roleDto);
         RoleDto response = roleService.toggleStatus("Admin");
         Assertions.assertTrue(response.isStatus());
-
     }
 
     @Test
     void toggleTestInactive() {
-
         Role role = new Role();
         role.setStatus(true);
         RoleDto roleDto = new RoleDto();
@@ -176,7 +156,6 @@ RoleServiceTest {
         Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(roleDto);
         RoleDto response = roleService.toggleStatus("Admin");
         Assertions.assertFalse(response.isStatus());
-
     }
 
 }

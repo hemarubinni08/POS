@@ -30,7 +30,6 @@ class UnitServiceTest {
     /* ===================== SAVE ===================== */
     @Test
     void saveTest() {
-
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("Admin");
         Mockito.when(unitRepository.findByIdentifier("Admin")).thenReturn(null);
@@ -40,12 +39,10 @@ class UnitServiceTest {
         UnitDto response = unitService.save(unitDto);
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void saveTestFailure() {
-
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("Admin");
         Unit existingUnit = new Unit();
@@ -53,7 +50,6 @@ class UnitServiceTest {
         Mockito.when(unitRepository.findByIdentifier("Admin")).thenReturn(existingUnit);
         UnitDto response = unitService.save(unitDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
     /* ===================== FIND BY IDENTIFIER ===================== */

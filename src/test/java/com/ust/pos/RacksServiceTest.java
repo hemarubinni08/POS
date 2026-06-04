@@ -30,7 +30,6 @@ class RacksServiceTest {
     /* ===================== SAVE ===================== */
     @Test
     void saveTest() {
-
         RacksDto racksDto = new RacksDto();
         racksDto.setIdentifier("Admin");
         Mockito.when(racksRepository.findByIdentifier("Admin")).thenReturn(null);
@@ -40,12 +39,10 @@ class RacksServiceTest {
         RacksDto response = racksService.save(racksDto);
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void saveTestFailure() {
-
         RacksDto racksDto = new RacksDto();
         racksDto.setIdentifier("Admin");
         Racks existingRacks = new Racks();
@@ -53,7 +50,6 @@ class RacksServiceTest {
         Mockito.when(racksRepository.findByIdentifier("Admin")).thenReturn(existingRacks);
         RacksDto response = racksService.save(racksDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
     /* ===================== FIND BY IDENTIFIER ===================== */
@@ -73,7 +69,6 @@ class RacksServiceTest {
     /* ===================== UPDATE ===================== */
     @Test
     void updateTest() {
-
         RacksDto racksDto = new RacksDto();
         racksDto.setIdentifier("Admin");
         Racks existingRacks = new Racks();
