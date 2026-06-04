@@ -48,7 +48,7 @@ class BrandServiceTest {
         BrandDto response = brandService.save(brandDto);
 
         Assertions.assertEquals("Nike", response.getIdentifier());
-        Assertions.assertTrue(response.isSuccess()); // success is never set true in service
+        Assertions.assertTrue(response.isSuccess());
     }
 
     @Test

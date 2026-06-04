@@ -35,8 +35,6 @@ class CustomerServiceTest {
     @InjectMocks
     CustomerServiceImpl customerService;
 
-    // ---------------- SAVE ----------------
-
     @Test
     void saveCustomerSuccess() {
         CustomerDto dto = new CustomerDto();
@@ -48,7 +46,6 @@ class CustomerServiceTest {
         Mockito.when(customerRepository.findByPhoneNum("111"))
                 .thenReturn(null);
 
-        //  CORRECT ModelMapper stub
         Mockito.doAnswer(invocation -> null)
                 .when(modelMapper)
                 .map(Mockito.any(CustomerDto.class), Mockito.any(Customer.class));
@@ -76,8 +73,6 @@ class CustomerServiceTest {
 
         Assertions.assertFalse(response.isSuccess());
     }
-
-    // ---------------- FIND BY IDENTIFIER ----------------
 
     @Test
     void findByIdentifierSuccess() {
@@ -113,8 +108,6 @@ class CustomerServiceTest {
         );
     }
 
-    // ---------------- CHANGE STATUS ----------------
-
     @Test
     void changeCustomerStatusSuccess() {
         Customer customer = new Customer();
@@ -145,8 +138,6 @@ class CustomerServiceTest {
         Assertions.assertNull(response);
     }
 
-    // ---------------- FIND ALL ----------------
-
     @Test
     void findAllCustomers() {
         Page<Customer> page = new PageImpl<>(List.of(new Customer()));
@@ -164,8 +155,6 @@ class CustomerServiceTest {
 
         Assertions.assertEquals(1, result.size());
     }
-
-    // ---------------- UPDATE ----------------
 
     @Test
     void updateCustomerSuccess() {
@@ -246,8 +235,6 @@ class CustomerServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    // ---------------- FIND BY ID ----------------
-
     @Test
     void findByIdSuccess() {
         Mockito.when(customerRepository.findById(1L))
@@ -270,8 +257,6 @@ class CustomerServiceTest {
                 () -> customerService.findById(1L)
         );
     }
-
-    // ---------------- DELETE ----------------
 
     @Test
     void deleteByIdentifier() {

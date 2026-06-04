@@ -31,8 +31,6 @@ class ModelsServiceTest {
     @InjectMocks
     private ModelsServiceImpl modelsService;
 
-    /* ================= SAVE ================= */
-
     @Test
     void saveSuccess() {
         ModelsDto dto = new ModelsDto();
@@ -68,8 +66,6 @@ class ModelsServiceTest {
         Mockito.verify(modelsRepository, Mockito.never()).save(Mockito.any());
     }
 
-    /* ================= FIND BY ID ================= */
-
     @Test
     void findByIdSuccess() {
         Models models = new Models();
@@ -98,8 +94,6 @@ class ModelsServiceTest {
         Assertions.assertTrue(exception.getMessage().contains("Models not found"));
     }
 
-    /* ================= FIND ALL ================= */
-
     @Test
     void findAllSuccess() {
         Models models = new Models();
@@ -120,8 +114,6 @@ class ModelsServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
-
-    /* ================= UPDATE ================= */
 
     @Test
     void updateSuccess() {
@@ -153,8 +145,6 @@ class ModelsServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    /* ================= CHANGE STATUS ================= */
-
     @Test
     void changeModelsStatusSuccess() {
         Models models = new Models();
@@ -171,8 +161,6 @@ class ModelsServiceTest {
 
         Assertions.assertNotNull(response);
     }
-
-    /* ================= DELETE ================= */
 
     @Test
     void deleteByIdSuccess() {

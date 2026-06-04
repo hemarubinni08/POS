@@ -22,7 +22,6 @@ class PosUserDetailsServiceTest {
     @InjectMocks
     private PosUserDetailsService posUserDetailsService;
 
-    //  SUCCESS PATH
     @Test
     void loadUserByUsername_success() {
         UserDto userDto = new UserDto();
@@ -40,7 +39,6 @@ class PosUserDetailsServiceTest {
         Assertions.assertEquals("encodedPassword", userDetails.getPassword());
     }
 
-    //  EXCEPTION PATH (COVERS RED LINE)
     @Test
     void loadUserByUsername_userNotFound() {
         Mockito.when(userService.findByUserName("missing@test.com"))
