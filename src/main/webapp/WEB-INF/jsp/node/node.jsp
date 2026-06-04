@@ -143,7 +143,7 @@
 
         <div class="input-group">
             <label>Path</label>
-            <form:input path="path" placeholder="/example/path"/>
+            <form:input path="path" placeholder="/example/path" required="true"/>
         </div>
 
         <div class="input-group">
