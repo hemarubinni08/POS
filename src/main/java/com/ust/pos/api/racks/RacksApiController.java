@@ -24,7 +24,7 @@ public class RacksApiController extends BaseController {
     @Autowired
     private ShelfService shelfService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<RacksDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortField());

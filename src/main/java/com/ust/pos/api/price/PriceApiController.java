@@ -19,7 +19,7 @@ public class PriceApiController extends BaseController {
     @Autowired
     ProductService productService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<PriceDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortField());

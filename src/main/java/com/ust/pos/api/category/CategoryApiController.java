@@ -17,7 +17,7 @@ public class CategoryApiController extends BaseController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     public List<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(), paginationDto.getSortField());
