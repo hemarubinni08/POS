@@ -36,8 +36,6 @@ class RoleServiceTest {
     @InjectMocks
     private RoleServiceImpl roleService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     @DisplayName("Save Role - Success Case")
     void saveTest_Success() {
@@ -69,8 +67,6 @@ class RoleServiceTest {
         Mockito.verify(roleRepository, Mockito.never()).save(any());
     }
 
-    /* ===================== UPDATE ===================== */
-
     @Test
     @DisplayName("Update Role - Success")
     void updateTest_Success() {
@@ -101,8 +97,6 @@ class RoleServiceTest {
         Assertions.assertTrue(result.getMessage().contains("not found"));
         Mockito.verify(roleRepository, Mockito.never()).save(any());
     }
-
-    /* ===================== FIND METHODS ===================== */
 
     @Test
     @DisplayName("Find All - Paginated Success")
@@ -146,8 +140,6 @@ class RoleServiceTest {
         Assertions.assertNotNull(result);
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
     @Test
     @DisplayName("Toggle Status - Logic Flip")
     void toggleStatusTest() {
@@ -159,11 +151,9 @@ class RoleServiceTest {
 
         roleService.toggleStatus("ADMIN");
 
-        Assertions.assertTrue(role.isStatus()); // false -> true
+        Assertions.assertTrue(role.isStatus());
         Mockito.verify(roleRepository).save(role);
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     @DisplayName("Delete Role - Success")

@@ -23,17 +23,17 @@ public class ProductServiceImpl implements ProductService {
     private ModelMapper modelMapper;
 
     @Override
-    public ProductDto save(ProductDto dto) {
-        if (productRepository.findByIdentifier(dto.getIdentifier()) != null) {
-            dto.setSuccess(false);
-            dto.setMessage("Product already exists");
-            return dto;
+    public ProductDto save(ProductDto productDto) {
+        if (productRepository.findByIdentifier(productDto.getIdentifier()) != null) {
+            productDto.setSuccess(false);
+            productDto.setMessage("Product already exists");
+            return productDto;
         }
-        Product product = modelMapper.map(dto, Product.class);
-        product.setCategories(dto.getCategories() == null ? List.of() : dto.getCategories());
+        Product product = modelMapper.map(productDto, Product.class);
+        product.setCategories(productDto.getCategories() == null ? List.of() : productDto.getCategories());
         productRepository.save(product);
-        dto.setSuccess(true);
-        return dto;
+        productDto.setSuccess(true);
+        return productDto;
     }
 
     @Override

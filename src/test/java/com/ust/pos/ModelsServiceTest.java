@@ -73,7 +73,7 @@ class ModelsServiceTest {
         Page<Models> page = new PageImpl<>(list);
 
         Mockito.when(modelsRepository.findAll(pageable)).thenReturn(page);
-        // Using any(Type.class) to match the TypeToken reflection logic
+
         Mockito.when(modelMapper.map(eq(list), any(Type.class))).thenReturn(List.of(new ModelsDto()));
 
         List<ModelsDto> result = modelsService.findAll(pageable);
@@ -142,14 +142,12 @@ class ModelsServiceTest {
         Models entity = new Models();
         entity.setStatus(true);
 
-        // Service calls findByIdentifier twice:
-        // 1. To check status 2. In the return statement map
         Mockito.when(modelsRepository.findByIdentifier("M1")).thenReturn(entity);
         Mockito.when(modelMapper.map(any(), eq(ModelsDto.class))).thenReturn(new ModelsDto());
 
         modelsService.toggleStatus("M1");
 
-        Assertions.assertFalse(entity.isStatus()); // Should be toggled to false
+        Assertions.assertFalse(entity.isStatus());
         Mockito.verify(modelsRepository).save(entity);
     }
 

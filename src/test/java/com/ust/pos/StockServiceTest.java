@@ -36,8 +36,6 @@ class StockServiceTest {
     @InjectMocks
     private StockServiceImpl stockService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     @DisplayName("Save Stock - Success Case")
     void saveTest_Success() {
@@ -67,8 +65,6 @@ class StockServiceTest {
         Assertions.assertEquals("Stock with identifier - STK-100 already exists", result.getMessage());
         Mockito.verify(stockRepository, Mockito.never()).save(any());
     }
-
-    /* ===================== UPDATE ===================== */
 
     @Test
     @DisplayName("Update Stock - Success Case")
@@ -100,8 +96,6 @@ class StockServiceTest {
         Mockito.verify(stockRepository, Mockito.never()).save(any());
     }
 
-    /* ===================== FIND METHODS ===================== */
-
     @Test
     @DisplayName("Find All - Paginated Success")
     void findAllTest() {
@@ -111,7 +105,6 @@ class StockServiceTest {
         List<StockDto> dtos = List.of(new StockDto());
 
         Mockito.when(stockRepository.findAll(pageable)).thenReturn(stockPage);
-        // Match eq(list) and any(Type.class) because of TypeToken usage
         Mockito.when(modelMapper.map(eq(stocks), any(Type.class))).thenReturn(dtos);
 
         List<StockDto> result = stockService.findAll(pageable);
@@ -132,8 +125,6 @@ class StockServiceTest {
         Assertions.assertNotNull(result);
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
     @Test
     @DisplayName("Toggle Status - Success Case")
     void toggleStatusTest() {
@@ -146,12 +137,10 @@ class StockServiceTest {
 
         StockDto result = stockService.toggleStatus("STK-100");
 
-        Assertions.assertFalse(stock.isStatus()); // Boolean flipped
+        Assertions.assertFalse(stock.isStatus());
         Mockito.verify(stockRepository).save(stock);
         Assertions.assertNotNull(result);
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     @DisplayName("Delete Stock - Success Case")

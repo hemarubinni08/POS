@@ -57,8 +57,6 @@ class CustomerServiceTest {
         customer.setStatus(true);
     }
 
-    /* ===================== SAVE BRANCHES ===================== */
-
     @Test
     @DisplayName("Save - New Customer with Both Addresses")
     void save_Success_Full() {
@@ -98,8 +96,6 @@ class CustomerServiceTest {
         verify(customerRepository, never()).save(any());
     }
 
-    /* ===================== UPDATE BRANCHES ===================== */
-
     @Test
     @DisplayName("Update - Full Address Sync")
     void update_Success_FullSync() {
@@ -111,7 +107,7 @@ class CustomerServiceTest {
         customerDto.setShippingAddress(new AddressDto());
 
         when(customerRepository.findByIdentifier("CUST001")).thenReturn(customer);
-        // Mock returning only billing to exercise shipping update without an existing ID
+
         when(addressService.findAllByPhoneNumber("CUST001")).thenReturn(List.of(existingBill));
 
         CustomerDto result = customerService.update(customerDto);
@@ -127,8 +123,6 @@ class CustomerServiceTest {
         CustomerDto result = customerService.update(customerDto);
         Assertions.assertFalse(result.isSuccess());
     }
-
-    /* ===================== FIND METHODS ===================== */
 
     @Test
     @DisplayName("Find All - Pagination Support")
@@ -167,8 +161,6 @@ class CustomerServiceTest {
 
         Assertions.assertNotNull(result);
     }
-
-    /* ===================== TOGGLE & DELETE ===================== */
 
     @Test
     @DisplayName("Toggle Status")

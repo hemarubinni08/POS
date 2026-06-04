@@ -36,8 +36,6 @@ class CategoryServiceTest {
     @InjectMocks
     private CategoryServiceImpl categoryService;
 
-    /* ===================== SAVE BRANCHES ===================== */
-
     @Test
     @DisplayName("Save Category - Success with Super Category")
     void saveTest_Success_WithSuperCategory() {
@@ -61,7 +59,7 @@ class CategoryServiceTest {
     void saveTest_Success_BlankSuperCategory() {
         CategoryDto dto = new CategoryDto();
         dto.setIdentifier("CAT01");
-        dto.setSuperCategory("   "); // Blank string branch
+        dto.setSuperCategory("   ");
 
         Category categoryEntity = new Category();
         Mockito.when(categoryRepository.findByIdentifier("CAT01")).thenReturn(null);
@@ -70,7 +68,7 @@ class CategoryServiceTest {
         CategoryDto response = categoryService.save(dto);
 
         Assertions.assertTrue(response.isSuccess());
-        Assertions.assertNull(categoryEntity.getSuperCategory()); // Should be set to null
+        Assertions.assertNull(categoryEntity.getSuperCategory());
     }
 
     @Test
@@ -103,8 +101,6 @@ class CategoryServiceTest {
         Assertions.assertTrue(response.getMessage().contains("already exists"));
     }
 
-    /* ===================== UPDATE BRANCHES ===================== */
-
     @Test
     @DisplayName("Update Category - Success")
     void updateTest_Success() {
@@ -135,8 +131,6 @@ class CategoryServiceTest {
         Assertions.assertTrue(response.getMessage().contains("not found"));
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
     @Test
     @DisplayName("Toggle Status - Flip boolean")
     void toggleStatus_Test() {
@@ -151,8 +145,6 @@ class CategoryServiceTest {
         Assertions.assertFalse(category.isStatus());
         Mockito.verify(categoryRepository).save(category);
     }
-
-    /* ===================== FIND METHODS ===================== */
 
     @Test
     @DisplayName("Find All - Paginated Success")

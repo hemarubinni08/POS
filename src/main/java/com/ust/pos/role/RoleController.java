@@ -46,8 +46,8 @@ public class RoleController extends BaseController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RoleDto userDto) {
-        RoleDto response = roleService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute RoleDto roleDto) {
+        RoleDto response = roleService.update(roleDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }

@@ -60,8 +60,6 @@ class UserServiceTest {
         userDto.setPassword("rawPassword");
     }
 
-    /* ===================== FIND BY USERNAME ===================== */
-
     @Test
     void findByUserName_Success() {
         when(userRepository.findByUsername("test@example.com")).thenReturn(user);
@@ -78,8 +76,6 @@ class UserServiceTest {
         when(userRepository.findByUsername("none")).thenReturn(null);
         assertNull(userService.findByUserName("none"));
     }
-
-    /* ===================== SAVE ===================== */
 
     @Test
     void save_Success() {
@@ -102,8 +98,6 @@ class UserServiceTest {
         assertFalse(result.isSuccess());
         verify(userRepository, never()).save(any());
     }
-
-    /* ===================== UPDATE ===================== */
 
     @Test
     void update_UserNotFound() {
@@ -131,7 +125,6 @@ class UserServiceTest {
         userDto.setUsername("new@example.com");
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
-        // Verify that the new username doesn't conflict with another user
         when(userRepository.findByUsername("new@example.com")).thenReturn(null);
 
         UserDto result = userService.update(userDto);
@@ -149,7 +142,6 @@ class UserServiceTest {
         userDto.setUsername("other@example.com");
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
-        // Simulate "other@example.com" belonging to a DIFFERENT user
         when(userRepository.findByUsername("other@example.com")).thenReturn(new User());
 
         UserDto result = userService.update(userDto);
@@ -158,7 +150,6 @@ class UserServiceTest {
         verify(userRepository, never()).save(existingUser);
     }
 
-    /* ===================== FIND ALL ===================== */
 
     @Test
     @DisplayName("Find All - Paginated")
@@ -175,8 +166,6 @@ class UserServiceTest {
         assertEquals(1, result.size());
         verify(userRepository).findAll(pageable);
     }
-
-    /* ===================== TOGGLE & DELETE ===================== */
 
     @Test
     void toggleStatus_Logic() {

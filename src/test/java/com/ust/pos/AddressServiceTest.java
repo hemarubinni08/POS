@@ -36,8 +36,6 @@ class AddressServiceTest {
     @InjectMocks
     private AddressServiceImpl addressService;
 
-    // --- SAVE TESTS ---
-
     @Test
     @DisplayName("Save - Success Case")
     void saveTestSuccess() {
@@ -47,10 +45,9 @@ class AddressServiceTest {
         Address addressEntity = new Address();
         addressEntity.setIdentifier("ADDR001");
 
-        // The service calls findByIdentifier twice in the success path
         Mockito.when(addressRepository.findByIdentifier("ADDR001"))
-                .thenReturn(null)           // First check
-                .thenReturn(addressEntity); // Second fetch after save
+                .thenReturn(null)
+                .thenReturn(addressEntity);
 
         Mockito.when(modelMapper.map(inputDto, Address.class)).thenReturn(addressEntity);
 
@@ -76,8 +73,6 @@ class AddressServiceTest {
         Mockito.verify(addressRepository, Mockito.never()).save(any());
     }
 
-    // --- UPDATE TESTS ---
-
     @Test
     @DisplayName("Update - Success Case")
     void updateTestSuccess() {
@@ -87,7 +82,6 @@ class AddressServiceTest {
         Address existingAddress = new Address();
         existingAddress.setIdentifier("ADDR001");
 
-        // Service calls findByIdentifier twice in update success path
         Mockito.when(addressRepository.findByIdentifier("ADDR001")).thenReturn(existingAddress);
 
         AddressDto response = addressService.update(inputDto);
@@ -113,8 +107,6 @@ class AddressServiceTest {
         Mockito.verify(addressRepository, Mockito.never()).save(any());
     }
 
-    // --- DELETE TESTS ---
-
     @Test
     @DisplayName("Delete - Success Case")
     void deleteTest() {
@@ -128,8 +120,6 @@ class AddressServiceTest {
         Assertions.assertTrue(result);
         Mockito.verify(addressRepository).deleteAll(addresses);
     }
-
-    // --- FIND ALL (PAGINATION) TESTS ---
 
     @Test
     @DisplayName("Find All - Pagination Case")
@@ -148,8 +138,6 @@ class AddressServiceTest {
         Mockito.verify(addressRepository).findAll(pageable);
     }
 
-    // --- FIND BY IDENTIFIER TESTS ---
-
     @Test
     @DisplayName("Find By Identifier - Success")
     void findByIdentifierTest() {
@@ -165,8 +153,6 @@ class AddressServiceTest {
         Assertions.assertNotNull(response);
         Assertions.assertEquals("ADDR001", response.getIdentifier());
     }
-
-    // --- FIND BY PHONE TESTS ---
 
     @Test
     @DisplayName("Find All By Phone Number - Success")

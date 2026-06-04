@@ -61,8 +61,6 @@ class NodeServiceTest {
         testDto.setIdentifier("NODE01");
     }
 
-    /* ===================== SAVE ===================== */
-
     @Test
     void save_Success() {
         when(nodeRepository.findByIdentifier("NODE01")).thenReturn(null);
@@ -83,8 +81,6 @@ class NodeServiceTest {
         Assertions.assertFalse(result.isSuccess());
         verify(nodeRepository, never()).save(any());
     }
-
-    /* ===================== UPDATE ===================== */
 
     @Test
     void update_Success() {
@@ -107,8 +103,6 @@ class NodeServiceTest {
         Assertions.assertEquals("Node with identifier - NODE01 not found", result.getMessage());
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
     @Test
     void toggleStatus_Test() {
         when(nodeRepository.findByIdentifier("NODE01")).thenReturn(testNode);
@@ -116,12 +110,10 @@ class NodeServiceTest {
 
         NodeDto result = nodeService.toggleStatus("NODE01");
 
-        Assertions.assertFalse(testNode.isStatus()); // Was true, now should be false
+        Assertions.assertFalse(testNode.isStatus());
         verify(nodeRepository).save(testNode);
         Assertions.assertNotNull(result);
     }
-
-    /* ===================== FIND ALL (PAGINATED) ===================== */
 
     @Test
     void findAll_Paginated_Test() {
@@ -138,8 +130,6 @@ class NodeServiceTest {
         verify(nodeRepository).findAll(pageable);
     }
 
-    /* ===================== FIND BY IDENTIFIER ===================== */
-
     @Test
     void findByIdentifier_Test() {
         when(nodeRepository.findByIdentifier("NODE01")).thenReturn(testNode);
@@ -151,15 +141,13 @@ class NodeServiceTest {
         Assertions.assertEquals("NODE01", result.getIdentifier());
     }
 
-    /* ===================== GET NODES FOR ROLES (SECURITY) ===================== */
-
     @Test
     void getNodesForRoles_Success() {
-        // Setup Security Mocks
         Authentication auth = mock(Authentication.class);
         SecurityContext securityContext = mock(SecurityContext.class);
         org.springframework.security.core.userdetails.User principal =
-                new org.springframework.security.core.userdetails.User("testUser", "pass", Collections.emptyList());
+                new org.springframework.security.core.userdetails.User
+                        ("testUser", "pass", Collections.emptyList());
 
         User currentUser = new User();
         currentUser.setRoles(new ArrayList<>(List.of("ROLE_USER")));
@@ -197,8 +185,6 @@ class NodeServiceTest {
             Assertions.assertTrue(result.isEmpty());
         }
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     void delete_Test() {

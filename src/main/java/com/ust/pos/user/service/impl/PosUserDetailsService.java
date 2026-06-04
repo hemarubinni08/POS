@@ -28,7 +28,7 @@ public class PosUserDetailsService implements UserDetailsService {
         List<SimpleGrantedAuthority> authorities = Collections.emptyList();
         if (userDto.getRoles() != null && !userDto.getRoles().isEmpty()) {
             authorities = userDto.getRoles().stream()
-                    .map(SimpleGrantedAuthority::new) // Converts "ROLE_ADMIN" to authority
+                    .map(SimpleGrantedAuthority::new)
                     .toList();
         }
         return new User(userDto.getUsername(), userDto.getPassword(), authorities);

@@ -27,7 +27,6 @@ class PosUserDetailsServiceTest {
 
     @Test
     void loadUserByUsername_Success_WithRoles() {
-        // Arrange
         UserDto userDto = new UserDto();
         userDto.setUsername("admin");
         userDto.setPassword("encoded_pass");
@@ -35,20 +34,17 @@ class PosUserDetailsServiceTest {
 
         Mockito.when(userService.findByUserName("admin")).thenReturn(userDto);
 
-        // Act
         UserDetails result = posUserDetailsService.loadUserByUsername("admin");
 
-        // Assert
         Assertions.assertNotNull(result);
         Assertions.assertEquals("admin", result.getUsername());
-        // This will now pass because the service maps the roles
+
         Assertions.assertFalse(result.getAuthorities().isEmpty());
         Assertions.assertEquals(2, result.getAuthorities().size());
     }
 
     @Test
     void loadUserByUsername_Success_NoRoles() {
-        // Arrange
         UserDto userDto = new UserDto();
         userDto.setUsername("guest");
         userDto.setPassword("pass");
@@ -56,19 +52,15 @@ class PosUserDetailsServiceTest {
 
         Mockito.when(userService.findByUserName("guest")).thenReturn(userDto);
 
-        // Act
         UserDetails result = posUserDetailsService.loadUserByUsername("guest");
 
-        // Assert
         Assertions.assertTrue(result.getAuthorities().isEmpty());
     }
 
     @Test
     void loadUserByUsername_UserNotFound_ThrowsException() {
-        // Arrange
         Mockito.when(userService.findByUserName("unknown")).thenReturn(null);
 
-        // Act & Assert
         Assertions.assertThrows(UsernameNotFoundException.class, () -> {
             posUserDetailsService.loadUserByUsername("unknown");
         });
@@ -76,18 +68,15 @@ class PosUserDetailsServiceTest {
 
     @Test
     void loadUserByUsername_NullRoles_ReturnsEmptyAuthorities() {
-        // Arrange
         UserDto userDto = new UserDto();
         userDto.setUsername("nullUser");
         userDto.setPassword("pass");
-        userDto.setRoles(null); // Testing the null check in service
+        userDto.setRoles(null);
 
         Mockito.when(userService.findByUserName("nullUser")).thenReturn(userDto);
 
-        // Act
         UserDetails result = posUserDetailsService.loadUserByUsername("nullUser");
 
-        // Assert
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.getAuthorities().isEmpty());
     }

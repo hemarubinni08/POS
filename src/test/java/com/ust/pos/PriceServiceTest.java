@@ -52,8 +52,6 @@ class PriceServiceTest {
         testPrice.setStatus(true);
     }
 
-    /* ===================== SAVE ===================== */
-
     @Test
     @DisplayName("Save Price - Success")
     void save_Success() {
@@ -78,8 +76,6 @@ class PriceServiceTest {
         verify(priceRepository, never()).save(any());
     }
 
-    /* ===================== UPDATE ===================== */
-
     @Test
     @DisplayName("Update Price - Success")
     void update_Success() {
@@ -103,8 +99,6 @@ class PriceServiceTest {
         Assertions.assertEquals("Price with identifier - PRC001 not found", result.getMessage());
         verify(priceRepository, never()).save(any());
     }
-
-    /* ===================== FIND BY IDENTIFIER ===================== */
 
     @Test
     @DisplayName("Find By Identifier - Success Case")
@@ -133,8 +127,6 @@ class PriceServiceTest {
         Assertions.assertEquals("Price not configured", result.getMessage());
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
     @Test
     @DisplayName("Toggle Status - Logic Flip")
     void toggleStatus_TrueToFalse() {
@@ -149,8 +141,6 @@ class PriceServiceTest {
         verify(priceRepository).save(testPrice);
     }
 
-    /* ===================== FIND ALL ===================== */
-
     @Test
     @DisplayName("Find All - Paginated Success")
     void findAll_Success() {
@@ -160,7 +150,6 @@ class PriceServiceTest {
         List<PriceDto> dtos = Collections.singletonList(testDto);
 
         when(priceRepository.findAll(pageable)).thenReturn(pricePage);
-        // Matching eq(list) and any(Type) because TypeToken creates a generic type
         when(modelMapper.map(eq(prices), any(Type.class))).thenReturn(dtos);
 
         List<PriceDto> result = priceService.findAll(pageable);
@@ -168,8 +157,6 @@ class PriceServiceTest {
         Assertions.assertEquals(1, result.size());
         verify(priceRepository).findAll(pageable);
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     @DisplayName("Delete Price - Success")

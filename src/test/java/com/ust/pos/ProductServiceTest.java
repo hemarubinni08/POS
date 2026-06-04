@@ -35,8 +35,6 @@ class ProductServiceTest {
     @InjectMocks
     private ProductServiceImpl productService;
 
-    /* ===================== SAVE BRANCHES ===================== */
-
     @Test
     @DisplayName("Save - Success with provided categories")
     void saveTest_Success_WithCategories() {
@@ -67,7 +65,7 @@ class ProductServiceTest {
         ProductDto result = productService.save(dto);
 
         Assertions.assertTrue(result.isSuccess());
-        Assertions.assertNotNull(productEntity.getCategories()); // Should be empty list, not null
+        Assertions.assertNotNull(productEntity.getCategories());
     }
 
     @Test
@@ -83,8 +81,6 @@ class ProductServiceTest {
         Assertions.assertEquals("Product already exists", result.getMessage());
         Mockito.verify(productRepository, Mockito.never()).save(any());
     }
-
-    /* ===================== UPDATE BRANCHES ===================== */
 
     @Test
     @DisplayName("Update - Success with categories")
@@ -131,8 +127,6 @@ class ProductServiceTest {
         Assertions.assertEquals("Product not found", result.getMessage());
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
     @Test
     @DisplayName("Toggle Status - Flip boolean")
     void toggleStatus_Test() {
@@ -147,29 +141,21 @@ class ProductServiceTest {
         Mockito.verify(productRepository).save(product);
     }
 
-    /* ===================== FIND & DELETE ===================== */
-
-    // ProductServiceTest.java
     @Test
     @DisplayName("Find All - Paginated")
     void findAllTest() {
-        // 1. Arrange - Setup data that matches real execution
         Pageable pageable = PageRequest.of(0, 10);
-        List<Product> products = List.of(new Product()); // Repository returns 1 item
+        List<Product> products = List.of(new Product());
         Page<Product> productPage = new PageImpl<>(products);
         List<ProductDto> dtoList = List.of(new ProductDto());
 
-        // 2. Mocking
         Mockito.when(productRepository.findAll(pageable)).thenReturn(productPage);
 
-        // Use flexible matchers to avoid "Strict Stubbing" argument mismatches
         Mockito.when(modelMapper.map(anyList(), any(Type.class)))
                 .thenReturn(dtoList);
 
-        // 3. Act
         List<ProductDto> result = productService.findAll(pageable);
 
-        // 4. Assert
         Assertions.assertNotNull(result);
         Assertions.assertEquals(1, result.size());
         Mockito.verify(productRepository).findAll(pageable);
