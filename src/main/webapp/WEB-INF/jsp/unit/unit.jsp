@@ -138,7 +138,6 @@
 </head>
 
 <body>
-<!-- BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
@@ -196,15 +195,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", function (e) {
 
-        // REMOVE OLD ERRORS
         document.querySelectorAll(".validation-error")
             .forEach(el => el.remove());
 
-        // INPUT
         const identifier =
             document.querySelector('input[name="identifier"]');
 
-        // HELPER
         function showError(element, message) {
 
             const small = document.createElement("small");
@@ -226,7 +222,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return false;
         }
 
-        // EMPTY VALIDATION
         if (identifier.value.trim() === "") {
             return showError(
                 identifier,
@@ -234,7 +229,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // LENGTH VALIDATION
         if (identifier.value.trim().length < 1) {
             return showError(
                 identifier,
@@ -249,7 +243,6 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        // FORMAT VALIDATION
         const identifierRegex = /^[A-Za-z0-9_-]+$/;
 
         if (!identifierRegex.test(identifier.value.trim())) {

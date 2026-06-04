@@ -232,7 +232,6 @@
                     </tbody>
                 </table>
 
-
                 <c:if test="${totalPages > 1}">
                     <nav class="mt-4">
                         <ul class="pagination justify-content-center">
@@ -263,7 +262,6 @@
                         </ul>
                     </nav>
                 </c:if>
-
 
                 </div>
             </c:if>

@@ -122,7 +122,6 @@ public class CustomerServiceImpl implements CustomerService {
             return response;
         }
 
-        // Toggle status
         customer.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

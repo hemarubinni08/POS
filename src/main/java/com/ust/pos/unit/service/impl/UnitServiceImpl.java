@@ -84,7 +84,6 @@ public class UnitServiceImpl implements UnitService {
             return response;
         }
 
-        // Toggle status
         unit.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

@@ -1,7 +1,10 @@
 package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.model.*;
+import com.ust.pos.model.Price;
+import com.ust.pos.model.PriceRepository;
+import com.ust.pos.model.Product;
+import com.ust.pos.model.ProductRepository;
 import com.ust.pos.price.service.PriceService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -12,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PriceServiceImpl implements PriceService {
@@ -26,7 +28,6 @@ public class PriceServiceImpl implements PriceService {
     @Autowired
     private ModelMapper modelMapper;
 
-    // Method to list all the records from the table
     @Override
     public List<PriceDto> findAll(Pageable pageable) {
 
@@ -55,10 +56,8 @@ public class PriceServiceImpl implements PriceService {
         return priceDtoList;
     }
 
-    // Method to store the price details to the db
     @Override
     public PriceDto save(PriceDto priceDto) {
-        // Optional validation
         boolean exists = productRepository.existsByIdentifier(priceDto.getProduct());
 
         if (!exists) {
@@ -68,7 +67,6 @@ public class PriceServiceImpl implements PriceService {
             return response;
         }
 
-        // Create an identifier using a combination of product and price type
         priceDto.setIdentifier(priceDto.getProduct() + priceDto.getPriceType());
         Price existingPrice = priceRepository.findByIdentifier(priceDto.getIdentifier());
         if (existingPrice != null) {

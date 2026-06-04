@@ -77,7 +77,6 @@ public class ShelfServiceImpl implements ShelfService {
             return response;
         }
 
-        // Toggle status
         shelf.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

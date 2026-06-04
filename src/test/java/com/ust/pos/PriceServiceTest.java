@@ -21,7 +21,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -63,8 +62,6 @@ class PriceServiceTest {
         product.setIdentifier("SKU1");
         product.setName("Apple");
     }
-
-    // ---------- findAll ----------
 
     @Test
     void findAllWithoutPageableTest() {
@@ -147,10 +144,8 @@ class PriceServiceTest {
         List<PriceDto> result = priceService.findAll(null);
 
         assertEquals(1, result.size());
-        assertNull(result.get(0).getProduct()); // name not set
+        assertNull(result.get(0).getProduct());
     }
-
-    // ---------- save ----------
 
     @Test
     void save_productNotFound() {
@@ -187,37 +182,36 @@ class PriceServiceTest {
         assertEquals("Successfully added the price", response.getMessage());
     }
 
-    // ---------- findById ----------
-
     @Test
-    void findById_success() {
-        when(priceRepository.findById(1L)).thenReturn(Optional.of(price));
-        when(modelMapper.map(any(), eq(PriceDto.class)))
+    void findByIdentifier_success() {
+        when(priceRepository.findByIdentifier("SKU1MRP"))
+                .thenReturn(price);
+
+        when(modelMapper.map(price, PriceDto.class))
                 .thenReturn(priceDto);
 
+        PriceDto result = priceService.findByIdentifier("SKU1MRP");
 
-        PriceDto result = priceService.findById(1L);
-
-        assertEquals(1L, result.getId());
+        assertEquals("SKU1MRP", result.getIdentifier());
     }
 
     @Test
-    void findById_notFound_throwsException() {
+    void findByIdentifier_notFound() {
+        when(priceRepository.findByIdentifier("INVALID"))
+                .thenReturn(null);
 
-        when(priceRepository.findById(99L))
-                .thenReturn(Optional.empty());
+        when(modelMapper.map(null, PriceDto.class))
+                .thenReturn(null);
 
-        RuntimeException exception = assertThrows(
-                RuntimeException.class,
-                () -> priceService.findById(99L)
-        );
+        PriceDto result = priceService.findByIdentifier("INVALID");
 
-        assertEquals("Price not found", exception.getMessage());
+        assertNull(result);
     }
 
     @Test
     void update_priceNotFound() {
-        when(priceRepository.findById(1L)).thenReturn(Optional.empty());
+        when(priceRepository.findByIdentifier("SKU1MRP"))
+                .thenReturn(null);
 
         PriceDto response = priceService.update(priceDto);
 
@@ -227,22 +221,24 @@ class PriceServiceTest {
 
     @Test
     void update_success() {
-        when(priceRepository.findById(1L)).thenReturn(Optional.of(price));
-        when(modelMapper.map(priceDto, Price.class)).thenReturn(price);
+        when(priceRepository.findByIdentifier("SKU1MRP"))
+                .thenReturn(price);
 
         PriceDto response = priceService.update(priceDto);
 
         verify(priceRepository).save(price);
+
         assertTrue(response.isSuccess());
-        assertEquals("Successfully updated price", response.getMessage());
+        assertEquals("Price updated successfully", response.getMessage());
     }
 
     @Test
     void delete_success() {
-        doNothing().when(priceRepository).deleteById(1L);
+        doNothing().when(priceRepository).deleteByIdentifier("SKU1MRP");
 
-        priceService.delete(1L);
+        priceService.delete("SKU1MRP");
 
-        verify(priceRepository, times(1)).deleteById(1L);
+        verify(priceRepository, times(1))
+                .deleteByIdentifier("SKU1MRP");
     }
 }

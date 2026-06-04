@@ -75,12 +75,12 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Product existingProduct = productOptional.get();
-        String productname = productDto.getIdentifier();
+        String productName = productDto.getIdentifier();
 
-        boolean isProductnameChanged = !productname.equalsIgnoreCase(existingProduct.getIdentifier());
+        boolean isProductNameChanged = !productName.equalsIgnoreCase(existingProduct.getIdentifier());
 
-        if (isProductnameChanged && productRepository.findByIdentifier(productname) != null) {
-            productDto.setMessage("Product " + productname + " already exists");
+        if (isProductNameChanged && productRepository.findByIdentifier(productName) != null) {
+            productDto.setMessage("Product " + productName + " already exists");
             productDto.setSuccess(false);
             return productDto;
         }
@@ -105,7 +105,6 @@ public class ProductServiceImpl implements ProductService {
             return response;
         }
 
-        // Toggle status
         product.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

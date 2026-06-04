@@ -26,7 +26,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private ModelMapper modelMapper;
 
-    // method to retrieve all category records from the database
     @Override
     public List<CategoryDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CategoryDto>>() {
@@ -96,7 +95,6 @@ public class CategoryServiceImpl implements CategoryService {
             return response;
         }
 
-        // Toggle status
         category.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

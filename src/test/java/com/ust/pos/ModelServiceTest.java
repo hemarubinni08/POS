@@ -160,14 +160,19 @@ class ModelServiceTest {
         ModelDto dto = new ModelDto();
         dto.setIdentifier("M1");
 
-        Model model = new Model();
+        Model existingModel = new Model();
 
-        Mockito.when(modelRepository.findByIdentifier("M1")).thenReturn(model);
-        Mockito.when(modelMapper.map(dto, Model.class)).thenReturn(model);
+        Mockito.when(modelRepository.findByIdentifier("M1"))
+                .thenReturn(existingModel);
+
+        Mockito.when(modelRepository.save(existingModel))
+                .thenReturn(existingModel);
 
         ModelDto result = modelService.update(dto);
 
-        Mockito.verify(modelRepository).save(model);
+        Mockito.verify(modelMapper).map(dto, existingModel);
+        Mockito.verify(modelRepository).save(existingModel);
+
         Assertions.assertTrue(result.isSuccess());
         Assertions.assertEquals("Model updated successfully", result.getMessage());
     }

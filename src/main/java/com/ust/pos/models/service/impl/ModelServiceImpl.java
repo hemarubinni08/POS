@@ -90,7 +90,6 @@ public class ModelServiceImpl implements ModelService {
             return response;
         }
 
-        // Toggle status
         model.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

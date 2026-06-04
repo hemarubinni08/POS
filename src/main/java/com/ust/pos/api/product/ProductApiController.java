@@ -28,7 +28,6 @@ public class ProductApiController extends BaseController {
         return productService.findAll(pageable);
     }
 
-    // method to handle the form submission of product addition
     @PostMapping("/add")
     public ProductDto addPost(@ModelAttribute ProductDto productDto) {
         return productService.save(productDto);
@@ -39,7 +38,6 @@ public class ProductApiController extends BaseController {
         return productService.updateStatus(dto.getIdentifier(), dto.isStatus());
     }
 
-    // method to load the product profile page
     @GetMapping("/get")
     public ProductDto update(@RequestParam String identifier) {
         return productService.findByIdentifier(identifier);

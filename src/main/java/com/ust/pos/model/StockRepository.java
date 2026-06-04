@@ -5,8 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
-    Stock findById(long id);
-
     void deleteByIdentifier(String identifier);
 
     Stock findByIdentifier(String identifier);

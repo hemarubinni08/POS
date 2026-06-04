@@ -99,7 +99,6 @@ public class NodeServiceImpl implements NodeService {
             return response;
         }
 
-        // Toggle status
         node.setStatus(status);
         nodeRepository.save(node);
 

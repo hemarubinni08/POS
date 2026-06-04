@@ -91,16 +91,18 @@ class RackServiceTest {
         Rack existingRack = new Rack();
         existingRack.setIdentifier("Rack1");
 
-        Mockito.when(modelMapper.map(rackDto, Rack.class))
-                .thenReturn(existingRack);
         Mockito.when(rackRepository.findByIdentifier("Rack1"))
                 .thenReturn(existingRack);
+
         Mockito.when(rackRepository.save(existingRack))
                 .thenReturn(existingRack);
 
         RackDto response = rackService.update(rackDto);
 
-        Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
+        Mockito.verify(modelMapper).map(rackDto, existingRack);
+        Mockito.verify(rackRepository).save(existingRack);
+
+        Assertions.assertNotNull(response.getMessage());
         Assertions.assertTrue(response.isSuccess());
     }
 
@@ -215,7 +217,7 @@ class RackServiceTest {
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
-        Assertions.assertTrue(rack.isStatus()); // verify mutation
+        Assertions.assertTrue(rack.isStatus());
     }
 
     @Test

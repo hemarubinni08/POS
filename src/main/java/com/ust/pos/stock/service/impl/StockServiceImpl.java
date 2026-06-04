@@ -1,8 +1,9 @@
 package com.ust.pos.stock.service.impl;
 
-import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.StockDto;
-import com.ust.pos.model.*;
+import com.ust.pos.model.ProductRepository;
+import com.ust.pos.model.Stock;
+import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.StockService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -68,20 +68,18 @@ public class StockServiceImpl implements StockService {
     }
 
     public StockDto update(StockDto stockDto) {
-        Optional<Stock> stockOptional = stockRepository.findById(stockDto.getId());
+        Stock existingStock = stockRepository.findById(stockDto.getId()).orElse(null);
 
-        if (stockOptional.isEmpty()) {
-            stockDto.setMessage("Email - " + stockDto.getIdentifier() + " not found");
+        if (existingStock == null) {
+            stockDto.setMessage("Stock - " + stockDto.getIdentifier() + " not found");
             stockDto.setSuccess(false);
             return stockDto;
         }
 
-        Stock existingStock = stockOptional.get();
         String stockName = stockDto.getIdentifier();
+        boolean isStockNameChanged = !stockName.equalsIgnoreCase(existingStock.getIdentifier());
 
-        boolean isStocknameChanged = !stockName.equalsIgnoreCase(existingStock.getIdentifier());
-
-        if (isStocknameChanged && productRepository.findByIdentifier(stockName) != null) {
+        if (isStockNameChanged && productRepository.findByIdentifier(stockName) != null) {
             stockDto.setMessage("Product " + stockName + " already exists");
             stockDto.setSuccess(false);
             return stockDto;
@@ -96,7 +94,10 @@ public class StockServiceImpl implements StockService {
     }
 
     public StockDto findById(long id) {
-        return modelMapper.map(stockRepository.findById(id), StockDto.class);
+        Stock stock = stockRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Stock not found"));
+
+        return modelMapper.map(stock, StockDto.class);
     }
 
     public StockDto findByIdentifier(String identifier) {

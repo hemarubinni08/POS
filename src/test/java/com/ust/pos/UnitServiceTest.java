@@ -140,14 +140,18 @@ class UnitServiceTest {
         UnitDto dto = new UnitDto();
         dto.setIdentifier("U1");
 
-        Unit unit = new Unit();
+        Unit existingUnit = new Unit();
 
-        Mockito.when(unitRepository.findByIdentifier("U1")).thenReturn(unit);
-        Mockito.when(modelMapper.map(dto, Unit.class)).thenReturn(unit);
+        Mockito.when(unitRepository.findByIdentifier("U1"))
+                .thenReturn(existingUnit);
+
+        Mockito.when(unitRepository.save(existingUnit))
+                .thenReturn(existingUnit);
 
         UnitDto response = unitService.update(dto);
 
-        Mockito.verify(unitRepository).save(unit);
+        Mockito.verify(modelMapper).map(dto, existingUnit);
+        Mockito.verify(unitRepository).save(existingUnit);
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Unit updated successfully", response.getMessage());
@@ -178,7 +182,7 @@ class UnitServiceTest {
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
-        Assertions.assertTrue(unit.isStatus()); // verify mutation
+        Assertions.assertTrue(unit.isStatus());
     }
 
     @Test

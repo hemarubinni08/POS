@@ -93,7 +93,6 @@ public class RackServiceImpl implements RackService {
             return response;
         }
 
-        // Toggle status
         rack.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

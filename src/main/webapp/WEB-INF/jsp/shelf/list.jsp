@@ -193,7 +193,6 @@
                     <tr>
                         <th>ID</th>
                         <th>Identifier</th>
-                        <th>Rack</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -212,7 +211,6 @@
                                         ${shelf.status ? "checked" : ""} >
                                 </div>
                             </td>
-                            <td>${shelf.rack}</td>
                             <td class="d-flex justify-content-center gap-2">
                                 <a href="/shelf/get?identifier=${shelf.identifier}"
                                    class="btn btn-primary btn-sm">

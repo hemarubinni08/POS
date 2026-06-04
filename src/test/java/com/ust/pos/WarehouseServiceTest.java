@@ -86,16 +86,18 @@ class WarehouseServiceTest {
         Warehouse existingWarehouse = new Warehouse();
         existingWarehouse.setIdentifier("Warehouse1");
 
-        Mockito.when(modelMapper.map(warehouseDto, Warehouse.class))
-                .thenReturn(existingWarehouse);
         Mockito.when(warehouseRepository.findByIdentifier("Warehouse1"))
                 .thenReturn(existingWarehouse);
+
         Mockito.when(warehouseRepository.save(existingWarehouse))
                 .thenReturn(existingWarehouse);
 
         WarehouseDto response = warehouseService.update(warehouseDto);
 
-        Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
+        Mockito.verify(modelMapper).map(warehouseDto, existingWarehouse);
+        Mockito.verify(warehouseRepository).save(existingWarehouse);
+
+        Assertions.assertNotNull(response.getMessage());
         Assertions.assertTrue(response.isSuccess());
     }
 
@@ -211,7 +213,7 @@ class WarehouseServiceTest {
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
-        Assertions.assertTrue(warehouse.isStatus()); // important
+        Assertions.assertTrue(warehouse.isStatus());
     }
 
     @Test

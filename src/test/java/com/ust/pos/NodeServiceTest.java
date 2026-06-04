@@ -44,8 +44,6 @@ class NodeServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ================= save =================
-
     @Test
     void save_success() {
         NodeDto dto = new NodeDto();
@@ -80,16 +78,21 @@ class NodeServiceTest {
         NodeDto dto = new NodeDto();
         dto.setIdentifier("N1");
 
-        Node node = new Node();
+        Node existingNode = new Node();
 
-        when(nodeRepository.findByIdentifier("N1")).thenReturn(node);
-        when(modelMapper.map(dto, Node.class)).thenReturn(node);
+        when(nodeRepository.findByIdentifier("N1"))
+                .thenReturn(existingNode);
+
+        when(nodeRepository.save(existingNode))
+                .thenReturn(existingNode);
 
         NodeDto response = nodeService.update(dto);
 
+        verify(modelMapper).map(dto, existingNode);
+        verify(nodeRepository).save(existingNode);
+
         assertTrue(response.isSuccess());
         assertEquals("Node updated successfully", response.getMessage());
-        verify(nodeRepository).save(node);
     }
 
     @Test
@@ -281,7 +284,7 @@ class NodeServiceTest {
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         User user = new User();
-        user.setRoles(null); // IMPORTANT branch
+        user.setRoles(null);
 
         Mockito.when(userRepository.findByUsername("john")).thenReturn(user);
 
@@ -304,7 +307,7 @@ class NodeServiceTest {
 
         Node node = new Node();
         node.setIdentifier("N1");
-        node.setRoles(null); // IMPORTANT branch
+        node.setRoles(null);
 
         Mockito.when(userRepository.findByUsername("john")).thenReturn(user);
         Mockito.when(nodeRepository.findAll()).thenReturn(List.of(node));
@@ -332,7 +335,7 @@ class NodeServiceTest {
 
         Mockito.when(userRepository.findByUsername("john")).thenReturn(user);
         Mockito.when(nodeRepository.findAll()).thenReturn(List.of(node));
-        Mockito.when(nodeRepository.findByIdentifier("N1")).thenReturn(null); // IMPORTANT
+        Mockito.when(nodeRepository.findByIdentifier("N1")).thenReturn(null);
 
         List<NodeDto> response = nodeService.getNodesForRoles();
 

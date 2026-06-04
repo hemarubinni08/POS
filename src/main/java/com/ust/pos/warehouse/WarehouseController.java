@@ -20,6 +20,7 @@ public class WarehouseController extends BaseController {
     private static final String WAREHOUSE_VIEW = "warehouse/warehouse";
     private static final String REDIRECT_WAREHOUSE_ADD = "redirect:/warehouse/add";
     private static final String REDIRECT_WAREHOUSE_LIST = "redirect:/warehouse/list";
+
     @Autowired
     private WarehouseService warehouseService;
 
@@ -30,13 +31,11 @@ public class WarehouseController extends BaseController {
         return WAREHOUSE_LIST;
     }
 
-    // method to load the warehouse addition page
     @GetMapping("/add")
     public String add(@ModelAttribute WarehouseDto warehouseDto, Model model) {
         return WAREHOUSE_ADD;
     }
 
-    // method to handle the form submission of warehouse addition
     @PostMapping("/add")
     public String addPost(RedirectAttributes redirectAttributes, @ModelAttribute WarehouseDto warehouseDto) {
         WarehouseDto warehouseDto1 = warehouseService.save(warehouseDto);
@@ -54,7 +53,6 @@ public class WarehouseController extends BaseController {
         return warehouseService.updateStatus(dto.getIdentifier(), dto.isStatus());
     }
 
-    // method to load the warehouse profile page
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         model.addAttribute("warehouseDto", warehouseService.findByIdentifier(identifier));

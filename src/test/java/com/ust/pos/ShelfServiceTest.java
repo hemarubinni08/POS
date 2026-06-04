@@ -159,16 +159,19 @@ class ShelfServiceTest {
         ShelfDto shelfDto = new ShelfDto();
         shelfDto.setIdentifier("Shelf1");
 
-        Shelf shelf = new Shelf();
+        Shelf existingShelf = new Shelf();
 
         Mockito.when(shelfRepository.findByIdentifier("Shelf1"))
-                .thenReturn(shelf);
-        Mockito.when(modelMapper.map(shelfDto, Shelf.class))
-                .thenReturn(shelf);
+                .thenReturn(existingShelf);
+
+        Mockito.when(shelfRepository.save(existingShelf))
+                .thenReturn(existingShelf);
 
         ShelfDto response = shelfService.update(shelfDto);
 
-        Mockito.verify(shelfRepository).save(shelf);
+        Mockito.verify(modelMapper).map(shelfDto, existingShelf);
+        Mockito.verify(shelfRepository).save(existingShelf);
+
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Shelf updated successfully", response.getMessage());
     }

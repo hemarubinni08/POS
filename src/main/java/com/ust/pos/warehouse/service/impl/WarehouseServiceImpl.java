@@ -93,7 +93,6 @@ public class WarehouseServiceImpl implements WarehouseService {
             return response;
         }
 
-        // Toggle status
         warehouse.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
