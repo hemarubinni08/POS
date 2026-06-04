@@ -27,7 +27,7 @@ public class ApiPriceController extends BaseController {
 
 
     @PostMapping("/add")
-    public PriceDto addprice(@RequestBody PriceDto priceDto) {
+    public PriceDto add(@RequestBody PriceDto priceDto) {
         return priceService.save(priceDto);
 
     }

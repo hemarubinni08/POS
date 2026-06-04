@@ -25,7 +25,7 @@ public class ApiWarehouseController extends BaseController {
     }
     
     @PostMapping("/add")
-    public WarehouseDto addWarehouse(@RequestBody WarehouseDto warehouseDto) {
+    public WarehouseDto add(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.save(warehouseDto);
     }
 

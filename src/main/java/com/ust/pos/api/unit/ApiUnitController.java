@@ -25,7 +25,7 @@ public class ApiUnitController extends BaseController {
     }
 
     @PostMapping("/add")
-    public UnitDto addunit(@RequestBody UnitDto unitDto) {
+    public UnitDto add(@RequestBody UnitDto unitDto) {
         return unitService.save(unitDto);
     }
 

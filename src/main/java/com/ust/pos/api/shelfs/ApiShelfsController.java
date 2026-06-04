@@ -24,7 +24,7 @@ public class ApiShelfsController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ShelfsDto addshelfs(@RequestBody ShelfsDto shelfsDto) {
+    public ShelfsDto add(@RequestBody ShelfsDto shelfsDto) {
         return shelfsService.save(shelfsDto);
     }
 

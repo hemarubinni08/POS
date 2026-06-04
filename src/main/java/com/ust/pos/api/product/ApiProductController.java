@@ -28,7 +28,7 @@ public class ApiProductController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ProductDto addproduct(@RequestBody ProductDto productDto) {
+    public ProductDto add(@RequestBody ProductDto productDto) {
         return productService.save(productDto);
     }
 

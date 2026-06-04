@@ -24,7 +24,7 @@ public class ApiModelController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ModelDto addModel(@RequestBody ModelDto modelDto) {
+    public ModelDto add(@RequestBody ModelDto modelDto) {
         return modelService.save(modelDto);
     }
 

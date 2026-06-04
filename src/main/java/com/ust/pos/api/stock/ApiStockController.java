@@ -32,7 +32,7 @@ public class ApiStockController extends BaseController {
     }
 
     @PostMapping("/add")
-    public StockDto addPost(@RequestBody StockDto stockDto) {
+    public StockDto add(@RequestBody StockDto stockDto) {
         return stockService.save(stockDto);
     }
 

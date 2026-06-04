@@ -28,7 +28,7 @@ public class ApiRacksController extends BaseController {
     }
 
     @PostMapping("/add")
-    public RacksDto addracks(@RequestBody RacksDto racksDto) {
+    public RacksDto add(@RequestBody RacksDto racksDto) {
         return racksService.save(racksDto);
     }
 

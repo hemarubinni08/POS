@@ -25,7 +25,7 @@ public class ApiBrandController extends BaseController {
     }
 
     @PostMapping("/add")
-    public BrandDto addproduct(@RequestBody BrandDto brandDto) {
+    public BrandDto add(@RequestBody BrandDto brandDto) {
         return brandService.save(brandDto);
     }
 

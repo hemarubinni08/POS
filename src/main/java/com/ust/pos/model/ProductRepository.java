@@ -10,5 +10,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     void deleteByIdentifier(String identifier);
 
-    List<Product> findAllByStatus(boolean status);
 }

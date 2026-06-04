@@ -24,8 +24,8 @@ public class ApiRoleController extends BaseController {
     }
 
     @PostMapping("/add")
-    public RoleDto addPost(@RequestBody RoleDto userDto) {
-        return roleService.save(userDto);
+    public RoleDto addRole(@RequestBody RoleDto roleDto) {
+        return roleService.save(roleDto);
     }
 
     @GetMapping("/get")

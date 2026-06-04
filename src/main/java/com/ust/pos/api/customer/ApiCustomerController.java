@@ -29,7 +29,7 @@ public class ApiCustomerController extends BaseController {
     }
 
     @PostMapping("/add")
-    public CustomerDto addcustomer(@RequestBody CustomerDto customerDto) {
+    public CustomerDto add(@RequestBody CustomerDto customerDto) {
         return customerService.save(customerDto);
     }
 
