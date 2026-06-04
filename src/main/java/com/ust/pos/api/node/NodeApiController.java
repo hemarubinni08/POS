@@ -7,6 +7,7 @@ import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -40,8 +41,13 @@ public class NodeApiController extends BaseController {
     }
 
     @GetMapping("/get")
-    public NodeDto update(@RequestParam String identifier, Model model, @RequestBody NodeDto nodeDto) {
+    public NodeDto update(@RequestParam String identifier) {
         return nodeService.findByIdentifier(identifier);
+    }
+
+    @PostMapping("/update")
+    public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
+        return nodeService.update(nodeDto);
     }
 
     @GetMapping("/delete")

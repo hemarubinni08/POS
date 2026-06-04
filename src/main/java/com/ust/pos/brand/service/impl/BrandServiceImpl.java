@@ -24,7 +24,6 @@ public class BrandServiceImpl implements BrandService {
     @Autowired
     private ModelMapper modelMapper;
 
-    // method to retrieve all brand records from the database
     @Override
     public List<BrandDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<BrandDto>>() {
@@ -36,7 +35,6 @@ public class BrandServiceImpl implements BrandService {
         return modelMapper.map(brandPage.getContent(), listType);
     }
 
-    // method to retrieve all brands records that are currently active
     @Override
     public List<BrandDto> findByStatusTrue() {
         Type listType = new TypeToken<List<BrandDto>>() {
@@ -44,13 +42,11 @@ public class BrandServiceImpl implements BrandService {
         return modelMapper.map(brandRepository.findByStatusTrue(), listType);
     }
 
-    // method to retrieve a record based on the identifier
     @Override
     public BrandDto findByIdentifier(String identifier) {
         return modelMapper.map(brandRepository.findByIdentifier(identifier), BrandDto.class);
     }
 
-    // method to save brand details
     @Override
     public BrandDto save(BrandDto brandDto) {
         String identifier = brandDto.getIdentifier();
@@ -67,22 +63,24 @@ public class BrandServiceImpl implements BrandService {
         return brandDto;
     }
 
-    // method to update the brand details
     @Override
     public BrandDto update(BrandDto brandDto) {
         String identifier = brandDto.getIdentifier();
-        Brand brand = brandRepository.findByIdentifier(identifier);
-        if (brand != null) {
-            brandRepository.save(modelMapper.map(brandDto, Brand.class));
+        Brand existingBrand = brandRepository.findByIdentifier(identifier);
+        if (existingBrand != null) {
+            modelMapper.map(brandDto, existingBrand);
+
+            brandRepository.save(existingBrand);
+
             brandDto.setMessage("Successfully updated the brand");
             brandDto.setSuccess(true);
             return brandDto;
         }
         brandDto.setSuccess(false);
+        brandDto.setMessage("Brand not found");
         return brandDto;
     }
 
-    // method for changing the status of a brand to active or inactive
     @Override
     @Transactional
     public BrandDto updateStatus(String identifier, boolean status) {
@@ -95,7 +93,6 @@ public class BrandServiceImpl implements BrandService {
             return response;
         }
 
-        // Toggle status
         brand.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
@@ -103,7 +100,6 @@ public class BrandServiceImpl implements BrandService {
         return response;
     }
 
-    // method to delete a record
     @Override
     @Transactional
     public void delete(String identifier) {

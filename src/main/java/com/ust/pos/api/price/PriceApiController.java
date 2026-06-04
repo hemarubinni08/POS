@@ -28,28 +28,25 @@ public class PriceApiController extends BaseController {
         return priceService.findAll(pageable);
     }
 
-    // method to handle the form submission of price addition
     @PostMapping("/add")
     public PriceDto addPost(@RequestBody PriceDto priceDto) {
         return priceService.save(priceDto);
     }
 
-    // method to load the price profile page
     @GetMapping("/get")
-    public PriceDto update(@RequestParam long id) {
-        return priceService.findById(id);
+    public PriceDto update(@RequestParam String identifier) {
+        return priceService.findByIdentifier(identifier);
     }
 
-    // method to handle the update of the product details
     @PostMapping("/update")
     public PriceDto updatePost(@RequestBody PriceDto priceDto) {
-        return priceService.save(priceDto);
+        return priceService.update(priceDto);
     }
 
     @GetMapping("/delete")
-    public boolean delete(@RequestParam long id) {
+    public boolean delete(@RequestParam String identifier) {
         try {
-            priceService.delete(id);
+            priceService.delete(identifier);
         } catch (Exception e) {
             return false;
         }

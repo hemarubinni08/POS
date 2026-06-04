@@ -35,14 +35,12 @@ public class PriceController extends BaseController {
         return PRICE_LIST;
     }
 
-    // method to load the price addition page
     @GetMapping("/add")
     public String add(@ModelAttribute PriceDto priceDto, Model model) {
         model.addAttribute("products", productService.findByStatusTrue());
         return PRICE_ADD;
     }
 
-    // method to handle the form submission of price addition
     @PostMapping("/add")
     public String addPost(RedirectAttributes redirectAttributes, @ModelAttribute PriceDto priceDto) {
         PriceDto priceDto1 = priceService.save(priceDto);
@@ -54,15 +52,13 @@ public class PriceController extends BaseController {
         }
     }
 
-    // method to load the price profile page
     @GetMapping("/get")
-    public String update(Model model, @RequestParam long id) {
+    public String update(Model model, @RequestParam String identifier) {
         model.addAttribute("products", productService.findAll(null));
-        model.addAttribute("priceDto", priceService.findById(id));
+        model.addAttribute("priceDto", priceService.findByIdentifier(identifier));
         return PRICE_VIEW;
     }
 
-    // method to handle the update of the price details
     @PostMapping("/update")
     public String updatePost(RedirectAttributes redirectAttributes, @ModelAttribute PriceDto priceDto) {
         priceService.update(priceDto);
@@ -71,8 +67,8 @@ public class PriceController extends BaseController {
     }
 
     @GetMapping("/delete")
-    public String delete(RedirectAttributes redirectAttributes, @RequestParam long id) {
-        priceService.delete(id);
+    public String delete(RedirectAttributes redirectAttributes, @RequestParam String identifier) {
+        priceService.delete(identifier);
         redirectAttributes.addFlashAttribute(MESSAGE, "Delete success");
 
         return REDIRECT_PRICE_LIST;

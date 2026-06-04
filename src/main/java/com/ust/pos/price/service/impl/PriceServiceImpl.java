@@ -1,10 +1,7 @@
 package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.model.Price;
-import com.ust.pos.model.PriceRepository;
-import com.ust.pos.model.Product;
-import com.ust.pos.model.ProductRepository;
+import com.ust.pos.model.*;
 import com.ust.pos.price.service.PriceService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -92,25 +89,26 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public PriceDto findById(long id) {
-        Price price = priceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Price not found"));
+    public PriceDto findByIdentifier(String identifier) {
+        Price price = priceRepository.findByIdentifier(identifier);
         return modelMapper.map(price, PriceDto.class);
     }
 
     @Transactional
     @Override
     public PriceDto update(PriceDto priceDto) {
-        Optional<Price> priceOptional = priceRepository.findById(priceDto.getId());
 
-        if (priceOptional.isEmpty()) {
-            priceDto.setMessage("Price - " + priceDto.getIdentifier() + " not found");
+        String identifier = priceDto.getIdentifier();
+        Price exisingPrice = priceRepository.findByIdentifier(identifier);
+        if (exisingPrice == null) {
+            priceDto.setMessage("Price not found");
             priceDto.setSuccess(false);
             return priceDto;
         }
 
-        priceRepository.save(modelMapper.map(priceDto, Price.class));
-        priceDto.setMessage("Successfully updated price");
+        modelMapper.map(priceDto, exisingPrice);
+        priceRepository.save(exisingPrice);
+        priceDto.setMessage("Price updated successfully");
         priceDto.setSuccess(true);
 
         return priceDto;
@@ -118,7 +116,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Transactional
     @Override
-    public void delete(long id) {
-        priceRepository.deleteById(id);
+    public void delete(String identifier) {
+        priceRepository.deleteByIdentifier(identifier);
     }
 }

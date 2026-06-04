@@ -65,12 +65,13 @@ public class ModelServiceImpl implements ModelService {
     @Override
     public ModelDto update(ModelDto modelDto) {
         String identifier = modelDto.getIdentifier();
-        Model model = modelRepository.findByIdentifier(identifier);
-        if (model == null) {
+        Model existingModel = modelRepository.findByIdentifier(identifier);
+        if (existingModel == null) {
             modelDto.setSuccess(false);
             modelDto.setMessage("Model does not exist");
         } else {
-            modelRepository.save(modelMapper.map(modelDto, Model.class));
+            modelMapper.map(modelDto, existingModel);
+            modelRepository.save(existingModel);
             modelDto.setSuccess(true);
             modelDto.setMessage("Model updated successfully");
         }

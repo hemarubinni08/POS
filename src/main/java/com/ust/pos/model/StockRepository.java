@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 public interface StockRepository extends JpaRepository<Stock, Long> {
     Stock findById(long id);
 
-    void deleteById(long id);
+    void deleteByIdentifier(String identifier);
 
-    boolean existsByIdentifier(String product);
+    Stock findByIdentifier(String identifier);
 }

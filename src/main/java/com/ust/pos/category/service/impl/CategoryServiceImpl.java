@@ -64,19 +64,19 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto update(CategoryDto categoryDto) {
         String identifier = categoryDto.getIdentifier();
-        Category category = categoryRepository.findByIdentifier(identifier);
-        if (category == null) {
+        Category existingCategory = categoryRepository.findByIdentifier(identifier);
+        if (existingCategory == null) {
             categoryDto.setMessage("Category not found");
             categoryDto.setSuccess(false);
         } else {
-            categoryRepository.save(modelMapper.map(categoryDto, Category.class));
+            modelMapper.map(categoryDto, existingCategory);
+            categoryRepository.save(existingCategory);
             categoryDto.setMessage("Category updated successfully");
             categoryDto.setSuccess(true);
         }
         return categoryDto;
     }
 
-    // method to retrieve all category records that are not parent and is currently active
     @Override
     public List<CategoryDto> findBySuperCategoryIsNotNullAndStatusTrue() {
         Type listType = new TypeToken<List<CategoryDto>>() {

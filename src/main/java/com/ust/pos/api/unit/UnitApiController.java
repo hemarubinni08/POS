@@ -30,8 +30,8 @@ public class UnitApiController extends BaseController {
     }
 
     @PostMapping("/toggle")
-    public UnitDto toggleStatus(@RequestBody UnitDto dto) {
-        return unitService.updateStatus(dto.getIdentifier(), dto.isStatus());
+    public UnitDto toggleStatus(@RequestBody UnitDto unitDto) {
+        return unitService.updateStatus(unitDto.getIdentifier(), unitDto.isStatus());
     }
 
     @GetMapping("/get")
@@ -41,7 +41,7 @@ public class UnitApiController extends BaseController {
 
     @PostMapping("/update")
     public UnitDto updatePost(@RequestBody UnitDto unitDto) {
-        return unitService.save(unitDto);
+        return unitService.update(unitDto);
     }
 
     @GetMapping("/delete")

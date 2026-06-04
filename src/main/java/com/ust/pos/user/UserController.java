@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping("/delete")
-    public String delete(@ModelAttribute UserDto userDto, Model model, @RequestParam String username) {
+    public String delete(@RequestParam String username) {
         userService.delete(username);
         return "redirect:/user/list";
     }

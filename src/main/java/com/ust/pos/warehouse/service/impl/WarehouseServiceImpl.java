@@ -66,14 +66,15 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     public WarehouseDto update(WarehouseDto warehouseDto) {
         String identifier = warehouseDto.getIdentifier();
-        Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
-        if (warehouse == null) {
+        Warehouse exisitngWarehouse = warehouseRepository.findByIdentifier(identifier);
+        if (exisitngWarehouse == null) {
             warehouseDto.setMessage("Warehouse not found");
             warehouseDto.setSuccess(false);
             return warehouseDto;
         }
 
-        warehouseRepository.save(modelMapper.map(warehouseDto, Warehouse.class));
+        modelMapper.map(warehouseDto, exisitngWarehouse);
+        warehouseRepository.save(exisitngWarehouse);
         warehouseDto.setMessage("Warehouse updated successfully");
         warehouseDto.setSuccess(true);
 

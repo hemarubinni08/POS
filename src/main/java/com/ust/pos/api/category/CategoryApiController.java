@@ -41,13 +41,13 @@ public class CategoryApiController extends BaseController {
     }
 
     @GetMapping("/get")
-    public CategoryDto update(@RequestParam String identifier, Model model) {
+    public CategoryDto update(@RequestParam String identifier) {
         return categoryService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
-    public CategoryDto updatePost(@ModelAttribute CategoryDto categoryDto) {
-        return categoryService.save(categoryDto);
+    public CategoryDto updatePost(@RequestBody CategoryDto categoryDto) {
+        return categoryService.update(categoryDto);
     }
 
     @GetMapping("/delete")

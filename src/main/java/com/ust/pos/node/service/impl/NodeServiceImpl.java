@@ -51,14 +51,15 @@ public class NodeServiceImpl implements NodeService {
 
     public NodeDto update(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
-        Node node = nodeRepository.findByIdentifier(identifier);
-        if (node == null) {
+        Node exisingNode = nodeRepository.findByIdentifier(identifier);
+        if (exisingNode == null) {
             nodeDto.setMessage("Node not found");
             nodeDto.setSuccess(false);
             return nodeDto;
         }
 
-        nodeRepository.save(modelMapper.map(nodeDto, Node.class));
+        modelMapper.map(nodeDto, exisingNode);
+        nodeRepository.save(exisingNode);
         nodeDto.setMessage("Node updated successfully");
         nodeDto.setSuccess(true);
 

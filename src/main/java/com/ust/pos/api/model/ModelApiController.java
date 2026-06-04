@@ -41,7 +41,7 @@ public class ModelApiController extends BaseController {
 
     @PostMapping("/update")
     public ModelDto updatePost(@RequestBody ModelDto modelDto) {
-        return modelService.save(modelDto);
+        return modelService.update(modelDto);
     }
 
     @GetMapping("/delete")

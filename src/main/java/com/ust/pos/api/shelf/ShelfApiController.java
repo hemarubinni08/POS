@@ -46,7 +46,7 @@ public class ShelfApiController extends BaseController {
 
     @PostMapping("/update")
     public ShelfDto updatePost(@RequestBody ShelfDto shelfDto) {
-        return shelfService.save(shelfDto);
+        return shelfService.update(shelfDto);
     }
 
     @GetMapping("/delete")
