@@ -128,6 +128,12 @@
             margin-bottom: 12px;
         }
 
+        .address-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
         .btn-submit {
             margin-top: 12px;
             width: 100%;
@@ -218,20 +224,56 @@
 
         <details>
             <summary>Billing Address</summary>
-            <input type="text" name="billing.addressLine" placeholder="Address Line"/>
-            <input type="text" name="billing.city" placeholder="City"/>
-            <input type="text" name="billing.state" placeholder="State"/>
-            <input type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" name="billing.pincode" placeholder="Pincode"/>
-            <input type="text" name="billing.country" placeholder="Country"/>
+
+            <div class="address-grid">
+                <input type="text" name="billing.addressLine"
+                       placeholder="Address Line"/>
+
+                <input type="text" name="billing.city"
+                       placeholder="City"/>
+
+                <input type="text" name="billing.state"
+                       placeholder="State"/>
+
+                <input type="text"
+                       name="billing.pincode"
+                       placeholder="Pincode"
+                       maxlength="6"
+                       pattern="[0-9]{6}"
+                       required
+                       inputmode="numeric"
+                       oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
+
+                <input type="text" name="billing.country"
+                       placeholder="Country"/>
+            </div>
         </details>
 
         <details>
             <summary>Shipping Address</summary>
-            <input type="text" name="shipping.addressLine" placeholder="Address Line"/>
-            <input type="text" name="shipping.city" placeholder="City"/>
-            <input type="text" name="shipping.state" placeholder="State"/>
-            <input type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" name="shipping.pincode" placeholder="Pincode"/>
-            <input type="text" name="shipping.country" placeholder="Country"/>
+
+            <div class="address-grid">
+                <input type="text" name="shipping.addressLine"
+                       placeholder="Address Line"/>
+
+                <input type="text" name="shipping.city"
+                       placeholder="City"/>
+
+                <input type="text" name="shipping.state"
+                       placeholder="State"/>
+
+                <input type="text"
+                       name="shipping.pincode"
+                       placeholder="Pincode"
+                       maxlength="6"
+                       pattern="[0-9]{6}"
+                       required
+                       inputmode="numeric"
+                       oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
+
+                <input type="text" name="shipping.country"
+                       placeholder="Country"/>
+            </div>
         </details>
 
         <input type="submit" value="Add Customer" class="btn-submit"/>
