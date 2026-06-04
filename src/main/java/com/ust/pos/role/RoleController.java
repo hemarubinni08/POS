@@ -22,7 +22,7 @@ public class RoleController {
     }
 
     @GetMapping("/add")
-    public String addPage(Model model) {
+    public String addPage(Model model,@ModelAttribute RoleDto roleDto) {
         return "role/add";
     }
 
