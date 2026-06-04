@@ -44,9 +44,9 @@ class BrandServiceTest {
                 .thenReturn(brandPage);
         Mockito.when(modelMapper.map(brands, listType))
                 .thenReturn(brandDtos);
-        // Act
+
         List<BrandDto> response = brandService.findAll(pageable);
-        // Assert
+
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.size());
         Mockito.verify(brandRepository).findAll(pageable);
