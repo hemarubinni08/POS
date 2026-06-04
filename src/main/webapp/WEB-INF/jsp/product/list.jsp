@@ -67,7 +67,6 @@
             font-size: 13px;
         }
 
-        /* ===== TABLE ===== */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -93,7 +92,6 @@
             background: #f8fafc;
         }
 
-        /* ===== ACTION BUTTONS ===== */
         .action-link {
             padding: 6px 12px;
             border-radius: 18px;
@@ -106,7 +104,6 @@
         .edit { background: teal; }
         .delete { background: #ef4444; margin-left: 6px; }
 
-        /* ===== STATUS BUTTON ===== */
         .status-btn {
             border: none;
             padding: 5px 12px;
@@ -145,9 +142,9 @@
     <c:if test="${not empty products}">
         <table>
             <tr>
-                <th>Product Name</th>
+                <th>Product Skucode</th>
                 <th>Category</th>
-                <th>SKU Code</th>
+                <th>Product name</th>
                 <th>Brand</th>
                 <th>Model</th>
                 <th>Unit</th>
@@ -159,7 +156,7 @@
                 <tr>
                     <td>${product.identifier}</td>
                     <td>${product.category}</td>
-                    <td>${product.skuCode}</td>
+                    <td>${product.name}</td>
                     <td>${product.brand}</td>
                     <td>${product.model}</td>
                     <td>${product.unit}</td>

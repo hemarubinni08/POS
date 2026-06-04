@@ -130,8 +130,7 @@
         <table>
             <thead>
             <tr>
-                <th>Product Name</th>
-                <th>SKU Code</th>
+                <th>Product Sku</th>
                 <th>Available</th>
                 <th>Incoming</th>
                 <th>Outgoing</th>
@@ -145,7 +144,6 @@
             <c:forEach var="stock" items="${stocks}">
                 <tr>
                     <td>${stock.identifier}</td>
-                    <td>${stock.skuCode}</td>
                     <td>${stock.availableStock}</td>
                     <td>${stock.incomingStock}</td>
                     <td>${stock.outgoingStock}</td>

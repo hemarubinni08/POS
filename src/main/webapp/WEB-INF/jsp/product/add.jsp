@@ -127,7 +127,7 @@
         method="post"
         modelAttribute="productDto">
 
-        <label>Product Name</label>
+        <label>Product Sku</label>
         <form:input path="identifier" required="true"/>
 
         <label>Category</label>
@@ -170,8 +170,8 @@
             </c:forEach>
         </form:select>
 
-        <label>SKU Code</label>
-        <form:input path="skuCode" type="number" required="true"/>
+        <label>Product Name</label>
+        <form:input path="name" type="text" required="true"/>
         <button type="submit">Add Product</button>
     </form:form>
 </div>

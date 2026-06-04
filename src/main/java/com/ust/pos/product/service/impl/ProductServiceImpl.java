@@ -31,16 +31,16 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto save(ProductDto productDto) {
         productDto.setIdentifier(productDto.getIdentifier().trim());
         String identifier = productDto.getIdentifier();
-        Long skuCode = productDto.getSkuCode();
+        String name = productDto.getName();
         Product existingProduct = productRepository.findByIdentifier(identifier);
-        Product existingSku = productRepository.findBySkuCode(skuCode);
+        Product existingName = productRepository.findByName(name);
         if (existingProduct != null) {
             productDto.setMessage("Product with identifier - " + identifier + " already exists");
             productDto.setSuccess(false);
             return productDto;
         }
-        if (existingSku != null) {
-            productDto.setMessage("Product with skuCode - " + skuCode + " already exists");
+        if (existingName != null) {
+            productDto.setMessage("Product with skuCode - " + name + " already exists");
             productDto.setSuccess(false);
             return productDto;
         }

@@ -10,7 +10,7 @@ import java.util.List;
 public class ProductDto extends CommonDto {
 
     private List<String> category;
-    private Long skuCode;
+    private String name;
     private String brand;
     private String unit;
     private String model;

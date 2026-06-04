@@ -44,7 +44,7 @@ public class StocksServiceImpl implements StocksService {
         }
         Stocks stocks = modelMapper.map(stocksDto, Stocks.class);
         ProductDto productDto = productService.findByIdentifier(stocksDto.getIdentifier());
-        stocks.setSkuCode(productDto.getSkuCode());
+        stocks.setSkuCode(productDto.getIdentifier());
         stocksRepository.save(stocks);
         return stocksDto;
     }

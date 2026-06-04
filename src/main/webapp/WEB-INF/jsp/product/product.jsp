@@ -133,8 +133,8 @@
 
         <form:hidden path="id"/>
 
-        <!-- Product Name -->
-        <label>Product Name</label>
+        <!-- Product Sku -->
+        <label>Product SKU</label>
         <form:input path="identifier" readonly="true"/>
 
         <!-- Category -->
@@ -168,7 +168,6 @@
             </c:forEach>
         </form:select>
 
-        <!-- Model -->
         <label>Model</label>
         <form:select path="model">
             <c:forEach var="mode" items="${model}">
@@ -178,9 +177,8 @@
             </c:forEach>
         </form:select>
 
-        <!-- SKU -->
-        <label>SKU Code</label>
-        <form:input path="skuCode" readonly="true"/>
+        <label>Product Name</label>
+        <form:input path="name"/>
         <button type="submit">Update Product</button>
     </form:form>
 </div>
