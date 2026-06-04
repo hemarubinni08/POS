@@ -28,6 +28,11 @@ public class UserApiController extends BaseController {
         return userService.findAll(pageable);
     }
 
+    @PostMapping("/register")
+    public UserDto addPost(@RequestBody UserDto userDto) {
+        return userService.save(userDto);
+    }
+
     @GetMapping("/get")
     public UserDto update(@RequestBody UserDto userDto, @RequestParam String username) {
         return userService.findByUserName(username);
