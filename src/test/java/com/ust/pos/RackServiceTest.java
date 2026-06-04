@@ -124,26 +124,26 @@ class RackServiceTest {
     @Test
     void toggleStatusSuccessTest() {
         Rack rack = new Rack();
-        rack.setIdentifier("Admin");
+        rack.setIdentifier("RACK_01");
         rack.setStatus(false);
         RackDto rackDto = new RackDto();
-        rackDto.setIdentifier("Admin");
+        rackDto.setIdentifier("RACK_01");
         rackDto.setStatus(true);
 
-        Mockito.when(rackRepository.findByIdentifier("Admin")).thenReturn(rack);
+        Mockito.when(rackRepository.findByIdentifier("RACK_01")).thenReturn(rack);
         Mockito.when(rackRepository.save(rack)).thenReturn(rack);
         Mockito.when(modelMapper.map(rack, RackDto.class)).thenReturn(rackDto);
-        RackDto response = rackService.toggleStatus("Admin", true);
-        Assertions.assertEquals("Admin", response.getIdentifier());
-        Assertions.assertTrue(response.isStatus()); // status should be true now
+        RackDto response = rackService.toggleStatus("RACK_01", true);
+        Assertions.assertEquals("RACK_01", response.getIdentifier());
+        Assertions.assertTrue(response.isStatus());
     }
 
     @Test
     void toggleStatusFailureTest() {
         RackDto rackDto = new RackDto();
-        rackDto.setIdentifier("Admin");
-        Mockito.when(rackRepository.findByIdentifier("Admin")).thenReturn(null);
-        RackDto response = rackService.toggleStatus("Admin", true);
+        rackDto.setIdentifier("RACK_01");
+        Mockito.when(rackRepository.findByIdentifier("RACK_01")).thenReturn(null);
+        RackDto response = rackService.toggleStatus("RACK_01", true);
         Assertions.assertNull(response);
         Mockito.verify(rackRepository, Mockito.never()).save(Mockito.any());
     }

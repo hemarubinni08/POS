@@ -5,7 +5,6 @@ import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.models.service.ModelsService;
 import com.ust.pos.product.service.ProductService;
-import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -18,17 +17,18 @@ public class ProductController {
 
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
     public static final String BRANDS = "brands";
+
     @Autowired
     private ProductService productService;
 
     @Autowired
     CategoryService categoryService;
+
     @Autowired
     BrandService brandService;
+
     @Autowired
     ModelsService modelsService;
-    @Autowired
-    UnitService unitService;
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute ProductDto userDto) {
+    public String add(Model model, @ModelAttribute ProductDto productDto) {
         model.addAttribute("categories",categoryService.findChildCategories());
         model.addAttribute(BRANDS,brandService.findActiveBrands());
         model.addAttribute("model",modelsService.findActiveModel());
@@ -45,8 +45,8 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute ProductDto userDto) {
-        ProductDto response = productService.save(userDto);
+    public String addPost(Model model, @ModelAttribute ProductDto productDto) {
+        ProductDto response = productService.save(productDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(BRANDS, brandService.findActiveBrands());
@@ -66,8 +66,8 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute ProductDto userDto) {
-        ProductDto response = productService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute ProductDto productDto) {
+        ProductDto response = productService.update(productDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }

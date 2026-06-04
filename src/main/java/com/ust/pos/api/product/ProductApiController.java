@@ -1,12 +1,9 @@
 package com.ust.pos.api.product;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.brand.service.BrandService;
-import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.product.service.ProductService;
-import com.ust.pos.rack.service.RackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -19,15 +16,6 @@ public class ProductApiController extends BaseController {
 
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private BrandService brandService;
-
-    @Autowired
-    private RackService rackService;
 
     @PostMapping("/list")
     public List<ProductDto> list(@RequestBody PaginationDto paginationDto) {

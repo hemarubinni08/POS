@@ -160,7 +160,7 @@ class WareHouseServiceTest {
         Mockito.when(modelMapper.map(wareHouse, WareHouseDto.class)).thenReturn(wareHouseDto);
         WareHouseDto response = warehouseService.toggleStatus("Supply chain centre", true);
         Assertions.assertEquals("Supply chain centre", response.getIdentifier());
-        Assertions.assertTrue(response.isStatus()); // status should be true now
+        Assertions.assertTrue(response.isStatus());
     }
 
     @Test

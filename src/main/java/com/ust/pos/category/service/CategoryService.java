@@ -10,7 +10,7 @@ public interface CategoryService {
 
     CategoryDto update(CategoryDto categoryDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
     List<CategoryDto> findAll(Pageable pagebale);
 

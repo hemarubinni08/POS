@@ -101,7 +101,6 @@ class UnitServiceTest {
 
     @Test
     void findAllTest() {
-
         Unit unit = new Unit();
         unit.setIdentifier("U101");
         UnitDto unitDto = new UnitDto();

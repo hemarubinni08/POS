@@ -56,7 +56,7 @@ public class WareHouseController {
         WareHouseDto response = warehouseService.update(warehouseDto);
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
-            return "warehouse/warehouse"; // change if JSP name is different
+            return "warehouse/warehouse";
         }
         return REDIRECT_WAREHOUSE_LIST;
     }

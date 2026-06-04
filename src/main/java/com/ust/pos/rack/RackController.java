@@ -28,7 +28,7 @@ public class RackController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute RackDto userDto) {
+    public String add(Model model, @ModelAttribute RackDto rackDto) {
         model.addAttribute(SHELFS, shelfService.findActiveShelves());
         return "rack/add";
     }
@@ -53,8 +53,8 @@ public class RackController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RackDto userDto) {
-        RackDto response = rackService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute RackDto rackDto) {
+        RackDto response = rackService.update(rackDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }

@@ -10,7 +10,7 @@ public interface CustomerService {
 
     CustomerDto update(CustomerDto customerDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
     List<CustomerDto> findAll(Pageable pageable);
 

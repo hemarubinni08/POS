@@ -82,7 +82,7 @@ public class NodeServiceImpl implements NodeService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null) {
-            return nodeDtos; // or throw an exception if you want
+            return nodeDtos;
         }
         if ("anonymousUser".equals(authentication.getPrincipal())) {
             return nodeDtos;

@@ -11,6 +11,4 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     @Transactional
     void deleteByIdentifier(String identifier);
-
-    Customer findByPhoneNo(String phoneNo);
 }

@@ -31,7 +31,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto save(PriceDto priceDto) {
-        // Create an identifier using a combination of product and price type
+        //identifier using a combination of product and price type
         priceDto.setIdentifier(priceDto.getProduct() + "_" + priceDto.getPriceType());
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);

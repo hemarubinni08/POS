@@ -45,7 +45,6 @@ class ProductServiceTest {
     
     @Test
     void saveTestFailure() {
-        //request data
         ProductDto productDto = new ProductDto();
         productDto.setIdentifier("PROD 106");
         Product product = new Product();
@@ -122,26 +121,26 @@ class ProductServiceTest {
     @Test
     void toggleStatusSuccessTest() {
         Product product = new Product();
-        product.setIdentifier("Admin");
+        product.setIdentifier("PROD 106");
         product.setStatus(false);
         ProductDto productDto = new ProductDto();
-        productDto.setIdentifier("Admin");
+        productDto.setIdentifier("PROD 106");
         productDto.setStatus(true);
 
-        Mockito.when(productRepository.findByIdentifier("Admin")).thenReturn(product);
+        Mockito.when(productRepository.findByIdentifier("PROD 106")).thenReturn(product);
         Mockito.when(productRepository.save(product)).thenReturn(product);
         Mockito.when(modelMapper.map(product, ProductDto.class)).thenReturn(productDto);
-        ProductDto response = productService.toggleStatus("Admin", true);
-        Assertions.assertEquals("Admin", response.getIdentifier());
-        Assertions.assertTrue(response.isStatus()); // status should be true now
+        ProductDto response = productService.toggleStatus("PROD 106", true);
+        Assertions.assertEquals("PROD 106", response.getIdentifier());
+        Assertions.assertTrue(response.isStatus());
     }
 
     @Test
     void changeProductStatusFailureTest() {
         ProductDto productDto = new ProductDto();
-        productDto.setIdentifier("Admin");
-        Mockito.when(productRepository.findByIdentifier("Admin")).thenReturn(null);
-        ProductDto response = productService.toggleStatus("Admin", true);
+        productDto.setIdentifier("PROD 106");
+        Mockito.when(productRepository.findByIdentifier("PROD 106")).thenReturn(null);
+        ProductDto response = productService.toggleStatus("PROD 106", true);
         Assertions.assertNull(response);
         Mockito.verify(productRepository, Mockito.never()).save(Mockito.any());
     }

@@ -137,7 +137,7 @@ class ModelsServiceTest {
         Mockito.when(modelMapper.map(models, ModelsDto.class)).thenReturn(modelsDto);
         ModelsDto response = modelsService.toggleStatus("MDL_107", true);
         Assertions.assertEquals("MDL_107", response.getIdentifier());
-        Assertions.assertTrue(response.isStatus()); // status should be true now
+        Assertions.assertTrue(response.isStatus());
     }
 
     @Test

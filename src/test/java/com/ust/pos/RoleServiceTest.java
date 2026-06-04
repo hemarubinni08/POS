@@ -135,7 +135,7 @@ class RoleServiceTest {
         Mockito.when(modelMapper.map(role,RoleDto.class)).thenReturn(roleDto);
         RoleDto response = roleService.toggleStatus("Admin", true);
         Assertions.assertEquals("Admin", response.getIdentifier());
-        Assertions.assertTrue(response.isStatus()); // status should be true now
+        Assertions.assertTrue(response.isStatus());
     }
 
     @Test
@@ -151,10 +151,10 @@ class RoleServiceTest {
     @Test
     void findActiveRoleTest() {
         Role role = new Role();
-        role.setIdentifier("RACK_01");
+        role.setIdentifier("Admin");
         role.setStatus(true);
         RoleDto roleDto = new RoleDto();
-        roleDto.setIdentifier("RACK_01");
+        roleDto.setIdentifier("Admin");
         roleDto.setStatus(true);
 
         List<Role> activeRole = List.of(role);
@@ -167,7 +167,7 @@ class RoleServiceTest {
         List<RoleDto> response = roleService.findActiveRole();
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("RACK_01", response.get(0).getIdentifier());
+        Assertions.assertEquals("Admin", response.get(0).getIdentifier());
         Assertions.assertTrue(response.get(0).isStatus());
     }
 }

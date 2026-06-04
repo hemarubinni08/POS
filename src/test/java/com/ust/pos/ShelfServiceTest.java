@@ -132,17 +132,17 @@ class ShelfServiceTest {
         Mockito.when(shelfRepository.findByIdentifier("Shelf_001")).thenReturn(shelf);
         Mockito.when(shelfRepository.save(shelf)).thenReturn(shelf);
         Mockito.when(modelMapper.map(shelf,ShelfDto.class)).thenReturn(shelfDto);
-       ShelfDto response = shelfService.toggleStatus("Shelf_001", true);
+        ShelfDto response = shelfService.toggleStatus("Shelf_001", true);
         Assertions.assertEquals("Shelf_001", response.getIdentifier());
-        Assertions.assertTrue(response.isStatus()); // status should be true now
+        Assertions.assertTrue(response.isStatus());
     }
 
     @Test
     void changeRoleStatusFailureTest() {
-       ShelfDto shelfDto = new ShelfDto();
+        ShelfDto shelfDto = new ShelfDto();
         shelfDto.setIdentifier("Shelf_001");
         Mockito.when(shelfRepository.findByIdentifier("Shelf_001")).thenReturn(null);
-       ShelfDto response = shelfService.toggleStatus("Shelf_001", true);
+        ShelfDto response = shelfService.toggleStatus("Shelf_001", true);
         Assertions.assertNull(response);
         Mockito.verify(shelfRepository, Mockito.never()).save(Mockito.any());
     }

@@ -45,8 +45,8 @@ public class ShelfController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute ShelfDto userDto) {
-        ShelfDto response = shelfService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute ShelfDto shelfDto) {
+        ShelfDto response = shelfService.update(shelfDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
