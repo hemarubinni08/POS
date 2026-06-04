@@ -36,28 +36,28 @@ class RoleServiceTest {
     @Test
     void saveTest() {
         RoleDto roleDto = new RoleDto();
-        roleDto.setIdentifier("Admin");
+        roleDto.setIdentifier("R1");
 
-        Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(null);
+        Mockito.when(roleRepository.findByIdentifier("R1")).thenReturn(null);
         Role role = new Role();
         Mockito.when(modelMapper.map(roleDto, Role.class)).thenReturn(role);
         Mockito.when(roleRepository.save(role)).thenReturn(role);
         RoleDto response = roleService.save(roleDto);
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("R1", response.getIdentifier());
         Assertions.assertEquals(true, response.isSuccess());
     }
 
     @Test
     void saveTestFailure() {
         RoleDto roleDto = new RoleDto();
-        roleDto.setIdentifier("Admin");
+        roleDto.setIdentifier("R1");
         Role role = new Role();
 
-        Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(role);
+        Mockito.when(roleRepository.findByIdentifier("R1")).thenReturn(role);
         RoleDto response = roleService.save(roleDto);
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("R1", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
 
         Assertions.assertEquals(false, response.isSuccess());
@@ -66,28 +66,28 @@ class RoleServiceTest {
     @Test
     void findByIdentifierTest() {
         Role role = new Role();
-        role.setIdentifier("Admin");
+        role.setIdentifier("R1");
 
         RoleDto roleDto = new RoleDto();
-        roleDto.setIdentifier("Admin");
+        roleDto.setIdentifier("R1");
 
-        Mockito.when(roleRepository.findByIdentifier("Admin")).thenReturn(role);
+        Mockito.when(roleRepository.findByIdentifier("R1")).thenReturn(role);
         Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(roleDto);
 
-        RoleDto response = roleService.findByIdentifier("Admin");
+        RoleDto response = roleService.findByIdentifier("R1");
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("R1", response.getIdentifier());
     }
 
     @Test
     void updateTest() {
         RoleDto roleDto = new RoleDto();
-        roleDto.setIdentifier("Admin");
+        roleDto.setIdentifier("R1");
 
         Role existingRole = new Role();
-        existingRole.setIdentifier("Admin");
+        existingRole.setIdentifier("R1");
 
-        Mockito.when(roleRepository.findByIdentifier("Admin"))
+        Mockito.when(roleRepository.findByIdentifier("R1"))
                 .thenReturn(existingRole);
         Mockito.when(roleRepository.save(existingRole))
                 .thenReturn(existingRole);
@@ -100,9 +100,9 @@ class RoleServiceTest {
     @Test
     void updateTestFailure() {
         RoleDto roleDto = new RoleDto();
-        roleDto.setIdentifier("Admin");
+        roleDto.setIdentifier("R1");
 
-        Mockito.when(roleRepository.findByIdentifier("Admin"))
+        Mockito.when(roleRepository.findByIdentifier("R1"))
                 .thenReturn(null);
 
         RoleDto response = roleService.update(roleDto);
@@ -113,20 +113,20 @@ class RoleServiceTest {
     @Test
     void deleteTest() {
         Mockito.doNothing().when(roleRepository)
-                .deleteByIdentifier("Admin");
+                .deleteByIdentifier("R1");
 
-        roleService.delete("Admin");
+        roleService.delete("R1");
 
-        Mockito.verify(roleRepository).deleteByIdentifier("Admin");
+        Mockito.verify(roleRepository).deleteByIdentifier("R1");
     }
 
     @Test
     void findAllTest() {
         Role role = new Role();
-        role.setIdentifier("Admin");
+        role.setIdentifier("R1");
 
         RoleDto roleDto = new RoleDto();
-        roleDto.setIdentifier("Admin");
+        roleDto.setIdentifier("R1");
 
         List<Role> roles = List.of(role);
         List<RoleDto> roleDtos = List.of(roleDto);

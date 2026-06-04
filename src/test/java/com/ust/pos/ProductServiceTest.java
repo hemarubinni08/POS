@@ -37,28 +37,28 @@ class ProductServiceTest {
     @Test
     void saveTest() {
         ProductDto productDto = new ProductDto();
-        productDto.setIdentifier("Admin");
+        productDto.setIdentifier("P1");
 
-        Mockito.when(productRepository.findByIdentifier("Admin")).thenReturn(null);
+        Mockito.when(productRepository.findByIdentifier("P1")).thenReturn(null);
         Product product = new Product();
         Mockito.when(modelMapper.map(productDto, Product.class)).thenReturn(product);
         Mockito.when(productRepository.save(product)).thenReturn(product);
         ProductDto response = productService.save(productDto);
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("P1", response.getIdentifier());
         Assertions.assertEquals(true, response.isSuccess());
     }
 
     @Test
     void saveTestFailure() {
         ProductDto productDto = new ProductDto();
-        productDto.setIdentifier("Admin");
+        productDto.setIdentifier("P1");
         Product product = new Product();
 
-        Mockito.when(productRepository.findByIdentifier("Admin")).thenReturn(product);
+        Mockito.when(productRepository.findByIdentifier("P1")).thenReturn(product);
         ProductDto response = productService.save(productDto);
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("P1", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
 
         Assertions.assertEquals(false, response.isSuccess());
@@ -67,28 +67,28 @@ class ProductServiceTest {
     @Test
     void findByIdentifierTest() {
         Product product = new Product();
-        product.setIdentifier("Admin");
+        product.setIdentifier("P1");
 
         ProductDto productDto = new ProductDto();
-        productDto.setIdentifier("Admin");
+        productDto.setIdentifier("P1");
 
-        Mockito.when(productRepository.findByIdentifier("Admin")).thenReturn(product);
+        Mockito.when(productRepository.findByIdentifier("P1")).thenReturn(product);
         Mockito.when(modelMapper.map(product, ProductDto.class)).thenReturn(productDto);
 
-        ProductDto response = productService.findByIdentifier("Admin");
+        ProductDto response = productService.findByIdentifier("P1");
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("P1", response.getIdentifier());
     }
 
     @Test
     void updateTest() {
         ProductDto productDto = new ProductDto();
-        productDto.setIdentifier("Admin");
+        productDto.setIdentifier("P1");
 
         Product existingProduct = new Product();
-        existingProduct.setIdentifier("Admin");
+        existingProduct.setIdentifier("P1");
 
-        Mockito.when(productRepository.findByIdentifier("Admin"))
+        Mockito.when(productRepository.findByIdentifier("P1"))
                 .thenReturn(existingProduct);
         Mockito.when(productRepository.save(existingProduct))
                 .thenReturn(existingProduct);
@@ -101,9 +101,9 @@ class ProductServiceTest {
     @Test
     void updateTestFailure() {
         ProductDto productDto = new ProductDto();
-        productDto.setIdentifier("Admin");
+        productDto.setIdentifier("P1");
 
-        Mockito.when(productRepository.findByIdentifier("Admin"))
+        Mockito.when(productRepository.findByIdentifier("P1"))
                 .thenReturn(null);
 
         ProductDto response = productService.update(productDto);
@@ -114,20 +114,20 @@ class ProductServiceTest {
     @Test
     void deleteTest() {
         Mockito.doNothing().when(productRepository)
-                .deleteByIdentifier("Admin");
+                .deleteByIdentifier("P1");
 
-        productService.delete("Admin");
+        productService.delete("P1");
 
-        Mockito.verify(productRepository).deleteByIdentifier("Admin");
+        Mockito.verify(productRepository).deleteByIdentifier("P1");
     }
 
     @Test
     void findAllTest() {
         Product product = new Product();
-        product.setIdentifier("Admin");
+        product.setIdentifier("P1");
 
         ProductDto productDto = new ProductDto();
-        productDto.setIdentifier("Admin");
+        productDto.setIdentifier("P1");
 
         List<Product> products = List.of(product);
         List<ProductDto> productDtos = List.of(productDto);

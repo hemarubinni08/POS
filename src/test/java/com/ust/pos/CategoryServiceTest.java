@@ -36,11 +36,11 @@ class CategoryServiceTest {
     @Test
     void saveSuccessTest() {
         CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setIdentifier("Admin");
+        categoryDto.setIdentifier("C1");
 
         Category category = new Category();
 
-        Mockito.when(categoryRepository.findByIdentifier("Admin"))
+        Mockito.when(categoryRepository.findByIdentifier("C1"))
                 .thenReturn(null);
 
         Mockito.when(modelMapper.map(categoryDto, Category.class))
@@ -51,7 +51,7 @@ class CategoryServiceTest {
 
         CategoryDto response = categoryService.save(categoryDto);
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("C1", response.getIdentifier());
 
         Mockito.verify(categoryRepository).save(category);
     }
@@ -59,11 +59,11 @@ class CategoryServiceTest {
     @Test
     void saveDuplicateCategoryTest() {
         CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setIdentifier("Admin");
+        categoryDto.setIdentifier("C1");
 
         Category existing = new Category();
 
-        Mockito.when(categoryRepository.findByIdentifier("Admin"))
+        Mockito.when(categoryRepository.findByIdentifier("C1"))
                 .thenReturn(existing);
 
         CategoryDto response = categoryService.save(categoryDto);
@@ -77,28 +77,28 @@ class CategoryServiceTest {
     @Test
     void findByIdentifierTest() {
         Category category = new Category();
-        category.setIdentifier("Admin");
+        category.setIdentifier("C1");
 
         CategoryDto dto = new CategoryDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("C1");
 
-        Mockito.when(categoryRepository.findByIdentifier("Admin"))
+        Mockito.when(categoryRepository.findByIdentifier("C1"))
                 .thenReturn(category);
 
         Mockito.when(modelMapper.map(category, CategoryDto.class))
                 .thenReturn(dto);
 
-        CategoryDto response = categoryService.findByIdentifier("Admin");
+        CategoryDto response = categoryService.findByIdentifier("C1");
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("C1", response.getIdentifier());
     }
 
     @Test
     void findByIdentifierNullTest() {
-        Mockito.when(categoryRepository.findByIdentifier("Admin"))
+        Mockito.when(categoryRepository.findByIdentifier("C1"))
                 .thenReturn(null);
 
-        CategoryDto response = categoryService.findByIdentifier("Admin");
+        CategoryDto response = categoryService.findByIdentifier("C1");
 
         Assertions.assertNull(response);
     }
@@ -106,11 +106,11 @@ class CategoryServiceTest {
     @Test
     void updateSuccessTest() {
         CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setIdentifier("Admin");
+        categoryDto.setIdentifier("C1");
 
         Category existing = new Category();
 
-        Mockito.when(categoryRepository.findByIdentifier("Admin"))
+        Mockito.when(categoryRepository.findByIdentifier("C1"))
                 .thenReturn(existing);
 
         Mockito.when(categoryRepository.save(existing))
@@ -127,9 +127,9 @@ class CategoryServiceTest {
     @Test
     void updateNotFoundTest() {
         CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setIdentifier("Admin");
+        categoryDto.setIdentifier("C1");
 
-        Mockito.when(categoryRepository.findByIdentifier("Admin"))
+        Mockito.when(categoryRepository.findByIdentifier("C1"))
                 .thenReturn(null);
 
         CategoryDto response = categoryService.update(categoryDto);
@@ -144,21 +144,21 @@ class CategoryServiceTest {
     void deleteTest() {
         Mockito.doNothing()
                 .when(categoryRepository)
-                .deleteByIdentifier("Admin");
+                .deleteByIdentifier("C1");
 
-        categoryService.delete("Admin");
+        categoryService.delete("C1");
 
         Mockito.verify(categoryRepository)
-                .deleteByIdentifier("Admin");
+                .deleteByIdentifier("C1");
     }
 
     @Test
     void findAllTest() {
         Category category = new Category();
-        category.setIdentifier("Admin");
+        category.setIdentifier("C1");
 
         CategoryDto dto = new CategoryDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("C1");
 
         List<Category> categories = List.of(category);
         List<CategoryDto> dtos = List.of(dto);
@@ -172,7 +172,7 @@ class CategoryServiceTest {
         List<CategoryDto> response = categoryService.findAll();
 
         Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("Admin", response.get(0).getIdentifier());
+        Assertions.assertEquals("C1", response.get(0).getIdentifier());
     }
 
     @Test

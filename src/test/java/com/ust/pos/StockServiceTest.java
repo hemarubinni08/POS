@@ -51,13 +51,13 @@ class StockServiceTest {
     @Test
     void saveTestFailure() {
         StockDto stockDto = new StockDto();
-        stockDto.setIdentifier("Admin");
+        stockDto.setIdentifier("S1");
         Stock stock = new Stock();
 
-        Mockito.when(stockRepository.findByIdentifier("Admin")).thenReturn(stock);
+        Mockito.when(stockRepository.findByIdentifier("S1")).thenReturn(stock);
         StockDto response = stockService.save(stockDto);
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("S1", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
 
         Assertions.assertEquals(false, response.isSuccess());
@@ -66,28 +66,28 @@ class StockServiceTest {
     @Test
     void findByIdentifierTest() {
         Stock stock = new Stock();
-        stock.setIdentifier("Admin");
+        stock.setIdentifier("S1");
 
         StockDto stockDto = new StockDto();
-        stockDto.setIdentifier("Admin");
+        stockDto.setIdentifier("S1");
 
-        Mockito.when(stockRepository.findByIdentifier("Admin")).thenReturn(stock);
+        Mockito.when(stockRepository.findByIdentifier("S1")).thenReturn(stock);
         Mockito.when(modelMapper.map(stock, StockDto.class)).thenReturn(stockDto);
 
-        StockDto response = stockService.findByIdentifier("Admin");
+        StockDto response = stockService.findByIdentifier("S1");
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("S1", response.getIdentifier());
     }
 
     @Test
     void updateTest() {
         StockDto stockDto = new StockDto();
-        stockDto.setIdentifier("Admin");
+        stockDto.setIdentifier("S1");
 
         Stock existingStock = new Stock();
-        existingStock.setIdentifier("Admin");
+        existingStock.setIdentifier("S1");
 
-        Mockito.when(stockRepository.findByIdentifier("Admin"))
+        Mockito.when(stockRepository.findByIdentifier("S1"))
                 .thenReturn(existingStock);
         Mockito.when(stockRepository.save(existingStock))
                 .thenReturn(existingStock);
@@ -100,9 +100,9 @@ class StockServiceTest {
     @Test
     void updateTestFailure() {
         StockDto stockDto = new StockDto();
-        stockDto.setIdentifier("Admin");
+        stockDto.setIdentifier("S1");
 
-        Mockito.when(stockRepository.findByIdentifier("Admin"))
+        Mockito.when(stockRepository.findByIdentifier("S1"))
                 .thenReturn(null);
 
         StockDto response = stockService.update(stockDto);
@@ -113,20 +113,20 @@ class StockServiceTest {
     @Test
     void deleteTest() {
         Mockito.doNothing().when(stockRepository)
-                .deleteByIdentifier("Admin");
+                .deleteByIdentifier("S1");
 
-        stockService.delete("Admin");
+        stockService.delete("S1");
 
-        Mockito.verify(stockRepository).deleteByIdentifier("Admin");
+        Mockito.verify(stockRepository).deleteByIdentifier("S1");
     }
 
     @Test
     void findAllTest() {
         Stock stock = new Stock();
-        stock.setIdentifier("Admin");
+        stock.setIdentifier("S1");
 
         StockDto stockDto = new StockDto();
-        stockDto.setIdentifier("Admin");
+        stockDto.setIdentifier("S1");
 
         List<Stock> stocks = List.of(stock);
         List<StockDto> stockDtos = List.of(stockDto);
@@ -145,13 +145,13 @@ class StockServiceTest {
     @Test
     void toggleStatusTest() {
         Stock stock = new Stock();
-        stock.setIdentifier("Admin");
+        stock.setIdentifier("S1");
         stock.setStatus(true);
 
-        Mockito.when(stockRepository.findByIdentifier("Admin"))
+        Mockito.when(stockRepository.findByIdentifier("S1"))
                 .thenReturn(stock);
 
-        stockService.toggleStatus("Admin");
+        stockService.toggleStatus("S1");
 
         Assertions.assertFalse(stock.isStatus());
         Mockito.verify(stockRepository).save(stock);
@@ -159,10 +159,10 @@ class StockServiceTest {
 
     @Test
     void toggleStatusNullTest() {
-        Mockito.when(stockRepository.findByIdentifier("Admin"))
+        Mockito.when(stockRepository.findByIdentifier("S1"))
                 .thenReturn(null);
 
-        stockService.toggleStatus("Admin");
+        stockService.toggleStatus("S1");
 
         Mockito.verify(stockRepository, Mockito.never())
                 .save(Mockito.any());

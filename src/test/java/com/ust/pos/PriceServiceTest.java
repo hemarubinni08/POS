@@ -36,13 +36,13 @@ class PriceServiceTest {
     @Test
     void saveTestSuccess() {
         PriceDto dto = new PriceDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("P1");
         dto.setCostPrice(100L);
         dto.setSellingPrice(150L);
 
         Price entity = new Price();
 
-        Mockito.when(priceRepository.findByIdentifier("Admin"))
+        Mockito.when(priceRepository.findByIdentifier("P1"))
                 .thenReturn(null);
         Mockito.when(modelMapper.map(dto, Price.class))
                 .thenReturn(entity);
@@ -51,7 +51,7 @@ class PriceServiceTest {
 
         PriceDto response = priceService.save(dto);
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("P1", response.getIdentifier());
         Assertions.assertEquals(50, response.getDifference());
         Assertions.assertTrue(response.isSuccess());
 
@@ -61,9 +61,9 @@ class PriceServiceTest {
     @Test
     void saveTestFailureWhenAlreadyExists() {
         PriceDto dto = new PriceDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("P1");
 
-        Mockito.when(priceRepository.findByIdentifier("Admin"))
+        Mockito.when(priceRepository.findByIdentifier("P1"))
                 .thenReturn(new Price());
 
         PriceDto response = priceService.save(dto);
@@ -78,14 +78,14 @@ class PriceServiceTest {
     @Test
     void updateTestSuccess() {
         PriceDto dto = new PriceDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("P1");
         dto.setCostPrice(200L);
         dto.setSellingPrice(300L);
 
         Price existing = new Price();
         Price mapped = new Price();
 
-        Mockito.when(priceRepository.findByIdentifier("Admin"))
+        Mockito.when(priceRepository.findByIdentifier("P1"))
                 .thenReturn(existing);
         Mockito.when(modelMapper.map(dto, Price.class))
                 .thenReturn(mapped);
@@ -103,9 +103,9 @@ class PriceServiceTest {
     @Test
     void updateTestFailureWhenNotFound() {
         PriceDto dto = new PriceDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("P1");
 
-        Mockito.when(priceRepository.findByIdentifier("Admin"))
+        Mockito.when(priceRepository.findByIdentifier("P1"))
                 .thenReturn(null);
 
         PriceDto response = priceService.update(dto);
@@ -120,19 +120,19 @@ class PriceServiceTest {
     @Test
     void findByIdentifierTest() {
         Price entity = new Price();
-        entity.setIdentifier("Admin");
+        entity.setIdentifier("P1");
 
         PriceDto dto = new PriceDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("P1");
 
-        Mockito.when(priceRepository.findByIdentifier("Admin"))
+        Mockito.when(priceRepository.findByIdentifier("P1"))
                 .thenReturn(entity);
         Mockito.when(modelMapper.map(entity, PriceDto.class))
                 .thenReturn(dto);
 
-        PriceDto response = priceService.findByIdentifier("Admin");
+        PriceDto response = priceService.findByIdentifier("P1");
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("P1", response.getIdentifier());
     }
 
     @Test
@@ -157,12 +157,12 @@ class PriceServiceTest {
     void deleteTest() {
         Mockito.doNothing()
                 .when(priceRepository)
-                .deleteByIdentifier("Admin");
+                .deleteByIdentifier("P1");
 
-        priceService.delete("Admin");
+        priceService.delete("P1");
 
         Mockito.verify(priceRepository)
-                .deleteByIdentifier("Admin");
+                .deleteByIdentifier("P1");
     }
 
     @Test

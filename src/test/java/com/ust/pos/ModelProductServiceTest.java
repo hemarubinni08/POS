@@ -26,25 +26,25 @@ import java.util.List;
 class ModelProductServiceTest {
     @InjectMocks
     private ModelProductServiceImpl modelProductService;
+
     @Mock
     private ModelProductRepository modelProductRepository;
 
     @Mock
     private ModelMapper modelMapper;
 
-
     @Test
     void saveTest() {
         ModelProductDto modelProductDto = new ModelProductDto();
-        modelProductDto.setIdentifier("Admin");
+        modelProductDto.setIdentifier("M1");
 
-        Mockito.when(modelProductRepository.findByIdentifier("Admin")).thenReturn(null);
+        Mockito.when(modelProductRepository.findByIdentifier("M1")).thenReturn(null);
         ModelProduct modelProduct = new ModelProduct();
         Mockito.when(modelMapper.map(modelProductDto, ModelProduct.class)).thenReturn(modelProduct);
         Mockito.when(modelProductRepository.save(modelProduct)).thenReturn(modelProduct);
         ModelProductDto response = modelProductService.save(modelProductDto);
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("M1", response.getIdentifier());
         Assertions.assertEquals(true, response.isSuccess());
 
     }
@@ -52,13 +52,13 @@ class ModelProductServiceTest {
     @Test
     void saveTestFailure() {
         ModelProductDto modelProductDto = new ModelProductDto();
-        modelProductDto.setIdentifier("Admin");
+        modelProductDto.setIdentifier("M1");
         ModelProduct modelProduct = new ModelProduct();
 
-        Mockito.when(modelProductRepository.findByIdentifier("Admin")).thenReturn(modelProduct);
+        Mockito.when(modelProductRepository.findByIdentifier("M1")).thenReturn(modelProduct);
         ModelProductDto response = modelProductService.save(modelProductDto);
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("M1", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
 
         Assertions.assertEquals(false, response.isSuccess());
@@ -67,31 +67,31 @@ class ModelProductServiceTest {
     @Test
     void findByIdentifierTest() {
         ModelProduct modelProduct = new ModelProduct();
-        modelProduct.setIdentifier("Admin");
+        modelProduct.setIdentifier("M1");
 
         ModelProductDto modelProductDto = new ModelProductDto();
-        modelProductDto.setIdentifier("Admin");
+        modelProductDto.setIdentifier("M1");
 
-        Mockito.when(modelProductRepository.findByIdentifier("Admin")).thenReturn(modelProduct);
+        Mockito.when(modelProductRepository.findByIdentifier("M1")).thenReturn(modelProduct);
         Mockito.when(modelMapper.map(modelProduct, ModelProductDto.class)).thenReturn(modelProductDto);
 
-        ModelProductDto response = modelProductService.findByIdentifier("Admin");
+        ModelProductDto response = modelProductService.findByIdentifier("M1");
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("M1", response.getIdentifier());
     }
 
     @Test
     void updateTest() {
         ModelProductDto modelProductDto = new ModelProductDto();
-        modelProductDto.setIdentifier("Admin");
+        modelProductDto.setIdentifier("M1");
 
         ModelProduct existingModelProduct = new ModelProduct();
-        existingModelProduct.setIdentifier("Admin");
+        existingModelProduct.setIdentifier("M1");
 
         ModelProduct mappedProduct = new ModelProduct();
-        mappedProduct.setIdentifier("Admin");
+        mappedProduct.setIdentifier("M1");
 
-        Mockito.when(modelProductRepository.findByIdentifier("Admin"))
+        Mockito.when(modelProductRepository.findByIdentifier("M1"))
                 .thenReturn(existingModelProduct);
 
         Mockito.when(modelMapper.map(modelProductDto, ModelProduct.class))
@@ -108,9 +108,9 @@ class ModelProductServiceTest {
     @Test
     void updateTestFailure() {
         ModelProductDto modelProductDto = new ModelProductDto();
-        modelProductDto.setIdentifier("Admin");
+        modelProductDto.setIdentifier("M1");
 
-        Mockito.when(modelProductRepository.findByIdentifier("Admin"))
+        Mockito.when(modelProductRepository.findByIdentifier("M1"))
                 .thenReturn(null);
 
         ModelProductDto response = modelProductService.update(modelProductDto);
@@ -122,20 +122,20 @@ class ModelProductServiceTest {
     void deleteTest() {
 
         Mockito.doNothing().when(modelProductRepository)
-                .deleteByIdentifier("Admin");
+                .deleteByIdentifier("M1");
 
-        modelProductService.delete("Admin");
+        modelProductService.delete("M1");
 
-        Mockito.verify(modelProductRepository).deleteByIdentifier("Admin");
+        Mockito.verify(modelProductRepository).deleteByIdentifier("M1");
     }
 
     @Test
     void findAllTest() {
         ModelProduct modelProduct = new ModelProduct();
-        modelProduct.setIdentifier("Admin");
+        modelProduct.setIdentifier("M1");
 
         ModelProductDto modelProductDto = new ModelProductDto();
-        modelProductDto.setIdentifier("Admin");
+        modelProductDto.setIdentifier("M1");
 
         List<ModelProduct> modelProducts = List.of(modelProduct);
         List<ModelProductDto> modelProductDtos = List.of(modelProductDto);
@@ -154,13 +154,13 @@ class ModelProductServiceTest {
     @Test
     void toggleStatusTest() {
         ModelProduct modelProduct = new ModelProduct();
-        modelProduct.setIdentifier("Admin");
+        modelProduct.setIdentifier("M1");
         modelProduct.setStatus(false);
 
-        Mockito.when(modelProductRepository.findByIdentifier("Admin"))
+        Mockito.when(modelProductRepository.findByIdentifier("M1"))
                 .thenReturn(modelProduct);
 
-        modelProductService.toggleStatus("Admin");
+        modelProductService.toggleStatus("M1");
 
         Assertions.assertTrue(modelProduct.isStatus());
 
@@ -169,10 +169,10 @@ class ModelProductServiceTest {
 
     @Test
     void toggleStatusNotFoundTest() {
-        Mockito.when(modelProductRepository.findByIdentifier("Admin"))
+        Mockito.when(modelProductRepository.findByIdentifier("M1"))
                 .thenReturn(null);
 
-        modelProductService.toggleStatus("Admin");
+        modelProductService.toggleStatus("M1");
 
         Mockito.verify(modelProductRepository, Mockito.never())
                 .save(Mockito.any());
@@ -202,5 +202,4 @@ class ModelProductServiceTest {
         Mockito.verify(modelProductRepository).findAll(pageable);
         Mockito.verify(modelMapper).map(products, listType);
     }
-
 }
