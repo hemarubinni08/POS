@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface RoleService {
 
-    RoleDto save(RoleDto role);
+    RoleDto save(RoleDto roleDto);
 
     RoleDto update(RoleDto roleDto);
 

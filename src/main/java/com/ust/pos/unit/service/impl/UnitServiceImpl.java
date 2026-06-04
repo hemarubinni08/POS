@@ -89,10 +89,10 @@ public class UnitServiceImpl implements UnitService {
     public UnitDto findByIdentifier(String identifier) {
         Unit unit = unitRepository.findByIdentifier(identifier);
         if (unit == null) {
-            UnitDto dto = new UnitDto();
-            dto.setSuccess(false);
-            dto.setMessage(UNIT_NOT_FOUND);
-            return dto;
+            UnitDto unitDto = new UnitDto();
+            unitDto.setSuccess(false);
+            unitDto.setMessage(UNIT_NOT_FOUND);
+            return unitDto;
         }
         return modelMapper.map(unit, UnitDto.class);
     }

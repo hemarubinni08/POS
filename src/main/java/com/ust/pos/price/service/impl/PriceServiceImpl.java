@@ -71,14 +71,14 @@ public class PriceServiceImpl implements PriceService {
     public PriceDto findByIdentifier(String identifier) {
         Price price = priceRepository.findByIdentifier(identifier);
         if (price == null) {
-            PriceDto dto = new PriceDto();
-            dto.setSuccess(false);
-            dto.setMessage("Price not found");
-            return dto;
+            PriceDto priceDto = new PriceDto();
+            priceDto.setSuccess(false);
+            priceDto.setMessage("Price not found");
+            return priceDto;
         }
-        PriceDto dto = modelMapper.map(price, PriceDto.class);
-        dto.setSuccess(true);
-        return dto;
+        PriceDto priceDto = modelMapper.map(price, PriceDto.class);
+        priceDto.setSuccess(true);
+        return priceDto;
     }
 
     @Override

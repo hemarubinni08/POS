@@ -72,10 +72,10 @@ public class ShelfServiceImpl implements ShelfService {
     public ShelfDto findByIdentifier(String identifier) {
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
         if (shelf == null) {
-            ShelfDto dto = new ShelfDto();
-            dto.setSuccess(false);
-            dto.setMessage(SHELF_NOT_FOUND);
-            return dto;
+            ShelfDto shelfDto = new ShelfDto();
+            shelfDto.setSuccess(false);
+            shelfDto.setMessage(SHELF_NOT_FOUND);
+            return shelfDto;
         }
         return modelMapper.map(shelf, ShelfDto.class);
     }
@@ -105,10 +105,10 @@ public class ShelfServiceImpl implements ShelfService {
     public ShelfDto toggleStatus(String identifier) {
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
         if (shelf == null) {
-            ShelfDto dto = new ShelfDto();
-            dto.setSuccess(false);
-            dto.setMessage(SHELF_NOT_FOUND);
-            return dto;
+            ShelfDto shelfDto= new ShelfDto();
+            shelfDto.setSuccess(false);
+            shelfDto.setMessage(SHELF_NOT_FOUND);
+            return shelfDto;
         }
         shelf.setStatus(!Boolean.TRUE.equals(shelf.getStatus()));
         Shelf saved = shelfRepository.save(shelf);

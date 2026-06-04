@@ -119,9 +119,9 @@ public class RackServiceImpl implements RackService {
     @Override
     public List<RackDto> getActiveRacks() {
         List<RackDto> active = new ArrayList<>();
-        for (RackDto r : findAll(null)) {
-            if (Boolean.TRUE.equals(r.getStatus())) {
-                active.add(r);
+        for (RackDto rack : findAll(null)) {
+            if (Boolean.TRUE.equals(rack.getStatus())) {
+                active.add(rack);
             }
         }
         return active;
@@ -136,16 +136,16 @@ public class RackServiceImpl implements RackService {
     public RackDto toggleStatus(String identifier) {
         Rack rack = rackRepository.findByIdentifier(identifier);
         if (rack == null) {
-            RackDto dto = new RackDto();
-            dto.setSuccess(false);
-            dto.setMessage(RACK_NOT_FOUND);
-            return dto;
+            RackDto rackDto = new RackDto();
+            rackDto.setSuccess(false);
+            rackDto.setMessage(RACK_NOT_FOUND);
+            return rackDto;
         }
         rack.setStatus(!Boolean.TRUE.equals(rack.getStatus()));
         Rack saved = rackRepository.save(rack);
-        RackDto dto = modelMapper.map(saved, RackDto.class);
-        dto.setSuccess(true);
-        dto.setMessage("Status updated successfully");
-        return dto;
+        RackDto rackDto = modelMapper.map(saved, RackDto.class);
+        rackDto.setSuccess(true);
+        rackDto.setMessage("Status updated successfully");
+        return rackDto;
     }
 }

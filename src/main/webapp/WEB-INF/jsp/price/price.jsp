@@ -1,25 +1,14 @@
-<%@ page language="java"
-         contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-
-<%@ taglib uri="http://www.springframework.org/tags/form"
-           prefix="form" %>
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core"
-           prefix="c" %>
+<%@ page language="java"contentType="text/html; charset=UTF-8"pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form"prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core"prefix="c" %>
 
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <title>Edit Price</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"rel="stylesheet">
 
     <style>
 
@@ -57,11 +46,8 @@
 
         <a href="${pageContext.request.contextPath}/price/list"
            class="btn btn-outline-light btn-sm">
-
             Back
-
         </a>
-
     </div>
 
 </nav>
@@ -84,16 +70,12 @@
 
         </c:if>
 
-        <form:form method="post"
-                   action="${pageContext.request.contextPath}/price/update"
-                   modelAttribute="priceDto">
+        <form:form method="post"action="${pageContext.request.contextPath}/price/update"
+                                            modelAttribute="priceDto">
 
             <form:hidden path="identifier"/>
-
             <form:hidden path="productId"/>
-
             <form:hidden path="productName"/>
-
             <form:hidden path="priceType"/>
 
             <div class="mb-3">
@@ -106,7 +88,6 @@
                        class="form-control"
                        value="${priceDto.identifier}"
                        readonly>
-
             </div>
 
             <div class="mb-3">
@@ -114,71 +95,49 @@
                 <label class="form-label fw-semibold">
                     Product ID
                 </label>
-
                 <input type="text"
                        class="form-control"
                        value="${priceDto.productId}"
                        readonly>
-
             </div>
-
             <div class="mb-3">
-
                 <label class="form-label fw-semibold">
                     Product Name
                 </label>
-
                 <input type="text"
                        class="form-control"
                        value="${priceDto.productName}"
                        readonly>
-
             </div>
-
             <div class="mb-3">
-
                 <label class="form-label fw-semibold">
                     Price Type
                 </label>
-
                 <input type="text"
                        class="form-control"
                        value="${priceDto.priceType}"
                        readonly>
-
             </div>
-
             <div class="mb-4">
-
                 <label class="form-label fw-semibold">
                     Value
                 </label>
-
                 <form:input path="value"
                             type="number"
                             step="0.01"
                             cssClass="form-control"
                             placeholder="Enter value"
                             required="required"/>
-
             </div>
-
             <div class="d-flex gap-2">
-
                 <button type="submit"
                         class="btn btn-primary w-100">
-
                     Update
-
                 </button>
-
                 <a href="${pageContext.request.contextPath}/price/list"
                    class="btn btn-outline-secondary w-100">
-
                     Cancel
-
                 </a>
-
             </div>
 
         </form:form>

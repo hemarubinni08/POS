@@ -100,7 +100,6 @@
                     <c:forEach items="${brands}" var="brand">
 
                         <tr>
-
                             <td class="fw-semibold">
                                 ${brand.identifier}
                             </td>

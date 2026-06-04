@@ -38,7 +38,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-dark shadow">
     <div class="container-fluid">
         <span class="navbar-brand fw-bold">Customer Management</span>
@@ -50,7 +49,6 @@
     </div>
 </nav>
 
-<!-- MAIN -->
 <div class="container mt-5">
 
     <div class="card shadow p-3">
@@ -78,7 +76,6 @@
 
                 <tbody>
 
-                <!-- EMPTY STATE -->
                 <c:if test="${empty customers}">
                     <tr>
                         <td colspan="10" class="text-center py-4 text-muted">
@@ -87,11 +84,9 @@
                     </tr>
                 </c:if>
 
-                <!-- DATA ROWS -->
                 <c:forEach items="${customers}" var="customer">
                     <tr>
 
-                        <!-- IDENTIFIER -->
                         <td>
                             <a href="/customer/get?identifier=${customer.identifier}"
                                class="fw-semibold text-decoration-none">
@@ -99,7 +94,6 @@
                             </a>
                         </td>
 
-                        <!-- BASIC INFO -->
                         <td class="fw-semibold">${customer.name}</td>
                         <td>${customer.email}</td>
                         <td>${customer.phoneNo}</td>
@@ -108,7 +102,6 @@
                         <td>${customer.partyType}</td>
                         <td>${customer.creditLimit}</td>
 
-                        <!-- STATUS TOGGLE (BRAND STYLE) -->
                         <td class="text-center">
                             <div class="form-check form-switch">
                                 <input class="form-check-input"
@@ -118,9 +111,7 @@
                             </div>
                         </td>
 
-                        <!-- ACTIONS -->
                         <td class="text-center">
-
                             <a href="/customer/get?identifier=${customer.identifier}"
                                class="btn btn-sm btn-outline-primary me-2">
                                 Update
@@ -131,7 +122,6 @@
                                onclick="return confirm('Delete this customer?');">
                                 Delete
                             </a>
-
                         </td>
 
                     </tr>
@@ -147,7 +137,6 @@
 
 </div>
 
-<!-- TOGGLE SCRIPT -->
 <script>
     function toggleCustomer(identifier) {
         window.location.href = "/customer/toggle?identifier=" + identifier;
