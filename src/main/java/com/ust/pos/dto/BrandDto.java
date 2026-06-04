@@ -5,5 +5,4 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BrandDto extends CommonDto {
-}
+public class BrandDto extends CommonDto {}

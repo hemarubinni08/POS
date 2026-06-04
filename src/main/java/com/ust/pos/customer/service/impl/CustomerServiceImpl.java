@@ -48,7 +48,6 @@ public class CustomerServiceImpl implements CustomerService {
         Customer existingCustomer = customerRepository.findByIdentifier(identifier);
 
         if (existingCustomer != null) {
-
             customerDto.setMessage("Customer with identifier - " + identifier + " already exists");
             customerDto.setSuccess(false);
             return customerDto;
@@ -76,7 +75,6 @@ public class CustomerServiceImpl implements CustomerService {
         Customer existingCustomer = customerRepository.findByIdentifier(identifier);
 
         if (existingCustomer == null) {
-
             customerDto.setMessage("Customer with identifier - " + identifier + " not found");
             customerDto.setSuccess(false);
             return customerDto;

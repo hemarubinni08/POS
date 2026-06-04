@@ -30,11 +30,13 @@ public class CategoryServiceImpl implements CategoryService {
 
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
+
         if (existingCategory != null) {
             categoryDto.setMessage("Category with identifier - " + identifier + " already exists");
             categoryDto.setSuccess(false);
             return categoryDto;
         }
+
         Category category = modelMapper.map(categoryDto, Category.class);
         categoryRepository.save(category);
         categoryDto.setSuccess(true);
@@ -43,12 +45,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto update(CategoryDto categoryDto) {
+
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
+
         if (existingCategory == null) {
             categoryDto.setMessage("Category with identifier - " + identifier + " not found");
             categoryDto.setSuccess(false);
             return categoryDto;
+
         }
         modelMapper.map(categoryDto, existingCategory);
         categoryRepository.save(existingCategory);
@@ -76,6 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAllActive() {
+
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         return modelMapper.map(categoryRepository.findByStatus(true), listType);
@@ -83,6 +89,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void changeStatus(String identifier, boolean status) {
+
         Category category = categoryRepository.findByIdentifier(identifier);
         category.setStatus(status);
         categoryRepository.save(category);

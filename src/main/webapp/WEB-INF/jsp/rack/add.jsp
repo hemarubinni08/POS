@@ -141,7 +141,8 @@ button:hover {
 
 <form:form modelAttribute="rackDto"
            action="${pageContext.request.contextPath}/rack/add"
-           method="post">
+           method="post"
+           onsubmit="return validateShelves()">
 
     <label>Rack Name</label>
     <form:input path="identifier" required="true"/>
@@ -153,9 +154,11 @@ button:hover {
         <c:forEach var="s" items="${shelves}">
             <div class="shelf-item">
                 <span>${s.identifier}</span>
-                <form:checkbox path="shelves" value="${s.identifier}" />
+                <form:checkbox path="shelves" value="${s.identifier}" class="shelf-checkbox" />
             </div>
         </c:forEach>
+
+        <span id="shelfError" style="color:red;"></span>
 
     </div>
 
@@ -179,6 +182,23 @@ button:hover {
 </div>
 
 </div>
+
+<script>
+function validateShelves() {
+
+    const checkboxes = document.querySelectorAll(".shelf-checkbox");
+    const checked = Array.from(checkboxes).some(cb => cb.checked);
+    const error = document.getElementById("shelfError");
+
+    if (!checked) {
+        error.innerText = "Please select at least one shelf";
+        return false;
+    }
+
+    error.innerText = "";
+    return true;
+}
+</script>
 
 </body>
 </html>

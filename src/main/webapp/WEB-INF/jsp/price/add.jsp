@@ -131,7 +131,7 @@ function validateForm() {
               onsubmit="return validateForm()">
 
             <label>Product</label>
-            <select name="product">
+            <select name="product" required>
                 <option value="">-- Select Product --</option>
                 <c:forEach items="${products}" var="product">
                     <option value="${product.identifier}">
@@ -141,10 +141,10 @@ function validateForm() {
             </select>
 
             <label>Price</label>
-            <input type="number" step="0.01" name="costPrice" />
+            <input type="number" step="0.01" name="costPrice" required = "true"/>
 
             <label>Price Type</label>
-            <input type="text" name="priceType" />
+            <input type="text" name="priceType" required = "true"/>
 
             <button type="submit" class="btn">Save Price</button>
 

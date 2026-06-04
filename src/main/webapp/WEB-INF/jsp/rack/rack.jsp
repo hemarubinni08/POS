@@ -142,7 +142,8 @@ button:hover {
 <h2>Edit Rack</h2>
 
 <form action="${pageContext.request.contextPath}/rack/update"
-      method="post">
+      method="post"
+      onsubmit="return validateShelves()">
 
     <input type="hidden" name="id" value="${rack.id}" />
 
@@ -153,17 +154,13 @@ button:hover {
     <label>Shelves</label>
 
     <div class="shelf-list">
-
         <c:forEach var="shelf" items="${shelves}">
-
             <div class="shelf-item">
-
                 <span>${shelf.identifier}</span>
-
                 <input type="checkbox"
                        name="shelves"
                        value="${shelf.identifier}"
-
+                       class="shelf-checkbox"
                        <c:if test="${fn:contains(rack.shelves, shelf.identifier)}">
                            checked
                        </c:if>
@@ -172,7 +169,15 @@ button:hover {
             </div>
 
         </c:forEach>
+    </div>
 
+     <div id="shelfError"
+         style="
+            color:red;
+            font-size:13px;
+            margin-top:-10px;
+            margin-bottom:10px;
+         ">
     </div>
 
     <label>Description</label>
@@ -183,7 +188,6 @@ button:hover {
 
 </form>
 
-<!-- Error -->
 <c:if test="${not empty message}">
     <div class="bottom-error">
         ${message}
@@ -197,6 +201,23 @@ button:hover {
 </div>
 
 </div>
+
+<script>
+function validateShelves() {
+
+    const checkboxes = document.querySelectorAll(".shelf-checkbox");
+    const checked = Array.from(checkboxes).some(cb => cb.checked);
+    const error = document.getElementById("shelfError");
+
+    if (!checked) {
+        error.innerText = "Please select at least one shelf";
+        return false;
+    }
+
+    error.innerText = "";
+    return true;
+}
+</script>
 
 </body>
 </html>

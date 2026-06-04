@@ -241,10 +241,6 @@ tbody tr:hover {
             Go to Home
         </a>
 
-        <a href="${pageContext.request.contextPath}/register" class="btn home-btn">
-            Register User
-        </a>
-
     </div>
 
 </div>

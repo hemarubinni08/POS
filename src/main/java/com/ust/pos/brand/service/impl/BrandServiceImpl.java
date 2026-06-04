@@ -36,6 +36,7 @@ public class BrandServiceImpl implements BrandService {
             brandDto.setSuccess(false);
             return brandDto;
         }
+
         Brand brand = modelMapper.map(brandDto, Brand.class);
         brandRepository.save(brand);
         brandDto.setSuccess(true);

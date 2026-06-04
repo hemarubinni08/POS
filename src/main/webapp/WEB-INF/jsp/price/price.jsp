@@ -139,10 +139,10 @@ function validateForm() {
 
             <label>Price</label>
             <input type="number" step="0.01" name="costPrice"
-                   value="${priceDto.costPrice}" />
+                   value="${priceDto.costPrice}" required = "true"/>
 
             <label>Price Type</label>
-            <input type="text" name="priceType" value="${priceDto.priceType}" />
+            <input type="text" name="priceType" value="${priceDto.priceType}" required = "true"/>
 
             <button type="submit" class="btn">Update Price</button>
 

@@ -5,5 +5,4 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ModelDto extends CommonDto {
-}
+public class ModelDto extends CommonDto {}

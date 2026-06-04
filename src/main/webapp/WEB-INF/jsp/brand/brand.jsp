@@ -160,7 +160,7 @@ function validateForm() {
             <div class="form-group">
                 <label>Description</label>
                 <textarea name="description" rows="3"
-                          placeholder="Enter description">${brand.description}</textarea>
+                          placeholder="Enter description" required>${brand.description}</textarea>
             </div>
 
             <div class="btn-container">
