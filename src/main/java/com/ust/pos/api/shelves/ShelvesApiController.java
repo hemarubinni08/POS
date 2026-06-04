@@ -27,8 +27,8 @@ public class ShelvesApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ShelvesDto addPost(@RequestBody ShelvesDto userDto) {
-        return shelvesService.save(userDto);
+    public ShelvesDto addPost(@RequestBody ShelvesDto shelvesDto) {
+        return shelvesService.save(shelvesDto);
 
     }
 
@@ -38,8 +38,8 @@ public class ShelvesApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ShelvesDto updatePost(@RequestBody ShelvesDto userDto) {
-        return shelvesService.update(userDto);
+    public ShelvesDto updatePost(@RequestBody ShelvesDto shelvesDto) {
+        return shelvesService.update(shelvesDto);
 
     }
 

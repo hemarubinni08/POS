@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort;
 @ToString
 @NoArgsConstructor
 public class PaginationDto {
-
     private int page;
     private int sizePerPage = 50;
     private String sortDirection = Sort.Direction.DESC.toString();

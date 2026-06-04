@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
 
     public static final String REDIRECT_CUSTOMER_LIST = "redirect:/customer/list";
+    public static final String CUSTOMER_DTO = "customerDto";
     @Autowired
     private CustomerService customerService;
 
@@ -32,9 +33,7 @@ public class CustomerController {
 
     @GetMapping("/add")
     public String add(Model model) {
-
-
-        model.addAttribute("customerDto", new CustomerDto());
+        model.addAttribute(CUSTOMER_DTO, new CustomerDto());
         return "customer/add";
     }
 
@@ -43,6 +42,7 @@ public class CustomerController {
         CustomerDto response = customerService.save(customerDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
+            model.addAttribute(CUSTOMER_DTO, response);
             return "customer/add";
         }
         return REDIRECT_CUSTOMER_LIST;
@@ -50,12 +50,10 @@ public class CustomerController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         CustomerDto response = customerService.findByIdentifier(identifier);
         response.setBillingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNo(), "billingAddress"));
         response.setShippingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNo(), "shippingAddress"));
-        model.addAttribute("customerDto", response);
-
+        model.addAttribute(CUSTOMER_DTO, response);
         return "customer/customer";
     }
 

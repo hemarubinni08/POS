@@ -42,13 +42,11 @@ public class CustomerApiController extends BaseController {
 
     @GetMapping("/get")
     public CustomerDto update(Model model, @RequestParam String identifier) {
-
         CustomerDto response = customerService.findByIdentifier(identifier);
         response.setBillingAddress(addressService.
                 findByPhoneNoAndAddressType(response.getPhoneNo(), "billingAddress"));
         response.setShippingAddress(addressService.
                 findByPhoneNoAndAddressType(response.getPhoneNo(), "shippingAddress"));
-
         return response;
     }
 

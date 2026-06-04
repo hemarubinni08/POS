@@ -10,7 +10,7 @@ public class AddressDto extends CommonDto {
     private String addressLine;
     private String city;
     private String state;
-    private Long zipcode;
+    private String zipcode;
     private String country;
     private Long phoneNo;
     private String addressType;

@@ -157,11 +157,11 @@ class ShelvesServiceTest {
     void findActiveShelvesTest() {
         List<Shelves> activeShelves = List.of(new Shelves(), new Shelves());
 
-        when(shelvesRepository.findByStatus("Active")).thenReturn(activeShelves);
+        when(shelvesRepository.findByStatus(true)).thenReturn(activeShelves);
         List<Shelves> result = shelvesService.findActiveShelves();
 
         assertEquals(2, result.size());
-        verify(shelvesRepository).findByStatus("Active");
+        verify(shelvesRepository).findByStatus(true);
     }
 
     @Test

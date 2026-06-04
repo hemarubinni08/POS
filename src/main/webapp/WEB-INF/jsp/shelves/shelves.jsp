@@ -19,20 +19,16 @@
             min-height: 100vh;
             font-family: 'Segoe UI', sans-serif;
         }
-
         .card {
             border-radius: 14px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
-
         .card-header {
             background: linear-gradient(135deg, #e5e7eb, #f3f4f6);
         }
-
         .form-control, .form-select {
             border-radius: 8px;
         }
-
         .btn-primary {
             background: #3b82f6;
         }
@@ -51,7 +47,6 @@
             <div class="card-header text-center">
                 <h4>Update Shelves</h4>
             </div>
-
             <div class="card-body">
                 <form:form method="post"
                            action="${pageContext.request.contextPath}/shelves/update"
@@ -63,7 +58,6 @@
                                     cssClass="form-control"
                                     readonly="true"/>
                     </div>
-
                     <div class="d-grid">
                         <button class="btn btn-primary">Update Shelves</button>
                     </div>

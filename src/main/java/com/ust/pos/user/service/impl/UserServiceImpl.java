@@ -52,28 +52,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(UserDto userDto) {
-
         String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
-
         if (userOptional.isEmpty()) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + username + " not found");
             userDto.setSuccess(false);
             return userDto;
         }
-
         User existingUser = userOptional.get();
-
         if (!username.equalsIgnoreCase(existingUser.getUsername())
                 && userRepository.findByUsername(username) != null) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + username + " already exists");
             userDto.setSuccess(false);
             return userDto;
         }
-
         modelMapper.map(userDto, existingUser);
         userRepository.save(existingUser);
-
         return userDto;
     }
 

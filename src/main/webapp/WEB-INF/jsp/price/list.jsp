@@ -21,7 +21,6 @@
             align-items: center;
             font-family: 'Segoe UI', sans-serif;
         }
-
         .card {
             width: 900px;
             border-radius: 15px;
@@ -29,7 +28,6 @@
             background: rgba(255, 255, 255, 0.9);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         }
-
         .card-header {
             background: linear-gradient(135deg, #e5e7eb, #f3f4f6);
             border-top-left-radius: 15px;
@@ -37,17 +35,14 @@
             color: #111827;
             font-weight: 600;
         }
-
         table th {
             background: #e5e7eb;
             color: #111827;
         }
-
         table td {
             background: #f9fafb;
             color: #111827;
         }
-
         .icon-btn {
             border: none;
             padding: 6px 10px;
@@ -56,33 +51,26 @@
             transition: 0.2s;
             color: white;
         }
-
         .icon-btn:hover {
             transform: scale(1.1);
         }
-
         .edit-btn {
             background: #3b82f6;
         }
-
         .delete-btn {
             background: #ef4444;
         }
-
         .btn-primary {
             background: #3b82f6;
             border: none;
         }
-
         .btn-primary:hover {
             background: #2563eb;
         }
-
         .btn-secondary {
             background: #6b7280;
             border: none;
         }
-
         .btn-secondary:hover {
             background: #4b5563;
         }
@@ -98,13 +86,11 @@
     </div>
 
     <div class="card-body">
-
         <c:if test="${empty prices}">
             <div class="alert alert-warning text-center">
                 No prices available
             </div>
         </c:if>
-
         <c:if test="${not empty prices}">
             <table class="table table-bordered table-hover text-center align-middle">
 
@@ -118,10 +104,10 @@
                     <th>Delete</th>
                 </tr>
                 </thead>
+
                 <tbody>
                 <c:forEach var="price" items="${prices}">
                     <tr>
-
                         <td>${price.identifier}</td>
                         <td>${price.product}</td>
                         <td>${price.priceAmount}</td>
@@ -132,7 +118,6 @@
                                 <i class="bi bi-pencil-square"></i>
                             </a>
                         </td>
-
                         <td>
                             <a href="${pageContext.request.contextPath}/price/delete?identifier=${price.identifier}"
                                class="icon-btn delete-btn"
@@ -151,7 +136,6 @@
            class="btn btn-secondary">
             Home
         </a>
-
         <a href="${pageContext.request.contextPath}/price/add"
            class="btn btn-primary">
             + Add Price

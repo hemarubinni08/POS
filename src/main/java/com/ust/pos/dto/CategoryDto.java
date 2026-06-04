@@ -9,5 +9,4 @@ import java.util.List;
 @Setter
 public class CategoryDto extends CommonDto {
     private List<String> superCategory;
-
 }

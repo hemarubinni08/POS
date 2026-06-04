@@ -26,10 +26,9 @@ public class NodeApiController extends BaseController {
         return nodeService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
-    public NodeDto addPost(@RequestBody NodeDto userDto) {
-        return nodeService.save(userDto);
+    public NodeDto addPost(@RequestBody NodeDto nodeDto) {
+        return nodeService.save(nodeDto);
 
     }
 
@@ -39,8 +38,8 @@ public class NodeApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public NodeDto updatePost(@RequestBody NodeDto userDto) {
-        return nodeService.update(userDto);
+    public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
+        return nodeService.update(nodeDto);
 
     }
 

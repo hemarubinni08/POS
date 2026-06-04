@@ -62,7 +62,6 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.deleteByIdentifier(identifier);
     }
 
-
     @Override
     public List<RoleDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<RoleDto>>() {

@@ -194,6 +194,5 @@ function toggleSidebar() {
     document.getElementById("content").classList.toggle("shift");
 }
 </script>
-
 </body>
 </html>

@@ -36,8 +36,8 @@ public class StockController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute StockDto userDto) {
-        StockDto response = stockService.save(userDto);
+    public String addPost(Model model, @ModelAttribute StockDto stockDto) {
+        StockDto response = stockService.save(stockDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "stock/add";
@@ -55,11 +55,10 @@ public class StockController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute StockDto userDto) {
-        StockDto response = stockService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute StockDto stockDto) {
+        StockDto response = stockService.update(stockDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-
         }
         return REDIRECT_STOCK_LIST;
     }

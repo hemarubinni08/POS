@@ -22,13 +22,13 @@ public class BrandController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute BrandDto userDto) {
+    public String add(Model model, @ModelAttribute BrandDto brandDto) {
         return "brand/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute BrandDto userDto) {
-        BrandDto response = brandService.save(userDto);
+    public String addPost(Model model, @ModelAttribute BrandDto brandDto) {
+        BrandDto response = brandService.save(brandDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "brand/add";
@@ -44,8 +44,8 @@ public class BrandController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute BrandDto userDto) {
-        BrandDto response = brandService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute BrandDto brandDto) {
+        BrandDto response = brandService.update(brandDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
 

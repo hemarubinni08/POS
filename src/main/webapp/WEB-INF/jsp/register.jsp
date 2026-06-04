@@ -172,6 +172,9 @@
 
         <button type="submit" class="btn-submit">Register</button>
 
+        <button type="button" class="btn-submit"
+              onclick="window.location.href='${pageContext.request.contextPath}/login
+
     </form:form>
 
 </div>

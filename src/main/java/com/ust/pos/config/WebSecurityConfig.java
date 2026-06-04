@@ -42,7 +42,7 @@ public class WebSecurityConfig {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http,JwtFilter jwtFilter) {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -50,16 +50,13 @@ public class WebSecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-
                         .requestMatchers("/login", "/register", "/api/authenticate", "/api/validateToken", "/swagger-ui/**", "/v3/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(org.springframework.security.config.annotation.web.configurers.LogoutConfigurer::permitAll);
-
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(

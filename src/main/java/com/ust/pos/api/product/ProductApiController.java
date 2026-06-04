@@ -27,8 +27,8 @@ public class ProductApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ProductDto addPost(@RequestBody ProductDto userDto) {
-        return productService.save(userDto);
+    public ProductDto addPost(@RequestBody ProductDto productDto) {
+        return productService.save(productDto);
 
     }
 
@@ -38,8 +38,8 @@ public class ProductApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ProductDto updatePost(@RequestBody ProductDto userDto) {
-        return productService.update(userDto);
+    public ProductDto updatePost(@RequestBody ProductDto productDto) {
+        return productService.update(productDto);
 
     }
 

@@ -68,5 +68,4 @@ public class WarehouseServiceImpl implements WarehouseService {
         Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
         return modelMapper.map(warehousePage.getContent(), listType);
     }
-
 }

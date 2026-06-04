@@ -10,4 +10,3 @@ import lombok.Setter;
 public class Unit extends CommonFields {
     private boolean status;
 }
-

@@ -21,24 +21,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
-
         http
                 .csrf(csrf -> csrf.disable()) // Disable for testing
-
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-
                         .requestMatchers("/login", "/register", "/api/**").permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/", true)
                         .failureUrl("/login?error")
                         .permitAll()
                 )
-
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()

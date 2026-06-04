@@ -70,7 +70,7 @@ public class ShelvesServiceImpl implements ShelvesService {
 
     @Override
     public List<Shelves> findActiveShelves() {
-        return shelvesRepository.findByStatus("Active");
+        return shelvesRepository.findByStatus(true);
     }
 
     @Override

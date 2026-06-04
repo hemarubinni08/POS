@@ -9,5 +9,4 @@ import lombok.Setter;
 @Entity
 public class Models extends CommonFields {
     private boolean status;
-
 }

@@ -16,12 +16,10 @@
             min-height: 100vh;
             font-family: 'Segoe UI', sans-serif;
         }
-
         .container {
             max-width: 750px;
             margin: auto;
         }
-
         .card {
             border-radius: 14px;
             border: 1px solid #e5e7eb;
@@ -29,7 +27,6 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
             padding: 20px;
         }
-
         .card-header {
             background: linear-gradient(135deg, #e5e7eb, #f3f4f6);
             border-radius: 14px 14px 0 0;
@@ -37,12 +34,10 @@
             margin: -20px -20px 20px -20px;
             padding: 15px;
         }
-
         label {
             font-weight: 600;
             margin-bottom: 5px;
         }
-
         input, select {
             width: 100%;
             padding: 10px;
@@ -50,29 +45,24 @@
             border-radius: 8px;
             border: 1px solid #d1d5db;
         }
-
         input:focus, select:focus {
             outline: none;
             border-color: #3b82f6;
             box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
         }
-
         .section-title {
             font-weight: 600;
             margin: 20px 0 10px;
         }
-
         .toggle-header {
             cursor: pointer;
             font-weight: 600;
             margin-top: 15px;
         }
-
         .toggle-content {
             display: none;
             margin-top: 10px;
         }
-
         .btn-submit {
             width: 100%;
             padding: 12px;
@@ -82,20 +72,17 @@
             border-radius: 8px;
             font-size: 16px;
         }
-
         .alert {
             padding: 10px;
             margin-bottom: 15px;
             border-radius: 6px;
             text-align: center;
         }
-
         .alert-success {
             background: #e6f4ea;
             color: #1e7e34;
         }
     </style>
-
     <script>
         function toggleSection(id) {
             const section = document.getElementById(id);
@@ -110,37 +97,29 @@
 
 <div class="container mt-5">
     <div class="card">
-
         <div class="card-header">
             <h4>Update Customer</h4>
         </div>
-
         <c:if test="${not empty customer}">
             <div class="alert alert-success">
                 ${customer}
             </div>
         </c:if>
-
         <form:form action="/customer/update" method="post" modelAttribute="customerDto">
-
             <div class="section-title">Basic Details</div>
-
             <div class="row">
                 <div class="col-md-6">
                     <label>Name</label>
                     <form:input path="name" readonly="true"/>
                 </div>
-
                 <div class="col-md-6">
                     <label>Phone</label>
                     <form:input path="phoneNo" type="tel" required="true"/>
                 </div>
-
                 <div class="col-md-6">
                     <label>Email</label>
                     <form:input path="identifier" type="email" readonly="true"/>
                 </div>
-
                 <div class="col-md-6">
                     <label>Party Type</label>
                     <form:select path="userType">
@@ -157,39 +136,32 @@
                     <label>Balance</label>
                     <form:input path="balance" type="number" required="true"/>
                 </div>
-
                 <div class="col-md-6">
                     <label>Credit Limit</label>
                     <form:input path="creditLimit" type="number" required="true"/>
                 </div>
             </div>
-
             <div class="toggle-header" onclick="toggleSection('ship')">
                 ▶ Shipping Address
             </div>
-
             <div id="ship" class="toggle-content">
                 <div class="row">
                     <div class="col-md-12">
                         <label>Address</label>
                         <form:input path="shippingAddress.addressLine"/>
                     </div>
-
                     <div class="col-md-6">
                         <label>City</label>
                         <form:input path="shippingAddress.city"/>
                     </div>
-
                     <div class="col-md-6">
                         <label>State</label>
                         <form:input path="shippingAddress.state"/>
                     </div>
-
                     <div class="col-md-6">
                         <label>Zip</label>
                         <form:input path="shippingAddress.zipcode"/>
                     </div>
-
                     <div class="col-md-6">
                         <label>Country</label>
                         <form:input path="shippingAddress.country"/>
@@ -202,33 +174,27 @@
                     </div>
                 </div>
             </div>
-
             <div class="toggle-header" onclick="toggleSection('bill')">
                 ▶ Billing Address
             </div>
-
             <div id="bill" class="toggle-content">
                 <div class="row">
                     <div class="col-md-12">
                         <label>Address</label>
                         <form:input path="billingAddress.addressLine"/>
                     </div>
-
                     <div class="col-md-6">
                         <label>City</label>
                         <form:input path="billingAddress.city"/>
                     </div>
-
                     <div class="col-md-6">
                         <label>State</label>
                         <form:input path="billingAddress.state"/>
                     </div>
-
                     <div class="col-md-6">
                         <label>Zip</label>
                         <form:input path="billingAddress.zipcode"/>
                     </div>
-
                     <div class="col-md-6">
                         <label>Country</label>
                         <form:input path="billingAddress.country"/>

@@ -14,7 +14,6 @@ import java.util.List;
 @RequestMapping("/api/price")
 public class PriceApiController extends BaseController {
 
-
     @Autowired
     private PriceService priceService;
 
@@ -27,10 +26,9 @@ public class PriceApiController extends BaseController {
         return priceService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
-    public PriceDto addPost(@RequestBody PriceDto userDto) {
-        return priceService.save(userDto);
+    public PriceDto addPost(@RequestBody PriceDto priceDto) {
+        return priceService.save(priceDto);
 
     }
 
@@ -40,8 +38,8 @@ public class PriceApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public PriceDto updatePost(@RequestBody PriceDto userDto) {
-        return priceService.update(userDto);
+    public PriceDto updatePost(@RequestBody PriceDto priceDto) {
+        return priceService.update(priceDto);
 
     }
 
