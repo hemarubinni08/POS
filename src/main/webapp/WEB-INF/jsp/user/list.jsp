@@ -151,7 +151,7 @@
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
                 <a href="/" class="btn btn-secondary">Home</a>
-                <a href="/register" class="btn btn-success">Register</a>
+                <a href="/register" class="btn btn-success">AddUser</a>
             </div>
             <div class="text-muted small mt-2">
                 User Management System
