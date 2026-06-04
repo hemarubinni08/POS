@@ -158,13 +158,14 @@
         <div class="mb-3">
             <label class="form-label">Phone Number <span class="text-danger">*</span></label>
             <form:input path="phoneNo"
-                      type="tel"
-                      cssClass="form-control"
-                      placeholder="Enter 10-digit number"
-                      required="required"
-                      maxlength="10"
-                      pattern="^[6-9][0-9]{9}$"
-                      title="Enter valid 10-digit mobile number starting with 6-9" />
+                  type="tel"
+                  cssClass="form-control"
+                  placeholder="Enter 10-digit number"
+                  required="required"
+                  maxlength="10"
+                  pattern="^[6-9][0-9]{9}$"
+                  title="Enter valid 10-digit mobile number starting with 6-9"
+                  oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)" />
         </div>
         <div class="mb-4">
             <label class="form-label">Password <span class="text-danger">*</span></label>

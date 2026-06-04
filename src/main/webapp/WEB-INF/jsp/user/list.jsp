@@ -116,30 +116,13 @@
             border-radius: 6px;
         }
 
-        .register-btn {
-            background-color:  #4B2E2B;
-            color: #FFF8F0;
-            border: none;
-            padding: 8px 18px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-block;
-        }
-
         .btn-delete {
-            background-color: #8d3c36;
+            background-color: #4B2E2B;
             color: #FFF8F0;
         }
 
         .btn-delete:hover {
-            background-color: #702f2a;
-            color: #FFF8F0;
-        }
-
-        .register-btn:hover {
-            background-color: #4B2E2B;
+            background-color: #3a2421;
             color: #FFF8F0;
         }
 
@@ -147,13 +130,25 @@
             font-size: 13px;
             color: #FFF8F0;
         }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h3 class="text-center mb-4">User Management</h3>
+            <div class="page-header">
+                <h3 class="mb-0">User Management</h3>
+                <a href="/" class="btn btn-secondary">
+                    Home
+                </a>
+            </div>
             <c:if test="${empty users}">
                 <div class="alert alert-warning text-center">
                     No users found
@@ -179,21 +174,21 @@
                                 <td>${user.name}</td>
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
-                               <td>
-                                   <a href="/user/get?username=${user.username}"
-                                      class="btn-edit btn-icon"
-                                      title="Edit User">
+                                <td>
+                                    <a href="/user/get?username=${user.username}"
+                                       class="btn-edit btn-icon"
+                                       title="Edit User">
                                        <i class="fa-solid fa-pen"></i>
-                                   </a>
-                               </td>
-                               <td>
-                                   <a href="/user/delete?username=${user.username}"
-                                      class="btn-delete btn-icon"
-                                      title="Delete User"
-                                      onclick="return confirm('Are you sure you want to delete this user?');">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/user/delete?username=${user.username}"
+                                       class="btn-delete btn-icon"
+                                       title="Delete User"
+                                       onclick="return confirm('Are you sure you want to delete this user?');">
                                        <i class="fa-solid fa-trash"></i>
-                                   </a>
-                               </td>
+                                    </a>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -202,12 +197,7 @@
             </c:if>
         </div>
         <div class="card-footer text-center">
-            <div class="d-flex justify-content-center gap-3">
-                <a href="/" class="btn btn-secondary">
-                    Home
-                </a>
-            </div>
-            <div class="text-muted small mt-2">
+            <div class="text-muted small">
                 User Management System
             </div>
         </div>

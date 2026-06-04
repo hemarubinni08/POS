@@ -4,10 +4,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta charset="UTF-8">
     <title>Roles Management</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             box-sizing: border-box;
@@ -29,11 +29,17 @@
             box-shadow: 0 18px 35px rgba(75, 46, 43, 0.25);
         }
 
-        h2 {
-            text-align: center;
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 25px;
+        }
+
+        h2 {
             color: #4B2E2B;
             font-weight: 600;
+            margin: 0;
         }
 
         table {
@@ -48,7 +54,8 @@
             color: #FFF8F0;
         }
 
-        th, td {
+        th,
+        td {
             padding: 14px;
             text-align: center;
         }
@@ -86,48 +93,54 @@
         }
 
         .btn-delete {
-            background-color: #8d3c36;
+            background-color: #4B2E2B;
             color: #FFF8F0;
         }
 
         .btn-delete:hover {
-            background-color: #702f2a;
+            background-color: #3a2421;
         }
 
-        .top-bar {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .home-btn {
-            display: inline-block;
-            background-color: #6b4a46;
+        .register-btn {
+            background-color: #4B2E2B;
             color: #FFF8F0;
+            border: none;
             padding: 8px 18px;
-            border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
+            border-radius: 8px;
             text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .home-btn:hover {
-            background-color: #4B2E2B;
-        }
-
-        .add-role {
             display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
+            margin-right: 10px;
+        }
+
+        .register-btn:hover {
+            background-color: #3a2421;
+            color: #FFF8F0;
+        }
+
+        .btn-secondary {
             background-color: #4B2E2B;
             color: #FFF8F0;
-            border-radius: 10px;
+            border: none;
+            padding: 8px 18px;
+            font-size: 14px;
             font-weight: 600;
+            border-radius: 8px;
             text-decoration: none;
+            display: inline-block;
         }
 
-        .add-role:hover {
+        .btn-secondary:hover {
             background-color: #3a2421;
+            color: #FFF8F0;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #8d3c36;
+            font-weight: 600;
+            padding: 20px;
         }
 
         @media (max-width: 900px) {
@@ -138,14 +151,29 @@
             table {
                 font-size: 12px;
             }
+
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h2>Roles Management</h2>
+    <div class="page-header">
+        <h2>Roles Management</h2>
+        <div>
+            <a href="/role/add" class="register-btn">
+                <i class="fa-solid fa-plus"></i> Add Role
+            </a>
+            <a href="/" class="btn-secondary">
+                Home
+            </a>
+        </div>
+    </div>
     <c:if test="${empty roles}">
-        <div style="text-align:center; color:#8d3c36; font-weight:600;">
+        <div class="empty-message">
             No roles found
         </div>
     </c:if>
@@ -168,17 +196,17 @@
                     <td>${role.description}</td>
                     <td>
                         <a class="btn btn-edit"
-                            href="/role/get?identifier=${role.identifier}"
-                            title="Edit Role">
-                            <i class="fa-solid fa-pen"></i>
+                           href="/role/get?identifier=${role.identifier}"
+                           title="Edit Role">
+                           <i class="fa-solid fa-pen"></i>
                         </a>
                     </td>
                     <td>
                         <a class="btn btn-delete"
-                            href="/role/delete?identifier=${role.identifier}"
-                            title="Delete Role"
-                            onclick="return confirm('Are you sure you want to delete this role?');">
-                            <i class="fa-solid fa-trash"></i>
+                           href="/role/delete?identifier=${role.identifier}"
+                           title="Delete Role"
+                           onclick="return confirm('Are you sure you want to delete this role?');">
+                           <i class="fa-solid fa-trash"></i>
                         </a>
                     </td>
                 </tr>
@@ -186,12 +214,6 @@
             </tbody>
         </table>
     </c:if>
-    <div class="top-bar">
-        <a href="/" class="home-btn">Home</a>
-    </div>
-    <div style="text-align:center;">
-        <a href="/role/add" class="add-role">+ Add New Role</a>
-    </div>
 </div>
 </body>
 </html>
