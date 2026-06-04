@@ -91,7 +91,6 @@ public class NodeServiceImpl implements NodeService {
     }
 
     private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtoList) {
-
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesStr = new HashSet<>();
         List<Node> nodeList = nodeRepository.findAll();
@@ -107,5 +106,4 @@ public class NodeServiceImpl implements NodeService {
             nodeDtoList.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
         }
     }
-
 }
