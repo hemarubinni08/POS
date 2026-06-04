@@ -125,22 +125,24 @@ class CategoryServiceTest {
     }
 
     @Test
-    void findAllWithoutNullTest() {
+    void findBySuperCategoryNotNull() {
+        Category category1 = new Category();
+        category1.setSuperCategory("Parent");
+        List<Category> entities = List.of(category1);
         CategoryDto dto1 = new CategoryDto();
         dto1.setSuperCategory("Parent");
-        CategoryDto dto2 = new CategoryDto();
-        dto2.setSuperCategory(null);
-        List<Category> entities = List.of(new Category(), new Category());
-        List<CategoryDto> dtoList = List.of(dto1, dto2);
-        Type listType = new TypeToken<List<CategoryDto>>() {
-        }.getType();
-        Mockito.when(categoryRepository.findAll())
+        List<CategoryDto> dtoList = List.of(dto1);
+        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Mockito.when(categoryRepository.findBySuperCategoryIsNot(""))
                 .thenReturn(entities);
         Mockito.when(modelMapper.map(entities, listType))
                 .thenReturn(dtoList);
         List<CategoryDto> result = categoryService.findBySuperCategoryNotNull();
         Assertions.assertEquals(1, result.size());
-        Assertions.assertNotNull(result.get(0).getSuperCategory());
+        Assertions.assertEquals("Parent", result.get(0).getSuperCategory());
+
+        Mockito.verify(categoryRepository)
+                .findBySuperCategoryIsNot("");
     }
 
     @Test
