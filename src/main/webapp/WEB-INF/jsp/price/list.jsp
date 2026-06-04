@@ -5,16 +5,13 @@
 <html>
 <head>
     <title>Price List</title>
-
     <style>
-
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f7f6;
             padding: 40px;
             color: #333;
         }
-
         .container {
             max-width: 1100px;
             margin: 0 auto;
@@ -23,7 +20,6 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
-
         .header {
             display: flex;
             justify-content: space-between;
@@ -161,7 +157,6 @@
             <c:forEach var="itemPrice" items="${price}">
 
                 <tr>
-
                     <td>${itemPrice.id}</td>
 
                     <td>${itemPrice.identifier}</td>
@@ -174,31 +169,21 @@
 
                     <!-- ACTIONS -->
                     <td>
-
                         <a href="/price/get?identifier=${itemPrice.identifier}"
                            class="btn btn-edit">
                             Edit
                         </a>
-
                         <a href="/price/delete?identifier=${itemPrice.identifier}"
                            class="btn btn-delete"
                            onclick="return confirm('Are you sure you want to delete this price?');">
                             Delete
                         </a>
-
                     </td>
-
                 </tr>
-
             </c:forEach>
-
             </tbody>
-
         </table>
-
     </c:if>
-
 </div>
-
 </body>
 </html>

@@ -12,7 +12,6 @@
             padding: 40px;
             color: #333;
         }
-
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -21,7 +20,6 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
         .header {
             display: flex;
             justify-content: space-between;
@@ -30,14 +28,11 @@
             padding-bottom: 15px;
             margin-bottom: 20px;
         }
-
         h2 { margin: 0; }
-
         .header-buttons {
             display: flex;
             gap: 8px;
         }
-
         .btn {
             padding: 8px 15px;
             text-decoration: none;
@@ -47,17 +42,14 @@
             font-weight: bold;
             display: inline-block;
         }
-
         .btn-home     { background-color: #6c757d; }
         .btn-add      { background-color: #28a745; }
         .btn-edit     { background-color: #007bff; padding: 6px 12px; }
         .btn-delete   { background-color: #dc3545; padding: 6px 12px; }
-
         table {
             width: 100%;
             border-collapse: collapse;
         }
-
         th {
             background-color: #f8f9fa;
             color: #666;
@@ -67,16 +59,13 @@
             font-size: 14px;
             white-space: nowrap;
         }
-
         td {
             padding: 12px 15px;
             border-bottom: 1px solid #eee;
             font-size: 14px;
             vertical-align: middle;
         }
-
         tr:hover { background-color: #fafafa; }
-
         .badge {
             display: inline-block;
             background: #e9ecef;
@@ -89,15 +78,12 @@
             border: 1px solid #ddd;
             margin: 2px;
         }
-
         .text-muted { color: #999; }
-
         .action-buttons {
             display: flex;
             gap: 8px;
             align-items: center;
         }
-
         .empty-msg {
             text-align: center;
             padding: 40px;
@@ -105,11 +91,8 @@
         }
     </style>
 </head>
-
 <body>
-
 <div class="container">
-
     <!-- HEADER -->
     <div class="header">
         <h2>User Management</h2>
@@ -117,12 +100,10 @@
             <a href="/" class="btn btn-home">Home</a>
         </div>
     </div>
-
     <!-- EMPTY -->
     <c:if test="${empty users}">
         <div class="empty-msg">No users found</div>
     </c:if>
-
     <!-- TABLE -->
     <c:if test="${not empty users}">
         <table>
@@ -136,18 +117,13 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-
             <tbody>
             <c:forEach var="user" items="${users}">
                 <tr>
                     <td>${user.id}</td>
-
                     <td>${user.username}</td>
-
                     <td>${user.name}</td>
-
                     <td>${user.phoneNo}</td>
-
                     <!-- ROLES -->
                     <td>
                         <c:choose>
@@ -161,7 +137,6 @@
                             </c:otherwise>
                         </c:choose>
                     </td>
-
                     <!-- ACTIONS -->
                     <td>
                         <div class="action-buttons">
@@ -174,14 +149,11 @@
                             </a>
                         </div>
                     </td>
-
                 </tr>
             </c:forEach>
             </tbody>
         </table>
     </c:if>
-
 </div>
-
 </body>
 </html>

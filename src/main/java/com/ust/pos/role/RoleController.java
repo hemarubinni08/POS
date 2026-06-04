@@ -29,11 +29,11 @@ public class RoleController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute RoleDto userDto) {
+    public String addPost(Model model,Pageable pageable, @ModelAttribute RoleDto userDto) {
         RoleDto response = roleService.save(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("roles", roleService.findAll(null));
+            model.addAttribute("roles", roleService.findAll(pageable));
             return "role/add";
         }
         return REDIRECT_ROLE_LIST;

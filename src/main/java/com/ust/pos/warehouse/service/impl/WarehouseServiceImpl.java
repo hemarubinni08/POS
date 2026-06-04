@@ -37,8 +37,8 @@ public class WarehouseServiceImpl implements WarehouseService {
             warehouseDto.setSuccess(false);
             return warehouseDto;
         }
-        Warehouse product = modelMapper.map(warehouseDto, Warehouse.class);
-        wareHouseRepository.save(product);
+        Warehouse warehouse = modelMapper.map(warehouseDto, Warehouse.class);
+        wareHouseRepository.save(warehouse);
         return warehouseDto;
     }
 
