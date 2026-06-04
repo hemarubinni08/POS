@@ -172,19 +172,14 @@
 <body>
 
 <div class="container">
-
     <div class="card">
-
         <div class="card-header">
             User Management
         </div>
-
         <div class="card-body">
-
             <c:if test="${empty users}">
                 <div class="alert">No users found</div>
             </c:if>
-
             <c:if test="${not empty users}">
                 <table>
                     <thead>
@@ -196,7 +191,6 @@
                         <th>Action</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <c:forEach var="user" items="${users}">
                         <tr>
@@ -209,7 +203,6 @@
                                    href="${pageContext.request.contextPath}/user/get?username=${user.username}">
                                     Edit
                                 </a>
-
                                 <a class="btn btn-danger"
                                    href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
                                    onclick="return confirm('Are you sure you want to delete this user?');">
@@ -230,16 +223,10 @@
                 <a href="${pageContext.request.contextPath}/" class="btn btn-home">
                     Home
                 </a>
-
-
-                <a href="${pageContext.request.contextPath}/register" class="btn btn-success">
-                    + Add User
-                </a>
             </div>
         </div>
 
     </div>
 </div>
-
 </body>
 </html>
