@@ -102,7 +102,6 @@
                 <form:form action="register"
                            method="post"
                            modelAttribute="userDto">
-                    <!-- Name -->
                     <div class="mb-4">
                         <label class="form-label">
                             Full Name
@@ -111,7 +110,6 @@
                                     cssClass="form-control"
                                     required="true"/>
                     </div>
-                    <!-- Email -->
                     <div class="mb-4">
                         <label class="form-label">
                             Email Address
@@ -123,7 +121,6 @@
                                     pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
                                     title="Enter a valid Gmail address"/>
                     </div>
-                    <!-- Roles -->
                     <div class="mb-4">
                         <label class="form-label">
                             Assigned Roles
@@ -141,7 +138,6 @@
                             Hold Ctrl (Windows) or Cmd (Mac) for multiple selection.
                         </div>
                     </div>
-                    <!-- Mobile Number -->
                     <div class="mb-4">
                         <label class="form-label">
                             Mobile Number
@@ -154,7 +150,6 @@
                                     maxlength="10"
                                     title="Enter a valid 10-digit mobile number"/>
                     </div>
-                    <!-- Password -->
                     <div class="mb-4">
                         <label class="form-label">
                             Password
@@ -165,7 +160,6 @@
                                        pattern=".{6,}"
                                        title="Password must be at least 6 characters"/>
                     </div>
-                    <!-- Buttons -->
                     <div class="d-flex justify-content-between mt-3">
                         <a href="${pageContext.request.contextPath}/user/list"
                            class="btn btn-secondary">

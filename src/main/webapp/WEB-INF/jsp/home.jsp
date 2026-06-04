@@ -14,7 +14,6 @@
             display: flex;
         }
 
-        /* Sidebar Styling */
         .sidebar {
             width: 240px;
             background-color: #ffffff;
@@ -55,7 +54,6 @@
             color: #007bff;
         }
 
-        /* Main Content Styling */
         .content {
             margin-left: 240px;
             flex: 1;
@@ -96,7 +94,6 @@
             font-size: 14px;
         }
 
-        /* Logout Button */
         .btn-logout {
             text-decoration: none;
             color: #dc3545;

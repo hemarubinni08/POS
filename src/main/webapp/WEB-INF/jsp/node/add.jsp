@@ -111,7 +111,6 @@
                 <form action="${pageContext.request.contextPath}/node/add"
                       method="post">
 
-                    <!-- Node Name -->
                     <div class="mb-4">
                         <label class="form-label">
                             Node Name
@@ -125,7 +124,6 @@
                                required>
                     </div>
 
-                    <!-- Path -->
                     <div class="mb-4">
                         <label class="form-label">
                             Path
@@ -139,7 +137,6 @@
                                required>
                     </div>
 
-                    <!-- Roles -->
                     <div class="mb-4">
                         <label class="form-label">
                             Roles
@@ -163,7 +160,6 @@
                         </div>
                     </div>
 
-                    <!-- Buttons -->
                     <div class="d-flex justify-content-between mt-4">
 
                         <a href="${pageContext.request.contextPath}/node/list"

@@ -87,7 +87,6 @@
 </head>
 <body>
 <form action="${pageContext.request.contextPath}/login" method="post">
-    <!-- Error Message -->
     <c:if test="${param.error != null}">
         <div class="error-msg">
             Invalid username or password
