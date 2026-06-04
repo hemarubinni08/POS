@@ -49,8 +49,8 @@ public class BrandApiController extends BaseController {
     }
 
     @PostMapping("/togglestatus")
-    public BrandDto toggle(@RequestBody BrandDto dto) {
-        return brandService.toggleStatus(dto.getIdentifier(), dto.isStatus());
+    public BrandDto toggle(@RequestBody BrandDto brandDto) {
+        return brandService.toggleStatus(brandDto.getIdentifier(), brandDto.isStatus());
     }
 
 }

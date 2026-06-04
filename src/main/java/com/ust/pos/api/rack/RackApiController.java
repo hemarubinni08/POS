@@ -49,8 +49,8 @@ public class RackApiController extends BaseController {
     }
 
     @PostMapping("/togglestatus")
-    public RackDto toggle(@RequestBody RackDto dto) {
-        return rackService.toggleStatus(dto.getIdentifier(), dto.isStatus());
+    public RackDto toggle(@RequestBody RackDto rackDto) {
+        return rackService.toggleStatus(rackDto.getIdentifier(), rackDto.isStatus());
     }
 
     @GetMapping("/rackstatus")

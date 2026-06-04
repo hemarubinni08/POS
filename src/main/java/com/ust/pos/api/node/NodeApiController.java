@@ -24,8 +24,8 @@ public class NodeApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public NodeDto addPost(@RequestBody NodeDto userDto) {
-        return nodeService.save(userDto);
+    public NodeDto addPost(@RequestBody NodeDto nodeDto) {
+        return nodeService.save(nodeDto);
     }
 
     @GetMapping("/get")
@@ -34,9 +34,9 @@ public class NodeApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public boolean updatePost(@RequestBody NodeDto userDto) {
+    public boolean updatePost(@RequestBody NodeDto nodeDto) {
         try {
-            nodeService.update(userDto);
+            nodeService.update(nodeDto);
         } catch (Exception e) {
             return false;
         }

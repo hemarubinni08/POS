@@ -51,8 +51,8 @@ public class CustomerApiController extends BaseController {
     }
 
     @PostMapping("/togglestatus")
-    public CustomerDto toggle(@RequestBody CustomerDto dto) {
-        return customerService.toggleStatus(dto.getIdentifier(), dto.isStatus());
+    public CustomerDto toggle(@RequestBody CustomerDto customerDto) {
+        return customerService.toggleStatus(customerDto.getIdentifier(), customerDto.isStatus());
     }
 
 }
