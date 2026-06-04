@@ -19,7 +19,7 @@ public class ModelsController extends BaseController {
 
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
-        model.addAttribute("modelss", modelsService.findAll(pageable));
+        model.addAttribute("models", modelsService.findAll(pageable));
         return "models/list";
     }
 
