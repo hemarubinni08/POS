@@ -15,7 +15,6 @@
             color: #111827;
         }
 
-        /* ===== TOP BAR ===== */
         .topbar {
             height: 56px;
             background-color: #020617;
@@ -64,7 +63,6 @@
             cursor: pointer;
         }
 
-        /* ===== PAGE ===== */
         .page-title {
             text-align: center;
             padding: 22px 0 14px;
@@ -83,7 +81,6 @@
             padding: 26px;
         }
 
-        /* ACTION BAR */
         .list-actions {
             display: flex;
             justify-content: flex-end;
@@ -104,7 +101,6 @@
             background-color: #1d4ed8;
         }
 
-        /* ===== TABLE ===== */
         table {
             width: 100%;
             border-collapse: separate;
@@ -166,7 +162,6 @@
             background-color: #b91c1c;
         }
 
-        /* STATUS TOGGLE (ADDED) */
         .status-btn {
             border: none;
             padding: 6px 16px;
@@ -188,7 +183,6 @@
 
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
     <div class="topbar-left">
         <div class="top-title">POS Application</div>
@@ -204,7 +198,6 @@
 
 <div class="container">
 
-    <!-- ADD ROLE BUTTON -->
     <div class="list-actions">
         <a href="${pageContext.request.contextPath}/role/add" class="add-btn">
             Add Role
@@ -243,7 +236,6 @@
         </c:choose>
     </td>
 
-    <!-- STATUS TOGGLE  -->
     <td>
         <button
             class="status-btn ${role.status ? 'status-active' : 'status-inactive'}"
@@ -272,7 +264,6 @@
 
 </div>
 
-<!-- AJAX TOGGLE SCRIPT -->
 <script>
     function toggleRoleStatus(identifier, button) {
         fetch('${pageContext.request.contextPath}/role/toggle-status', {

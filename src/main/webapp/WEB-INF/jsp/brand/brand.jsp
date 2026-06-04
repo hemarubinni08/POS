@@ -111,7 +111,6 @@
 
 <body>
 
-<!-- ✅ TOP BAR -->
 <div class="topbar">
     <div class="top-title">POS Application</div>
     <form action="${pageContext.request.contextPath}/logout" method="post">

@@ -47,7 +47,6 @@
             font-weight: 600;
         }
 
-        /* Base styling for inputs & selects */
         input,
         select {
             width: 100%;
@@ -61,7 +60,6 @@
             box-sizing: border-box;
         }
 
-        /*  multi-select must be taller */
         select[multiple] {
             height: 110px;
             padding: 6px;
@@ -101,7 +99,6 @@
 
 <div class="card">
 
-    <!-- Back Button -->
     <a href="${pageContext.request.contextPath}/product/list" class="back-btn">Back</a>
 
     <h2>Edit Product</h2>
@@ -117,11 +114,9 @@
 
         <form:hidden path="id"/>
 
-        <!--  Product Name -->
         <label>Product Name</label>
         <form:input path="identifier" readonly="true"/>
 
-        <!-- Category Multi-Select -->
         <label>Category</label>
         <form:select path="category" multiple="true">
             <c:forEach var="cat" items="${categories}">
@@ -165,7 +160,6 @@ ${bran.identifier}
                          </c:forEach>
                      </form:select>
 
-        <!-- SKU Code -->
         <label>SKU Code</label>
         <form:input path="skuCode" readonly="true"/>
 

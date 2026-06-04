@@ -14,7 +14,6 @@
             margin: 0;
         }
 
-        /* ===== TOP BAR ===== */
         .topbar {
             height: 56px;
             background-color: #020617;
@@ -39,7 +38,6 @@
             cursor: pointer;
         }
 
-        /* ===== CARD ===== */
         .card {
             width: 420px;
             margin: 60px auto;
@@ -73,7 +71,6 @@
             font-weight: 600;
         }
 
-        /* Base styling for inputs & selects */
         input,
         select {
             width: 100%;
@@ -87,7 +84,6 @@
             box-sizing: border-box;
         }
 
-        /* multi-select must be taller */
         select[multiple] {
             height: 110px;
             padding: 6px;
@@ -121,7 +117,6 @@
 
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
     <div class="top-title">POS Application</div>
     <form action="${pageContext.request.contextPath}/logout" method="post" style="margin:0;">
@@ -131,7 +126,6 @@
 
 <div class="card">
 
-    <!-- BACK BUTTON -->
     <a href="${pageContext.request.contextPath}/product/list" class="back-btn">Back</a>
 
     <h2>Add Product</h2>
@@ -145,11 +139,10 @@
         method="post"
         modelAttribute="productDto">
 
-        <!-- Product Name -->
+
         <label>Product Name</label>
         <form:input path="identifier" required="true"/>
 
-        <!-- Category Multi-Select -->
         <label>Category</label>
         <form:select path="category" multiple="true">
             <c:forEach var="cat" items="${categories}">
@@ -195,7 +188,7 @@
                                                  </form:select>
 
 
-        <!-- SKU Code -->
+
         <label>SKU Code</label>
         <form:input path="skuCode" type="number" required="true"/>
 

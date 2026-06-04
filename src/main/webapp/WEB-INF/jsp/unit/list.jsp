@@ -15,7 +15,6 @@
             color: #111827;
         }
 
-        /* ===== TOP BAR ===== */
         .topbar {
             height: 56px;
             background-color: #020617;

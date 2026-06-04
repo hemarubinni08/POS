@@ -50,7 +50,6 @@
         .edit { background:#2563eb; }
         .delete { background:#dc2626; margin-left:8px; }
 
-        /*STATUS TOGGLE  */
         .status-btn {
             border:none;
             padding:6px 16px;
@@ -129,7 +128,6 @@
     </c:if>
 </div>
 
-<!-- AJAX TOGGLE  -->
 <script>
     function toggleWarehouseStatus(identifier, button) {
         fetch('${pageContext.request.contextPath}/wareHouse/toggle-status', {

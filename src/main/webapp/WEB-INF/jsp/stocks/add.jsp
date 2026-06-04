@@ -111,7 +111,6 @@
 
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
     <div class="top-title">POS Application</div>
 
@@ -122,7 +121,6 @@
 
 <div class="card">
 
-    <!-- BACK BUTTON -->
     <a href="${pageContext.request.contextPath}/stocks/list" class="back-btn">
         Back
     </a>
@@ -138,7 +136,6 @@
         method="post"
         modelAttribute="stocksDto">
 
-        <!-- Product Name -->
        <label>Product Name</label>
        <form:select path="identifier" required="true">
            <form:option value="">-- Select Product --</form:option>
@@ -150,7 +147,6 @@
            </c:forEach>
        </form:select>
 
-        <!-- Available Stock -->
         <label>Available Stock</label>
         <form:input
             path="availableStock"
@@ -160,7 +156,6 @@
             title="Available stock must be zero or greater"
         />
 
-        <!-- Incoming Stock -->
         <label>Incoming Stock</label>
         <form:input
             path="incomingStock"
@@ -169,7 +164,6 @@
             title="Incoming stock cannot be negative"
         />
 
-        <!-- Outgoing Stock -->
         <label>Outgoing Stock</label>
         <form:input
             path="outgoingStock"
@@ -178,7 +172,6 @@
             title="Outgoing stock cannot be negative"
         />
 
-        <!-- Product Status -->
         <label>Product Status</label>
         <form:select path="productStatus" required="true">
             <form:option value="">-- Select Status --</form:option>
@@ -190,7 +183,6 @@
             <form:option value="DAMAGED">Damaged</form:option>
         </form:select>
 
-        <!-- Warehouse -->
        <label>Warehouse</label>
        <form:select path="wareHouse" required="true">
            <form:option value="">-- Select Warehouse --</form:option>

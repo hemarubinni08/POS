@@ -15,7 +15,6 @@
             color: #1f2937;
         }
 
-        /* ===== POS TOP BAR ===== */
         .topbar {
             height: 56px;
             background-color: #020617;
@@ -60,7 +59,6 @@
             cursor: pointer;
         }
 
-        /* ===== PAGE ===== */
         .page-wrapper {
             display: flex;
             justify-content: center;

@@ -187,7 +187,6 @@
         <td>${brand.identifier}</td>
         <td>${brand.description}</td>
 
-        <!-- ✅ INLINE STATUS TOGGLE -->
         <td>
             <button
                 class="status-toggle ${brand.status ? 'status-true' : 'status-false'}"

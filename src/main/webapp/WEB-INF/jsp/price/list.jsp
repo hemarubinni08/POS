@@ -56,7 +56,6 @@
 
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
     <div class="topbar-left">
         <div class="top-title">POS Application</div>

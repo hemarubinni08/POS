@@ -15,7 +15,6 @@
             color: #111827;
         }
 
-        /* ===== TOP BAR ===== */
         .topbar {
             height: 56px;
             background-color: #020617;
@@ -60,7 +59,6 @@
             cursor: pointer;
         }
 
-        /* ===== PAGE ===== */
         .page-title {
             text-align: center;
             padding: 22px 0 14px;
@@ -79,7 +77,6 @@
             padding: 26px;
         }
 
-        /* ===== ACTION BAR ===== */
         .list-actions {
             display: flex;
             justify-content: flex-end;

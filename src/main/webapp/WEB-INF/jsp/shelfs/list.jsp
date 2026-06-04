@@ -14,7 +14,6 @@
             background-color: #f6f7f9;
         }
 
-        /* ===== TOP BAR ===== */
         .topbar {
             height: 56px;
             background-color: #020617;
@@ -63,7 +62,6 @@
             cursor: pointer;
         }
 
-        /* ===== PAGE ===== */
         .page-title {
             text-align: center;
             padding: 22px 0 14px;
@@ -102,7 +100,6 @@
             background-color: #1d4ed8;
         }
 
-        /* ===== TABLE ===== */
         table {
             width: 100%;
             border-collapse: separate;
@@ -137,7 +134,6 @@
             background-color: #f1f5f9;
         }
 
-        /* ===== STATUS TOGGLE ===== */
         .status-toggle {
             padding: 6px 14px;
             border-radius: 999px;
@@ -151,7 +147,6 @@
         .status-true { background-color: #16a34a; }
         .status-false { background-color: #dc2626; }
 
-        /* ===== ACTION BUTTONS ===== */
         .action-link {
             padding: 7px 16px;
             border-radius: 6px;
@@ -176,7 +171,6 @@
 
 <body>
 
-<!-- ✅ TOP BAR -->
 <div class="topbar">
     <div class="topbar-left">
         <div class="top-title">POS Application</div>
@@ -192,7 +186,6 @@
 
 <div class="container">
 
-    <!-- ADD BUTTON  -->
     <div class="list-actions">
         <a href="${pageContext.request.contextPath}/shelfs/add" class="add-btn">
             Add Shelf
