@@ -25,15 +25,15 @@
             box-shadow: 0 14px 35px rgba(0, 0, 0, 0.15);
         }
 
-        .top-bar {
+        .page-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            align-items: center;
+            margin-bottom: 25px;
         }
 
-        h2 {
-            text-align: center;
-            margin: 20px 0 30px;
+        .page-header h2 {
+            margin: 0;
             color: #4a2e2b;
             font-size: 24px;
             font-weight: 700;
@@ -48,7 +48,7 @@
             cursor: pointer;
             text-decoration: none;
             color: #fff8f0;
-            background-color: #6b4a46;
+            background-color: #4B2E2B;
             transition: 0.2s ease;
             display: inline-flex;
             align-items: center;
@@ -56,24 +56,23 @@
         }
 
         .btn:hover {
-            background-color: #543835;
+            background-color: #3a2421;
         }
 
         .btn-edit {
-            background-
-            color: #6b4a46;
+            background-color: #4B2E2B;
         }
 
         .btn-edit:hover {
-            background-color: #543835;
+            background-color: #3a2421;
         }
 
         .btn-delete {
-            background-color: #6b4a46;
+            background-color: #4B2E2B;
         }
 
         .btn-delete:hover {
-            background-color: #543835;
+            background-color: #3a2421;
         }
 
         table {
@@ -91,7 +90,6 @@
             font-size: 14px;
             font-weight: 600;
             text-align: center;
-            vertical-align: middle;
         }
 
         tr {
@@ -115,7 +113,6 @@
             font-size: 14px;
             color: #000;
             text-align: center;
-            vertical-align: middle;
         }
 
         .action-cell {
@@ -123,23 +120,22 @@
             justify-content: center;
             align-items: center;
             gap: 12px;
-            white-space: nowrap;
-        }
-
-        .action-cell i {
-            font-size: 14px;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="top-bar">
-        <a href="${pageContext.request.contextPath}/" class="btn">Home</a>
-        <a href="${pageContext.request.contextPath}/price/add" class="btn">
-            + Add Price
-        </a>
+    <div class="page-header">
+        <h2>Price List</h2>
+        <div>
+            <a href="${pageContext.request.contextPath}/price/add" class="btn">
+                <i class="fa-solid fa-plus"></i> Add Price
+            </a>
+            <a href="${pageContext.request.contextPath}/" class="btn">
+                Home
+            </a>
+        </div>
     </div>
-    <h2>Price List</h2>
     <table>
         <tr>
             <th>ID</th>
@@ -161,13 +157,13 @@
                 <td class="action-cell">
                     <a href="${pageContext.request.contextPath}/price/get?identifier=${price.identifier}"
                        class="btn btn-edit"
-                       title = "Delete Warehouse">
+                       title="Edit Price">
                        <i class="fa-solid fa-pen"></i>
                     </a>
                     <a href="${pageContext.request.contextPath}/price/delete?identifier=${price.identifier}"
                        class="btn btn-delete"
                        onclick="return confirm('Are you sure you want to delete this price?');"
-                       title = "Delete Price">
+                       title="Delete Price">
                        <i class="fa-solid fa-trash"></i>
                     </a>
                 </td>

@@ -55,9 +55,7 @@ class ShelfServiceTest {
         shelfDto.setIdentifier("SHELF001");
         ShelfDto response = shelfService.save(shelfDto);
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals("Invalid request: ID must be null while creating shelf",
-                response.getMessage()
-        );
+        Assertions.assertEquals("Invalid request: ID must be null while creating shelf", response.getMessage());
         Mockito.verifyNoInteractions(modelMapper);
         Mockito.verifyNoInteractions(shelfRepository);
     }
@@ -136,7 +134,6 @@ class ShelfServiceTest {
         shelfService.delete("Shelf1");
         Mockito.verify(shelfRepository).deleteByIdentifier("Shelf1");
     }
-
 
     @Test
     void toggleStatusSuccessTest() {

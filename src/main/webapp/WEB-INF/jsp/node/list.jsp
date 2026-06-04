@@ -4,10 +4,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta charset="UTF-8">
     <title>Nodes Management</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             box-sizing: border-box;
@@ -29,9 +29,15 @@
             box-shadow: 0 18px 35px rgba(75, 46, 43, 0.25);
         }
 
-        h2 {
-            text-align: center;
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 25px;
+        }
+
+        .page-header h2 {
+            margin: 0;
             color: #4B2E2B;
             font-weight: 600;
         }
@@ -48,7 +54,8 @@
             color: #FFF8F0;
         }
 
-        th, td {
+        th,
+        td {
             padding: 14px;
             text-align: center;
         }
@@ -77,21 +84,16 @@
             color: #4B2E2B;
         }
 
+        .id-link:hover {
+            text-decoration: underline;
+        }
+
         .btn {
             padding: 6px 14px;
             border-radius: 6px;
             display: inline-block;
             font-size: 13px;
             font-weight: 600;
-        }
-
-        .btn-delete {
-            background-color: #8d3c36;
-            color: white;
-        }
-
-        .btn-delete:hover {
-            background-color: #702f2a;
         }
 
         .btn-edit {
@@ -103,55 +105,77 @@
             background-color: #3a2421;
         }
 
-        .add-node {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
+        .btn-delete {
             background-color: #4B2E2B;
             color: #FFF8F0;
-            border-radius: 10px;
-            font-weight: 600;
         }
 
-        .add-node:hover {
+        .btn-delete:hover {
             background-color: #3a2421;
         }
 
-        .top-bar {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .home-btn {
-            display: inline-block;
-            background-color: #6b4a46;
+        .register-btn {
+            background-color: #4B2E2B;
             color: #FFF8F0;
+            border: none;
             padding: 8px 18px;
-            border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
+            border-radius: 8px;
             text-decoration: none;
-            transition: all 0.3s ease;
+            display: inline-block;
+            margin-right: 10px;
         }
 
-        .home-btn:hover {
+        .register-btn:hover {
+            background-color: #3a2421;
+            color: #FFF8F0;
+        }
+
+        .btn-secondary {
             background-color: #4B2E2B;
+            color: #FFF8F0;
+            border: none;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background-color: #3a2421;
+            color: #FFF8F0;
         }
 
         @media (max-width: 900px) {
             .container {
                 width: 95%;
             }
-
             table {
                 font-size: 12px;
+            }
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h2>Nodes Management</h2>
+    <div class="page-header">
+        <h2>Nodes Management</h2>
+        <div>
+            <a href="/node/add" class="register-btn">
+                <i class="fa-solid fa-plus"></i> Add Node
+            </a>
+            <a href="/" class="btn-secondary">
+                Home
+            </a>
+        </div>
+    </div>
     <table>
         <thead>
         <tr>
@@ -167,7 +191,8 @@
         <c:forEach items="${nodes}" var="node">
             <tr>
                 <td>
-                    <a class="id-link" href="/node/get?identifier=${node.identifier}">
+                    <a class="id-link"
+                       href="/node/get?identifier=${node.identifier}">
                         ${node.id}
                     </a>
                 </td>
@@ -176,9 +201,9 @@
                 <td>${node.roles}</td>
                 <td>
                     <a class="btn btn-edit"
-                        href="/node/get?identifier=${node.identifier}"
-                        title="Edit Node">
-                        <i class="fa-solid fa-pen"></i>
+                       href="/node/get?identifier=${node.identifier}"
+                       title="Edit Node">
+                       <i class="fa-solid fa-pen"></i>
                     </a>
                 </td>
                 <td>
@@ -193,12 +218,6 @@
         </c:forEach>
         </tbody>
     </table>
-    <div class="top-bar mt-3">
-        <a href="/" class="home-btn">Home</a>
-    </div>
-    <div style="text-align:center;">
-        <a href="/node/add" class="add-node">+ Add New Node</a>
-    </div>
 </div>
 </body>
 </html>

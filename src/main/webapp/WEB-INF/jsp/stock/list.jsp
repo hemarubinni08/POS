@@ -6,7 +6,7 @@
 <head>
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>Stock List</title>
+<title>Stock List</title>
     <style>
         body {
             margin: 0;
@@ -28,19 +28,31 @@
         .top-bar {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            align-items: center;
+            margin-bottom: 25px;
         }
 
-        h2 {
-            text-align: center;
-            margin: 20px 0 30px;
+        .top-bar h2 {
+            margin: 0;
             color: #4a2e2b;
             font-size: 24px;
             font-weight: 700;
         }
 
+        .top-buttons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .btn {
-            padding: 10px 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 130px;
+            min-height: 42px;
+            padding: 10px 20px;
             border-radius: 10px;
             border: none;
             font-size: 14px;
@@ -48,31 +60,36 @@
             cursor: pointer;
             text-decoration: none;
             color: #fff8f0;
-            background-color: #6b4a46;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            background-color: #4B2E2B;
             transition: 0.2s ease;
+            box-sizing: border-box;
         }
 
         .btn:hover {
-            background-color: #543835;
+            background-color: #3a2421;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            min-width: 42px;
+            min-height: 42px;
+            padding: 10px;
         }
 
         .btn-edit {
-            background-color: #6b4a46;
+            background-color: #4B2E2B;
         }
 
         .btn-edit:hover {
-            background-color: #543835;
+            background-color: #3a2421;
         }
 
         .btn-delete {
-            background-color: #6b4a46;
+            background-color: #4B2E2B;
         }
 
         .btn-delete:hover {
-            background-color: #543835;
+            background-color: #3a2421;
         }
 
         table {
@@ -174,10 +191,16 @@
 <body>
 <div class="container">
     <div class="top-bar">
-        <a href="${pageContext.request.contextPath}/" class="btn">Home</a>
-        <a href="${pageContext.request.contextPath}/stock/add" class="btn">+ Add Stock</a>
+        <h2>Stock List</h2>
+        <div class="top-buttons">
+            <a href="${pageContext.request.contextPath}/stock/add" class="btn">
+                <i class="fa-solid fa-plus"></i> Add Stock
+            </a>
+            <a href="${pageContext.request.contextPath}/" class="btn">
+                Home
+            </a>
+        </div>
     </div>
-    <h2>Stock List</h2>
     <table>
         <tr>
             <th>ID</th>
@@ -198,15 +221,15 @@
                 <td>${stock.quantity}</td>
                 <td class="text-center">
                     <form action="${pageContext.request.contextPath}/stock/toggleStatus" method="post">
-                         <input type="hidden" name="identifier" value="${stock.identifier}" />
-                         <input type="hidden" name="status" value="false" />
-                             <label class="switch">
-                                 <input type="checkbox"
-                                     name="status"
-                                     value="true"
-                                     <c:if test="${stock.status}">checked</c:if> />
-                                 <span class="slider"></span>
-                             </label>
+                        <input type="hidden" name="identifier" value="${stock.identifier}" />
+                        <input type="hidden" name="status" value="false" />
+                        <label class="switch">
+                            <input type="checkbox"
+                                   name="status"
+                                   value="true"
+                                   <c:if test="${stock.status}">checked</c:if> />
+                            <span class="slider"></span>
+                        </label>
                     </form>
                     <small class="text-primary">
                         <c:choose>
@@ -219,14 +242,14 @@
                 <td class="action-cell">
                     <a href="${pageContext.request.contextPath}/stock/get?identifier=${stock.identifier}"
                        class="btn btn-edit"
-                       title = "Edit Stock">
-                       <i class="fa-solid fa-pen"></i>
+                       title="Edit Stock">
+                        <i class="fa-solid fa-pen"></i>
                     </a>
                     <a href="${pageContext.request.contextPath}/stock/delete?identifier=${stock.identifier}"
                        class="btn btn-delete"
                        onclick="return confirm('Are you sure you want to delete this stock?')"
-                       title = "Delete Stock">
-                       <i class="fa-solid fa-trash"></i>
+                       title="Delete Stock">
+                        <i class="fa-solid fa-trash"></i>
                     </a>
                 </td>
             </tr>

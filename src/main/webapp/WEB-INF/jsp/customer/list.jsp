@@ -6,9 +6,7 @@
 <head>
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 <title>Customer List</title>
-
 <style>
     body {
         background-color: #FFF8F0;
@@ -21,11 +19,52 @@
         margin: auto;
     }
 
-    h2 {
-        text-align: center;
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .page-header h2 {
+        margin: 0;
         color: #4B2E2B;
         font-weight: 600;
-        margin-bottom: 25px;
+    }
+
+    .register-btn {
+        background-color: #4B2E2B;
+        color: #FFF8F0;
+        border: none;
+        padding: 8px 18px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .register-btn:hover {
+        background-color: #3a2421;
+        color: #FFF8F0;
+    }
+
+    .btn-secondary {
+        background-color: #4B2E2B;
+        color: #FFF8F0;
+        border: none;
+        padding: 8px 18px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-secondary:hover {
+        background-color: #3a2421;
+        color: #FFF8F0;
     }
 
     table {
@@ -118,35 +157,38 @@
         transform: translateX(24px);
     }
 
-    .top-bar {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
+    @media (max-width: 900px) {
+        .page-header {
+            flex-direction: column;
+            gap: 15px;
+        }
     }
 </style>
 </head>
-
 <body>
-
 <div class="container">
-    <div class="top-bar">
-        <a href="/" class="btn">Home</a>
-        <a href="/customer/add" class="btn">+ Add New Customer</a>
+    <div class="page-header">
+        <h2>Customer Management</h2>
+        <div>
+            <a href="/customer/add" class="register-btn">
+                <i class="fa-solid fa-plus"></i> Add Customer
+            </a>
+            <a href="/" class="btn-secondary">
+                Home
+            </a>
+        </div>
     </div>
-    <h2>Customer List</h2>
     <c:if test="${not empty message}">
         <div style="text-align:center; color:green; margin-bottom:10px;">
             ${message}
         </div>
         <c:remove var="message" scope="session"/>
     </c:if>
-
     <c:if test="${empty customers}">
         <div style="text-align:center; color:#4B2E2B;">
             No customers found
         </div>
     </c:if>
-
     <c:if test="${not empty customers}">
         <table>
             <tr>
@@ -159,7 +201,6 @@
                 <th>Status</th>
                 <th>Action</th>
             </tr>
-
             <c:forEach var="customer" items="${customers}">
                 <tr>
                     <td>${customer.id}</td>
@@ -168,26 +209,27 @@
                     <td>${customer.balance} ${customer.balanceType}</td>
                     <td>${customer.email}</td>
                     <td>${customer.creditLimit}</td>
-
                     <td>
                         <form action="${pageContext.request.contextPath}/customer/toggleStatus" method="post">
                             <input type="hidden" name="identifier" value="${customer.identifier}"/>
-
                             <label class="switch">
-                                <input type="checkbox" onchange="this.form.submit()"
-                                    <c:if test="${customer.status}">checked</c:if>>
+                                <input type="checkbox"
+                                       onchange="this.form.submit()"
+                                       <c:if test="${customer.status}">checked</c:if>>
                                 <span class="slider"></span>
                             </label>
                         </form>
-
                         <small>
                             <c:choose>
-                                <c:when test="${customer.status}">Active</c:when>
-                                <c:otherwise>Inactive</c:otherwise>
+                                <c:when test="${customer.status}">
+                                    Active
+                                </c:when>
+                                <c:otherwise>
+                                    Inactive
+                                </c:otherwise>
                             </c:choose>
                         </small>
                     </td>
-
                     <td class="action-cell">
                         <a href="/customer/get?identifier=${customer.identifier}"
                            class="btn"
@@ -203,11 +245,8 @@
                     </td>
                 </tr>
             </c:forEach>
-
         </table>
     </c:if>
-
 </div>
-
 </body>
 </html>

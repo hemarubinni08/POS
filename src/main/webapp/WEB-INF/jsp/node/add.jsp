@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Node</title>
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <style>
@@ -110,8 +109,10 @@
             <div class="multi-role-box">
                 <c:forEach items="${roles}" var="role">
                     <label class="role-item">
-                        <input type="checkbox" name="roles" value="${role.identifier}">
-                            ${role.identifier}
+                        <input type="checkbox"
+                               name="roles"
+                               value="${role.identifier}">
+                        ${role.identifier}
                     </label>
                 </c:forEach>
             </div>

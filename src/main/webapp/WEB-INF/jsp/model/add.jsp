@@ -126,8 +126,7 @@
                  name="identifier"
                  value="${modelDto.identifier}"
                  placeholder="Enter model identifier"
-                 required
-            />
+                 required/>
         </div>
         <div class="form-group">
             <label>Model Name</label>
@@ -135,8 +134,7 @@
                  name="name"
                  value="${modelDto.name}"
                  placeholder="Enter model name"
-                 required
-            />
+                 required/>
         </div>
         <button type="submit" class="btn-submit">
             Save Model

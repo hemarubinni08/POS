@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Product List</title>
     <style>
         body {
@@ -25,22 +25,34 @@
             box-shadow: 0 14px 35px rgba(0, 0, 0, 0.15);
         }
 
-        .top-bar {
+        .page-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            align-items: center;
+            margin-bottom: 25px;
         }
 
-        h2 {
-            text-align: center;
-            margin: 20px 0 30px;
+        .page-header h2 {
+            margin: 0;
             color: #4a2e2b;
             font-size: 24px;
             font-weight: 700;
         }
 
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .btn {
-            padding: 10px 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 42px;
+            min-width: 140px;
+            padding: 10px 20px;
             border-radius: 10px;
             border: none;
             font-size: 14px;
@@ -48,28 +60,20 @@
             cursor: pointer;
             text-decoration: none;
             color: #fff8f0;
-            background-color: #6b4a46;
+            background-color: #4B2E2B;
             transition: 0.2s ease;
+            box-sizing: border-box;
         }
 
         .btn:hover {
-            background-color: #543835;
+            background-color: #3a2421;
         }
 
-        .btn-edit {
-            background-color: #6b4a46;
-        }
-
-        .btn-edit:hover {
-            background-color: #543835;
-        }
-
+        .btn-edit,
         .btn-delete {
-            background-color: #6b4a46;
-        }
-
-        .btn-delete:hover {
-            background-color: #543835;
+            min-width: 42px;
+            min-height: 42px;
+            padding: 10px;
         }
 
         table {
@@ -87,7 +91,6 @@
             font-size: 14px;
             font-weight: 600;
             text-align: center;
-            vertical-align: middle;
         }
 
         tr {
@@ -111,7 +114,6 @@
             font-size: 14px;
             color: #000000;
             text-align: center;
-            vertical-align: middle;
         }
 
         td:nth-child(7) {
@@ -134,12 +136,20 @@
 </head>
 <body>
 <div class="container">
-     <div class="top-bar">
-        <a href="${pageContext.request.contextPath}/" class="btn">Home</a>
-        <a href="${pageContext.request.contextPath}/product/add" class="btn">+ Add Product</a>
+    <div class="page-header">
+        <h2>Product List</h2>
+        <div class="header-actions">
+            <a href="${pageContext.request.contextPath}/product/add" class="btn">
+                <i class="fa-solid fa-plus"></i>
+                Add Product
+            </a>
+            <a href="${pageContext.request.contextPath}/" class="btn">
+                Home
+            </a>
         </div>
-    <h2>Product List</h2>
+    </div>
     <table>
+        <thead>
         <tr>
             <th>ID</th>
             <th>Identifier</th>
@@ -150,6 +160,8 @@
             <th>Description</th>
             <th>Action</th>
         </tr>
+        </thead>
+        <tbody>
         <c:forEach var="product" items="${products}">
             <tr>
                 <td>${product.id}</td>
@@ -162,18 +174,19 @@
                 <td class="action-cell">
                     <a href="${pageContext.request.contextPath}/product/get?identifier=${product.identifier}"
                        class="btn btn-edit"
-                       title = "Edit Product">
+                       title="Edit Product">
                        <i class="fa-solid fa-pen"></i>
                     </a>
                     <a href="${pageContext.request.contextPath}/product/delete?identifier=${product.identifier}"
                        class="btn btn-delete"
                        onclick="return confirm('Are you sure you want to delete this product?');"
-                       title = "Delete Product">
+                       title="Delete Product">
                        <i class="fa-solid fa-trash"></i>
                     </a>
                 </td>
             </tr>
         </c:forEach>
+        </tbody>
     </table>
 </div>
 </body>

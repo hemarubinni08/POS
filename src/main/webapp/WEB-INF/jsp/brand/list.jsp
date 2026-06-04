@@ -11,7 +11,7 @@
         body {
             margin: 0;
             font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
-            background: #fff8f0;
+            background: #FFF8F0;
             min-height: 100vh;
             padding: 30px;
         }
@@ -19,60 +19,58 @@
         .container {
             width: 90%;
             margin: auto;
-            background: #efe3d9;
+            background: #ffffff;
             padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.15);
+            border-radius: 18px;
+            box-shadow: 0 18px 35px rgba(75, 46, 43, 0.25);
         }
 
-        .top-bar {
+        .page-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            align-items: center;
+            margin-bottom: 25px;
         }
 
-        h2 {
-            text-align: center;
-            margin: 20px 0 30px;
-            color: #4a2e2b;
-            font-size: 24px;
-            font-weight: 700;
+        .page-header h2 {
+            margin: 0;
+            color: #4B2E2B;
+            font-weight: 600;
         }
 
-        .btn {
-            padding: 10px 18px;
-            border-radius: 10px;
+        .register-btn {
+            background-color: #4B2E2B;
+            color: #FFF8F0;
             border: none;
+            padding: 8px 18px;
             font-size: 14px;
             font-weight: 600;
-            cursor: pointer;
+            border-radius: 8px;
             text-decoration: none;
-            color: #fff8f0;
-            background-color: #6b4a46;
-            transition: 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            display: inline-block;
+            margin-right: 10px;
         }
 
-        .btn:hover {
-            background-color: #543835;
+        .register-btn:hover {
+            background-color: #3a2421;
+            color: #FFF8F0;
         }
 
-        .btn-edit {
-            background-color: #6b4a46;
+        .btn-secondary {
+            background-color: #4B2E2B;
+            color: #FFF8F0;
+            border: none;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .btn-edit:hover {
-            background-color: #543835;
-        }
-
-        .btn-delete {
-            background-color: #6b4a46;
-        }
-
-        .btn-delete:hover {
-            background-color: #543835;
+        .btn-secondary:hover {
+            background-color: #3a2421;
+            color: #FFF8F0;
         }
 
         table {
@@ -84,8 +82,8 @@
         }
 
         th {
-            background-color: #4a2e2b;
-            color: #fff8f0;
+            background-color: #4B2E2B;
+            color: #FFF8F0;
             padding: 16px;
             font-size: 14px;
             font-weight: 600;
@@ -98,15 +96,15 @@
         }
 
         tbody tr {
-            background: #fff8f0;
+            background: #FFF8F0;
         }
 
         tbody tr:nth-child(even) {
-            background: #eadfd6;
+            background: #fff3eb;
         }
 
         tbody tr:hover {
-            background: #e2cec1;
+            background: #f1e3dc;
         }
 
         td {
@@ -122,6 +120,37 @@
             flex-direction: column;
             align-items: center;
             gap: 4px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            color: #FFF8F0;
+            transition: 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-edit {
+            background-color: #4B2E2B;
+        }
+
+        .btn-edit:hover {
+            background-color: #3a2421;
+        }
+
+        .btn-delete {
+            background-color: #4B2E2B;
+        }
+
+        .btn-delete:hover {
+            background-color: #3a2421;
         }
 
         .action-cell {
@@ -176,17 +205,34 @@
         input:checked + .slider:before {
             transform: translateX(24px);
         }
+
+        @media (max-width: 900px) {
+            .container {
+                width: 95%;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="top-bar">
-        <a href="${pageContext.request.contextPath}/" class="btn">Home</a>
-        <a href="${pageContext.request.contextPath}/brand/add" class="btn">
-            + Add Brand
-        </a>
+    <div class="page-header">
+        <h2>Brand Management</h2>
+        <div>
+            <a href="${pageContext.request.contextPath}/brand/add"
+               class="register-btn">
+                <i class="fa-solid fa-plus"></i> Add Brand
+            </a>
+            <a href="${pageContext.request.contextPath}/"
+               class="btn-secondary">
+                Home
+            </a>
+        </div>
     </div>
-    <h2>Brand List</h2>
     <table>
         <tr>
             <th>ID</th>
@@ -201,31 +247,39 @@
                 <td>${brand.identifier}</td>
                 <td>${brand.description}</td>
                 <td class="text-center">
-                    <form action="${pageContext.request.contextPath}/brand/toggleStatus" method="get">
-                        <input type="hidden" name="identifier" value="${brand.identifier}"/>
+                    <form action="${pageContext.request.contextPath}/brand/toggleStatus"
+                          method="get">
+                        <input type="hidden"
+                               name="identifier"
+                               value="${brand.identifier}"/>
                         <label class="switch">
-                            <input type="checkbox" onchange="this.form.submit()"
-                                 <c:if test="${brand.status}">checked</c:if>>
+                            <input type="checkbox"
+                                   onchange="this.form.submit()"
+                                   <c:if test="${brand.status}">checked</c:if>>
                             <span class="slider"></span>
                         </label>
-                   </form>
-                   <small class="text-primary">
+                    </form>
+                    <small class="text-primary">
                         <c:choose>
-                             <c:when test="${brand.status}">Active</c:when>
-                             <c:otherwise>Inactive</c:otherwise>
+                            <c:when test="${brand.status}">
+                                Active
+                            </c:when>
+                            <c:otherwise>
+                                Inactive
+                            </c:otherwise>
                         </c:choose>
-                   </small>
+                    </small>
                 </td>
                 <td class="action-cell">
                     <a href="${pageContext.request.contextPath}/brand/get?identifier=${brand.identifier}"
                        class="btn btn-edit"
-                       title = "Edit Brand">
+                       title="Edit Brand">
                        <i class="fa-solid fa-pen"></i>
                     </a>
                     <a href="${pageContext.request.contextPath}/brand/delete?identifier=${brand.identifier}"
                        class="btn btn-delete"
                        onclick="return confirm('Are you sure you want to delete this brand?');"
-                       title = "Delete Brand">
+                       title="Delete Brand">
                        <i class="fa-solid fa-trash"></i>
                     </a>
                 </td>

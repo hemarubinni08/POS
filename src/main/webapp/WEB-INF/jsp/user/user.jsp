@@ -119,8 +119,7 @@
             <form:select path="roles" multiple="true" cssClass="form-control">
                 <form:options items="${roles}"
                     itemValue="identifier"
-                    itemLabel="identifier"
-                />
+                    itemLabel="identifier"/>
             </form:select>
             <small>
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple

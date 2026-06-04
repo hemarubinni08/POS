@@ -108,7 +108,6 @@
             margin-bottom: 16px;
             font-weight: 600;
         }
-        ``
     </style>
 </head>
 <body>

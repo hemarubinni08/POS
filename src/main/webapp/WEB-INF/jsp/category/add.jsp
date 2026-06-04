@@ -121,8 +121,7 @@
                    name="identifier"
                    value="${categoryDto.identifier}"
                    placeholder="Enter identifier"
-                   required
-            />
+                   required/>
         </div>
         <div class="form-group">
             <label>Category Name</label>
@@ -130,8 +129,7 @@
                    name="name"
                    value="${categoryDto.name}"
                    placeholder="Enter category name"
-                   required
-            />
+                   required/>
         </div>
         <div class="form-group">
             <label>Super Category</label>

@@ -26,7 +26,6 @@ public class StockController extends BaseController {
     @Autowired
     StockService stockService;
 
-
     @Autowired
     private WarehouseService warehouseService;
 

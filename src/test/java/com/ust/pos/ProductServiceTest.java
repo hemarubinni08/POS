@@ -20,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import java.lang.reflect.Type;
 import java.util.List;
 
-
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
 

@@ -180,4 +180,3 @@ class RackServiceTest {
         Assertions.assertEquals(1, response.size());
     }
 }
-

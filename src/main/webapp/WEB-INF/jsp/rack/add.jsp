@@ -129,8 +129,7 @@
                 name="identifier"
                 value="${rackDto.identifier}"
                 placeholder="Enter rack identifier"
-                required
-            />
+                required/>
         </div>
         <div class="form-group">
             <label>Rack Name</label>
@@ -138,8 +137,7 @@
                 name="name"
                 value="${rackDto.name}"
                 placeholder="Enter rack name"
-                required
-            />
+                required/>
         </div>
         <div class="form-group">
             <label>Shelfs</label>

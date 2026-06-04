@@ -4,49 +4,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>Category List</title>
+    <meta charset="UTF-8">
+    <title>Category Management</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
+            font-family: "Segoe UI", Tahoma, sans-serif;
             background-color: #FFF8F0;
-            font-family: "Segoe UI", Arial, sans-serif;
-            padding-top: 40px;
+            margin: 0;
+            padding: 40px;
         }
 
         .container {
             width: 90%;
             margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 18px 35px rgba(75, 46, 43, 0.25);
         }
 
-        h2 {
-            text-align: center;
-            color: #4B2E2B;
-            font-weight: 600;
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 25px;
         }
 
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20 px;
+        .page-header h2 {
+            margin: 0;
+            color: #4B2E2B;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #4B2E2B;
+            color: #FFF8F0;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: center;
+        }
+
+        th {
+            font-size: 13px;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #fff3eb;
+        }
+
+        tbody tr:hover {
+            background-color: #f1e3dc;
         }
 
         .btn {
-            background-color: #6b4a46;
-            color: #FFF8F0;
-            border-radius: 10px;
-            padding: 8px 18px;
+            padding: 6px 14px;
+            border-radius: 6px;
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
             text-decoration: none;
-            font-weight: 500;
-        }
-
-        .btn:hover {
-            background-color: #543835;
         }
 
         .btn-edit {
             background-color: #4B2E2B;
+            color: #FFF8F0;
         }
 
         .btn-edit:hover {
@@ -54,41 +93,47 @@
         }
 
         .btn-delete {
-            background-color: #4b2e2b;
+            background-color: #4B2E2B;
+            color: #FFF8F0;
         }
 
         .btn-delete:hover {
             background-color: #3a2421;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(75, 46, 43, 0.15);
-        }
-
-        th {
+        .register-btn {
             background-color: #4B2E2B;
             color: #FFF8F0;
-            padding: 14px;
-            font-size: 13px;
-            text-transform: uppercase;
-        }
-
-        td {
-            padding: 14px;
-            text-align: center;
+            border: none;
+            padding: 8px 18px;
             font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 10px;
         }
 
-        tr:nth-child(even) {
-            background-color: #efe4dc;
+        .register-btn:hover {
+            background-color: #3a2421;
+            color: #FFF8F0;
         }
 
-        tr:hover {
-            background-color: #f7ebe4;
+        .btn-secondary {
+            background-color: #4B2E2B;
+            color: #FFF8F0;
+            border: none;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background-color: #3a2421;
+            color: #FFF8F0;
         }
 
         .action-cell {
@@ -119,36 +164,56 @@
         }
 
         .slider:before {
-             position: absolute;
-             content: "";
-             height: 16px;
-             width: 16px;
-             left: 3px;
-             bottom: 3px;
-             background-color: white;
-             border-radius: 50%;
-             transition: 0.4s;
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            border-radius: 50%;
+            transition: 0.4s;
         }
 
         input:checked + .slider {
-             background-color: #6b4a46;
+            background-color: #6b4a46;
         }
 
         input:checked + .slider:before {
-             transform: translateX(24px);
+            transform: translateX(24px);
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                width: 95%;
+            }
+            table {
+                font-size: 12px;
+            }
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="top-bar">
-        <a href="${pageContext.request.contextPath}/" class="btn">Home</a>
-        <a href="${pageContext.request.contextPath}/category/add" class="btn">
-            + Add Category
-        </a>
+    <div class="page-header">
+        <h2>Category Management</h2>
+        <div>
+            <a href="${pageContext.request.contextPath}/category/add"
+               class="register-btn">
+                <i class="fa-solid fa-plus"></i> Add Category
+            </a>
+            <a href="${pageContext.request.contextPath}/"
+               class="btn-secondary">
+                Home
+            </a>
+        </div>
     </div>
-    <h2>Category List</h2>
     <table>
+        <thead>
         <tr>
             <th>ID</th>
             <th>Identifier</th>
@@ -157,6 +222,8 @@
             <th>Status</th>
             <th>Action</th>
         </tr>
+        </thead>
+        <tbody>
         <c:forEach var="category" items="${categories}">
             <tr>
                 <td>${category.id}</td>
@@ -172,37 +239,46 @@
                         </c:otherwise>
                     </c:choose>
                 </td>
-                <td class="text-center">
-                    <form action="${pageContext.request.contextPath}/category/toggleStatus" method="post">
-                        <input type="hidden" name="identifier" value="${category.identifier}"/>
-                            <label class="switch">
-                                <input type="checkbox" onchange="this.form.submit()"
-                                    <c:if test="${category.status}">checked</c:if>>
-                                    <span class="slider"></span>
-                            </label>
+                <td>
+                    <form action="${pageContext.request.contextPath}/category/toggleStatus"
+                          method="post">
+                        <input type="hidden"
+                               name="identifier"
+                               value="${category.identifier}" />
+                        <label class="switch">
+                            <input type="checkbox"
+                                   onchange="this.form.submit()"
+                                   <c:if test="${category.status}">checked</c:if>>
+                            <span class="slider"></span>
+                        </label>
                     </form>
-                        <small class="text-primary">
-                            <c:choose>
-                                <c:when test="${category.status}">Active</c:when>
-                                <c:otherwise>Inactive</c:otherwise>
-                            </c:choose>
-                        </small>
+                    <small>
+                        <c:choose>
+                            <c:when test="${category.status}">
+                                Active
+                            </c:when>
+                            <c:otherwise>
+                                Inactive
+                            </c:otherwise>
+                        </c:choose>
+                    </small>
                 </td>
                 <td class="action-cell">
                     <a href="${pageContext.request.contextPath}/category/get?identifier=${category.identifier}"
-                        class="btn btn-edit"
-                        title = "Edit Category">
-                        <i class="fa-solid fa-pen"></i>
+                       class="btn btn-edit"
+                       title="Edit Category">
+                       <i class="fa-solid fa-pen"></i>
                     </a>
                     <a href="${pageContext.request.contextPath}/category/delete?identifier=${category.identifier}"
-                        class="btn btn-delete"
-                        onclick="return confirm('Are you sure you want to delete this category?');"
-                        title = "Delete Category">
-                        <i class="fa-solid fa-trash"></i>
+                       class="btn btn-delete"
+                       title="Delete Category"
+                       onclick="return confirm('Are you sure you want to delete this category?');">
+                       <i class="fa-solid fa-trash"></i>
                     </a>
                 </td>
             </tr>
         </c:forEach>
+        </tbody>
     </table>
 </div>
 </body>

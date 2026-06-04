@@ -65,8 +65,7 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public UnitDto update(UnitDto unitDto) {
-        Unit existingUnit =
-                unitRepository.findByIdentifier(unitDto.getIdentifier());
+        Unit existingUnit = unitRepository.findByIdentifier(unitDto.getIdentifier());
         if (existingUnit == null) {
             unitDto.setMessage(
                     "Unit with identifier - " + unitDto.getIdentifier() + " not found"

@@ -132,8 +132,7 @@
                    name="identifier"
                    value="${brandDto.identifier}"
                    placeholder="Enter brand name"
-                   required
-            />
+                   required/>
         </div>
         <div class="form-group">
             <label>Description</label>

@@ -76,16 +76,11 @@ public class ModelServiceImpl implements ModelService {
     @Override
     @Transactional
     public ModelDto toggleStatus(String identifier, boolean status) {
-        ModelDto response = new ModelDto();
         Model model = modelRepository.findByIdentifier(identifier);
-        if (model == null) {
-            response.setSuccess(false);
-            response.setMessage("Model not found");
-            return response;
+        if (model != null) {
+            model.setStatus(!model.isStatus());
+            modelRepository.save(model);
         }
-        model.setStatus(status);
-        response.setSuccess(true);
-        response.setMessage("Status updated successfully");
-        return response;
+        return modelMapper.map(model, ModelDto.class);
     }
 }

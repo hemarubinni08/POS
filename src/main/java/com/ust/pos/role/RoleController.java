@@ -28,13 +28,13 @@ public class RoleController extends BaseController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute RoleDto userDto) {
+    public String add(Model model, @ModelAttribute RoleDto roleDto) {
         return "role/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute RoleDto userDto) {
-        RoleDto response = roleService.save(userDto);
+    public String addPost(Model model, @ModelAttribute RoleDto roleDto) {
+        RoleDto response = roleService.save(roleDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }

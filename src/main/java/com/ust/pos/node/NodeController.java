@@ -51,7 +51,7 @@ public class NodeController extends BaseController {
     public String update(Model model, @RequestParam String identifier, @ModelAttribute PaginationDto paginationDto) {
         NodeDto response = nodeService.findByIdentifier(identifier);
         Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
-                paginationDto.getSortField(),paginationDto.getSortDirection());
+                paginationDto.getSortDirection(),paginationDto.getSortField());
         model.addAttribute("node", response);
         model.addAttribute("roles", roleService.findAll(pageable));
         return "node/node";
