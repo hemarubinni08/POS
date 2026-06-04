@@ -40,7 +40,7 @@ public class CustomerApiController extends BaseController {
     }
 
     @GetMapping("/get")
-    public CustomerDto update(@RequestParam String identifier, Model model) {
+    public CustomerDto update(@RequestParam String identifier) {
         return customerService.findByIdentifier(identifier);
     }
 
