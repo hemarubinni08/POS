@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class UnitServiceTest {
+class UnitServiceTest {
 
     @InjectMocks
     private UnitServiceImpl unitService;

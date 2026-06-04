@@ -22,7 +22,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class RackServiceTest {
+class RackServiceTest {
 
     @InjectMocks
     private RacksServiceImpl racksService;

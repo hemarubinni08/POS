@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class CategoryServiceTest {
+class CategoryServiceTest {
 
     @InjectMocks
     private CategoryServiceImplementation categoryService;

@@ -22,7 +22,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class ShelfServiceTest {
+class ShelfServiceTest {
 
     @InjectMocks
     private ShelfServiceImpl shelfService;
