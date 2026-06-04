@@ -23,24 +23,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
         return config.getAuthenticationManager();
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
-
-        http
-                .csrf(csrf -> csrf.disable()) // Disable for testing
-
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-
                         .requestMatchers(LOGIN, "/register").permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form
                         .loginPage(LOGIN)
                         .failureHandler((request, response, exception) -> {
@@ -55,5 +49,4 @@ public class SecurityConfig {
                 );
         return http.build();
     }
-
 }
