@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
 @Service
 public class WareHouseServiceImpl implements WareHouseService {
     @Autowired
@@ -61,7 +62,7 @@ public class WareHouseServiceImpl implements WareHouseService {
     public List<WareHouseDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<WareHouseDto>>() {
         }.getType();
-        Page<Warehouse> warehousePage=warehouseRepository.findAll(pageable);
+        Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
         return modelMapper.map(warehousePage.getContent(), listType);
     }
 

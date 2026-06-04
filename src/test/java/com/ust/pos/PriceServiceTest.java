@@ -127,6 +127,7 @@ class PriceServiceTest {
         Mockito.verify(priceRepository)
                 .deleteByIdentifier("Price1");
     }
+
     @Test
     void findAllPaginationTest() {
         Price price = new Price();

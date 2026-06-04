@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
@@ -23,16 +24,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
-        String identifier =categoryDto .getIdentifier();
-        Category existingProduct =categoryRepository.findByIdentifier(identifier);
+        String identifier = categoryDto.getIdentifier();
+        Category existingProduct = categoryRepository.findByIdentifier(identifier);
         if (existingProduct != null) {
-           categoryDto .setMessage("Product with identifier - " + identifier + " already exists");
-           categoryDto .setSuccess(false);
-            return categoryDto ;
+            categoryDto.setMessage("Product with identifier - " + identifier + " already exists");
+            categoryDto.setSuccess(false);
+            return categoryDto;
         }
-        Category category= modelMapper.map(categoryDto, Category.class);
-       categoryRepository.save(category);
-        return categoryDto ;
+        Category category = modelMapper.map(categoryDto, Category.class);
+        categoryRepository.save(category);
+        return categoryDto;
     }
 
     @Override
@@ -60,7 +61,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-        Page<Category> categoryPage=categoryRepository.findAll(pageable);
+        Page<Category> categoryPage = categoryRepository.findAll(pageable);
         return modelMapper.map(categoryPage.getContent(), listType);
     }
 

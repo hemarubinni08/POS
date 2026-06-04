@@ -1,4 +1,5 @@
 package com.ust.pos.api.shelfs;
+
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ShelfsDto;
@@ -12,14 +13,14 @@ import java.util.List;
 @RestController
 @RequestMapping("api/shelfs")
 public class ShelfsControllerApi extends BaseController {
-    public static final String REDIRECT_SHELFS_LIST= "redirect:/shelfs/list";
+    public static final String REDIRECT_SHELFS_LIST = "redirect:/shelfs/list";
     @Autowired
     private ShelfsService shelfsService;
 
     @PostMapping("/list")
     public List<ShelfsDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
-      return shelfsService.findAll(pageable);
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        return shelfsService.findAll(pageable);
     }
 
     @PostMapping("/add")
@@ -38,8 +39,7 @@ public class ShelfsControllerApi extends BaseController {
     public boolean delete(@RequestParam String identifier) {
         try {
             shelfsService.delete(identifier);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

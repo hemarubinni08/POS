@@ -1,4 +1,5 @@
 package com.ust.pos.api.unit;
+
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UnitDto;
@@ -12,14 +13,14 @@ import java.util.List;
 @RestController
 @RequestMapping("api/unit")
 public class UnitControllerApi extends BaseController {
-    public static final String REDIRECT_UNIT_LIST= "redirect:/unit/list";
+    public static final String REDIRECT_UNIT_LIST = "redirect:/unit/list";
     @Autowired
     private UnitService unitService;
 
     @PostMapping("/list")
     public List<UnitDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
-       return unitService.findAll(pageable);
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        return unitService.findAll(pageable);
 
     }
 
@@ -37,8 +38,7 @@ public class UnitControllerApi extends BaseController {
     public boolean delete(@RequestParam String identifier) {
         try {
             unitService.delete(identifier);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

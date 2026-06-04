@@ -1,4 +1,5 @@
 package com.ust.pos.api.customer;
+
 import com.ust.pos.api.BaseController;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
@@ -18,7 +19,7 @@ public class CustomerControllerApi extends BaseController {
 
     @PostMapping("/list")
     public List<CustomerDto> customer(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return customerService.findAll(pageable);
     }
 
@@ -42,8 +43,7 @@ public class CustomerControllerApi extends BaseController {
     public boolean delete(@RequestParam String identifier) {
         try {
             customerService.delete(identifier);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

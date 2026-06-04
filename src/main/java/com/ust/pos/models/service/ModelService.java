@@ -6,15 +6,15 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ModelService {
-  ModelDto save(ModelDto modelDto);
+    ModelDto save(ModelDto modelDto);
 
-  ModelDto update(ModelDto modelDto);
+    ModelDto update(ModelDto modelDto);
 
-  boolean delete(String identifier);
+    boolean delete(String identifier);
 
-  List<ModelDto > findAll(Pageable pageable);
+    List<ModelDto> findAll(Pageable pageable);
 
-   ModelDto findByIdentifier(String identifier);
+    ModelDto findByIdentifier(String identifier);
 
     void toggleStatus(String identifier);
 }

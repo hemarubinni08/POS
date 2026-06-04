@@ -23,6 +23,7 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private ModelMapper modelMapper;
 
+
     @Override
     public RoleDto findByIdentifier(String identifier) {
         return modelMapper.map(roleRepository.findByIdentifier(identifier), RoleDto.class);
@@ -77,7 +78,7 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
-        Page<Role> rolePage=roleRepository.findAll(pageable);
+        Page<Role> rolePage = roleRepository.findAll(pageable);
         return modelMapper.map(rolePage.getContent(), listType);
     }
 }

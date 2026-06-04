@@ -6,15 +6,15 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface RacksService {
-   RacksDto save(RacksDto racksDto);
+    RacksDto save(RacksDto racksDto);
 
-   RacksDto update(RacksDto racksDto);
+    RacksDto update(RacksDto racksDto);
 
-   boolean delete(String identifier);
+    boolean delete(String identifier);
 
-   List<RacksDto> findAll(Pageable pageable);
+    List<RacksDto> findAll(Pageable pageable);
 
-   RacksDto findByIdentifier(String identifier);
+    RacksDto findByIdentifier(String identifier);
 
     void toggleStatus(String identifier);
 }

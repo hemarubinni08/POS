@@ -1,4 +1,5 @@
 package com.ust.pos.api.brand;
+
 import com.ust.pos.api.BaseController;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
@@ -11,13 +12,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/brand")
-public class BrandControllerApi  extends BaseController {
+public class BrandControllerApi extends BaseController {
     @Autowired
     private BrandService brandService;
 
     @PostMapping("/list")
     public List<BrandDto> brand(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return brandService.findAll(pageable);
     }
 
@@ -42,8 +43,7 @@ public class BrandControllerApi  extends BaseController {
     public boolean delete(@RequestParam String identifier) {
         try {
             brandService.delete(identifier);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

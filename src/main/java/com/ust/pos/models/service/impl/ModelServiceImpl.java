@@ -14,25 +14,26 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
 @Service
 public class ModelServiceImpl implements ModelService {
     @Autowired
     private ModelRepository modelRepository;
     @Autowired
     private ModelMapper modelMapper;
-    
+
     @Override
     public ModelDto save(ModelDto modelDto) {
-        String identifier =modelDto.getIdentifier();
-        Model existingModel =modelRepository.findByIdentifier(identifier);
-        if (existingModel  != null) {
-            modelDto .setMessage("Model with identifier - " + identifier + " already exists");
-            modelDto .setSuccess(false);
-            return modelDto ;
+        String identifier = modelDto.getIdentifier();
+        Model existingModel = modelRepository.findByIdentifier(identifier);
+        if (existingModel != null) {
+            modelDto.setMessage("Model with identifier - " + identifier + " already exists");
+            modelDto.setSuccess(false);
+            return modelDto;
         }
-        Model model= modelMapper.map(modelDto, Model.class);
+        Model model = modelMapper.map(modelDto, Model.class);
         modelRepository.save(model);
-        return modelDto ;
+        return modelDto;
 
     }
 
@@ -40,12 +41,12 @@ public class ModelServiceImpl implements ModelService {
     public ModelDto update(ModelDto modelDto) {
         String identifier = modelDto.getIdentifier();
         Model existingModel = modelRepository.findByIdentifier(identifier);
-        if (existingModel== null) {
+        if (existingModel == null) {
             modelDto.setMessage("Model with identifier - " + identifier + " not found");
             modelDto.setSuccess(false);
             return modelDto;
         }
-        modelMapper.map(modelDto,existingModel);
+        modelMapper.map(modelDto, existingModel);
         modelRepository.save(existingModel);
         return modelDto;
     }
@@ -61,7 +62,7 @@ public class ModelServiceImpl implements ModelService {
     public List<ModelDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ModelDto>>() {
         }.getType();
-        Page<Model> modelPage=modelRepository.findAll(pageable);
+        Page<Model> modelPage = modelRepository.findAll(pageable);
         return modelMapper.map(modelPage.getContent(), listType);
     }
 
@@ -80,5 +81,5 @@ public class ModelServiceImpl implements ModelService {
             modelRepository.save(model);
         }
     }
-    }
+}
 

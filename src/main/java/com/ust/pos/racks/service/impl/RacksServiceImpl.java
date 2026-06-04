@@ -1,4 +1,5 @@
 package com.ust.pos.racks.service.impl;
+
 import com.ust.pos.dto.RacksDto;
 import com.ust.pos.model.Racks;
 import com.ust.pos.model.RacksRepository;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
 @Service
 public class RacksServiceImpl implements RacksService {
     @Autowired
@@ -59,7 +61,7 @@ public class RacksServiceImpl implements RacksService {
     public List<RacksDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<RacksDto>>() {
         }.getType();
-        Page<Racks> racksPage=racksRepository.findAll(pageable);
+        Page<Racks> racksPage = racksRepository.findAll(pageable);
         return modelMapper.map(racksPage.getContent(), listType);
     }
 

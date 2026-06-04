@@ -19,7 +19,7 @@ public class NodeControllerApi extends BaseController {
 
     @PostMapping("/list")
     public List<NodeDto> node(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return nodeService.findAll(pageable);
     }
 
@@ -42,12 +42,12 @@ public class NodeControllerApi extends BaseController {
     public boolean delete(@RequestParam String identifier) {
         try {
             nodeService.delete(identifier);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;
     }
+
     @GetMapping("/nodeforroles")
     public List<NodeDto> getNodesForRoles() {
         return nodeService.getNodesForRoles();

@@ -14,5 +14,5 @@ public interface PriceService {
 
     List<PriceDto> findAll(Pageable pageable);
 
-    PriceDto  findByIdentifier(String identifier);
+    PriceDto findByIdentifier(String identifier);
 }

@@ -1,4 +1,5 @@
 package com.ust.pos.shelfs.service.impl;
+
 import com.ust.pos.dto.ShelfsDto;
 import com.ust.pos.model.Shelfs;
 import com.ust.pos.model.ShelfsRepository;
@@ -13,41 +14,43 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
 @Service
 public class ShelfsServiceImpl implements ShelfsService {
     @Autowired
     private ShelfsRepository shelfsRepository;
-    
+
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
     public ShelfsDto save(ShelfsDto shelfsDto) {
-        String identifier =shelfsDto.getIdentifier();
-        Shelfs existingShelfs =shelfsRepository.findByIdentifier(identifier);
-        if (existingShelfs!= null) {
+        String identifier = shelfsDto.getIdentifier();
+        Shelfs existingShelfs = shelfsRepository.findByIdentifier(identifier);
+        if (existingShelfs != null) {
             shelfsDto.setMessage("Shelfs with identifier - " + identifier + " already exists");
             shelfsDto.setSuccess(false);
-            return shelfsDto ;
+            return shelfsDto;
         }
-        Shelfs shelfs= modelMapper.map(shelfsDto, Shelfs.class);
+        Shelfs shelfs = modelMapper.map(shelfsDto, Shelfs.class);
         shelfsRepository.save(shelfs);
-        return shelfsDto ;
+        return shelfsDto;
     }
 
     @Override
     public ShelfsDto update(ShelfsDto shelfsDto) {
         String identifier = shelfsDto.getIdentifier();
         Shelfs existingShelfs = shelfsRepository.findByIdentifier(identifier);
-        if (existingShelfs== null) {
+        if (existingShelfs == null) {
             shelfsDto.setMessage("Shelfs with identifier - " + identifier + " not found");
             shelfsDto.setSuccess(false);
             return shelfsDto;
         }
-        modelMapper.map(shelfsDto,existingShelfs);
+        modelMapper.map(shelfsDto, existingShelfs);
         shelfsRepository.save(existingShelfs);
         return shelfsDto;
     }
+
     @Transactional
     @Override
     public boolean delete(String identifier) {
@@ -59,7 +62,7 @@ public class ShelfsServiceImpl implements ShelfsService {
     public List<ShelfsDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ShelfsDto>>() {
         }.getType();
-        Page<Shelfs> shelfsPage=shelfsRepository.findAll(pageable);
+        Page<Shelfs> shelfsPage = shelfsRepository.findAll(pageable);
         return modelMapper.map(shelfsPage.getContent(), listType);
     }
 
@@ -81,7 +84,8 @@ public class ShelfsServiceImpl implements ShelfsService {
 
     @Override
     public List<ShelfsDto> findActiveShelves() {
-        Type listType = new TypeToken<List<ShelfsDto>>() {}.getType();
-        return modelMapper.map(shelfsRepository.findByStatusTrue(),listType);
+        Type listType = new TypeToken<List<ShelfsDto>>() {
+        }.getType();
+        return modelMapper.map(shelfsRepository.findByStatusTrue(), listType);
     }
 }

@@ -14,19 +14,21 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
 @Service
 public class PriceServiceImpl implements PriceService {
     @Autowired
     private PriceRepository priceRepository;
     @Autowired
     private ModelMapper modelMapper;
+
     @Override
     public PriceDto save(PriceDto priceDto) {
-        String identifier =priceDto.getIdentifier();
+        String identifier = priceDto.getIdentifier();
         Price existingProduct = priceRepository.findByIdentifier(identifier);
         if (existingProduct != null) {
-           priceDto.setMessage("Product with identifier - " + identifier + " already exists");
-           priceDto.setSuccess(false);
+            priceDto.setMessage("Product with identifier - " + identifier + " already exists");
+            priceDto.setSuccess(false);
             return priceDto;
         }
         Price price = modelMapper.map(priceDto, Price.class);
@@ -36,11 +38,11 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto update(PriceDto priceDto) {
-        String identifier =priceDto.getIdentifier();
+        String identifier = priceDto.getIdentifier();
         Price existingProduct = priceRepository.findByIdentifier(identifier);
         if (existingProduct == null) {
-           priceDto.setMessage("Product with identifier - " + identifier + " not found");
-           priceDto.setSuccess(false);
+            priceDto.setMessage("Product with identifier - " + identifier + " not found");
+            priceDto.setSuccess(false);
             return priceDto;
         }
         modelMapper.map(priceDto, existingProduct);
@@ -59,12 +61,12 @@ public class PriceServiceImpl implements PriceService {
     public List<PriceDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
-        Page<Price> pricePage=priceRepository.findAll(pageable);
+        Page<Price> pricePage = priceRepository.findAll(pageable);
         return modelMapper.map(pricePage.getContent(), listType);
     }
 
     @Override
     public PriceDto findByIdentifier(String identifier) {
-        return modelMapper.map(priceRepository.findByIdentifier(identifier),PriceDto.class);
+        return modelMapper.map(priceRepository.findByIdentifier(identifier), PriceDto.class);
     }
 }

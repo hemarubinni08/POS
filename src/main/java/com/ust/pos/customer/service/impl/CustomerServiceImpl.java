@@ -148,7 +148,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<CustomerDto>>() {}.getType();
+        Type listType = new TypeToken<List<CustomerDto>>() {
+        }.getType();
         Page<Customer> customerPage = customerRepository.findAll(pageable);
         return modelMapper.map(customerPage.getContent(), listType);
     }

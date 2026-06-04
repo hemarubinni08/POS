@@ -1,4 +1,5 @@
 package com.ust.pos.api.category;
+
 import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
@@ -18,7 +19,7 @@ public class CategoryControllerApi extends BaseController {
 
     @PostMapping("/list")
     public List<CategoryDto> category(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return categoryService.findAll(pageable);
     }
 
@@ -34,7 +35,7 @@ public class CategoryControllerApi extends BaseController {
 
 
     @PostMapping("/add")
-    public CategoryDto addPost( @RequestBody CategoryDto categoryDto) {
+    public CategoryDto addPost(@RequestBody CategoryDto categoryDto) {
         return categoryService.save(categoryDto);
     }
 
@@ -48,8 +49,7 @@ public class CategoryControllerApi extends BaseController {
     public boolean delete(@RequestParam String identifier) {
         try {
             categoryService.delete(identifier);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

@@ -13,37 +13,38 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
 @Service
 public class UnitServiceImpl implements UnitService {
     @Autowired
     private UnitRepository unitRepository;
     @Autowired
     private ModelMapper modelMapper;
-    
+
     @Override
     public UnitDto save(UnitDto unitDto) {
-        String identifier =unitDto.getIdentifier();
-        Unit existingUnit =unitRepository.findByIdentifier(identifier);
-        if (existingUnit  != null) {
+        String identifier = unitDto.getIdentifier();
+        Unit existingUnit = unitRepository.findByIdentifier(identifier);
+        if (existingUnit != null) {
             unitDto.setMessage("Unit with identifier - " + identifier + " already exists");
             unitDto.setSuccess(false);
-            return unitDto ;
+            return unitDto;
         }
-        Unit unit= modelMapper.map(unitDto, Unit.class);
+        Unit unit = modelMapper.map(unitDto, Unit.class);
         unitRepository.save(unit);
-        return unitDto ;
+        return unitDto;
     }
 
     @Override
     public UnitDto update(UnitDto unitDto) {
         String identifier = unitDto.getIdentifier();
         Unit existingUnit = unitRepository.findByIdentifier(identifier);
-        if (existingUnit== null) {
+        if (existingUnit == null) {
             unitDto.setMessage("Unit with identifier - " + identifier + " not found");
             unitDto.setSuccess(false);
             return unitDto;
         }
-        modelMapper.map(unitDto,existingUnit);
+        modelMapper.map(unitDto, existingUnit);
         unitRepository.save(existingUnit);
         return unitDto;
     }
@@ -58,7 +59,7 @@ public class UnitServiceImpl implements UnitService {
     public List<UnitDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
-        Page<Unit> unitPage=unitRepository.findAll(pageable);
+        Page<Unit> unitPage = unitRepository.findAll(pageable);
         return modelMapper.map(unitPage.getContent(), listType);
     }
 

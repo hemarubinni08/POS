@@ -1,4 +1,5 @@
 package com.ust.pos.stock.service.impl;
+
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
@@ -13,44 +14,46 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
 @Service
 public class StockServiceImpl implements StockService {
     @Autowired
     private StockRepository stockRepository;
     @Autowired
     private ModelMapper modelMapper;
+
     @Override
     public StockDto save(StockDto stockDto) {
         String identifier = stockDto.getIdentifier();
-        Stock existingStock =stockRepository.findByIdentifier(identifier);
+        Stock existingStock = stockRepository.findByIdentifier(identifier);
         if (existingStock != null) {
             stockDto.setMessage("Stock with identifier - " + identifier + " already exists");
             stockDto.setSuccess(false);
             return stockDto;
         }
-        Stock stock= modelMapper.map(stockDto, Stock.class);
+        Stock stock = modelMapper.map(stockDto, Stock.class);
         stockRepository.save(stock);
         return stockDto;
     }
 
     @Override
     public StockDto update(StockDto stockDto) {
-        String identifier =stockDto.getIdentifier();
-        Stock existingStock =stockRepository.findByIdentifier(identifier);
+        String identifier = stockDto.getIdentifier();
+        Stock existingStock = stockRepository.findByIdentifier(identifier);
         if (existingStock == null) {
-           stockDto.setMessage("Stock with identifier - " + identifier + " not found");
-           stockDto.setSuccess(false);
+            stockDto.setMessage("Stock with identifier - " + identifier + " not found");
+            stockDto.setSuccess(false);
             return stockDto;
         }
         modelMapper.map(stockDto, existingStock);
-       stockRepository.save(existingStock);
+        stockRepository.save(existingStock);
         return stockDto;
     }
 
     @Override
     @Transactional
     public void delete(String identifier) {
-      stockRepository.deleteByIdentifier(identifier);
+        stockRepository.deleteByIdentifier(identifier);
 
     }
 
@@ -58,7 +61,7 @@ public class StockServiceImpl implements StockService {
     public List<StockDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
-        Page<Stock> stockPage=stockRepository.findAll(pageable);
+        Page<Stock> stockPage = stockRepository.findAll(pageable);
         return modelMapper.map(stockPage.getContent(), listType);
     }
 

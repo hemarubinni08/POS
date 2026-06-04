@@ -12,7 +12,7 @@ public interface UnitService {
 
     boolean delete(String identifier);
 
-    List<UnitDto > findAll(Pageable pageable);
+    List<UnitDto> findAll(Pageable pageable);
 
     UnitDto findByIdentifier(String identifier);
 

@@ -19,12 +19,12 @@ public class UserControllerApi extends BaseController {
 
     @PostMapping("/list")
     public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable=getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return userService.findAll(pageable);
     }
 
     @GetMapping("/get")
-    public UserDto update( @RequestParam String username) {
+    public UserDto update(@RequestParam String username) {
         return userService.findByUserName(username);
     }
 
@@ -33,12 +33,12 @@ public class UserControllerApi extends BaseController {
         return userService.update(userDto);
 
     }
+
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             userService.delete(identifier);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

@@ -1,4 +1,5 @@
 package com.ust.pos.racks;
+
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RacksDto;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/racks")
 public class RacksController extends BaseController {
-    public static final String REDIRECT_RACKS_LIST= "redirect:/racks/list";
+    public static final String REDIRECT_RACKS_LIST = "redirect:/racks/list";
     public static final String SHELFS = "shelfs";
     @Autowired
     private RacksService racksService;
@@ -35,7 +36,7 @@ public class RacksController extends BaseController {
 
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute RacksDto racksDto) {
-        RacksDto response =racksService.save(racksDto);
+        RacksDto response = racksService.save(racksDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("racksDto", racksDto);
@@ -48,7 +49,7 @@ public class RacksController extends BaseController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-        RacksDto response =racksService.findByIdentifier(identifier);
+        RacksDto response = racksService.findByIdentifier(identifier);
         model.addAttribute("racksDto", response);
         model.addAttribute(SHELFS, shelfsService.findActiveShelves());
         return "racks/racks";
@@ -56,7 +57,7 @@ public class RacksController extends BaseController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute RacksDto racksDto) {
-        RacksDto response =racksService.update(racksDto);
+        RacksDto response = racksService.update(racksDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
@@ -68,6 +69,7 @@ public class RacksController extends BaseController {
         racksService.delete(identifier);
         return REDIRECT_RACKS_LIST;
     }
+
     @GetMapping("/toggleStatus")
     public String toggleStatus(@RequestParam String identifier) {
         racksService.toggleStatus(identifier);

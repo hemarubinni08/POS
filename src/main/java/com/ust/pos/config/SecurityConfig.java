@@ -14,15 +14,14 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
 
-
-   @Bean
+    @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config)  {
+            AuthenticationConfiguration config) {
         return config.getAuthenticationManager();
     }
 
-   @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http)  {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) {
 
         http
                 .csrf(csrf -> csrf.disable()) // Disable for testing
@@ -30,7 +29,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 
-                        .requestMatchers("/login", "/register","/api/**").permitAll()
+                        .requestMatchers("/login", "/register", "/api/**").permitAll()
                         .anyRequest().authenticated()
                 )
 
