@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Category Profile</title>
+    <title>POS Retail Management | Category Profile</title>
 
     <style>
         body {
@@ -125,17 +125,14 @@
 
             <h2>Category Configuration</h2>
 
-            <!-- Category Name -->
             <div class="profile-row">
                 <span class="label">Category Name</span>
                 <span class="static-value">${category.identifier}</span>
             </div>
 
-            <!-- Super Category -->
             <div class="profile-row">
                 <span class="label">Super Category</span>
 
-                <!-- View mode -->
                 <span class="value">
                     <c:choose>
                         <c:when test="${empty category.superCategory}">
@@ -147,7 +144,6 @@
                     </c:choose>
                 </span>
 
-                <!-- Edit mode -->
                 <select name="superCategory">
                     <option value="">-- No Parent (Top Level) --</option>
 

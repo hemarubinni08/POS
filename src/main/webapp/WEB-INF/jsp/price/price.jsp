@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Price Profile</title>
+    <title>POS Retail Management | Price Details</title>
 
     <style>
         body {
@@ -119,27 +119,23 @@
     <div class="profile-body">
         <form action="${pageContext.request.contextPath}/price/update" method="post">
 
-            <!-- DB identity -->
             <input type="hidden" name="id" value="${price.id}" />
             <input type="hidden" name="identifier" value="${price.identifier}" />
             <input type="hidden" name="effectiveFrom" value="${price.effectiveFrom}" />
 
             <h2>Price Configuration</h2>
 
-            <!-- READ-ONLY -->
             <div class="profile-row">
                 <span class="label">Product Name</span>
                 <span class="value readonly-value">${price.identifier}</span>
             </div>
 
-            <!-- EDITABLE -->
             <div class="profile-row">
                 <span class="label">MRP</span>
                 <span class="value">₹ ${price.mrp}</span>
                 <input class="editable" type="number" step="0.01" name="mrp" value="${price.mrp}" />
             </div>
 
-            <!-- EDITABLE -->
             <div class="profile-row">
                 <span class="label">Selling Price</span>
                 <span class="value">₹ ${price.sellingPrice}</span>
@@ -147,7 +143,6 @@
                        value="${price.sellingPrice}" />
             </div>
 
-            <!-- READ-ONLY -->
             <div class="profile-row">
                 <span class="label">Effective From</span>
                 <span class="value readonly-value">${price.effectiveFrom}</span>
@@ -168,11 +163,9 @@
 <script>
     function enableEdit() {
 
-        // Hide only editable display values
         document.querySelectorAll('.value:not(.readonly-value)')
             .forEach(v => v.style.display = 'none');
 
-        // Show editable inputs
         document.querySelectorAll('.editable')
             .forEach(i => i.style.display = 'inline-block');
 
@@ -182,6 +175,5 @@
         document.querySelector('h2').innerText = "Edit Price Details";
     }
 </script>
-
 </body>
 </html>

@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Price Management</title>
+    <title>POS Retail Management | Price Management</title>
 
     <style>
         body {
@@ -123,7 +123,7 @@
 <div class="container">
 
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="content-body">

@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Model Profile</title>
+    <title>POS Retail Management | Model Details</title>
 
     <style>
         body {
@@ -116,29 +116,25 @@
 <body>
 <div class="profile-card">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="profile-body">
         <form action="${pageContext.request.contextPath}/models/update" method="post">
 
-            <!-- DB identity -->
             <input type="hidden" name="id" value="${model.id}" />
             <input type="hidden" name="identifier" value="${model.identifier}" />
 
             <h2>Model Configuration</h2>
 
-            <!-- Model Identifier -->
             <div class="profile-row">
                 <span class="label">Model Name</span>
                 <span class="value fixed-value">${model.identifier}</span>
             </div>
 
-            <!-- Status -->
             <div class="profile-row">
                 <span class="label">Status</span>
 
-                <!-- View -->
                 <span class="value">
                     <c:choose>
                         <c:when test="${model.status}">
@@ -150,7 +146,6 @@
                     </c:choose>
                 </span>
 
-                <!-- Edit -->
                 <input class="editable"
                        type="checkbox"
                        name="status"
@@ -175,11 +170,9 @@
 <script>
     function enableEdit() {
 
-        /* Hide only editable values (NOT identifier) */
         document.querySelectorAll('.value:not(.fixed-value)')
             .forEach(v => v.style.display = 'none');
 
-        /* Show editable inputs */
         document.querySelectorAll('.editable')
             .forEach(e => e.style.display = 'inline-block');
 
@@ -188,6 +181,5 @@
         document.querySelector('h2').innerText = "Edit Model Details";
     }
 </script>
-
 </body>
 </html>

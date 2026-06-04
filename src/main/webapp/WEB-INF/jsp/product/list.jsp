@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Product Management</title>
+    <title>POS Retail Management | Product Management</title>
 
     <style>
         body {
@@ -118,7 +118,7 @@
 <body>
 <div class="container">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="content-body">
@@ -134,11 +134,11 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Product Name</th>
-                <th>Category</th>
+                <th>SKU Code</th>
+                <th>Name</th>
                 <th>Brand</th>
                 <th>Model</th>
-                <th>SKU Code</th>
+                <th>Category</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -148,17 +148,14 @@
                 <tr>
                     <td>${product.id}</td>
                     <td><strong>${product.identifier}</strong></td>
-
+                    <td>${product.name}</td>
+                    <td>${product.brand}</td>
+                    <td>${product.model}</td>
                     <td>
                         <c:forEach var="c" items="${product.categories}" varStatus="s">
                             ${c}<c:if test="${!s.last}">, </c:if>
                         </c:forEach>
                     </td>
-
-                    <td>${product.brand}</td>
-                    <td>${product.model}</td>
-                    <td>${product.skucode}</td>
-
                     <td>
                         <a href="${pageContext.request.contextPath}/product/get?identifier=${product.identifier}"
                            class="btn-action btn-view">

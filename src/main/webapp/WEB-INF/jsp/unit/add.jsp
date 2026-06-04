@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Add Unit</title>
+    <title>POS Retail Management | Add Unit</title>
 
     <style>
         body {
@@ -73,13 +73,12 @@
 
 <div class="container">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="form-body">
         <h2 style="text-align:center;">Add Unit</h2>
 
-        <!-- ✅ FIX: proper form tag -->
         <form action="${pageContext.request.contextPath}/unit/add" method="post">
 
             <div class="form-group">
@@ -100,8 +99,6 @@
             </a>
 
         </form>
-        <!-- ✅ FORM CLOSED -->
-
     </div>
 </div>
 

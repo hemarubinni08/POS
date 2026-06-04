@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>POS Management | Product Profile</title>
+<title>POS Retail Management | Product Details</title>
 
 <style>
     body {
@@ -108,7 +108,7 @@
 
 <div class="profile-card">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="profile-body">
@@ -120,8 +120,17 @@
             <h2>Product Configuration</h2>
 
             <div class="profile-row">
-                <span class="label">Product Name</span>
+                <span class="label">Product SKU</span>
                 <span class="value readonly">${product.identifier}</span>
+            </div>
+
+            <div class="profile-row">
+                <span class="label">Product Name</span>
+                <span class="value editable-value">${product.name}</span>
+
+                <input class="editable" type="text"
+                       name="name"
+                       value="${product.name}" />
             </div>
 
             <div class="profile-row">
@@ -158,7 +167,6 @@
                     </c:forEach>
                 </span>
 
-                <!-- ✅ FIXED -->
                 <select class="editable" name="categories[]" multiple size="5">
                     <c:forEach var="cat" items="${categories}">
                         <option value="${cat.identifier}"
@@ -167,16 +175,6 @@
                         </option>
                     </c:forEach>
                 </select>
-            </div>
-
-            <div class="profile-row">
-                <span class="label">SKU Code</span>
-                <span class="value editable-value">${product.skucode}</span>
-
-                <!-- ✅ FIXED -->
-                <input class="editable" type="text"
-                       name="skucode"
-                       value="${product.skucode}" />
             </div>
 
             <div class="profile-row">

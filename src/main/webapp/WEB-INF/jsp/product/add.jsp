@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Add Product</title>
+    <title>POS Retail Management | Add Product</title>
 
     <style>
         body {
@@ -125,7 +125,7 @@
 
 <div class="container">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="form-body">
@@ -134,10 +134,18 @@
         <form action="${pageContext.request.contextPath}/product/add" method="post">
 
             <div class="form-group">
-                <label>Product Name</label>
+                <label>Product SKU</label>
                 <input type="text"
                        name="identifier"
                        placeholder="e.g. IPHONE_15"
+                       required />
+            </div>
+
+            <div class="form-group">
+                <label>Name</label>
+                <input type="String"
+                       name="name"
+                       placeholder="e.g. Iphone"
                        required />
             </div>
 
@@ -172,14 +180,6 @@
                         </option>
                     </c:forEach>
                 </select>
-            </div>
-
-            <div class="form-group">
-                <label>SKU Code</label>
-                <input type="number"
-                       name="skucode"
-                       placeholder="e.g. 1002003001"
-                       required />
             </div>
 
             <button type="submit" class="btn-submit">

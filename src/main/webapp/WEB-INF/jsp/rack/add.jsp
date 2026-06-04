@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Add Rack</title>
+    <title>POS Retail Management | Add Rack</title>
 
     <style>
         body {
@@ -102,13 +102,12 @@
 <div class="container">
 
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="form-body">
         <h2>Add Rack</h2>
 
-        <!-- Backend feedback -->
         <c:if test="${not empty message}">
             <div class="${success ? 'success' : 'error'}">
                 ${message}
@@ -117,7 +116,6 @@
         <form action="${pageContext.request.contextPath}/rack/add"
               method="post">
 
-            <!-- Rack Identifier -->
             <div class="form-group">
                 <label>Rack Identifier</label>
                 <input type="text"
@@ -126,7 +124,6 @@
                        required />
             </div>
 
-            <!-- Shelves Multi Select -->
             <div class="form-group">
                 <label>Select Shelves</label>
                 <select name="shelfs" multiple required>

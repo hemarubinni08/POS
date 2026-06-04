@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Shelf Profile</title>
+    <title>POS Retail Management | Shelf Details</title>
 
     <style>
         body {
@@ -61,19 +61,15 @@
 
 <div class="profile-card">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="profile-body">
 
-        <!-- ✅ FIX: proper form tag -->
         <form action="${pageContext.request.contextPath}/shelf/update" method="post">
-
             <input type="hidden" name="id" value="${shelf.id}" />
             <input type="hidden" name="identifier" value="${shelf.identifier}" />
-
             <h2>Shelf Configuration</h2>
-
             <div class="profile-row">
                 <span>Shelf Identifier</span>
                 <span class="value">${shelf.identifier}</span>
@@ -102,8 +98,6 @@
             </a>
 
         </form>
-        <!-- ✅ FORM CLOSED -->
-
     </div>
 </div>
 

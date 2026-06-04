@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS Management | Register Account</title>
+    <title>POS Retail Management | Register Account</title>
 
     <style>
         :root {
@@ -69,7 +69,6 @@
             font-weight: 500;
         }
 
-        /* ===== Right Side: Form Panel (65% Width) ===== */
         .register-panel {
             flex: 0.65;
             background: var(--panel-bg);
@@ -203,7 +202,6 @@
 <body>
 
     <div class="wrapper">
-        <!-- Brand Visual Section -->
         <section class="brand-panel">
             <h1>Join the <br>Network.</h1>
             <p>Ready to scale? Set up your workspace account in just a few minutes.</p>
@@ -215,7 +213,6 @@
             </div>
         </section>
 
-        <!-- Register Interaction Section (The Box Illusion) -->
         <main class="register-panel">
             <div class="login-card">
                 <h2>Registration</h2>

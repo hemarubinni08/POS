@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Brand Profile</title>
+    <title>POS Retail Management | Brand Details</title>
 
     <style>
         body {
@@ -147,13 +147,11 @@
 
             <h2>Brand Configuration</h2>
 
-            <!-- Identifier (VISIBLE but NOT editable) -->
             <div class="profile-row">
                 <span class="label">Brand Identifier</span>
                 <span class="value fixed-value">${brand.identifier}</span>
             </div>
 
-            <!-- Description -->
             <div class="profile-row">
                 <span class="label">Description</span>
                 <span class="value">${brand.description}</span>
@@ -174,11 +172,9 @@
 
 <script>
     function enableEdit() {
-        // hide ONLY editable values
         document.querySelectorAll('.value:not(.fixed-value)')
             .forEach(v => v.style.display = 'none');
 
-        // show inputs
         document.querySelectorAll('.editable')
             .forEach(i => i.style.display = 'inline-block');
 

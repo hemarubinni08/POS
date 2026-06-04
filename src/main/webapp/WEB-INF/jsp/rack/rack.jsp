@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Rack Profile</title>
+    <title>POS Retail Management | Rack Details</title>
 
     <style>
         body {
@@ -102,7 +102,7 @@
 
 <div class="profile-card">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="profile-body">
@@ -114,13 +114,11 @@
 
             <h2>Rack Configuration</h2>
 
-            <!-- ✅ READ ONLY -->
             <div class="profile-row">
                 <span class="label">Rack Identifier</span>
                 <span class="value readonly">${rack.identifier}</span>
             </div>
 
-            <!-- ✅ EDITABLE -->
             <div class="profile-row">
                 <span class="label">Shelves</span>
 

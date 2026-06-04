@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Role Profile</title>
+    <title>POS Retail Management | Role Details</title>
 
     <style>
         body {
@@ -141,7 +141,7 @@
 <body>
     <div class="profile-card">
         <div class="brand-header">
-            <h1>POS Management</h1>
+            <h1>POS Retail Management</h1>
         </div>
 
         <div class="profile-body">
@@ -199,6 +199,5 @@
             document.querySelector('h2').innerText = "Edit Role Details";
         }
     </script>
-
 </body>
 </html>

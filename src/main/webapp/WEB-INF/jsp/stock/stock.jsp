@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Stock Profile</title>
+    <title>POS Retail Management | Stock Details</title>
 
     <style>
         body {
@@ -117,7 +117,7 @@
 
 <div class="profile-card">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="profile-body">
@@ -128,13 +128,11 @@
 
             <h2>Stock Configuration</h2>
 
-            <!-- ✅ Product (READONLY forever) -->
             <div class="profile-row">
                 <span class="label">Product</span>
                 <span class="value readonly">${stock.identifier}</span>
             </div>
 
-            <!-- ✅ Available Stock -->
             <div class="profile-row">
                 <span class="label">Available Stock</span>
                 <span class="value editable-value">${stock.availableStock}</span>
@@ -143,7 +141,6 @@
                        value="${stock.availableStock}" min="0" />
             </div>
 
-            <!-- ✅ Outgoing Stock -->
             <div class="profile-row">
                 <span class="label">Outgoing Stock</span>
                 <span class="value editable-value">${stock.outgoingStock}</span>
@@ -152,7 +149,6 @@
                        value="${stock.outgoingStock}" min="0" />
             </div>
 
-            <!-- ✅ Warehouse -->
             <div class="profile-row">
                 <span class="label">Warehouse</span>
                 <span class="value editable-value">${stock.warehouse}</span>
@@ -166,7 +162,6 @@
                 </select>
             </div>
 
-            <!-- ✅ Product Status -->
             <div class="profile-row">
                 <span class="label">Product Status</span>
                 <span class="value editable-value">${stock.productStatus}</span>
@@ -192,11 +187,9 @@
 <script>
 function enableEdit() {
 
-    /* ✅ Hide ONLY editable display values */
     document.querySelectorAll('.editable-value')
         .forEach(v => v.style.display = 'none');
 
-    /* ✅ Show inputs/selects */
     document.querySelectorAll('.editable')
         .forEach(i => i.style.display = 'inline-block');
 

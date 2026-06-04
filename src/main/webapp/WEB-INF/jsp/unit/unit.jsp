@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Unit Profile</title>
+    <title>POS Retail Management | Unit Details</title>
 
     <style>
         body {
@@ -70,12 +70,11 @@
 
 <div class="profile-card">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="profile-body">
 
-        <!-- ✅ FIX: proper form tag -->
         <form action="${pageContext.request.contextPath}/unit/update" method="post">
 
             <input type="hidden" name="id" value="${unit.id}" />
@@ -116,8 +115,6 @@
             </a>
 
         </form>
-        <!-- ✅ FORM CLOSED -->
-
     </div>
 </div>
 

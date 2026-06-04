@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>POS Management | Customer Management</title>
+<title>POS Retail Management | Customer Management</title>
 
 <style>
     body {
@@ -84,7 +84,6 @@
         background: #F9FAFB;
     }
 
-    /* Primary identity emphasis */
     .cust-name {
         font-weight: 700;
         color: #111827;
@@ -96,7 +95,6 @@
         color: #6B7280;
     }
 
-    /* Status badge */
     .status-label {
         font-size: 12px;
         font-weight: 700;
@@ -104,7 +102,6 @@
         margin-left: 6px;
     }
 
-    /* ===== Toggle Switch (refined) ===== */
     .switch {
         position: relative;
         display: inline-block;
@@ -144,7 +141,6 @@
         transform: translateX(20px);
     }
 
-    /* Actions */
     .actions {
         display: flex;
         gap: 8px;
@@ -168,7 +164,7 @@
 
 <div class="container">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="content">

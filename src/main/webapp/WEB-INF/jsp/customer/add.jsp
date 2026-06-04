@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>POS Management | Add Customer</title>
+<title>POS Retail Management | Add Customer</title>
 
 <style>
     body {
@@ -100,12 +100,10 @@
         cursor: pointer;
     }
 
-    /* Field wrapper to avoid cramped look */
     .field {
         margin-bottom: 14px;
     }
 
-    /* Address card look */
     .address-card {
         background: #F9FAFB;
         border: 1px solid #E5E7EB;
@@ -113,7 +111,6 @@
         padding: 20px;
     }
 
-    /* Stronger visual title */
     .address-title {
         font-size: 13px;
         font-weight: 700;
@@ -121,7 +118,6 @@
         color: #1F2937;
     }
 
-    /* Improve overall readability */
     input, select {
         box-sizing: border-box;
     }
@@ -133,14 +129,13 @@
 <body>
     <div class="card">
     <div class="header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <h2>Add Customer</h2>
 
     <form action="${pageContext.request.contextPath}/customer/add" method="post">
 
-        <!-- CUSTOMER DETAILS -->
         <div class="section">
             <div class="section-title">Customer Details</div>
             <div class="grid-3">
@@ -188,13 +183,11 @@
             </div>
         </div>
 
-        <!-- ADDRESS -->
         <div class="section">
             <div class="section-title">Addresses</div>
 
             <div class="grid-2">
 
-                <!-- BILLING -->
                 <div class="address-card">
                     <div class="address-title">Billing Address</div>
 
@@ -215,7 +208,6 @@
                     </div>
                 </div>
 
-                <!-- SHIPPING -->
                 <div class="address-card">
                     <div class="address-title">Shipping Address</div>
 

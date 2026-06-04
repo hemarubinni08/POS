@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POS Management | Enterprise Login</title>
+    <title>POS Retail Management | Enterprise Login</title>
 
     <style>
         :root {
@@ -31,7 +31,6 @@
             width: 100%;
         }
 
-        /* ===== Left Side: Brand Panel ===== */
         .brand-panel {
             flex: 1;
             background: var(--navy);
@@ -72,7 +71,6 @@
             font-weight: 500;
         }
 
-        /* ===== Right Side: Form Panel (The Box Illusion) ===== */
         .login-panel {
             flex: 0.8;
             background: var(--panel-bg); /* Changed from white to subtle gray */
@@ -155,7 +153,6 @@
             transform: scale(0.98);
         }
 
-        /* Alerts & Toasts */
         .error-box {
             background: #FEF2F2;
             color: #991B1B;
@@ -180,7 +177,6 @@
             font-weight: 700;
         }
 
-        /* Mobile Viewport Fix */
         @media (max-width: 850px) {
             .brand-panel { display: none; }
             .login-panel { flex: 1; background: white; }
@@ -191,15 +187,14 @@
 <body>
 
     <div class="wrapper">
-        <!-- Brand Visual Section -->
         <section class="brand-panel">
             <h1>POS <br>Management.</h1>
             <p>The centralized hub for your business operations. Smart, reliable, and secure.</p>
 
             <ul class="feature-list">
-                <li>✅ Real-time Analytics</li>
-                <li>✅ Secure Cloud Storage</li>
-                <li>✅ Inventory Management</li>
+                <li>Real-time Analytics</li>
+                <li>Secure Cloud Storage</li>
+                <li>Inventory Management</li>
             </ul>
 
             <div style="margin-top: auto; font-size: 12px; opacity: 0.6;">
@@ -207,7 +202,6 @@
             </div>
         </section>
 
-        <!-- Login Interaction Section -->
         <main class="login-panel">
             <!-- Content wrapped in the "Illusive Box" card -->
             <div class="login-card">

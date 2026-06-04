@@ -70,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
         }
         existing.setBrand(productDto.getBrand());
         existing.setModel(productDto.getModel());
-        existing.setSkucode(productDto.getSkucode());
+        existing.setName(productDto.getName());
         existing.setCategories(productDto.getCategories() == null ? List.of() : productDto.getCategories());
         productRepository.save(existing);
         productDto.setSuccess(true);

@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Model Management</title>
+    <title>POS Retail Management | Model Management</title>
 
     <style>
         body {
@@ -76,7 +76,6 @@
             background: #F9FAFB;
         }
 
-        /* ===== Toggle Switch ===== */
         .switch {
             position: relative;
             display: inline-block;
@@ -162,7 +161,7 @@
 
 <div class="container">
 
-    <div class="brand-header">POS Management</div>
+    <div class="brand-header">POS Retail Management</div>
 
     <div class="content-body">
 

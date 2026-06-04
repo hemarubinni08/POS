@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Node Profile</title>
+    <title>POS Retail Management | Node Details</title>
 
     <style>
         body {

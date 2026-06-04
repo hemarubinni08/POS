@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>POS Management | Unit Management</title>
+<title>POS Retail Management | Unit Management</title>
 
 <style>
     body {
@@ -91,7 +91,6 @@
         background-color: #F9FAFB;
     }
 
-    /* ===== Toggle ===== */
     .switch {
         position: relative;
         display: inline-block;
@@ -140,7 +139,6 @@
         margin-left: 8px;
     }
 
-    /* ===== Actions ===== */
     .actions {
         display: flex;
         gap: 8px;
@@ -183,7 +181,7 @@
 
 <div class="container">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="content-body">
@@ -216,7 +214,6 @@
                         ${unit.identifier}
                     </td>
 
-                    <!-- ✅ STATUS TOGGLE -->
                     <td>
                         <label class="switch">
                             <input type="checkbox"
@@ -233,7 +230,6 @@
                         </span>
                     </td>
 
-                    <!-- ACTIONS -->
                     <td style="text-align:center;">
                         <div class="actions">
                             <a href="${pageContext.request.contextPath}/unit/get?identifier=${unit.identifier}"

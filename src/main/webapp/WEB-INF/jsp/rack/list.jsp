@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Rack Management</title>
+    <title>POS Retail Management | Rack Management</title>
 
     <style>
         body {
@@ -39,7 +39,6 @@
             padding: 30px;
         }
 
-        /* ✅ Consistent header row */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -130,12 +129,11 @@
 
 <div class="container">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="content-body">
 
-        <!-- ✅ FIXED HEADER -->
         <div class="top-bar">
             <h2>Rack Management</h2>
             <a href="${pageContext.request.contextPath}/rack/add" class="btn-add">

@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Shelf Management</title>
+    <title>POS Retail Management | Shelf Management</title>
 
     <style>
         body {
@@ -86,7 +86,6 @@
             background: #F9FAFB;
         }
 
-        /* ===== Toggle Switch ===== */
         .switch {
             position: relative;
             display: inline-block;
@@ -140,7 +139,6 @@
             color: #6B7280;
         }
 
-        /* ===== Actions ===== */
         .actions {
             display: flex;
             gap: 8px;
@@ -183,7 +181,7 @@
 
 <div class="container">
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="content">

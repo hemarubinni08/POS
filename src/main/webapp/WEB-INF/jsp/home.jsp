@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>POS System | Management Console</title>
+    <title>POS Retail System | Management Console</title>
     <style>
         :root {
             --navy: #0B3C5D;
@@ -26,7 +26,6 @@
             overflow: hidden;
         }
 
-        /* ===== Header ===== */
         .header {
             height: 56px;
             background: var(--navy);
@@ -57,14 +56,12 @@
             text-transform: uppercase;
         }
 
-        /* ===== Layout ===== */
         .main-container {
             display: flex;
             flex: 1;
             overflow: hidden;
         }
 
-        /* ===== Sidebar (Updated Typography) ===== */
         .sidebar {
             width: 260px;
             background: white;
@@ -111,7 +108,6 @@
             border-right: 4px solid var(--navy);
         }
 
-        /* ===== Soft Red Logout Button ===== */
         .sidebar-footer {
             padding: 20px;
             border-top: 1px solid var(--border-gray);
@@ -137,7 +133,6 @@
             color: #9B2C2C;
         }
 
-        /* ===== Main Content ===== */
         .content {
             flex: 1;
             padding: 40px;
@@ -205,7 +200,6 @@
 </header>
 
 <div class="main-container">
-    <!-- Sidebar -->
     <nav class="sidebar">
         <div class="nav-wrapper">
             <div class="nav-label">Navigation</div>
@@ -224,17 +218,16 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="content">
         <div class="page-header">
-            <h1>Administrative Dashboard</h1>
+            <h1>User Home</h1>
             <p>System Overview and Management Console</p>
         </div>
 
         <div class="system-card">
             <h3 style="margin-top: 0; color: var(--navy);">Welcome, ${userDetails.name}</h3>
             <p style="line-height: 1.6; color: var(--text-secondary);">
-                You are currently accessing the POS Management System. This interface provides
+                You are currently accessing the POS Retail Management System. This interface provides
                 centralized control over inventory, sales data, and warehouse distribution.
                 Please select a module from the sidebar to begin managing your data.
             </p>
@@ -262,7 +255,6 @@
 </div>
 
 <script>
-    // Update timestamp on load
     document.getElementById('timestamp').innerText = new Date().toLocaleString();
 </script>
 

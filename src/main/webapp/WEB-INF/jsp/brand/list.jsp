@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Brand Management</title>
+    <title>POS Retail Management | Brand Management</title>
 
     <style>
         body {
@@ -23,7 +23,6 @@
             overflow: hidden;
         }
 
-        /* ===== Header ===== */
         .header {
             background: #0B3C5D;
             padding: 26px;
@@ -37,7 +36,6 @@
             padding: 32px 36px 40px;
         }
 
-        /* ===== Top Bar ===== */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -61,7 +59,6 @@
             font-size: 14px;
         }
 
-        /* ===== Table ===== */
         table {
             width: 100%;
             border-collapse: separate;
@@ -89,7 +86,6 @@
             background: #FAFBFF;
         }
 
-        /* ===== Brand Column ===== */
         .brand-name {
             font-size: 15px;
             font-weight: 700;
@@ -108,7 +104,6 @@
             line-height: 1.5;
         }
 
-        /* ===== Icon ===== */
         .icon-wrapper {
             width: 56px;
             height: 56px;
@@ -126,7 +121,6 @@
             object-fit: contain;
         }
 
-        /* ===== Status ===== */
         .status-box {
             display: flex;
             align-items: center;
@@ -176,7 +170,6 @@
             color: #374151;
         }
 
-        /* ===== Actions ===== */
         .actions {
             display: flex;
             flex-direction: column;
@@ -202,7 +195,6 @@
             color: #DC2626;
         }
 
-        /* ===== Footer ===== */
         .back-link {
             display: block;
             margin-top: 26px;

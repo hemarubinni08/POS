@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Add Price</title>
+    <title>POS Retail Management | Add Price</title>
 
     <style>
         body {
@@ -135,13 +135,12 @@
 <div class="container">
 
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="form-body">
         <h2>Add Product Price</h2>
 
-        <!-- Backend feedback -->
         <c:if test="${not empty message}">
             <div class="${success ? 'success' : 'error'}">
                 ${message}
@@ -201,8 +200,6 @@
 
         </form>
     </div>
-
 </div>
-
 </body>
 </html>

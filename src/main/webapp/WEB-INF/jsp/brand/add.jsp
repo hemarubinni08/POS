@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>POS Management | Add Brand</title>
+    <title>POS Retail Management | Add Brand</title>
 
     <style>
         body {
@@ -141,25 +141,22 @@
 <div class="container">
 
     <div class="brand-header">
-        <h1>POS Management</h1>
+        <h1>POS Retail Management</h1>
     </div>
 
     <div class="form-body">
         <h2>Add Brand</h2>
 
-        <!-- Backend feedback -->
         <c:if test="${not empty message}">
             <div class="${success ? 'success' : 'error'}">
                 ${message}
             </div>
         </c:if>
 
-        <!-- ✅ multipart required for MultipartFile -->
         <form action="${pageContext.request.contextPath}/brand/add"
               method="post"
               enctype="multipart/form-data">
 
-            <!-- Brand Identifier -->
             <div class="form-group">
                 <label>Brand Name</label>
                 <input type="text"
@@ -168,19 +165,11 @@
                        required />
             </div>
 
-            <!-- Description -->
             <div class="form-group">
                 <label>Description</label>
                 <textarea name="description"
-                          placeholder="Short brand description"></textarea>
-            </div>
-
-            <!-- Brand Icon -->
-            <div class="form-group">
-                <label>Brand Icon</label>
-                <input type="file"
-                       name="icon"
-                       accept="image/*" />
+                          placeholder="Short brand description">
+                </textarea>
             </div>
 
             <button type="submit" class="btn-submit">
@@ -191,9 +180,7 @@
                class="back-link">
                 ← Cancel and Return
             </a>
-
         </form>
-
     </div>
 </div>
 
