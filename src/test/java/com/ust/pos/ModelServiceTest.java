@@ -156,7 +156,6 @@ class ModelServiceTest {
                 .save(Mockito.any());
     }
 
-
     @Test
     void findAllPaginationTest() {
 

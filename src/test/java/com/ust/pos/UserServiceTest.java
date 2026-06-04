@@ -37,8 +37,6 @@ class UserServiceTest {
     @InjectMocks
     private UserServiceImpl userService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     void saveTestSuccess() {
         UserDto userDto = new UserDto();
@@ -82,8 +80,6 @@ class UserServiceTest {
         );
     }
 
-    /* ===================== FIND BY USERNAME ===================== */
-
     @Test
     void findByUsernameTest() {
         User user = new User();
@@ -102,7 +98,6 @@ class UserServiceTest {
         Assertions.assertEquals("admin@test.com", response.getUsername());
     }
 
-    /* ===================== UPDATE ===================== */
 
     @Test
     void updateTestSuccess() {
@@ -174,7 +169,6 @@ class UserServiceTest {
                 .save(Mockito.any());
     }
 
-    /* ===================== DELETE ===================== */
 
     @Test
     void deleteTest() {
@@ -186,8 +180,6 @@ class UserServiceTest {
         Mockito.verify(userRepository, Mockito.times(1))
                 .deleteByUsername("admin@test.com");
     }
-
-    /* ===================== FIND ALL (PAGINATION) ===================== */
 
     @Test
     void findAllPaginationTest() {

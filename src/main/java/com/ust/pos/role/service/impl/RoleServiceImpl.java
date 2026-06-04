@@ -23,7 +23,6 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private ModelMapper modelMapper;
 
-
     @Override
     public RoleDto findByIdentifier(String identifier) {
         return modelMapper.map(roleRepository.findByIdentifier(identifier), RoleDto.class);
