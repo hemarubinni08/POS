@@ -98,7 +98,6 @@
             background-color: #cbd5e1;
             color: #0f172a;
         }
-
     </style>
 </head>
 
@@ -130,14 +129,14 @@
         </div>
 
         <div class="form-group">
-                    <label>Description</label>
-                    <input
-                        type="text"
-                        name="description"
-                        value="${role.description}"
-                        required
-                    />
-                </div>
+            <label>Description</label>
+            <input
+                type="text"
+                name="description"
+                value="${role.description}"
+                required
+            />
+        </div>
 
         <div class="btn-group">
             <button type="submit" class="btn">
