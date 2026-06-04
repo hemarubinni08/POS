@@ -15,7 +15,6 @@
             background-color: #ffffff;
         }
 
-        /* ===== CARD ===== */
         .card {
             width: 360px;
             margin: 40px auto;
@@ -25,7 +24,6 @@
             position: relative;
             box-shadow: 0 4px 12px rgba(0,0,0,0.25);
         }
-
 
         .app-title {
             text-align: center;
@@ -55,7 +53,6 @@
             font-size: 20px;
         }
 
-        /* ===== FORM ===== */
         label {
             margin-top: 10px;
             display: block;

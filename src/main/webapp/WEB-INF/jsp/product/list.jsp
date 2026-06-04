@@ -13,7 +13,6 @@
             background: #ffffff;
         }
 
-        /* ===== CONTAINER ===== */
         .container {
             width: 95%;
             max-width: 1000px;

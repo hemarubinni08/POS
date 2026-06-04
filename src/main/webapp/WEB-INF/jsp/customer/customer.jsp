@@ -17,7 +17,6 @@
             background: #ffffff;
         }
 
-        /* ===== CARD ===== */
         .card {
             max-width: 1000px;
             background: #ffffff;
@@ -27,7 +26,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             position: relative;
         }
-
 
         .app-title {
             text-align: center;

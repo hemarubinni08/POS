@@ -65,7 +65,6 @@
             cursor: pointer;
         }
 
-        /* ===== SIDEBAR ===== */
         .sidebar {
             position: fixed;
             top: 56px;
@@ -127,7 +126,6 @@
             margin-left: 240px;
         }
 
-        /* ===== FIXED CARD ===== */
         .card {
             position: fixed;
             top: 100px;
@@ -163,7 +161,6 @@
 
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
     <div class="topbar-left">
         <div class="menu" onclick="toggleMenu()">
@@ -179,7 +176,6 @@
     </form>
 </div>
 
-<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
 
     <div class="sidebar-title">CORE NAVIGATION</div>
@@ -198,7 +194,6 @@
 
 </div>
 
-<!-- CONTENT -->
 <div class="content" id="content">
     <div class="card">
         <h2>Welcome to the System</h2>

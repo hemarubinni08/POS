@@ -14,7 +14,6 @@
             background: #ffffff;
         }
 
-        /* ===== CARD ===== */
         .card {
             width: 360px;
             margin: 40px auto;
@@ -25,7 +24,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        /* POS TITLE */
         .app-title {
             text-align: center;
             font-size: 14px;
@@ -34,7 +32,6 @@
             margin-bottom: 4px;
         }
 
-        /* BACK BUTTON */
         .back-btn {
             position: absolute;
             top: 12px;
@@ -60,7 +57,6 @@
             font-weight: 600;
         }
 
-        /* ✅ KEY FIX: SAME SIZE */
         input, select, button {
             width: 100%;
             height: 34px;
@@ -100,11 +96,9 @@
     <c:if test="${not empty message}">
         <div class="error">${message}</div>
     </c:if>
-
     <form:form action="${pageContext.request.contextPath}/price/add"
                method="post"
                modelAttribute="priceDto">
-
         <label>Product Name</label>
         <form:select path="identifier">
             <form:option value="">-- Select Product --</form:option>
