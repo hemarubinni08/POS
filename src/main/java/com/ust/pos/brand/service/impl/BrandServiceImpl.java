@@ -87,7 +87,6 @@ public class BrandServiceImpl implements BrandService {
     public void toggleStatus(String identifier) {
         Brand brand = brandRepository.findByIdentifier(identifier);
         if (brand != null) {
-            // ✅ toggle status
             brand.setStatus(!brand.getStatus());
             brandRepository.save(brand);
         }

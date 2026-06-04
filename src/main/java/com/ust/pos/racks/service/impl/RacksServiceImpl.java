@@ -50,11 +50,10 @@ public class RacksServiceImpl implements RacksService {
             return racksDto;
         }
 
-        // ✅ update existing row
         existingRacks.setDescription(racksDto.getDescription());
         existingRacks.setStatus(racksDto.isStatus());
         modelMapper.map(racksDto, existingRacks);
-        racksRepository.save(existingRacks); // ✅ UPDATE
+        racksRepository.save(existingRacks);
 
         return racksDto;
     }
@@ -88,7 +87,6 @@ public class RacksServiceImpl implements RacksService {
     public void toggleStatus(String identifier) {
         Racks racks = racksRepository.findByIdentifier(identifier);
         if (racks != null) {
-            // ✅ toggle status
             racks.setStatus(!racks.getStatus());
             racksRepository.save(racks);
         }

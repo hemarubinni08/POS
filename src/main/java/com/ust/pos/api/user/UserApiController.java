@@ -33,8 +33,8 @@ public class UserApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public UserDto updatePost(@RequestBody UserDto user) {
-        return userService.update(user);
+    public UserDto updatePost(@RequestBody UserDto userdto) {
+        return userService.update(userdto);
     }
 
     @GetMapping("/delete")

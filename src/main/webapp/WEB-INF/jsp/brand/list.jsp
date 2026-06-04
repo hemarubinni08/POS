@@ -85,10 +85,9 @@
             font-weight: 600;
         }
 
-        /* ✅ SIMPLE ICON STYLE (NO HOVER, NO UNDERLINE) */
         .action a {
             font-size: 20px;
-            text-decoration: none;   /* no underline */
+            text-decoration: none;   
             margin: 0 8px;
             cursor: pointer;
         }
