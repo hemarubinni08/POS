@@ -24,9 +24,6 @@ public class ModelsController {
     @Autowired
     private NodeService nodeService;
 
-    @Autowired
-    private CategoryService categoryService;
-
     @GetMapping("/list")
     public String home(Model model, Pageable pageable) {
         model.addAttribute("modelss", modelsService.findAll(pageable));

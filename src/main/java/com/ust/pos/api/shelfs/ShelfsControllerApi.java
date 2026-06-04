@@ -18,9 +18,6 @@ public class ShelfsControllerApi extends BaseController {
     @Autowired
     private ShelfsService shelfsService;
 
-    @Autowired
-    private NodeService nodeService;
-
     @PostMapping("/list")
     public List<ShelfsDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());

@@ -18,9 +18,6 @@ public class ModelsControllerApi extends BaseController {
     @Autowired
     private ModelsService modelsService;
 
-    @Autowired
-    private NodeService nodeService;
-
     @PostMapping("/list")
     public List<ModelsDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
