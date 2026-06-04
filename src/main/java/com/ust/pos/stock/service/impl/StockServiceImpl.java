@@ -34,6 +34,7 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public StockDto save(StockDto stockDto) {
+        stockDto.setIdentifier(stockDto.getProduct() + "_" + stockDto.getWarehouse());
         String identifier = stockDto.getIdentifier();
         Stock existingStock = stockRepository.findByIdentifier(identifier);
         if (existingStock != null) {
@@ -48,6 +49,7 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public StockDto update(StockDto stockDto) {
+        stockDto.setIdentifier(stockDto.getProduct() + "_" + stockDto.getWarehouse());
         String identifier = stockDto.getIdentifier();
         Stock existingStock = stockRepository.findByIdentifier(identifier);
         if (existingStock == null) {

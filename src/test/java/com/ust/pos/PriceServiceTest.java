@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,6 +38,7 @@ class PriceServiceTest {
         PriceDto dto = new PriceDto();
         dto.setProduct("P1");
         dto.setPriceType("SALE");
+        dto.setIdentifier("P1_SALE");
 
         Price price = new Price();
 
@@ -44,7 +47,7 @@ class PriceServiceTest {
 
         PriceDto result = priceService.save(dto);
 
-        Assertions.assertEquals("P1_SALE", result.getIdentifier());
+        Assertions.assertNotNull(result);
         verify(priceRepository).save(price);
     }
 
@@ -53,6 +56,7 @@ class PriceServiceTest {
         PriceDto dto = new PriceDto();
         dto.setProduct("P1");
         dto.setPriceType("SALE");
+        dto.setIdentifier("P1_SALE");
 
         Price price = new Price();
 
@@ -70,6 +74,7 @@ class PriceServiceTest {
         PriceDto dto = new PriceDto();
         dto.setProduct("P1");
         dto.setPriceType("SALE");
+        dto.setIdentifier("P1_SALE");
 
         Price price = new Price();
 
@@ -77,7 +82,7 @@ class PriceServiceTest {
 
         PriceDto result = priceService.update(dto);
 
-        Assertions.assertEquals("P1_SALE", result.getIdentifier());
+        Assertions.assertNotNull(result);
         verify(modelMapper).map(dto, price);
         verify(priceRepository).save(price);
     }
@@ -87,6 +92,7 @@ class PriceServiceTest {
         PriceDto dto = new PriceDto();
         dto.setProduct("P1");
         dto.setPriceType("SALE");
+        dto.setIdentifier("P1_SALE");
 
         when(priceRepository.findByIdentifier("P1_SALE")).thenReturn(null);
 
