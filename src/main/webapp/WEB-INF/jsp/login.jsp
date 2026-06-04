@@ -150,40 +150,31 @@
 
 </head>
 <body>
+    <div class="page-wrapper">
+        <div class="pos-banner">
+            <h1>POS Application</h1>
+            <a href="/register" class="banner-register">Sign Up</a>
+        </div>
+        <form th:action="/login" method="post">
+            <h2>Login</h2>
+            <c:if test="${param.error != null}">
+                <div class="error-box">
+                    Invalid username or password
+                </div>
+            </c:if>
 
+            <div>
+                <label>Username:</label>
+                <input type="text" name="username" required />
+            </div>
 
-<div class="page-wrapper">
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password" required />
+            </div>
 
-
-    <div class="pos-banner">
-        <h1>POS Application</h1>
-        <a href="/register" class="banner-register">Sign Up</a>
+            <button type="submit">Login</button>
+        </form>
     </div>
-
-
-<form th:action="/login" method="post">
-    <h2>Login</h2>
-
-<c:if test="${param.error != null}">
-    <div class="error-box">
-        Invalid username or password
-    </div>
-</c:if>
-
-    <div>
-        <label>Username:</label>
-        <input type="text" name="username" required />
-    </div>
-
-    <div>
-        <label>Password:</label>
-        <input type="password" name="password" required />
-    </div>
-
-    <button type="submit">Login</button>
-
-</form>
-</div>
-
 </body>
 </html>

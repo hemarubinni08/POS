@@ -127,78 +127,68 @@
     }
 </style>
 </head>
-
 <body>
+    <div class="page-wrapper">
+        <div class="pos-banner">
+            <h1>POS Application</h1>
+            <a href="/user/list" class="banner-signin">Go Back</a>
+        </div>
 
-<div class="page-wrapper">
+        <div class="register-card">
+            <h2>User Registration</h2>
+            <form:form action="register" method="post" modelAttribute="userDto">
+                <div class="form-group">
+                    <label>Name</label>
+                    <form:input path="name" required="true"/>
+                </div>
 
-    <div class="pos-banner">
-        <h1>POS Application</h1>
-        <a href="/user/list" class="banner-signin">Go Back</a>
+                <div class="form-group">
+                    <label>Email</label>
+                    <form:input path="username" type="email" required="true"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Roles</label>
+                    <form:select path="roles" multiple="true">
+                        <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+                    </form:select>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <form:input
+                        path="phoneNo"
+                        required="true"
+                        type="number"
+                        maxlength="10"
+                        pattern="[0-9]"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <form:password
+                        path="password"
+                        required="true"
+                        minlength="8"
+                        title="Min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special character"
+                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}" />
+                </div>
+                <input type="submit" value="Register" class="btn-submit"/>
+            </form:form>
+
+             <c:if test="${not empty message}">
+                    <div style="
+                        background:#f8d7da;
+                        color:#721c24;
+                        padding:10px;
+                        margin-bottom:15px;
+                        border-radius:4px;
+                        text-align:center;">
+                        ${message}
+                    </div>
+             </c:if>
+        </div>
     </div>
-
-<div class="register-card">
-    <h2>User Registration</h2>
-
-    <form:form action="register" method="post" modelAttribute="userDto">
-
-
-        <div class="form-group">
-            <label>Name</label>
-            <form:input path="name" required="true"/>
-        </div>
-
-        <div class="form-group">
-            <label>Email</label>
-
-            <form:input path="username" type="email" required="true"/>
-        </div>
-
-        <div class="form-group">
-            <label>Roles</label>
-            <form:select path="roles" multiple="true">
-                <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-            </form:select>
-        </div>
-
-        <div class="form-group">
-            <label>Phone Number</label>
-            <form:input
-            path="phoneNo"
-            required="true"
-            type="number"
-            maxlength="10"
-            pattern="[0-9]"
-            />
-        </div>
-
-
-<div class="form-group">
-    <label>Password</label>
-    <form:password
-        path="password"
-        required="true"
-        minlength="8"
-        title="Min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special character"
-        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}" />
-</div>
-
-        <input type="submit" value="Register" class="btn-submit"/>
-
-    </form:form>
-
-     <c:if test="${not empty message}">
-            <div style="
-                background:#f8d7da;
-                color:#721c24;
-                padding:10px;
-                margin-bottom:15px;
-                border-radius:4px;
-                text-align:center;">
-                ${message}
-            </div>
-        </c:if>
-</div>
-</div>
 </body>
 </html>

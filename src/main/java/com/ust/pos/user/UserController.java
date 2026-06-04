@@ -41,6 +41,7 @@ public class UserController {
     public String updatePost(Model model, @ModelAttribute UserDto userDto) {
 
         UserDto response = userService.update(userDto);
+
         if (!response.isSuccess()) {
 
             model.addAttribute("userDto", userDto);
@@ -67,7 +68,6 @@ public class UserController {
                 }
             }
         }
-
         return "redirect:/user/list";
     }
 }

@@ -61,90 +61,86 @@
 </head>
 
 <body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-header text-black text-center">
+                        <h4 class="mb-0">List of Nodes</h4>
+                    </div>
 
-            <div class="card shadow-lg">
-                <div class="card-header text-black text-center">
-                    <h4 class="mb-0">List of Nodes</h4>
-                </div>
+                    <div class="card-body">
 
-                <div class="card-body">
+                        <c:if test="${empty nodes}">
+                            <div class="alert alert-warning text-center">
+                                No roles found
+                            </div>
+                        </c:if>
 
-                    <c:if test="${empty nodes}">
-                        <div class="alert alert-warning text-center">
-                            No roles found
-                        </div>
-                    </c:if>
-
-                    <c:if test="${not empty nodes}">
-                        <table class="table table-bordered table-hover text-center align-middle">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Node</th>
-                                    <th>Path</th>
-                                    <th>Roles</th>
-                                    <th>Delete</th>
-                                    <th>Update</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <c:forEach var="node" items="${nodes}">
+                        <c:if test="${not empty nodes}">
+                            <table class="table table-bordered table-hover text-center align-middle">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            <a href="/node/get?identifier=${node.identifier}"
-                                               class="text-decoration-none fw-semibold">
-                                                ${node.id}
-                                            </a>
-                                        </td>
-
-                                        <td>${node.identifier}</td>
-                                        <td>${node.path}</td>
-                                        <td>${node.roles}</td>
-
-                                        <td>
-                                            <a href="/node/delete?identifier=${node.identifier}"
-                                               class="btn btn-pos-delete btn-sm"
-                                               onclick="return confirm('Are you sure you want to delete this role?');">
-                                                delete
-                                            </a>
-                                        </td>
-
-                                        <td>
-                                            <a class="btn btn-pos-update btn-sm"
-                                               href="/node/get?identifier=${node.identifier}">
-                                                Update
-                                            </a>
-                                        </td>
+                                        <th>ID</th>
+                                        <th>Node</th>
+                                        <th>Path</th>
+                                        <th>Roles</th>
+                                        <th>Delete</th>
+                                        <th>Update</th>
                                     </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </c:if>
+                                </thead>
 
+                                <tbody>
+                                    <c:forEach var="node" items="${nodes}">
+                                        <tr>
+                                            <td>
+                                                <a href="/node/get?identifier=${node.identifier}"
+                                                   class="text-decoration-none fw-semibold">
+                                                    ${node.id}
+                                                </a>
+                                            </td>
+
+                                            <td>${node.identifier}</td>
+                                            <td>${node.path}</td>
+                                            <td>${node.roles}</td>
+
+                                            <td>
+                                                <a href="/node/delete?identifier=${node.identifier}"
+                                                   class="btn btn-pos-delete btn-sm"
+                                                   onclick="return confirm('Are you sure you want to delete this role?');">
+                                                    delete
+                                                </a>
+                                            </td>
+
+                                            <td>
+                                                <a class="btn btn-pos-update btn-sm"
+                                                   href="/node/get?identifier=${node.identifier}">
+                                                    Update
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:if>
+
+                    </div>
+
+                    <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
+                        <a href="/"
+                           class="btn btn-secondary">
+                            Home
+                        </a>
+
+                        <a href="/node/add"
+                           class="btn btn-success">
+                            + Add New Node
+                        </a>
+                    </div>
                 </div>
-
-                <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
-                    <a href="/"
-                       class="btn btn-secondary">
-                        Home
-                    </a>
-
-                    <a href="/node/add"
-                       class="btn btn-success">
-                        + Add New Node
-                    </a>
-                </div>
-
             </div>
-
         </div>
     </div>
-</div>
-
 </body>
 </html>

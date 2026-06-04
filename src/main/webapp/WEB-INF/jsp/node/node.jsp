@@ -132,8 +132,6 @@
             ${message}
         </div>
     </c:if>
-
 </div>
-
 </body>
 </html>

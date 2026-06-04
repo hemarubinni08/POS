@@ -73,68 +73,63 @@
 </head>
 
 <body>
-<div class="update-card">
-    <h3>Update User</h3>
+    <div class="update-card">
+        <h3>Update User</h3>
+        <form:form action="/user/update" method="post" modelAttribute="userDto" novalidate="novalidate">
+            <form:input type="hidden" path="id"/>
 
-    <form:form action="/user/update" method="post" modelAttribute="userDto" novalidate="novalidate">
-
-        <form:input type="hidden" path="id"/>
-
-        <div class="mb-3">
-            <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
-        </div>
-
-         <div class="mb-3">
-            <label>Email</label>
-            <form:input path="username" type="email" cssClass="form-control" required="true" readOnly="true"/>
-        </div>
-
-        <div class="mb-3">
-            <label>Phone Number</label>
-            <form:input path="phoneNo" minlength="10" cssClass="form-control" type="number" required="true"/>
-        </div>
-
-        <div class="mb-3">
-            <label>Roles</label>
-
-            <div class="mb-1 text-muted">
-                Current:
-                <c:forEach var="r" items="${user.roles}">
-                    <span class="badge bg-secondary me-1">${r}</span>
-                </c:forEach>
+            <div class="mb-3">
+                <label>Name</label>
+                <form:input path="name" cssClass="form-control" required="true"/>
             </div>
 
-          <form:select path="roles" multiple="true" cssClass="form-control">
-              <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
-          </form:select>
+             <div class="mb-3">
+                <label>Email</label>
+                <form:input path="username" type="email" cssClass="form-control" required="true" readOnly="true"/>
+            </div>
 
-            <small>
-                Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
-            </small>
+            <div class="mb-3">
+                <label>Phone Number</label>
+                <form:input path="phoneNo" minlength="10" cssClass="form-control" type="number" required="true"/>
+            </div>
+
+            <div class="mb-3">
+                <label>Roles</label>
+
+                <div class="mb-1 text-muted">
+                    Current:
+                    <c:forEach var="r" items="${user.roles}">
+                        <span class="badge bg-secondary me-1">${r}</span>
+                    </c:forEach>
+                </div>
+
+              <form:select path="roles" multiple="true" cssClass="form-control">
+                  <form:options items="${roles}" itemValue="identifier" itemLabel="identifier"/>
+              </form:select>
+                <small>
+                    Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
+                </small>
+            </div>
+
+            <button type="submit" class="btn-update">Update User</button>
+
+        </form:form>
+
+        <c:if test="${not empty message}">
+            <div style="
+                background:#f8d7da;
+                color:#721c24;
+                padding:10px;
+                margin-bottom:15px;
+                border-radius:4px;
+                text-align:center;">
+                ${message}
+            </div>
+        </c:if>
+
+        <div class="text-center mt-3">
+            <a href="/user/list">← Back to User List</a>
         </div>
-
-        <button type="submit" class="btn-update">Update User</button>
-
-    </form:form>
-
-    <c:if test="${not empty message}">
-        <div style="
-            background:#f8d7da;
-            color:#721c24;
-            padding:10px;
-            margin-bottom:15px;
-            border-radius:4px;
-            text-align:center;">
-            ${message}
-        </div>
-    </c:if>
-
-    <div class="text-center mt-3">
-        <a href="/user/list">← Back to User List</a>
     </div>
-
-</div>
-
 </body>
 </html>

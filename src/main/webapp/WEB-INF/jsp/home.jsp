@@ -112,30 +112,24 @@
 </head>
 
 <body>
+    <div class="navbar">
+        <label for="menuToggle" class="menu-btn">&#9776;</label>
+        <div class="navbar-title">POS Management</div>
+        <a href="/logout" class="navbar-logout">Logout</a>
+    </div>
 
-<div class="navbar">
-    <label for="menuToggle" class="menu-btn">&#9776;</label>
-    <div class="navbar-title">POS Management</div>
-    <a href="/logout" class="navbar-logout">Logout</a>
-</div>
-
-
-<input type="checkbox" id="menuToggle">
-
-<div class="side-menu">
-    <h4>Menu</h4>
-
-    <c:forEach var="node" items="${nodes}">
-        <a href="${node.path}">
-            ${node.identifier}
-        </a>
-    </c:forEach>
-</div>
-
-<div class="content">
-    <h1> Welcome ${name}</h1>
-    <p>POS Appplication Dashboard </p>
-</div>
-
+    <input type="checkbox" id="menuToggle">
+    <div class="side-menu">
+        <h4>Menu</h4>
+        <c:forEach var="node" items="${nodes}">
+            <a href="${node.path}">
+                ${node.identifier}
+            </a>
+        </c:forEach>
+    </div>
+    <div class="content">
+        <h1> Welcome ${name}</h1>
+        <p>POS Appplication Dashboard </p>
+    </div>
 </body>
 </html>

@@ -65,92 +65,87 @@
 </head>
 
 <body>
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <h3 class="text-center mb-4 text-black">
+                    User Management
+                </h3>
 
-<div class="container mt-5">
-    <div class="card shadow-lg">
-        <div class="card-body">
+                <c:if test="${empty users}">
+                    <div class="alert alert-warning text-center">
+                        No users found
+                    </div>
+                </c:if>
 
-            <h3 class="text-center mb-4 text-black">
-                User Management
-            </h3>
-
-            <c:if test="${empty users}">
-                <div class="alert alert-warning text-center">
-                    No users found
-                </div>
-            </c:if>
-
-            <c:if test="${not empty users}">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center">
-                        <thead>
-                            <tr>
-                                <th>Email</th>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Roles</th>
-                                <th>Delete</th>
-                                <th>Update</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <c:forEach var="user" items="${users}">
+                <c:if test="${not empty users}">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle text-center">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        <a class="user-link"
-                                           href="/user/get?username=${user.username}">
-                                            ${user.username}
-                                        </a>
-                                    </td>
-
-                                    <td>${user.name}</td>
-                                    <td>${user.phoneNo}</td>
-                                    <td>${user.roles}</td>
-
-                                    <td>
-                                        <a class="btn btn-pos-delete btn-sm"
-                                           href="/user/delete?username=${user.username}"
-                                           onclick="return confirm('Are you sure you want to delete this user?');">
-                                            Delete
-                                        </a>
-                                    </td>
-
-                                    <td>
-                                        <a class="btn btn-pos-update btn-sm"
-                                           href="/user/get?username=${user.username}">
-                                            Update
-                                        </a>
-                                    </td>
+                                    <th>Email</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Roles</th>
+                                    <th>Delete</th>
+                                    <th>Update</th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                                <c:forEach var="user" items="${users}">
+                                    <tr>
+                                        <td>
+                                            <a class="user-link"
+                                               href="/user/get?username=${user.username}">
+                                                ${user.username}
+                                            </a>
+                                        </td>
+
+                                        <td>${user.name}</td>
+                                        <td>${user.phoneNo}</td>
+                                        <td>${user.roles}</td>
+
+                                        <td>
+                                            <a class="btn btn-pos-delete btn-sm"
+                                               href="/user/delete?username=${user.username}"
+                                               onclick="return confirm('Are you sure you want to delete this user?');">
+                                                Delete
+                                            </a>
+                                        </td>
+
+                                        <td>
+                                            <a class="btn btn-pos-update btn-sm"
+                                               href="/user/get?username=${user.username}">
+                                                Update
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </c:if>
+            </div>
+
+            <div class="card-footer text-center">
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="/"
+                       class="btn btn-secondary">
+                        Home
+                    </a>
+
+                    <a href="/register"
+                       class="btn btn-success">
+                        Add User
+                    </a>
                 </div>
-            </c:if>
 
-        </div>
-
-        <div class="card-footer text-center">
-            <div class="d-flex justify-content-center gap-3">
-                <a href="/"
-                   class="btn btn-secondary">
-                    Home
-                </a>
-
-                <a href="/register"
-                   class="btn btn-success">
-                    Add User
-                </a>
-            </div>
-
-            <div class="text-muted small mt-2">
-                User Management System
+                <div class="text-muted small mt-2">
+                    User Management System
+                </div>
             </div>
         </div>
-
     </div>
-</div>
-
 </body>
 </html>

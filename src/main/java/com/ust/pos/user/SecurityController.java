@@ -43,6 +43,6 @@ public class SecurityController {
             return "register";
         }
 
-        return "redirect:/login";
+        return "redirect:/user/list";
     }
 }

@@ -35,83 +35,78 @@
 </head>
 
 <body>
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h4 class="text-center">Edit Role</h4>
+            <c:if test="${empty roleDto}">
+                <div class="alert alert-danger text-center">
+                    Role not found
+                </div>
+            </c:if>
 
-<div class="card shadow-lg">
-    <div class="card-body">
+            <c:if test="${not empty roleDto}">
+                <form:form action="/role/update"
+                           method="post"
+                           modelAttribute="roleDto">
 
-        <h4 class="text-center">Edit Role</h4>
+                    <form:hidden path="id" />
 
-        <c:if test="${empty roleDto}">
-            <div class="alert alert-danger text-center">
-                Role not found
+                    <div class="mb-4">
+                        <label class="form-label">
+                            Role Name
+                        </label>
+
+                        <form:input path="identifier"
+                                    cssClass="form-control"
+                                    placeholder="Enter role"
+                                    readonly="true" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">
+                            Description
+                        </label>
+
+                        <form:input path="description"
+                                    cssClass="form-control"
+                                    placeholder="Enter description"
+                                    required="true" />
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/role/list"
+                           class="btn btn-outline-secondary">
+                            Cancel
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Update
+                        </button>
+                    </div>
+
+                </form:form>
+            </c:if>
+
+            <div class="text-center mt-3">
+                <a href="/role/list">
+                    ← Back to Role List
+                </a>
+            </div>
+
+        </div>
+
+        <c:if test="${not empty message}">
+            <div style="
+                background:#f8d7da;
+                color:#721c24;
+                padding:10px;
+                margin-bottom:15px;
+                border-radius:4px;
+                text-align:center;">
+                ${message}
             </div>
         </c:if>
-
-        <c:if test="${not empty roleDto}">
-            <form:form action="/role/update"
-                       method="post"
-                       modelAttribute="roleDto">
-
-                <form:hidden path="id" />
-
-                <div class="mb-4">
-                    <label class="form-label">
-                        Role Name
-                    </label>
-
-                    <form:input path="identifier"
-                                cssClass="form-control"
-                                placeholder="Enter role"
-                                readonly="true" />
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label">
-                        Description
-                    </label>
-
-                    <form:input path="description"
-                                cssClass="form-control"
-                                placeholder="Enter description"
-                                required="true" />
-                </div>
-
-                <div class="d-flex justify-content-between">
-                    <a href="/role/list"
-                       class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
-
-                    <button type="submit"
-                            class="btn btn-primary">
-                        Update
-                    </button>
-                </div>
-
-            </form:form>
-        </c:if>
-
-        <div class="text-center mt-3">
-            <a href="/role/list">
-                ← Back to Role List
-            </a>
-        </div>
-
     </div>
-
-    <c:if test="${not empty message}">
-        <div style="
-            background:#f8d7da;
-            color:#721c24;
-            padding:10px;
-            margin-bottom:15px;
-            border-radius:4px;
-            text-align:center;">
-            ${message}
-        </div>
-    </c:if>
-
-</div>
-
 </body>
 </html>

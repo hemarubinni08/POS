@@ -122,7 +122,6 @@
                             </tbody>
                         </table>
                     </c:if>
-
                 </div>
 
                 <div class="card-footer text-center bg-light d-flex justify-content-center gap-3">
@@ -136,9 +135,7 @@
                         + Add New Role
                     </a>
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
