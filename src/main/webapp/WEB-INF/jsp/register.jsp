@@ -152,15 +152,11 @@
          color: red;
          padding
          }
-
     </style>
 </head>
 
 <body>
 <div id="container">
-    <div id="leftDiv">
-        <h1>Point of Sales Application</h1>
-    </div>
     <div id="rightDiv">
         <form:form action="register" method="post" modelAttribute="userDto">
                 <h2>User Registration</h2>
@@ -202,7 +198,7 @@
                 </div>
 
                 <button type="submit">Register</button>
-                <a href="/login">Login</a>
+                <a href="/user/list">back</a>
                  <p id="message">${message}</p>
         </form:form>
     </div>

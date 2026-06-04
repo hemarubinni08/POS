@@ -156,6 +156,8 @@
             background-color: #718096;
         }
 
+        .btn-success { background: #38a169; }
+
         .alert {
             text-align: center;
             padding: 10px;
@@ -239,6 +241,7 @@
 
         <div class="footer">
             <a href="/" class="btn btn-secondary">Home</a>
+            <a class="btn btn-success" href="/register">+ Add New User</a>
         </div>
     </div>
 </div>

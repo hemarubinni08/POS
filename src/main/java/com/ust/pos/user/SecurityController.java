@@ -41,6 +41,6 @@ public class SecurityController {
             return "register";
         }
         redirectAttributes.addFlashAttribute("message", "Register Success, Please login");
-        return "redirect:/login";
+        return "redirect:/user/list";
     }
 }
