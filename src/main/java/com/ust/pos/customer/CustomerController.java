@@ -17,8 +17,6 @@ public class CustomerController {
     public static final String CUSTOMER_DTO = "customerDto";
     @Autowired
     CustomerService customerService;
-    @Autowired
-    AddressService addressService;
 
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
