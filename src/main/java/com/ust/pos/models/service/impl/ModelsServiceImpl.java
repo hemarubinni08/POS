@@ -75,7 +75,6 @@ public class ModelsServiceImpl implements ModelsService {
     @Transactional
     public ModelsDto toggleStatus(String identifier, boolean status) {
         Models model = modelsRepository.findByIdentifier(identifier);
-
         if (model != null) {
             model.setStatus(!model.isStatus());
             modelsRepository.save(model);
