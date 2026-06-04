@@ -2,78 +2,51 @@ package com.ust.pos.dao.impl;
 
 import com.ust.pos.dao.RoleDao;
 import com.ust.pos.dto.RoleDto;
-import com.ust.pos.model.Role;
-import com.ust.pos.model.RoleRepository;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
-@Repository
+@Component
 public class RoleDaoImpl implements RoleDao {
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Override
-    public RoleDto findByIdentifier(String identifier) {
-        Role role = roleRepository.findByIdentifier(identifier);
-        if (role == null) return null;
-        return modelMapper.map(role, RoleDto.class);
-    }
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public RoleDto save(RoleDto roleDto) {
-        Role existing = roleRepository.findByIdentifier(roleDto.getIdentifier());
-        if (existing != null) {
-            roleDto.setSuccess(false);
-            roleDto.setMessage("Role '" + roleDto.getIdentifier() + "' already exists");
-            return roleDto;
-        }
-        Role role = modelMapper.map(roleDto, Role.class);
-        roleRepository.save(role);
-        roleDto.setSuccess(true);
-        roleDto.setMessage("Role saved successfully");
-        return roleDto;
+        String sql = "INSERT INTO ROLE (identifier, description, status) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, roleDto.getIdentifier(), roleDto.getDescription(), roleDto.isStatus());
+        return findByIdentifier(roleDto.getIdentifier());
     }
 
     @Override
     public RoleDto update(RoleDto roleDto) {
-        String identifier = roleDto.getIdentifier();
-        Role existingRole = roleRepository.findByIdentifier(identifier);
-        if (existingRole == null) {
-            roleDto.setMessage("Role with identifier - " + identifier + " not found");
-            roleDto.setSuccess(false);
-            return roleDto;
-        }
-        modelMapper.map(roleDto, existingRole);
-        roleRepository.save(existingRole);
-        roleDto.setSuccess(true);
-        roleDto.setMessage("Role updated successfully");
-        return roleDto;
+        String sql = "UPDATE ROLE SET description = ?, status = ? WHERE identifier = ?";
+        jdbcTemplate.update(sql, roleDto.getDescription(), roleDto.isStatus(), roleDto.getIdentifier());
+        return findByIdentifier(roleDto.getIdentifier());
     }
 
     @Override
     public boolean delete(String identifier) {
-        Role existingRole = roleRepository.findByIdentifier(identifier);
-        if (existingRole == null) return false;
-        roleRepository.deleteByIdentifier(identifier);
-        return true;
+        String sql = "DELETE FROM ROLE WHERE identifier = ?";
+        int rows = jdbcTemplate.update(sql, identifier);
+        return rows > 0;
+    }
+
+    @Override
+    public RoleDto findByIdentifier(String identifier) {
+        String sql = "SELECT * FROM ROLE WHERE identifier = ?";
+        List<RoleDto> roleList = jdbcTemplate.query(sql, new Object[]{identifier}, new BeanPropertyRowMapper<>(RoleDto.class));
+        return roleList.isEmpty() ? null : roleList.get(0);
     }
 
     @Override
     public List<RoleDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<RoleDto>>() {
-        }.getType();
-        Page<Role> rolePage = roleRepository.findAll(pageable);
-        return modelMapper.map(rolePage.getContent(), listType);
+        String sql = "SELECT * FROM ROLE LIMIT ? OFFSET ?";
+        return jdbcTemplate.query(sql, new Object[]{pageable.getPageSize(), pageable.getOffset()}, new BeanPropertyRowMapper<>(RoleDto.class));
     }
 }
