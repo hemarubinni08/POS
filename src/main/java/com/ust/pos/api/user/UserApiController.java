@@ -21,11 +21,16 @@ public class UserApiController extends BaseController {
     @Autowired
     private RoleService roleService;
 
-    @GetMapping("/api/list")
+    @PostMapping("/list")
     public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(), paginationDto.getSortField());
         return userService.findAll(pageable);
+    }
+
+    @PostMapping("/add")
+    public UserDto addModel(@RequestBody UserDto userDto) {
+        return userService.save(userDto);
     }
 
     @GetMapping("/get")
