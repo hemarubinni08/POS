@@ -46,6 +46,7 @@ public class UserServiceTest {
         Mockito.when(modelMapper.map(userDto, User.class)).thenReturn(user);
         Mockito.when(passwordEncoder.encode("12345")).thenReturn("encodedPwd");
         Mockito.when(userRepository.save(user)).thenReturn(user);
+
         UserDto response = userService.save(userDto);
 
         Assertions.assertTrue(response.isSuccess());
@@ -92,7 +93,6 @@ public class UserServiceTest {
 
         Mockito.when(userRepository.findById(1L))
                 .thenReturn(Optional.of(existingUser));
-
         Mockito.when(userRepository.save(existingUser))
                 .thenReturn(existingUser);
 
@@ -141,7 +141,6 @@ public class UserServiceTest {
 
         Mockito.when(userRepository.findAll(pageable))
                 .thenReturn(userPage);
-
         Mockito.when(modelMapper.map(
                 Mockito.eq(users),
                 Mockito.any(Type.class)
@@ -166,7 +165,6 @@ public class UserServiceTest {
 
         Mockito.when(userRepository.findAll())
                 .thenReturn(users);
-
         Mockito.when(modelMapper.map(
                 Mockito.eq(users),
                 Mockito.any(Type.class)

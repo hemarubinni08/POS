@@ -21,7 +21,6 @@ class AddressServiceTest {
 
     @Mock
     private AddressRepository addressRepository;
-
     @Mock
     private ModelMapper modelMapper;
 

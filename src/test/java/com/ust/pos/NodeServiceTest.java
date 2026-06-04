@@ -142,7 +142,6 @@ public class NodeServiceTest {
 
         Mockito.when(nodeRepository.findAll(pageable))
                 .thenReturn(nodePage);
-
         Mockito.when(modelMapper.map(
                 Mockito.eq(nodes),
                 Mockito.any(Type.class)
@@ -159,15 +158,14 @@ public class NodeServiceTest {
         Node node = new Node();
         node.setIdentifier("Admin");
 
-        NodeDto dto = new NodeDto();
-        dto.setIdentifier("Admin");
+        NodeDto nodeDto = new NodeDto();
+        nodeDto.setIdentifier("Admin");
 
         List<Node> nodes = List.of(node);
-        List<NodeDto> dtos = List.of(dto);
+        List<NodeDto> dtos = List.of(nodeDto);
 
         Mockito.when(nodeRepository.findAll())
                 .thenReturn(nodes);
-
         Mockito.when(modelMapper.map(
                 Mockito.eq(nodes),
                 Mockito.any(Type.class)

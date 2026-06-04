@@ -111,7 +111,6 @@ public class RoleServiceTest {
 
     @Test
     void deleteTest() {
-
         Mockito.doNothing().when(roleRepository)
                 .deleteByIdentifier("Admin");
 
@@ -125,11 +124,11 @@ public class RoleServiceTest {
         Role role = new Role();
         role.setIdentifier("Admin");
 
-        RoleDto dto = new RoleDto();
-        dto.setIdentifier("Admin");
+        RoleDto roleDto = new RoleDto();
+        roleDto.setIdentifier("Admin");
 
         List<Role> roles = List.of(role);
-        List<RoleDto> dtos = List.of(dto);
+        List<RoleDto> roleDtos = List.of(roleDto);
 
         Pageable pageable = PageRequest.of(0, 5);
         Page<Role> rolePage = new PageImpl<>(roles);
@@ -140,7 +139,7 @@ public class RoleServiceTest {
         Mockito.when(modelMapper.map(
                 Mockito.eq(roles),
                 Mockito.any(Type.class)
-        )).thenReturn(dtos);
+        )).thenReturn(roleDtos);
 
         List<RoleDto> response = roleService.findAll(pageable);
 
@@ -153,11 +152,11 @@ public class RoleServiceTest {
         Role role = new Role();
         role.setIdentifier("Admin");
 
-        RoleDto dto = new RoleDto();
-        dto.setIdentifier("Admin");
+        RoleDto roleDto = new RoleDto();
+        roleDto.setIdentifier("Admin");
 
         List<Role> roles = List.of(role);
-        List<RoleDto> dtos = List.of(dto);
+        List<RoleDto> roleDtos = List.of(roleDto);
 
         Mockito.when(roleRepository.findAll())
                 .thenReturn(roles);
@@ -165,7 +164,7 @@ public class RoleServiceTest {
         Mockito.when(modelMapper.map(
                 Mockito.eq(roles),
                 Mockito.any(Type.class)
-        )).thenReturn(dtos);
+        )).thenReturn(roleDtos);
 
         List<RoleDto> response = roleService.findAll(null);
 

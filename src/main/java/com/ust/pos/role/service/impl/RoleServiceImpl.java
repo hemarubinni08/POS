@@ -1,6 +1,5 @@
 package com.ust.pos.role.service.impl;
 
-import com.ust.pos.dao.RoleDao;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
@@ -23,47 +22,44 @@ public class RoleServiceImpl implements RoleService {
     private RoleRepository roleRepository;
     @Autowired
     private ModelMapper modelMapper;
-    @Autowired
-    private RoleDao roleDao;
 
     @Override
     public RoleDto findByIdentifier(String identifier) {
-        return modelMapper.map(roleDao.findByIdentifier(identifier), RoleDto.class);
+        return modelMapper.map(roleRepository.findByIdentifier(identifier), RoleDto.class);
     }
 
     @Override
     public RoleDto update(RoleDto roleDto) {
         String identifier = roleDto.getIdentifier();
-        Role existingRole = roleDao.findByIdentifier(identifier);
+        Role existingRole = roleRepository.findByIdentifier(identifier);
         if (existingRole == null) {
             roleDto.setMessage("Role with identifier - " + identifier + " not found");
             roleDto.setSuccess(false);
             return roleDto;
         }
-//        modelMapper.map(roleDto, existingRole);
-        roleDao.save(roleDto);
+        modelMapper.map(roleDto, existingRole);
+        roleRepository.save(existingRole);
         return roleDto;
     }
 
     @Override
     public RoleDto save(RoleDto roleDto) {
         String identifier = roleDto.getIdentifier();
-        Role existingRole = roleDao.findByIdentifier(identifier);
+        Role existingRole = roleRepository.findByIdentifier(identifier);
         if (existingRole != null) {
             roleDto.setMessage("Role with identifier - " + identifier + " already exists");
             roleDto.setSuccess(false);
             return roleDto;
         }
-//        Role role = modelMapper.map(roleDto, Role.class);
-        roleDao.save(roleDto);
-
+        Role role = modelMapper.map(roleDto, Role.class);
+        roleRepository.save(role);
         return roleDto;
     }
 
     @Transactional
     @Override
     public void delete(String identifier) {
-        roleDao.deleteByIdentifier(identifier);
+        roleRepository.deleteByIdentifier(identifier);
     }
 
     @Override

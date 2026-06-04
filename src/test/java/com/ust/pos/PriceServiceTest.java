@@ -43,10 +43,8 @@ public class PriceServiceTest {
 
         Mockito.when(priceRepository.findByIdentifier(expectedIdentifier))
                 .thenReturn(null);
-
         Mockito.when(modelMapper.map(priceDto, Price.class))
                 .thenReturn(price);
-
         Mockito.when(priceRepository.save(price))
                 .thenReturn(price);
 
@@ -61,18 +59,17 @@ public class PriceServiceTest {
         Price price = new Price();
         price.setIdentifier("P001");
 
-        PriceDto dto = new PriceDto();
-        dto.setIdentifier("P001");
+        PriceDto priceDto = new PriceDto();
+        priceDto.setIdentifier("P001");
 
         List<Price> prices = List.of(price);
-        List<PriceDto> dtos = List.of(dto);
+        List<PriceDto> dtos = List.of(priceDto);
 
         Pageable pageable = PageRequest.of(0, 5);
         Page<Price> pricePage = new PageImpl<>(prices);
 
         Mockito.when(priceRepository.findAll(pageable))
                 .thenReturn(pricePage);
-
         Mockito.when(modelMapper.map(
                 Mockito.eq(prices),
                 Mockito.any(Type.class)
@@ -97,7 +94,6 @@ public class PriceServiceTest {
 
         Mockito.when(priceRepository.findAll())
                 .thenReturn(prices);
-
         Mockito.when(modelMapper.map(
                 Mockito.eq(prices),
                 Mockito.any(Type.class)

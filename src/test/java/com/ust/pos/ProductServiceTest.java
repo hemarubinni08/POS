@@ -126,22 +126,21 @@ public class ProductServiceTest {
         Product product = new Product();
         product.setIdentifier("Lays Chili");
 
-        ProductDto dto = new ProductDto();
-        dto.setIdentifier("Lays Chili");
+        ProductDto productDto = new ProductDto();
+        productDto.setIdentifier("Lays Chili");
 
         List<Product> products = List.of(product);
-        List<ProductDto> dtos = List.of(dto);
+        List<ProductDto> productDtos = List.of(productDto);
 
         Pageable pageable = PageRequest.of(0, 5);
         Page<Product> productPage = new PageImpl<>(products);
 
         Mockito.when(productRepository.findAll(pageable))
                 .thenReturn(productPage);
-
         Mockito.when(modelMapper.map(
                 Mockito.eq(products),
                 Mockito.any(Type.class)
-        )).thenReturn(dtos);
+        )).thenReturn(productDtos);
 
         List<ProductDto> response = productService.findAll(pageable);
 
@@ -154,19 +153,18 @@ public class ProductServiceTest {
         Product product = new Product();
         product.setIdentifier("Lays Chili");
 
-        ProductDto dto = new ProductDto();
-        dto.setIdentifier("Lays Chili");
+        ProductDto productDto = new ProductDto();
+        productDto.setIdentifier("Lays Chili");
 
         List<Product> products = List.of(product);
-        List<ProductDto> dtos = List.of(dto);
+        List<ProductDto> productDtos = List.of(productDto);
 
         Mockito.when(productRepository.findAll())
                 .thenReturn(products);
-
         Mockito.when(modelMapper.map(
                 Mockito.eq(products),
                 Mockito.any(Type.class)
-        )).thenReturn(dtos);
+        )).thenReturn(productDtos);
 
         List<ProductDto> response = productService.findAll(null);
 

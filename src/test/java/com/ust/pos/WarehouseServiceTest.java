@@ -152,11 +152,11 @@ public class WarehouseServiceTest {
         Warehouse warehouse = new Warehouse();
         warehouse.setIdentifier("Lays Warehouse");
 
-        WarehouseDto dto = new WarehouseDto();
-        dto.setIdentifier("Lays Warehouse");
+        WarehouseDto warehouseDto = new WarehouseDto();
+        warehouseDto.setIdentifier("Lays Warehouse");
 
         List<Warehouse> warehouses = List.of(warehouse);
-        List<WarehouseDto> dtos = List.of(dto);
+        List<WarehouseDto> warehouseDtos = List.of(warehouseDto);
 
         Mockito.when(warehouseRepository.findAll())
                 .thenReturn(warehouses);
@@ -164,7 +164,7 @@ public class WarehouseServiceTest {
         Mockito.when(modelMapper.map(
                 Mockito.eq(warehouses),
                 Mockito.any(Type.class)
-        )).thenReturn(dtos);
+        )).thenReturn(warehouseDtos);
 
         List<WarehouseDto> response = warehouseService.findAll(null);
 

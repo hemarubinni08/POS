@@ -35,11 +35,16 @@ public class UnitServiceTest {
     void saveTest() {
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("kg");
+
         Mockito.when(unitRepository.findByIdentifier("kg")).thenReturn(null);
+
         Unit unit = new Unit();
+
         Mockito.when(modelMapper.map(unitDto, Unit.class)).thenReturn(unit);
         Mockito.when(unitRepository.save(unit)).thenReturn(unit);
+
         UnitDto response = unitService.save(unitDto);
+
         Assertions.assertEquals("kg", response.getIdentifier());
         Assertions.assertEquals(true, response.isSuccess());
     }
@@ -48,9 +53,13 @@ public class UnitServiceTest {
     void saveTestFailure() {
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("kg");
+
         Unit unit = new Unit();
+
         Mockito.when(unitRepository.findByIdentifier("kg")).thenReturn(unit);
+
         UnitDto response = unitService.save(unitDto);
+
         Assertions.assertEquals("kg", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
         Assertions.assertEquals(false, response.isSuccess());
@@ -65,18 +74,17 @@ public class UnitServiceTest {
         dto.setIdentifier("kg");
 
         List<Unit> units = List.of(unit);
-        List<UnitDto> dtos = List.of(dto);
+        List<UnitDto> unitDtos = List.of(dto);
 
         Pageable pageable = PageRequest.of(0, 5);
         Page<Unit> unitPage = new PageImpl<>(units);
 
         Mockito.when(unitRepository.findAll(pageable))
                 .thenReturn(unitPage);
-
         Mockito.when(modelMapper.map(
                 Mockito.eq(units),
                 Mockito.any(Type.class)
-        )).thenReturn(dtos);
+        )).thenReturn(unitDtos);
 
         List<UnitDto> response = unitService.findAll(pageable);
 
@@ -89,11 +97,11 @@ public class UnitServiceTest {
         Unit unit = new Unit();
         unit.setIdentifier("kg");
 
-        UnitDto dto = new UnitDto();
-        dto.setIdentifier("kg");
+        UnitDto unitDto = new UnitDto();
+        unitDto.setIdentifier("kg");
 
         List<Unit> units = List.of(unit);
-        List<UnitDto> dtos = List.of(dto);
+        List<UnitDto> unitDtos = List.of(unitDto);
 
         Mockito.when(unitRepository.findAll())
                 .thenReturn(units);
@@ -101,7 +109,7 @@ public class UnitServiceTest {
         Mockito.when(modelMapper.map(
                 Mockito.eq(units),
                 Mockito.any(Type.class)
-        )).thenReturn(dtos);
+        )).thenReturn(unitDtos);
 
         List<UnitDto> response = unitService.findAll(null);
 
@@ -112,11 +120,15 @@ public class UnitServiceTest {
     void updateTest() {
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("kg");
+
         Unit unit = new Unit();
         unit.setIdentifier("kg");
+
         Mockito.when(unitRepository.findByIdentifier(unitDto.getIdentifier())).thenReturn(unit);
         Mockito.when(unitRepository.save(unit)).thenReturn(unit);
+
         UnitDto response = unitService.update(unitDto);
+
         Assertions.assertTrue(response.isSuccess());
     }
 
@@ -124,10 +136,14 @@ public class UnitServiceTest {
     void updateTestFailure() {
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("kg");
+
         Unit unit = new Unit();
         unit.setIdentifier("kg");
+
         Mockito.when(unitRepository.findByIdentifier(unitDto.getIdentifier())).thenReturn(null);
+
         UnitDto response = unitService.update(unitDto);
+
         Assertions.assertFalse(response.isSuccess());
     }
 
@@ -143,6 +159,7 @@ public class UnitServiceTest {
         Mockito.when(modelMapper.map(unit, UnitDto.class)).thenReturn(unitDto);
 
         UnitDto response = unitService.findByIdentifier("kg");
+
         Assertions.assertEquals("kg", response.getIdentifier());
     }
 
@@ -184,4 +201,3 @@ public class UnitServiceTest {
     }
 
 }
-
