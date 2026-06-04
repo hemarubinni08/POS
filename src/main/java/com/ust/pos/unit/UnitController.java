@@ -18,7 +18,7 @@ public class UnitController {
 
     @GetMapping("/list")
     public String home(Model unit) {
-        unit.addAttribute(UNITS, unitService.findAll(null));
+        unit.addAttribute(UNITS, unitService.findAll());
         return "unit/list";
     }
 
@@ -62,6 +62,12 @@ public class UnitController {
     @GetMapping("/delete")
     public String delete(Model unit, @RequestParam String identifier) {
         unitService.delete(identifier);
+        return REDIRECT_UNIT_LIST;
+    }
+
+    @PostMapping("/toggleStatus")
+    public String toggleStatus(@RequestParam String identifier) {
+        unitService.toggleStatus(identifier);
         return REDIRECT_UNIT_LIST;
     }
 }

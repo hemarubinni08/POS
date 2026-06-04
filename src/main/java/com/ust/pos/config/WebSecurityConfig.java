@@ -45,7 +45,6 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
-
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->

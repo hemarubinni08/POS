@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -79,11 +78,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAllWithoutNull() {
-        Type listOfType = new TypeToken<List<CategoryDto>>() {
+    public List<CategoryDto> findBySuperCategoryNotNull() {
+        Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-        List<CategoryDto> categoryDtos = modelMapper.map(categoryRepository.findAll(), listOfType);
-        return categoryDtos.stream().filter(c -> c.getSuperCategory() != null)
-                .toList();
+        return modelMapper.map(categoryRepository.findBySuperCategoryIsNot(""), listType);
     }
 }

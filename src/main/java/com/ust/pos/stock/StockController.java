@@ -24,7 +24,7 @@ public class StockController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("stocks", stockService.findAll(null));
+        model.addAttribute("stocks", stockService.findAll());
         return "stock/list";
     }
 
@@ -67,6 +67,12 @@ public class StockController {
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         stockService.delete(identifier);
+        return REDIRECT_STOCK_LIST;
+    }
+
+    @PostMapping("/toggleStatus")
+    public String toggleStatus(@RequestParam String identifier) {
+        stockService.toggleStatus(identifier);
         return REDIRECT_STOCK_LIST;
     }
 }

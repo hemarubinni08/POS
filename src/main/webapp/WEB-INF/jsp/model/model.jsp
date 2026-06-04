@@ -116,7 +116,6 @@
                 <form:input path="identifier" readonly="true"/>
             </div>
 
-            <!-- ✅ Status Dropdown -->
             <div class="form-group">
                 <label>Status</label>
                 <form:select path="status">

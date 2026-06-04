@@ -125,7 +125,6 @@
 
 <div class="card-container">
 
-    <!-- Back to Home -->
     <a href="/" class="back-icon">←</a>
 
     <h2>User Management</h2>

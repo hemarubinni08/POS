@@ -87,7 +87,6 @@
             background: #f7f9ff;
         }
 
-        /* ✅ Toggle switch */
         .toggle-switch {
             position: relative;
             width: 52px;
@@ -186,7 +185,6 @@
                     <td>${rack.identifier}</td>
                     <td>${rack.shelfs}</td>
 
-                    <!-- ✅ Toggle Status -->
                     <td>
                         <form action="${pageContext.request.contextPath}/racks/toggleStatus"
                               method="post" style="margin:0;">

@@ -17,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -139,7 +138,7 @@ class CategoryServiceTest {
                 .thenReturn(entities);
         Mockito.when(modelMapper.map(entities, listType))
                 .thenReturn(dtoList);
-        List<CategoryDto> result = categoryService.findAllWithoutNull();
+        List<CategoryDto> result = categoryService.findBySuperCategoryNotNull();
         Assertions.assertEquals(1, result.size());
         Assertions.assertNotNull(result.get(0).getSuperCategory());
     }

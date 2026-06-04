@@ -119,7 +119,6 @@
             color: #fff;
         }
 
-        /* ✅ Toggle switch */
         .toggle-switch {
             position: relative;
             width: 52px;
@@ -192,7 +191,6 @@
                     <td>${model.id}</td>
                     <td>${model.identifier}</td>
 
-                    <!-- ✅ Toggle Status -->
                     <td>
                         <form action="${pageContext.request.contextPath}/model/toggleStatus"
                               method="post" style="margin:0;">

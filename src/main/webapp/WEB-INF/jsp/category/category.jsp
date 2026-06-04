@@ -111,13 +111,10 @@
 
             <form:hidden path="id"/>
 
-            <!-- Category (Readonly) -->
             <div class="form-group">
                 <label>Category</label>
                 <form:input path="identifier" readonly="true"/>
             </div>
-
-            <!-- Super Category Dropdown -->
             <div class="form-group">
                 <label>Super Category</label>
                 <form:select path="superCategory">

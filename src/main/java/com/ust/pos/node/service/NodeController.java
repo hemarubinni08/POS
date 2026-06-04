@@ -20,7 +20,7 @@ public class NodeController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("nodes", nodeService.findAll(null));
+        model.addAttribute("nodes", nodeService.findAll());
         return "node/list";
     }
 

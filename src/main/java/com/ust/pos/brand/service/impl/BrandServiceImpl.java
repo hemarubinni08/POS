@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -40,7 +39,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto update(BrandDto brandDto) {
-
         Brand existingBrand =
                 brandRepository.findByIdentifier(brandDto.getIdentifier());
 
@@ -49,13 +47,9 @@ public class BrandServiceImpl implements BrandService {
             brandDto.setMessage("Brand not found");
             return brandDto;
         }
-
-        // ✅ update existing row
         existingBrand.setDescription(brandDto.getDescription());
         existingBrand.setStatus(brandDto.isStatus());
-
-        brandRepository.save(existingBrand); // ✅ UPDATE
-
+        brandRepository.save(existingBrand);
         return brandDto;
     }
 
