@@ -10,124 +10,131 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
-
     <style>
         body {
-            background-color: #f7f9fc;
+            background-color: #f5f6f7;
+            font-family: "Segoe UI", Roboto, Helvetica, Arial;
         }
 
-        .page-header {
-            background: linear-gradient(to right, #0f766e, #134e4a);
-            color: #ffffff;
-            padding: 20px;
+        .card {
             border-radius: 10px;
-            margin-bottom: 20px;
-            max-width: 480px;
-            margin-left: auto;
-            margin-right: auto;
+            border: 1px solid #e0e0e0;
         }
 
-        .form-wrapper {
-            max-width: 480px;
-            margin: 0 auto;
+        .card.shadow {
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
         }
 
-        label {
+        .card-header {
+            background-color: #000;
+            color: white;
             font-weight: 600;
-            font-size: 14px;
+            text-align: center;
+            padding: 14px;
         }
 
-        .form-control,
-        .form-select {
-            border-radius: 8px;
+        .form-label {
+            font-weight: 500;
         }
 
-        .btn-gradient {
-            background: linear-gradient(to right, #0f766e, #134e4a);
-            color: #ffffff;
-            border: none;
-        }
-
-        .btn-gradient:hover {
-            background: linear-gradient(to right, #134e4a, #0f766e);
-            color: #ffffff;
+        .readonly-field {
+            background-color: #e9ecef;
         }
     </style>
 </head>
 
-<body class="container py-4">
+<body>
 
-<div class="page-header text-center">
-    <h4 class="mb-0">
-        <i class="bi bi-currency-rupee me-2"></i> Add Price
-    </h4>
-</div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
 
-<div class="form-wrapper">
-    <div class="card shadow-sm">
-        <div class="card-body">
-
-            <c:if test="${not empty message}">
-                <div class="alert alert-danger text-center">
-                    ${message}
-                </div>
-            </c:if>
-
-            <form:form method="post"
-                       action="${pageContext.request.contextPath}/price/add"
-                       modelAttribute="price">
-
-                <div class="mb-3">
-                    <label>Product *</label>
-                    <form:select path="identifier"
-                                 cssClass="form-select"
-                                 required="true">
-                        <form:option value="" label="-- Select Product --"/>
-                        <form:options items="${products}"
-                                      itemValue="identifier"
-                                      itemLabel="identifier"/>
-                    </form:select>
+            <div class="card shadow">
+                <div class="card-header">
+                    Add Price
                 </div>
 
-                <div class="mb-3">
-                    <label>Cost Price</label>
-                    <form:input path="costPrice"
-                                type="number"
-                                min="0"
-                                step="0.01"
-                                cssClass="form-control"
-                                placeholder="Enter cost price"/>
+                <div class="card-body">
+
+                    <c:if test="${not empty message}">
+                        <div class="alert alert-danger">
+                            ${message}
+                        </div>
+                    </c:if>
+
+                    <form:form method="post"
+                               action="${pageContext.request.contextPath}/price/add"
+                               modelAttribute="price">
+
+                        <div class="mb-3">
+                            <label class="form-label">Identifier</label>
+                            <form:input path="identifier"
+                                        id="identifier"
+                                        cssClass="form-control readonly-field"
+                                        readonly="true"
+                                        placeholder="Auto-generated" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Product</label>
+                            <form:select path="product" cssClass="form-select" id="product">
+                                <form:option value="">-- Select Product --</form:option>
+                                <form:options items="${products}"
+                                              itemValue="identifier"
+                                              itemLabel="identifier" />
+                            </form:select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Price Amount</label>
+                            <form:input path="priceAmount"
+                                        cssClass="form-control"
+                                        type="number"
+                                        step="0.01" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Price Type</label>
+                            <form:select path="type" cssClass="form-select" id="type">
+                                <form:option value="">-- Select --</form:option>
+                                <form:option value="MRP">MRP</form:option>
+                                <form:option value="SELLING">Selling</form:option>
+                            </form:select>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">
+                            Save Price
+                        </button>
+
+                        <a href="${pageContext.request.contextPath}/price/list"
+                           class="btn btn-secondary w-100 mt-2">
+                            Cancel
+                        </a>
+
+                    </form:form>
+
                 </div>
-
-                <div class="mb-3">
-                    <label>Price Type *</label>
-                    <form:select path="type"
-                                 cssClass="form-select"
-                                 required="true">
-                        <form:option value="" label="-- Select Price Type --"/>
-                        <form:option value="MRP">MRP</form:option>
-                        <form:option value="SELLING">Selling Price</form:option>
-                    </form:select>
-                </div>
-
-                <div class="d-flex justify-content-end gap-2 mt-4">
-                    <a href="${pageContext.request.contextPath}/price/list"
-                       class="btn btn-outline-secondary">
-                        Cancel
-                    </a>
-
-                    <button type="submit" class="btn btn-gradient">
-                        <i class="bi bi-save me-1"></i> Save Price
-                    </button>
-                </div>
-
-            </form:form>
+            </div>
 
         </div>
     </div>
 </div>
+
+<script>
+    function generateIdentifier() {
+        const product = document.getElementById("product").value;
+        const type = document.getElementById("type").value;
+
+        if (product && type) {
+            document.getElementById("identifier").value = product + "-" + type;
+        } else {
+            document.getElementById("identifier").value = "";
+        }
+    }
+
+    document.getElementById("product").addEventListener("change", generateIdentifier);
+    document.getElementById("type").addEventListener("change", generateIdentifier);
+</script>
 
 </body>
 </html>

@@ -44,6 +44,7 @@ public class UserController {
                              @ModelAttribute UserDto userDto,
                              @RequestParam String oldUsername, Pageable pageable) {
         UserDto existingUser = userService.findByUserName(oldUsername);
+
         if (existingUser == null) {
             model.addAttribute(MESSAGE, "User not found.");
             model.addAttribute(ROLES, roleService.findAll(pageable));
@@ -54,7 +55,7 @@ public class UserController {
                     userService.findByUserName(userDto.getUsername());
             if (emailCheck != null) {
                 model.addAttribute(MESSAGE,
-                        "❌ Email already exists. Please use a new email.");
+                        "Email already exists. Please use a new email.");
                 model.addAttribute("user", userDto);
                 model.addAttribute(ROLES, roleService.findAll(pageable));
                 return USER_USER;
@@ -62,6 +63,7 @@ public class UserController {
         }
         UserDto response =
                 userService.update(oldUsername, userDto);
+
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute("user", userDto);
@@ -74,6 +76,7 @@ public class UserController {
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String username) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication != null) {
             String loggedInUser = authentication.getName();
             if (loggedInUser != null) {

@@ -29,6 +29,7 @@ public class ShelfController {
     public String addPost(Model model,
                           @ModelAttribute(SHELF) ShelfDto shelfDto) {
         ShelfDto response = shelfService.save(shelfDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(SHELF, shelfDto);
@@ -54,6 +55,7 @@ public class ShelfController {
     public String updatePost(Model model,
                              @ModelAttribute(SHELF) ShelfDto shelfDto) {
         ShelfDto response = shelfService.update(shelfDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "shelf/shelf";

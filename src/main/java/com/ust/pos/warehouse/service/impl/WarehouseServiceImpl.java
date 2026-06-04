@@ -35,6 +35,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     public WarehouseDto save(WarehouseDto warehouseDto) {
         String identifier = warehouseDto.getIdentifier();
         Warehouse existingRole = warehouseRepository.findByIdentifier(identifier);
+
         if (existingRole != null) {
             warehouseDto.setMessage("Warehouse with identifier - " + identifier + " already exists");
             warehouseDto.setSuccess(false);
@@ -49,6 +50,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     public WarehouseDto update(WarehouseDto warehouseDto) {
         String identifier = warehouseDto.getIdentifier();
         Warehouse existingRole = warehouseRepository.findByIdentifier(identifier);
+
         if (existingRole == null) {
             warehouseDto.setMessage("Warehouse with identifier - " + identifier + " not found");
             warehouseDto.setSuccess(false);

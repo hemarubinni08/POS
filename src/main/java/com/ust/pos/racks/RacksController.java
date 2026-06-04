@@ -34,6 +34,7 @@ public class RacksController {
     public String addPost(Model model,
                           @ModelAttribute("rack") RacksDto racksDto) {
         RacksDto response = racksService.save(racksDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("racks", racksDto);
@@ -62,6 +63,7 @@ public class RacksController {
     public String updatePost(Model model,
                              @ModelAttribute("rack") RacksDto racksDto) {
         RacksDto response = racksService.update(racksDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(SHELFS, shelfService.findAllActive());

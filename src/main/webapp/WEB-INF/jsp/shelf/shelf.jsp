@@ -80,10 +80,8 @@
             <form action="${pageContext.request.contextPath}/shelf/update"
                   method="post">
 
-                <!-- Hidden ID -->
                 <input type="hidden" name="id" value="${shelf.id}"/>
 
-                <!-- Shelf Name (Read-only) -->
                 <div class="mb-3">
                     <label>Shelf Name</label>
                     <input type="text"

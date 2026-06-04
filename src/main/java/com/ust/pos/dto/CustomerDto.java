@@ -7,7 +7,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 public class CustomerDto extends CommonDto{
     private String customerName;
     @Column(name = "phone_no", unique = true, nullable = false)

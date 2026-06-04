@@ -35,6 +35,7 @@ public class ShelfServiceImpl implements ShelfService {
     public ShelfDto save(ShelfDto shelfDto) {
         String identifier = shelfDto.getIdentifier();
         Shelf existingShelf = shelfRepository.findByIdentifier(identifier);
+
         if (existingShelf != null) {
             shelfDto.setMessage("Shelf with identifier - " + identifier + " already exists");
             shelfDto.setSuccess(false);
@@ -49,6 +50,7 @@ public class ShelfServiceImpl implements ShelfService {
     public ShelfDto update(ShelfDto shelfDto) {
         String identifier = shelfDto.getIdentifier();
         Shelf existingShelf = shelfRepository.findByIdentifier(identifier);
+
         if (existingShelf == null) {
             shelfDto.setMessage("Shelf with identifier - " + identifier + " not found");
             shelfDto.setSuccess(false);

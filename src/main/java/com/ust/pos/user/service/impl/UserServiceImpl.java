@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
     public UserDto save(UserDto userDto) {
         User existingUser =
                 userRepository.findByUsername(userDto.getUsername());
+
         if (existingUser != null) {
             userDto.setMessage(
                     "User with username/email - " + userDto.getUsername() + " already exists");
@@ -57,8 +58,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(String oldUsername, UserDto userDto) {
-        User existingUser =
-                userRepository.findByUsername(oldUsername);
+        User existingUser = userRepository.findByUsername(oldUsername);
+
         if (existingUser == null) {
             userDto.setMessage("User not found");
             userDto.setSuccess(false);

@@ -20,10 +20,8 @@ import javax.sql.DataSource;
 
 @OpenAPIDefinition
 @SpringBootApplication
-
 @EnableJpaRepositories(basePackages = "com.ust.pos")
 @EntityScan(basePackages = "com.ust.pos")
-
 @ComponentScan({"com.ust.pos.web.controller", "com.ust.pos"})
 public class PosApplication {
 

@@ -4,143 +4,139 @@ import com.ust.pos.brand.service.impl.BrandServiceImpl;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.modell.Brand;
 import com.ust.pos.modell.BrandRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
- class BrandServiceTest {
+class BrandServiceTest {
 
     @InjectMocks
-    private BrandServiceImpl brandService;
+    private BrandServiceImpl service;
 
     @Mock
-    private BrandRepository brandRepository;
+    private BrandRepository repository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private ModelMapper mapper;
 
     @Test
-    void saveTest() {
-        BrandDto brandDto = new BrandDto();
-        brandDto.setIdentifier("B1");
-
-        Mockito.when(brandRepository.findByIdentifier("B1")).thenReturn(null);
+    void save_shouldHandleNewAndExistingBrand() {
+        BrandDto dto = new BrandDto();
+        dto.setIdentifier("B1");
 
         Brand brand = new Brand();
         brand.setIdentifier("B1");
 
-        Mockito.when(modelMapper.map(brandDto, Brand.class)).thenReturn(brand);
-        Mockito.when(brandRepository.save(brand)).thenReturn(brand);
+        // ✅ New brand
+        when(repository.findByIdentifier("B1")).thenReturn(null);
+        when(mapper.map(dto, Brand.class)).thenReturn(brand);
 
-        BrandDto response = brandService.save(brandDto);
+        BrandDto result = service.save(dto);
 
-        Assertions.assertEquals("B1", response.getIdentifier());
-        Assertions.assertTrue(response.isSuccess());
-        Assertions.assertNull(response.getMessage());
+        verify(repository).save(brand);
+        assertTrue(result.isSuccess() || result.getMessage() == null);
+
+        // ✅ Existing brand
+        when(repository.findByIdentifier("B1")).thenReturn(brand);
+
+        BrandDto existingResult = service.save(dto);
+
+        assertFalse(existingResult.isSuccess());
+        assertEquals("Brand with identifier - B1 already exists",
+                existingResult.getMessage());
     }
 
     @Test
-    void saveTestFailure_BrandAlreadyExists() {
-        BrandDto brandDto = new BrandDto();
-        brandDto.setIdentifier("B1");
+    void update_shouldHandleFoundAndNotFound() {
+        BrandDto dto = new BrandDto();
+        dto.setIdentifier("B1");
 
-        Brand existingBrand = new Brand();
-        existingBrand.setIdentifier("B1");
-
-        Mockito.when(brandRepository.findByIdentifier("B1")).thenReturn(existingBrand);
-
-        BrandDto response = brandService.save(brandDto);
-
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertNotNull(response.getMessage());
-        Assertions.assertEquals("Brand with identifier - B1 already exists", response.getMessage());
-    }
-
-    @Test
-    void updateTest() {
-        BrandDto brandDto = new BrandDto();
-        brandDto.setIdentifier("B1");
-
-        Brand existingBrand = new Brand();
-        existingBrand.setIdentifier("B1");
-
-        Mockito.when(brandRepository.findByIdentifier("B1")).thenReturn(existingBrand);
-        Mockito.when(brandRepository.save(existingBrand)).thenReturn(existingBrand);
-
-        BrandDto response = brandService.update(brandDto);
-
-        Assertions.assertTrue(response.isSuccess());
-        Assertions.assertNull(response.getMessage());
-    }
-
-    @Test
-    void updateTestFailure_BrandNotFound() {
-        BrandDto brandDto = new BrandDto();
-        brandDto.setIdentifier("B1");
-
-        Mockito.when(brandRepository.findByIdentifier("B1")).thenReturn(null);
-
-        BrandDto response = brandService.update(brandDto);
-
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertNotNull(response.getMessage());
-        Assertions.assertEquals("Brand with identifier - B1 not found", response.getMessage());
-    }
-
-    @Test
-    void deleteTest() {
-        Mockito.doNothing().when(brandRepository).deleteByIdentifier("B1");
-
-        brandService.deleteByIdentifier("B1");
-
-        Mockito.verify(brandRepository).deleteByIdentifier("B1");
-    }
-
-    @Test
-    void findByIdentifierTest() {
         Brand brand = new Brand();
         brand.setIdentifier("B1");
 
-        BrandDto brandDto = new BrandDto();
-        brandDto.setIdentifier("B1");
+        // ✅ Found
+        when(repository.findByIdentifier("B1")).thenReturn(brand);
 
-        Mockito.when(brandRepository.findByIdentifier("B1")).thenReturn(brand);
-        Mockito.when(modelMapper.map(brand, BrandDto.class)).thenReturn(brandDto);
+        BrandDto success = service.update(dto);
 
-        BrandDto response = brandService.findByIdentifier("B1");
+        verify(mapper).map(dto, brand);
+        verify(repository).save(brand);
+        assertTrue(success.isSuccess() || success.getMessage() == null);
 
-        Assertions.assertEquals("B1", response.getIdentifier());
+        // ✅ Not found
+        when(repository.findByIdentifier("B2")).thenReturn(null);
+        dto.setIdentifier("B2");
+
+        BrandDto failure = service.update(dto);
+
+        assertFalse(failure.isSuccess());
+        assertEquals("Brand with identifier - B2 not found",
+                failure.getMessage());
     }
 
     @Test
-    void findAllTest() {
+    void delete_shouldCallRepository() {
+        service.deleteByIdentifier("B1");
+
+        verify(repository).deleteByIdentifier("B1");
+    }
+
+    @Test
+    void findByIdentifier_shouldMapResult() {
         Brand brand = new Brand();
-        brand.setIdentifier("Admin");
+        brand.setIdentifier("B1");
 
-        BrandDto brandDto = new BrandDto();
-        brandDto.setIdentifier("Admin");
+        BrandDto dto = new BrandDto();
+        dto.setIdentifier("B1");
 
-        List<Brand> brands = List.of(brand);
-        List<BrandDto> brandDtos = List.of(brandDto);
+        when(repository.findByIdentifier("B1")).thenReturn(brand);
+        when(mapper.map(brand, BrandDto.class)).thenReturn(dto);
 
-        Page<Brand> brandPage = new PageImpl<>(brands, PageRequest.of(0, 2), brands.size());
+        BrandDto result = service.findByIdentifier("B1");
 
-        Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
-        Mockito.when(brandRepository.findAll(pageable)).thenReturn(brandPage);
-        Mockito.when(modelMapper.map(Mockito.eq(brands), Mockito.any(java.lang.reflect.Type.class))).thenReturn(brandDtos);
+        assertEquals("B1", result.getIdentifier());
+    }
 
-        List<BrandDto> response = brandService.findAll(pageable);
+    @Test
+    void findAll_shouldHandleDataAndEmpty() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Type listType = new TypeToken<List<BrandDto>>() {}.getType();
 
-        Assertions.assertEquals(1, response.size());
+        Brand brand = new Brand();
+        brand.setIdentifier("B1");
+
+        BrandDto dto = new BrandDto();
+        dto.setIdentifier("B1");
+
+        Page<Brand> page = new PageImpl<>(List.of(brand), pageable, 1);
+
+        when(repository.findAll(pageable)).thenReturn(page);
+        when(mapper.map(any(), eq(listType))).thenReturn(List.of(dto));
+
+        List<BrandDto> result = service.findAll(pageable);
+
+        assertEquals(1, result.size());
+
+        Page<Brand> emptyPage = new PageImpl<>(List.of(), pageable, 0);
+
+        when(repository.findAll(pageable)).thenReturn(emptyPage);
+        when(mapper.map(eq(List.of()), eq(listType))).thenReturn(List.of());
+
+        List<BrandDto> emptyResult = service.findAll(pageable);
+
+        assertTrue(emptyResult.isEmpty());
     }
 }

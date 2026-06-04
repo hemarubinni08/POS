@@ -27,6 +27,7 @@ public class UnitController {
     public String addPost(Model model,
                           @ModelAttribute("unit") UnitDto unitDto) {
         UnitDto response = unitService.save(unitDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("unit", unitDto);
@@ -52,6 +53,7 @@ public class UnitController {
     public String updatePost(Model model,
                              @ModelAttribute("unit") UnitDto unitDto) {
         UnitDto response = unitService.update(unitDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "unit/unit";

@@ -52,6 +52,7 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public StockDto save(StockDto stockDto) {
+
         if (stockDto.getProductId() == null || stockDto.getWarehouseId() == null) {
             throw PRODUCT_WAREHOUSE_REQUIRED_EXCEPTION;
         }
@@ -59,6 +60,7 @@ public class StockServiceImpl implements StockService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         Warehouse warehouse = warehouseRepository.findById(stockDto.getWarehouseId())
                 .orElseThrow(() -> new RuntimeException("Warehouse not found"));
+
         if (stockRepository.findByProductIdAndWarehouseId(
                 stockDto.getProductId(),
                 stockDto.getWarehouseId()
@@ -82,6 +84,7 @@ public class StockServiceImpl implements StockService {
     public StockDto update(StockDto stockDto) {
         Stock stock = stockRepository.findById(stockDto.getId())
                 .orElseThrow(() -> new RuntimeException(STOCK_NOT_FOUND));
+
         if (stockDto.getProductId() != null &&
                 !stockDto.getProductId().equals(stock.getProductId())) {
             Product product = productRepository.findById(stockDto.getProductId())
@@ -89,6 +92,7 @@ public class StockServiceImpl implements StockService {
             stock.setProductId(product.getId());
             stock.setProductIdentifier(product.getIdentifier());
         }
+
         if (stockDto.getWarehouseId() != null &&
                 !stockDto.getWarehouseId().equals(stock.getWarehouseId())) {
             Warehouse warehouse = warehouseRepository.findById(stockDto.getWarehouseId())

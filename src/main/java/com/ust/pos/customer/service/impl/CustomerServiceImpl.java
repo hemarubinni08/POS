@@ -35,9 +35,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto findByIdentifierWithAddressDto(String phoneNo) {
-        Customer customer = customerRepository.findByPhoneNo(phoneNo);
+        Customer customer = customerRepository.findFirstByPhoneNo(phoneNo).orElse(null);
         CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
         List<AddressDto> addressDtoList = addressService.findAllByPhoneNo(phoneNo);
+
         if (addressDtoList != null) {
             if (addressDtoList.isEmpty()) {
                 customerDto.setBillingAddress(addressDtoList.get(0));
@@ -53,6 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto save(CustomerDto customerDto) {
         String identifier = customerDto.getIdentifier();
         Customer existingCustomer = customerRepository.findById(identifier);
+
         if (existingCustomer != null) {
             customerDto.setMessage("Customer with identifier - " + identifier + " already exists");
             customerDto.setSuccess(false);
@@ -78,7 +80,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto update(CustomerDto customerDto) {
-        Customer existingCustomer = customerRepository.findByPhoneNo(customerDto.getPhoneNo());
+        Customer existingCustomer = customerRepository.findFirstByPhoneNo(customerDto.getPhoneNo()).orElse(null);
+
         if (existingCustomer == null) {
             customerDto.setMessage("Customer with identifier - " + customerDto.getPhoneNo() + " not found");
             customerDto.setSuccess(false);

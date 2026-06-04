@@ -38,6 +38,7 @@ public class ModelServiceImpl implements ModelService {
     public ModelDto save(ModelDto modelDto) {
         String identifier = modelDto.getIdentifier();
         Model existingModel = modelRepository.findByIdentifier(identifier);
+
         if (existingModel != null) {
             modelDto.setMessage("Model with identifier - " + identifier + " already exists");
             modelDto.setSuccess(false);
@@ -52,6 +53,7 @@ public class ModelServiceImpl implements ModelService {
     public ModelDto update(ModelDto modelDto) {
         String identifier = modelDto.getIdentifier();
         Model existingModel = modelRepository.findByIdentifier(identifier);
+
         if (existingModel == null) {
             modelDto.setMessage("Model with identifier - " + identifier + " not found");
             modelDto.setSuccess(false);

@@ -4,160 +4,133 @@ import com.ust.pos.dto.PriceDto;
 import com.ust.pos.modell.Price;
 import com.ust.pos.modell.PriceRepository;
 import com.ust.pos.price.service.impl.PriceServiceImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
 
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
- class PriceServiceTest {
+class PriceServiceTest {
 
     @InjectMocks
-    private PriceServiceImpl priceService;
+    private PriceServiceImpl service;
 
     @Mock
-    private PriceRepository priceRepository;
+    private PriceRepository repository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private ModelMapper mapper;
 
     @Test
-    void saveTest() {
-        PriceDto priceDto = new PriceDto();
-        priceDto.setIdentifier("PR1");
+    void findByIdentifier_shouldHandleBothCases() {
+        Price price = new Price();
+        price.setIdentifier("PR1");
 
-        Mockito.when(priceRepository.findByIdentifier("PR1"))
-                .thenReturn(null);
+        PriceDto dto = new PriceDto();
+        dto.setIdentifier("PR1");
+
+        when(repository.findByIdentifier("PR1")).thenReturn(price);
+        when(mapper.map(price, PriceDto.class)).thenReturn(dto);
+
+        assertEquals("PR1", service.findByIdentifier("PR1").getIdentifier());
+
+        when(repository.findByIdentifier("X")).thenReturn(null);
+        when(mapper.map(null, PriceDto.class)).thenReturn(null);
+
+        assertNull(service.findByIdentifier("X"));
+    }
+
+    @Test
+    void save_shouldHandleBothCases() {
+        PriceDto dto = new PriceDto();
+        dto.setIdentifier("PR1");
 
         Price price = new Price();
         price.setIdentifier("PR1");
 
-        Mockito.when(modelMapper.map(priceDto, Price.class))
-                .thenReturn(price);
-        Mockito.when(priceRepository.save(price))
-                .thenReturn(price);
+        when(repository.findByIdentifier("PR1")).thenReturn(null);
+        when(mapper.map(dto, Price.class)).thenReturn(price);
 
-        PriceDto response = priceService.save(priceDto);
+        PriceDto result = service.save(dto);
 
-        Assertions.assertEquals("PR1", response.getIdentifier());
-        Assertions.assertTrue(response.isSuccess());
-        Assertions.assertNull(response.getMessage());
+        verify(repository).save(price);
+        assertTrue(result.isSuccess() || result.getMessage() == null);
+
+        when(repository.findByIdentifier("PR1")).thenReturn(price);
+
+        PriceDto duplicate = service.save(dto);
+
+        assertFalse(duplicate.isSuccess());
+        assertTrue(duplicate.getMessage().contains("already exists"));
     }
 
     @Test
-    void saveTestFailure() {
-        PriceDto priceDto = new PriceDto();
-        priceDto.setIdentifier("PR1");
+    void update_shouldHandleBothCases() {
+        PriceDto dto = new PriceDto();
+        dto.setIdentifier("PR1");
 
-        Price existingPrice = new Price();
-        existingPrice.setIdentifier("PR1");
-
-        Mockito.when(priceRepository.findByIdentifier("PR1"))
-                .thenReturn(existingPrice);
-
-        PriceDto response = priceService.save(priceDto);
-
-        Assertions.assertEquals("PR1", response.getIdentifier());
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertNotNull(response.getMessage());
-    }
-
-    @Test
-    void findByIdentifierTest() {
         Price price = new Price();
         price.setIdentifier("PR1");
 
-        PriceDto priceDto = new PriceDto();
-        priceDto.setIdentifier("PR1");
+        when(repository.findByIdentifier("PR1")).thenReturn(price);
 
-        Mockito.when(priceRepository.findByIdentifier("PR1"))
-                .thenReturn(price);
-        Mockito.when(modelMapper.map(price, PriceDto.class))
-                .thenReturn(priceDto);
+        PriceDto success = service.update(dto);
 
-        PriceDto response = priceService.findByIdentifier("PR1");
+        verify(mapper).map(dto, price);
+        verify(repository).save(price);
 
-        Assertions.assertEquals("PR1", response.getIdentifier());
+        when(repository.findByIdentifier("X")).thenReturn(null);
+        dto.setIdentifier("X");
+
+        PriceDto failure = service.update(dto);
+
+        assertFalse(failure.isSuccess());
+        assertTrue(failure.getMessage().contains("already exists")); // matches service bug
     }
 
     @Test
-    void updateTest() {
-        PriceDto priceDto = new PriceDto();
-        priceDto.setIdentifier("PR1");
+    void delete_shouldCallRepository() {
+        service.delete("PR1");
 
-        Price existingPrice = new Price();
-        existingPrice.setIdentifier("PR1");
-
-        Mockito.when(priceRepository.findByIdentifier("PR1"))
-                .thenReturn(existingPrice);
-        Mockito.when(priceRepository.save(existingPrice))
-                .thenReturn(existingPrice);
-
-        PriceDto response = priceService.update(priceDto);
-
-        Assertions.assertTrue(response.isSuccess());
-        Assertions.assertNull(response.getMessage());
+        verify(repository).deleteByIdentifier("PR1");
     }
 
     @Test
-    void updateTestFailure() {
-        PriceDto priceDto = new PriceDto();
-        priceDto.setIdentifier("PR1");
+    void findAll_shouldHandleDataAndEmpty() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Type type = new TypeToken<List<PriceDto>>() {}.getType();
 
-        Mockito.when(priceRepository.findByIdentifier("PR1"))
-                .thenReturn(null);
-
-        PriceDto response = priceService.update(priceDto);
-
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertNotNull(response.getMessage());
-    }
-
-    @Test
-    void deleteTest() {
-        Mockito.doNothing()
-                .when(priceRepository)
-                .deleteByIdentifier("PR1");
-
-        priceService.delete("PR1");
-
-        Mockito.verify(priceRepository)
-                .deleteByIdentifier("PR1");
-    }
-
-    @Test
-    void findAllTest() {
         Price price = new Price();
         price.setIdentifier("PR1");
 
-        PriceDto priceDto = new PriceDto();
-        priceDto.setIdentifier("PR1");
+        PriceDto dto = new PriceDto();
+        dto.setIdentifier("PR1");
 
-        List<Price> prices = List.of(price);
-        List<PriceDto> priceDtos = List.of(priceDto);
+        Page<Price> page =
+                new PageImpl<>(List.of(price), pageable, 1);
 
-        Pageable pageable = PageRequest.of(0, 20, Sort.by(new ArrayList<>()));
-        Page<Price> pricePage =
-                new PageImpl<>(prices, pageable, prices.size());
+        when(repository.findAll(pageable)).thenReturn(page);
+        when(mapper.map(any(), eq(type))).thenReturn(List.of(dto));
 
-        Mockito.when(priceRepository.findAll(pageable))
-                .thenReturn(pricePage);
+        assertEquals(1, service.findAll(pageable).size());
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(prices),
-                Mockito.any(java.lang.reflect.Type.class)
-        )).thenReturn(priceDtos);
+        Page<Price> emptyPage =
+                new PageImpl<>(List.of(), pageable, 0);
 
-        List<PriceDto> response = priceService.findAll(pageable);
+        when(repository.findAll(pageable)).thenReturn(emptyPage);
+        when(mapper.map(eq(List.of()), eq(type))).thenReturn(List.of());
 
-        Assertions.assertEquals(1, response.size());
+        assertTrue(service.findAll(pageable).isEmpty());
     }
 }

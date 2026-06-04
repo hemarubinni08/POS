@@ -33,9 +33,9 @@ import java.util.List;
 
 
 //@Configuration
-//
+
 //@EnableWebSecurity
-//
+
 //@EnableMethodSecurity
 public class WebSecurityConfig {
 
@@ -113,15 +113,10 @@ public class WebSecurityConfig {
     }
 
     @Bean
-
     public AuthenticationProvider userDetailsAuthProvider() {
-
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
-
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
-
         return authenticationProvider;
-
     }
 
 }

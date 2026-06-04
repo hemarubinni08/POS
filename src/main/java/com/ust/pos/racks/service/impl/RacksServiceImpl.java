@@ -35,6 +35,7 @@ public class RacksServiceImpl implements RacksService {
     public RacksDto save(RacksDto racksDto) {
         String identifier = racksDto.getIdentifier();
         Racks existingRacks = racksRepository.findByIdentifier(identifier);
+
         if (existingRacks != null) {
             racksDto.setMessage("Racks with identifier - " + identifier + " already exists");
             racksDto.setSuccess(false);
@@ -49,6 +50,7 @@ public class RacksServiceImpl implements RacksService {
     public RacksDto update(RacksDto racksDto) {
         String identifier = racksDto.getIdentifier();
         Racks existingRacks = racksRepository.findByIdentifier(identifier);
+
         if (existingRacks == null) {
             racksDto.setMessage("Racks with identifier - " + identifier + " not found");
             racksDto.setSuccess(false);

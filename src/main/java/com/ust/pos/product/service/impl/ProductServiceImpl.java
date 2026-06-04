@@ -35,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto save(ProductDto productDto) {
         String identifier = productDto.getIdentifier();
         Product existingProduct = productRepository.findByIdentifier(identifier);
+
         if (existingProduct != null) {
             productDto.setMessage("Product with identifier - " + identifier + " already exists");
             productDto.setSuccess(false);
@@ -49,6 +50,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto update(ProductDto productDto) {
         String identifier = productDto.getIdentifier();
         Product existingProduct = productRepository.findByIdentifier(identifier);
+
         if (existingProduct == null) {
             productDto.setMessage("Product with identifier - " + identifier + " not found");
             productDto.setSuccess(false);
