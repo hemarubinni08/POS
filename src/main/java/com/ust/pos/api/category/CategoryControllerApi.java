@@ -35,8 +35,8 @@ public class CategoryControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public CategoryDto updatePost(Model model, @ModelAttribute CategoryDto CategoryDto) {
-        return categoryService.update(CategoryDto);
+    public CategoryDto updatePost(Model model, @ModelAttribute CategoryDto categoryDto) {
+        return categoryService.update(categoryDto);
     }
 
     @GetMapping("/delete")

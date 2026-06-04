@@ -23,14 +23,11 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressDto findByPhoneNoAndAddressType(Long phoneNo, String addressType) {
         Address address = addressRepository.findByPhoneNoAndAddressType(phoneNo, addressType);
-
         if (address == null) {
-            return null;  // ✅ Prevent crash
+            return null;
         }
-
         return modelMapper.map(address, AddressDto.class);
     }
-
 
     @Override
     public AddressDto save(AddressDto addressDto) {

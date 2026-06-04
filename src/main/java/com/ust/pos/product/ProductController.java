@@ -6,8 +6,6 @@ import com.ust.pos.dto.ProductDto;
 import com.ust.pos.models.service.ModelsService;
 import com.ust.pos.price.service.PriceService;
 import com.ust.pos.product.service.ProductService;
-import com.ust.pos.rack.service.RackService;
-import com.ust.pos.shelf.service.ShelfService;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -33,10 +31,6 @@ public class ProductController {
     private PriceService priceService;
     @Autowired
     private BrandService brandService;
-    @Autowired
-    private RackService rackService;
-    @Autowired
-    private ShelfService shelfService;
     @Autowired
     private UnitService unitService;
 

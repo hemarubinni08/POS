@@ -31,7 +31,6 @@ import java.util.List;
 //@EnableMethodSecurity
 
 public class WebSecurityConfig {
-
     public static final String JAVA_IN_USE_SECURITY_SCHEME = "JavaInUseSecurityScheme";
     @Autowired
     private UserDetailsService userDetailsService;

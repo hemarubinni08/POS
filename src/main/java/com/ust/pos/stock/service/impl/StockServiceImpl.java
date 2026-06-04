@@ -1,7 +1,6 @@
 package com.ust.pos.stock.service.impl;
 
 import com.ust.pos.dto.StockDto;
-import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.StockService;
@@ -22,8 +21,6 @@ import java.util.List;
 public class StockServiceImpl implements StockService {
     @Autowired
     private StockRepository stockRepository;
-    @Autowired
-    private NodeRepository nodeRepository;
 
     @Autowired
     private ModelMapper modelMapper;

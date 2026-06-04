@@ -187,7 +187,6 @@
 
     <div class="footer-links">
         <a href="/">Home</a>
-        <a href="${pageContext.request.contextPath}/register">Register New User</a>
     </div>
 
 </div>

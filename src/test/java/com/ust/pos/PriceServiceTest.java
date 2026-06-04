@@ -28,13 +28,12 @@ class PriceServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // FIXED saveTest (identifier handling)
     @Test
     void saveTest() {
         PriceDto priceDto = new PriceDto();
         priceDto.setProduct("P1");
         priceDto.setPriceType("T1");
-        Mockito.when(priceRepository.findByIdentifier(null))
+        Mockito.when(priceRepository.findFirstByIdentifier(null))
                 .thenReturn(null);
         Price price = new Price();
         Mockito.when(modelMapper.map(priceDto, Price.class))
@@ -48,7 +47,7 @@ class PriceServiceTest {
         PriceDto priceDto = new PriceDto();
         priceDto.setProduct("P1");
         priceDto.setPriceType("T1");
-        Mockito.when(priceRepository.findByIdentifier(Mockito.any()))
+        Mockito.when(priceRepository.findFirstByIdentifier(Mockito.any()))
                 .thenReturn(new Price());
         PriceDto response = priceService.save(priceDto);
         Assertions.assertFalse(response.isSuccess());
@@ -60,16 +59,15 @@ class PriceServiceTest {
         price.setIdentifier("Admin");
         PriceDto priceDto = new PriceDto();
         priceDto.setIdentifier("Admin");
-        Mockito.when(priceRepository.findByIdentifier("Admin")).thenReturn(price);
+        Mockito.when(priceRepository.findFirstByIdentifier("Admin")).thenReturn(price);
         Mockito.when(modelMapper.map(price, PriceDto.class)).thenReturn(priceDto);
         PriceDto response = priceService.findByIdentifier("Admin");
         Assertions.assertEquals("Admin", response.getIdentifier());
     }
 
-    // MISSING BRANCH (required for 100%)
     @Test
     void findByIdentifierNullTest() {
-        Mockito.when(priceRepository.findByIdentifier("Admin"))
+        Mockito.when(priceRepository.findFirstByIdentifier("Admin"))
                 .thenReturn(null);
         PriceDto response = priceService.findByIdentifier("Admin");
         Assertions.assertNull(response);
@@ -81,7 +79,7 @@ class PriceServiceTest {
         priceDto.setIdentifier("Admin");
         Price existingPrice = new Price();
         existingPrice.setIdentifier("Admin");
-        Mockito.when(priceRepository.findByIdentifier("Admin"))
+        Mockito.when(priceRepository.findFirstByIdentifier("Admin"))
                 .thenReturn(existingPrice);
         Mockito.when(priceRepository.save(existingPrice))
                 .thenReturn(existingPrice);
@@ -93,7 +91,7 @@ class PriceServiceTest {
     void updateTestFailure() {
         PriceDto priceDto = new PriceDto();
         priceDto.setIdentifier("Admin");
-        Mockito.when(priceRepository.findByIdentifier("Admin"))
+        Mockito.when(priceRepository.findFirstByIdentifier("Admin"))
                 .thenReturn(null);
         PriceDto response = priceService.update(priceDto);
         Assertions.assertFalse(response.isSuccess());
@@ -127,7 +125,6 @@ class PriceServiceTest {
         Assertions.assertEquals("Admin", response.get(0).getIdentifier());
     }
 
-    // MISSING branch (empty list)
     @Test
     void findAllEmptyTest() {
         Pageable pageable = PageRequest.of(0, 10);

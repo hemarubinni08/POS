@@ -4,7 +4,6 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.price.service.PriceService;
-import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
@@ -18,9 +17,6 @@ public class PriceControllerApi extends BaseController {
     public static final String REDIRECT_ROLE_LIST = "redirect:/price/list";
     @Autowired
     private PriceService priceService;
-
-    @Autowired
-    private ProductService productService;
 
     @PostMapping("/list")
     public List<PriceDto> home(@RequestBody PaginationDto paginationDto) {

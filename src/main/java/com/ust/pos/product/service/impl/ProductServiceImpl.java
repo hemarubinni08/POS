@@ -1,7 +1,6 @@
 package com.ust.pos.product.service.impl;
 
 import com.ust.pos.dto.ProductDto;
-import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -21,8 +20,7 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
-    @Autowired
-    private NodeRepository nodeRepository;
+
     @Autowired
     private ModelMapper modelMapper;
 

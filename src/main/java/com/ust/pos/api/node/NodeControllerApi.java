@@ -4,7 +4,6 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.node.service.NodeService;
-import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
@@ -20,9 +19,6 @@ public class NodeControllerApi extends BaseController {
     public static final String ROLES = "roles";
     @Autowired
     private NodeService nodeService;
-
-    @Autowired
-    private RoleService roleService;
 
     @PostMapping("/list")
     public List<NodeDto> home(@RequestBody PaginationDto paginationDto) {

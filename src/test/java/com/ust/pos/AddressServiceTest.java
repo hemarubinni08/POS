@@ -27,7 +27,6 @@ import java.util.List;
     @Mock
     private ModelMapper modelMapper;
 
-    // SAVE SUCCESS
     @Test
     void saveTest() {
         AddressDto dto = new AddressDto();
@@ -46,7 +45,6 @@ import java.util.List;
         Assertions.assertTrue(response.isSuccess());
     }
 
-    // SAVE FAILURE
     @Test
     void saveTestFailure() {
         AddressDto dto = new AddressDto();
@@ -60,7 +58,6 @@ import java.util.List;
         Assertions.assertNotNull(response.getMessage());
     }
 
-    // UPDATE SUCCESS
     @Test
     void updateTest() {
         AddressDto dto = new AddressDto();
@@ -80,7 +77,6 @@ import java.util.List;
         Assertions.assertTrue(response.isSuccess());
     }
 
-    // UPDATE FAILURE
     @Test
     void updateTestFailure() {
         AddressDto dto = new AddressDto();
@@ -93,7 +89,6 @@ import java.util.List;
         Assertions.assertFalse(response.isSuccess());
     }
 
-    // FIND BY PHONE AND TYPE
     @Test
     void findByPhoneNoAndAddressTypeTest() {
         Address address = new Address();
@@ -108,7 +103,6 @@ import java.util.List;
         Assertions.assertNotNull(response);
     }
 
-    //  FIND ALL
     @Test
     void findAllTest() {
         Address address = new Address();
