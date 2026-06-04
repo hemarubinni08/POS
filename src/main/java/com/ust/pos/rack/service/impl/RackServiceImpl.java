@@ -17,6 +17,7 @@ import java.util.List;
 
 @Service
 public class RackServiceImpl implements RackService {
+
     @Autowired
     RackRepository rackRepository;
 

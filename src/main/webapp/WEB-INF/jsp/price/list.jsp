@@ -139,10 +139,10 @@
                 <td>${price.priceAmount}</td>
                 <td>${price.priceType}</td>
                 <td>
-                    <a href="/price/get?product=${price.product}">
+                    <a href="/price/get?identifier=${price.identifier}">
                         <button class="edit-btn">Edit</button>
                     </a>
-                    <a href="/price/delete?product=${price.product}"
+                    <a href="/price/delete?identifier=${price.identifier}"
                        onclick="return confirm('Are you sure?');">
                         <button class="delete-btn">Delete</button>
                     </a>

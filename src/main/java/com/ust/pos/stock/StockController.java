@@ -22,6 +22,7 @@ public class StockController {
     public static final String STOCKS1 = STOCKS;
     public static final String STOCK_LIST = "stock/list";
     public static final String MESSAGE = "message";
+
     @Autowired
     StockService stockService;
 

@@ -111,10 +111,7 @@
         <form:input path="priceAmount" type="number" step="0.01" required="true"/>
 
         <label>Price Type</label>
-        <form:select path="priceType" required="true">
-            <form:option value="COST_PRICE">Cost Price</form:option>
-            <form:option value="SELLING_PRICE">Selling Price</form:option>
-        </form:select>
+        <form:input path="priceType" required="true" readonly="true"/>
 
         <div class="btn-group">
             <button type="submit" class="save-btn">Update</button>

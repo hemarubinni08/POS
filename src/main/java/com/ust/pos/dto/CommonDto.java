@@ -8,6 +8,7 @@ import lombok.Setter;
 public class CommonDto extends PaginationDto {
     private Long id;
     private String identifier;
+    private String description;
     private String message;
     private boolean success = true;
     private boolean status;

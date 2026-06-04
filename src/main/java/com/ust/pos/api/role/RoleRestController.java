@@ -16,8 +16,6 @@ import java.util.List;
 public class RoleRestController extends BaseController {
 
     public static final String MESSAGE = "message";
-    public static final String MESSAGE1 = "message";
-    public static final String MESSAGE2 = "message";
 
     @Autowired
     private RoleService roleService;
@@ -32,9 +30,8 @@ public class RoleRestController extends BaseController {
     }
 
     @PostMapping("/add")
-    public RoleDto addPost(@RequestBody RoleDto userDto) {
-
-        return roleService.save(userDto);
+    public RoleDto addPost(@RequestBody RoleDto roleDto) {
+        return roleService.save(roleDto);
     }
 
     @GetMapping("/get")

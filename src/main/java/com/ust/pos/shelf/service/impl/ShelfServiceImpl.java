@@ -89,10 +89,9 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public List<ShelfDto> findActiveShelf() {
-
         List<Shelf> shelves = shelfRepository.findByStatusTrue();
-
-        Type listType = new TypeToken<List<ShelfDto>>() {}.getType();
+        Type listType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
 
         return modelMapper.map(shelves, listType);
     }

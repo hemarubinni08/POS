@@ -14,6 +14,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/price")
 public class PriceRestController extends BaseController {
+
     @Autowired
     PriceService priceService;
 

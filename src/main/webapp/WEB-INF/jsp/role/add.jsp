@@ -66,8 +66,12 @@ button:hover {
 <form:form method="post" action="/role/add" modelAttribute="roleDto">
 
 <form:input path="identifier" placeholder="Enter role"/>
+<form:input path="description" placeholder="Enter description"/>
 
-<button type="submit">Add Role</button>
+<div class="btn-group">
+            <button type="submit" class="save-btn">Add</button>
+            <a href="/role/list" class="back-btn">Back</a>
+</div>
 
 </form:form>
 

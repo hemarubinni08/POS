@@ -19,6 +19,7 @@ import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+
     @Autowired
     CustomerRepository customerRepository;
 
@@ -52,7 +53,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         return customerDto;
     }
-
 
     @Override
     public CustomerDto save(CustomerDto customerDto) {

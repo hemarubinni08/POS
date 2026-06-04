@@ -10,9 +10,9 @@ public interface RackService {
 
     RackDto findByIdentifier(String identifier);
 
-    RackDto save(RackDto shelfDto);
+    RackDto save(RackDto rackDto);
 
-    RackDto update(RackDto shelfDto);
+    RackDto update(RackDto rackDto);
 
     void delete(String identifier);
 

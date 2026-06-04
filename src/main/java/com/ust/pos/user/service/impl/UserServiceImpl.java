@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
     public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
     public static final String USER_WITH_USERNAME_EMAIL1 = "User with username/email - ";
     public static final String USER_WITH_USERNAME_EMAIL2 = "User with username/email - ";
+
     @Autowired
     private UserRepository userRepository;
 
@@ -36,7 +37,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByUserName(String username) {
-        return modelMapper.map(userRepository.findByUsername(username), UserDto.class);
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override

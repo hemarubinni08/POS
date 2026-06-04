@@ -17,6 +17,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/rack")
 public class RackRestController extends BaseController {
+
     @Autowired
     RackService rackService;
 

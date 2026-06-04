@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/brand")
 public class BrandRestController extends BaseController {
+
     @Autowired
     BrandService brandService;
 

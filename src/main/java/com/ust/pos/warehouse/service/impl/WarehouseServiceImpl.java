@@ -17,6 +17,7 @@ import java.util.List;
 
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
+
     @Autowired
     WarehouseRepository warehouseRepository;
 

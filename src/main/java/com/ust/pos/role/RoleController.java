@@ -7,14 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/role")
 public class RoleController {
 
+    public static final String REDIRECT_ROLE_LIST = "redirect:/role/list";
     public static final String MESSAGE = "message";
-    public static final String MESSAGE1 = "message";
-    public static final String MESSAGE2 = "message";
 
     @Autowired
     private RoleService roleService;
@@ -36,30 +36,36 @@ public class RoleController {
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
         }
-        return "redirect:/role/list";
+        return REDIRECT_ROLE_LIST;
     }
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         RoleDto response = roleService.findByIdentifier(identifier);
+        if (response == null) {
+            response = new RoleDto();
+        }
         model.addAttribute("role", response);
         return "role/role";
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RoleDto roleDto) {
+    public String updatePost(Model model, @ModelAttribute("role") RoleDto roleDto) {
         RoleDto response = roleService.update(roleDto);
+
         if (!response.isSuccess()) {
-            model.addAttribute(MESSAGE1, response.getMessage());
+            model.addAttribute("role", roleDto);
+            model.addAttribute(MESSAGE, response.getMessage());
+            return "role/role";
         }
-        return "redirect:/role/list";
+
+        return REDIRECT_ROLE_LIST;
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam String identifier, Pageable pageable) {
+    public String delete(@RequestParam String identifier, RedirectAttributes redirectAttributes) {
         roleService.delete(identifier);
-        model.addAttribute("roles", roleService.findAll(pageable));
-        model.addAttribute(MESSAGE2, "Role deleted successfully");
-        return "role/list";
+        redirectAttributes.addFlashAttribute(MESSAGE, "Role deleted successfully");
+        return REDIRECT_ROLE_LIST;
     }
 }

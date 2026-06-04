@@ -122,8 +122,6 @@
             <th>Phone</th>
             <th>Balance</th>
             <th>Credit Limit</th>
-            <th>Billing Address</th>
-            <th>Shipping Address</th>
             <th>Action</th>
         </tr>
 
@@ -135,18 +133,6 @@
                 <td>${c.phoneNo}</td>
                 <td>${c.balance}</td>
                 <td>${c.creditLimit}</td>
-
-                <td class="address">
-                    ${c.billingAddress.addressLine}, <br>
-                    ${c.billingAddress.city}, ${c.billingAddress.state}<br>
-                    ${c.billingAddress.zipcode}, ${c.billingAddress.country}
-                </td>
-
-                <td class="address">
-                    ${c.shippingAddress.addressLine}, <br>
-                    ${c.shippingAddress.city}, ${c.shippingAddress.state}<br>
-                    ${c.shippingAddress.zipcode}, ${c.shippingAddress.country}
-                </td>
 
                 <td class="actions">
                     <a href="/customer/get?identifier=${c.identifier}">

@@ -19,9 +19,6 @@ public class UserRestController extends BaseController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private RoleService roleService;
-
     @PostMapping("/list")
     public List<UserDto> home(@RequestBody PaginationDto paginationDto) {
 

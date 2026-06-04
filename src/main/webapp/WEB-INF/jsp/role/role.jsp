@@ -57,13 +57,17 @@ button:hover {
 
 <h2>Edit Role</h2>
 
-<form:form method="post" action="/role/update" modelAttribute="roleDto">
+<form:form method="post" action="/role/update" modelAttribute="role">
 
 <form:hidden path="id"/>
 
 <form:input path="identifier"/>
+<form:input path="description"/>
 
-<button type="submit">Update</button>
+<div class="btn-group">
+            <button type="submit" class="save-btn">Update</button>
+            <a href="/role/list" class="back-btn">Back</a>
+</div>
 
 </form:form>
 

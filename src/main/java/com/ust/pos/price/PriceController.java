@@ -15,11 +15,14 @@ import java.util.List;
 @Controller
 @RequestMapping("/price")
 public class PriceController {
+
     public static final String PRICES = "prices";
     public static final String MESSAGE = "message";
     public static final String PRICE_LIST = "price/list";
+
     @Autowired
     ProductService productService;
+
     @Autowired
     PriceService priceService;
 

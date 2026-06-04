@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/node")
 public class NodeRestController extends BaseController {
+
     @Autowired
     NodeService nodeService;
 

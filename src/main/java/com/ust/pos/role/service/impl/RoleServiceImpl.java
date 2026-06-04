@@ -26,8 +26,13 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto findByIdentifier(String identifier) {
-        return modelMapper.map(roleRepository.findByIdentifier(identifier), RoleDto.class);
+        Role role = roleRepository.findByIdentifier(identifier);
+        if (role == null) {
+            return null;
+        }
+        return modelMapper.map(role, RoleDto.class);
     }
+
 
     @Override
     public RoleDto save(RoleDto roleDto) {
