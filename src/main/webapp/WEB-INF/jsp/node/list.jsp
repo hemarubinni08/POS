@@ -96,9 +96,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="text-dark">Node Management</h3>
             </div>
-
             <c:choose>
-
                 <c:when test="${empty nodes}">
                     <div class="alert alert-warning text-center">
                         No nodes available
@@ -121,16 +119,13 @@
                             <tbody>
                             <c:forEach var="node" items="${nodes}">
                                 <tr>
-
                                     <td>${node.identifier}</td>
                                     <td>${node.path}</td>
-
                                     <td class="roles">
                                         <c:forEach var="role" items="${node.roles}" varStatus="s">
                                             ${role}<c:if test="${!s.last}">, </c:if>
                                         </c:forEach>
                                     </td>
-
                                     <td class="d-flex justify-content-center gap-2">
 
                                         <a class="icon-btn edit-btn"
@@ -138,23 +133,19 @@
                                            title="Edit">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-
                                         <a class="icon-btn delete-btn"
                                            href="${pageContext.request.contextPath}/node/delete?identifier=${node.identifier}"
                                            onclick="return confirm('Delete this node?');"
                                            title="Delete">
                                             <i class="bi bi-trash"></i>
                                         </a>
-
                                     </td>
                                 </tr>
                             </c:forEach>
                             </tbody>
                         </table>
                     </div>
-
                 </c:otherwise>
-
             </c:choose>
         </div>
         <div class="card-footer text-center">
@@ -162,14 +153,11 @@
                 <a href="/" class="btn btn-secondary">
                     Home
                 </a>
-
                 <a href="${pageContext.request.contextPath}/node/add"
                    class="btn btn-add">
                     Add Node
                 </a>
-
             </div>
-
             <div class="text-muted small mt-2">
                 Node Management System
             </div>
