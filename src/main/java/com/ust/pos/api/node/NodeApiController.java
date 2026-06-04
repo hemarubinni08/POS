@@ -22,15 +22,14 @@ public class NodeApiController extends BaseController {
     private RoleService roleService;
 
     @PostMapping("/list")
-    public List<NodeDto> home(@RequestBody PaginationDto paginationDto)
-    {
+    public List<NodeDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return nodeService.findAll();
+        return nodeService.findAll(pageable);
     }
 
     @PostMapping("/add")
-    public NodeDto addPost(@RequestBody NodeDto userDto) {
-        return nodeService.save(userDto);
+    public NodeDto addPost(@RequestBody NodeDto nodeDto) {
+        return nodeService.save(nodeDto);
     }
 
     @GetMapping("/get")
@@ -39,14 +38,13 @@ public class NodeApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public NodeDto updatePost(@RequestBody NodeDto userDto) {
-        return nodeService.update(userDto);
+    public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
+        return nodeService.update(nodeDto);
     }
 
     @GetMapping("/delete")
     public Boolean delete(@RequestParam String identifier) {
-        try
-        {
+        try {
             nodeService.delete(identifier);
         } catch (Exception e) {
             return false;

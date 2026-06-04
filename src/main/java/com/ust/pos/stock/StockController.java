@@ -13,19 +13,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/stock")
 public class StockController {
 
-    @Autowired
-    private StockService stockService;
-
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private WarehouseService warehouseService;
-
     private static final String WAREHOUSES = "warehouses";
     private static final String PRODUCTS = "products";
     private static final String REDIRECT_STOCK_LIST = "redirect:/stock/list";
-
+    @Autowired
+    private StockService stockService;
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private WarehouseService warehouseService;
 
     @GetMapping("/list")
     public String home(Model model) {

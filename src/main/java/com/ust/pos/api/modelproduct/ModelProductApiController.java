@@ -18,39 +18,31 @@ public class ModelProductApiController extends BaseController {
     private ModelProductService modelProductService;
 
     @PostMapping("/list")
-    public List<ModelProductDto> home(@RequestBody PaginationDto paginationDto)
-    {
+    public List<ModelProductDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return modelProductService.findAll(pageable);
     }
 
     @PostMapping("/add")
-    public ModelProductDto addModel(@RequestBody ModelProductDto modelProductDto)
-    {
+    public ModelProductDto addModel(@RequestBody ModelProductDto modelProductDto) {
         return modelProductService.save(modelProductDto);
     }
 
     @GetMapping("/get")
-    public ModelProductDto update(@RequestParam String identifier)
-    {
+    public ModelProductDto update(@RequestParam String identifier) {
         return modelProductService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
-    public ModelProductDto updatePost(@RequestBody ModelProductDto modelProductDto)
-    {
+    public ModelProductDto updatePost(@RequestBody ModelProductDto modelProductDto) {
         return modelProductService.update(modelProductDto);
     }
 
     @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier)
-    {
-        try
-        {
+    public Boolean delete(@RequestParam String identifier) {
+        try {
             modelProductService.delete(identifier);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             return false;
         }
         return true;

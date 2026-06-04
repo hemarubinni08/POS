@@ -11,37 +11,31 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private WarehouseService warehouseService;
-
     private static final String PRODUCTS = "products";
     private static final String WAREHOUSES = "warehouses";
     private static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private WarehouseService warehouseService;
 
     @GetMapping("/list")
-    public String home(Model model)
-    {
+    public String home(Model model) {
         model.addAttribute(PRODUCTS, productService.findAll());
         return "product/list";
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute ProductDto productDto)
-    {
+    public String add(Model model, @ModelAttribute ProductDto productDto) {
         model.addAttribute(WAREHOUSES, warehouseService.findAll());
         model.addAttribute(PRODUCTS, productService.listOfCategories());
         return "product/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute ProductDto productDto)
-    {
+    public String addPost(Model model, @ModelAttribute ProductDto productDto) {
         ProductDto productDto1 = productService.save(productDto);
-        if(!productDto1.isSuccess())
-        {
+        if (!productDto1.isSuccess()) {
             model.addAttribute("message", productDto1.getMessage());
             model.addAttribute(WAREHOUSES, warehouseService.findAll());
             return "product/add";
@@ -50,8 +44,7 @@ public class ProductController {
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String identifier)
-    {
+    public String update(Model model, @RequestParam String identifier) {
         ProductDto productDto = productService.findByIdentifier(identifier);
         model.addAttribute(PRODUCTS, productDto);
         model.addAttribute(WAREHOUSES, warehouseService.findAll());
@@ -60,11 +53,9 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public String doupdate(Model model, @ModelAttribute ProductDto productDto)
-    {
+    public String doupdate(Model model, @ModelAttribute ProductDto productDto) {
         ProductDto productDto1 = productService.update(productDto);
-        if(!productDto1.isSuccess())
-        {
+        if (!productDto1.isSuccess()) {
             model.addAttribute("message", productDto1.getMessage());
             model.addAttribute(WAREHOUSES, warehouseService.findAll());
             return "product/update";
@@ -73,8 +64,7 @@ public class ProductController {
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam String identifier)
-    {
+    public String delete(Model model, @RequestParam String identifier) {
         productService.delete(identifier);
         return REDIRECT_PRODUCT_LIST;
     }

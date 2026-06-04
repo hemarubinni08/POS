@@ -17,35 +17,29 @@ public class CategoryApiController extends BaseController {
     private CategoryService categoryService;
 
     @PostMapping("/list")
-    public List<CategoryDto> home(@RequestBody PaginationDto paginationDto)
-    {
+    public List<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return categoryService.findAll(pageable);
     }
 
     @PostMapping("/add")
-    public List<CategoryDto> addPost(@RequestBody CategoryDto categoryDto)
-    {
+    public List<CategoryDto> addPost(@RequestBody CategoryDto categoryDto) {
         return categoryService.findAll();
     }
 
     @GetMapping("/get")
-    public CategoryDto update(@RequestParam String identifier)
-    {
+    public CategoryDto update(@RequestParam String identifier) {
         return categoryService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
-    public CategoryDto doupdate(@RequestBody CategoryDto categoryDto)
-    {
+    public CategoryDto doupdate(@RequestBody CategoryDto categoryDto) {
         return categoryService.update(categoryDto);
     }
 
     @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier)
-    {
-        try
-        {
+    public Boolean delete(@RequestParam String identifier) {
+        try {
             categoryService.delete(identifier);
         } catch (Exception e) {
             return false;

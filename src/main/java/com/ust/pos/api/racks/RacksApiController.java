@@ -46,9 +46,7 @@ public class RacksApiController extends BaseController {
     public Boolean delete(@RequestParam String identifier) {
         try {
             racksService.delete(identifier);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return false;
         }
         return true;
@@ -58,9 +56,7 @@ public class RacksApiController extends BaseController {
     public Boolean toggleStatus(@RequestParam String identifier) {
         try {
             racksService.toggleStatus(identifier);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return false;
         }
         return true;

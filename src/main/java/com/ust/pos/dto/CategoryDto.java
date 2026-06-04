@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class CategoryDto extends CommonDto{
+public class CategoryDto extends CommonDto {
     private String superCategory;
-    private Boolean status=true;
+    private Boolean status = true;
 }

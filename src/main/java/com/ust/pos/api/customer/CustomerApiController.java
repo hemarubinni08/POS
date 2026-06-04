@@ -22,8 +22,7 @@ public class CustomerApiController extends BaseController {
     private CustomerService customerService;
 
     @PostMapping("/list")
-    public List<CustomerDto> home(@RequestBody PaginationDto paginationDto)
-    {
+    public List<CustomerDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
 
         return customerService.findAll(pageable);
@@ -35,22 +34,18 @@ public class CustomerApiController extends BaseController {
     }
 
     @GetMapping("/get")
-    public CustomerDto update(@RequestParam String identifier)
-    {
+    public CustomerDto update(@RequestParam String identifier) {
         return customerService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
-    public CustomerDto updatePost(@RequestBody CustomerDto customerDto)
-    {
+    public CustomerDto updatePost(@RequestBody CustomerDto customerDto) {
         return customerService.update(customerDto);
     }
 
     @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier)
-    {
-        try
-        {
+    public Boolean delete(@RequestParam String identifier) {
+        try {
             customerService.deleteByIdentifier(identifier);
             addressService.delete(identifier);
         } catch (Exception e) {

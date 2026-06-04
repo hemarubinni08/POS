@@ -158,7 +158,7 @@
 
 <div class="card-container">
 
-    <a href="${pageContext.request.contextPath}/racks/list" class="back-icon">←</a>
+    <a href="${pageContext.request.contextPath}/" class="back-icon">←</a>
     <a href="${pageContext.request.contextPath}/" class="home-link">Home</a>
 
     <h2>List of Racks</h2>

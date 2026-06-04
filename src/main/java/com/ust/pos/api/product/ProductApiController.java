@@ -21,33 +21,28 @@ public class ProductApiController extends BaseController {
     private WarehouseService warehouseService;
 
     @PostMapping("/list")
-    public List<ProductDto> home(@RequestBody PaginationDto paginationDto)
-    {
+    public List<ProductDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return productService.findAll(pageable);
     }
 
     @PostMapping("/add")
-    public ProductDto addPost(@RequestBody ProductDto productDto)
-    {
+    public ProductDto addPost(@RequestBody ProductDto productDto) {
         return productService.save(productDto);
     }
 
     @GetMapping("/get")
-    public ProductDto update(@RequestParam String identifier)
-    {
+    public ProductDto update(@RequestParam String identifier) {
         return productService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
-    public ProductDto doupdate(@RequestBody ProductDto productDto)
-    {
+    public ProductDto doupdate(@RequestBody ProductDto productDto) {
         return productService.update(productDto);
     }
 
     @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier)
-    {
+    public Boolean delete(@RequestParam String identifier) {
         try {
             productService.delete(identifier);
         } catch (Exception e) {

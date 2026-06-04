@@ -18,33 +18,28 @@ public class UnitApiController extends BaseController {
     private UnitService unitService;
 
     @PostMapping("/list")
-    public List<UnitDto> home(@RequestBody PaginationDto paginationDto)
-    {
+    public List<UnitDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return unitService.findAll();
     }
 
     @PostMapping("/add")
-    public UnitDto addModel(@RequestBody UnitDto unitDto)
-    {
+    public UnitDto addModel(@RequestBody UnitDto unitDto) {
         return unitService.save(unitDto);
     }
 
     @GetMapping("/get")
-    public UnitDto update(@RequestParam String identifier)
-    {
+    public UnitDto update(@RequestParam String identifier) {
         return unitService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
-    public UnitDto updatePost(@RequestBody UnitDto unitDto)
-    {
+    public UnitDto updatePost(@RequestBody UnitDto unitDto) {
         return unitService.update(unitDto);
     }
 
     @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier)
-    {
+    public Boolean delete(@RequestParam String identifier) {
         try {
             unitService.delete(identifier);
         } catch (Exception e) {

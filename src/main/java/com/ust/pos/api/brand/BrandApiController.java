@@ -26,8 +26,8 @@ public class BrandApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public BrandDto addPost(@RequestBody BrandDto userDto) {
-        return brandService.save(userDto);
+    public BrandDto addPost(@RequestBody BrandDto brandDto) {
+        return brandService.save(brandDto);
     }
 
     @GetMapping("/get")
@@ -42,11 +42,9 @@ public class BrandApiController extends BaseController {
 
     @GetMapping("/delete")
     public Boolean delete(@RequestParam String identifier) {
-        try{
+        try {
             brandService.delete(identifier);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             return false;
         }
         return true;

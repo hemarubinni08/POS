@@ -28,7 +28,7 @@ public class UserApiController extends BaseController {
     }
 
     @GetMapping("/get")
-    public UserDto update(@RequestParam String username, @ModelAttribute UserDto userDto) {
+    public UserDto update(@RequestParam String username) {
         return userService.findByUserName(username);
     }
 

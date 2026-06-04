@@ -127,7 +127,6 @@
     <thead>
         <tr>
             <th>SL</th>
-            <th>Icon</th>
             <th>Brand Name</th>
             <th>Description</th>
             <th>Status</th>
@@ -138,7 +137,6 @@
         <c:forEach items="${brands}" var="brand" varStatus="loop">
             <tr>
                 <td>${loop.index + 1}</td>
-                <td><img src="/uploads/${brand.icon}" alt="icon"></td>
                 <td class="brand-name">${brand.identifier}</td>
                 <td>${brand.description}</td>
                 <td>

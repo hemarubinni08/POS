@@ -11,31 +11,26 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/model")
 public class ModelProductController {
 
+    private static final String REDIRECT_MODEL_LIST = "redirect:/model/list";
     @Autowired
     private ModelProductService modelProductService;
 
-    private static final String REDIRECT_MODEL_LIST = "redirect:/model/list";
-
     @GetMapping("/list")
-    public String home(Model model)
-    {
+    public String home(Model model) {
         model.addAttribute("models", modelProductService.findAll());
         return "model/list";
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute ModelProductDto modelProductDto)
-    {
+    public String add(Model model, @ModelAttribute ModelProductDto modelProductDto) {
         model.addAttribute("modelProducts", modelProductService.findAll());
         return "model/add";
     }
 
     @PostMapping("/add")
-    public String addModel(Model model, @ModelAttribute ModelProductDto modelProductDto)
-    {
+    public String addModel(Model model, @ModelAttribute ModelProductDto modelProductDto) {
         ModelProductDto modelProductDto1 = modelProductService.save(modelProductDto);
-        if(!modelProductDto.isSuccess())
-        {
+        if (!modelProductDto.isSuccess()) {
             model.addAttribute("message", modelProductDto1.getMessage());
             model.addAttribute("modelProducts", modelProductService.findAll());
             return "model/add";
@@ -44,19 +39,16 @@ public class ModelProductController {
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String identifier)
-    {
+    public String update(Model model, @RequestParam String identifier) {
         ModelProductDto modelProductDto = modelProductService.findByIdentifier(identifier);
         model.addAttribute("modelProduct", modelProductDto);
         return "model/model";
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute ModelProductDto modelProductDto)
-    {
+    public String updatePost(Model model, @ModelAttribute ModelProductDto modelProductDto) {
         ModelProductDto modelProductDto1 = modelProductService.update(modelProductDto);
-        if(!modelProductDto1.isSuccess())
-        {
+        if (!modelProductDto1.isSuccess()) {
             model.addAttribute("message", modelProductDto1.getMessage());
             model.addAttribute("modelProduct", modelProductDto);
             return "model/model";
@@ -65,8 +57,7 @@ public class ModelProductController {
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam String identifier)
-    {
+    public String delete(Model model, @RequestParam String identifier) {
         modelProductService.delete(identifier);
         return REDIRECT_MODEL_LIST;
     }

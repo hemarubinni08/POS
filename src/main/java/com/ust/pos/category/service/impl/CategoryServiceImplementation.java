@@ -28,9 +28,8 @@ public class CategoryServiceImplementation implements CategoryService {
     public CategoryDto save(CategoryDto categoryDto) {
         String identifier = categoryDto.getIdentifier();
         Category existingcategory = categoryRepository.findByIdentifier(identifier);
-        if(existingcategory != null)
-        {
-            categoryDto.setMessage("Category with identifier - "+ identifier+ " already exists");
+        if (existingcategory != null) {
+            categoryDto.setMessage("Category with identifier - " + identifier + " already exists");
             return categoryDto;
         }
         Category category = modelMapper.map(categoryDto, Category.class);
@@ -42,9 +41,9 @@ public class CategoryServiceImplementation implements CategoryService {
     public CategoryDto update(CategoryDto categoryDto) {
         String identifier = categoryDto.getIdentifier();
         Category existingcategory = categoryRepository.findByIdentifier(identifier);
-        if(existingcategory == null)
-        {
-            categoryDto.setMessage("Category with identifier - "+identifier+" not found");
+        if (existingcategory == null) {
+            categoryDto.setMessage("Category with identifier - " + identifier + " not found");
+            categoryDto.setSuccess(false);
             return categoryDto;
         }
         modelMapper.map(categoryDto, existingcategory);
@@ -59,13 +58,15 @@ public class CategoryServiceImplementation implements CategoryService {
 
     @Override
     public List<CategoryDto> findAll() {
-        Type listType = new TypeToken<List<CategoryDto>>(){}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
         return modelMapper.map(categoryRepository.findAll(), listType);
     }
 
     @Override
     public List<CategoryDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<CategoryDto>>(){}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
         return modelMapper.map(categoryPage.getContent(), listType);
     }

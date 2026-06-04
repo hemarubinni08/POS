@@ -1,16 +1,17 @@
 package com.ust.pos.shelf.service.impl;
-import com.ust.pos.shelf.service.ShelfService;
+
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.model.Shelf;
 import com.ust.pos.model.ShelfRepository;
+import com.ust.pos.shelf.service.ShelfService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.data.domain.Pageable;
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -27,9 +28,8 @@ public class ShelfServiceImpl implements ShelfService {
     public ShelfDto save(ShelfDto shelfDto) {
         String identifier = shelfDto.getIdentifier();
         Shelf existingShelf = shelfRepository.findByIdentifier(identifier);
-        if(existingShelf != null)
-        {
-            shelfDto.setMessage("Shelf with identifier - "+ identifier + " already exists");
+        if (existingShelf != null) {
+            shelfDto.setMessage("Shelf with identifier - " + identifier + " already exists");
             shelfDto.setSuccess(false);
             return shelfDto;
         }
@@ -66,7 +66,8 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public List<ShelfDto> findAll() {
-        Type listOfType = new TypeToken<List<ShelfDto>>(){}.getType();
+        Type listOfType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
         return modelMapper.map(shelfRepository.findAll(), listOfType);
     }
 
@@ -76,10 +77,10 @@ public class ShelfServiceImpl implements ShelfService {
     }
 
     @Override
-    public List<ShelfDto> findAll(Pageable pageable)
-    {
-        Type listtype = new TypeToken<List<ShelfDto>>(){}.getType();
-        Page<Shelf> shelfPage = shelfRepository.findAll((org.springframework.data.domain.Pageable) pageable);
+    public List<ShelfDto> findAll(Pageable pageable) {
+        Type listtype = new TypeToken<List<ShelfDto>>() {
+        }.getType();
+        Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
         return modelMapper.map(shelfPage.getContent(), listtype);
     }
 

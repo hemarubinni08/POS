@@ -30,9 +30,8 @@ public class ModelProductServiceImpl implements ModelProductService {
     public ModelProductDto save(ModelProductDto modelProductDto) {
         String identifier = modelProductDto.getIdentifier();
         ModelProduct existingmodel = modelProductRepository.findByIdentifier(identifier);
-        if(existingmodel != null)
-        {
-            modelProductDto.setMessage("Model - "+identifier+" already exists");
+        if (existingmodel != null) {
+            modelProductDto.setMessage("Model - " + identifier + " already exists");
             modelProductDto.setSuccess(false);
             return modelProductDto;
         }
@@ -45,23 +44,20 @@ public class ModelProductServiceImpl implements ModelProductService {
     public ModelProductDto update(ModelProductDto modelProductDto) {
         String identifier = modelProductDto.getIdentifier();
         Optional<ModelProduct> optionalModelProduct = modelProductRepository.findById(modelProductDto.getId());
-        if(optionalModelProduct.isEmpty()) {
+        if (optionalModelProduct.isEmpty()) {
             modelProductDto.setSuccess(false);
             return modelProductDto;
-        }
-
-        else{
+        } else {
             ModelProduct existingmodel = optionalModelProduct.get();
-                if (!identifier.equals(existingmodel.getIdentifier()) && modelProductRepository.findByIdentifier(identifier) != null) {
-                    modelProductDto.setSuccess(false);
-                    modelProductDto.setMessage("Model Already Exists");
-                    return modelProductDto;
-                }
-                else{
-                    modelMapper.map(modelProductDto , existingmodel);
-                    modelProductRepository.save(existingmodel);
-                    modelProductDto.setSuccess(true);
-                }
+            if (!identifier.equals(existingmodel.getIdentifier()) && modelProductRepository.findByIdentifier(identifier) != null) {
+                modelProductDto.setSuccess(false);
+                modelProductDto.setMessage("Model Already Exists");
+                return modelProductDto;
+            } else {
+                modelMapper.map(modelProductDto, existingmodel);
+                modelProductRepository.save(existingmodel);
+                modelProductDto.setSuccess(true);
+            }
             return modelProductDto;
 
         }
@@ -73,16 +69,17 @@ public class ModelProductServiceImpl implements ModelProductService {
     }
 
     @Override
-    public List<ModelProductDto> findAll(Pageable pageable)
-    {
-        Type listtype = new TypeToken<List<ModelProductDto>>(){}.getType();
+    public List<ModelProductDto> findAll(Pageable pageable) {
+        Type listtype = new TypeToken<List<ModelProductDto>>() {
+        }.getType();
         Page<ModelProduct> modelProductPage = modelProductRepository.findAll(pageable);
         return modelMapper.map(modelProductPage.getContent(), listtype);
     }
 
     @Override
     public List<ModelProductDto> findAll() {
-        Type listType = new TypeToken<List<ModelProductDto>>(){}.getType();
+        Type listType = new TypeToken<List<ModelProductDto>>() {
+        }.getType();
         return modelMapper.map(modelProductRepository.findAll(), listType);
     }
 

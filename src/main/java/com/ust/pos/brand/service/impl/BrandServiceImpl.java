@@ -28,9 +28,8 @@ public class BrandServiceImpl implements BrandService {
     public BrandDto save(BrandDto brandDto) {
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
-        if(existingBrand != null)
-        {
-            brandDto.setMessage("Brand with identifier - "+ identifier + " already exists");
+        if (existingBrand != null) {
+            brandDto.setMessage("Brand with identifier - " + identifier + " already exists");
             brandDto.setSuccess(false);
             return brandDto;
         }
@@ -65,14 +64,16 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public List<BrandDto> findAll()
-    {
-        Type listtype = new TypeToken<List<BrandDto>>(){}.getType();
+    public List<BrandDto> findAll() {
+        Type listtype = new TypeToken<List<BrandDto>>() {
+        }.getType();
         return modelMapper.map(brandRepository.findAll(), listtype);
     }
+
     @Override
     public List<BrandDto> findAll(Pageable pageable) {
-        Type listOfType = new TypeToken<List<BrandDto>>(){}.getType();
+        Type listOfType = new TypeToken<List<BrandDto>>() {
+        }.getType();
         Page<Brand> brandPage = brandRepository.findAll(pageable);
         return modelMapper.map(brandPage.getContent(), listOfType);
     }

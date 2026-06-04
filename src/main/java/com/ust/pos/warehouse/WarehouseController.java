@@ -11,30 +11,25 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/warehouse")
 public class WarehouseController {
 
+    private static final String REDIRECT_WAREHOUSE_LIST = "redirect:/warehouse/list";
     @Autowired
     private WarehouseService warehouseService;
 
-    private static final String REDIRECT_WAREHOUSE_LIST = "redirect:/warehouse/list";
-
     @GetMapping("/list")
-    public String home(Model model)
-    {
+    public String home(Model model) {
         model.addAttribute("warehouses", warehouseService.findAll());
         return "warehouse/list";
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute WarehouseDto warehouseDto)
-    {
+    public String add(Model model, @ModelAttribute WarehouseDto warehouseDto) {
         return "warehouse/add";
     }
 
     @PostMapping("/add")
-    public String doadd(Model model, @ModelAttribute WarehouseDto warehouseDto)
-    {
+    public String doadd(Model model, @ModelAttribute WarehouseDto warehouseDto) {
         WarehouseDto warehouseDto1 = warehouseService.save(warehouseDto);
-        if(!warehouseDto1.isSuccess())
-        {
+        if (!warehouseDto1.isSuccess()) {
             model.addAttribute("message", warehouseDto1.getMessage());
             return "warehouse/add";
         }
@@ -42,19 +37,16 @@ public class WarehouseController {
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String identifier)
-    {
+    public String update(Model model, @RequestParam String identifier) {
         WarehouseDto warehouseDto = warehouseService.findByIdentifier(identifier);
         model.addAttribute("warehouse", warehouseDto);
         return "warehouse/warehouse";
     }
 
     @PostMapping("/update")
-    public String doupdate(Model model, @ModelAttribute WarehouseDto warehouseDto)
-    {
+    public String doupdate(Model model, @ModelAttribute WarehouseDto warehouseDto) {
         WarehouseDto warehouseDto1 = warehouseService.update(warehouseDto);
-        if(!warehouseDto1.isSuccess())
-        {
+        if (!warehouseDto1.isSuccess()) {
             model.addAttribute("message", warehouseDto1.getMessage());
             return "warehouse/update";
         }
@@ -62,8 +54,7 @@ public class WarehouseController {
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam String identifier)
-    {
+    public String delete(Model model, @RequestParam String identifier) {
         warehouseService.delete(identifier);
         return REDIRECT_WAREHOUSE_LIST;
     }

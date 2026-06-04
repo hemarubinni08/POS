@@ -21,33 +21,28 @@ public class PriceApiController extends BaseController {
     private ProductService productService;
 
     @PostMapping("/list")
-    public List<PriceDto> home(@RequestBody PaginationDto paginationDto)
-    {
+    public List<PriceDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
-        return priceService.findAll();
+        return priceService.findAll(pageable);
     }
 
     @PostMapping("/add")
-    public PriceDto addPost(@RequestBody PriceDto priceDto)
-    {
+    public PriceDto addPost(@RequestBody PriceDto priceDto) {
         return priceService.save(priceDto);
     }
 
     @GetMapping("/get")
-    public PriceDto update(@RequestParam String identifier)
-    {
+    public PriceDto update(@RequestParam String identifier) {
         return priceService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
-    public PriceDto doupdate(@RequestBody PriceDto priceDto)
-    {
+    public PriceDto doupdate(@RequestBody PriceDto priceDto) {
         return priceService.update(priceDto);
     }
 
     @GetMapping("/delete")
-    public Boolean delete(@RequestParam String identifier)
-    {
+    public Boolean delete(@RequestParam String identifier) {
         try {
             priceService.delete(identifier);
         } catch (Exception e) {

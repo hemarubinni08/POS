@@ -103,11 +103,18 @@
         </div>
         <div class="form-group">
             <label>Phone Number</label>
-            <form:input path="phoneno"/>
+            <form:input path="phoneno"
+            maxlength="10"
+            pattern="[0-9]{10}"
+            title="Enter exactly 10 digit phone number"
+            oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
         </div>
         <div class="form-group">
             <label>Email</label>
-            <form:input path="email"/>
+            <form:input path="email"
+            type="email"
+            required="required"
+            title="Email must end with .com"/>
         </div>
         <div class="form-group">
             <label>Address</label>

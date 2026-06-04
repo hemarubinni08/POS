@@ -17,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import static java.lang.Character.getType;
-
 @Service
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
@@ -37,8 +35,7 @@ public class CustomerServiceImpl implements CustomerService {
         AddressDto billing = customerDto.getBilling();
         AddressDto shipping = customerDto.getShipping();
         Customer existingcustomer = customerRepository.findByIdentifier(identifier);
-        if(existingcustomer != null)
-        {
+        if (existingcustomer != null) {
             customerDto.setMessage("Customer already exists");
             customerDto.setSuccess(false);
             return customerDto;
@@ -57,8 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer existingcustomer = customerRepository.findByIdentifier(identifier);
         AddressDto billing = customerDto.getBilling();
         AddressDto shipping = customerDto.getShipping();
-        if(existingcustomer == null)
-        {
+        if (existingcustomer == null) {
             customerDto.setMessage("Customer not found");
             customerDto.setSuccess(false);
             return customerDto;
@@ -67,30 +63,31 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
         billing.setIdentifier(customerDto.getIdentifier());
         shipping.setIdentifier(customerDto.getIdentifier());
-        addressService.update(shipping,billing);
+        addressService.update(shipping, billing);
         return customerDto;
     }
 
     @Override
     public CustomerDto findByIdentifier(String identifier) {
         Customer customer = customerRepository.findByIdentifier(identifier);
-        CustomerDto customerDto = modelMapper.map(customer,CustomerDto.class);
+        CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
         customerDto.setBilling(addressService.findByIdentifierAndBilling(identifier));
         customerDto.setShipping(addressService.findByIdentifierAndShipping(identifier));
         return customerDto;
     }
 
     @Override
-    public List<CustomerDto> findAll()
-    {
-        Type listtype = new TypeToken<List<CustomerDto>>(){}.getType();
+    public List<CustomerDto> findAll() {
+        Type listtype = new TypeToken<List<CustomerDto>>() {
+        }.getType();
         return modelMapper.map(customerRepository.findAll(), listtype);
 
     }
 
     @Override
     public List<CustomerDto> findAll(Pageable pageable) {
-        Type listtype = new TypeToken<List<CustomerDto>>(){}.getType();
+        Type listtype = new TypeToken<List<CustomerDto>>() {
+        }.getType();
         Page<Customer> customerPage = customerRepository.findAll(pageable);
         return modelMapper.map(customerPage.getContent(), listtype);
     }

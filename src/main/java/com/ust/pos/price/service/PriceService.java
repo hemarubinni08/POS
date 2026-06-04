@@ -1,7 +1,6 @@
 package com.ust.pos.price.service;
 
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.dto.ProductDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

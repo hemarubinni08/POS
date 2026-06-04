@@ -1,6 +1,5 @@
 package com.ust.pos.role.service.impl;
 
-import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;

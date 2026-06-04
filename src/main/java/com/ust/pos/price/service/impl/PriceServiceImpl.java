@@ -28,9 +28,8 @@ public class PriceServiceImpl implements PriceService {
     public PriceDto save(PriceDto priceDto) {
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);
-        if(existingPrice != null)
-        {
-            priceDto.setMessage("Price for product - "+identifier+" already exists");
+        if (existingPrice != null) {
+            priceDto.setMessage("Price for product - " + identifier + " already exists");
             priceDto.setSuccess(false);
             return priceDto;
         }
@@ -44,9 +43,8 @@ public class PriceServiceImpl implements PriceService {
     public PriceDto update(PriceDto priceDto) {
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);
-        if(existingPrice == null)
-        {
-            priceDto.setMessage("Price for product - "+identifier+" not defined");
+        if (existingPrice == null) {
+            priceDto.setMessage("Price for product - " + identifier + " not defined");
             priceDto.setSuccess(false);
             return priceDto;
         }
@@ -63,14 +61,15 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public List<PriceDto> findAll() {
-        Type listType = new TypeToken<List<PriceDto>>(){}.getType();
+        Type listType = new TypeToken<List<PriceDto>>() {
+        }.getType();
         return modelMapper.map(priceRepository.findAll(), listType);
     }
 
     @Override
-    public List<PriceDto> findAll(Pageable pageable)
-    {
-        Type listtype = new TypeToken<List<PriceDto>>(){}.getType();
+    public List<PriceDto> findAll(Pageable pageable) {
+        Type listtype = new TypeToken<List<PriceDto>>() {
+        }.getType();
         Page<Price> pricePage = priceRepository.findAll(pageable);
         return modelMapper.map(pricePage.getContent(), listtype);
     }

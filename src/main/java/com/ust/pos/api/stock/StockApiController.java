@@ -26,9 +26,8 @@ public class StockApiController extends BaseController {
     ProductService productService;
 
     @PostMapping("/list")
-    public List<StockDto> list(@RequestBody PaginationDto paginationDto)
-    {
-        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
+    public List<StockDto> list(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortField());
         return stockService.findAll(pageable);
     }
