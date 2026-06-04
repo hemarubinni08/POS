@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* ANIMATED BACKGROUND BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -54,7 +53,6 @@
             50% { transform: translateY(-30px) scale(1.05); }
         }
 
-        /* CENTER CONTAINER */
         .main-container {
             height: 100vh;
             display: flex;
@@ -64,7 +62,6 @@
             z-index: 2;
         }
 
-        /* GLASS CARD */
         .form-card {
             width: 380px;
             padding: 40px;
@@ -95,7 +92,6 @@
             font-weight: 700;
         }
 
-        /* INPUTS */
         .form-control {
             border-radius: 10px;
             border: 1px solid #e5e7eb;
@@ -107,7 +103,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* ── VALIDATION STATES ── */
         .form-control:user-invalid {
             border-color: #ef4444;
             box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
@@ -118,7 +113,6 @@
             box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
         }
 
-        /* Fallback for browsers without :user-invalid */
         .form-control:not(:placeholder-shown):invalid {
             border-color: #ef4444;
             box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
@@ -129,7 +123,6 @@
             box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
         }
 
-        /* Hint text */
         .field-hint {
             font-size: 11.5px;
             color: #9ca3af;
@@ -142,7 +135,6 @@
             color: #ef4444;
         }
 
-        /* BUTTON */
         .btn-primary-custom {
             width: 100%;
             padding: 12px;
@@ -163,7 +155,6 @@
             box-shadow: 0 14px 30px rgba(37,99,235,0.35);
         }
 
-        /* LINK */
         .back-link {
             text-align: center;
             margin-top: 15px;
@@ -185,7 +176,6 @@
 </head>
 <body>
 
-<!-- BACKGROUND BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
@@ -198,7 +188,6 @@
                    action="/role/add"
                    modelAttribute="roleDto">
 
-            <!-- Role Name -->
             <div class="mb-3">
                 <label for="identifier">Role Name *</label>
                 <form:input id="identifier"
@@ -208,7 +197,6 @@
                             required="true"/>
             </div>
 
-            <!-- Description -->
             <div class="mb-3">
                 <label for="description">Description *</label>
                 <form:textarea id="description"

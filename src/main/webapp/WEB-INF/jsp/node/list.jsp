@@ -21,7 +21,6 @@
             font-weight: 700;
         }
 
-        /* TABLE WRAPPER */
         .table-wrapper {
             background: rgba(255, 255, 255, 0.92);
             padding: 20px;
@@ -33,7 +32,6 @@
             background: transparent;
         }
 
-        /* HEADER (minimal divider style) */
         .table thead th {
             background: transparent;
             border-bottom: 1.5px solid rgb(217 217 217 / 60%) !important;
@@ -41,7 +39,6 @@
             color: #111;
         }
 
-        /* ROW HOVER */
         .table tbody tr {
             transition: 0.2s ease;
         }
@@ -51,13 +48,11 @@
             transform: scale(1.01);
         }
 
-        /* REMOVE DEFAULT BORDERS */
         .table td,
         .table th {
             border: none !important;
         }
 
-        /* BUTTONS */
         .btn-success {
             background: #3b82f6;
             border: none;
@@ -85,74 +80,74 @@
             background: #64748b;
         }
 
-    .custom-toast {
-        position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%) translateY(20px);
+        .custom-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
 
-        min-width: 260px;
-        max-width: 80%;
+            min-width: 260px;
+            max-width: 80%;
 
-        padding: 14px 18px;
-        border-radius: 14px;
+            padding: 14px 18px;
+            border-radius: 14px;
 
-        text-align: center;
+            text-align: center;
 
-        font-size: 14px;
-        font-weight: 500;
-        color: rgba(31, 59, 59, 0.9);
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(31, 59, 59, 0.9);
 
-        background: rgba(255, 255, 255, 0.18);
-        backdrop-filter: blur(18px) saturate(180%);
-        -webkit-backdrop-filter: blur(18px) saturate(180%);
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
 
-        background-image: linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.25),
-            rgba(255, 255, 255, 0.08)
-        );
+            background-image: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.25),
+                rgba(255, 255, 255, 0.08)
+            );
 
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        box-shadow:
-            0 12px 30px rgba(0, 0, 0, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
 
-        z-index: 9999;
-        opacity: 0;
-        animation: toastIn 0.4s ease forwards;
-    }
+            z-index: 9999;
+            opacity: 0;
+            animation: toastIn 0.4s ease forwards;
+        }
 
-    .custom-toast::before {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        border-radius: inherit;
-        background: radial-gradient(
-            circle at center,
-            rgba(74, 166, 163, 0.25),
-            transparent 70%
-        );
-        z-index: -1;
-        filter: blur(12px);
-    }
+        .custom-toast::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: radial-gradient(
+                circle at center,
+                rgba(74, 166, 163, 0.25),
+                transparent 70%
+            );
+            z-index: -1;
+            filter: blur(12px);
+        }
 
-    @keyframes toastIn {
-        from {
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .custom-toast.hide {
             opacity: 0;
             transform: translateX(-50%) translateY(20px);
+            transition: all 0.4s ease;
         }
-        to {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-    }
-
-    .custom-toast.hide {
-        opacity: 0;
-        transform: translateX(-50%) translateY(20px);
-        transition: all 0.4s ease;
-    }
     </style>
 </head>
 
@@ -162,7 +157,6 @@
     <div class="row justify-content-center">
         <div class="col-md-9">
 
-            <!-- Page Title -->
             <h4 class="text-center mb-4">List of Nodes</h4>
 
             <c:if test="${not empty message}">
@@ -172,14 +166,12 @@
                 <c:remove var="message" scope="session"/>
             </c:if>
 
-            <!-- Empty State -->
             <c:if test="${empty nodes}">
                 <div class="alert alert-warning text-center">
                     No nodes found
                 </div>
             </c:if>
 
-            <!-- Table -->
             <c:if test="${not empty nodes}">
                 <div class="table-wrapper">
                     <table class="table align-middle">
@@ -219,7 +211,6 @@
                 </div>
             </c:if>
 
-            <!-- Actions -->
             <div class="d-flex justify-content-center gap-3 mt-4">
                 <a href="/" class="btn btn-secondary">Home</a>
                 <a href="/node/add" class="btn btn-primary">+ Add New Node</a>

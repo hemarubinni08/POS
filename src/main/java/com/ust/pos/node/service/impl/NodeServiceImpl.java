@@ -33,7 +33,7 @@ public class NodeServiceImpl implements NodeService {
     private ModelMapper modelMapper;
 
     @Override
-    public List<NodeDto> findAll(){
+    public List<NodeDto> findAll() {
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
         return modelMapper.map(nodeRepository.findAll(), listType);

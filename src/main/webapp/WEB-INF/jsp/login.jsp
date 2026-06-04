@@ -25,7 +25,6 @@
             position: relative;
         }
 
-        /* LEFT PANEL */
         .left-panel {
             flex: 1;
             background: linear-gradient(135deg, #dbeafe, #93c5fd);
@@ -79,7 +78,6 @@
             width: 100%;
         }
 
-        /* RIGHT PANEL */
         .right-panel {
             flex: 1;
             background: #f7f7fb;
@@ -232,7 +230,6 @@
 
 <div class="main-container">
 
-    <!-- LEFT -->
     <div class="left-panel">
         <h1>POS Application.</h1>
         <p>Welcome Back</p>
@@ -246,7 +243,6 @@
         </svg>
     </div>
 
-    <!-- RIGHT -->
     <div class="right-panel">
 
         <div class="form-box">

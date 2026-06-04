@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* LEFT PANEL */
         .left-panel {
             flex: 1;
             background: linear-gradient(135deg, #cee9e9, #8fcfcd);
@@ -59,7 +58,6 @@
             width: fit-content;
         }
 
-        /* CURVE DIVIDER (SVG SIDE) */
         .curve {
             position: absolute;
             top: 0;
@@ -74,7 +72,6 @@
             width: 100%;
         }
 
-        /* RIGHT PANEL */
         .right-panel {
             flex: 1;
             background: #f7f7fb;
@@ -159,7 +156,6 @@
             margin-bottom: 10px;
         }
 
-        /* ROLES CHECKBOX GROUP */
         .roles-group {
             width: 100%;
             margin-bottom: 12px;
@@ -261,7 +257,6 @@
             filter: blur(12px);
         }
 
-        /* entry animation */
         @keyframes toastIn {
             from {
                 opacity: 0;
@@ -273,7 +268,6 @@
             }
         }
 
-        /* exit */
         .toast.hide {
             opacity: 0;
             transform: translateX(-50%) translateY(20px);
@@ -290,14 +284,12 @@
 
 <div class="main-container">
 
-    <!-- LEFT -->
     <div class="left-panel">
         <h1>POS Application</h1>
         <p>Register to continue</p>
 
         <a href="/login" class="login-btn">LOG IN</a>
 
-        <!-- CURVED DIVIDER -->
         <div class="curve">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none">
                 <path d="M0,0 H100 V100 H0 C60,80 60,20 0,0 Z" fill="#f7f7fb"></path>
@@ -305,7 +297,6 @@
         </div>
     </div>
 
-    <!-- RIGHT -->
     <div class="right-panel">
 
         <div class="form-box">
@@ -332,7 +323,6 @@
                             placeholder="Email Address"
                             required="true"/>
 
-                <!-- ROLES CHECKBOXES -->
                 <div class="roles-group">
                     <span class="roles-label">SELECT ROLE(S)</span>
                     <div class="checkbox-list">

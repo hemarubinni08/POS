@@ -28,7 +28,6 @@
                modelAttribute="nodeDto"
                onsubmit="return validateRoles()">
 
-        <!-- Node Name -->
         <div class="mb-3">
             <label>Node Name *</label>
             <form:input path="identifier"
@@ -37,7 +36,6 @@
                         required="true"/>
         </div>
 
-        <!-- Node Path -->
         <div class="mb-3">
             <label>Node Path *</label>
             <form:input path="path"
@@ -46,7 +44,6 @@
                         required="true"/>
         </div>
 
-        <!-- Roles -->
         <div class="mb-3">
             <label>Roles *</label>
             <div>

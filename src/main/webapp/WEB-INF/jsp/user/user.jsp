@@ -22,7 +22,6 @@
             overflow-x: hidden;
         }
 
-        /* BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -53,7 +52,6 @@
             50% { transform: translateY(25px); }
         }
 
-        /* GLASS CARD */
         .update-card {
             width: 480px;
             padding: 35px 40px;
@@ -94,7 +92,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* ROLES CHECKBOX GROUP */
         .checkbox-list {
             display: flex;
             flex-direction: column;
@@ -139,7 +136,6 @@
             background: #eff6ff;
         }
 
-        /* BUTTON */
         .btn-update {
             width: 100%;
             padding: 12px;
@@ -173,11 +169,9 @@
 
 <body>
 
-<!-- BACKGROUND BLOBS -->
 <div class="blob blob1"></div>
 <div class="blob blob2"></div>
 
-<!-- FORM -->
 <div class="update-card">
     <h3>Update User</h3>
 

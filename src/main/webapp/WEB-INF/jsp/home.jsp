@@ -7,7 +7,6 @@
 <meta charset="UTF-8">
 <title>Home</title>
 
-<!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
 
 <style>
@@ -16,7 +15,6 @@ body {
     background: #f7f7fb;
 }
 
-/* SIDEBAR */
 .sidebar {
     height: 100vh;
     position: fixed;
@@ -58,7 +56,6 @@ body {
     background: #f7f7fb; /* matches login page */
 }
 
-/* LOGOUT SECTION */
 .logout-container {
     padding: 15px 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.25);
@@ -69,7 +66,6 @@ body {
     border-radius: 20px;
     font-weight: 600;
 
-    /* match login button gradient */
     background: linear-gradient(135deg, #93c5fd, #3b82f6);
     border: none;
 
@@ -82,7 +78,6 @@ body {
     box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
 }
 
-/* CARD MATCH (optional but subtle alignment) */
 .card {
     border: none;
     border-radius: 14px;
@@ -106,7 +101,6 @@ body {
         </c:forEach>
     </div>
 
-    <!-- Logout at bottom -->
     <div class="logout-container">
         <form action="/logout" method="post">
             <button class="btn btn-primary logout-btn" type="submit">

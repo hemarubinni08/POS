@@ -20,7 +20,6 @@
             position: relative;
         }
 
-        /* BLOBS */
         .blob {
             position: absolute;
             border-radius: 50%;
@@ -51,7 +50,6 @@
             50% { transform: translateY(-30px) scale(1.05); }
         }
 
-        /* CENTER */
         .main-container {
             height: 100vh;
             display: flex;
@@ -61,7 +59,6 @@
             z-index: 2;
         }
 
-        /* GLASS CARD */
         .card {
             width: 420px;
             padding: 25px;
@@ -90,7 +87,6 @@
             font-weight: 700;
         }
 
-        /* INPUTS */
         .form-control {
             border-radius: 10px;
             border: 1px solid #e5e7eb;
@@ -102,7 +98,6 @@
             box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
         }
 
-        /* Read-only — never show validation colours */
         .form-control[readonly] {
             background: #f3f4f6;
             color: #6b7280;
@@ -117,7 +112,6 @@
             box-shadow: none;
         }
 
-        /* ── VALIDATION STATES ── */
         .form-control:user-invalid {
             border-color: #ef4444;
             box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
@@ -128,7 +122,6 @@
             box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
         }
 
-        /* Fallback for browsers without :user-invalid */
         .form-control:not(:placeholder-shown):invalid {
             border-color: #ef4444;
             box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
@@ -139,7 +132,6 @@
             box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
         }
 
-        /* Hint text */
         .field-hint {
             font-size: 11.5px;
             color: #9ca3af;
@@ -152,7 +144,6 @@
             color: #ef4444;
         }
 
-        /* BUTTONS */
         .btn-success {
             background: #3b82f6;
             border: none;
@@ -197,7 +188,6 @@
 
             <form:hidden path="id"/>
 
-            <!-- Role Name (Read-only) -->
             <div class="mb-3">
                 <label>Role Name</label>
                 <form:input path="identifier"
@@ -205,7 +195,6 @@
                             readonly="true"/>
             </div>
 
-            <!-- Description -->
             <div class="mb-3">
                 <label>Description *</label>
                 <form:textarea path="description"

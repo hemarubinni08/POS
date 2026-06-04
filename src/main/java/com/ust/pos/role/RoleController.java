@@ -21,13 +21,13 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping("/list")
-    public String home(Model model) {
+    public String list(Model model) {
         model.addAttribute("roles", roleService.findAll());
         return ROLE_LIST;
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute RoleDto roleDto) {
+    public String add(@ModelAttribute RoleDto roleDto) {
         return ROLE_ADD;
     }
 

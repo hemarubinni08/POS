@@ -37,8 +37,8 @@ public class NodeController {
 
     @PostMapping("/add")
     public String add(RedirectAttributes redirectAttributes, @ModelAttribute NodeDto nodeDto) {
-        boolean response =nodeService.save(nodeDto);
-        if(!response){
+        boolean response = nodeService.save(nodeDto);
+        if (!response) {
             redirectAttributes.addFlashAttribute("message", "Node with identifier already exists");
         }
         return REDIRECT_NODE_LIST;
@@ -53,7 +53,7 @@ public class NodeController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute NodeDto nodeDto){
+    public String updatePost(Model model, @ModelAttribute NodeDto nodeDto) {
         NodeDto response = nodeService.update(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
