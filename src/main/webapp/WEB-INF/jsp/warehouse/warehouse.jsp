@@ -136,9 +136,13 @@ ${message}
                 <div class="mb-4">
                     <label class="form-label">Pincode</label>
                     <form:input path="pincode"
-                                cssClass="form-control"
-                                placeholder="Enter Pincode"
-                                required="true"/>
+                    maxlength="6"
+                    pattern="[0-9]{10}"
+                    title="Enter exactly 10 digit pincode"
+                    oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                    cssClass="form-control"
+                    placeholder="Enter Pincode"
+                    required="true"/>
                 </div>
 
                 <div class="mb-4">

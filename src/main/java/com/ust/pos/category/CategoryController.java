@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/category")
 public class CategoryController {
@@ -18,7 +20,6 @@ public class CategoryController {
     @GetMapping("/list")
     public String home(Model model) {
         model.addAttribute(CATEGORIES, categoryService.findAll());
-
         return "category/list";
     }
 
@@ -41,10 +42,12 @@ public class CategoryController {
     public String update(Model model, @RequestParam String identifier) {
         CategoryDto categoryDto = categoryService.findByIdentifier(identifier);
         model.addAttribute(CATEGORIES, categoryDto);
+        List<CategoryDto> cd = categoryService.findAll();
+        model.addAttribute("category", cd.stream().filter(s -> !s.getIdentifier().equals(identifier)).toList());
         return "category/category";
     }
 
-    @PostMapping("/get")
+    @PostMapping("/update")
     public String get(Model model, @ModelAttribute CategoryDto categoryDto) {
         CategoryDto categoryDto1 = categoryService.update(categoryDto);
         if (!categoryDto1.isSuccess()) {

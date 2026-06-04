@@ -178,6 +178,10 @@
         <div class="form-group">
             <label>Pincode</label>
             <form:input path="Pincode"
+                           maxlength="6"
+                           pattern="[0-9]{10}"
+                           title="Enter exactly 10 digit pincode"
+                           oninput="this.value=this.value.replace(/[^0-9]/g,'')"
                            cssClass="form-control"
                            placeholder="Enter pincode" />
         </div>
@@ -190,7 +194,7 @@
         </div>
 
         <button type="submit" class="btn-submit">
-            Add Stock
+            Add Warehouse
         </button>
 
     </form:form>
