@@ -94,7 +94,6 @@
     <c:if test="${not empty message}">
         <div class="error-message">${message}</div>
     </c:if>
-    <!-- ✅ ONE form → customerDto -->
     <form:form action="/customer/add" method="post" modelAttribute="customerDto">
         <!-- Customer -->
         <div class="form-group">
@@ -129,7 +128,6 @@
                 <form:option value="Supplier" label="Supplier"/>
             </form:select>
         </div>
-        <!-- ✅ Billing Address -->
         <details>
             <summary>Billing Address</summary>
             <input type="text"   name="billing.addressLine" placeholder="Address Line"/>
@@ -138,7 +136,6 @@
             <input type="number" name="billing.pincode"     placeholder="Pincode"/>
             <input type="text"   name="billing.country"     placeholder="Country"/>
         </details>
-        <!-- ✅ Shipping Address -->
         <details>
             <summary>Shipping Address</summary>
             <input type="text"   name="shipping.addressLine" placeholder="Address Line"/>
