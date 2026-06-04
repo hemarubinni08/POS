@@ -35,15 +35,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto save(UserDto userDto) {
-
         User existingUser = userRepository.findByUsername(userDto.getUsername());
-
         if (existingUser != null) {
             userDto.setMessage("User already exists with username/email: " + userDto.getUsername());
             userDto.setSuccess(false);
             return userDto;
         }
-
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
@@ -53,26 +50,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto update(UserDto userDto) {
-
         Optional<User> userOptional = userRepository.findById(userDto.getId());
-
         if (userOptional.isEmpty()) {
             userDto.setMessage("User not found");
             userDto.setSuccess(false);
             return userDto;
         }
-
         User existingUser = userOptional.get();
-
         if (!userDto.getUsername().equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(userDto.getUsername()) != null) {
             userDto.setMessage("Username already exists: " + userDto.getUsername());
             userDto.setSuccess(false);
             return userDto;
         }
-
         modelMapper.map(userDto, existingUser);
         userRepository.save(existingUser);
-
         userDto.setSuccess(true);
         return userDto;
     }

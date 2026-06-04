@@ -30,55 +30,42 @@ public class UserController {
 
     @GetMapping("/get")
     public String getUser(Model model, @RequestParam String username) {
-
         UserDto userDto = userService.findByUserName(username);
-
         if (userDto == null) {
             model.addAttribute("message", "User not found");
             return USER_USER;
         }
-
         userDto.setOldUsername(userDto.getUsername());
-
         model.addAttribute("userDto", userDto);
         model.addAttribute("roles", roleService.findAll());
-
         return USER_USER;
     }
 
     @PostMapping("/update")
     public String updateUser(Model model,@ModelAttribute("userDto") UserDto userDto) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String loggedInUser = authentication.getName();
-
             UserDto response = userService.update(userDto);
-
             if (!response.isSuccess()) {
                 model.addAttribute("roles", roleService.findAll());
                 model.addAttribute("message", response.getMessage());
                 return USER_USER;
             }
-
             if (loggedInUser.equals(userDto.getOldUsername())) {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";
             }
         }
-
         return "redirect:/user/list";
     }
 
     @GetMapping("/delete")
     public String delete(@RequestParam String username) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String loggedInUser = authentication.getName();
-
             userService.delete(username);
-
             if (loggedInUser.equals(username)) {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";

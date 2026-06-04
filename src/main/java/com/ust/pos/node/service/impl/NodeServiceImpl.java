@@ -81,22 +81,22 @@ public class NodeServiceImpl implements NodeService {
     }
 
     public List<NodeDto> getNodesForRoles() {
-        List<NodeDto> nodeDtos = new ArrayList<>();
+        List<NodeDto> nodeDtoList = new ArrayList<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-            if (principalObject != null) findNodes(principalObject, nodeDtos);
+            if (principalObject != null) findNodes(principalObject, nodeDtoList);
         }
-        return nodeDtos;
+        return nodeDtoList;
     }
 
-    private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
+    private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtoList) {
 
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesStr = new HashSet<>();
-        List<Node> nodes = nodeRepository.findAll();
+        List<Node> nodeList = nodeRepository.findAll();
         for (String role : currentUser.getRoles()) {
-            for (Node node : nodes) {
+            for (Node node : nodeList) {
                 if (node.getRoles() != null && node.getRoles().contains(role)) {
                     nodesStr.add(node.getIdentifier());
                 }
@@ -104,7 +104,7 @@ public class NodeServiceImpl implements NodeService {
         }
 
         for (String nodeStr : nodesStr) {
-            nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
+            nodeDtoList.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
         }
     }
 
