@@ -135,16 +135,13 @@
                method="post"
                modelAttribute="unit">
 
-        <!-- Hidden ID -->
         <form:hidden path="id"/>
 
-        <!-- Unit Name (Read Only) -->
         <div class="input-group">
             <label>Unit Name</label>
             <form:input path="identifier" readonly="true"/>
         </div>
 
-        <!-- Status -->
         <div class="input-group">
             <label>Status</label>
             <form:select path="status">

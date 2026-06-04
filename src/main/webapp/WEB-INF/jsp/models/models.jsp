@@ -135,16 +135,13 @@
                method="post"
                modelAttribute="models">
 
-        <!-- Hidden ID -->
         <form:hidden path="id"/>
 
-        <!-- Model Name (Read Only) -->
         <div class="input-group">
             <label>Model Name</label>
             <form:input path="identifier" readonly="true"/>
         </div>
 
-        <!-- Status -->
         <div class="input-group">
             <label>Status</label>
             <form:select path="status">

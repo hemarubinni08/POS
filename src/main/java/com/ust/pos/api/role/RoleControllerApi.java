@@ -34,8 +34,8 @@ public class RoleControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public RoleDto updatePost(@RequestBody RoleDto userDto) {
-        return roleService.update(userDto);
+    public RoleDto updatePost(@RequestBody RoleDto roleDto) {
+        return roleService.update(roleDto);
     }
 
     @GetMapping("/delete")
@@ -45,7 +45,6 @@ public class RoleControllerApi extends BaseController {
         } catch (Exception e) {
             return false;
         }
-
         return true;
     }
 }

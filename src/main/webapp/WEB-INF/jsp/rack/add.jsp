@@ -86,7 +86,6 @@
             font-size: 15px;
         }
 
-        /* Styling for the multi-select specifically */
         select[multiple] {
             height: 120px;
             padding: 8px;
@@ -150,6 +149,10 @@
             <form:option value="true">Active</form:option>
             <form:option value="false">Inactive</form:option>
         </form:select>
+         <label style="margin-top:16px;">Description</label>
+                        <form:textarea path="description"
+                                       placeholder="Describe the shelf permissions and purpose"
+                                        required="true" />
 
         <button type="submit">Save Rack</button>
 

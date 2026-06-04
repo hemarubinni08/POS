@@ -32,7 +32,6 @@ public class CustomerController {
 
     @GetMapping("/add")
     public String add(Model model, Pageable pageable) {
-
         model.addAttribute("customers", customerService.findAll(pageable));
         model.addAttribute("customerDto", new CustomerDto());
         return "customer/add";
@@ -50,10 +49,9 @@ public class CustomerController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         CustomerDto response = customerService.findByIdentifier(identifier);
-        response.setBillingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNo(), "billingAddress"));
-        response.setShippingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNo(), "shippingAddress"));
+        response.setBillingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNo(), "billing"));
+        response.setShippingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNo(), "shipping"));
         model.addAttribute("customerDto", response);
         return "customer/customer";
     }

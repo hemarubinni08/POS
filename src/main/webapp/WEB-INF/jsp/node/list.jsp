@@ -8,7 +8,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Retail POS | Node List</title>
 
-<!-- Font Awesome Icons -->
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -102,7 +101,6 @@
         border: 1px solid #e0e7ff;
     }
 
-    /* Icon‑only actions */
     .action-icon {
         color: var(--primary);
         font-size: 16px;
@@ -189,14 +187,12 @@
                         <td>${n.path}</td>
 
                         <td>
-                            <!-- Edit -->
                             <a class="action-icon"
                                href="${pageContext.request.contextPath}/node/get?identifier=${n.identifier}"
                                title="Edit Node">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
 
-                            <!-- Delete -->
                             <a class="action-icon delete-icon"
                                href="${pageContext.request.contextPath}/node/delete?identifier=${n.identifier}"
                                onclick="return confirm('Are you sure you want to delete this node?');"

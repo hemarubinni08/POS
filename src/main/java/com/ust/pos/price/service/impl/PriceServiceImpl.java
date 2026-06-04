@@ -25,8 +25,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto findByIdentifier(String identifier) {
-
-        Price price = priceRepository.findByIdentifier(identifier);
+        Price price = priceRepository.findFirstByIdentifier(identifier);
         if (price == null) {
             return null;
         }
@@ -36,7 +35,7 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDto save(PriceDto priceDto) {
         String identifier = priceDto.getIdentifier();
-        Price existingPrice = priceRepository.findByIdentifier(identifier);
+        Price existingPrice = priceRepository.findFirstByIdentifier(identifier);
         if (existingPrice != null) {
             priceDto.setMessage("Price with identifier - " + identifier + " already exists");
             priceDto.setSuccess(false);
@@ -51,7 +50,7 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDto update(PriceDto priceDto) {
         String identifier = priceDto.getIdentifier();
-        Price existingPrice = priceRepository.findByIdentifier(identifier);
+        Price existingPrice = priceRepository.findFirstByIdentifier(identifier);
         if (existingPrice == null) {
             priceDto.setMessage("Price with identifier - " + identifier + " not found");
             priceDto.setSuccess(false);

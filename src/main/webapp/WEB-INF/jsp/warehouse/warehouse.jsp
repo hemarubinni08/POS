@@ -114,34 +114,28 @@ button:hover {
                method="post"
                modelAttribute="warehouse">
 
-        <!-- Hidden ID -->
         <form:hidden path="id"/>
 
-        <!-- Identifier -->
         <div class="input-group">
             <label>Warehouse Identifier</label>
             <form:input path="identifier" readonly="true"/>
         </div>
 
-        <!-- Region -->
         <div class="input-group">
             <label>Region</label>
             <form:input path="region" required="true"/>
         </div>
 
-         <!-- Country -->
                 <div class="input-group">
                     <label>Country</label>
                     <form:input path="country" required="true"/>
                 </div>
 
-        <!-- Address -->
         <div class="input-group">
             <label>Address</label>
             <form:textarea path="address" required="true"/>
         </div>
 
-        <!-- Phone Number -->
         <div class="mb-3">
                                     <label>Phone Number</label>
                                             <form:input path="phoneNo"
@@ -164,7 +158,6 @@ button:hover {
 
     </form:form>
 
-    <!-- Error Message -->
     <c:if test="${not empty message}">
         <div class="error">${message}</div>
     </c:if>

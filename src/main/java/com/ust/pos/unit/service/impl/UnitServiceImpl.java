@@ -56,7 +56,6 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public void delete(String identifier) {
         unitRepository.deleteByIdentifier(identifier);
-
     }
 
     @Override

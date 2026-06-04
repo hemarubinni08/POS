@@ -148,7 +148,6 @@
 
 <div class="container">
 
-    <!-- Back Button -->
     <a href="${pageContext.request.contextPath}/brand/list" class="back-btn">
         ← Back
     </a>
@@ -175,9 +174,6 @@
                     placeholder="Enter brand name"
                     required="true"/>
 
-
-
-        <!-- ✅ STATUS DROPDOWN -->
         <label>Status</label>
         <form:select path="status" required="true">
             <form:option value="">-- Select Status --</form:option>

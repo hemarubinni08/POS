@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class PriceDto extends CommonDto {
     private String product;
-    private double costPrice;
+    private double sumPrice;
     private String priceType;
 }

@@ -135,16 +135,13 @@
                method="post"
                modelAttribute="shelf">
 
-        <!-- Hidden ID -->
         <form:hidden path="id"/>
 
-        <!-- Shelf Name (Read Only) -->
         <div class="input-group">
             <label>Shelf Name</label>
             <form:input path="identifier" readonly="true"/>
         </div>
 
-        <!-- Status -->
         <div class="input-group">
             <label>Status</label>
             <form:select path="status">

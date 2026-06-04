@@ -143,13 +143,11 @@ button:hover {
 
         <form:hidden path="id" />
 
-        <!-- Role Name (READ ONLY) -->
         <div class="input-group">
             <label>Role Name</label>
             <form:input path="identifier" readonly="true" />
         </div>
 
-        <!-- Description (EDITABLE) -->
         <div class="input-group">
             <label>Description</label>
             <form:textarea path="description"

@@ -35,22 +35,18 @@ public class CustomerServiceImpl implements CustomerService {
         if (customer == null) {
             return null;
         }
-
         return modelMapper.map(customer, CustomerDto.class);
     }
 
     @Override
     public CustomerDto save(CustomerDto customerDto) {
-
         String identifier = customerDto.getIdentifier();
         Customer existingCustomer = customerRepository.findByIdentifier(identifier);
         if (existingCustomer != null) {
-
             customerDto.setMessage("Customer with identifier - " + identifier + " already exists");
             customerDto.setSuccess(false);
             return customerDto;
         }
-
         AddressDto billingAddress = customerDto.getBillingAddress();
         AddressDto shippingAddress = customerDto.getShippingAddress();
         billingAddress.setPhoneNo(customerDto.getPhoneNo());
@@ -73,14 +69,18 @@ public class CustomerServiceImpl implements CustomerService {
             customerDto.setSuccess(false);
             return customerDto;
         }
-
         AddressDto billingAddress = customerDto.getBillingAddress();
         AddressDto shippingAddress = customerDto.getShippingAddress();
         billingAddress.setPhoneNo(customerDto.getPhoneNo());
         shippingAddress.setPhoneNo(customerDto.getPhoneNo());
-        addressService.save(billingAddress);
-        addressService.save(shippingAddress);
-        modelMapper.map(customerDto, existingCustomer);
+        billingAddress.setAddressType("billing");
+        shippingAddress.setAddressType("shipping");
+        addressService.update(billingAddress);
+        addressService.update(shippingAddress);
+        existingCustomer.setPhoneNo(customerDto.getPhoneNo());
+        existingCustomer.setPartyType(customerDto.getPartyType());
+        existingCustomer.setBalance(customerDto.getBalance());
+        existingCustomer.setCreditLimit(customerDto.getCreditLimit());
         customerDto.setBillingAddress(addressService.
                 findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "billingAddress"));
         customerDto.setShippingAddress(addressService.

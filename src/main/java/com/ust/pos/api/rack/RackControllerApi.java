@@ -34,8 +34,8 @@ public class RackControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public RackDto updatePost(@RequestBody RackDto userDto) {
-        return rackService.update(userDto);
+    public RackDto updatePost(@RequestBody RackDto rackDto) {
+        return rackService.update(rackDto);
     }
 
     @GetMapping("/delete")

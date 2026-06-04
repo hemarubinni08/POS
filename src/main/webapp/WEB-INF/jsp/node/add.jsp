@@ -51,7 +51,6 @@
         border-top: 5px solid var(--primary);
     }
 
-    /* Back button */
     .back-btn {
         position: absolute;
         top: 18px;
@@ -129,7 +128,6 @@
         background-color: #020617;
     }
 
-    /* Error / Info message */
     .error-message {
         background: var(--danger-bg);
         border: 1px solid var(--danger-border);
@@ -155,7 +153,6 @@
 
 <div class="container">
 
-    <!-- Back -->
     <a href="${pageContext.request.contextPath}/node/list" class="back-btn">
         ← Back
     </a>
@@ -165,7 +162,6 @@
         <p>Create and assign roles to a system node.</p>
     </div>
 
-    <!-- Error / Info Message -->
     <c:if test="${not empty message}">
         <div class="error-message">
             ${message}
@@ -191,6 +187,7 @@
         <label>Assign Roles</label>
         <form:select path="roles"
                      multiple="true"
+                     required="true"
                      cssClass="form-control">
             <form:options items="${roles}"
                           itemValue="identifier"

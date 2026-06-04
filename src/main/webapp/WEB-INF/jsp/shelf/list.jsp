@@ -68,7 +68,6 @@
             color: #64748b;
         }
 
-        /* --- TOGGLE SWITCH STYLES --- */
         .switch {
             position: relative;
             display: inline-block;
@@ -113,7 +112,6 @@
         .text-active { color: var(--success); }
         .text-inactive { color: #94a3b8; }
 
-        /* --- ACTIONS --- */
         .action-icon {
             margin: 0 10px;
             color: #64748b;
@@ -125,7 +123,6 @@
         .action-icon:hover { color: var(--primary); }
         .delete-btn:hover { color: var(--danger) !important; }
 
-        /* --- TOAST --- */
         #toast {
             visibility: hidden;
             min-width: 280px;
@@ -226,24 +223,18 @@
 <div id="toast"></div>
 
 <script>
-    /**
-     * AJAX Status Toggle logic
-     * Mirroring Brand Management functionality
-     */
+
     document.querySelectorAll('.status-toggle').forEach(toggle => {
         toggle.addEventListener('change', function() {
             const identifier = this.getAttribute('data-id');
             const isChecked = this.checked;
-            // Select the label that is a sibling of the switch label's parent
             const label = this.closest('td').querySelector('.status-label');
 
-            // Async request to update DB
             fetch(`${pageContext.request.contextPath}/shelf/toggle?identifier=` + encodeURIComponent(identifier) + `&status=` + isChecked, {
                 method: 'POST'
             })
             .then(response => {
                 if (response.ok) {
-                    // Update UI text on success
                     if (label) {
                         label.innerText = isChecked ? 'ACTIVE' : 'INACTIVE';
                         label.className = `status-label ${isChecked ? 'text-active' : 'text-inactive'}`;
@@ -255,7 +246,6 @@
             })
             .catch(err => {
                 console.error("Fetch Error:", err);
-                // Revert toggle position on error
                 this.checked = !isChecked;
                 if (label) {
                     label.innerText = !isChecked ? 'ACTIVE' : 'INACTIVE';
@@ -266,9 +256,6 @@
         });
     });
 
-    /**
-     * Toast helper function
-     */
     function showToast(message) {
         const toast = document.getElementById("toast");
         if (toast) {
@@ -278,9 +265,6 @@
         }
     }
 
-    /**
-     * Handle initial page load messages
-     */
     window.onload = function() {
         const msg = "${message}";
         if (msg && msg.trim() !== "") {

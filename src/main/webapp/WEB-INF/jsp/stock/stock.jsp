@@ -130,22 +130,18 @@ button:hover {
                method="post"
                modelAttribute="stock">
 
-        <!-- Hidden ID -->
         <form:hidden path="id"/>
 
-        <!-- Identifier -->
         <div class="input-group">
             <label>Stock Identifier</label>
             <form:input path="identifier" readonly="true"/>
         </div>
 
-        <!-- Quantity -->
         <div class="input-group">
             <label>Quantity</label>
             <form:input path="quantity" type="number" min="0" required="true"/>
         </div>
 
-        <!-- Minimum Stock -->
         <div class="input-group">
             <label>Minimum Stock Level</label>
             <form:input path="minimumstock" type="number" min="0" required="true"/>
@@ -160,7 +156,6 @@ button:hover {
 
     </form:form>
 
-    <!-- Error Message -->
     <c:if test="${not empty message}">
         <div class="bottom-error">
             ${message}

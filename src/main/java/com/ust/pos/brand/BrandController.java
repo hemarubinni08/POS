@@ -44,11 +44,11 @@ public class BrandController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute BrandDto userDto) {
-        BrandDto response = brandService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute BrandDto brandDto) {
+        BrandDto response = brandService.update(brandDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("brand", userDto);
+            model.addAttribute("brand", brandDto);
             return "brand/brand";
         }
         return REDIRECT_BRAND_LIST;

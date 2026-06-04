@@ -112,7 +112,6 @@
 
     <h2>Add Warehouse</h2>
 
-    <!-- Error / Validation Message -->
     <c:if test="${not empty message}">
         <div class="error-message">${message}</div>
     </c:if>

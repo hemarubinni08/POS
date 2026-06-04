@@ -11,7 +11,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
-    <!-- ✅ UI ONLY CHANGED -->
     <style>
         :root {
             --primary: #0f172a;
@@ -133,16 +132,16 @@
                     </div>
 
 
-<div class="mb-3">
-                            <label>Cost Price *</label>
-                            <form:input path="costPrice"
+                            <div class="mb-3">
+                            <label>sum Price *</label>
+                            <form:input path="sumPrice"
                                         cssClass="form-control"
                                         type="number"
                                         step="0.01"
                                         min="0"
-                                        placeholder="Enter Cost Price"
+                                        placeholder="Enter Tot Price"
                                         required="true"/>
-                            <form:errors path="costPrice" cssClass="error-text"/>
+                            <form:errors path="sumPrice" cssClass="error-text"/>
                         </div>
 
 
