@@ -93,7 +93,7 @@
             <div class="mb-3">
                 <label>Product</label>
 
-                <form:select path="product" cssClass="form-select" required="required">
+                <form:select path="product" cssClass="form-select" disabled="true">
                     <form:option value="">-- Select Product --</form:option>
                     <form:options items="${products}"
                                   itemValue="identifier"
@@ -116,7 +116,7 @@
                 <label>Price Type</label>
                 <form:select path="type"
                              cssClass="form-select"
-                             required="required">
+                             disabled="true" >
                     <form:option value="MRP">MRP</form:option>
                     <form:option value="SELLING">Selling Price</form:option>
                 </form:select>
