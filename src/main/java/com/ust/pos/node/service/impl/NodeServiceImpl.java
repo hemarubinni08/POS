@@ -30,40 +30,32 @@ public class NodeServiceImpl implements NodeService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Override
     public List<NodeDto> getNodesForRoles() {
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null) {
-            return new ArrayList<>();
+        List<NodeDto> nodeDtos = new ArrayList<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+            if (principalObject != null) findNodes(principalObject, nodeDtos);
         }
-        Object principalObject = authentication.getPrincipal();
+        return nodeDtos;
+    }
 
-        if (!(principalObject instanceof org.springframework.security.core.userdetails.User)) {
-            return new ArrayList<>();
-        }
-        org.springframework.security.core.userdetails.User principal =
-                (org.springframework.security.core.userdetails.User) principalObject;
-
-        User currentUser =
-                userRepository.findByUsername(principal.getUsername());
-        Set<Node> allowedNodes = new HashSet<>();
+    private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
+        User currentUser = userRepository.findByUsername(principalObject.getUsername());
+        Set<String> nodesStr = new HashSet<>();
         List<Node> nodes = nodeRepository.findAll();
         for (String role : currentUser.getRoles()) {
             for (Node node : nodes) {
-                if (node.getRoles().contains(role)) {
-                    allowedNodes.add(node);
+                if (node.getRoles() != null && node.getRoles().contains(role)) {
+                    nodesStr.add(node.getIdentifier());
                 }
             }
         }
-
-        List<NodeDto> nodeDtos = new ArrayList<>();
-        for (Node node : allowedNodes) {
-            nodeDtos.add(modelMapper.map(node, NodeDto.class));
+        for (String nodeStr : nodesStr) {
+            nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
         }
-
-        return nodeDtos;
     }
+
     @Override
     public NodeDto findByIdentifier(String identifier) {
         return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);
