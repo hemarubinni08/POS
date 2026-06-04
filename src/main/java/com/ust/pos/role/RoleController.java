@@ -28,8 +28,8 @@ public class RoleController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute RoleDto userDto) {
-        RoleDto response = roleService.save(userDto);
+    public String addPost(Model model, @ModelAttribute RoleDto roleDto) {
+        RoleDto response = roleService.save(roleDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
