@@ -104,7 +104,6 @@
         <div class="error-message">${message}</div>
     </c:if>
 
-    <!-- ✅ CORRECTLY OPENED form -->
     <form:form method="post"
                action="/shelf/update"
                modelAttribute="shelfDto">
@@ -126,7 +125,6 @@
         <a href="/shelf/list" class="btn-cancel">Cancel</a>
 
     </form:form>
-    <!-- ✅ CORRECTLY CLOSED form -->
 
 </div>
 

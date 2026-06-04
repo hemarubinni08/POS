@@ -84,17 +84,14 @@
                        action="${pageContext.request.contextPath}/product/update"
                        modelAttribute="product">
 
-                <!-- Hidden DB ID -->
                 <form:hidden path="id"/>
 
-                <!-- ✅ Product Identifier -->
                 <div class="mb-4">
                     <label class="form-label">Product Identifier</label>
                     <form:input path="identifier"
                                 cssClass="form-control"
                                 readonly="true"/>
                 </div>
-                 <!-- Category Dropdown -->
                         <div class="form-group">
                             <label>Category</label>
                             <form:select path="category"
@@ -105,7 +102,6 @@
                                               itemLabel="identifier"/>
                             </form:select>
                         </div>
-                <!-- ✅ Supplier ID -->
                 <div class="mb-4">
                     <label class="form-label">Supplier ID</label>
                     <form:input path="supplierId"
@@ -114,7 +110,6 @@
                                 required="true"/>
                 </div>
 
-                <!-- ✅ Buttons -->
                 <div class="d-flex justify-content-between">
                     <a href="${pageContext.request.contextPath}/product/list"
                        class="btn btn-outline-secondary">

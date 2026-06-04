@@ -136,12 +136,9 @@
 
 <div class="card-container">
 
-    <!-- ✅ Back to Login -->
     <a href="/login" class="back-icon">←</a>
 
     <h2>User Registration</h2>
-
-    <!-- ✅ Message -->
     <c:if test="${not empty message}">
         <div class="error-message">
             ${message}

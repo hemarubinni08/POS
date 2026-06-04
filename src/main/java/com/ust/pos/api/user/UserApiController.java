@@ -40,9 +40,9 @@ public class UserApiController extends BaseController {
     }
 
     @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    public boolean delete(@RequestParam String username) {
         try {
-            userService.delete(identifier);
+            userService.delete(username);
         } catch (Exception e) {
             return false;
         }

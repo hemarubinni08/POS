@@ -48,27 +48,6 @@
             background: rgba(75,108,183,0.08);
         }
 
-        .search-bar {
-            margin-bottom: 20px;
-            position: relative;
-            width: 300px;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 10px 10px 10px 40px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
-
-        .search-bar::before {
-            content: "🔍";
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -172,17 +151,10 @@
 
     <h2>List of Brands</h2>
 
-    <div class="search-bar">
-        <input type="text" id="searchInput"
-               placeholder="Search by brand name..."
-               onkeyup="searchBrand()">
-    </div>
-
     <table id="brandTable">
         <thead>
         <tr>
             <th>SL</th>
-            <th>Icon</th>
             <th>Brand Name</th>
             <th>Description</th>
             <th>Status</th>
@@ -194,7 +166,6 @@
         <c:forEach items="${brands}" var="brand" varStatus="st">
             <tr>
                 <td>${st.count}</td>
-                <td><img src="/uploads/${brand.icon}" alt="icon"></td>
                 <td class="brand-name">${brand.identifier}</td>
                 <td>${brand.description}</td>
                 <td>

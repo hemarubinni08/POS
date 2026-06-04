@@ -111,7 +111,6 @@
         <div class="error-message">${message}</div>
     </c:if>
 
-    <!-- ✅ CORRECTLY OPENED form tag -->
     <form:form method="post"
                action="/shelf/add"
                modelAttribute="shelfDto">
@@ -132,7 +131,6 @@
         <input type="submit" value="Add Shelf" class="btn-submit"/>
 
     </form:form>
-    <!-- ✅ CORRECTLY CLOSED -->
 
 </div>
 

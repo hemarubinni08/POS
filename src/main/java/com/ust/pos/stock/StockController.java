@@ -69,4 +69,10 @@ public class StockController {
         stockService.delete(identifier);
         return REDIRECT_STOCK_LIST;
     }
+
+    @PostMapping("/toggleStatus")
+    public String toggleStatus(@RequestParam String identifier) {
+        stockService.toggleStatus(identifier);
+        return REDIRECT_STOCK_LIST;
+    }
 }

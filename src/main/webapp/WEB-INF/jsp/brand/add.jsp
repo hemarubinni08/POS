@@ -138,11 +138,6 @@
         </div>
 
         <div class="form-group">
-            <label>Brand Icon</label>
-            <input type="file" name="iconFile"/>
-        </div>
-
-        <div class="form-group">
             <label>Description</label>
             <form:textarea path="description" rows="3" placeholder="Description"/>
         </div>

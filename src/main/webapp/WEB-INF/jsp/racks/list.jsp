@@ -186,7 +186,6 @@
                     <td>${rack.identifier}</td>
                     <td>${rack.shelfs}</td>
 
-                    <!-- ✅ Toggle Status -->
                     <td>
                         <form action="${pageContext.request.contextPath}/racks/toggleStatus"
                               method="post" style="margin:0;">

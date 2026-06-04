@@ -6,160 +6,165 @@
 <head>
     <title>Customer List</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
     <style>
-        body {
-            margin: 0;
-            padding: 32px;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f4f6fb, #eef1f8);
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
         }
 
-        h2 {
-            text-align: center;
-            color: #374a9e;
-            margin-bottom: 25px;
+        body{
+            font-family:'Poppins',sans-serif;
+            background:#f5f5f5;
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:30px;
         }
 
-        .table-wrapper {
-            overflow-x: auto;
-            background: #fff;
-            border-radius: 14px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        .container{
+            width:1200px;
+            background:#fff;
+            border-radius:20px;
+            padding:35px 55px;
+            box-shadow:0 20px 45px rgba(0,0,0,0.12);
+            position:relative;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 900px;
+        /* Back Button */
+
+        .back-btn{
+            position:absolute;
+            top:22px;
+            left:22px;
+            width:48px;
+            height:48px;
+            border-radius:50%;
+            background:#f1f3f8;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-decoration:none;
+            color:#4b6cb7;
+            font-size:24px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.1);
         }
 
-        th {
-            background: linear-gradient(135deg, #4b6cb7, #182848);
-            color: #ffffff;
-            padding: 14px;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        h2{
+            text-align:center;
+            color:#4b6cb7;
+            font-size:28px;
+            font-weight:600;
+            margin-bottom:30px;
         }
 
-        td {
-            padding: 14px;
-            text-align: center;
-            border-bottom: 1px solid #edf0f7;
-            font-size: 14px;
-            color: #333;
+        table{
+            width:100%;
+            border-collapse:collapse;
+            table-layout:fixed;
         }
 
-        tr:last-child td {
-            border-bottom: none;
+        thead{
+            background:#5372bc;
+            color:white;
         }
 
-        tbody tr {
-            transition: background 0.2s ease;
+        th{
+            padding:16px;
+            font-size:14px;
+            font-weight:600;
+            text-align:center;
         }
 
-        tbody tr:hover {
-            background: #f7f9ff;
+        td{
+            padding:18px 12px;
+            text-align:center;
+            border-bottom:1px solid #ececec;
+            font-size:14px;
+            word-wrap:break-word;
         }
 
-        .alert {
-            padding: 16px;
-            background: #fff3cd;
-            color: #856404;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 14px;
-            max-width: 600px;
-            margin: 30px auto;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        tbody tr:hover{
+            background:#fafafa;
         }
 
-        /* Action buttons */
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 16px;
-            margin: 0 4px;
-            transition: all 0.2s ease;
+        .action-btn{
+            text-decoration:none;
+            font-size:18px;
+            margin:0 6px;
         }
 
-        .btn-edit {
-            background: #e8f0ff;
-            color: #2b5fd9;
+        .edit{
+            color:#ff7b42;
         }
 
-        .btn-edit:hover {
-            background: #d6e4ff;
-            transform: scale(1.05);
+        .delete{
+            color:#4f6fff;
         }
 
-        .btn-delete {
-            background: #ffe8ea;
-            color: #d63341;
+        .alert{
+            text-align:center;
+            padding:15px;
+            border-radius:10px;
+            background:#fff3cd;
+            color:#856404;
+            margin-bottom:20px;
         }
 
-        .btn-delete:hover {
-            background: #ffd0d5;
-            transform: scale(1.05);
+        .footer-buttons{
+            display:flex;
+            justify-content:center;
+            gap:16px;
+            margin-top:28px;
         }
 
-        /* Footer buttons */
-        .footer-actions {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 18px;
+        .btn{
+            text-decoration:none;
+            padding:12px 24px;
+            border-radius:14px;
+            color:white;
+            font-weight:600;
+            transition:0.3s;
         }
 
-        .btn {
-            padding: 12px 20px;
-            border-radius: 12px;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.25s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+        .btn-home{
+            background:#6c757d;
         }
 
-        .btn-home {
-            background: #6c757d;
-            color: #fff;
+        .btn-add{
+            background:linear-gradient(135deg,#4b6cb7,#182848);
         }
 
-        .btn-home:hover {
-            background: #5a6268;
-            transform: translateY(-1px);
+        .btn:hover{
+            transform:translateY(-2px);
         }
 
-        .btn-add {
-            background: linear-gradient(135deg, #4b6cb7, #182848);
-            color: #fff;
-        }
-
-        .btn-add:hover {
-            transform: translateY(-2px) scale(1.03);
-        }
     </style>
 </head>
 
 <body>
 
-<h2>Customer List</h2>
+<div class="container">
 
-<c:if test="${empty customers}">
-    <div class="alert">No customers found</div>
-</c:if>
+    <a href="javascript:history.back()" class="back-btn">←</a>
 
-<c:if test="${not empty customers}">
-    <div class="table-wrapper">
+    <h2>List of Customers</h2>
+
+    <c:if test="${empty customers}">
+        <div class="alert">
+            No customers found
+        </div>
+    </c:if>
+
+    <c:if test="${not empty customers}">
+
         <table>
+
             <thead>
             <tr>
                 <th>ID</th>
@@ -171,34 +176,59 @@
                 <th>Action</th>
             </tr>
             </thead>
+
             <tbody>
+
             <c:forEach items="${customers}" var="customer">
+
                 <tr>
+
                     <td>${customer.id}</td>
                     <td>${customer.identifier}</td>
                     <td>${customer.phoneno}</td>
                     <td>${customer.email}</td>
                     <td>${customer.partytype}</td>
                     <td>${customer.address}</td>
-                    <td>
-                        <a href="/customer/get?identifier=${customer.identifier}"
-                           class="btn-action btn-edit"
-                           title="Edit Customer">✏️</a>
-                        <a href="/customer/delete?identifier=${customer.identifier}"
-                           class="btn-action btn-delete"
-                           title="Delete Customer"
-                           onclick="return confirm('Are you sure you want to delete this customer?');">🗑</a>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
-</c:if>
 
-<div class="footer-actions">
-    <a href="/" class="btn btn-home">Home</a>
-    <a href="/customer/add" class="btn btn-add">＋ Add Customer</a>
+                    <td>
+
+                        <a href="/customer/get?identifier=${customer.identifier}"
+                           class="action-btn edit"
+                           title="Edit">
+                            ✏️
+                        </a>
+
+                        <a href="/customer/delete?identifier=${customer.identifier}"
+                           class="action-btn delete"
+                           title="Delete"
+                           onclick="return confirm('Are you sure you want to delete this customer?');">
+                            🗑️
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            </c:forEach>
+
+            </tbody>
+
+        </table>
+
+    </c:if>
+
+    <div class="footer-buttons">
+
+        <a href="/" class="btn btn-home">
+            Home
+        </a>
+
+        <a href="/customer/add" class="btn btn-add">
+            + Add Customer
+        </a>
+
+    </div>
+
 </div>
 
 </body>
