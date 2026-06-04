@@ -15,6 +15,7 @@
             font-family: 'Poppins', sans-serif;
             background-color: #f5f6fa;
         }
+
         .sidebar {
             position: fixed;
             top: 0;
@@ -25,6 +26,7 @@
             padding-top: 30px;
             box-shadow: 2px 0 10px rgba(0,0,0,0.15);
         }
+
         .sidebar h4 {
             color: #fff;
             text-align: center;
@@ -32,6 +34,7 @@
             font-weight: 600;
             letter-spacing: 1px;
         }
+
         .sidebar a {
             display: block;
             padding: 14px 25px;
@@ -40,24 +43,29 @@
             font-size: 15px;
             transition: all 0.3s ease;
         }
+
         .sidebar a:hover {
             background-color: rgba(255, 255, 255, 0.1);
             color: #ffffff;
             padding-left: 35px;
         }
+
         .logout-btn {
             position: absolute;
             bottom: 30px;
             width: 100%;
             padding: 0 25px;
         }
+
         .logout-btn button {
             width: 100%;
         }
+
         .content {
             margin-left: 240px;
             padding: 40px;
         }
+
         .welcome-card {
             background: #ffffff;
             border-radius: 12px;

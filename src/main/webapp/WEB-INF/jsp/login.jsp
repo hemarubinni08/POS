@@ -128,7 +128,6 @@
         .extra-text a:hover {
             text-decoration: underline;
         }
-
     </style>
 </head>
 

@@ -39,4 +39,5 @@ public class SecurityController {
         }
         return "redirect:/login";
     }
+
 }

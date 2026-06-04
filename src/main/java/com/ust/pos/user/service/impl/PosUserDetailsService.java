@@ -25,4 +25,5 @@ public class PosUserDetailsService implements UserDetailsService {
                 .password(userDto.getPassword())
                 .build();
     }
+
 }
