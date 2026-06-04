@@ -6,6 +6,7 @@ import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.node.service.NodeService;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,19 +38,19 @@ public class NodeController extends BaseController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute NodeDto nodeDto) {
+    public String addPost(Model model, Pageable pageable, @ModelAttribute NodeDto nodeDto) {
         NodeDto response = nodeService.save(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute(ROLES, roleService.findAll(null));
+            model.addAttribute(ROLES, roleService.findAll(pageable));
             return "node/add";
         }
         return REDIRECT_NODE_LIST;
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String identifier) {
-        model.addAttribute(ROLES, roleService.findAll(null));
+    public String update(Model model, Pageable pageable, @RequestParam String identifier) {
+        model.addAttribute(ROLES, roleService.findAll(pageable));
         NodeDto response = nodeService.findByIdentifier(identifier);
         model.addAttribute("node", response);
         return "node/node";
