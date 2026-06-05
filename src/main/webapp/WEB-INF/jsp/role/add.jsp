@@ -53,7 +53,9 @@
     <div class="card-header text-center py-3">
         <h5 class="mb-0">Add New Role</h5>
     </div>
+
     <div class="card-body p-4">
+
         <c:if test="${not empty role}">
             <div class="alert alert-success text-center">
                 ${role}
@@ -75,22 +77,30 @@
             </div>
 
             <div class="mb-3">
-                <form:label path="description" cssClass="form-label">Description</form:label>
-                <form:input path="description cssClass="form-control" required="true"/></div>
+                <form:label path="description" cssClass="form-label">
+                    Description
+                </form:label>
+
+                <form:input path="description"
+                            cssClass="form-control"
+                            required="true"/>
+            </div>
 
             <div class="d-grid mt-4">
-                <button type="submit" class="btn btn-primary">Add Role</button>
+                <button type="submit" class="btn btn-primary">
+                    Add Role
+                </button>
             </div>
+
         </form:form>
+
     </div>
 
     <div class="card-footer text-center">
-
         <a href="/" class="btn btn-secondary mb-2">Home</a>
         <div class="text-muted small">POS Management System</div>
-
     </div>
-</div>
 
+</div>
 </body>
 </html>

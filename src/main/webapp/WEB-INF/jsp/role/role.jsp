@@ -12,42 +12,90 @@
 
     <style>
         body {
+            margin: 0;
             min-height: 100vh;
             background-color: #f1f3f6;
-            font-family: "Segoe UI", sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: "Segoe UI", sans-serif;
+            padding: 20px;
         }
 
         .card {
-            width: 420px;
-            border-radius: 12px;
+            width: 650px;
             border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
         }
 
         .card-header {
             background-color: #1e272e;
             color: #ffffff;
-            border-radius: 12px 12px 0 0;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .card-header h5 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .card-body {
+            background-color: #ffffff;
+            padding: 35px;
         }
 
         .form-label {
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 600;
+            color: #212529;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            height: 52px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: none;
+        }
+
+        .btn {
+            border-radius: 8px;
+            min-width: 120px;
+            height: 48px;
+        }
+
+        .alert {
+            border-radius: 8px;
+        }
+
+        .card-footer {
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
         }
     </style>
 </head>
 
 <body>
 
-<div class="card shadow-sm">
+<div class="card">
 
-    <div class="card-header text-center py-3">
-        <h5 class="mb-0">Edit Role</h5>
+    <div class="card-header">
+        <h5>Edit Role</h5>
     </div>
 
-    <div class="card-body p-4">
+    <div class="card-body">
 
         <c:if test="${not empty message}">
             <div class="alert alert-info text-center">
@@ -86,6 +134,8 @@
                         required="true"
                         minlength="3"
                         maxlength="100"
+                        pattern=".{3,100}"
+                        title="Description must be between 3 and 100 characters"
                         placeholder="Enter description"
                     />
                 </div>
@@ -106,7 +156,7 @@
 
     </div>
 
-    <div class="card-footer text-muted small text-center">
+    <div class="card-footer">
         POS Management System
     </div>
 

@@ -11,43 +11,90 @@
 
     <style>
         body {
-            background-color: #f1f3f6;
+            margin: 0;
             min-height: 100vh;
+            background-color: #f1f3f6;
             font-family: "Segoe UI", sans-serif;
+            padding: 30px;
         }
 
         .card {
-            border-radius: 12px;
             border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
         }
 
         .card-header {
             background-color: #1e272e;
             color: #ffffff;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
+            text-align: center;
+            padding: 25px;
         }
 
-        table th {
+        .card-header h5 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .card-body {
+            background-color: #ffffff;
+            padding: 30px;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th {
             background-color: #f8f9fa;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            vertical-align: middle;
         }
 
-        table td {
-            font-size: 0.9rem;
+        .table td {
+            font-size: 0.95rem;
+            vertical-align: middle;
+        }
+
+        .btn-warning {
+            color: #ffffff;
+        }
+
+        .btn {
+            border-radius: 8px;
+            min-width: 80px;
+        }
+
+        .alert {
+            border-radius: 8px;
+        }
+
+        .card-footer {
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .text-muted {
+            margin-top: 8px;
         }
     </style>
 </head>
 
 <body>
 
-<div class="container mt-5">
+<div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10">
-            <div class="card shadow-sm">
-                <div class="card-header text-center py-3">
-                    <h5 class="mb-0">User Management</h5>
+        <div class="col-lg-11">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <h5>User Management</h5>
                 </div>
 
                 <div class="card-body">
@@ -61,6 +108,7 @@
                     <c:if test="${not empty users}">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover text-center align-middle">
+
                                 <thead>
                                 <tr>
                                     <th>Email</th>
@@ -81,12 +129,12 @@
 
                                         <td>
                                             <div class="d-flex justify-content-center gap-2">
-                                                <a class="btn btn-sm btn-warning"
+                                                <a class="btn btn-warning btn-sm"
                                                    href="/user/get?username=${user.username}">
                                                     Edit
                                                 </a>
 
-                                                <a class="btn btn-sm btn-danger"
+                                                <a class="btn btn-danger btn-sm"
                                                    href="/user/delete?username=${user.username}"
                                                    onclick="return confirm('Are you sure you want to delete this user?');">
                                                     Delete
@@ -96,16 +144,22 @@
                                     </tr>
                                 </c:forEach>
                                 </tbody>
+
                             </table>
                         </div>
                     </c:if>
 
                 </div>
 
-                <div class="card-footer bg-light text-center">
-                    <a href="/" class="btn btn-secondary mb-2">Home</a>
-                    <div class="text-muted small">POS Management System</div>
+                <div class="card-footer">
+                    <a href="/" class="btn btn-secondary">
+                        Home
+                    </a>
+                    <div class="text-muted small">
+                        POS Management System
+                    </div>
                 </div>
+
             </div>
 
         </div>
