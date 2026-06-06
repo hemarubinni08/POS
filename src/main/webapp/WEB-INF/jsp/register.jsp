@@ -110,7 +110,14 @@
 
         <div class="mb-3">
             <label class="form-label">Password</label>
-            <form:password path="password" cssClass="form-control" required="required" minlength="6"/>
+            <form:password path="password"
+                           cssClass="form-control"
+                           required="required"
+                           pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{6,}$"/>
+            <small class="text-muted">
+                Password must contain at least 1 uppercase letter, 1 lowercase letter,
+                1 number, 1 special character, and be at least 6 characters long.
+            </small>
         </div>
 
         <button type="submit" class="btn btn-success w-100">
