@@ -96,20 +96,18 @@ button {
     <div class="error">${message}</div>
 </c:if>
 
-<c:set var="s" value="${shelf[0]}" />
-
 <form method="post" action="/shelf/update">
 
     <label>Identifier</label>
-    <input name="identifier" value="${s.identifier}" readonly />
+    <input name="identifier" value="${shelfDto.identifier}" readonly />
 
     <label>Description</label>
-    <textarea name="description">${s.description}</textarea>
+    <textarea name="description">${shelfDto.description}</textarea>
 
     <label>Status</label>
     <select name="status">
-        <option value="true" <c:if test="${s.status == true}">selected</c:if>>Active</option>
-        <option value="false" <c:if test="${s.status == false}">selected</c:if>>Inactive</option>
+        <option value="true" <c:if test="${shelfDto.status == true}">selected</c:if>>Active</option>
+        <option value="false" <c:if test="${shelfDto.status == false}">selected</c:if>>Inactive</option>
     </select>
 
     <button type="submit">Update</button>

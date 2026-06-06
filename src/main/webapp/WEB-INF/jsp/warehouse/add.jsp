@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -63,15 +63,28 @@ label {
     padding:10px;
     margin-top:6px;
     border-radius:8px;
-    border:none;
+    border:1px solid transparent;
     outline:none;
     background:rgba(255,255,255,0.1);
     color:#fff;
+    transition:border 0.3s, box-shadow 0.3s;
 }
 
 .form-control:focus {
     border:1px solid #00ffff;
     box-shadow:0 0 8px #00ffff;
+}
+
+.form-control.invalid {
+    border:1px solid #ff4d4d;
+    box-shadow:0 0 6px #ff4d4d;
+}
+
+.field-error {
+    color:#ff8080;
+    font-size:11px;
+    margin-top:3px;
+    display:none;
 }
 
 .btn-submit {
@@ -83,6 +96,7 @@ label {
     color:#000;
     font-weight:bold;
     cursor:pointer;
+    margin-top:5px;
 }
 
 .btn-submit:hover {
@@ -126,7 +140,8 @@ label {
 
 <form:form method="post"
            action="/warehouse/add"
-           modelAttribute="warehouseDto">
+           modelAttribute="warehouseDto"
+           onsubmit="return validateForm()">
 
     <div class="form-group">
         <label>Warehouse Name</label>
@@ -156,12 +171,14 @@ label {
         <label>Pincode</label>
         <form:input path="pincode"
                     cssClass="form-control"
-                    placeholder="Enter pincode"
+                    id="pincode"
+                    placeholder="Enter 5-digit pincode"
                     required="true"
-                    minlength="4"
-                    maxlength="10"
-                    pattern="[0-9]+"
-                    title="Enter valid numeric pincode"/>
+                    minlength="5"
+                    maxlength="5"
+                    pattern="[0-9]{5}"
+                    title="Pincode must be exactly 5 numeric digits"/>
+        <span class="field-error" id="pincodeError">Pincode must be exactly 5 numeric digits.</span>
     </div>
 
     <div class="form-group">
@@ -181,6 +198,33 @@ label {
 </form:form>
 
 </div>
+
+<script>
+    const pincodeInput = document.getElementById('pincode');
+    const pincodeError = document.getElementById('pincodeError');
+
+    pincodeInput.addEventListener('input', function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+
+        if (this.value.length === 5) {
+            this.classList.remove('invalid');
+            pincodeError.style.display = 'none';
+        } else {
+            this.classList.add('invalid');
+            pincodeError.style.display = 'block';
+        }
+    });
+
+    function validateForm() {
+        if (pincodeInput.value.length !== 5) {
+            pincodeInput.classList.add('invalid');
+            pincodeError.style.display = 'block';
+            pincodeInput.focus();
+            return false;
+        }
+        return true;
+    }
+</script>
 
 </body>
 </html>

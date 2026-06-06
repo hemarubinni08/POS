@@ -10,6 +10,5 @@ import java.util.List;
 @Getter
 @Setter
 public class Rack extends CommonFields {
-
     private List<String> shelfs;
 }

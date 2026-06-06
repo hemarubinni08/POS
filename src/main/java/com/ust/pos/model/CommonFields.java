@@ -13,12 +13,8 @@ import lombok.Setter;
 public class CommonFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
-
     private String identifier;
-
     private Boolean status = true;
-
     private String description;
 }

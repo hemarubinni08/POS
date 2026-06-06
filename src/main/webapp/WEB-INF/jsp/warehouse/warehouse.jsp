@@ -68,10 +68,11 @@ h4 {
     width:100%;
     padding:10px;
     border-radius:8px;
-    border:none;
+    border:1px solid transparent;
     outline:none;
     background:rgba(255,255,255,0.1);
     color:#fff;
+    transition:border 0.3s, box-shadow 0.3s;
 }
 
 .form-control:focus {
@@ -79,9 +80,21 @@ h4 {
     box-shadow:0 0 8px #00ffff;
 }
 
+.form-control.invalid {
+    border:1px solid #ff4d4d;
+    box-shadow:0 0 6px #ff4d4d;
+}
+
 input[readonly] {
     background:rgba(255,255,255,0.05);
     color:#888;
+}
+
+.field-error {
+    color:#ff8080;
+    font-size:11px;
+    margin-top:3px;
+    display:none;
 }
 
 .btn-group {
@@ -128,16 +141,15 @@ input[readonly] {
 <div class="message">${message}</div>
 
 <c:if test="${empty warehouse}">
-    <div class="alert">
-        Warehouse not found
-    </div>
+    <div class="alert">Warehouse not found</div>
 </c:if>
 
 <c:if test="${not empty warehouse}">
 
 <form:form action="/warehouse/update"
            method="post"
-           modelAttribute="warehouse">
+           modelAttribute="warehouse"
+           onsubmit="return validateForm()">
 
     <form:hidden path="id" />
 
@@ -152,21 +164,34 @@ input[readonly] {
         <label class="form-label">Country</label>
         <form:input path="country"
                     cssClass="form-control"
-                    required="true" />
+                    required="true"
+                    minlength="2"
+                    maxlength="50"
+                    pattern="[A-Za-z ]+"
+                    title="Enter valid country name" />
     </div>
 
     <div class="form-group">
         <label class="form-label">Pincode</label>
         <form:input path="pincode"
                     cssClass="form-control"
-                    required="true" />
+                    id="pincode"
+                    required="true"
+                    minlength="5"
+                    maxlength="5"
+                    pattern="[0-9]{5}"
+                    placeholder="Enter 5-digit pincode"
+                    title="Pincode must be exactly 5 numeric digits" />
+        <span class="field-error" id="pincodeError">Pincode must be exactly 5 numeric digits.</span>
     </div>
 
     <div class="form-group">
         <label class="form-label">Address</label>
         <form:input path="address"
                     cssClass="form-control"
-                    required="true" />
+                    required="true"
+                    minlength="5"
+                    maxlength="200" />
     </div>
 
     <div class="btn-group">
@@ -184,6 +209,34 @@ input[readonly] {
 
 </div>
 
+<script>
+    const pincodeInput = document.getElementById('pincode');
+    const pincodeError = document.getElementById('pincodeError');
+
+    if (pincodeInput) {
+        pincodeInput.addEventListener('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+
+            if (this.value.length === 5) {
+                this.classList.remove('invalid');
+                pincodeError.style.display = 'none';
+            } else {
+                this.classList.add('invalid');
+                pincodeError.style.display = 'block';
+            }
+        });
+    }
+
+    function validateForm() {
+        if (pincodeInput && pincodeInput.value.length !== 5) {
+            pincodeInput.classList.add('invalid');
+            pincodeError.style.display = 'block';
+            pincodeInput.focus();
+            return false;
+        }
+        return true;
+    }
+</script>
+
 </body>
 </html>
-``

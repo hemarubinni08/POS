@@ -65,10 +65,13 @@ ProductController extends BaseController {
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String identifier) {
+    public String update(Model model, @RequestParam String identifier,Pageable pageable) {
         ProductDto productDto = productService.findByIdentifier(identifier);
         model.addAttribute("category", categoryService.findBySuperCategoryNotNull());
         model.addAttribute("product", productDto);
+        model.addAttribute("brand", brandService.findAll(pageable));
+        model.addAttribute("unit", unitService.findAll(pageable));
+        model.addAttribute("model", modelProductService.findAll(pageable));
         return "product/product";
     }
 

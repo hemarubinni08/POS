@@ -21,6 +21,8 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+    public static final String SHIPPING_ADDRESS = "shippingAddress";
+    public static final String BILLING_ADDRESS = "billingAddress";
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -55,8 +57,8 @@ public class CustomerServiceImpl implements CustomerService {
         AddressDto shipAddr = customerDto.getShippingAddress();
         billAddr.setPhoneNo(customerDto.getPhoneNo());
         shipAddr.setPhoneNo(customerDto.getPhoneNo());
-        billAddr.setAddressType("billingAddress");
-        shipAddr.setAddressType("shippingAddress");
+        billAddr.setAddressType(BILLING_ADDRESS);
+        shipAddr.setAddressType(SHIPPING_ADDRESS);
         addressService.save(billAddr);
         addressService.save(shipAddr);
         Customer customer = modelMapper.map(customerDto, Customer.class);
@@ -77,13 +79,13 @@ public class CustomerServiceImpl implements CustomerService {
         AddressDto shipAddr = customerDto.getShippingAddress();
         billAddr.setPhoneNo(customerDto.getPhoneNo());
         shipAddr.setPhoneNo(customerDto.getPhoneNo());
-        billAddr.setAddressType("billingAddress");
-        shipAddr.setAddressType("shippingAddress");
+        billAddr.setAddressType(BILLING_ADDRESS);
+        shipAddr.setAddressType(SHIPPING_ADDRESS);
         addressService.update(billAddr);
         addressService.update(shipAddr);
         modelMapper.map(customerDto, existingCustomer);
-        customerDto.setBillingAddress(addressService.findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "billingAddress"));
-        customerDto.setShippingAddress(addressService.findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "shippingAddress"));
+        customerDto.setBillingAddress(addressService.findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), BILLING_ADDRESS));
+        customerDto.setShippingAddress(addressService.findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), SHIPPING_ADDRESS));
         customerRepository.save(existingCustomer);
         return customerDto;
     }

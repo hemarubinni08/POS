@@ -124,7 +124,6 @@ body {
         POS System Login
     </div>
 
-    <!-- ✅ Correct error handling -->
     <c:if test="${param.error != null}">
         <div class="alert alert-danger">
             Invalid username or password

@@ -10,8 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 public class Node extends CommonFields {
-
     private String path;
-
     private List<String> roles;
 }

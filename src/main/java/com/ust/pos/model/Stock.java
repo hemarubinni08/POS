@@ -8,12 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Stock extends CommonFields {
-
     private String productName;
-
     private Integer quantity;
-
     private String warehouseName;
-
     private String stockStatus;
 }

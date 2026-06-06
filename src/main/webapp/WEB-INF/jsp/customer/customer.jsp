@@ -152,7 +152,8 @@ hr {
 <form:input path="phoneNo"
             cssClass="form-control"
             required="true"
-            pattern="[0-9]{10}"/>
+            pattern="[0-9]{10}"
+            readonly="true"/>
 </div>
 
 <div class="form-group">
