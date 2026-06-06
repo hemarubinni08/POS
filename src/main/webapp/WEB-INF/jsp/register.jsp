@@ -128,11 +128,13 @@
     <form:form action="register" method="post" modelAttribute="userDto" onsubmit="return validateRoles()">
         <div class="form-group">
             <label>Name</label>
-            <form:input path="name"/>
+            <form:input path="name"
+            required="required"/>
         </div>
         <div class="form-group">
             <label>Email</label>
-            <form:input path="username" type="email"/>
+            <form:input path="username" type="email"
+            required="required"/>
         </div>
         <div class="form-group">
             <label>Roles <span style="color:red">*</span></label>
