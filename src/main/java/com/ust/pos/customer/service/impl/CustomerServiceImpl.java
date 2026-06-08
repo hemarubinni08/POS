@@ -5,7 +5,6 @@ import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.*;
 import com.ust.pos.model.CustomerRepository;
 import com.ust.pos.model.Customer;
-import com.ust.pos.model.Customer;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

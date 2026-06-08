@@ -1,6 +1,6 @@
-package com.ust.pos.cartEntry.service.impl;
+package com.ust.pos.cartentry.impl;
 
-import com.ust.pos.cartEntry.service.CartEntryService;
+import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.model.CartEntry;
 import com.ust.pos.model.CartEntryRepository;
@@ -62,9 +62,8 @@ public class CartEntryServiceImpl implements CartEntryService {
     public void deleteByIdentifier(String identifier) {
         CartEntry cartEntry=cartEntryRepository.findByIdentifier(identifier);
         if(cartEntry==null){
-            throw  new RuntimeException("CartEntry not found");
+            throw  new IllegalArgumentException("CartEntry not found");
         }
-        String cart= cartEntry.getCart();
         cartEntryRepository.deleteByIdentifier(identifier);
     }
 

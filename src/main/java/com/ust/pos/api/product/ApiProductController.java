@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/product")
@@ -29,7 +28,7 @@ public class ApiProductController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ProductDto Addproduct(@RequestBody ProductDto productDto) {
+    public ProductDto add(@RequestBody ProductDto productDto) {
         return productService.save(productDto);
     }
 

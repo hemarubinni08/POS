@@ -1,9 +1,7 @@
 package com.ust.pos.stock.service.impl;
 
 import com.ust.pos.dto.StockDto;
-import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Stock;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.StockService;

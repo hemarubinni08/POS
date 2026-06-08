@@ -1,7 +1,6 @@
 package com.ust.pos.api.node;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
