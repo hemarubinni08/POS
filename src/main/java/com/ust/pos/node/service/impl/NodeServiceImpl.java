@@ -33,7 +33,7 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public List<NodeDto> getNodesForRoles() {
         List<NodeDto> nodeDtos = new ArrayList<>();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();//get current logged-in user authentication object
         if (authentication != null) {
             org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
             if (principalObject != null) findNodes(principalObject, nodeDtos);
@@ -60,8 +60,8 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public NodeDto save(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
-        Node existingRole = nodeRepository.findByIdentifier(identifier);
-        if (existingRole != null) {
+        Node existingNode = nodeRepository.findByIdentifier(identifier);
+        if (existingNode != null) {
             nodeDto.setMessage("Node with identifier - " + identifier + " already exists");
             nodeDto.setSuccess(false);
             return nodeDto;

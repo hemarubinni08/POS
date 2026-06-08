@@ -167,7 +167,7 @@
             </form>
 
             <div class="extra-text">
-                Don’t have an account?
+                Don&apos;t have an account?
                 <a href="${pageContext.request.contextPath}/register">
                     Register here
                 </a>
