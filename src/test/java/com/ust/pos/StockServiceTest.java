@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.impl.StockServiceImpl;
@@ -35,6 +36,7 @@ class StockServiceTest {
 
         Stock stock = new Stock();
         StockDto dto = new StockDto();
+        Pageable pageable = Mockito.mock(Pageable.class);
 
         Page<Stock> page = new PageImpl<>(List.of(stock));
 
@@ -46,11 +48,12 @@ class StockServiceTest {
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<StockDto> result =
-                stockService.findAll(Mockito.mock(Pageable.class));
+        WsDto<StockDto> result =
+                stockService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
-    }
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void save_success() {

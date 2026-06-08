@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.ModelDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Model;
 import com.ust.pos.model.ModelRepository;
 import com.ust.pos.models.service.impl.ModelServiceImpl;
@@ -35,6 +36,8 @@ class ModelServiceTest {
 
         Model model = new Model();
         ModelDto dto = new ModelDto();
+        Pageable pageable = Mockito.mock(Pageable.class);
+
 
         Page<Model> page = new PageImpl<>(List.of(model));
 
@@ -46,11 +49,12 @@ class ModelServiceTest {
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<ModelDto> result =
-                modelService.findAll(Mockito.mock(Pageable.class));
+        WsDto<ModelDto> result =
+                modelService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
-    }
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void save_success() {

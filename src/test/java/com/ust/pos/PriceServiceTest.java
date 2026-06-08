@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.impl.PriceServiceImpl;
@@ -35,6 +36,8 @@ class PriceServiceTest {
 
         Price price = new Price();
         PriceDto dto = new PriceDto();
+        Pageable pageable = Mockito.mock(Pageable.class);
+
 
         Page<Price> page = new PageImpl<>(List.of(price));
 
@@ -46,11 +49,12 @@ class PriceServiceTest {
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<PriceDto> result =
-                priceService.findAll(Mockito.mock(Pageable.class));
+        WsDto<PriceDto> result =
+                priceService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
-    }
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void save_success() {

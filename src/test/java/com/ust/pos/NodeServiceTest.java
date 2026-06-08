@@ -1,5 +1,6 @@
 package com.ust.pos;
 
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.node.service.impl.NodeServiceImpl;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.model.*;
@@ -42,6 +43,7 @@ class NodeServiceTest {
 
         Node node = new Node();
         NodeDto dto = new NodeDto();
+        Pageable pageable = Mockito.mock(Pageable.class);
 
         Page<Node> page = new PageImpl<>(List.of(node));
 
@@ -53,11 +55,12 @@ class NodeServiceTest {
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<NodeDto> result =
-                nodeService.findAll(Mockito.mock(Pageable.class));
+        WsDto<NodeDto> result =
+                nodeService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
-    }
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void save_success() {

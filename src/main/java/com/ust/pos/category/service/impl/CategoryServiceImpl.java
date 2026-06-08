@@ -3,6 +3,9 @@ package com.ust.pos.category.service.impl;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.Category;
@@ -27,11 +30,19 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryRepository categoryRepository;
 
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
+    public WsDto<CategoryDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-        Page<Category> categoryPage=categoryRepository.findAll(pageable);
-        return modelMapper.map(categoryPage.getContent(), listType);    }
+        Page<Category> userPage = categoryRepository.findAll(pageable);
+
+        WsDto<CategoryDto> userWsDto = new WsDto<>();
+        userWsDto.setDtoList(modelMapper.map(userPage.getContent(), listType));
+        userWsDto.setTotalRecords(userPage.getTotalElements());
+        userWsDto.setTotalPages(userPage.getTotalPages());
+        userWsDto.setSizePerPage(pageable.getPageSize());
+        userWsDto.setPage(pageable.getPageNumber());
+
+        return userWsDto;   }
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {

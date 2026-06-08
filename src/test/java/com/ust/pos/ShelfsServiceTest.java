@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.ShelfsDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Shelfs;
 import com.ust.pos.model.ShelfsRepository;
 import com.ust.pos.shelfs.sevice.impl.ShelfsServiceImpl;
@@ -35,6 +36,7 @@ class ShelfsServiceTest {
 
         Shelfs shelf = new Shelfs();
         ShelfsDto dto = new ShelfsDto();
+        Pageable pageable = Mockito.mock(Pageable.class);
 
         Page<Shelfs> page = new PageImpl<>(List.of(shelf));
 
@@ -46,11 +48,12 @@ class ShelfsServiceTest {
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<ShelfsDto> result =
-                shelfsService.findAll(Mockito.mock(Pageable.class));
+        WsDto<ShelfsDto> result =
+                shelfsService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
-    }
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void findActiveStatus_success() {

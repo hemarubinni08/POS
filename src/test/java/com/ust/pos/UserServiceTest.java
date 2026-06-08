@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.impl.UserServiceImpl;
@@ -40,6 +41,8 @@ class UserServiceTest {
 
         User user = new User();
         UserDto dto = new UserDto();
+        Pageable pageable = Mockito.mock(Pageable.class);
+
 
         Page<User> page = new PageImpl<>(List.of(user));
 
@@ -51,11 +54,12 @@ class UserServiceTest {
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<UserDto> result =
-                userService.findAll(Mockito.mock(Pageable.class));
+        WsDto<UserDto> result =
+                userService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
-    }
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void findByUserName_success() {

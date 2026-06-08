@@ -1,5 +1,6 @@
 package com.ust.pos;
 
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.product.service.impl.ProductServiceImpl;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.Product;
@@ -35,6 +36,7 @@ class ProductServiceTest {
 
         Product product = new Product();
         ProductDto dto = new ProductDto();
+        Pageable pageable = Mockito.mock(Pageable.class);
 
         Page<Product> page = new PageImpl<>(List.of(product));
 
@@ -46,11 +48,12 @@ class ProductServiceTest {
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<ProductDto> result =
-                productService.findAll(Mockito.mock(Pageable.class));
+        WsDto<ProductDto> result =
+                productService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
-    }
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void save_success() {

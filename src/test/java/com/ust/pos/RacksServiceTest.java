@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.RacksDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Racks;
 import com.ust.pos.model.RacksRepository;
 import com.ust.pos.racks.service.impl.RacksServiceImpl;
@@ -35,6 +36,7 @@ class RacksServiceTest {
 
         Racks racks = new Racks();
         RacksDto dto = new RacksDto();
+        Pageable pageable = Mockito.mock(Pageable.class);
 
         Page<Racks> page = new PageImpl<>(List.of(racks));
 
@@ -46,11 +48,12 @@ class RacksServiceTest {
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<RacksDto> result =
-                racksService.findAll(Mockito.mock(Pageable.class));
+        WsDto<RacksDto> result =
+                racksService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
-    }
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void save_success() {

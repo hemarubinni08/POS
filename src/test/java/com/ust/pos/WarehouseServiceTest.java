@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.WarehouseDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.impl.WarehouseServiceImpl;
@@ -35,6 +36,7 @@ class WarehouseServiceTest {
 
         Warehouse warehouse = new Warehouse();
         WarehouseDto dto = new WarehouseDto();
+        Pageable pageable = Mockito.mock(Pageable.class);
 
         Page<Warehouse> page = new PageImpl<>(List.of(warehouse));
 
@@ -46,11 +48,12 @@ class WarehouseServiceTest {
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<WarehouseDto> result =
-                warehouseService.findAll(Mockito.mock(Pageable.class));
+        WsDto<WarehouseDto> result =
+                warehouseService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
-    }
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void save_success() {

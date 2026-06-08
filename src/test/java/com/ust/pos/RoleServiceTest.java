@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
 import com.ust.pos.role.service.impl.RoleServiceImpl;
@@ -35,6 +36,7 @@ class RoleServiceTest {
 
         Role role = new Role();
         RoleDto dto = new RoleDto();
+        Pageable pageable = Mockito.mock(Pageable.class);
 
         Page<Role> page = new PageImpl<>(List.of(role));
 
@@ -46,11 +48,12 @@ class RoleServiceTest {
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<RoleDto> result =
-                roleService.findAll(Mockito.mock(Pageable.class));
+        WsDto<RoleDto> result =
+                roleService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
-    }
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void save_success() {

@@ -2,6 +2,7 @@ package com.ust.pos;
 
 import com.ust.pos.brand.service.impl.BrandServiceImpl;
 import com.ust.pos.dto.BrandDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
 import org.junit.jupiter.api.Assertions;
@@ -36,6 +37,8 @@ class BrandServiceTest {
         Brand brand = new Brand();
         BrandDto dto = new BrandDto();
 
+        Pageable pageable = Mockito.mock(Pageable.class);
+
         Page<Brand> page = new PageImpl<>(List.of(brand));
 
         Mockito.when(brandRepository.findAll(Mockito.any(Pageable.class)))
@@ -46,9 +49,11 @@ class BrandServiceTest {
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
-        List<BrandDto> result = brandService.findAll(Mockito.mock(Pageable.class));
+        WsDto<BrandDto> result = brandService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals(1, result.getTotalRecords());
     }
 
     @Test
