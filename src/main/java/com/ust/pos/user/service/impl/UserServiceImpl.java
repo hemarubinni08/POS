@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
             return userDto;
         }
 
-        // ✅ Correct email check (your old one was wrong)
+
         if (!existingUser.getUsername().equalsIgnoreCase(userDto.getUsername())) {
             User emailCheck =
                     userRepository.findByUsername(userDto.getUsername());
