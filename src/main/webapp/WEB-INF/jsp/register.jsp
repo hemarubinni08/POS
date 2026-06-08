@@ -347,8 +347,8 @@
                 <form:password path="password"
                                placeholder="Password"
                                required="true"
-                               pattern=".{6,}"
-                               title="Minimum 6 characters required"/>
+                               pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{6,}$"
+                               title="Password must contain at least 6 characters, including one uppercase letter, one lowercase letter, and one special character"/>
 
                 <button type="submit">SIGN UP</button>
 
