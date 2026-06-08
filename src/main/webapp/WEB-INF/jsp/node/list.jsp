@@ -10,7 +10,7 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             min-height: 100vh;
         }
         .card {
@@ -21,7 +21,7 @@
             border-top-right-radius: 16px;
         }
         table th {
-            background-color: #0d6efd;
+            background-color:  #343a40;
             color: white;
         }
     </style>

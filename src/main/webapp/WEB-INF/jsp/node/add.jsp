@@ -55,6 +55,8 @@
                         <form:input path="identifier"
                                     cssClass="form-control"
                                     required="true"
+                                    pattern="[A-Za-z]+"
+                                    title="can only contain letters and spaces"
                                     placeholder="Enter Node Name" />
                     </div>
 
@@ -63,6 +65,7 @@
                         <form:input path="path"
                                     cssClass="form-control"
                                     required="true"
+                                    pattern=""
                                     placeholder="example:(/main/path)" />
                     </div>
 

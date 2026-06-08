@@ -76,7 +76,11 @@
 
         <div class="mb-3">
             <label>Name</label>
-            <form:input path="name" cssClass="form-control" required="true"/>
+            <form:input path="name"
+                        cssClass="form-control"
+                        title="Only alphabets and spaces are allowed"
+                        pattern="[A-Za-z]+"
+                        required="true"/>
             <form:errors path="name" cssClass="error"/>
         </div>
 
@@ -88,7 +92,7 @@
 
         <div class="mb-3">
             <label>Phone Number</label>
-            <form:input path="phoneNo" cssClass="form-control" required="true" pattern="[0-9]{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
+            <form:input path="phoneNo" cssClass="form-control" required="true" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
             <form:errors path="phoneNo" cssClass="error"/>
         </div>
 

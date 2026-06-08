@@ -124,7 +124,10 @@
 
         <div class="form-group">
             <label>Name</label>
-            <form:input path="name" required="required"/>
+            <form:input path="name"
+                        required="required"
+                        title="Only alphabets and spaces are allowed
+                        pattern="[A-Za-z]+"/>
         </div>
 
         <div class="form-group">
@@ -147,6 +150,7 @@
             <form:input path="phoneNo"
                         pattern="[0-9]{10}"
                         inputmode="numeric"
+                        maxlength="10"
                         required="required"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
         </div>
@@ -155,6 +159,8 @@
             <label>Password</label>
             <form:password path="password"
                            minlength="6"
+                           pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=!]).*$"
+                           title="Password must contain at least one uppercase letter, one number, and one special character"
                            required="required"/>
         </div>
 

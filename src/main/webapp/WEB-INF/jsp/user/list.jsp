@@ -49,8 +49,9 @@
                     <table class="table table-bordered table-hover align-middle text-center">
                         <thead>
                         <tr>
-                            <th>Email</th>
+                            <th>Id</th>
                             <th>Name</th>
+                            <th>Email</th>
                             <th>Phone</th>
                             <th>Roles</th>
                             <th>Actions</th>
@@ -60,8 +61,9 @@
                         <tbody>
                         <c:forEach var="user" items="${users}">
                             <tr>
-                                <td>${user.username}</td>
+                                <td>${user.id}</td>
                                 <td>${user.name}</td>
+                                <td>${user.username}</td>
                                 <td>${user.phoneNo}</td>
 
                                 <td>
