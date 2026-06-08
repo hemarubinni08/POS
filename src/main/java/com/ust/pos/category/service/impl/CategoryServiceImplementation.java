@@ -32,6 +32,7 @@ public class CategoryServiceImplementation implements CategoryService {
         if(existingcategory != null)
         {
             categoryDto.setMessage("Category with identifier - "+ identifier+ " already exists");
+            categoryDto.setSuccess(false);
             return categoryDto;
         }
         Category category = modelMapper.map(categoryDto, Category.class);
