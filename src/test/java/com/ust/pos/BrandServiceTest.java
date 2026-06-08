@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,6 +36,7 @@ class BrandServiceTest {
     private ModelMapper modelMapper;
 
     // ---------------- SAVE SUCCESS ----------------
+
     @Test
     void save_success() {
 
@@ -46,12 +48,18 @@ class BrandServiceTest {
         Brand entity = new Brand();
         Brand saved = new Brand();
 
-        when(brandRepository.findByIdentifier("Nike")).thenReturn(null);
-        when(brandRepository.save(any(Brand.class))).thenReturn(saved);
+        BrandDto responseDto = new BrandDto();
+        responseDto.setSuccess(true);
+        responseDto.setMessage("Brand added successfully");
 
-        // IMPORTANT FIX: be flexible with mapping
-        when(modelMapper.map(any(), eq(Brand.class))).thenReturn(entity);
-        when(modelMapper.map(any(), eq(BrandDto.class))).thenReturn(dto);
+        when(brandRepository.findByIdentifier("Nike"))
+                .thenReturn(null);
+
+        when(brandRepository.save(any(Brand.class)))
+                .thenReturn(saved);
+
+        when(modelMapper.map(any(Brand.class), eq(BrandDto.class)))
+                .thenReturn(responseDto);
 
         BrandDto response = brandService.save(dto);
 
@@ -60,6 +68,7 @@ class BrandServiceTest {
     }
 
     // ---------------- SAVE EMPTY ----------------
+
     @Test
     void save_failure_empty_name() {
 
@@ -73,6 +82,7 @@ class BrandServiceTest {
     }
 
     // ---------------- SAVE DUPLICATE ----------------
+
     @Test
     void save_failure_duplicate() {
 
@@ -88,7 +98,8 @@ class BrandServiceTest {
         assertEquals("Brand already exists", response.getMessage());
     }
 
-    // ---------------- UPDATE ----------------
+    // ---------------- UPDATE SUCCESS ----------------
+
     @Test
     void update_success() {
 
@@ -98,20 +109,25 @@ class BrandServiceTest {
         Brand existing = new Brand();
         existing.setIdentifier("Nike");
 
-        Brand saved = new Brand();
+        Brand updated = new Brand();
 
         BrandDto responseDto = new BrandDto();
         responseDto.setSuccess(true);
         responseDto.setMessage("Brand updated successfully");
+        responseDto.setIdentifier("Nike");
 
         when(brandRepository.findByIdentifier("Nike"))
                 .thenReturn(existing);
 
         when(brandRepository.save(any(Brand.class)))
-                .thenReturn(saved);
+                .thenReturn(updated);
 
-        // 🔥 FIX: avoid strict mismatch (IMPORTANT)
-        when(modelMapper.map(any(), eq(BrandDto.class)))
+        // DTO → ENTITY mapping (IMPORTANT)
+        doNothing().when(modelMapper)
+                .map(any(BrandDto.class), any(Brand.class));
+
+        //  ENTITY → DTO mapping
+        when(modelMapper.map(any(Brand.class), eq(BrandDto.class)))
                 .thenReturn(responseDto);
 
         BrandDto response = brandService.update(dto);
@@ -123,6 +139,7 @@ class BrandServiceTest {
     }
 
     // ---------------- UPDATE NOT FOUND ----------------
+
     @Test
     void update_failure_not_found() {
 
@@ -139,6 +156,7 @@ class BrandServiceTest {
     }
 
     // ---------------- FIND ----------------
+
     @Test
     void find_success() {
 
@@ -149,7 +167,7 @@ class BrandServiceTest {
         when(brandRepository.findByIdentifier("Nike"))
                 .thenReturn(brand);
 
-        when(modelMapper.map(any(Brand.class), eq(BrandDto.class)))
+        when(modelMapper.map(brand, BrandDto.class))
                 .thenReturn(dto);
 
         BrandDto response = brandService.findByIdentifier("Nike");
@@ -158,10 +176,9 @@ class BrandServiceTest {
     }
 
     // ---------------- DELETE ----------------
+
     @Test
     void delete_test() {
-
-        doNothing().when(brandRepository).deleteByIdentifier("Nike");
 
         brandService.delete("Nike");
 
@@ -169,6 +186,7 @@ class BrandServiceTest {
     }
 
     // ---------------- FIND ALL ----------------
+
     @Test
     void find_all() {
 
@@ -178,7 +196,7 @@ class BrandServiceTest {
         when(brandRepository.findAll(any(Pageable.class)))
                 .thenReturn(page);
 
-        when(modelMapper.map(anyList(), any()))
+        when(modelMapper.map(anyList(), any(Type.class)))
                 .thenReturn(List.of(new BrandDto()));
 
         WsDto<BrandDto> result =
@@ -189,6 +207,7 @@ class BrandServiceTest {
     }
 
     // ---------------- ACTIVE ----------------
+
     @Test
     void active_brands() {
 
@@ -207,10 +226,13 @@ class BrandServiceTest {
     }
 
     // ---------------- TOGGLE ----------------
+
     @Test
     void toggle_success() {
 
         Brand brand = new Brand();
+        brand.setIdentifier("Nike");
+        brand.setBrandName("Nike");
         brand.setStatus(false);
 
         when(brandRepository.findByIdentifier("Nike"))
@@ -219,11 +241,10 @@ class BrandServiceTest {
         when(brandRepository.save(any(Brand.class)))
                 .thenReturn(brand);
 
-        when(modelMapper.map(any(Brand.class), eq(BrandDto.class)))
-                .thenReturn(new BrandDto());
-
         BrandDto response = brandService.toggleStatus("Nike");
 
         assertTrue(response.isSuccess());
+        assertEquals("Status updated successfully", response.getMessage());
+        assertEquals("Nike", response.getIdentifier());
     }
 }

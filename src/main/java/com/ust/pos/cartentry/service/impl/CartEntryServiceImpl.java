@@ -1,7 +1,7 @@
-package com.ust.pos.cartEntry.service.impl;
+package com.ust.pos.cartentry.service.impl;
 
 import com.ust.pos.cart.service.CartService;
-import com.ust.pos.cartEntry.service.CartEntryService;
+import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.CartEntry;

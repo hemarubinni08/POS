@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
             userDto.setSuccess(false);
             return userDto;
         }
+        existingUser.setIdentifier(userDto.getUsername());
         modelMapper.map(userDto, existingUser);
         userRepository.save(existingUser);
         userDto.setSuccess(true);

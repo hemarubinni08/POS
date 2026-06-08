@@ -121,7 +121,7 @@ class RackServiceTest {
     @Test
     void find_all_null_pageable() {
         List<Rack> list = List.of(new Rack());
-        when(rackRepository.findAll(Mockito.<Pageable>nullable(Pageable.class))).
+        when(rackRepository.findAll(Mockito.nullable(Pageable.class))).
                 thenReturn(new PageImpl<>(list));
         when(modelMapper.map(eq(list), ArgumentMatchers.<Type>any()))
                 .thenReturn(List.of(new RackDto()));
@@ -132,7 +132,7 @@ class RackServiceTest {
     @Test
     void active_racks() {
         List<Rack> list = List.of(new Rack(), new Rack());
-        when(rackRepository.findAll(Mockito.<Pageable>nullable(Pageable.class)))
+        when(rackRepository.findAll(Mockito.nullable(Pageable.class)))
                 .thenReturn(new PageImpl<>(list));
         RackDto active = new RackDto();
         active.setStatus(true);
