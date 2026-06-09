@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public PaginationResponseDto<CategoryDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<ProductDto>>() {
+        Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
         PaginationResponseDto<CategoryDto> categoryPaginationResponseDto = new PaginationResponseDto<>();

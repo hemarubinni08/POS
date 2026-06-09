@@ -23,6 +23,11 @@ public class UserApiController extends BaseController {
         return userService.findAll(pageable);
     }
 
+    @PostMapping("/add")
+    public UserDto add(@RequestBody UserDto userDto) {
+        return userService.save(userDto);
+    }
+
     @GetMapping("/get")
     public UserDto update(@RequestParam String username) {
         return userService.findByUserName(username);
@@ -34,9 +39,9 @@ public class UserApiController extends BaseController {
     }
 
     @GetMapping("/delete")
-    public boolean delete(@RequestParam String username) {
+    public boolean delete(@RequestParam String identifier) {
         try {
-            userService.delete(username);
+            userService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
@@ -48,4 +53,3 @@ public class UserApiController extends BaseController {
         return userService.save(userDto);
     }
 }
-

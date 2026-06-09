@@ -11,7 +11,7 @@ public interface UserService {
 
     UserDto update(UserDto userDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
     PaginationResponseDto<UserDto> findAll(Pageable pageable);
 }

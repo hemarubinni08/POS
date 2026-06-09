@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto save(UserDto userDto) {
         String username = userDto.getUsername();
+        userDto.setIdentifier(username);
         User existingUser = userRepository.findByUsername(username);
         if (existingUser != null) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
@@ -75,8 +76,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String username) {
-        userRepository.deleteByUsername(username);
+    public void delete(String identifier) {
+        userRepository.deleteByUsername(identifier);
     }
 
     @Override

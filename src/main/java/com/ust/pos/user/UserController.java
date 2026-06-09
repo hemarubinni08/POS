@@ -51,12 +51,12 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam String username) {
+    public String delete(Model model, @RequestParam String identifier) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String loggedInUser = authentication.getName();
-            userService.delete(username);
-            if (loggedInUser.equals(username)) {
+            userService.delete(identifier);
+            if (loggedInUser.equals(identifier)) {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";
             }

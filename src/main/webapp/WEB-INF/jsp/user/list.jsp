@@ -181,14 +181,14 @@
                                 <td>${user.phoneNo}</td>
                                 <td>${user.roles}</td>
                                 <td>
-                                    <a href="/user/get?username=${user.username}"
+                                    <a href="/user/get?identifier=${user.identifier}"
                                        class="btn-edit btn-icon"
                                        title="Edit User">
                                        <i class="fa-solid fa-pen"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="/user/delete?username=${user.username}"
+                                    <a href="/user/delete?identifier=${user.identifier}"
                                        class="btn-delete btn-icon"
                                        title="Delete User"
                                        onclick="return confirm('Are you sure you want to delete this user?');">
