@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Node;
 import com.ust.pos.modell.NodeRepository;
 import com.ust.pos.modell.User;
@@ -103,18 +104,45 @@ class NodeServiceTest {
 
     @Test
     void findAllTest() {
+
+        // ✅ Arrange
         Node node = new Node();
         node.setIdentifier("Admin");
+
         NodeDto nodeDto = new NodeDto();
         nodeDto.setIdentifier("Admin");
+
         List<Node> nodes = List.of(node);
         List<NodeDto> nodeDtos = List.of(nodeDto);
-        Page<Node> nodePage = new PageImpl<>(nodes, PageRequest.of(0, 2), nodes.size());
+
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Page<Node> nodePage = new PageImpl<>(nodes, pageable, nodes.size());
+
         Mockito.when(nodeRepository.findAll(pageable)).thenReturn(nodePage);
-        Mockito.when(modelMapper.map(Mockito.eq(nodes), Mockito.any(java.lang.reflect.Type.class))).thenReturn(nodeDtos);
-        List<NodeDto> response = nodeService.findAll(pageable);
-        Assertions.assertEquals(1, response.size());
+
+        // ✅ IMPORTANT: Mock TypeToken list mapping
+        Mockito.when(modelMapper.map(
+                        Mockito.eq(nodes),
+                        Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(nodeDtos);
+
+        // ✅ Act
+        WsDto<NodeDto> response = nodeService.findAll(pageable);
+
+        // ✅ Assert
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPage());
+        Assertions.assertEquals(50, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
+
+        // ✅ Verify
+        Mockito.verify(nodeRepository, Mockito.times(1)).findAll(pageable);
+        Mockito.verify(modelMapper, Mockito.times(1))
+                .map(Mockito.eq(nodes), Mockito.any(java.lang.reflect.Type.class));
     }
 
     @Test

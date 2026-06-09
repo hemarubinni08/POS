@@ -2,6 +2,7 @@ package com.ust.pos;
 
 import com.ust.pos.category.service.impl.CategoryServiceImpl;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Category;
 import com.ust.pos.modell.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -13,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -189,18 +191,45 @@ class CategoryServiceTest {
 
     @Test
     void findAllTest() {
+
+        // ✅ Arrange
         Category category = new Category();
         category.setIdentifier("Admin");
+
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setIdentifier("Admin");
+
         List<Category> categories = List.of(category);
         List<CategoryDto> categoryDtos = List.of(categoryDto);
-        Page<Category> categoryPage = new PageImpl<>(categories, PageRequest.of(0, 2), categories.size());
+
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Page<Category> categoryPage = new PageImpl<>(categories, pageable, categories.size());
+
         Mockito.when(categoryRepository.findAll(pageable)).thenReturn(categoryPage);
-        Mockito.when(modelMapper.map(Mockito.eq(categories), Mockito.any(java.lang.reflect.Type.class))).thenReturn(categoryDtos);
-        List<CategoryDto> response = categoryService.findAll(pageable);
-        Assertions.assertEquals(1, response.size());
+
+        // ✅ IMPORTANT: Mock TypeToken list mapping
+        Mockito.when(modelMapper.map(
+                        Mockito.eq(categories),
+                        Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(categoryDtos);
+
+        // ✅ Act
+        WsDto<CategoryDto> response = categoryService.findAll(pageable);
+
+        // ✅ Assert
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPage());
+        Assertions.assertEquals(50, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
+
+        // ✅ Verify
+        Mockito.verify(categoryRepository, Mockito.times(1)).findAll(pageable);
+        Mockito.verify(modelMapper, Mockito.times(1))
+                .map(Mockito.eq(categories), Mockito.any(java.lang.reflect.Type.class));
     }
 
     @Test

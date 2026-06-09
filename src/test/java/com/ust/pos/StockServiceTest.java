@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Stock;
 import com.ust.pos.modell.StockRepository;
 import com.ust.pos.stock.service.impl.StockServiceImpl;
@@ -13,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -128,17 +130,43 @@ class StockServiceTest {
 
     @Test
     void findAllTest() {
+
+        // ✅ Arrange
         Stock stock = new Stock();
         stock.setIdentifier("STK-P1-W1");
+
         StockDto stockDto = new StockDto();
         stockDto.setIdentifier("STK-P1-W1");
+
         List<Stock> stocks = List.of(stock);
         List<StockDto> stockDtos = List.of(stockDto);
-        Page<Stock> stockPage = new PageImpl<>(stocks, PageRequest.of(0, 2), stocks.size());
+
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Page<Stock> stockPage = new PageImpl<>(stocks, pageable, stocks.size());
+
         Mockito.when(stockRepository.findAll(pageable)).thenReturn(stockPage);
-        Mockito.when(modelMapper.map(Mockito.eq(stocks), Mockito.any(java.lang.reflect.Type.class))).thenReturn(stockDtos);
-        List<StockDto> response = stockService.findAll(pageable);
-        Assertions.assertEquals(1, response.size());
+
+        // ✅ IMPORTANT: Mock TypeToken list mapping
+        Mockito.when(modelMapper.map(Mockito.eq(stocks), Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(stockDtos);
+
+        // ✅ Act
+        WsDto<StockDto> response = stockService.findAll(pageable);
+
+        // ✅ Assert
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("STK-P1-W1", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPage());
+        Assertions.assertEquals(50, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
+
+        // ✅ Verify
+        Mockito.verify(stockRepository, Mockito.times(1)).findAll(pageable);
+        Mockito.verify(modelMapper, Mockito.times(1))
+                .map(Mockito.eq(stocks), Mockito.any(java.lang.reflect.Type.class));
     }
+
 }

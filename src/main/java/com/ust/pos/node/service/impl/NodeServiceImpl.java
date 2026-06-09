@@ -1,11 +1,9 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Node;
 import com.ust.pos.modell.NodeRepository;
-import com.ust.pos.modell.User;
 import com.ust.pos.modell.UserRepository;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;

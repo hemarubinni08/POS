@@ -4,6 +4,7 @@ import com.ust.pos.address.service.AddressService;
 import com.ust.pos.customer.service.impl.CustomerServiceImpl;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Customer;
 import com.ust.pos.modell.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
@@ -16,6 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -152,19 +154,47 @@ class CustomerServiceTest {
 
     @Test
     void findAllTest() {
-        Customer customer1 = new Customer();
-        customer1.setIdentifier("Admin");
-        CustomerDto customerDto1 = new CustomerDto();
-        customerDto1.setIdentifier("Admin");
-        List<Customer> customers = List.of(customer1);
-        List<CustomerDto> customerDtos = List.of(customerDto1);
-        Page<Customer> customerPage = new PageImpl<>(customers, PageRequest.of(0, 2), customers.size());
+
+        // ✅ Arrange
+        Customer customer = new Customer();
+        customer.setIdentifier("Admin");
+
+        CustomerDto customerDto = new CustomerDto();
+        customerDto.setIdentifier("Admin");
+
+        List<Customer> customers = List.of(customer);
+        List<CustomerDto> customerDtos = List.of(customerDto);
+
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Page<Customer> customerPage = new PageImpl<>(customers, pageable, customers.size());
+
         Mockito.when(customerRepository.findAll(pageable)).thenReturn(customerPage);
-        Mockito.when(modelMapper.map(Mockito.eq(customers), Mockito.any(java.lang.reflect.Type.class))).thenReturn(customerDtos);
-        List<CustomerDto> response = customerService.findAll(pageable);
-        Assertions.assertEquals(1, response.size());
+
+        // ✅ IMPORTANT: Mock TypeToken list mapping
+        Mockito.when(modelMapper.map(
+                        Mockito.eq(customers),
+                        Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(customerDtos);
+
+        // ✅ Act
+        WsDto<CustomerDto> response = customerService.findAll(pageable);
+
+        // ✅ Assert
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPage());
+        Assertions.assertEquals(50, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
+
+        // ✅ Verify
+        Mockito.verify(customerRepository, Mockito.times(1)).findAll(pageable);
+        Mockito.verify(modelMapper, Mockito.times(1))
+                .map(Mockito.eq(customers), Mockito.any(java.lang.reflect.Type.class));
     }
+
 
     @Test
     void toggleStatusTest() {

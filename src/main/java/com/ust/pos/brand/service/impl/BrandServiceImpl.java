@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -70,7 +71,8 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public WsDto<BrandDto> findAll(Pageable pageable) {
 
-        Type listType = new TypeToken<List<BrandDto>>() {}.getType();
+        Type listType = new TypeToken<List<BrandDto>>() {
+        }.getType();
 
         Page<Brand> brandPage = brandRepository.findAll(pageable);
 

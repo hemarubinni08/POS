@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Product;
 import com.ust.pos.modell.ProductRepository;
 import com.ust.pos.product.service.impl.ProductServiceImpl;
@@ -94,19 +95,45 @@ class ProductServiceTest {
 
     @Test
     void findAllTest() {
+
+        // ✅ Arrange
         Product product = new Product();
         product.setIdentifier("Admin");
+
         ProductDto productDto = new ProductDto();
         productDto.setIdentifier("Admin");
+
         List<Product> products = List.of(product);
         List<ProductDto> productDtos = List.of(productDto);
 
-        Page<Product> productPage = new PageImpl<>(products, PageRequest.of(0, 2), products.size());
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Page<Product> productPage = new PageImpl<>(products, pageable, products.size());
+
         Mockito.when(productRepository.findAll(pageable)).thenReturn(productPage);
-        Mockito.when(modelMapper.map(Mockito.eq(products), Mockito.any(java.lang.reflect.Type.class))).thenReturn(productDtos);
-        List<ProductDto> response = productService.findAll(pageable);
-        Assertions.assertEquals(1, response.size());
+
+        // ✅ IMPORTANT: Mock TypeToken list mapping
+        Mockito.when(modelMapper.map(
+                        Mockito.eq(products),
+                        Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(productDtos);
+
+        // ✅ Act
+        WsDto<ProductDto> response = productService.findAll(pageable);
+
+        // ✅ Assert
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPage());
+        Assertions.assertEquals(50, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
+
+        // ✅ Verify
+        Mockito.verify(productRepository, Mockito.times(1)).findAll(pageable);
+        Mockito.verify(modelMapper, Mockito.times(1))
+                .map(Mockito.eq(products), Mockito.any(java.lang.reflect.Type.class));
     }
 
     @Test

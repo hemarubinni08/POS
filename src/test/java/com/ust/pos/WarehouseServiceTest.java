@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.WarehouseDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Warehouse;
 import com.ust.pos.modell.WarehouseRepository;
 import com.ust.pos.warehouse.service.impl.WarehouseServiceImpl;
@@ -13,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,18 +162,45 @@ class WarehouseServiceTest {
 
     @Test
     void findAllTest() {
+
+        // ✅ Arrange
         Warehouse warehouse = new Warehouse();
         warehouse.setIdentifier("Admin");
+
         WarehouseDto warehouseDto = new WarehouseDto();
         warehouseDto.setIdentifier("Admin");
+
         List<Warehouse> warehouses = List.of(warehouse);
         List<WarehouseDto> warehouseDtos = List.of(warehouseDto);
-        Page<Warehouse> warehousePage = new PageImpl<>(warehouses, PageRequest.of(0, 2), warehouses.size());
+
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Page<Warehouse> warehousePage = new PageImpl<>(warehouses, pageable, warehouses.size());
+
         Mockito.when(warehouseRepository.findAll(pageable)).thenReturn(warehousePage);
-        Mockito.when(modelMapper.map(Mockito.eq(warehouses), Mockito.any(java.lang.reflect.Type.class))).thenReturn(warehouseDtos);
-        List<WarehouseDto> response = warehouseService.findAll(pageable);
-        Assertions.assertEquals(1, response.size());
+
+        // ✅ IMPORTANT: Mock TypeToken list mapping
+        Mockito.when(modelMapper.map(
+                        Mockito.eq(warehouses),
+                        Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(warehouseDtos);
+
+        // ✅ Act
+        WsDto<WarehouseDto> response = warehouseService.findAll(pageable);
+
+        // ✅ Assert
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPage());
+        Assertions.assertEquals(50, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
+
+        // ✅ Verify
+        Mockito.verify(warehouseRepository, Mockito.times(1)).findAll(pageable);
+        Mockito.verify(modelMapper, Mockito.times(1))
+                .map(Mockito.eq(warehouses), Mockito.any(java.lang.reflect.Type.class));
     }
 
 }

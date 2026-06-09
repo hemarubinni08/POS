@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/cart")
 public class ApiCartController extends BaseController {
@@ -32,10 +30,8 @@ public class ApiCartController extends BaseController {
     public CartDto addToCart(@RequestBody CartEntryDto cartEntryDto) {
 
         cartEntryService.save(cartEntryDto);
-        // ✅ force recalculation (important)
-        CartDto cart = cartService.findByIdentifier(cartEntryDto.getCartIdentifier());
+        return cartService.findByIdentifier(cartEntryDto.getCartIdentifier());
 
-        return cart;
     }
 
     @PostMapping("/list")
@@ -64,12 +60,6 @@ public class ApiCartController extends BaseController {
         } catch (Exception e) {
             return false;
         }
-    }
-
-    @GetMapping("/clear")
-    public CartDto clearCart(@RequestParam String cartIdentifier) {
-        cartService.clearCart(cartIdentifier);
-        return cartService.findByIdentifier(cartIdentifier);
     }
 
 }

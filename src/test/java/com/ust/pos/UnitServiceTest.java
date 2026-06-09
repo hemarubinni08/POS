@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Unit;
 import com.ust.pos.modell.UnitRepository;
 import com.ust.pos.unit.service.impl.UnitServiceImpl;
@@ -13,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,19 +95,46 @@ class UnitServiceTest {
 
     @Test
     void findAllTest() {
+
+        // ✅ Arrange
         Unit unit = new Unit();
         unit.setIdentifier("Admin");
+
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("Admin");
+
         List<Unit> units = List.of(unit);
         List<UnitDto> unitDtos = List.of(unitDto);
-        Page<Unit> unitPage = new PageImpl<>(units, PageRequest.of(0, 2), units.size());
+
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+
+        Page<Unit> unitPage = new PageImpl<>(units, pageable, units.size());
+
         Mockito.when(unitRepository.findAll(pageable)).thenReturn(unitPage);
-        Mockito.when(modelMapper.map(Mockito.eq(units), Mockito.any(java.lang.reflect.Type.class))).thenReturn(unitDtos);
-        List<UnitDto> response = unitService.findAll(pageable);
-        Assertions.assertEquals(1, response.size());
+
+        // ✅ IMPORTANT: Mock List mapping (TypeToken case)
+        Mockito.when(modelMapper.map(Mockito.eq(units), Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(unitDtos);
+
+        // ✅ Act
+        WsDto<UnitDto> response = unitService.findAll(pageable);
+
+        // ✅ Assert
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPage());
+        Assertions.assertEquals(50, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
+
+        // ✅ Verify
+        Mockito.verify(unitRepository, Mockito.times(1)).findAll(pageable);
+        Mockito.verify(modelMapper, Mockito.times(1))
+                .map(Mockito.eq(units), Mockito.any(java.lang.reflect.Type.class));
     }
+
 
     @Test
     void toggleStatus_trueToFalse() {

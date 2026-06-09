@@ -3,7 +3,6 @@ package com.ust.pos.api.product;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
-import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,7 @@ public class ApiProductController extends BaseController {
 
     @PostMapping("/toggle-status")
     public ProductDto toggle(@RequestParam String identifier) {
-        return  productService.toggleStatus(identifier);
+        return productService.toggleStatus(identifier);
     }
 
     @GetMapping("/findallactive")

@@ -40,24 +40,25 @@ public class PriceServiceImpl implements PriceService {
         Price existingPrice = priceRepository.findByIdentifier(identifier);
 
         if (existingPrice != null) {
-            priceDto.setMessage("Price already exists for product + type");
+            priceDto.setMessage("Price already exists for product and type");
             priceDto.setSuccess(false);
             return priceDto;
         }
 
         Price price = modelMapper.map(priceDto, Price.class);
         price.setIdentifier(identifier);
+        Price saved = priceRepository.save(price);
+        PriceDto response = modelMapper.map(saved, PriceDto.class);
+        response.setSuccess(true);
+        response.setMessage("Price saved successfully");
 
-        priceRepository.save(price);
-
-        priceDto.setSuccess(true);
-        return priceDto;
+        return response;
     }
 
     @Override
     public PriceDto update(PriceDto priceDto) {
 
-        // ✅ STEP 1: Find existing using OLD identifier
+        // ✅ STEP 1: Find existing
         Price existingPrice = priceRepository.findByIdentifier(priceDto.getIdentifier());
 
         if (existingPrice == null) {
@@ -66,8 +67,8 @@ public class PriceServiceImpl implements PriceService {
             return priceDto;
         }
 
-        // ✅ STEP 2: Generate NEW identifier
-        String newIdentifier =  priceDto.getProduct() + "-" + priceDto.getType();
+        // ✅ STEP 2: Generate new identifier
+        String newIdentifier = priceDto.getProduct() + "-" + priceDto.getType();
 
         // ✅ STEP 3: Check duplicate
         Price duplicate = priceRepository.findByIdentifier(newIdentifier);
@@ -78,17 +79,20 @@ public class PriceServiceImpl implements PriceService {
             return priceDto;
         }
 
-        // ✅ STEP 4: Update values
+        // ✅ STEP 4: Update fields
         existingPrice.setProduct(priceDto.getProduct());
-        existingPrice.setPrice(priceDto.getPrice());
+        existingPrice.setPriceAmount(priceDto.getPriceAmount()); // ✅ FIXED
         existingPrice.setType(priceDto.getType());
         existingPrice.setIdentifier(newIdentifier);
 
-        priceRepository.save(existingPrice);
+        Price updated = priceRepository.save(existingPrice);
 
-        return modelMapper.map(existingPrice,PriceDto.class);
+        PriceDto response = modelMapper.map(updated, PriceDto.class);
+        response.setSuccess(true);
+        response.setMessage("Price updated successfully");
+
+        return response;
     }
-
 
     @Override
     @Transactional
@@ -98,8 +102,8 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public WsDto<PriceDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<PriceDto>>() {
-        }.getType();
+
+        Type listType = new TypeToken<List<PriceDto>>() {}.getType();
         Page<Price> pricePage = priceRepository.findAll(pageable);
 
         WsDto<PriceDto> priceWsDto = new WsDto<>();

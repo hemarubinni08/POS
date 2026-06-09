@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
@@ -100,7 +101,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public WsDto<CategoryDto> findAll(Pageable pageable) {
 
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
 
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
 

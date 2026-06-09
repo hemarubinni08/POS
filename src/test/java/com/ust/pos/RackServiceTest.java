@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.RackDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Rack;
 import com.ust.pos.modell.RackRepository;
 import com.ust.pos.rack.service.impl.RackServiceImpl;
@@ -97,18 +98,45 @@ class RackServiceTest {
 
     @Test
     void findAllTest() {
+
+        // ✅ Arrange
         Rack rack = new Rack();
         rack.setIdentifier("Admin");
+
         RackDto rackDto = new RackDto();
         rackDto.setIdentifier("Admin");
+
         List<Rack> racks = List.of(rack);
         List<RackDto> rackDtos = List.of(rackDto);
-        Page<Rack> rackPage = new PageImpl<>(racks, PageRequest.of(0, 2), racks.size());
+
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Page<Rack> rackPage = new PageImpl<>(racks, pageable, racks.size());
+
         Mockito.when(rackRepository.findAll(pageable)).thenReturn(rackPage);
-        Mockito.when(modelMapper.map(Mockito.eq(racks), Mockito.any(java.lang.reflect.Type.class))).thenReturn(rackDtos);
-        List<RackDto> response = rackService.findAll(pageable);
-        Assertions.assertEquals(1, response.size());
+
+        // ✅ IMPORTANT: Mock TypeToken list mapping
+        Mockito.when(modelMapper.map(
+                        Mockito.eq(racks),
+                        Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(rackDtos);
+
+        // ✅ Act
+        WsDto<RackDto> response = rackService.findAll(pageable);
+
+        // ✅ Assert
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPage());
+        Assertions.assertEquals(50, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
+
+        // ✅ Verify
+        Mockito.verify(rackRepository, Mockito.times(1)).findAll(pageable);
+        Mockito.verify(modelMapper, Mockito.times(1))
+                .map(Mockito.eq(racks), Mockito.any(java.lang.reflect.Type.class));
     }
 
     @Test

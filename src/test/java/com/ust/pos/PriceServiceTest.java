@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Price;
 import com.ust.pos.modell.PriceRepository;
 import com.ust.pos.price.service.impl.PriceServiceImpl;
@@ -87,18 +88,45 @@ class PriceServiceTest {
 
     @Test
     void findAllTest() {
+
+        // ✅ Arrange
         Price price = new Price();
         price.setIdentifier("Admin");
+
         PriceDto priceDto = new PriceDto();
         priceDto.setIdentifier("Admin");
+
         List<Price> prices = List.of(price);
         List<PriceDto> priceDtos = List.of(priceDto);
-        Page<Price> pricePage = new PageImpl<>(prices, PageRequest.of(0, 2), prices.size());
+
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Page<Price> pricePage = new PageImpl<>(prices, pageable, prices.size());
+
         Mockito.when(priceRepository.findAll(pageable)).thenReturn(pricePage);
-        Mockito.when(modelMapper.map(Mockito.eq(prices), Mockito.any(java.lang.reflect.Type.class))).thenReturn(priceDtos);
-        List<PriceDto> response = priceService.findAll(pageable);
-        Assertions.assertEquals(1, response.size());
+
+        // ✅ IMPORTANT: Mock TypeToken list mapping
+        Mockito.when(modelMapper.map(
+                        Mockito.eq(prices),
+                        Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(priceDtos);
+
+        // ✅ Act
+        WsDto<PriceDto> response = priceService.findAll(pageable);
+
+        // ✅ Assert
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPage());
+        Assertions.assertEquals(50, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
+
+        // ✅ Verify
+        Mockito.verify(priceRepository, Mockito.times(1)).findAll(pageable);
+        Mockito.verify(modelMapper, Mockito.times(1))
+                .map(Mockito.eq(prices), Mockito.any(java.lang.reflect.Type.class));
     }
 }
 

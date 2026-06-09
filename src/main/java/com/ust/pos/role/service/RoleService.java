@@ -1,7 +1,5 @@
 package com.ust.pos.role.service;
 
-import com.ust.pos.dto.ProductDto;
-import com.ust.pos.dto.RackDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;

@@ -4,11 +4,9 @@ import com.ust.pos.cart.service.CartService;
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.CartEntry;
 import com.ust.pos.modell.CartEntryRepository;
-import com.ust.pos.modell.User;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -36,34 +34,63 @@ public class CartEntryServiceImpl implements CartEntryService {
     @Autowired
     private CartService cartService;
 
-
+    /**
+     * ✅ ADD / UPDATE CART ENTRY
+     */
     @Override
     public CartEntryDto save(CartEntryDto dto) {
+
         String productId = dto.getProductIdentifier();
         String cartId = dto.getCartIdentifier();
         int qty = dto.getQuantity();
+
+        // ✅ Validation
         if (productId == null || productId.isBlank()) {
-            throw new RuntimeException("Product identifier is missing");
+            throw new IllegalArgumentException("Product identifier is missing");
         }
+
+        if (qty <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
+
         String identifier = cartId + "-" + productId;
+
+        // ✅ Fetch prices
         PriceDto selling = priceService.findByIdentifier(productId + "-SELLING");
         PriceDto mrp = priceService.findByIdentifier(productId + "-MRP");
+
         if (selling == null && mrp == null) {
-            throw new RuntimeException("Price not configured for product: " + productId);
+            throw new IllegalArgumentException("Price not configured for product: " + productId);
         }
+
+        // ✅ Determine unit price
         BigDecimal unitPrice;
         BigDecimal discount = BigDecimal.ZERO;
+
         if (selling != null) {
-            unitPrice = selling.getPrice();
+            unitPrice = selling.getPriceAmount();
         } else {
-            unitPrice = mrp.getPrice();
+            unitPrice = mrp.getPriceAmount();
         }
+
+        // ✅ Calculate discount safely
         if (selling != null && mrp != null) {
-            BigDecimal mrpPrice = mrp.getPrice();
-            BigDecimal sellingPrice = selling.getPrice();
-            discount = mrpPrice.subtract(sellingPrice);
+            BigDecimal mrpPrice = mrp.getPriceAmount();
+            BigDecimal sellingPrice = selling.getPriceAmount();
+
+            if (mrpPrice != null && sellingPrice != null) {
+                discount = mrpPrice.subtract(sellingPrice);
+            }
         }
+
+        // ✅ Prevent null price issues
+        if (unitPrice == null) {
+            unitPrice = BigDecimal.ZERO;
+        }
+
+        // ✅ Fetch existing entry
         CartEntry entry = cartEntryRepository.findByIdentifier(identifier);
+
         if (entry == null) {
             entry = new CartEntry();
             entry.setIdentifier(identifier);
@@ -71,38 +98,41 @@ public class CartEntryServiceImpl implements CartEntryService {
             entry.setCartIdentifier(cartId);
             entry.setQuantity(0);
         }
+
         int updatedQty = entry.getQuantity() + qty;
         entry.setQuantity(updatedQty);
         entry.setUnitPrice(unitPrice);
         entry.setTotalPrice(unitPrice.multiply(BigDecimal.valueOf(updatedQty)));
-        entry.setDiscount(discount);
+        entry.setDiscount(discount.max(BigDecimal.ZERO));
+        CartEntry saved = cartEntryRepository.save(entry);
 
-        cartEntryRepository.save(entry);
+        return modelMapper.map(saved, CartEntryDto.class);
+    }
+
+    @Override
+    public CartEntryDto findByIdentifier(String identifier) {
+
+        CartEntry entry = cartEntryRepository.findByIdentifier(identifier);
+
+        if (entry == null) {
+            return null;
+        }
 
         return modelMapper.map(entry, CartEntryDto.class);
     }
 
     @Override
-    public CartEntryDto findByIdentifier(String identifier) {
-        return modelMapper.map(
-                cartEntryRepository.findByIdentifier(identifier),
-                CartEntryDto.class
-        );
-    }
-
-    @Override
     public WsDto<CartEntryDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<CartEntryDto>>() {
-        }.getType();
+
+        Type listType = new TypeToken<List<CartEntryDto>>() {}.getType();
         Page<CartEntry> cartEntryPage = cartEntryRepository.findAll(pageable);
+        WsDto<CartEntryDto> response = new WsDto<>();
+        response.setDtoList(modelMapper.map(cartEntryPage.getContent(), listType));
+        response.setTotalRecords(cartEntryPage.getTotalElements());
+        response.setTotalPage(cartEntryPage.getTotalPages());
+        response.setSizePerPage(pageable.getPageSize());
+        response.setPage(pageable.getPageNumber());
 
-        WsDto<CartEntryDto> cartEntryWsDto = new WsDto<>();
-        cartEntryWsDto.setDtoList(modelMapper.map(cartEntryPage.getContent(), listType));
-        cartEntryWsDto.setTotalRecords(cartEntryPage.getTotalElements());
-        cartEntryWsDto.setTotalPage(cartEntryPage.getTotalPages());
-        cartEntryWsDto.setSizePerPage(pageable.getPageSize());
-        cartEntryWsDto.setPage(pageable.getPageNumber());
-
-        return cartEntryWsDto;
+        return response;
     }
 }
