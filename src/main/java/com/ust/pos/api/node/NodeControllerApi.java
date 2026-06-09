@@ -29,6 +29,11 @@ public class NodeControllerApi extends BaseController {
         return nodeService.findAll();
     }
 
+    @GetMapping("/menu")
+    public List<NodeDto> menu() {
+        return nodeService.getNodesForRoles();
+    }
+
     @PostMapping("/list")
     public WsDto<NodeDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
