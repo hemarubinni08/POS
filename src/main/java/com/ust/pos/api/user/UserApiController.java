@@ -13,8 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/user")
 public class UserApiController extends BaseController {
@@ -24,30 +22,19 @@ public class UserApiController extends BaseController {
     @Autowired
     private RoleService roleService;
 
-    @PostMapping("/register")
-    public UserDto registerUser(@RequestBody UserDto userDto){
-
-        if(userService.findByUserName(userDto.getUsername())==null){
-            return userService.save(userDto);
-        }
-        return userDto;
-    }
-
-    @PostMapping("/add")
-    public UserDto addUser(@RequestBody UserDto userDto){
-
-        if(userService.findByUserName(userDto.getUsername())==null){
-            return userService.save(userDto);
-        }
-        return userDto;
+    @PostMapping({"/register", "/add"})
+    public UserDto saveUser(@RequestBody UserDto userDto) {
+        return userService.save(userDto);
     }
 
     @PostMapping("/list")
     public PaginationResponseDto<UserDto> home(@RequestBody PaginationDto paginationDto) {
-
-        Pageable pageable = getPageable(paginationDto.getPage(),
+        Pageable pageable = getPageable(
+                paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
-                paginationDto.getSortDirection(), paginationDto.getSortField());
+                paginationDto.getSortDirection(),
+                paginationDto.getSortField()
+        );
         return userService.findAll(pageable);
     }
 
@@ -70,7 +57,6 @@ public class UserApiController extends BaseController {
                 userService.delete(username);
                 if (loggedInUser.equals(username)) {
                     SecurityContextHolder.clearContext();
-                    return true;
                 }
                 return true;
             }

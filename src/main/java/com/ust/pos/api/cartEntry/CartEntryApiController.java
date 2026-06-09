@@ -42,7 +42,6 @@ public class CartEntryApiController extends BaseController {
             cartEntryService.delete(cartId,product);
             return true;
         } catch (Exception e) {
-            System.out.println(e);
             return false;
         }
     }
