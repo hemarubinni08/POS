@@ -1,4 +1,4 @@
-package com.ust.pos.cartentry.impl;
+package com.ust.pos.cartentry.service.impl;
 
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
