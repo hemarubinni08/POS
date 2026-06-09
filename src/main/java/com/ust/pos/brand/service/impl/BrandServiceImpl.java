@@ -2,11 +2,9 @@ package com.ust.pos.brand.service.impl;
 
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
-import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PageDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
-import com.ust.pos.model.Category;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -63,7 +61,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public PageDto<BrandDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<CategoryDto>>() {
+        Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
         Page<Brand> brandPage = brandRepository.findAll(pageable);
         PageDto<BrandDto> pageDto = new PageDto<>();

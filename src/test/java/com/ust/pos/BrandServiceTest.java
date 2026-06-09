@@ -2,6 +2,7 @@ package com.ust.pos;
 
 import com.ust.pos.brand.service.impl.BrandServiceImpl;
 import com.ust.pos.dto.BrandDto;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
 import org.junit.jupiter.api.Assertions;
@@ -12,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -142,6 +144,7 @@ class BrandServiceTest {
 
     @Test
     void findAllPaginationTest() {
+
         Brand brand = new Brand();
         brand.setIdentifier("Nike");
 
@@ -149,19 +152,28 @@ class BrandServiceTest {
         brandDto.setIdentifier("Nike");
 
         Pageable pageable = PageRequest.of(0, 10);
+
         Page<Brand> brandPage = new PageImpl<>(List.of(brand), pageable, 1);
 
-        Mockito.when(brandRepository.findAll(pageable))
-                .thenReturn(brandPage);
+        Mockito.when(brandRepository.findAll(pageable)).thenReturn(brandPage);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(brandPage.getContent()),
-                Mockito.any(Type.class)
-        )).thenReturn(List.of(brandDto));
+        Type listType = new TypeToken<List<BrandDto>>() {
+        }.getType();
 
-        List<BrandDto> response = brandService.findAll(pageable);
+        Mockito.when(modelMapper.map(Mockito.eq(brandPage.getContent()), Mockito.eq(listType))).thenReturn(List.of(brandDto));
 
-        Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("Nike", response.get(0).getIdentifier());
+        PageDto<BrandDto> response =
+                brandService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals(
+                "Nike",
+                response.getDtoList().get(0).getIdentifier()
+        );
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPages());
+        Assertions.assertEquals(10, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
     }
 }

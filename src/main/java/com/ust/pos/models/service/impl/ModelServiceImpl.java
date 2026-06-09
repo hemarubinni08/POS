@@ -1,12 +1,9 @@
 package com.ust.pos.models.service.impl;
 
 import com.ust.pos.dto.ModelDto;
-import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PageDto;
-import com.ust.pos.dto.ShelfsDto;
 import com.ust.pos.model.Model;
 import com.ust.pos.model.ModelRepository;
-import com.ust.pos.model.Node;
 import com.ust.pos.models.service.ModelService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;

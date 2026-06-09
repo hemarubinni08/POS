@@ -2,7 +2,6 @@ package com.ust.pos.api.brand;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
-import com.ust.pos.dto.ModelDto;
 import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;

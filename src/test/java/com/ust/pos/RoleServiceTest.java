@@ -1,5 +1,6 @@
 package com.ust.pos;
 
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
@@ -12,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -167,19 +169,30 @@ class RoleServiceTest {
         roleDto.setIdentifier("Admin");
 
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Role> rolePage =
-                new PageImpl<>(List.of(role), pageable, 1);
 
-        Mockito.when(roleRepository.findAll(pageable))
-                .thenReturn(rolePage);
+        Page<Role> rolePage = new PageImpl<>(List.of(role), pageable, 1);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(rolePage.getContent()),
-                Mockito.any(Type.class)
-        )).thenReturn(List.of(roleDto));
+        Mockito.when(roleRepository.findAll(pageable)).thenReturn(rolePage);
 
-        List<RoleDto> response = roleService.findAll(pageable);
+        Type listType = new TypeToken<List<RoleDto>>() {
+        }.getType();
 
-        Assertions.assertEquals(1, response.size());
+        Mockito.when(modelMapper.map(Mockito.eq(rolePage.getContent()), Mockito.eq(listType))).thenReturn(List.of(roleDto));
+
+        PageDto<RoleDto> response = roleService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+
+        Assertions.assertEquals(1, response.getDtoList().size());
+
+        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+
+        Assertions.assertEquals(1, response.getTotalPages());
+
+        Assertions.assertEquals(10, response.getSizePerPage());
+
+        Assertions.assertEquals(0, response.getPage());
     }
 }

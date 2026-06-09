@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.ModelDto;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.model.Model;
 import com.ust.pos.model.ModelRepository;
 import com.ust.pos.models.service.impl.ModelServiceImpl;
@@ -167,19 +168,21 @@ class ModelServiceTest {
         modelDto.setIdentifier("Model1");
 
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Model> modelPage =
-                new PageImpl<>(List.of(model), pageable, 1);
 
-        Mockito.when(modelRepository.findAll(pageable))
-                .thenReturn(modelPage);
+        Page<Model> modelPage = new PageImpl<>(List.of(model), pageable, 1);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(modelPage.getContent()),
-                Mockito.any(Type.class)
-        )).thenReturn(List.of(modelDto));
+        Mockito.when(modelRepository.findAll(pageable)).thenReturn(modelPage);
 
-        List<ModelDto> response = modelService.findAll(pageable);
+        Mockito.when(modelMapper.map(Mockito.eq(modelPage.getContent()), Mockito.any(Type.class))).thenReturn(List.of(modelDto));
 
-        Assertions.assertEquals(1, response.size());
+        PageDto<ModelDto> response = modelService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("Model1", response.getDtoList().get(0).getIdentifier());
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPages());
+        Assertions.assertEquals(10, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
     }
 }

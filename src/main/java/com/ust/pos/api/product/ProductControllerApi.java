@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -51,5 +52,9 @@ public class ProductControllerApi extends BaseController {
     @GetMapping("/toggleStatus")
     public void toggleStatus(@RequestParam String identifier) {
         productService.toggleStatus(identifier);
+    }
+    @GetMapping("/findByStatus")
+    public List<ProductDto> findByStatus() {
+        return productService.findActiveProducts();
     }
 }

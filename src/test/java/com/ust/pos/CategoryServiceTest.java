@@ -2,6 +2,7 @@ package com.ust.pos;
 
 import com.ust.pos.category.service.impl.CategoryServiceImpl;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -132,28 +133,32 @@ class CategoryServiceTest {
         Assertions.assertEquals("CAT1", response.getIdentifier());
     }
 
-    // ✅ PAGINATION FIND ALL (CHANGED)
     @Test
     void findAllPaginationTest() {
 
         Category category = new Category();
+        category.setIdentifier("CAT1");
+
         CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setIdentifier("CAT1");
 
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Category> categoryPage =
-                new PageImpl<>(List.of(category), pageable, 1);
 
-        Mockito.when(categoryRepository.findAll(pageable))
-                .thenReturn(categoryPage);
+        Page<Category> categoryPage = new PageImpl<>(List.of(category), pageable, 1);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(categoryPage.getContent()),
-                Mockito.any(Type.class)
-        )).thenReturn(List.of(categoryDto));
+        Mockito.when(categoryRepository.findAll(pageable)).thenReturn(categoryPage);
 
-        List<CategoryDto> response = categoryService.findAll(pageable);
+        Mockito.when(modelMapper.map(Mockito.eq(categoryPage.getContent()),Mockito.any(Type.class))).thenReturn(List.of(categoryDto));
 
-        Assertions.assertEquals(1, response.size());
+        PageDto<CategoryDto> response = categoryService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("CAT1", response.getDtoList().get(0).getIdentifier());
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPages());
+        Assertions.assertEquals(10, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
     }
 
     @Test

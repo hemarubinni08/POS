@@ -1,5 +1,6 @@
 package com.ust.pos;
 
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -37,7 +39,6 @@ class UserServiceTest {
     @InjectMocks
     private UserServiceImpl userService;
 
-    /* ===================== SAVE ===================== */
 
     @Test
     void saveTestSuccess() {
@@ -82,7 +83,6 @@ class UserServiceTest {
         );
     }
 
-    /* ===================== FIND BY USERNAME ===================== */
 
     @Test
     void findByUsernameTest() {
@@ -174,7 +174,6 @@ class UserServiceTest {
                 .save(Mockito.any());
     }
 
-    /* ===================== DELETE ===================== */
 
     @Test
     void deleteTest() {
@@ -187,7 +186,6 @@ class UserServiceTest {
                 .deleteByUsername("admin@test.com");
     }
 
-    /* ===================== FIND ALL (PAGINATION) ===================== */
 
     @Test
     void findAllPaginationTest() {
@@ -199,20 +197,30 @@ class UserServiceTest {
         userDto.setUsername("admin@test.com");
 
         Pageable pageable = PageRequest.of(0, 10);
-        Page<User> userPage =
-                new PageImpl<>(List.of(user), pageable, 1);
 
-        Mockito.when(userRepository.findAll(pageable))
-                .thenReturn(userPage);
+        Page<User> userPage = new PageImpl<>(List.of(user), pageable, 1);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(userPage.getContent()),
-                Mockito.any(Type.class)
-        )).thenReturn(List.of(userDto));
+        Mockito.when(userRepository.findAll(pageable)).thenReturn(userPage);
 
-        List<UserDto> response = userService.findAll(pageable);
+        Type listType = new TypeToken<List<UserDto>>() {
+        }.getType();
 
-        Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("admin@test.com", response.get(0).getUsername());
+        Mockito.when(modelMapper.map(Mockito.eq(userPage.getContent()), Mockito.eq(listType))).thenReturn(List.of(userDto));
+
+        PageDto<UserDto> response = userService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+
+        Assertions.assertEquals(1, response.getDtoList().size());
+
+        Assertions.assertEquals("admin@test.com", response.getDtoList().get(0).getUsername());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+
+        Assertions.assertEquals(1, response.getTotalPages());
+
+        Assertions.assertEquals(10, response.getSizePerPage());
+
+        Assertions.assertEquals(0, response.getPage());
     }
 }

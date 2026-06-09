@@ -2,7 +2,6 @@ package com.ust.pos.product.service.impl;
 
 import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.ProductDto;
-import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -89,8 +88,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findActiveProducts() {
-        Type listType = new TypeToken<List<RoleDto>>() {}.getType();
+        Type listType = new TypeToken<List<ProductDto>>() {}.getType();
         return modelMapper.map(productRepository.findByStatusTrue(),listType);
     }
-
 }

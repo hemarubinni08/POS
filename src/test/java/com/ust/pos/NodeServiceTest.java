@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.PageDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.User;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -142,6 +144,7 @@ class NodeServiceTest {
 
     @Test
     void findAllPaginationTest() {
+
         Node node = new Node();
         node.setIdentifier("Admin");
 
@@ -149,20 +152,31 @@ class NodeServiceTest {
         nodeDto.setIdentifier("Admin");
 
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Node> nodePage =
-                new PageImpl<>(List.of(node), pageable, 1);
 
-        Mockito.when(nodeRepository.findAll(pageable))
-                .thenReturn(nodePage);
+        Page<Node> nodePage = new PageImpl<>(List.of(node), pageable, 1);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(nodePage.getContent()),
-                Mockito.any(Type.class)
-        )).thenReturn(List.of(nodeDto));
+        Mockito.when(nodeRepository.findAll(pageable)).thenReturn(nodePage);
 
-        List<NodeDto> response = nodeService.findAll(pageable);
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
 
-        Assertions.assertEquals(1, response.size());
+        Mockito.when(modelMapper.map(Mockito.eq(nodePage.getContent()), Mockito.eq(listType))).thenReturn(List.of(nodeDto));
+
+        PageDto<NodeDto> response = nodeService.findAll(pageable);
+
+        Assertions.assertNotNull(response);
+
+        Assertions.assertEquals(1, response.getDtoList().size());
+
+        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+
+        Assertions.assertEquals(1, response.getTotalPages());
+
+        Assertions.assertEquals(10, response.getSizePerPage());
+
+        Assertions.assertEquals(0, response.getPage());
     }
 
     @Test
