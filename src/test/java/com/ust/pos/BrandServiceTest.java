@@ -58,8 +58,6 @@ class BrandServiceTest {
         brand.setStatus(true);
     }
 
-    /* ===================== SAVE BRANCHES ===================== */
-
     @Test
     @DisplayName("Save Brand - Success with Icon")
     void save_Success() {
@@ -74,6 +72,8 @@ class BrandServiceTest {
         BrandDto result = brandService.save(brandDto);
 
         Assertions.assertNotNull(result);
+        Assertions.assertTrue(result.isSuccess());
+        Assertions.assertEquals("Brand with identifier - Nike Added Successfully", result.getMessage());
         verify(brandRepository).save(brand);
         verify(fileStorageUtil).saveBrandIcon(mockFile, "Nike");
     }
@@ -86,10 +86,10 @@ class BrandServiceTest {
         BrandDto result = brandService.save(brandDto);
 
         Assertions.assertFalse(result.isSuccess());
+        Assertions.assertEquals("Brand with identifier - Nike Already Exists", result.getMessage());
         verify(brandRepository, never()).save(any());
+        verify(fileStorageUtil, never()).saveBrandIcon(any(), any());
     }
-
-    /* ===================== UPDATE BRANCHES ===================== */
 
     @Test
     @DisplayName("Update Brand - Success with New Icon")
@@ -105,6 +105,7 @@ class BrandServiceTest {
         BrandDto result = brandService.update(brandDto);
 
         Assertions.assertNotNull(result);
+        Assertions.assertEquals("Brand with identifier - Nike Updated", result.getMessage());
         verify(brandRepository).save(brand);
     }
 
@@ -120,8 +121,22 @@ class BrandServiceTest {
 
         brandService.update(brandDto);
 
-        // Should not call fileStorage because file is empty
         verify(fileStorageUtil, never()).saveBrandIcon(any(), anyString());
+        verify(brandRepository).save(brand);
+    }
+
+    @Test
+    @DisplayName("Update Brand - Success with Null Icon")
+    void update_Success_NullIcon() {
+        brandDto.setIcon(null);
+
+        when(brandRepository.findByIdentifier("Nike")).thenReturn(brand);
+        when(modelMapper.map(any(Brand.class), eq(BrandDto.class))).thenReturn(brandDto);
+
+        brandService.update(brandDto);
+
+        verify(fileStorageUtil, never()).saveBrandIcon(any(), anyString());
+        verify(brandRepository).save(brand);
     }
 
     @Test
@@ -131,9 +146,8 @@ class BrandServiceTest {
         BrandDto result = brandService.update(brandDto);
         Assertions.assertFalse(result.isSuccess());
         Assertions.assertEquals("Brand not found", result.getMessage());
+        verify(brandRepository, never()).save(any());
     }
-
-    /* ===================== FIND METHODS ===================== */
 
     @Test
     @DisplayName("Find All - Paginated")
@@ -172,13 +186,10 @@ class BrandServiceTest {
         Assertions.assertNotNull(result);
     }
 
-    /* ===================== TOGGLE & DELETE ===================== */
-
     @Test
     @DisplayName("Toggle Status - Logic Flip")
     void toggleStatus_Success() {
         brand.setStatus(true);
-        // Method calls findByIdentifier twice
         when(brandRepository.findByIdentifier("Nike")).thenReturn(brand);
         when(modelMapper.map(any(), eq(BrandDto.class))).thenReturn(brandDto);
 
@@ -186,6 +197,7 @@ class BrandServiceTest {
 
         Assertions.assertFalse(brand.isStatus());
         verify(brandRepository).save(brand);
+        verify(brandRepository, times(2)).findByIdentifier("Nike");
     }
 
     @Test

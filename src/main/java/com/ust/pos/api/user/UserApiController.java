@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -30,8 +29,8 @@ public class UserApiController extends BaseController {
     }
 
     @GetMapping("/get")
-    public UserDto getByIdentifier(@RequestParam String username) {
-        return userService.findByUserName(username);
+    public UserDto getByIdentifier(@RequestParam String identifier) {
+        return userService.findByUserName(identifier);
     }
 
     @PostMapping("/update")
@@ -50,7 +49,7 @@ public class UserApiController extends BaseController {
     }
 
     @PostMapping("/toggle")
-    public UserDto toggleStatus(@RequestParam String username) {
-        return userService.toggleStatus(username);
+    public UserDto toggleStatus(@RequestParam String identifier) {
+        return userService.toggleStatus(identifier);
     }
 }

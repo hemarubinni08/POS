@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -36,8 +37,6 @@ class AddressServiceTest {
     @InjectMocks
     private AddressServiceImpl addressService;
 
-    // --- SAVE TESTS ---
-
     @Test
     @DisplayName("Save - Success Case")
     void saveTestSuccess() {
@@ -47,16 +46,17 @@ class AddressServiceTest {
         Address addressEntity = new Address();
         addressEntity.setIdentifier("ADDR001");
 
-        // The service calls findByIdentifier twice in the success path
         Mockito.when(addressRepository.findByIdentifier("ADDR001"))
-                .thenReturn(null)           // First check
-                .thenReturn(addressEntity); // Second fetch after save
+                .thenReturn(null)
+                .thenReturn(addressEntity);
 
         Mockito.when(modelMapper.map(inputDto, Address.class)).thenReturn(addressEntity);
 
         AddressDto response = addressService.save(inputDto);
 
         Assertions.assertNotNull(response);
+        Assertions.assertTrue(response.isSuccess());
+        Assertions.assertEquals("Address with identifier ' ADDR001 'added Successfully", response.getMessage());
         Mockito.verify(addressRepository).save(addressEntity);
         Mockito.verify(modelMapper).map(addressEntity, inputDto);
     }
@@ -71,12 +71,11 @@ class AddressServiceTest {
 
         AddressDto response = addressService.save(inputDto);
 
+        Assertions.assertNotNull(response);
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertEquals("Address with identifier - ADDR001 already exists", response.getMessage());
         Mockito.verify(addressRepository, Mockito.never()).save(any());
     }
-
-    // --- UPDATE TESTS ---
 
     @Test
     @DisplayName("Update - Success Case")
@@ -87,12 +86,15 @@ class AddressServiceTest {
         Address existingAddress = new Address();
         existingAddress.setIdentifier("ADDR001");
 
-        // Service calls findByIdentifier twice in update success path
-        Mockito.when(addressRepository.findByIdentifier("ADDR001")).thenReturn(existingAddress);
+        Mockito.when(addressRepository.findByIdentifier("ADDR001"))
+                .thenReturn(existingAddress)
+                .thenReturn(existingAddress);
 
         AddressDto response = addressService.update(inputDto);
 
         Assertions.assertNotNull(response);
+        Assertions.assertTrue(response.isSuccess());
+        Assertions.assertEquals("Address with identifier ' ADDR001 'Updated", response.getMessage());
         Mockito.verify(modelMapper).map(inputDto, existingAddress);
         Mockito.verify(addressRepository).save(existingAddress);
         Mockito.verify(modelMapper).map(existingAddress, inputDto);
@@ -108,18 +110,17 @@ class AddressServiceTest {
 
         AddressDto response = addressService.update(inputDto);
 
+        Assertions.assertNotNull(response);
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertTrue(response.getMessage().contains("not found"));
+        Assertions.assertEquals("Address with identifier ' ADDR001 'not found", response.getMessage());
         Mockito.verify(addressRepository, Mockito.never()).save(any());
     }
 
-    // --- DELETE TESTS ---
-
     @Test
-    @DisplayName("Delete - Success Case")
-    void deleteTest() {
+    @DisplayName("Delete - Success with Records")
+    void deleteTestSuccessWithRecords() {
         String phoneNo = "1234567890";
-        List<Address> addresses = List.of(new Address());
+        List<Address> addresses = List.of(new Address(), new Address());
 
         Mockito.when(addressRepository.findAllByPhoneNo(phoneNo)).thenReturn(addresses);
 
@@ -129,7 +130,19 @@ class AddressServiceTest {
         Mockito.verify(addressRepository).deleteAll(addresses);
     }
 
-    // --- FIND ALL (PAGINATION) TESTS ---
+    @Test
+    @DisplayName("Delete - Success with Empty List")
+    void deleteTestSuccessWithNoRecords() {
+        String phoneNo = "0000000000";
+        List<Address> emptyList = Collections.emptyList();
+
+        Mockito.when(addressRepository.findAllByPhoneNo(phoneNo)).thenReturn(emptyList);
+
+        boolean result = addressService.delete(phoneNo);
+
+        Assertions.assertTrue(result);
+        Mockito.verify(addressRepository).deleteAll(emptyList);
+    }
 
     @Test
     @DisplayName("Find All - Pagination Case")
@@ -144,15 +157,14 @@ class AddressServiceTest {
 
         List<AddressDto> response = addressService.findAll(pageable);
 
+        Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.size());
         Mockito.verify(addressRepository).findAll(pageable);
     }
 
-    // --- FIND BY IDENTIFIER TESTS ---
-
     @Test
     @DisplayName("Find By Identifier - Success")
-    void findByIdentifierTest() {
+    void findByIdentifierTestFound() {
         Address address = new Address();
         AddressDto expectedDto = new AddressDto();
         expectedDto.setIdentifier("ADDR001");
@@ -166,7 +178,16 @@ class AddressServiceTest {
         Assertions.assertEquals("ADDR001", response.getIdentifier());
     }
 
-    // --- FIND BY PHONE TESTS ---
+    @Test
+    @DisplayName("Find By Identifier - Not Found")
+    void findByIdentifierTestNotFound() {
+        Mockito.when(addressRepository.findByIdentifier("ABSENT")).thenReturn(null);
+        Mockito.when(modelMapper.map(null, AddressDto.class)).thenReturn(null);
+
+        AddressDto response = addressService.findByIdentifier("ABSENT");
+
+        Assertions.assertNull(response);
+    }
 
     @Test
     @DisplayName("Find All By Phone Number - Success")
@@ -180,6 +201,7 @@ class AddressServiceTest {
 
         List<AddressDto> response = addressService.findAllByPhoneNumber(phoneNo);
 
+        Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.size());
         Mockito.verify(addressRepository).findAllByPhoneNo(phoneNo);
     }

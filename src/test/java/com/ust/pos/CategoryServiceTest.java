@@ -2,6 +2,7 @@ package com.ust.pos;
 
 import com.ust.pos.category.service.impl.CategoryServiceImpl;
 import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -36,8 +37,6 @@ class CategoryServiceTest {
     @InjectMocks
     private CategoryServiceImpl categoryService;
 
-    /* ===================== SAVE BRANCHES ===================== */
-
     @Test
     @DisplayName("Save Category - Success with Super Category")
     void saveTest_Success_WithSuperCategory() {
@@ -52,16 +51,17 @@ class CategoryServiceTest {
         CategoryDto response = categoryService.save(dto);
 
         Assertions.assertTrue(response.isSuccess());
+        Assertions.assertEquals("Category Added Successfully", response.getMessage());
         Assertions.assertEquals("PARENT", categoryEntity.getSuperCategory());
         Mockito.verify(categoryRepository).save(categoryEntity);
     }
 
     @Test
-    @DisplayName("Save Category - Success with Blank Super Category (Ternary Branch)")
+    @DisplayName("Save Category - Success with Blank Super Category")
     void saveTest_Success_BlankSuperCategory() {
         CategoryDto dto = new CategoryDto();
         dto.setIdentifier("CAT01");
-        dto.setSuperCategory("   "); // Blank string branch
+        dto.setSuperCategory("   ");
 
         Category categoryEntity = new Category();
         Mockito.when(categoryRepository.findByIdentifier("CAT01")).thenReturn(null);
@@ -70,7 +70,28 @@ class CategoryServiceTest {
         CategoryDto response = categoryService.save(dto);
 
         Assertions.assertTrue(response.isSuccess());
-        Assertions.assertNull(categoryEntity.getSuperCategory()); // Should be set to null
+        Assertions.assertEquals("Category Added Successfully", response.getMessage());
+        Assertions.assertNull(categoryEntity.getSuperCategory());
+        Mockito.verify(categoryRepository).save(categoryEntity);
+    }
+
+    @Test
+    @DisplayName("Save Category - Success with Null Super Category")
+    void saveTest_Success_NullSuperCategory() {
+        CategoryDto dto = new CategoryDto();
+        dto.setIdentifier("CAT01");
+        dto.setSuperCategory(null);
+
+        Category categoryEntity = new Category();
+        Mockito.when(categoryRepository.findByIdentifier("CAT01")).thenReturn(null);
+        Mockito.when(modelMapper.map(dto, Category.class)).thenReturn(categoryEntity);
+
+        CategoryDto response = categoryService.save(dto);
+
+        Assertions.assertTrue(response.isSuccess());
+        Assertions.assertEquals("Category Added Successfully", response.getMessage());
+        Assertions.assertNull(categoryEntity.getSuperCategory());
+        Mockito.verify(categoryRepository).save(categoryEntity);
     }
 
     @Test
@@ -100,10 +121,9 @@ class CategoryServiceTest {
         CategoryDto response = categoryService.save(dto);
 
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertTrue(response.getMessage().contains("already exists"));
+        Assertions.assertEquals("Category with identifier - CAT01 already exists", response.getMessage());
+        Mockito.verify(categoryRepository, Mockito.never()).save(any());
     }
-
-    /* ===================== UPDATE BRANCHES ===================== */
 
     @Test
     @DisplayName("Update Category - Success")
@@ -117,6 +137,8 @@ class CategoryServiceTest {
         CategoryDto response = categoryService.update(dto);
 
         Assertions.assertNotNull(response);
+        Assertions.assertTrue(response.isSuccess());
+        Assertions.assertEquals("Category with identifier - CAT01 Updated ", response.getMessage());
         Mockito.verify(modelMapper).map(dto, existing);
         Mockito.verify(categoryRepository).save(existing);
     }
@@ -132,10 +154,9 @@ class CategoryServiceTest {
         CategoryDto response = categoryService.update(dto);
 
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertTrue(response.getMessage().contains("not found"));
+        Assertions.assertEquals("Category with identifier - CAT01 not found", response.getMessage());
+        Mockito.verify(categoryRepository, Mockito.never()).save(any());
     }
-
-    /* ===================== TOGGLE STATUS ===================== */
 
     @Test
     @DisplayName("Toggle Status - Flip boolean")
@@ -152,21 +173,30 @@ class CategoryServiceTest {
         Mockito.verify(categoryRepository).save(category);
     }
 
-    /* ===================== FIND METHODS ===================== */
-
     @Test
-    @DisplayName("Find All - Paginated Success")
+    @DisplayName("Find All - Paginated Success with WsDto Mapping")
     void findAllTest() {
-        Pageable pageable = PageRequest.of(0, 10);
-        List<Category> list = List.of(new Category());
-        Page<Category> page = new PageImpl<>(list);
+        Pageable pageable = PageRequest.of(1, 10);
+        List<Category> categories = List.of(new Category());
 
-        Mockito.when(categoryRepository.findAll(pageable)).thenReturn(page);
-        Mockito.when(modelMapper.map(eq(list), any(Type.class))).thenReturn(List.of(new CategoryDto()));
+        int mockTotalRecords = 30;
+        Page<Category> categoryPage = new PageImpl<>(categories, pageable, mockTotalRecords);
+        List<CategoryDto> dtos = List.of(new CategoryDto());
 
-        List<CategoryDto> result = categoryService.findAll(pageable);
+        Mockito.when(categoryRepository.findAll(pageable)).thenReturn(categoryPage);
+        Mockito.when(modelMapper.map(eq(categories), any(Type.class))).thenReturn(dtos);
 
-        Assertions.assertEquals(1, result.size());
+        WsDto<CategoryDto> result = categoryService.findAll(pageable);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(dtos, result.getDtoList());
+
+        Assertions.assertEquals(30, result.getTotalRecords());
+
+        Assertions.assertEquals(3, result.getTotalPages());
+        Assertions.assertEquals(10, result.getSizePerPage());
+        Assertions.assertEquals(1, result.getPage());
+
         Mockito.verify(categoryRepository).findAll(pageable);
     }
 

@@ -36,8 +36,6 @@ class UnitServiceTest {
     @InjectMocks
     private UnitServiceImpl unitService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     @DisplayName("Save Unit - Success Case")
     void saveTest_Success() {
@@ -65,11 +63,8 @@ class UnitServiceTest {
 
         Assertions.assertFalse(result.isSuccess());
         Assertions.assertEquals("Unit with identifier - KG already exists", result.getMessage());
-        // Verify save is never called
         Mockito.verify(unitRepository, Mockito.never()).save(any());
     }
-
-    /* ===================== UPDATE ===================== */
 
     @Test
     @DisplayName("Update Unit - Success Case")
@@ -101,8 +96,6 @@ class UnitServiceTest {
         Mockito.verify(unitRepository, Mockito.never()).save(any());
     }
 
-    /* ===================== FIND METHODS ===================== */
-
     @Test
     @DisplayName("Find All - Paginated Success")
     void findAllTest() {
@@ -111,7 +104,6 @@ class UnitServiceTest {
         Page<Unit> unitPage = new PageImpl<>(units);
         List<UnitDto> dtos = List.of(new UnitDto());
 
-        // Correctly mock the repository with Pageable
         Mockito.when(unitRepository.findAll(pageable)).thenReturn(unitPage);
         Mockito.when(modelMapper.map(eq(units), any(Type.class))).thenReturn(dtos);
 
@@ -147,8 +139,6 @@ class UnitServiceTest {
         Assertions.assertNotNull(result);
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
     @Test
     @DisplayName("Toggle Status - Logic Flip")
     void toggleStatusTest() {
@@ -161,12 +151,9 @@ class UnitServiceTest {
 
         unitService.toggleStatus("KG");
 
-        // Verify flip logic (false -> true)
         Assertions.assertTrue(unit.isStatus());
         Mockito.verify(unitRepository).save(unit);
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     @DisplayName("Delete Unit - Success")

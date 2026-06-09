@@ -24,7 +24,7 @@ public class BrandApiController extends BaseController {
     }
 
     @GetMapping("/getAllActive")
-    public List<BrandDto> getAllActive(){
+    public List<BrandDto> getAllActive() {
         return brandService.findAllActive();
     }
 

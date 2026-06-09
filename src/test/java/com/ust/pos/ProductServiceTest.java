@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.impl.ProductServiceImpl;
@@ -35,8 +36,6 @@ class ProductServiceTest {
     @InjectMocks
     private ProductServiceImpl productService;
 
-    /* ===================== SAVE BRANCHES ===================== */
-
     @Test
     @DisplayName("Save - Success with provided categories")
     void saveTest_Success_WithCategories() {
@@ -67,7 +66,8 @@ class ProductServiceTest {
         ProductDto result = productService.save(dto);
 
         Assertions.assertTrue(result.isSuccess());
-        Assertions.assertNotNull(productEntity.getCategories()); // Should be empty list, not null
+        Assertions.assertNotNull(productEntity.getCategories());
+        Assertions.assertTrue(productEntity.getCategories().isEmpty());
     }
 
     @Test
@@ -84,13 +84,14 @@ class ProductServiceTest {
         Mockito.verify(productRepository, Mockito.never()).save(any());
     }
 
-    /* ===================== UPDATE BRANCHES ===================== */
-
     @Test
     @DisplayName("Update - Success with categories")
     void updateTest_Success_WithCategories() {
         ProductDto dto = new ProductDto();
         dto.setIdentifier("P100");
+        dto.setBrand("Brand A");
+        dto.setModel("Model X");
+        dto.setName("Product Name");
         dto.setCategories(List.of("Home"));
 
         Product existing = new Product();
@@ -99,7 +100,11 @@ class ProductServiceTest {
         ProductDto result = productService.update(dto);
 
         Assertions.assertTrue(result.isSuccess());
+        Assertions.assertEquals("Brand A", existing.getBrand());
+        Assertions.assertEquals("Model X", existing.getModel());
+        Assertions.assertEquals("Product Name", existing.getName());
         Assertions.assertEquals(List.of("Home"), existing.getCategories());
+        Mockito.verify(productRepository).save(existing);
     }
 
     @Test
@@ -115,7 +120,9 @@ class ProductServiceTest {
         ProductDto result = productService.update(dto);
 
         Assertions.assertTrue(result.isSuccess());
+        Assertions.assertNotNull(existing.getCategories());
         Assertions.assertTrue(existing.getCategories().isEmpty());
+        Mockito.verify(productRepository).save(existing);
     }
 
     @Test
@@ -129,9 +136,8 @@ class ProductServiceTest {
 
         Assertions.assertFalse(result.isSuccess());
         Assertions.assertEquals("Product not found", result.getMessage());
+        Mockito.verify(productRepository, Mockito.never()).save(any());
     }
-
-    /* ===================== TOGGLE STATUS ===================== */
 
     @Test
     @DisplayName("Toggle Status - Flip boolean")
@@ -147,31 +153,25 @@ class ProductServiceTest {
         Mockito.verify(productRepository).save(product);
     }
 
-    /* ===================== FIND & DELETE ===================== */
-
-    // ProductServiceTest.java
     @Test
-    @DisplayName("Find All - Paginated")
+    @DisplayName("Find All - Paginated Map to WsDto")
     void findAllTest() {
-        // 1. Arrange - Setup data that matches real execution
-        Pageable pageable = PageRequest.of(0, 10);
-        List<Product> products = List.of(new Product()); // Repository returns 1 item
-        Page<Product> productPage = new PageImpl<>(products);
+        Pageable pageable = PageRequest.of(1, 10);
+        List<Product> products = List.of(new Product());
+        Page<Product> productPage = new PageImpl<>(products, pageable, 25);
         List<ProductDto> dtoList = List.of(new ProductDto());
 
-        // 2. Mocking
         Mockito.when(productRepository.findAll(pageable)).thenReturn(productPage);
+        Mockito.when(modelMapper.map(anyList(), any(Type.class))).thenReturn(dtoList);
 
-        // Use flexible matchers to avoid "Strict Stubbing" argument mismatches
-        Mockito.when(modelMapper.map(anyList(), any(Type.class)))
-                .thenReturn(dtoList);
+        WsDto<ProductDto> result = productService.findAll(pageable);
 
-        // 3. Act
-        List<ProductDto> result = productService.findAll(pageable);
-
-        // 4. Assert
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals(dtoList, result.getDtoList());
+        Assertions.assertEquals(25, result.getTotalRecords());
+        Assertions.assertEquals(3, result.getTotalPages());
+        Assertions.assertEquals(10, result.getSizePerPage());
+        Assertions.assertEquals(1, result.getPage());
         Mockito.verify(productRepository).findAll(pageable);
     }
 
@@ -180,11 +180,15 @@ class ProductServiceTest {
     void findByIdentifier_Success() {
         Product product = new Product();
         product.setCategories(List.of("Cat1"));
+        ProductDto mappedDto = new ProductDto();
+
         Mockito.when(productRepository.findByIdentifier("P100")).thenReturn(product);
-        Mockito.when(modelMapper.map(product, ProductDto.class)).thenReturn(new ProductDto());
+        Mockito.when(modelMapper.map(product, ProductDto.class)).thenReturn(mappedDto);
 
         ProductDto result = productService.findByIdentifier("P100");
+
         Assertions.assertNotNull(result);
+        Assertions.assertEquals(List.of("Cat1"), result.getCategories());
     }
 
     @Test

@@ -36,8 +36,6 @@ class ShelfServiceTest {
     @InjectMocks
     private ShelfServiceImpl shelfService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     @DisplayName("Save Shelf - Success")
     void saveTest_Success() {
@@ -65,11 +63,8 @@ class ShelfServiceTest {
 
         Assertions.assertFalse(result.isSuccess());
         Assertions.assertEquals("Shelf with identifier - SH-01 already exists", result.getMessage());
-        // Verify save was never called
         Mockito.verify(shelfRepository, Mockito.never()).save(any());
     }
-
-    /* ===================== UPDATE ===================== */
 
     @Test
     @DisplayName("Update Shelf - Success")
@@ -101,8 +96,6 @@ class ShelfServiceTest {
         Mockito.verify(shelfRepository, Mockito.never()).save(any());
     }
 
-    /* ===================== FIND METHODS ===================== */
-
     @Test
     @DisplayName("Find All - Paginated Success")
     void findAllTest() {
@@ -111,7 +104,6 @@ class ShelfServiceTest {
         Page<Shelf> shelfPage = new PageImpl<>(shelves);
         List<ShelfDto> dtos = List.of(new ShelfDto());
 
-        // Correctly mock the paginated call
         Mockito.when(shelfRepository.findAll(pageable)).thenReturn(shelfPage);
         Mockito.when(modelMapper.map(eq(shelves), any(Type.class))).thenReturn(dtos);
 
@@ -146,8 +138,6 @@ class ShelfServiceTest {
         Assertions.assertNotNull(result);
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
     @Test
     @DisplayName("Toggle Status - Logic Flip")
     void toggleStatusTest() {
@@ -160,13 +150,10 @@ class ShelfServiceTest {
 
         ShelfDto result = shelfService.toggleStatus("SH-01");
 
-        // Verify status was flipped from true to false
         Assertions.assertFalse(shelf.isStatus());
         Mockito.verify(shelfRepository).save(shelf);
         Assertions.assertNotNull(result);
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     @DisplayName("Delete Shelf - Success")

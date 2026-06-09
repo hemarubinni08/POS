@@ -36,8 +36,6 @@ class RackServiceTest {
     @InjectMocks
     private RackServiceImpl rackService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     @DisplayName("Save Rack - Success")
     void saveTest_Success() {
@@ -68,8 +66,6 @@ class RackServiceTest {
         Mockito.verify(rackRepository, Mockito.never()).save(any());
     }
 
-    /* ===================== UPDATE ===================== */
-
     @Test
     @DisplayName("Update Rack - Success")
     void updateTest_Success() {
@@ -99,8 +95,6 @@ class RackServiceTest {
         Assertions.assertEquals("Rack with identifier - RACK-01 not found", result.getMessage());
     }
 
-    /* ===================== FIND METHODS ===================== */
-
     @Test
     @DisplayName("Find All - Paginated Success")
     void findAllTest() {
@@ -110,7 +104,6 @@ class RackServiceTest {
         List<RackDto> dtos = List.of(new RackDto());
 
         Mockito.when(rackRepository.findAll(pageable)).thenReturn(rackPage);
-        // Using any(Type.class) to match TypeToken
         Mockito.when(modelMapper.map(eq(racks), any(Type.class))).thenReturn(dtos);
 
         List<RackDto> result = rackService.findAll(pageable);
@@ -145,8 +138,6 @@ class RackServiceTest {
         Assertions.assertNotNull(result);
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
     @Test
     @DisplayName("Toggle Status - Boolean Flip Case")
     void toggleStatusTest() {
@@ -159,12 +150,10 @@ class RackServiceTest {
 
         RackDto result = rackService.toggleStatus("RACK-01");
 
-        Assertions.assertFalse(rack.isStatus()); // Logic check: true -> false
+        Assertions.assertFalse(rack.isStatus());
         Mockito.verify(rackRepository).save(rack);
         Assertions.assertNotNull(result);
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     @DisplayName("Delete Rack - Success")

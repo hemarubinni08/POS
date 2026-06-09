@@ -26,7 +26,7 @@ public class RoleApiController extends BaseController {
     }
 
     @GetMapping("getAllActive")
-    public List<RoleDto> listAllActive(){
+    public List<RoleDto> listAllActive() {
         return (roleService.findAllActive());
     }
 

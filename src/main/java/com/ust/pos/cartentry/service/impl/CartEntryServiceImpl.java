@@ -1,10 +1,9 @@
 package com.ust.pos.cartentry.service.impl;
 
-import com.ust.pos.cart.service.CartService;
+import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.model.CartEntry;
 import com.ust.pos.model.CartEntryRepository;
-import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
@@ -19,9 +18,6 @@ import java.util.List;
 
 @Service
 public class CartEntryServiceImpl implements CartEntryService {
-    private static final String CART_ENTRY_WITH_IDENTIFIER = "CartEntry with identifier - ";
-    private static final String NOT_FOUND = " not found";
-
     @Autowired
     private CartEntryRepository cartEntryRepository;
 
@@ -68,11 +64,9 @@ public class CartEntryServiceImpl implements CartEntryService {
     }
 
     @Override
-    public void deleteByIdentifier(String identifier) {
+    public void deleteByIdentifier(String identifier) throws RuntimeException {
         CartEntry cartEntry = cartEntryRepository.findByIdentifier(identifier);
-        if (cartEntry == null) {
-            throw new RuntimeException("CartEntry not found");
-        }
+        if (cartEntry == null) throw new RuntimeException("CartEntry not found");
         cartEntryRepository.deleteByIdentifier(identifier);
     }
 

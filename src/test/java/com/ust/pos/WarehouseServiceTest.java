@@ -36,8 +36,6 @@ class WarehouseServiceTest {
     @InjectMocks
     private WarehouseServiceImpl warehouseService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     @DisplayName("Save Warehouse - Success Case")
     void saveTest_Success() {
@@ -65,11 +63,8 @@ class WarehouseServiceTest {
 
         Assertions.assertFalse(result.isSuccess());
         Assertions.assertTrue(result.getMessage().contains("already exists"));
-        // Ensure save is never called on duplicate
         Mockito.verify(warehouseRepository, Mockito.never()).save(any());
     }
-
-    /* ===================== UPDATE ===================== */
 
     @Test
     @DisplayName("Update Warehouse - Success Case")
@@ -101,8 +96,6 @@ class WarehouseServiceTest {
         Mockito.verify(warehouseRepository, Mockito.never()).save(any());
     }
 
-    /* ===================== FIND METHODS ===================== */
-
     @Test
     @DisplayName("Find All - Paginated Success")
     void findAllTest() {
@@ -111,7 +104,6 @@ class WarehouseServiceTest {
         Page<Warehouse> warehousePage = new PageImpl<>(warehouses);
         List<WarehouseDto> dtos = List.of(new WarehouseDto());
 
-        // Update: Mock the repository call with Pageable
         Mockito.when(warehouseRepository.findAll(pageable)).thenReturn(warehousePage);
         Mockito.when(modelMapper.map(eq(warehouses), any(Type.class))).thenReturn(dtos);
 
@@ -146,8 +138,6 @@ class WarehouseServiceTest {
         Assertions.assertNotNull(result);
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
     @Test
     @DisplayName("Toggle Status - Logic Flip")
     void toggleStatusTest() {
@@ -160,13 +150,10 @@ class WarehouseServiceTest {
 
         WarehouseDto result = warehouseService.toggleStatus("WH-MAIN");
 
-        // Verify status was flipped from false to true
         Assertions.assertTrue(warehouse.isStatus());
         Mockito.verify(warehouseRepository).save(warehouse);
         Assertions.assertNotNull(result);
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     @DisplayName("Delete Warehouse - Success Case")

@@ -26,7 +26,7 @@ public class ProductApiController extends BaseController {
     }
 
     @GetMapping("getAllActive")
-    public List<ProductDto> getAllActive(){
+    public List<ProductDto> getAllActive() {
         return productService.findAllActive();
     }
 

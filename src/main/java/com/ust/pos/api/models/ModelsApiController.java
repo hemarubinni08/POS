@@ -1,7 +1,6 @@
 package com.ust.pos.api.models;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.models.service.ModelsService;
@@ -26,7 +25,7 @@ public class ModelsApiController extends BaseController {
     }
 
     @GetMapping("/getAllActive")
-    public List<ModelsDto> getAllActive(){
+    public List<ModelsDto> getAllActive() {
         return modelsService.findAllActive();
     }
 

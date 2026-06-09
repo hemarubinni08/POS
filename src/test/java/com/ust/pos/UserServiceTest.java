@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.impl.UserServiceImpl;
@@ -60,9 +61,8 @@ class UserServiceTest {
         userDto.setPassword("rawPassword");
     }
 
-    /* ===================== FIND BY USERNAME ===================== */
-
     @Test
+    @DisplayName("Find By Username - Success")
     void findByUserName_Success() {
         when(userRepository.findByUsername("test@example.com")).thenReturn(user);
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
@@ -74,14 +74,14 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("Find By Username - Not Found")
     void findByUserName_NotFound() {
         when(userRepository.findByUsername("none")).thenReturn(null);
         assertNull(userService.findByUserName("none"));
     }
 
-    /* ===================== SAVE ===================== */
-
     @Test
+    @DisplayName("Save User - Success")
     void save_Success() {
         when(userRepository.findByUsername("test@example.com")).thenReturn(null);
         when(modelMapper.map(any(UserDto.class), eq(User.class))).thenReturn(user);
@@ -90,39 +90,49 @@ class UserServiceTest {
         UserDto result = userService.save(userDto);
 
         assertTrue(result.isSuccess());
+        assertEquals("User registered successfully", result.getMessage());
         verify(userRepository).save(user);
     }
 
     @Test
+    @DisplayName("Save User - Failure: Email Already Exists")
     void save_AlreadyExists() {
         when(userRepository.findByUsername(userDto.getUsername())).thenReturn(user);
 
         UserDto result = userService.save(userDto);
 
         assertFalse(result.isSuccess());
+        assertEquals("Sorry! That Email already exists.", result.getMessage());
         verify(userRepository, never()).save(any());
     }
 
-    /* ===================== UPDATE ===================== */
-
     @Test
+    @DisplayName("Update User - Failure: User Not Found")
     void update_UserNotFound() {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
         UserDto result = userService.update(userDto);
+
         assertFalse(result.isSuccess());
+        assertEquals("User with username/email - test@example.com not found", result.getMessage());
+        verify(userRepository, never()).save(any());
     }
 
     @Test
+    @DisplayName("Update User - Success: Same Username")
     void update_Success_SameUsername() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         UserDto result = userService.update(userDto);
 
         assertTrue(result.isSuccess());
+        assertEquals("User updated successfully", result.getMessage());
+        verify(modelMapper).map(userDto, user);
         verify(userRepository).save(user);
     }
 
     @Test
+    @DisplayName("Update User - Success: Changed Username")
     void update_Success_ChangedUsername() {
         User existingUser = new User();
         existingUser.setId(1L);
@@ -131,16 +141,18 @@ class UserServiceTest {
         userDto.setUsername("new@example.com");
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
-        // Verify that the new username doesn't conflict with another user
         when(userRepository.findByUsername("new@example.com")).thenReturn(null);
 
         UserDto result = userService.update(userDto);
 
         assertTrue(result.isSuccess());
+        assertEquals("User updated successfully", result.getMessage());
+        verify(modelMapper).map(userDto, existingUser);
         verify(userRepository).save(existingUser);
     }
 
     @Test
+    @DisplayName("Update User - Failure: Duplicate Username Conflict")
     void update_Failure_DuplicateUsernameConflict() {
         User existingUser = new User();
         existingUser.setId(1L);
@@ -149,48 +161,53 @@ class UserServiceTest {
         userDto.setUsername("other@example.com");
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
-        // Simulate "other@example.com" belonging to a DIFFERENT user
         when(userRepository.findByUsername("other@example.com")).thenReturn(new User());
 
         UserDto result = userService.update(userDto);
 
         assertFalse(result.isSuccess());
+        assertEquals("User with username/email - other@example.com already exists", result.getMessage());
         verify(userRepository, never()).save(existingUser);
     }
 
-    /* ===================== FIND ALL ===================== */
-
     @Test
-    @DisplayName("Find All - Paginated")
+    @DisplayName("Find All - Paginated Success with WsDto Mapping")
     void findAll_Paginated() {
-        Pageable pageable = PageRequest.of(0, 10);
+        Pageable pageable = PageRequest.of(1, 10);
         List<User> userList = Collections.singletonList(user);
-        Page<User> userPage = new PageImpl<>(userList);
+        Page<User> userPage = new PageImpl<>(userList, pageable, 25);
+        List<UserDto> dtoList = Collections.singletonList(userDto);
 
         when(userRepository.findAll(pageable)).thenReturn(userPage);
-        when(modelMapper.map(eq(userList), any(Type.class))).thenReturn(Collections.singletonList(userDto));
+        when(modelMapper.map(eq(userList), any(Type.class))).thenReturn(dtoList);
 
-        List<UserDto> result = userService.findAll(pageable);
+        WsDto<UserDto> result = userService.findAll(pageable);
 
-        assertEquals(1, result.size());
+        assertNotNull(result);
+        assertEquals(dtoList, result.getDtoList());
+        assertEquals(25, result.getTotalRecords());
+        assertEquals(3, result.getTotalPages());
+        assertEquals(10, result.getSizePerPage());
+        assertEquals(1, result.getPage());
         verify(userRepository).findAll(pageable);
     }
 
-    /* ===================== TOGGLE & DELETE ===================== */
-
     @Test
+    @DisplayName("Toggle Status - Logic Flip")
     void toggleStatus_Logic() {
         user.setStatus(true);
         when(userRepository.findByUsername("test@example.com")).thenReturn(user);
         when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
 
-        userService.toggleStatus("test@example.com");
+        UserDto result = userService.toggleStatus("test@example.com");
 
         assertFalse(user.isStatus());
         verify(userRepository).save(user);
+        assertNotNull(result);
     }
 
     @Test
+    @DisplayName("Delete User - Success")
     void delete_Success() {
         userService.delete("test@example.com");
         verify(userRepository).deleteByUsername("test@example.com");

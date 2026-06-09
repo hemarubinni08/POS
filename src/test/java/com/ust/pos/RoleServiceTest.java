@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
 import com.ust.pos.role.service.impl.RoleServiceImpl;
@@ -36,8 +37,6 @@ class RoleServiceTest {
     @InjectMocks
     private RoleServiceImpl roleService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     @DisplayName("Save Role - Success Case")
     void saveTest_Success() {
@@ -68,8 +67,6 @@ class RoleServiceTest {
         Assertions.assertTrue(result.getMessage().contains("already exists"));
         Mockito.verify(roleRepository, Mockito.never()).save(any());
     }
-
-    /* ===================== UPDATE ===================== */
 
     @Test
     @DisplayName("Update Role - Success")
@@ -102,22 +99,25 @@ class RoleServiceTest {
         Mockito.verify(roleRepository, Mockito.never()).save(any());
     }
 
-    /* ===================== FIND METHODS ===================== */
-
     @Test
-    @DisplayName("Find All - Paginated Success")
+    @DisplayName("Find All - Paginated Success with WsDto Mapping")
     void findAllTest() {
-        Pageable pageable = PageRequest.of(0, 10);
+        Pageable pageable = PageRequest.of(1, 10);
         List<Role> roles = List.of(new Role());
-        Page<Role> rolePage = new PageImpl<>(roles);
+        Page<Role> rolePage = new PageImpl<>(roles, pageable, 25);
         List<RoleDto> dtos = List.of(new RoleDto());
 
         Mockito.when(roleRepository.findAll(pageable)).thenReturn(rolePage);
         Mockito.when(modelMapper.map(eq(roles), any(Type.class))).thenReturn(dtos);
 
-        List<RoleDto> result = roleService.findAll(pageable);
+        WsDto<RoleDto> result = roleService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(dtos, result.getDtoList());
+        Assertions.assertEquals(25, result.getTotalRecords());
+        Assertions.assertEquals(3, result.getTotalPages());
+        Assertions.assertEquals(10, result.getSizePerPage());
+        Assertions.assertEquals(1, result.getPage());
         Mockito.verify(roleRepository).findAll(pageable);
     }
 
@@ -133,37 +133,38 @@ class RoleServiceTest {
         List<RoleDto> result = roleService.findAllActive();
 
         Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals(dtos, result);
     }
 
     @Test
     @DisplayName("Find By Identifier - Success")
     void findByIdentifierTest() {
         Role role = new Role();
+        RoleDto expectedDto = new RoleDto();
         Mockito.when(roleRepository.findByIdentifier("ADMIN")).thenReturn(role);
-        Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(new RoleDto());
+        Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(expectedDto);
 
         RoleDto result = roleService.findByIdentifier("ADMIN");
         Assertions.assertNotNull(result);
+        Assertions.assertEquals(expectedDto, result);
     }
-
-    /* ===================== TOGGLE STATUS ===================== */
 
     @Test
     @DisplayName("Toggle Status - Logic Flip")
     void toggleStatusTest() {
         Role role = new Role();
         role.setStatus(false);
+        RoleDto expectedDto = new RoleDto();
 
         Mockito.when(roleRepository.findByIdentifier("ADMIN")).thenReturn(role);
-        Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(new RoleDto());
+        Mockito.when(modelMapper.map(role, RoleDto.class)).thenReturn(expectedDto);
 
-        roleService.toggleStatus("ADMIN");
+        RoleDto result = roleService.toggleStatus("ADMIN");
 
-        Assertions.assertTrue(role.isStatus()); // false -> true
+        Assertions.assertTrue(role.isStatus());
         Mockito.verify(roleRepository).save(role);
+        Assertions.assertEquals(expectedDto, result);
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     @DisplayName("Delete Role - Success")

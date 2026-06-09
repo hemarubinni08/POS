@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.impl.PriceServiceImpl;
@@ -52,8 +53,6 @@ class PriceServiceTest {
         testPrice.setStatus(true);
     }
 
-    /* ===================== SAVE ===================== */
-
     @Test
     @DisplayName("Save Price - Success")
     void save_Success() {
@@ -78,8 +77,6 @@ class PriceServiceTest {
         verify(priceRepository, never()).save(any());
     }
 
-    /* ===================== UPDATE ===================== */
-
     @Test
     @DisplayName("Update Price - Success")
     void update_Success() {
@@ -103,8 +100,6 @@ class PriceServiceTest {
         Assertions.assertEquals("Price with identifier - PRC001 not found", result.getMessage());
         verify(priceRepository, never()).save(any());
     }
-
-    /* ===================== FIND BY IDENTIFIER ===================== */
 
     @Test
     @DisplayName("Find By Identifier - Success Case")
@@ -133,8 +128,6 @@ class PriceServiceTest {
         Assertions.assertEquals("Price not configured", result.getMessage());
     }
 
-    /* ===================== TOGGLE STATUS ===================== */
-
     @Test
     @DisplayName("Toggle Status - Logic Flip")
     void toggleStatus_TrueToFalse() {
@@ -149,27 +142,27 @@ class PriceServiceTest {
         verify(priceRepository).save(testPrice);
     }
 
-    /* ===================== FIND ALL ===================== */
-
     @Test
-    @DisplayName("Find All - Paginated Success")
+    @DisplayName("Find All - Paginated Success with WsDto Mapping")
     void findAll_Success() {
-        Pageable pageable = PageRequest.of(0, 10);
+        Pageable pageable = PageRequest.of(2, 15);
         List<Price> prices = Collections.singletonList(testPrice);
-        Page<Price> pricePage = new PageImpl<>(prices);
+        Page<Price> pricePage = new PageImpl<>(prices, pageable, 45);
         List<PriceDto> dtos = Collections.singletonList(testDto);
 
         when(priceRepository.findAll(pageable)).thenReturn(pricePage);
-        // Matching eq(list) and any(Type) because TypeToken creates a generic type
         when(modelMapper.map(eq(prices), any(Type.class))).thenReturn(dtos);
 
-        List<PriceDto> result = priceService.findAll(pageable);
+        WsDto<PriceDto> result = priceService.findAll(pageable);
 
-        Assertions.assertEquals(1, result.size());
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(dtos, result.getDtoList());
+        Assertions.assertEquals(45, result.getTotalRecords());
+        Assertions.assertEquals(3, result.getTotalPages());
+        Assertions.assertEquals(15, result.getSizePerPage());
+        Assertions.assertEquals(2, result.getPage());
         verify(priceRepository).findAll(pageable);
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     @DisplayName("Delete Price - Success")
