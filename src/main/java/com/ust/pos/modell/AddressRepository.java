@@ -7,6 +7,7 @@ import java.util.List;
 
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
+
     Address findByIdentifier(String identifier);
 
     void deleteByIdentifier(String identifier);

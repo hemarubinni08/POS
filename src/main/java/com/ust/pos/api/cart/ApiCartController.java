@@ -31,7 +31,7 @@ public class ApiCartController extends BaseController {
     public CartDto addToCart(@RequestBody CartEntryDto cartEntryDto) {
 
         cartEntryService.save(cartEntryDto);
-
+        // ✅ force recalculation (important)
         CartDto cart = cartService.findByIdentifier(cartEntryDto.getCartIdentifier());
 
         return cart;
@@ -72,5 +72,4 @@ public class ApiCartController extends BaseController {
     }
 
 }
-
 

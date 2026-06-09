@@ -24,14 +24,15 @@ public class UnitController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model,
-                          @ModelAttribute("unit") UnitDto unitDto) {
+    public String addPost(Model model, @ModelAttribute("unit") UnitDto unitDto) {
         UnitDto response = unitService.save(unitDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("unit", unitDto);
             return "unit/add";
         }
+
         return REDIRECT_UNIT_LIST;
     }
 
@@ -45,17 +46,19 @@ public class UnitController {
     public String update(Model model, @RequestParam String identifier) {
         UnitDto response = unitService.findByIdentifier(identifier);
         model.addAttribute("unit", response);
+
         return "unit/unit";
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model,
-                             @ModelAttribute("unit") UnitDto unitDto) {
+    public String updatePost(Model model, @ModelAttribute("unit") UnitDto unitDto) {
         UnitDto response = unitService.update(unitDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "unit/unit";
         }
+
         return REDIRECT_UNIT_LIST;
     }
 
@@ -70,5 +73,4 @@ public class UnitController {
         unitService.toggleStatus(identifier);
         return REDIRECT_UNIT_LIST;
     }
-
 }

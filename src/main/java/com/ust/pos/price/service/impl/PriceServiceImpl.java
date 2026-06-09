@@ -27,37 +27,68 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto findByIdentifier(String identifier) {
-        return modelMapper.map(priceRepository.findByIdentifier(identifier), PriceDto.class);
+        Price price = priceRepository.findByIdentifier(identifier);
+        return price != null ? modelMapper.map(price, PriceDto.class) : null;
     }
 
     @Override
     public PriceDto save(PriceDto priceDto) {
-        String identifier = priceDto.getIdentifier();
+
+        String identifier = priceDto.getProduct() + "-" + priceDto.getType();
+        priceDto.setIdentifier(identifier);
+
         Price existingPrice = priceRepository.findByIdentifier(identifier);
+
         if (existingPrice != null) {
-            priceDto.setMessage("Price with identifier - " + identifier + " already exists");
+            priceDto.setMessage("Price already exists for product + type");
             priceDto.setSuccess(false);
             return priceDto;
         }
+
         Price price = modelMapper.map(priceDto, Price.class);
+        price.setIdentifier(identifier);
+
         priceRepository.save(price);
+
+        priceDto.setSuccess(true);
         return priceDto;
     }
 
     @Override
     public PriceDto update(PriceDto priceDto) {
-        String identifier = priceDto.getIdentifier();
-        Price existingPrice = priceRepository.findByIdentifier(identifier);
+
+        // ✅ STEP 1: Find existing using OLD identifier
+        Price existingPrice = priceRepository.findByIdentifier(priceDto.getIdentifier());
+
         if (existingPrice == null) {
-            priceDto.setMessage("Price with identifier - " + identifier + " already exists");
+            priceDto.setMessage("Price not found");
             priceDto.setSuccess(false);
             return priceDto;
         }
-        modelMapper.map(priceDto, existingPrice);
-        priceRepository.save(existingPrice);
-        return priceDto;
 
+        // ✅ STEP 2: Generate NEW identifier
+        String newIdentifier =  priceDto.getProduct() + "-" + priceDto.getType();
+
+        // ✅ STEP 3: Check duplicate
+        Price duplicate = priceRepository.findByIdentifier(newIdentifier);
+
+        if (duplicate != null && !duplicate.getId().equals(existingPrice.getId())) {
+            priceDto.setMessage("Price already exists for this product and type");
+            priceDto.setSuccess(false);
+            return priceDto;
+        }
+
+        // ✅ STEP 4: Update values
+        existingPrice.setProduct(priceDto.getProduct());
+        existingPrice.setPrice(priceDto.getPrice());
+        existingPrice.setType(priceDto.getType());
+        existingPrice.setIdentifier(newIdentifier);
+
+        priceRepository.save(existingPrice);
+
+        return modelMapper.map(existingPrice,PriceDto.class);
     }
+
 
     @Override
     @Transactional
@@ -80,5 +111,4 @@ public class PriceServiceImpl implements PriceService {
 
         return priceWsDto;
     }
-
 }

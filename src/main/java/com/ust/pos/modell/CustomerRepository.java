@@ -6,7 +6,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer,Long> {
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
+
     Customer findByPhoneNo(String phoneNo);
 
     Customer findById(String identifier);
@@ -14,4 +15,5 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> {
     void deleteByPhoneNo(String phoneNo);
 
     List<Customer> findByStatusIsTrue();
+
 }

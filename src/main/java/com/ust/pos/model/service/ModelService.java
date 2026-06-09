@@ -17,5 +17,7 @@ public interface ModelService {
 
     WsDto<ModelDto> findAll(Pageable pageable);
 
+    List<ModelDto> findAllActive();
+
     void toggleStatus(String identifier);
 }

@@ -7,7 +7,6 @@ import com.ust.pos.dto.WsDto;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +19,9 @@ public class ApiWarehouseController extends BaseController {
     private WarehouseService warehouseService;
 
     @PostMapping("/add")
-    public WarehouseDto addPost(Model model, @RequestBody WarehouseDto warehouseDto) {
+    public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.save(warehouseDto);
+
     }
 
     @PostMapping("/list")
@@ -38,6 +38,7 @@ public class ApiWarehouseController extends BaseController {
     @PostMapping("/update")
     public WarehouseDto updatePost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.update(warehouseDto);
+
     }
 
     @GetMapping("/delete")
@@ -50,15 +51,8 @@ public class ApiWarehouseController extends BaseController {
         return true;
     }
 
-    @GetMapping("/toggle")
-    public boolean toggle(@RequestParam String identifier) {
-        try {
-            warehouseService.toggleStatus(identifier);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    @PostMapping("/toggle-status")
+    public void toggle(@RequestParam String identifier) {
+        warehouseService.toggleStatus(identifier);
     }
-
 }
-

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/stock")
@@ -25,9 +26,11 @@ public class ApiStockController extends BaseController {
     @Autowired
     private WarehouseService warehouseService;
 
+
     @PostMapping("/add")
     public StockDto addPost(@RequestBody StockDto stockDto) {
         return stockService.save(stockDto);
+
     }
 
     @PostMapping("/list")
@@ -37,7 +40,7 @@ public class ApiStockController extends BaseController {
     }
 
     @GetMapping("/get")
-    public StockDto edit(@RequestParam String identifier) {
+    public StockDto update(@RequestParam String identifier) {
         return stockService.findByIdentifier(identifier);
     }
 
@@ -50,11 +53,9 @@ public class ApiStockController extends BaseController {
     public boolean delete(@RequestParam Long id) {
         try {
             stockService.delete(id);
-
         } catch (Exception e) {
             return false;
         }
         return true;
     }
-
 }

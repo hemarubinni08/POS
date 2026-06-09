@@ -15,7 +15,6 @@ public class BrandController {
     public static final String MESSAGE = "message";
     public static final String BRAND = "brand";
     public static final String REDIRECT_BRAND_LIST = "redirect:/brand/list";
-
     @Autowired
     private BrandService brandService;
 
@@ -28,6 +27,7 @@ public class BrandController {
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute(BRAND) BrandDto brandDto) {
         BrandDto response = brandService.save(brandDto);
+
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(BRAND, brandDto);
@@ -45,10 +45,12 @@ public class BrandController {
     @GetMapping("/get")
     public String get(Model model, @RequestParam("identifier") String identifier) {
         BrandDto brandDto = brandService.findByIdentifier(identifier);
+
         if (brandDto == null) {
             model.addAttribute(MESSAGE, "Brand not found");
             return REDIRECT_BRAND_LIST;
         }
+
         model.addAttribute(BRAND, brandDto);
         return "brand/brand";
     }
@@ -56,6 +58,7 @@ public class BrandController {
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute(BRAND) BrandDto brandDto) {
         BrandDto response = brandService.update(brandDto);
+
         if (!response.isSuccess()) {
             model.addAttribute(MESSAGE, response.getMessage());
             model.addAttribute(BRAND, brandDto);
@@ -66,8 +69,7 @@ public class BrandController {
 
     @GetMapping("/delete")
     public String delete(@RequestParam("identifier") String identifier) {
-        brandService.deleteByIdentifier(identifier);
+        brandService.delete(identifier);
         return REDIRECT_BRAND_LIST;
     }
-
 }

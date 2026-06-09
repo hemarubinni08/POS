@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     @Transactional
-    public void deleteByIdentifier(String identifier) {
+    public void delete(String identifier) {
         brandRepository.deleteByIdentifier(identifier);
     }
 
@@ -87,5 +86,6 @@ public class BrandServiceImpl implements BrandService {
 
         return brandWsDto;
     }
+
 
 }

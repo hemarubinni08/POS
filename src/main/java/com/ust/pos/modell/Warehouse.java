@@ -10,5 +10,5 @@ import lombok.Setter;
 public class Warehouse extends CommonFields {
     private String location;
     private Long capacity;
-    private boolean status;
+
 }

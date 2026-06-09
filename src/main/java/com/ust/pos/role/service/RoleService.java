@@ -1,5 +1,7 @@
 package com.ust.pos.role.service;
 
+import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.RacksDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +15,11 @@ public interface RoleService {
 
     void delete(String username);
 
+    WsDto<RoleDto> findAll(Pageable pageable);
+
     RoleDto findByIdentifier(String identifier);
 
-    WsDto<RoleDto> findAll(Pageable pageable);
+    List<RoleDto> findAllActive();
+
+    RoleDto toggleStatus(String identifier);
 }

@@ -5,10 +5,10 @@ import com.ust.pos.dto.CartDto;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.modell.Cart;
 import com.ust.pos.modell.CartEntry;
 import com.ust.pos.modell.CartEntryRepository;
 import com.ust.pos.modell.CartRepository;
+import com.ust.pos.modell.Cart;
 import com.ust.pos.price.service.PriceService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -98,6 +98,7 @@ public class CartServiceImpl implements CartService {
 
         List<CartDto> cartDtos = cartPage.getContent().stream().map(cart -> {
 
+            // ✅ your existing logic
             recalculateAndSave(cart);
 
             CartDto dto = modelMapper.map(cart, CartDto.class);
@@ -115,6 +116,7 @@ public class CartServiceImpl implements CartService {
 
         }).toList();
 
+        // ✅ wrap in WsDto
         WsDto<CartDto> cartWsDto = new WsDto<>();
 
         cartWsDto.setDtoList(cartDtos);
@@ -198,8 +200,10 @@ public class CartServiceImpl implements CartService {
             throw new RuntimeException("Cart not found");
         }
 
+        //  delete all entries at once
         cartEntryRepository.deleteByCartIdentifier(cartIdentifier);
 
+        //  reset cart totals
         cart.setTotalPrice(BigDecimal.ZERO);
         cart.setOriginalPrice(BigDecimal.ZERO);
         cart.setDiscount(BigDecimal.ZERO);

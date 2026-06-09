@@ -46,7 +46,6 @@ public class CartEntryServiceImpl implements CartEntryService {
             throw new RuntimeException("Product identifier is missing");
         }
         String identifier = cartId + "-" + productId;
-        // Fetch prices
         PriceDto selling = priceService.findByIdentifier(productId + "-SELLING");
         PriceDto mrp = priceService.findByIdentifier(productId + "-MRP");
         if (selling == null && mrp == null) {

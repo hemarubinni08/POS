@@ -1,8 +1,9 @@
 package com.ust.pos.warehouse.service.impl;
 
-
+import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.modell.User;
 import com.ust.pos.modell.Warehouse;
 import com.ust.pos.modell.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
@@ -20,27 +21,39 @@ import java.util.List;
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
 
-    public static final RuntimeException SHELF_NOT_FOUND = new RuntimeException("Shelf not found");
-
     @Autowired
     private WarehouseRepository warehouseRepository;
 
     @Autowired
     private ModelMapper modelMapper;
 
+    @Override
     public WarehouseDto findByIdentifier(String identifier) {
-        return modelMapper.map(warehouseRepository.findByIdentifier(identifier), WarehouseDto.class);
+        Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
+        WarehouseDto response = new WarehouseDto();
+
+        if (warehouse == null) {
+            response.setSuccess(false);
+            response.setMessage("Warehouse not found");
+            return response;
+        }
+
+        response = modelMapper.map(warehouse, WarehouseDto.class);
+        response.setSuccess(true);
+        return response;
     }
 
     @Override
     public WarehouseDto save(WarehouseDto warehouseDto) {
         String identifier = warehouseDto.getIdentifier();
-        Warehouse existingRole = warehouseRepository.findByIdentifier(identifier);
-        if (existingRole != null) {
+        Warehouse existingWarehouse = warehouseRepository.findByIdentifier(identifier);
+
+        if (existingWarehouse != null) {
             warehouseDto.setMessage("Warehouse with identifier - " + identifier + " already exists");
             warehouseDto.setSuccess(false);
             return warehouseDto;
         }
+
         Warehouse warehouse = modelMapper.map(warehouseDto, Warehouse.class);
         warehouseRepository.save(warehouse);
         return warehouseDto;
@@ -49,14 +62,16 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public WarehouseDto update(WarehouseDto warehouseDto) {
         String identifier = warehouseDto.getIdentifier();
-        Warehouse existingRole = warehouseRepository.findByIdentifier(identifier);
-        if (existingRole == null) {
+        Warehouse existingWarehouse = warehouseRepository.findByIdentifier(identifier);
+
+        if (existingWarehouse == null) {
             warehouseDto.setMessage("Warehouse with identifier - " + identifier + " not found");
             warehouseDto.setSuccess(false);
             return warehouseDto;
         }
-        modelMapper.map(warehouseDto, existingRole);
-        warehouseRepository.save(existingRole);
+
+        modelMapper.map(warehouseDto, existingWarehouse);
+        warehouseRepository.save(existingWarehouse);
         return warehouseDto;
     }
 
@@ -84,11 +99,22 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public void toggleStatus(String identifier) {
         Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
+
         if (warehouse == null) {
-            throw SHELF_NOT_FOUND;
+            throw new IllegalArgumentException("Warehouse not found: " + identifier);
         }
-        warehouse.setStatus(!warehouse.isStatus());
+
+        Boolean currentStatus = warehouse.getStatus();
+        warehouse.setStatus(currentStatus == null || !currentStatus);
+
         warehouseRepository.save(warehouse);
     }
 
+    @Override
+    public List<WarehouseDto> findAllActive() {
+        return warehouseRepository.findByStatusTrue()
+                .stream()
+                .map(warehouse -> modelMapper.map(warehouse, WarehouseDto.class))
+                .toList();
+    }
 }

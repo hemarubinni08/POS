@@ -18,40 +18,39 @@ public class ApiCategoryController extends BaseController {
     @Autowired
     private CategoryService categoryService;
 
+    @PostMapping("/add")
+    public CategoryDto add(@RequestBody CategoryDto categoryDto) {
+        return categoryService.save(categoryDto);
+    }
+
     @PostMapping("/list")
-    public WsDto<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return categoryService.findAll(pageable);
     }
 
-    @PostMapping("/add")
-    public CategoryDto addPost(@RequestBody CategoryDto categoryDto) {
-        return categoryService.save(categoryDto);
-    }
-
     @GetMapping("/get")
-    public CategoryDto update(@RequestParam String identifier) {
+    public CategoryDto get(@RequestParam("identifier") String identifier) {
         return categoryService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
-    public CategoryDto updatePost(@RequestBody CategoryDto categoryDto) {
+    public CategoryDto update(@RequestBody CategoryDto categoryDto) {
         return categoryService.update(categoryDto);
     }
 
     @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    public boolean delete(@RequestParam("identifier") String identifier) {
         try {
-            categoryService.deleteByIdentifier(identifier);
-        } catch (Exception ex) {
+            categoryService.delete(identifier);
+            return true;
+        } catch (Exception e) {
             return false;
         }
-        return true;
     }
 
     @GetMapping("/findChildCategories")
     public List<CategoryDto> findChildCategories() {
         return categoryService.findChildCategories();
     }
-
 }

@@ -35,6 +35,7 @@ public class CustomerController {
     @PostMapping("/add")
     public String addPost(Model model, @ModelAttribute CustomerDto customerDto) {
         CustomerDto response = customerService.save(customerDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "customer/add";
@@ -50,9 +51,9 @@ public class CustomerController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model,
-                             @ModelAttribute CustomerDto customerDto) {
+    public String updatePost(Model model, @ModelAttribute CustomerDto customerDto) {
         CustomerDto response = customerService.update(customerDto);
+
         if (!response.isSuccess()) {
             model.addAttribute("customerDto", response);
             model.addAttribute("message", response.getMessage());
@@ -72,5 +73,4 @@ public class CustomerController {
     public void toggle(Model model, @RequestParam String identifier) {
         customerService.toggleStatus(identifier);
     }
-
 }

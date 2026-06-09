@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/price")
@@ -20,12 +21,14 @@ public class ApiPriceController extends BaseController {
     @PostMapping("/add")
     public PriceDto addPost(@RequestBody PriceDto priceDto) {
         return priceService.save(priceDto);
+
     }
 
     @PostMapping("/list")
     public WsDto<PriceDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return priceService.findAll(pageable);
+
     }
 
     @GetMapping("/get")
@@ -42,7 +45,6 @@ public class ApiPriceController extends BaseController {
     public boolean delete(@RequestParam String identifier) {
         try {
             priceService.delete(identifier);
-
         } catch (Exception e) {
             return false;
         }

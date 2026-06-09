@@ -16,49 +16,50 @@ import java.util.List;
 @RequestMapping("/api/node")
 public class ApiNodeController extends BaseController {
 
+    public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
+    public static final String ROLES = "roles";
+    @Autowired
+    public RoleService roleService;
     @Autowired
     private NodeService nodeService;
 
-    @Autowired
-    public RoleService roleService;
-
     @PostMapping("/list")
-    public WsDto<NodeDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<NodeDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return nodeService.findAll(pageable);
     }
 
     @PostMapping("/add")
-    public NodeDto addPost(@RequestBody NodeDto userDto) {
-        return nodeService.save(userDto);
+    public NodeDto addPost(@RequestBody NodeDto nodeDto) {
+        return nodeService.save(nodeDto);
+
     }
 
     @GetMapping("/get")
     public NodeDto update(@RequestParam String identifier) {
         return nodeService.findByIdentifier(identifier);
+
     }
 
     @PostMapping("/update")
-    public NodeDto updatePost(@RequestBody NodeDto userDto) {
-        return nodeService.update(userDto);
+    public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
+        return nodeService.update(nodeDto);
     }
 
     @GetMapping("/delete")
-    public boolean delete(@RequestBody String identifier) {
+    public boolean delete(@RequestParam String identifier) {
         try {
             nodeService.delete(identifier);
-
         } catch (Exception e) {
             return false;
         }
         return true;
     }
 
-    @GetMapping("/getNodesForRoles")
+    @GetMapping("/getnodesforroles")
     public List<NodeDto> getNodesForRoles() {
         return nodeService.getNodesForRoles();
     }
 
 }
-
 

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/cartentry")
@@ -19,9 +20,9 @@ public class ApiCartEntryController extends BaseController {
     private CartEntryService cartEntryService;
 
     @Autowired
-    private CartService cartService;
+    private CartService cartService; // ✅ ADD THIS
 
-
+    // ✅ FIXED METHOD
     @PostMapping("/add")
     public CartEntryDto addPost(@RequestBody CartEntryDto cartEntryDto) {
         return cartEntryService.save(cartEntryDto);

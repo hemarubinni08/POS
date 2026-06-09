@@ -10,10 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/racks")
+@RequestMapping("/api/rack")
 public class ApiRacksController extends BaseController {
+
+    public static final String REDIRECT_LIST = "redirect:/rack/list";
 
     @Autowired
     private RacksService racksService;
@@ -21,46 +24,37 @@ public class ApiRacksController extends BaseController {
     @Autowired
     private ShelfService shelfService;
 
-    @PostMapping("/add")
-    public RacksDto addPost(@RequestBody RacksDto racksDto) {
-        return racksService.save(racksDto);
-    }
-
     @PostMapping("/list")
     public WsDto<RacksDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return racksService.findAll(pageable);
     }
 
+    @PostMapping("/add")
+    public RacksDto addPost(@RequestBody RacksDto rackDto) {
+        return racksService.save(rackDto);
+
+    }
+
     @GetMapping("/get")
-    public RacksDto update(@RequestParam String identifier) {
+    public RacksDto get(@RequestParam String identifier) {
         return racksService.findByIdentifier(identifier);
+
     }
 
     @PostMapping("/update")
-    public RacksDto updatePost(@RequestBody RacksDto racksDto) {
-        return racksService.update(racksDto);
+    public RacksDto update(@RequestBody RacksDto rackDto) {
+        return racksService.update(rackDto);
+
     }
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             racksService.delete(identifier);
-
         } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-
-    @GetMapping("/toggle")
-    public boolean toggle(@RequestParam String identifier) {
-        try {
-            racksService.toggleStatus(identifier);
             return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
-
 }

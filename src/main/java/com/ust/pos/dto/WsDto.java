@@ -4,9 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-
 @Setter
 @Getter
-public class WsDto<T> extends PaginationDto {
+public class WsDto<T> extends PaginationDto{
     List<T> dtoList;
 }

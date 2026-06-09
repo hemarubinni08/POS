@@ -12,4 +12,3 @@ public class PriceDto extends CommonDto {
     private String type;
     private String product;
 }
- 

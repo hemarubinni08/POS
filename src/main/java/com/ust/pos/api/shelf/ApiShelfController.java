@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/shelf")
@@ -31,18 +32,19 @@ public class ApiShelfController extends BaseController {
     @GetMapping("/get")
     public ShelfDto update(@RequestParam String identifier) {
         return shelfService.findByIdentifier(identifier);
+
     }
 
     @PostMapping("/update")
     public ShelfDto updatePost(@RequestBody ShelfDto shelfDto) {
         return shelfService.update(shelfDto);
+
     }
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             shelfService.delete(identifier);
-
         } catch (Exception e) {
             return false;
         }
@@ -54,14 +56,13 @@ public class ApiShelfController extends BaseController {
         return new ShelfDto();
     }
 
-    @GetMapping("/toggle")
-    public boolean toggle(@RequestParam String identifier) {
-        try {
-            shelfService.toggleStatus(identifier);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    @GetMapping("/findallactive")
+    public List<ShelfDto> findAllActive() {
+        return shelfService.findAllActive();
     }
 
+    @PostMapping("/toggle-status")
+    public ShelfDto toggle(@RequestParam String identifier) {
+        return shelfService.toggleStatus(identifier);
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/model")
@@ -20,6 +21,7 @@ public class ApiModelController extends BaseController {
     @PostMapping("/add")
     public ModelDto addPost(@RequestBody ModelDto modelDto) {
         return modelService.save(modelDto);
+
     }
 
     @PostMapping("/list")
@@ -36,27 +38,21 @@ public class ApiModelController extends BaseController {
     @PostMapping("/update")
     public ModelDto updatePost(@RequestBody ModelDto modelDto) {
         return modelService.update(modelDto);
+
     }
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             modelService.delete(identifier);
-
         } catch (Exception e) {
             return false;
         }
         return true;
     }
 
-    @GetMapping("/toggle")
-    public boolean toggle(@RequestParam String identifier) {
-        try {
-            modelService.toggleStatus(identifier);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    @PostMapping("/toggle-status")
+    public void toggle(@RequestParam String identifier) {
+        modelService.toggleStatus(identifier);
     }
-
 }

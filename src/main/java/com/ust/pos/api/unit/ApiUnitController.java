@@ -27,6 +27,7 @@ public class ApiUnitController extends BaseController {
     public WsDto<UnitDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return unitService.findAll(pageable);
+
     }
 
     @GetMapping("/get")
@@ -43,21 +44,14 @@ public class ApiUnitController extends BaseController {
     public boolean delete(@RequestParam String identifier) {
         try {
             unitService.delete(identifier);
-
         } catch (Exception e) {
             return false;
         }
         return true;
     }
 
-    @GetMapping("/toggle")
-    public boolean toggle(@RequestParam String identifier) {
-        try {
-            unitService.toggleStatus(identifier);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    @PostMapping("/toggle-status")
+    public UnitDto toggle(@RequestParam String identifier) {
+        return unitService.toggleStatus(identifier);
     }
-
 }

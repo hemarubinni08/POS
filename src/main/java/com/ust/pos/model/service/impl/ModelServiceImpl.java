@@ -1,10 +1,12 @@
 package com.ust.pos.model.service.impl;
 
 import com.ust.pos.dto.ModelDto;
+import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.service.ModelService;
 import com.ust.pos.modell.Model;
 import com.ust.pos.modell.ModelRepository;
+import com.ust.pos.modell.User;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -19,7 +21,8 @@ import java.util.List;
 @Service
 public class ModelServiceImpl implements ModelService {
 
-    public static final RuntimeException MODEL_NOT_FOUND = new RuntimeException("model not found");
+    public static final RuntimeException MODEL_NOT_FOUND =
+            new RuntimeException("model not found");
 
     @Autowired
     private ModelMapper modelMapper;
@@ -29,9 +32,7 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public ModelDto findByIdentifier(String identifier) {
-        return modelMapper.map(
-                modelRepository.findByIdentifier(identifier),
-                ModelDto.class
+        return modelMapper.map(modelRepository.findByIdentifier(identifier), ModelDto.class
         );
     }
 
@@ -39,8 +40,10 @@ public class ModelServiceImpl implements ModelService {
     public ModelDto save(ModelDto modelDto) {
         String identifier = modelDto.getIdentifier();
         Model existingModel = modelRepository.findByIdentifier(identifier);
+
         if (existingModel != null) {
-            modelDto.setMessage("Model with identifier - " + identifier + " already exists");
+            modelDto.setMessage(
+                    "Model with identifier - " + identifier + " already exists");
             modelDto.setSuccess(false);
             return modelDto;
         }
@@ -53,11 +56,14 @@ public class ModelServiceImpl implements ModelService {
     public ModelDto update(ModelDto modelDto) {
         String identifier = modelDto.getIdentifier();
         Model existingModel = modelRepository.findByIdentifier(identifier);
+
         if (existingModel == null) {
-            modelDto.setMessage("Model with identifier - " + identifier + " not found");
+            modelDto.setMessage(
+                    "Model with identifier - " + identifier + " not found");
             modelDto.setSuccess(false);
             return modelDto;
         }
+
         modelMapper.map(modelDto, existingModel);
         modelRepository.save(existingModel);
         return modelDto;
@@ -86,13 +92,21 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
+    public List<ModelDto> findAllActive() {
+        return modelRepository.findByStatusTrue()
+                .stream()
+                .map(model -> modelMapper.map(model, ModelDto.class))
+                .toList();
+    }
+
+    @Override
     public void toggleStatus(String identifier) {
         Model model = modelRepository.findByIdentifier(identifier);
+
         if (model == null) {
             throw MODEL_NOT_FOUND;
         }
-        model.setStatus(!model.isStatus());
+        model.setStatus(!model.getStatus());
         modelRepository.save(model);
     }
-
 }

@@ -1,9 +1,11 @@
 package com.ust.pos.product.service.impl;
 
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Product;
 import com.ust.pos.modell.ProductRepository;
+import com.ust.pos.modell.User;
 import com.ust.pos.product.service.ProductService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -19,7 +21,8 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    public static final RuntimeException PRODUCT_NOT_FOUND = new RuntimeException("product not found");
+    public static final RuntimeException PRODUCT_NOT_FOUND =
+            new RuntimeException("Product not found");
 
     @Autowired
     private ModelMapper modelMapper;
@@ -29,18 +32,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto findByIdentifier(String identifier) {
-        return modelMapper.map(productRepository.findByIdentifier(identifier), ProductDto.class);
+        return modelMapper.map(productRepository.findByIdentifier(identifier), ProductDto.class
+        );
     }
 
     @Override
     public ProductDto save(ProductDto productDto) {
         String identifier = productDto.getIdentifier();
         Product existingProduct = productRepository.findByIdentifier(identifier);
+
         if (existingProduct != null) {
-            productDto.setMessage("Product with identifier - " + identifier + " already exists");
+            productDto.setMessage("Shelf with identifier - " + identifier + " already exists");
             productDto.setSuccess(false);
             return productDto;
         }
+
         Product product = modelMapper.map(productDto, Product.class);
         productRepository.save(product);
         return productDto;
@@ -50,11 +56,14 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto update(ProductDto productDto) {
         String identifier = productDto.getIdentifier();
         Product existingProduct = productRepository.findByIdentifier(identifier);
+
         if (existingProduct == null) {
-            productDto.setMessage("Product with identifier - " + identifier + " not found");
+            productDto.setMessage(
+                    "Shelf with identifier - " + identifier + " not found");
             productDto.setSuccess(false);
             return productDto;
         }
+
         modelMapper.map(productDto, existingProduct);
         productRepository.save(existingProduct);
         return productDto;
@@ -83,13 +92,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void toggleStatus(String identifier) {
+    @Transactional
+    public ProductDto toggleStatus(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
         if (product == null) {
-            throw PRODUCT_NOT_FOUND;
+            throw new RuntimeException("Product not found with identifier: " + identifier);
         }
-        product.setStatus(!product.getStatus());
-        productRepository.save(product);
+        Boolean currentStatus = product.getStatus();
+        product.setStatus(currentStatus == null ? Boolean.TRUE : !currentStatus);
+        Product saved = productRepository.save(product);
+        return modelMapper.map(saved, ProductDto.class);
     }
 
     @Override
@@ -99,5 +111,4 @@ public class ProductServiceImpl implements ProductService {
                 .map(product -> modelMapper.map(product, ProductDto.class))
                 .toList();
     }
-
 }

@@ -1,9 +1,11 @@
-package com.ust.pos.shelf.service.impl;
+package com.ust.pos.shelf.impl;
 
 import com.ust.pos.dto.ShelfDto;
+import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Shelf;
 import com.ust.pos.modell.ShelfRepository;
+import com.ust.pos.modell.User;
 import com.ust.pos.shelf.service.ShelfService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -19,49 +21,56 @@ import java.util.List;
 @Service
 public class ShelfServiceImpl implements ShelfService {
 
-    public static final RuntimeException SHELF_NOT_FOUND = new RuntimeException("Shelf not found");
+    @Autowired
+    private ShelfRepository shelfRepository;
 
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    private ShelfRepository shelfRepository;
-
     @Override
     public ShelfDto findByIdentifier(String identifier) {
-        return modelMapper.map(shelfRepository.findByIdentifier(identifier), ShelfDto.class);
+        return modelMapper.map(shelfRepository.findByIdentifier(identifier), ShelfDto.class
+        );
     }
 
     @Override
     public ShelfDto save(ShelfDto shelfDto) {
+
         String identifier = shelfDto.getIdentifier();
         Shelf existingShelf = shelfRepository.findByIdentifier(identifier);
+
         if (existingShelf != null) {
             shelfDto.setMessage("Shelf with identifier - " + identifier + " already exists");
             shelfDto.setSuccess(false);
             return shelfDto;
         }
+
         Shelf shelf = modelMapper.map(shelfDto, Shelf.class);
         shelfRepository.save(shelf);
+
         return shelfDto;
     }
 
     @Override
     public ShelfDto update(ShelfDto shelfDto) {
+
         String identifier = shelfDto.getIdentifier();
         Shelf existingShelf = shelfRepository.findByIdentifier(identifier);
+
         if (existingShelf == null) {
             shelfDto.setMessage("Shelf with identifier - " + identifier + " not found");
             shelfDto.setSuccess(false);
             return shelfDto;
         }
+
         modelMapper.map(shelfDto, existingShelf);
         shelfRepository.save(existingShelf);
+
         return shelfDto;
     }
 
-    @Override
     @Transactional
+    @Override
     public void delete(String identifier) {
         shelfRepository.deleteByIdentifier(identifier);
     }
@@ -83,16 +92,6 @@ public class ShelfServiceImpl implements ShelfService {
     }
 
     @Override
-    public void toggleStatus(String identifier) {
-        Shelf shelf = shelfRepository.findByIdentifier(identifier);
-        if (shelf == null) {
-            throw SHELF_NOT_FOUND;
-        }
-        shelf.setStatus(!shelf.isStatus());
-        shelfRepository.save(shelf);
-    }
-
-    @Override
     public List<ShelfDto> findAllActive() {
         return shelfRepository.findByStatusTrue()
                 .stream()
@@ -100,6 +99,16 @@ public class ShelfServiceImpl implements ShelfService {
                 .toList();
     }
 
+    @Override
+    @Transactional
+    public ShelfDto toggleStatus(String identifier) {
+        Shelf shelf = shelfRepository.findByIdentifier(identifier);
+        if (shelf == null) {
+            throw new IllegalArgumentException("Shelf not found with identifier: " + identifier);
+        }
+        Boolean currentStatus = shelf.getStatus();
+        shelf.setStatus(currentStatus == null ? Boolean.TRUE : !currentStatus);
+        Shelf saved = shelfRepository.save(shelf);
+        return modelMapper.map(saved, ShelfDto.class);
+    }
 }
-
-

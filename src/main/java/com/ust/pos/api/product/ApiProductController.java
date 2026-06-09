@@ -1,14 +1,16 @@
 package com.ust.pos.api.product;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/product")
@@ -17,8 +19,10 @@ public class ApiProductController extends BaseController {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private CategoryService categoryService;
+    @PostMapping("/add")
+    public ProductDto addPost(@RequestBody ProductDto productDto) {
+        return productService.save(productDto);
+    }
 
     @PostMapping("/list")
     public WsDto<ProductDto> list(@RequestBody PaginationDto paginationDto) {
@@ -26,19 +30,15 @@ public class ApiProductController extends BaseController {
         return productService.findAll(pageable);
     }
 
-    @PostMapping("/add")
-    public ProductDto addPost(@RequestBody ProductDto productDto) {
-        return productService.save(productDto);
-    }
-
     @GetMapping("/get")
-    public ProductDto get(@RequestParam String identifier) {
+    public ProductDto update(@RequestParam String identifier) {
         return productService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
     public ProductDto updatePost(@RequestBody ProductDto productDto) {
         return productService.update(productDto);
+
     }
 
     @GetMapping("/delete")
@@ -46,19 +46,18 @@ public class ApiProductController extends BaseController {
         try {
             productService.delete(identifier);
         } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-
-    @GetMapping("/toggle")
-    public boolean toggle(@RequestParam String identifier) {
-        try {
-            productService.toggleStatus(identifier);
             return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
 
+    @PostMapping("/toggle-status")
+    public ProductDto toggle(@RequestParam String identifier) {
+        return  productService.toggleStatus(identifier);
+    }
+
+    @GetMapping("/findallactive")
+    public List<ProductDto> findAllActive() {
+        return productService.findAllActive();
+    }
 }

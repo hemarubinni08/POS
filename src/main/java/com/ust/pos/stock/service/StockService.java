@@ -1,6 +1,5 @@
 package com.ust.pos.stock.service;
 
-import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
@@ -19,4 +18,5 @@ public interface StockService {
     void delete(Long id);
 
     WsDto<StockDto> findAll(Pageable pageable);
+
 }

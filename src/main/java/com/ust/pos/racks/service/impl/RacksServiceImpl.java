@@ -1,9 +1,11 @@
 package com.ust.pos.racks.service.impl;
 
 import com.ust.pos.dto.RacksDto;
+import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Racks;
 import com.ust.pos.modell.RacksRepository;
+import com.ust.pos.modell.User;
 import com.ust.pos.racks.service.RacksService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -19,28 +21,29 @@ import java.util.List;
 @Service
 public class RacksServiceImpl implements RacksService {
 
-    public static final RuntimeException SHELF_NOT_FOUND = new RuntimeException("Shelf not found");
+    @Autowired
+    private RacksRepository racksRepository;
 
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    private RacksRepository racksRepository;
-
     @Override
     public RacksDto findByIdentifier(String identifier) {
-        return modelMapper.map(racksRepository.findByIdentifier(identifier), RacksDto.class);
+        return modelMapper.map(racksRepository.findByIdentifier(identifier), RacksDto.class
+        );
     }
 
     @Override
     public RacksDto save(RacksDto racksDto) {
         String identifier = racksDto.getIdentifier();
-        Racks existingRacks = racksRepository.findByIdentifier(identifier);
-        if (existingRacks != null) {
-            racksDto.setMessage("Racks with identifier - " + identifier + " already exists");
+        Racks existingRack = racksRepository.findByIdentifier(identifier);
+
+        if (existingRack != null) {
+            racksDto.setMessage("Shelf with identifier - " + identifier + " already exists");
             racksDto.setSuccess(false);
             return racksDto;
         }
+
         Racks racks = modelMapper.map(racksDto, Racks.class);
         racksRepository.save(racks);
         return racksDto;
@@ -49,14 +52,16 @@ public class RacksServiceImpl implements RacksService {
     @Override
     public RacksDto update(RacksDto racksDto) {
         String identifier = racksDto.getIdentifier();
-        Racks existingRacks = racksRepository.findByIdentifier(identifier);
-        if (existingRacks == null) {
-            racksDto.setMessage("Racks with identifier - " + identifier + " not found");
+        Racks existingRack = racksRepository.findByIdentifier(identifier);
+
+        if (existingRack == null) {
+            racksDto.setMessage("Shelf with identifier - " + identifier + " not found");
             racksDto.setSuccess(false);
             return racksDto;
         }
-        modelMapper.map(racksDto, existingRacks);
-        racksRepository.save(existingRacks);
+
+        modelMapper.map(racksDto, existingRack);
+        racksRepository.save(existingRack);
         return racksDto;
     }
 
@@ -83,21 +88,10 @@ public class RacksServiceImpl implements RacksService {
     }
 
     @Override
-    public void toggleStatus(String identifier) {
-        Racks racks = racksRepository.findByIdentifier(identifier);
-        if (racks == null) {
-            throw SHELF_NOT_FOUND;
-        }
-        racks.setStatus(!racks.isStatus());
-        racksRepository.save(racks);
-    }
-
-    @Override
     public List<RacksDto> findAllActive() {
         return racksRepository.findByStatusTrue()
                 .stream()
-                .map(racks -> modelMapper.map(racks, RacksDto.class))
+                .map(rack -> modelMapper.map(rack, RacksDto.class))
                 .toList();
     }
-
 }
