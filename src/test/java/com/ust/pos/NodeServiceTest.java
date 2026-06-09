@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.*;
 import com.ust.pos.node.service.impl.NodeServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -112,19 +113,23 @@ class NodeServiceTest {
         nodeDto.setIdentifier("User");
 
         List<Node> nodes = List.of(node);
-        List<NodeDto> nodeDtos = List.of(nodeDto);
         Pageable pageable = PageRequest.of(0, 10);
         Page<Node> nodePage = new PageImpl<>(nodes, pageable, nodes.size());
 
         Mockito.when(nodeRepository.findAll(pageable)).thenReturn(nodePage);
-        Mockito.when(modelMapper.map(
-                Mockito.eq(nodes),
+        Mockito.when(modelMapper.map(Mockito.eq(nodes),
                 Mockito.any(java.lang.reflect.Type.class)
-        )).thenReturn(nodeDtos);
-        List<NodeDto> response = nodeService.findAll(pageable);
+        )).thenReturn(List.of(nodeDto));
+        WsDto<NodeDto> response = nodeService.findAll(pageable);
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("User", response.get(0).getIdentifier());
+        Assertions.assertNotNull(response.getDtoList());
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("User", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPages());
+        Assertions.assertEquals(10, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
     }
 
     @Test

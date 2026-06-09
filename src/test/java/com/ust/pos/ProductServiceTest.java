@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.*;
 import com.ust.pos.model.Product;
 import com.ust.pos.product.service.impl.ProductServiceImpl;
@@ -100,23 +101,28 @@ class ProductServiceTest {
     void findAllTest() {
         Product product = new Product();
         product.setIdentifier("PROD 106");
+
         ProductDto productDto = new ProductDto();
         productDto.setIdentifier("PROD 106");
 
         List<Product> products = List.of(product);
-        List<ProductDto> productDtos = List.of(productDto);
         Pageable pageable = PageRequest.of(0, 10);
         Page<Product> productPage = new PageImpl<>(products, pageable, products.size());
 
         Mockito.when(productRepository.findAll(pageable)).thenReturn(productPage);
-        Mockito.when(modelMapper.map(
-                Mockito.eq(products),
+        Mockito.when(modelMapper.map(Mockito.eq(products),
                 Mockito.any(java.lang.reflect.Type.class)
-        )).thenReturn(productDtos);
-        List<ProductDto> response = productService.findAll(pageable);
+        )).thenReturn(List.of(productDto));
+        WsDto<ProductDto> response = productService.findAll(pageable);
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("PROD 106", response.get(0).getIdentifier());
+        Assertions.assertNotNull(response.getDtoList());
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("PROD 106", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPages());
+        Assertions.assertEquals(10, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.BrandDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
 import com.ust.pos.brand.service.impl.BrandServiceImpl;
@@ -105,7 +106,6 @@ class BrandServiceTest {
     void findAllWithPageableTest() {
         Brand brand = new Brand();
         brand.setIdentifier("B101");
-
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("B101");
 
@@ -118,10 +118,16 @@ class BrandServiceTest {
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(List.of(brandDto));
 
-        List<BrandDto> response = brandService.findAll(pageable);
+        WsDto<BrandDto> response = brandService.findAll(pageable);
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("B101", response.get(0).getIdentifier());
+        Assertions.assertNotNull(response.getDtoList());
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("B101", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPages());
+        Assertions.assertEquals(10, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.RackDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
 import com.ust.pos.rack.service.impl.RackServiceImpl;
@@ -102,23 +103,28 @@ class RackServiceTest {
     void findAllTest() {
         Rack rack = new Rack();
         rack.setIdentifier("RACK_01");
+
         RackDto rackDto = new RackDto();
         rackDto.setIdentifier("RACK_01");
 
         List<Rack> racks = List.of(rack);
-        List<RackDto> rackDtos = List.of(rackDto);
         Pageable pageable = PageRequest.of(0, 10);
         Page<Rack> rackPage = new PageImpl<>(racks, pageable, racks.size());
 
         Mockito.when(rackRepository.findAll(pageable)).thenReturn(rackPage);
-        Mockito.when(modelMapper.map(
-                Mockito.eq(racks),
+        Mockito.when(modelMapper.map(Mockito.eq(racks),
                 Mockito.any(java.lang.reflect.Type.class)
-        )).thenReturn(rackDtos);
-        List<RackDto> response = rackService.findAll(pageable);
+        )).thenReturn(List.of(rackDto));
+        WsDto<RackDto> response = rackService.findAll(pageable);
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("RACK_01", response.get(0).getIdentifier());
+        Assertions.assertNotNull(response.getDtoList());
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("RACK_01", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPages());
+        Assertions.assertEquals(10, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
     }
 
     @Test

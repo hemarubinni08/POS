@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
 import com.ust.pos.role.service.impl.RoleServiceImpl;
@@ -102,23 +103,28 @@ class RoleServiceTest {
     void findAllTest() {
         Role role = new Role();
         role.setIdentifier("Admin");
+
         RoleDto roleDto = new RoleDto();
         roleDto.setIdentifier("Admin");
 
         List<Role> roles = List.of(role);
-        List<RoleDto> roleDtos = List.of(roleDto);
         Pageable pageable = PageRequest.of(0, 10);
         Page<Role> rolePage = new PageImpl<>(roles, pageable, roles.size());
 
         Mockito.when(roleRepository.findAll(pageable)).thenReturn(rolePage);
-        Mockito.when(modelMapper.map(
-                Mockito.eq(roles),
+        Mockito.when(modelMapper.map(Mockito.eq(roles),
                 Mockito.any(java.lang.reflect.Type.class)
-        )).thenReturn(roleDtos);
-        List<RoleDto> response = roleService.findAll(pageable);
+        )).thenReturn(List.of(roleDto));
+        WsDto<RoleDto> response = roleService.findAll(pageable);
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("Admin", response.get(0).getIdentifier());
+        Assertions.assertNotNull(response.getDtoList());
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
+
+        Assertions.assertEquals(1, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPages());
+        Assertions.assertEquals(10, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
     }
 
     @Test
