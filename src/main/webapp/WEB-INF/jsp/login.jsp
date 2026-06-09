@@ -28,7 +28,7 @@
             display: flex;
         }
 
-        /* ── LEFT: decorative panel ── */
+
         .left {
             width: 45%;
             position: relative;
@@ -40,7 +40,7 @@
             background: #111;
         }
 
-        /* Receipt/barcode texture strips */
+
         .strips {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -52,7 +52,6 @@
         }
         .strip { background: white; flex-shrink: 0; }
 
-        /* Gold diagonal accent */
         .left::before {
             content: '';
             position: absolute;
@@ -62,7 +61,6 @@
             border-radius: 50%;
         }
 
-        /* Large background number */
         .bg-num {
             position: absolute;
             top: 50%; left: 50%;
@@ -152,7 +150,7 @@
             letter-spacing: .5px;
         }
 
-        /* ── RIGHT: form ── */
+
         .right {
             flex: 1;
             display: flex;
@@ -162,8 +160,6 @@
             background: var(--panel);
             position: relative;
         }
-
-        /* subtle top border */
         .right::before {
             content: '';
             position: absolute;
@@ -323,9 +319,7 @@
 </head>
 <body>
 
-<!-- LEFT -->
 <div class="left">
-    <!-- barcode-like strips texture -->
     <div class="strips">
         <c:forEach begin="1" end="120">
             <div class="strip" style="height:${Math.random()>0.7 ? 6 : 2}px"></div>
@@ -349,8 +343,6 @@
         </div>
     </div>
 </div>
-
-<!-- RIGHT -->
 <div class="right">
     <div class="form-box">
 

@@ -29,8 +29,6 @@ class UnitServiceTest {
     @InjectMocks
     private UnitServiceImpl unitService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     void saveTest() {
         UnitDto dto = new UnitDto();
@@ -58,8 +56,6 @@ class UnitServiceTest {
         Assertions.assertNotNull(response.getMessage());
     }
 
-    /* ===================== FIND BY IDENTIFIER ===================== */
-
     @Test
     void findByIdentifierTest() {
         Unit unit = new Unit();
@@ -75,8 +71,6 @@ class UnitServiceTest {
 
         Assertions.assertEquals("S1", response.getIdentifier());
     }
-
-    /* ===================== UPDATE ===================== */
 
     @Test
     void updateTest() {
@@ -105,8 +99,6 @@ class UnitServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    /* ===================== DELETE ===================== */
-
     @Test
     void deleteTest() {
         Mockito.doNothing().when(unitRepository).deleteByIdentifier("S1");
@@ -115,8 +107,6 @@ class UnitServiceTest {
 
         Mockito.verify(unitRepository).deleteByIdentifier("S1");
     }
-
-    /* ===================== FIND ALL ===================== */
 
     @Test
     void findAllTest() {
@@ -136,12 +126,10 @@ class UnitServiceTest {
         Mockito.when(unitRepository.findAll(pageable)).thenReturn(unitPage);
         Mockito.when(modelMapper.map(Mockito.eq(units), Mockito.any(java.lang.reflect.Type.class))).thenReturn(unitDtos);
 
-        List<UnitDto> response = unitService.findAll(pageable);
+        List<UnitDto> response = unitService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
     }
-
-    /* ===================== TOGGLE ===================== */
 
     @Test
     void toggleActive() {
@@ -168,8 +156,6 @@ class UnitServiceTest {
 
         Assertions.assertTrue(unit.isStatus());
     }
-
-    /* ===================== FIND ACTIVE ===================== */
 
     @Test
     void findByStatusTest() {

@@ -21,10 +21,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -134,7 +132,7 @@ class NodeServiceTest {
 
         Mockito.when(modelMapper.map(Mockito.eq(List.of(node)), Mockito.any(Type.class))).thenReturn(List.of(dto));
 
-        List<NodeDto> result = nodeService.findAll(pageable);
+        List<NodeDto> result = nodeService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals(dto, result.get(0));
@@ -179,9 +177,19 @@ class NodeServiceTest {
 
     @Test
     void getNodesForRoles_success() {
-        User principal = new User("john", "pwd", List.of(() -> "ROLE_ADMIN"));
+        org.springframework.security.core.userdetails.User principal =
+                new org.springframework.security.core.userdetails.User(
+                        "john",
+                        "pwd",
+                        List.of(() -> "ROLE_ADMIN")
+                );
 
-        Authentication auth = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
+        Authentication auth =
+                new UsernamePasswordAuthenticationToken(
+                        principal,
+                        null,
+                        principal.getAuthorities()
+                );
 
         SecurityContextHolder.getContext().setAuthentication(auth);
 
@@ -191,12 +199,12 @@ class NodeServiceTest {
 
         Node node = new Node();
         node.setIdentifier("NODE_1");
-        node.setRoles(Arrays.asList("ROLE_ADMIN"));
+        node.setRoles(List.of("ROLE_ADMIN"));
 
         NodeDto nodeDto = new NodeDto();
 
         Mockito.when(userRepository.findByUsername("john")).thenReturn(dbUser);
-        Mockito.when(nodeRepository.findAll()).thenReturn(List.of(node));
+        Mockito.when(nodeRepository.findByStatusIsTrue()).thenReturn(List.of(node));
         Mockito.when(nodeRepository.findByIdentifier("NODE_1")).thenReturn(node);
         Mockito.when(modelMapper.map(node, NodeDto.class)).thenReturn(nodeDto);
 

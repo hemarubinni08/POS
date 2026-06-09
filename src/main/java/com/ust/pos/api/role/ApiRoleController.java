@@ -21,10 +21,11 @@ public class ApiRoleController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<RoleDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(), paginationDto.getSortField());
+
         return roleService.findAll(pageable);
     }
-
 
     @PostMapping("/add")
     public RoleDto addPost(@RequestBody RoleDto roleDto) {

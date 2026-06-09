@@ -47,7 +47,6 @@ public class SecurityController {
         }
 
         redirectAttributes.addFlashAttribute("successMessage", "User registered successfully! Please login.");
-
         return "redirect:/login";
     }
 }

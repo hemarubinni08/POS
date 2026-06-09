@@ -24,7 +24,6 @@ public class UnitController {
         return "unit/list";
     }
 
-
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("unit", new UnitDto());
@@ -52,7 +51,6 @@ public class UnitController {
         return "unit/edit";
     }
 
-
     @PostMapping("/update")
     public String update(Model model, @ModelAttribute UnitDto unitDto) {
 
@@ -65,7 +63,6 @@ public class UnitController {
         }
         return REDIRECT_LIST;
     }
-
 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {

@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.impl.UserServiceImpl;
@@ -49,20 +50,17 @@ class UserServiceTest {
         user.setIdentifier("U001");
         user.setPassword("encodedPwd");
         user.setStatus(true);
-
-        // ✅ MUTABLE LIST (TEST FIX)
         user.setRoles(new ArrayList<>(List.of("ADMIN")));
 
         userDto = new UserDto();
         userDto.setUsername("john");
         userDto.setIdentifier("U001");
         userDto.setPassword("plainPwd");
-
-        // ✅ MUTABLE LIST (TEST FIX)
         userDto.setRoles(new ArrayList<>(List.of("ADMIN")));
     }
 
-    /* ================= FIND BY USERNAME ================= */
+
+
 
     @Test
     void findByUserName_found() {
@@ -84,7 +82,25 @@ class UserServiceTest {
         assertNull(result);
     }
 
-    /* ================= SAVE ================= */
+    @Test
+    void findByIdentifier_found() {
+        when(userRepository.findByIdentifier("U001")).thenReturn(user);
+        when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
+
+        UserDto result = userService.findByIdentifier("U001");
+
+        assertNotNull(result);
+        assertEquals("U001", result.getIdentifier());
+    }
+
+    @Test
+    void findByIdentifier_notFound() {
+        when(userRepository.findByIdentifier("U001")).thenReturn(null);
+
+        UserDto result = userService.findByIdentifier("U001");
+
+        assertNull(result);
+    }
 
     @Test
     void save_success() {
@@ -109,8 +125,6 @@ class UserServiceTest {
         assertTrue(result.getMessage().contains("already exists"));
     }
 
-    /* ================= UPDATE ================= */
-
     @Test
     void update_success_withRoles() {
         when(userRepository.findByUsername("john")).thenReturn(user);
@@ -120,6 +134,7 @@ class UserServiceTest {
         verify(modelMapper).map(userDto, user);
         verify(userRepository).save(user);
         assertTrue(result.isSuccess());
+        assertEquals("User updated successfully", result.getMessage());
     }
 
     @Test
@@ -132,11 +147,12 @@ class UserServiceTest {
         assertEquals("User not found", result.getMessage());
     }
 
+
     @Test
     void update_preserveRoles_whenRolesNull() {
         when(userRepository.findByUsername("john")).thenReturn(user);
 
-        userDto.setRoles(null); // ✅ triggers branch
+        userDto.setRoles(null);
 
         UserDto result = userService.update(userDto);
 
@@ -148,15 +164,13 @@ class UserServiceTest {
     void update_preserveRoles_whenRolesEmpty() {
         when(userRepository.findByUsername("john")).thenReturn(user);
 
-        userDto.setRoles(new ArrayList<>()); // ✅ mutable empty list
+        userDto.setRoles(new ArrayList<>());
 
         UserDto result = userService.update(userDto);
 
         assertTrue(result.isSuccess());
         assertTrue(user.getRoles().contains("ADMIN"));
     }
-
-    /* ================= DELETE ================= */
 
     @Test
     void delete_user() {
@@ -167,32 +181,32 @@ class UserServiceTest {
         verify(userRepository).deleteByUsername("john");
     }
 
-    /* ================= FIND ALL ================= */
-
     @Test
-    void findAllTest() {
+    void findAll_success() {
         User user1 = new User();
-        user1.setIdentifier("Admin");
+        user1.setIdentifier("U001");
 
         UserDto userDto1 = new UserDto();
-        userDto1.setIdentifier("Admin");
+        userDto1.setIdentifier("U001");
 
         List<User> users = List.of(user1);
         List<UserDto> userDtos = List.of(userDto1);
 
-        Page<User> userPage = new PageImpl<>(users, PageRequest.of(0, 2), users.size());
-
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
+        Page<User> userPage = new PageImpl<>(users, pageable, users.size());
 
         Mockito.when(userRepository.findAll(pageable)).thenReturn(userPage);
-        Mockito.when(modelMapper.map(Mockito.eq(users), Mockito.any(java.lang.reflect.Type.class))).thenReturn(userDtos);
+        Mockito.when(modelMapper.map(Mockito.eq(users), Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(userDtos);
 
-        List<UserDto> response = userService.findAll(pageable);
+        WsDto<UserDto> response = userService.findAll(pageable);
 
-        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals(1L, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPages());
+        Assertions.assertEquals(50, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
     }
-
-    /* ================= TOGGLE STATUS ================= */
 
     @Test
     void toggleStatus_trueToFalse() {
@@ -216,8 +230,6 @@ class UserServiceTest {
         assertTrue(user.isStatus());
     }
 
-    /* ================= FIND ACTIVE ================= */
-
     @Test
     void findIfTrue_activeUsers() {
         when(userRepository.findByStatusIsTrue()).thenReturn(List.of(user));
@@ -228,4 +240,25 @@ class UserServiceTest {
         assertEquals(1, result.size());
     }
 
+    @Test
+    void update_failure_duplicateUsername() {
+        User existingUser = new User();
+        existingUser.setUsername("john");
+        existingUser.setIdentifier("U001");
+        existingUser.setRoles(new ArrayList<>(List.of("ADMIN")));
+
+        UserDto dto = new UserDto();
+        dto.setIdentifier("U001");
+        dto.setUsername("jane");
+        when(userRepository.findByUsername("jane")).thenReturn(existingUser);
+
+        when(userRepository.findByUsername("jane"))
+                .thenReturn(existingUser)
+                .thenReturn(new User());
+
+        UserDto result = userService.update(dto);
+
+        assertFalse(result.isSuccess());
+        assertEquals("User with email jane already exists", result.getMessage());
+    }
 }

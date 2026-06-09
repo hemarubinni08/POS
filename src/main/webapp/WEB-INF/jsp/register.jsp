@@ -72,7 +72,6 @@
             padding: 6px 4px;
         }
 
-        /* ✅ FIXED ALIGNMENT */
         .role-item label {
             display: flex;
             align-items: center;

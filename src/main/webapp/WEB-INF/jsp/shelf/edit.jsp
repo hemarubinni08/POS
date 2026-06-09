@@ -6,12 +6,9 @@
 <html>
 <head>
     <title>Edit Brand</title>
-
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -51,7 +48,6 @@
 
 <div class="container mt-5">
 
-    <!-- BACK BUTTON -->
     <div class="mb-4 text-center">
         <a href="${pageContext.request.contextPath}/shelf/list"
            class="btn btn-secondary back-btn">
@@ -63,22 +59,18 @@
     <div class="card card-custom p-4">
         <h3 class="text-center mb-4">Edit Shelf</h3>
 
-        <!-- ERROR MESSAGE -->
         <c:if test="${not empty message}">
             <div class="error-msg">
                 ${message}
             </div>
         </c:if>
 
-        <!-- BRAND EDIT FORM -->
         <form:form action="${pageContext.request.contextPath}/shelf/update"
                    method="post"
                    modelAttribute="shelf">
 
-            <!-- ID -->
             <form:hidden path="id"/>
 
-            <!-- BRAND NAME -->
             <div class="mb-3">
                 <label class="form-label fw-bold">Shelf Name</label>
                 <form:input path="identifier"
@@ -87,8 +79,6 @@
                 <form:errors path="identifier" cssClass="text-danger"/>
             </div>
 
-
-            <!-- STATUS -->
             <div class="mb-4">
                 <label class="form-label fw-bold">Status</label>
                 <form:select path="status" class="form-select">
@@ -97,7 +87,6 @@
                 </form:select>
             </div>
 
-            <!-- SUBMIT -->
             <button type="submit" class="btn btn-success w-100 btn-submit">
                 <i class="bi bi-check-circle"></i>
                 Update Shelf

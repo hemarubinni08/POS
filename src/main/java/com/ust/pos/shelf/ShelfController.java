@@ -40,14 +40,11 @@ public class ShelfController {
     public String addPost(@ModelAttribute ShelfDto shelfDto, RedirectAttributes redirectAttributes) {
 
         ShelfDto response = shelfService.save(shelfDto);
-
         if (!response.isSuccess()) {
             redirectAttributes.addFlashAttribute(ERROR_MESSAGE, response.getMessage());
             return "shelf/add";
         }
-
         redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, "Shelf added successfully");
-
         return REDIRECT_LIST;
     }
 
@@ -63,14 +60,11 @@ public class ShelfController {
     public String update(@ModelAttribute ShelfDto shelfDto, RedirectAttributes redirectAttributes) {
 
         ShelfDto response = shelfService.update(shelfDto);
-
         if (!response.isSuccess()) {
             redirectAttributes.addFlashAttribute(ERROR_MESSAGE, response.getMessage());
             return "/shelf/edit";
         }
-
         redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, "Shelf updated successfully");
-
         return REDIRECT_LIST;
     }
 
@@ -79,9 +73,7 @@ public class ShelfController {
     public String delete(@RequestParam String identifier, RedirectAttributes redirectAttributes) {
 
         shelfService.delete(identifier);
-
         redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, "Shelf deleted successfully");
-
         return REDIRECT_LIST;
     }
 
@@ -90,9 +82,7 @@ public class ShelfController {
     public String toggleShelf(@RequestParam String identifier, RedirectAttributes redirectAttributes) {
 
         shelfService.toggleStatus(identifier);
-
         redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, "Shelf status updated successfully");
-
         return REDIRECT_LIST;
     }
 }

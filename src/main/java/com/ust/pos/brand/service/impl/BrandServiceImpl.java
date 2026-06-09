@@ -71,7 +71,6 @@ public class BrandServiceImpl implements BrandService {
     public WsDto<BrandDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
-        Page<Brand> customerPage = brandRepository.findAll(pageable);
         Page<Brand> brandPage = brandRepository.findAll(pageable);
 
         WsDto<BrandDto> brandWsDto = new WsDto<>();

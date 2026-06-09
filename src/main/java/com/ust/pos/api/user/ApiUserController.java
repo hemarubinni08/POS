@@ -24,17 +24,21 @@ public class ApiUserController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<UserDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(), paginationDto.getSortField());
         return userService.findAll(pageable);
     }
 
     @PostMapping("/add")
     public UserDto add(@RequestBody UserDto userDto) {
+
         return userService.save(userDto);
     }
 
     @GetMapping("/get")
     public UserDto update(@RequestParam String username) {
+
         return userService.findByUserName(username);
     }
 
@@ -55,12 +59,12 @@ public class ApiUserController extends BaseController {
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier, Authentication authentication) {
         try {
-            // Prevent self-deletion
+
             UserDto target = userService.findByIdentifier(identifier);
             if (target == null) return false;
 
             if (target.getUsername().equalsIgnoreCase(authentication.getName())) {
-                return false; // Cannot delete yourself
+                return false;
             }
 
             userService.delete(target.getUsername());
@@ -72,11 +76,13 @@ public class ApiUserController extends BaseController {
 
     @PostMapping("/toggle-status")
     public UserDto toggle(@RequestParam String identifier) {
+
         return userService.toggleStatus(identifier);
     }
 
     @GetMapping("/findByStatus")
     public List<UserDto> findByStatus() {
+
         return userService.findIfTrue();
     }
 }

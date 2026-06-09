@@ -87,4 +87,5 @@ public class RackController {
         rackService.toggleStatus(identifier);
         return REDIRECT_LIST;
     }
+
 }

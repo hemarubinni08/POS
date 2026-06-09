@@ -14,7 +14,6 @@
             background-color: #f4f7f6;
         }
 
-
         .back-btn {
             position: fixed;
             top: 20px;
@@ -30,7 +29,6 @@
         .back-btn:hover {
             background: #5a6268;
         }
-
 
         .card {
             width: 420px;
@@ -120,14 +118,10 @@
 
         <label>Warehouse Name</label>
         <form:input path="identifier" required="true"/>
-
         <label>Location</label>
         <form:input path="location" required="true"/>
-
-
         <label>Manager</label>
         <form:input path="manager" required="true"/>
-
         <input type="submit" value="Add Warehouse" class="btn-submit"/>
 
     </form:form>

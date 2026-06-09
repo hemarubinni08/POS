@@ -7,11 +7,9 @@
 <head>
     <title>Edit Category</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -56,7 +54,6 @@
 
 <div class="container mt-5">
 
-    <!-- Back button -->
     <div class="mb-4 text-center">
         <a href="${pageContext.request.contextPath}/category/list"
            class="btn btn-secondary back-btn">
@@ -68,7 +65,6 @@
     <div class="card card-custom p-4">
         <h3 class="text-center mb-4">Edit Category</h3>
 
-        <!-- Error Message -->
         <c:if test="${not empty message}">
             <div class="error-msg">
                 ${message}
@@ -79,10 +75,10 @@
                    method="post"
                    modelAttribute="category">
 
-            <!-- Hidden DB Id -->
+
             <form:hidden path="id"/>
 
-            <!-- Category Name -->
+
             <div class="mb-3">
                 <label class="form-label fw-bold">Category Name</label>
                 <form:input path="identifier"
@@ -93,7 +89,6 @@
                 </div>
             </div>
 
-            <!-- Super Category -->
             <div class="mb-4">
                 <label class="form-label fw-bold">Super Category</label>
                 <form:select path="superCategory" class="form-select">
@@ -111,7 +106,6 @@
                 </div>
             </div>
 
-            <!-- Submit -->
             <button type="submit" class="btn btn-success w-100 btn-submit">
                 <i class="bi bi-check-circle"></i>
                 Update Category

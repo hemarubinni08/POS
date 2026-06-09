@@ -124,7 +124,7 @@ class BrandServiceTest {
         Mockito.when(brandRepository.findAll(pageable)).thenReturn(brandPage);
         Mockito.when(modelMapper.map(Mockito.eq(brands), Mockito.any(java.lang.reflect.Type.class))).thenReturn(brandDtos);
 
-        List<BrandDto> response = brandService.findAll(pageable);
+        List<BrandDto> response = brandService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
     }

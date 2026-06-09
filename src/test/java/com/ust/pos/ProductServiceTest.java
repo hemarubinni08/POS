@@ -137,7 +137,7 @@ class ProductServiceTest {
         Mockito.when(productRepository.findAll(pageable)).thenReturn(productPage);
         Mockito.when(modelMapper.map(Mockito.eq(products), Mockito.any(java.lang.reflect.Type.class))).thenReturn(productDtos);
 
-        List<ProductDto> response = productService.findAll(pageable);
+        List<ProductDto> response = productService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
     }

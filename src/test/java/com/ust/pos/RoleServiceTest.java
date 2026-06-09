@@ -116,8 +116,6 @@ class RoleServiceTest {
 
     }
 
-    /* ===================== FIND ALL ===================== */
-
     @Test
     void findAllTest() {
         Role role = new Role();
@@ -136,7 +134,7 @@ class RoleServiceTest {
         Mockito.when(roleRepository.findAll(pageable)).thenReturn(rolePage);
         Mockito.when(modelMapper.map(Mockito.eq(roles), Mockito.any(java.lang.reflect.Type.class))).thenReturn(roleDtos);
 
-        List<RoleDto> response = roleService.findAll(pageable);
+        List<RoleDto> response = roleService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
     }

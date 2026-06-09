@@ -22,7 +22,8 @@ public class ApiCategoryController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(), paginationDto.getSortField());
         return categoryService.findAll(pageable);
     }
 
@@ -74,6 +75,7 @@ public class ApiCategoryController extends BaseController {
 
     @GetMapping("/getBySuperCategoryNotNull")
     public List<CategoryDto> superCategoryNotNull() {
+
         return categoryService.findBySuperCategoryNotNull();
     }
 

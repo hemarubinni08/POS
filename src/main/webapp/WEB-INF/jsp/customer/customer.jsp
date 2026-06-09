@@ -7,11 +7,9 @@
 <head>
     <title>Edit Customer</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -40,28 +38,24 @@
 
         <h2 class="text-center mb-4">Edit Customer</h2>
 
-        <!-- MESSAGE -->
         <c:if test="${not empty message}">
             <div class="alert alert-danger text-center">
                 ${message}
             </div>
         </c:if>
 
-        <!-- FORM -->
         <form:form method="post"
                    modelAttribute="customerDto"
                    action="${pageContext.request.contextPath}/customer/update">
 
-            <!-- Identifier -->
             <form:hidden path="identifier"/>
 
-            <!-- ================= CUSTOMER DETAILS ================= -->
             <div class="section-title">Customer Details</div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label class="form-label">Customer Name</label>
-                    <!-- SINGLE FIELD ONLY -->
+
                     <form:input path="customerName"
                                 class="form-control"
                                 readonly="true"/>
@@ -69,14 +63,12 @@
 
                 <div class="col-md-6">
                     <label class="form-label">Phone Number</label>
-                    <!-- SINGLE FIELD ONLY -->
                     <form:input path="phoneNo"
                                 class="form-control"
                                 readonly="true"/>
                 </div>
             </div>
 
-            <!-- ================= FINANCIAL DETAILS ================= -->
             <div class="section-title">Financial Details</div>
 
             <div class="row mb-3">
@@ -101,7 +93,6 @@
                 </div>
             </div>
 
-            <!-- ================= BILLING ADDRESS ================= -->
             <div class="section-title">Billing Address</div>
 
             <form:hidden path="billingAddress.addressType" value="Billing"/>
@@ -134,8 +125,6 @@
                     <form:input path="billingAddress.country" class="form-control"/>
                 </div>
             </div>
-
-            <!-- ================= SHIPPING ADDRESS ================= -->
             <div class="section-title">Shipping Address</div>
 
             <form:hidden path="shippingAddress.addressType" value="Shipping"/>
@@ -169,7 +158,6 @@
                 </div>
             </div>
 
-            <!-- ================= BUTTONS ================= -->
             <div class="text-center">
                 <a href="${pageContext.request.contextPath}/customer/list"
                    class="btn btn-secondary btn-custom">

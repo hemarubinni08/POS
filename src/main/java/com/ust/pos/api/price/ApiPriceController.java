@@ -70,6 +70,7 @@ public class ApiPriceController extends BaseController {
 
     @GetMapping("/findByProduct")
     public PriceDto findByProduct(@RequestParam String productIdentifier) {
+
         return priceService.findByProductIdentifier(productIdentifier);
     }
 

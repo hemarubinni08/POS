@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 @Setter
 
 public class CartEntryDto extends CommonDto {
-
     private BigDecimal price;
     private BigDecimal totalPrice;
     private BigDecimal sellingPrice;

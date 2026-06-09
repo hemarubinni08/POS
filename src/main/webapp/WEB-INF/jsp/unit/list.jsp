@@ -6,11 +6,9 @@
 <head>
     <title>Unit Management</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -46,7 +44,6 @@
 
         <h2 class="text-center mb-4">Unit Management</h2>
 
-        <!-- ACTION BUTTONS -->
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary back-btn">
@@ -61,14 +58,12 @@
             </a>
         </div>
 
-        <!-- EMPTY MESSAGE -->
         <c:if test="${empty units}">
             <div class="text-center text-muted p-5">
                 No units available
             </div>
         </c:if>
 
-        <!-- UNIT TABLE -->
         <c:if test="${not empty units}">
             <table class="table table-hover table-bordered align-middle">
                 <thead class="table-dark text-center">
@@ -84,53 +79,47 @@
                 <c:forEach var="unit" items="${units}">
                     <tr>
 
-                        <!-- ID -->
-                        <td class="text-center">${unit.id}</td>
+                <td class="text-center">${unit.id}</td>
+                <td class="fw-semibold">${unit.identifier}</td>
+                <td class="text-center">
+                    <form method="post"
+                          action="${pageContext.request.contextPath}/unit/update"
+                          class="d-inline">
 
-                        <!-- UNIT NAME -->
-                        <td class="fw-semibold">${unit.identifier}</td>
+                        <input type="hidden" name="id" value="${unit.id}">
+                        <input type="hidden" name="identifier" value="${unit.identifier}">
 
-                        <!-- STATUS TOGGLE -->
-                        <td class="text-center">
-                            <form method="post"
-                                  action="${pageContext.request.contextPath}/unit/update"
-                                  class="d-inline">
+                        <input type="hidden" name="status" value="${!unit.status}">
 
-                                <input type="hidden" name="id" value="${unit.id}">
-                                <input type="hidden" name="identifier" value="${unit.identifier}">
+                        <div class="form-check form-switch d-flex justify-content-center align-items-center">
+                            <input class="form-check-input me-2"
+                                   type="checkbox"
+                                   ${unit.status ? "checked" : ""}
+                                   onchange="this.form.submit()">
 
-                                <input type="hidden" name="status" value="${!unit.status}">
+                            <span class="${unit.status ? 'text-success' : 'text-danger'} fw-semibold">
+                                ${unit.status ? 'Active' : 'Deactive'}
+                            </span>
+                        </div>
+                    </form>
+                </td>
 
-                                <div class="form-check form-switch d-flex justify-content-center align-items-center">
-                                    <input class="form-check-input me-2"
-                                           type="checkbox"
-                                           ${unit.status ? "checked" : ""}
-                                           onchange="this.form.submit()">
+                <td class="text-center">
+                    <a href="${pageContext.request.contextPath}/unit/get?identifier=${unit.identifier}"
+                       class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil-square"></i>
+                        Edit
+                    </a>
 
-                                    <span class="${unit.status ? 'text-success' : 'text-danger'} fw-semibold">
-                                        ${unit.status ? 'Active' : 'Deactive'}
-                                    </span>
-                                </div>
-                            </form>
-                        </td>
+                    <a href="${pageContext.request.contextPath}/unit/delete?identifier=${unit.identifier}"
+                       class="btn btn-sm btn-danger"
+                       onclick="return confirm('Are you sure you want to delete this unit?');">
+                        <i class="bi bi-trash"></i>
+                        Delete
+                    </a>
+                </td>
 
-                        <!-- ACTIONS -->
-                        <td class="text-center">
-                            <a href="${pageContext.request.contextPath}/unit/get?identifier=${unit.identifier}"
-                               class="btn btn-sm btn-warning">
-                                <i class="bi bi-pencil-square"></i>
-                                Edit
-                            </a>
-
-                            <a href="${pageContext.request.contextPath}/unit/delete?identifier=${unit.identifier}"
-                               class="btn btn-sm btn-danger"
-                               onclick="return confirm('Are you sure you want to delete this unit?');">
-                                <i class="bi bi-trash"></i>
-                                Delete
-                            </a>
-                        </td>
-
-                    </tr>
+                </tr>
                 </c:forEach>
                 </tbody>
             </table>

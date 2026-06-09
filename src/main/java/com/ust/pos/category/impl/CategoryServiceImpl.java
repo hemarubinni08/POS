@@ -91,11 +91,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto findByIdentifier(String identifier) {
+
         return modelMapper.map(categoryRepository.findByIdentifier(identifier), CategoryDto.class);
     }
 
     @Override
     public WsDto<CategoryDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
@@ -121,6 +123,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto toggleStatus(String identifier) {
+
         Category category = categoryRepository.findByIdentifier(identifier);
         category.setStatus(!category.isStatus());
         categoryRepository.save(category);
@@ -129,11 +132,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findIfTrue() {
-        return categoryRepository.findByStatusTrue().stream().map(category -> modelMapper.map(category, CategoryDto.class)).toList();
+
+        return categoryRepository.findByStatusTrue().stream()
+                .map(category -> modelMapper.map(category, CategoryDto.class)).toList();
     }
 
     @Override
     public List<CategoryDto> findBySuperCategoryNotNull() {
+
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         return modelMapper.map(categoryRepository.findByStatusTrueAndSuperCategoryIsNot(""), listType);

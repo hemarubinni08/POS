@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 
 public class AddressDto extends CommonDto {
-
     private String addressType;
     private String addressLine;
     private String phoneNo;

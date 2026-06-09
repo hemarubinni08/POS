@@ -6,11 +6,9 @@
 <head>
     <title>Brand Management</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -46,7 +44,6 @@
 
         <h2 class="text-center mb-4">Brand Management</h2>
 
-        <!-- ACTION BUTTONS -->
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary back-btn">
@@ -61,14 +58,12 @@
             </a>
         </div>
 
-        <!-- EMPTY MESSAGE -->
         <c:if test="${empty brands}">
             <div class="text-center text-muted p-5">
                 No brands available
             </div>
         </c:if>
 
-        <!-- BRAND TABLE -->
         <c:if test="${not empty brands}">
             <table class="table table-hover table-bordered align-middle">
                 <thead class="table-dark text-center">
@@ -85,22 +80,18 @@
                 <c:forEach var="brand" items="${brands}">
                     <tr>
 
-                        <!-- ID -->
                         <td class="text-center">${brand.id}</td>
 
-                        <!-- BRAND NAME -->
                         <td class="fw-semibold">${brand.identifier}</td>
 
-                        <!-- DESCRIPTION -->
                         <td>${brand.description}</td>
 
-                        <!-- ✅ STATUS TOGGLE (PROPERLY ALIGNED) -->
                         <td class="text-center">
                             <form method="post"
                                   action="${pageContext.request.contextPath}/brand/update"
                                   class="d-inline">
 
-                                <!-- required fields -->
+
                                 <input type="hidden" name="id" value="${brand.id}">
                                 <input type="hidden" name="identifier" value="${brand.identifier}">
                                 <input type="hidden" name="description" value="${brand.description}">

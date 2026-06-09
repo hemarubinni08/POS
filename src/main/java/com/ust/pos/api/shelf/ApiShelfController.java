@@ -20,7 +20,10 @@ public class ApiShelfController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<ShelfDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(), paginationDto.getSortField());
+
         return shelfService.findAll(pageable);
     }
 
@@ -63,7 +66,6 @@ public class ApiShelfController extends BaseController {
 
         return shelfService.findIfTrue();
     }
-
 
 }
  

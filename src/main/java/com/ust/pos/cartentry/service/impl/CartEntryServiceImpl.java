@@ -33,7 +33,7 @@ public class CartEntryServiceImpl implements CartEntryService {
         String identifier = cartEntryDto.getProduct() + "-" + cartEntryDto.getCart();
         cartEntryDto.setIdentifier(identifier);
         CartEntry cartEntry = cartEntryRepository.findByIdentifier(identifier);
-        Price price = priceRepository.findByIdentifier(cartEntryDto.getProduct());
+        Price price = priceRepository.findByProductIdentifier(cartEntryDto.getProduct());
         BigDecimal newQty = cartEntryDto.getQuantity();
         if (cartEntry != null) {
             BigDecimal existingQty = cartEntry.getQuantity();
@@ -91,9 +91,8 @@ public class CartEntryServiceImpl implements CartEntryService {
     public void deleteByIdentifier(String identifier) {
         CartEntry cartEntry = cartEntryRepository.findByIdentifier(identifier);
         if (cartEntry == null) {
-            throw new RuntimeException("CartEntry not found");
+            throw new IllegalArgumentException("CartEntry not found");
         }
-        String cart = cartEntry.getCart();
         cartEntryRepository.deleteByIdentifier(identifier);
     }
 

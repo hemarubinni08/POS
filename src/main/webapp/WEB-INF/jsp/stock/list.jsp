@@ -6,11 +6,9 @@
 <head>
     <title>Stock Management</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -46,7 +44,6 @@
     <div class="card card-custom p-4">
         <h2 class="text-center mb-4">Stock Management</h2>
 
-        <!-- BUTTONS -->
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary back-btn">
@@ -59,14 +56,12 @@
             </a>
         </div>
 
-        <!-- EMPTY -->
         <c:if test="${empty stocks}">
             <div class="text-center text-muted p-5">
                 No stock available
             </div>
         </c:if>
 
-        <!-- TABLE -->
         <c:if test="${not empty stocks}">
             <table class="table table-bordered table-hover align-middle">
 
@@ -91,8 +86,6 @@
                         <td>${stock.warehouseIdentifier}</td>
                         <td class="text-center">${stock.quantity}</td>
                         <td class="text-center">${stock.minimumStock}</td>
-
-                        <!-- ✅ STOCK LEVEL (Quantity Based) -->
                         <td class="text-center">
                             <c:choose>
                                 <c:when test="${stock.quantity == 0}">
@@ -106,8 +99,6 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-
-                        <!-- ✅ ACTIVE TOGGLE (Same as Shelf) -->
                         <td class="text-center">
                             <form method="post"
                                   action="${pageContext.request.contextPath}/stock/toggle">
@@ -128,8 +119,6 @@
                                 </div>
                             </form>
                         </td>
-
-                        <!-- ACTIONS -->
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/stock/get?identifier=${stock.identifier}"
                                class="btn btn-sm btn-warning">

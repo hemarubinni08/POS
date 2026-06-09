@@ -122,7 +122,7 @@ class ModelServiceTest {
         Mockito.when(modelRepository.findAll(pageable)).thenReturn(modelPage);
         Mockito.when(modelMapper.map(Mockito.eq(models), Mockito.any(java.lang.reflect.Type.class))).thenReturn(modelDtos);
 
-        List<ModelDto> response = modelService.findAll(pageable);
+        List<ModelDto> response = modelService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
     }

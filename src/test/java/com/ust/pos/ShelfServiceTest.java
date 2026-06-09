@@ -29,8 +29,6 @@ class ShelfServiceTest {
     @InjectMocks
     private ShelfServiceImpl shelfService;
 
-    /* ===================== SAVE ===================== */
-
     @Test
     void saveTest() {
         ShelfDto dto = new ShelfDto();
@@ -58,8 +56,6 @@ class ShelfServiceTest {
         Assertions.assertNotNull(response.getMessage());
     }
 
-    /* ===================== FIND BY IDENTIFIER ===================== */
-
     @Test
     void findByIdentifierTest() {
         Shelf shelf = new Shelf();
@@ -75,8 +71,6 @@ class ShelfServiceTest {
 
         Assertions.assertEquals("S1", response.getIdentifier());
     }
-
-    /* ===================== UPDATE ===================== */
 
     @Test
     void updateTest() {
@@ -105,7 +99,6 @@ class ShelfServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    /* ===================== DELETE ===================== */
 
     @Test
     void deleteTest() {
@@ -115,8 +108,6 @@ class ShelfServiceTest {
 
         Mockito.verify(shelfRepository).deleteByIdentifier("S1");
     }
-
-    /* ===================== FIND ALL ===================== */
 
     @Test
     void findAllTest() {
@@ -136,12 +127,10 @@ class ShelfServiceTest {
         Mockito.when(shelfRepository.findAll(pageable)).thenReturn(shelfPage);
         Mockito.when(modelMapper.map(Mockito.eq(shelfs), Mockito.any(java.lang.reflect.Type.class))).thenReturn(shelfDtos);
 
-        List<ShelfDto> response = shelfService.findAll(pageable);
+        List<ShelfDto> response = shelfService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
     }
-
-    /* ===================== TOGGLE ===================== */
 
     @Test
     void toggleActive() {
@@ -168,8 +157,6 @@ class ShelfServiceTest {
 
         Assertions.assertTrue(shelf.isStatus());
     }
-
-    /* ===================== FIND ACTIVE ===================== */
 
     @Test
     void findByStatusTest() {

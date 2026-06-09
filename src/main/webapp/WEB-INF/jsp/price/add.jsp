@@ -6,8 +6,6 @@
 <html>
 <head>
     <title>Add Price</title>
-
-    <!-- Theme Colors -->
     <style>
         :root {
             --primary-color: #4f46e5;
@@ -20,7 +18,6 @@
             background: linear-gradient(135deg, #f5f7fb, #eef2ff);
         }
 
-        /* Back Button */
         .back-btn {
             position: fixed;
             top: 20px;
@@ -37,7 +34,6 @@
             background: #5a6268;
         }
 
-        /* Card */
         .card {
             width: 460px;
             margin: 90px auto;
@@ -82,7 +78,6 @@
             border-color: var(--primary-color);
         }
 
-        /* Error Message */
         .error-msg {
             margin-bottom: 15px;
             padding: 10px;
@@ -93,7 +88,6 @@
             font-size: 14px;
         }
 
-        /* Submit Button */
         .btn-submit {
             margin-top: 30px;
             width: 100%;

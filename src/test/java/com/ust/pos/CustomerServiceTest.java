@@ -205,7 +205,7 @@ class CustomerServiceTest {
         when(customerRepository.findAll(any(Pageable.class))).thenReturn(page);
         when(modelMapper.map(any(), any(Type.class))).thenReturn(List.of(customerDto));
 
-        List<CustomerDto> result = customerService.findAll(PageRequest.of(0, 2));
+        List<CustomerDto> result = customerService.findAll(PageRequest.of(0, 2)).getDtoList();
 
         assertEquals(1, result.size());
     }

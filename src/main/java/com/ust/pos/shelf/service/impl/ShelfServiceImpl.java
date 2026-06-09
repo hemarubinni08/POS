@@ -98,5 +98,4 @@ public class ShelfServiceImpl implements ShelfService {
         return modelMapper.map(shelfRepository.findByStatusIsTrue(), listType);
     }
 
-
 }

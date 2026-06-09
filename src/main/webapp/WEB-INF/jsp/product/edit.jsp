@@ -7,11 +7,9 @@
 <head>
     <title>Edit Product</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -107,13 +105,12 @@
 
                 <form:hidden path="id"/>
 
-                <!-- SKU -->
+
                 <div class="mb-3">
                     <label class="form-label">SKU Code</label>
                     <form:input path="identifier" class="form-control" readonly="true"/>
                 </div>
 
-                <!-- ✅ CATEGORY MULTI SELECT -->
                 <div class="mb-3">
                     <label class="form-label">Category</label>
                     <form:select path="categories" class="form-select" multiple="true">
@@ -126,7 +123,6 @@
                     <div class="hint">Hold Ctrl / Cmd to select multiple</div>
                 </div>
 
-                <!-- ✅ BRAND -->
                 <div class="mb-3">
                     <label class="form-label">Brand</label>
                     <form:select path="brand" class="form-select" required="true">
@@ -139,7 +135,6 @@
                     </form:select>
                 </div>
 
-                <!-- ✅ UNIT -->
                 <div class="mb-3">
                     <label class="form-label">Unit</label>
                     <form:select path="unit" class="form-select" required="true">
@@ -152,7 +147,6 @@
                     </form:select>
                 </div>
 
-                <!-- ✅ MODEL -->
                 <div class="mb-3">
                     <label class="form-label">Model</label>
                     <form:select path="model" class="form-select" required="true">
@@ -165,7 +159,6 @@
                     </form:select>
                 </div>
 
-                <!-- NAME -->
                 <div class="mb-3">
                     <label class="form-label">Product Name</label>
                     <form:input path="name" class="form-control" required="true"/>
@@ -181,6 +174,5 @@
     </div>
 
 </div>
-
 </body>
 </html>

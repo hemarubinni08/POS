@@ -34,13 +34,13 @@
                                required />
                     </div>
                     <div class="mb-3">
-                                            <label class="form-label fw-semibold">Description</label>
-                                            <input type="text"
-                                                   name="description"
-                                                   class="form-control"
-                                                   placeholder="ADMIN"
-                                                   required />
-                                        </div>
+                    <label class="form-label fw-semibold">Description</label>
+                    <input type="text"
+                           name="description"
+                           class="form-control"
+                           placeholder="ADMIN"
+                           required />
+                    </div>
 
                     <div class="d-flex justify-content-end gap-2">
                         <button type="submit" class="btn btn-success">

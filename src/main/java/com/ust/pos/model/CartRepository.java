@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface CartRepository extends JpaRepository<Cart, Long> {
+
     Cart findByIdentifier(String identifier);
 
     void deleteByIdentifier(String identifier);

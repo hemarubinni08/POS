@@ -6,11 +6,9 @@
 <head>
     <title>Warehouse Management</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -42,7 +40,6 @@
     <div class="card card-custom p-4">
         <h2 class="text-center mb-4">Warehouse Management</h2>
 
-        <!-- BUTTONS -->
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary back-btn">
@@ -55,14 +52,12 @@
             </a>
         </div>
 
-        <!-- EMPTY -->
         <c:if test="${empty warehouses}">
             <div class="text-center text-muted p-5">
                 No warehouses available
             </div>
         </c:if>
 
-        <!-- TABLE -->
         <c:if test="${not empty warehouses}">
             <table class="table table-bordered table-hover align-middle">
 
@@ -85,8 +80,6 @@
                         <td>${warehouse.identifier}</td>
                         <td class="text-center">${warehouse.location}</td>
                         <td class="text-center">${warehouse.manager}</td>
-
-                        <!-- ✅ STATUS TOGGLE (Same as Shelf) -->
                         <td class="text-center">
                             <form method="post"
                                   action="${pageContext.request.contextPath}/warehouse/toggle">
@@ -108,7 +101,6 @@
                             </form>
                         </td>
 
-                        <!-- ACTIONS -->
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/warehouse/get?identifier=${warehouse.identifier}"
                                class="btn btn-sm btn-warning">

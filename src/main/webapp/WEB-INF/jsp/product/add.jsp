@@ -98,11 +98,9 @@
         method="post"
         modelAttribute="products">
 
-        <!-- SKU -->
         <label>SKU Code</label>
         <form:input path="identifier" required="true"/>
 
-        <!-- ✅ CATEGORY MULTI SELECT -->
         <label>Category</label>
         <form:select path="categories" multiple="true">
             <c:forEach var="cat" items="${categories}">
@@ -113,7 +111,6 @@
         </form:select>
         <div class="hint">Hold Ctrl / Cmd to select multiple</div>
 
-        <!-- ✅ BRAND -->
         <label>Brand</label>
         <form:select path="brand" required="true">
             <form:option value="">-- Select Brand --</form:option>
@@ -124,7 +121,6 @@
             </c:forEach>
         </form:select>
 
-        <!-- ✅ UNIT -->
         <label>Unit</label>
         <form:select path="unit" required="true">
             <form:option value="">-- Select Unit --</form:option>
@@ -135,7 +131,6 @@
             </c:forEach>
         </form:select>
 
-        <!-- ✅ MODEL -->
         <label>Model</label>
         <form:select path="model" required="true">
             <form:option value="">-- Select Model --</form:option>
@@ -146,7 +141,6 @@
             </c:forEach>
         </form:select>
 
-        <!-- NAME -->
         <label>Product Name</label>
         <form:input path="name" required="true"/>
 

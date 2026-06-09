@@ -57,7 +57,6 @@ public class UserController extends BaseController {
         }
 
         redirectAttributes.addFlashAttribute("successMessage", "User updated successfully.");
-
         return "redirect:/user/list";
     }
 
@@ -74,9 +73,7 @@ public class UserController extends BaseController {
             redirectAttributes.addFlashAttribute("infoMessage", "Your account was deleted successfully.");
             return "redirect:/login";
         }
-
         redirectAttributes.addFlashAttribute("successMessage", "User deleted successfully.");
-
         return "redirect:/user/list";
     }
 }

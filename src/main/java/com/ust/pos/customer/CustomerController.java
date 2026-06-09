@@ -60,6 +60,7 @@ public class CustomerController {
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String phoneNo) {
+
         customerService.delete(phoneNo);
         return REDIRECT_CUSTOMER_LIST;
     }
@@ -67,6 +68,7 @@ public class CustomerController {
     @PostMapping("/toggle-status")
     @ResponseBody
     public void toggle(Model model, @RequestParam String identifier) {
+
         customerService.toggleStatus(identifier);
     }
 }

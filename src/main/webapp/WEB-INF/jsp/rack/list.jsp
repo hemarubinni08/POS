@@ -6,11 +6,9 @@
 <head>
     <title>Rack Management</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -35,12 +33,12 @@
             font-size: 12px;
         }
         .status-active {
-            color: #198754; /* Bootstrap success green */
+            color: #198754;
             font-weight: 600;
         }
 
         .status-inactive {
-            color: #dc3545; /* Bootstrap danger red */
+            color: #dc3545;
             font-weight: 600;
         }
     </style>
@@ -53,7 +51,6 @@
 
         <h2 class="text-center mb-4">Rack Management</h2>
 
-        <!-- ACTION BUTTONS -->
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary back-btn">
@@ -67,20 +64,18 @@
                 Add New Rack
             </a>
         </div>
-        <!-- SUCCESS MESSAGE -->
         <c:if test="${not empty successMessage}">
             <div class="alert alert-success text-center fw-semibold mb-4">
                 ${successMessage}
             </div>
         </c:if>
 
-        <!-- ERROR MESSAGE -->
         <c:if test="${not empty errorMessage}">
             <div class="alert alert-danger text-center fw-semibold mb-4">
                 ${errorMessage}
             </div>
         </c:if>
-        <!-- RACK TABLE -->
+
         <c:if test="${not empty racks}">
             <table class="table table-hover table-bordered align-middle">
                 <thead class="table-dark text-center">
@@ -98,12 +93,9 @@
                     <tr>
                         <td class="text-center">${rack.id}</td>
 
-                        <!-- ✅ Rack Name -->
                         <td class="fw-semibold">
                             ${rack.identifier}
                         </td>
-
-                        <!-- ✅ Shelves -->
                         <td>
                             <c:if test="${empty rack.shelfs}">
                                 <span class="text-muted">No shelves</span>
@@ -116,7 +108,6 @@
                             </c:forEach>
                         </td>
 
-                        <!-- Status -->
                       <td class="text-center">
                           <form method="post"
                                 action="${pageContext.request.contextPath}/rack/update"
@@ -139,7 +130,6 @@
                           </form>
                       </td>
 
-                        <!-- Actions -->
                         <td class="text-center">
                             <a href="${pageContext.request.contextPath}/rack/get?identifier=${rack.identifier}"
                                class="btn btn-sm btn-warning">

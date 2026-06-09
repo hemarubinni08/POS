@@ -55,7 +55,6 @@ class StockServiceTest {
         stockDto.setStatus(true);
     }
 
-    //  save – success
     @Test
     void save_shouldSaveStock_whenNotExists() {
         when(stockRepository.findByIdentifier(anyString())).thenReturn(null);
@@ -68,7 +67,6 @@ class StockServiceTest {
         assertTrue(result.isSuccess() || !false); // service doesn't explicitly set success=true
     }
 
-    // save – duplicate
     @Test
     void save_shouldFail_whenStockExists() {
         when(stockRepository.findByIdentifier(anyString())).thenReturn(stock);
@@ -80,7 +78,6 @@ class StockServiceTest {
         verify(stockRepository, never()).save(any());
     }
 
-    //  update – success
     @Test
     void update_shouldUpdateStock_whenExists() {
         when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
@@ -92,7 +89,6 @@ class StockServiceTest {
         assertEquals("STK_P001_W001", result.getIdentifier());
     }
 
-    //  update – stock not found
     @Test
     void update_shouldFail_whenStockNotFound() {
         when(stockRepository.findById(1L)).thenReturn(Optional.empty());
@@ -104,7 +100,6 @@ class StockServiceTest {
         verify(stockRepository, never()).save(any());
     }
 
-    // update – duplicate identifier
     @Test
     void update_shouldFail_whenDuplicateIdentifierExists() {
 
@@ -113,7 +108,7 @@ class StockServiceTest {
 
         when(stockRepository.findById(1L)).thenReturn(Optional.of(stock));
 
-        //  Change identifier to a NEW value
+
         stockDto.setIdentifier("STK_DUPLICATE");
 
         when(stockRepository.findByIdentifier("STK_DUPLICATE")).thenReturn(duplicate);
@@ -126,7 +121,6 @@ class StockServiceTest {
         verify(stockRepository, never()).save(any());
     }
 
-    //  deleteByIdentifier
     @Test
     void deleteByIdentifier_shouldDeleteStock() {
         doNothing().when(stockRepository).deleteByIdentifier("STK_P001_W001");
@@ -136,7 +130,6 @@ class StockServiceTest {
         verify(stockRepository).deleteByIdentifier("STK_P001_W001");
     }
 
-    //  findByIdentifier
     @Test
     void findByIdentifier_shouldReturnStockDto() {
         when(stockRepository.findByIdentifier("STK_P001_W001")).thenReturn(stock);
@@ -148,7 +141,6 @@ class StockServiceTest {
         assertEquals("STK_P001_W001", result.getIdentifier());
     }
 
-    //  findAll
     @Test
     void findAllTest() {
         Stock stock1 = new Stock();
@@ -167,12 +159,11 @@ class StockServiceTest {
         Mockito.when(stockRepository.findAll(pageable)).thenReturn(stockPage);
         Mockito.when(modelMapper.map(Mockito.eq(stocks), Mockito.any(java.lang.reflect.Type.class))).thenReturn(stockDtos);
 
-        List<StockDto> response = stockService.findAll(pageable);
+        List<StockDto> response = stockService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
     }
 
-    //  toggleStatus
     @Test
     void toggleStatus_shouldToggleStockStatus() {
         when(stockRepository.findByIdentifier("STK_P001_W001")).thenReturn(stock);
@@ -185,7 +176,6 @@ class StockServiceTest {
         assertNotNull(result);
     }
 
-    //  findIfTrue
     @Test
     void findIfTrue_shouldReturnActiveStocks() {
         when(stockRepository.findByStatusIsTrue()).thenReturn(List.of(stock));

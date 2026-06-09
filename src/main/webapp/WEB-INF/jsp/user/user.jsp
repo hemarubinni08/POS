@@ -7,11 +7,9 @@
 <head>
     <title>Update User</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"/>
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -89,7 +87,6 @@
 
 <body>
 
-<!-- ✅ ERROR MESSAGE -->
 <c:if test="${not empty message}">
     <div class="alert alert-danger text-center position-absolute top-0 mt-3">
         ${message}
@@ -105,10 +102,7 @@
 
     <form:form action="/user/update" method="post" modelAttribute="userDto">
 
-        <!-- Hidden ID -->
         <form:hidden path="id" value="${user.id}" />
-
-        <!-- Name -->
         <div class="mb-3">
             <label>Name</label>
             <form:input path="name"
@@ -116,8 +110,6 @@
                         value="${user.name}"
                         required="true" />
         </div>
-
-        <!-- Email -->
         <div class="mb-3">
             <label>Email</label>
             <form:input path="username"
@@ -127,8 +119,6 @@
                         required="true" />
             <form:errors path="username" cssClass="text-danger small" />
         </div>
-
-        <!-- Phone -->
         <div class="mb-3">
             <label>Phone Number</label>
             <form:input path="phoneNo"
@@ -139,11 +129,8 @@
                         title="Phone number must be exactly 10 digits"
                         required="true" />
         </div>
-
-        <!-- Roles -->
         <div class="mb-3">
             <label>Roles</label>
-
             <div class="mb-2 text-muted">
                 Current:
                 <c:forEach var="r" items="${user.roles}">
@@ -161,16 +148,12 @@
                 Hold Ctrl (Windows/Linux) or Cmd (Mac) to select multiple
             </small>
         </div>
-
-        <!-- Submit -->
         <button type="submit" class="btn-update">
             <i class="bi bi-check-circle"></i>
             Update
         </button>
 
     </form:form>
-
-    <!-- Back -->
     <div class="text-center mt-3">
         <a href="/user/list">
             <i class="bi bi-arrow-left-circle"></i>

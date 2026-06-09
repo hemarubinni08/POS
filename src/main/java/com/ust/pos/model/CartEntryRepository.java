@@ -9,6 +9,7 @@ import java.util.List;
 @Transactional
 @Repository
 public interface CartEntryRepository extends JpaRepository<CartEntry, Long> {
+
     CartEntry findByIdentifier(String identifier);
 
     CartEntry deleteByIdentifier(String identifier);

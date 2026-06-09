@@ -22,10 +22,12 @@ public class ApiStockController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<StockDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(), paginationDto.getSortField());
+
         return stockService.findAll(pageable);
     }
-
 
     @PostMapping("/add")
     public StockDto addPost(@RequestBody StockDto stockDto) {

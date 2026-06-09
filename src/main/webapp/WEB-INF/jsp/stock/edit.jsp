@@ -7,7 +7,6 @@
 <head>
     <title>Edit Stock</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet"
@@ -25,7 +24,6 @@
             background: linear-gradient(135deg, #f5f7fb, #eef2ff);
         }
 
-        /* Back */
         .back-link {
             text-decoration: none;
             font-weight: 500;
@@ -36,7 +34,6 @@
             text-decoration: underline;
         }
 
-        /* Card */
         .stock-card {
             max-width: 520px;
             margin: auto;
@@ -89,7 +86,6 @@
             box-shadow: none;
         }
 
-        /* Error */
         .error-msg {
             background: #fee2e2;
             color: #b91c1c;
@@ -100,7 +96,6 @@
             font-size: 14px;
         }
 
-        /* Submit */
         .btn-submit {
             padding: 12px;
             font-size: 16px;
@@ -120,17 +115,14 @@
 
 <div class="container mt-5">
 
-    <!-- Back -->
     <div class="text-center mb-4">
         <a href="${pageContext.request.contextPath}/stock/list" class="back-link">
             <i class="bi bi-arrow-left"></i> Back to Stock List
         </a>
     </div>
 
-    <!-- Card -->
     <div class="card stock-card">
 
-        <!-- Header -->
         <div class="card-header">
             <h4><i class="bi bi-pencil-square"></i> Edit Stock</h4>
             <small>Update product availability and warehouse stock</small>
@@ -149,8 +141,6 @@
                        modelAttribute="stocks">
 
                 <form:hidden path="id"/>
-
-                <!-- Product -->
                 <div class="section-title">Product</div>
                 <div class="mb-3">
                     <label class="form-label">Product</label>
@@ -162,8 +152,6 @@
                         </c:forEach>
                     </form:select>
                 </div>
-
-                <!-- Warehouse -->
                 <div class="section-title">Warehouse</div>
                 <div class="mb-3">
                     <label class="form-label">Warehouse</label>
@@ -176,7 +164,6 @@
                     </form:select>
                 </div>
 
-                <!-- Stock -->
                 <div class="section-title">Stock Levels</div>
                 <div class="mb-3">
                     <label class="form-label">Quantity Available</label>

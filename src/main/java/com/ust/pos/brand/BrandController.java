@@ -45,7 +45,6 @@ public class BrandController extends BaseController {
         return REDIRECT_LIST;
     }
 
-
     @GetMapping("/get")
     public String get(Model model, @RequestParam String identifier) {
         model.addAttribute(BRAND, brandService.findByIdentifier(identifier));
@@ -64,7 +63,6 @@ public class BrandController extends BaseController {
 
         return REDIRECT_LIST;
     }
-
 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {

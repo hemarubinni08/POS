@@ -6,11 +6,9 @@
 <head>
     <title>Product Management</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
@@ -41,7 +39,6 @@
 
         <h2 class="text-center mb-4">Product Management</h2>
 
-        <!-- BUTTONS -->
         <div class="text-center mb-4">
             <a href="${pageContext.request.contextPath}/"
                class="btn btn-secondary me-2">
@@ -54,14 +51,12 @@
             </a>
         </div>
 
-        <!-- EMPTY -->
         <c:if test="${empty products}">
             <div class="text-center text-muted p-5">
                 No products available
             </div>
         </c:if>
 
-        <!-- TABLE -->
         <c:if test="${not empty products}">
             <table class="table table-hover table-bordered align-middle">
 
@@ -85,8 +80,6 @@
 
                         <td class="text-center">${product.id}</td>
                         <td>${product.identifier}</td>
-
-                        <!-- ✅ MULTI CATEGORY DISPLAY -->
                         <td class="text-center">
                             <c:forEach var="cat" items="${product.categories}">
                                 <span class="badge badge-category text-white">
@@ -108,8 +101,6 @@
                         </td>
 
                         <td class="text-center">${product.name}</td>
-
-                        <!-- ✅ STATUS TOGGLE -->
                         <td class="text-center">
                             <form method="post"
                                   action="${pageContext.request.contextPath}/product/toggle">
@@ -130,8 +121,6 @@
                                 </div>
                             </form>
                         </td>
-
-                        <!-- ✅ ACTIONS -->
                         <td class="text-center">
 
                             <a href="${pageContext.request.contextPath}/product/get?identifier=${product.identifier}"

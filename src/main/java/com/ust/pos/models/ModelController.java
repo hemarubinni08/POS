@@ -19,13 +19,11 @@ public class ModelController {
     @Autowired
     private ModelService modelService;
 
-
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
         model.addAttribute("models", modelService.findAll(pageable));
         return "model/list";
     }
-
 
     @GetMapping("/add")
     public String add(Model model) {

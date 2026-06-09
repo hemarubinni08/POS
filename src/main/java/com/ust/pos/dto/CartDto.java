@@ -10,7 +10,6 @@ import java.util.List;
 @Setter
 
 public class CartDto extends CommonDto {
-
     List<CartEntryDto> entryList;
     private BigDecimal totalPrice;
     private BigDecimal totalDiscount;

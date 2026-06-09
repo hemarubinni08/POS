@@ -115,11 +115,5 @@ public class ProductController {
         return REDIRECT_PRODUCT_LIST;
     }
 
-    private void loadFormData(Model model) {
-        model.addAttribute(CATEGORIES, categoryService.findChildCategories());
-        model.addAttribute(BRAND, brandService.findIfTrue());
-        model.addAttribute(UNIT, unitService.findIfTrue());
-        model.addAttribute(MODEL, modelService.findIfTrue());
-    }
 
 }
