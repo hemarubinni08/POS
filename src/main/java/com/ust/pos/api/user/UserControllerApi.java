@@ -35,10 +35,6 @@ public class UserControllerApi extends BaseController {
 
     @PostMapping("/update")
     public UserDto updatePost(@RequestBody UserDto userDto) {
-//        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-//        if(authentication!=null){
-//            model.addAttribute
-//        }
         return userService.update(userDto);
     }
 

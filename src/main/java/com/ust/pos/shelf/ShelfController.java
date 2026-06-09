@@ -20,7 +20,6 @@ public class ShelfController {
 
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
-        // List<ShelfDto> shelfList = shelfService.findAll(pageable);
         model.addAttribute("shelves", shelfService.findAll(pageable));
         return "shelf/list";
     }
