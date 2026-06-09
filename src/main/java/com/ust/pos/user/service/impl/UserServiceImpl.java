@@ -90,7 +90,6 @@ public class UserServiceImpl implements UserService {
                 user.setSuccess(false);
                 return user;
             }
-
             userRepository.deleteByUsername(username);
             return user;
         }

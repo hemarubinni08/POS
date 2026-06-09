@@ -69,14 +69,12 @@ public class ProductServiceImpl implements ProductService {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         Page<Product> productPage = productRepository.findAll(pageable);
-
         WsDto<ProductDto> productWsDto = new WsDto<>();
         productWsDto.setDtoList(modelMapper.map(productPage.getContent(), listType));
         productWsDto.setTotalRecords(productPage.getTotalElements());
         productWsDto.setTotalPages(productPage.getTotalPages());
         productWsDto.setSizePerPage(pageable.getPageSize());
         productWsDto.setPage(pageable.getPageNumber());
-
         return productWsDto;
     }
 

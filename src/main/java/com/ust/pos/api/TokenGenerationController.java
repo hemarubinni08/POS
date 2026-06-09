@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -35,10 +34,8 @@ public class TokenGenerationController {
     @Autowired
     private UserService userService;
 
-    // ↓ Replace your old authenticate() with this
     @PostMapping("/api/authenticate")
-    @ResponseBody
-    public ResponseEntity<?> authenticate(@RequestBody UserDto userDto) {
+    public ResponseEntity<Object> authenticate(@RequestBody UserDto userDto) {
         try {
             authenticationProvider.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -48,7 +45,6 @@ public class TokenGenerationController {
             UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
             final String token = jwtUtility.generateToken(userDetails);
             return ResponseEntity.ok(new UserDto(token));
-
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid username or password.");
@@ -58,9 +54,7 @@ public class TokenGenerationController {
         }
     }
 
-    // ↓ Leave this method completely unchanged
     @PostMapping("/api/validateToken")
-    @ResponseBody
     public Boolean validateToken(@RequestBody UserDto jwtRequest) {
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername

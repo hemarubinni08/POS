@@ -30,7 +30,6 @@ class AddressServiceTest {
 
     @Test
     void saveTest() {
-
         AddressDto addressDto = new AddressDto();
         addressDto.setIdentifier("Admin");
         Mockito.when(addressRepository.findByIdentifier("Admin")).thenReturn(null);
@@ -44,7 +43,6 @@ class AddressServiceTest {
 
     @Test
     void saveTestFailure() {
-
         AddressDto addressDto = new AddressDto();
         addressDto.setIdentifier("Admin");
         Address existingAddress = new Address();
@@ -52,13 +50,10 @@ class AddressServiceTest {
         Mockito.when(addressRepository.findByIdentifier("Admin")).thenReturn(existingAddress);
         AddressDto response = addressService.save(addressDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
-
 
     @Test
     void findByIdentifierTest() {
-
         Address address = new Address();
         address.setIdentifier("Admin");
         AddressDto addressDto = new AddressDto();
@@ -72,7 +67,6 @@ class AddressServiceTest {
 
     @Test
     void updateTest() {
-
         AddressDto addressDto = new AddressDto();
         addressDto.setIdentifier("Admin");
         Address existingAddress = new Address();
@@ -85,14 +79,12 @@ class AddressServiceTest {
 
     @Test
     void updateTestFailure() {
-
         AddressDto addressDto = new AddressDto();
         addressDto.setIdentifier("Admin");
         Mockito.when(addressRepository.findByIdentifier("Admin")).thenReturn(null);
         AddressDto response = addressService.update(addressDto);
         Assertions.assertFalse(response.isSuccess());
     }
-
 
     @Test
     void deleteTest() {
@@ -104,11 +96,8 @@ class AddressServiceTest {
         Assertions.assertEquals(true, response);
     }
 
-    /* ===================== FIND ALL ===================== */
-
     @Test
     void findAllTest() {
-
         Address address = new Address();
         address.setIdentifier("Admin");
         AddressDto addressDto = new AddressDto();
@@ -129,7 +118,6 @@ class AddressServiceTest {
 
     @Test
     void findAllByPhoneNoTest() {
-
         Address address = new Address();
         address.setIdentifier("Admin");
         AddressDto addressDto = new AddressDto();
@@ -140,6 +128,5 @@ class AddressServiceTest {
         Mockito.when(modelMapper.map(Mockito.eq(addresss), Mockito.any(java.lang.reflect.Type.class))).thenReturn(addressDtos);
         List<AddressDto> response = addressService.findAllByPhoneNo("8919");
         Assertions.assertEquals(1, response.size());
-
     }
 }

@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.impl.UserServiceImpl;
@@ -36,7 +37,6 @@ class UserServiceTest {
 
     @Test
     void saveTest() {
-
         UserDto userDto = new UserDto();
         userDto.setUsername("Admin");
         userDto.setPassword("navya");
@@ -47,12 +47,10 @@ class UserServiceTest {
         UserDto response = userService.save(userDto);
         Assertions.assertEquals("Admin", response.getUsername());
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void saveTestFailure() {
-
         UserDto userDto = new UserDto();
         userDto.setUsername("Admin");
         User existingUser = new User();
@@ -60,12 +58,10 @@ class UserServiceTest {
         Mockito.when(userRepository.findByUsername("Admin")).thenReturn(existingUser);
         UserDto response = userService.save(userDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
     @Test
     void findByUserNameTest() {
-
         User user = new User();
         user.setIdentifier("Admin");
         UserDto userDto = new UserDto();
@@ -74,12 +70,10 @@ class UserServiceTest {
         Mockito.when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
         UserDto response = userService.findByUserName("Admin");
         Assertions.assertEquals("Admin", response.getIdentifier());
-
     }
 
     @Test
     void updateTest() {
-
         UserDto userDto = new UserDto();
         userDto.setId(1L);
         userDto.setUsername("Admin");
@@ -92,12 +86,10 @@ class UserServiceTest {
         UserDto response = userService.update(userDto);
         Assertions.assertEquals("Admin", response.getUsername());
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void updateTestFailure() {
-
         UserDto userDto = new UserDto();
         userDto.setId(1L);
         Mockito.when(userRepository.findById(1L)).thenReturn(java.util.Optional.empty());
@@ -107,7 +99,6 @@ class UserServiceTest {
 
     @Test
     void deleteTest() {
-
         User user = new User();
         user.setUsername("Admin");
         UserDto userDto = new UserDto();
@@ -122,12 +113,10 @@ class UserServiceTest {
         )).thenReturn(userDto);
         UserDto response = userService.delete("Admin");
         Assertions.assertEquals("Admin", response.getUsername());
-
     }
 
     @Test
     void findAllTest() {
-
         User user = new User();
         user.setIdentifier("Admin");
         UserDto userDto = new UserDto();
@@ -141,14 +130,16 @@ class UserServiceTest {
                 Mockito.eq(users),
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(userDtos);
-        List<UserDto> response = userService.findAll(pageable);
-        Assertions.assertEquals(1, response.size());
-
+        WsDto<UserDto> response = userService.findAll(pageable);
+        Assertions.assertEquals(userDtos, response.getDtoList());
+        Assertions.assertEquals(1L, response.getTotalRecords());
+        Assertions.assertEquals(1, response.getTotalPages());
+        Assertions.assertEquals(50, response.getSizePerPage());
+        Assertions.assertEquals(0, response.getPage());
     }
 
     @Test
     void findByStatusTest() {
-
         User user = new User();
         user.setIdentifier("Admin");
         UserDto userDto = new UserDto();
@@ -162,12 +153,10 @@ class UserServiceTest {
         )).thenReturn(userDtos);
         List<UserDto> response = userService.findIfTrue();
         Assertions.assertEquals(1, response.size());
-
     }
 
     @Test
     void toggleTestActive() {
-
         User user = new User();
         user.setStatus(false);
         UserDto userDto = new UserDto();
@@ -176,12 +165,10 @@ class UserServiceTest {
         Mockito.when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
         UserDto response = userService.toggleStatus("Admin");
         Assertions.assertTrue(response.isStatus());
-
     }
 
     @Test
     void toggleTestInactive() {
-
         User user = new User();
         user.setStatus(true);
         UserDto userDto = new UserDto();
@@ -190,6 +177,5 @@ class UserServiceTest {
         Mockito.when(modelMapper.map(user, UserDto.class)).thenReturn(userDto);
         UserDto response = userService.toggleStatus("Admin");
         Assertions.assertFalse(response.isStatus());
-
     }
 }

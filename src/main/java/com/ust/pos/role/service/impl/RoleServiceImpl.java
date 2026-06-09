@@ -74,7 +74,6 @@ public class RoleServiceImpl implements RoleService {
         roleDtoWsDto.setTotalPages(rolePage.getTotalPages());
         roleDtoWsDto.setSizePerPage(pageable.getPageSize());
         roleDtoWsDto.setPage(pageable.getPageNumber());
-
         return roleDtoWsDto;
     }
 
