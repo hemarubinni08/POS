@@ -3,7 +3,6 @@ package com.ust.pos.api.node;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.node.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,11 @@ public class NodeApiController extends BaseController {
     @GetMapping("/list")
     public List<NodeDto> home() {
         return nodeService.findAll();
+    }
+
+    @GetMapping("/roles")
+    public List<NodeDto> getNodesForRoles() {
+        return nodeService.getNodesForRoles();
     }
 
     @PostMapping("/list")
