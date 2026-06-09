@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping("/api/cartEntry")
 @RestController
 public class CartEntryApiController extends BaseController {
+
     @Autowired
     private CartEntryService cartEntryService;
 

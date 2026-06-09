@@ -21,6 +21,7 @@ import java.util.Set;
 
 @Service
 public class NodeServiceImpl implements NodeService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -56,7 +57,6 @@ public class NodeServiceImpl implements NodeService {
             nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
         }
     }
-
 
     @Override
     public NodeDto findByIdentifier(String identifier) {

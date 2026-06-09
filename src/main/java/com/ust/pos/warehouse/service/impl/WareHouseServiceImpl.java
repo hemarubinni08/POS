@@ -62,6 +62,7 @@ public class WareHouseServiceImpl implements WareHouseService {
         wareHouseRepository.deleteByIdentifier(identifier);
         return true;
     }
+
     @Override
     public WsDto<WareHouseDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<WareHouseDto>>() {

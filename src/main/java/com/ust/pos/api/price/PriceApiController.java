@@ -15,11 +15,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/price")
 public class PriceApiController extends BaseController {
+
     @Autowired
     private PriceService priceService;
 
     @PostMapping("/list")
-    public WsDto home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<PriceDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(), paginationDto.getSortDirection(),
                 paginationDto.getSortField());

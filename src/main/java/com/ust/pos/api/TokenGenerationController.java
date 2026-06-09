@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,8 +35,7 @@ public class TokenGenerationController {
     private UserService userService;
 
     @PostMapping("/api/authenticate")
-    @ResponseBody
-    public ResponseEntity<?> authenticate(@RequestBody UserDto userDto) {
+    public ResponseEntity<Object> authenticate(@RequestBody UserDto userDto) {
         try {
             authenticationProvider.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -58,7 +56,6 @@ public class TokenGenerationController {
     }
 
     @PostMapping("/api/validateToken")
-    @ResponseBody
     public Boolean validateToken(@RequestBody UserDto jwtRequest) {
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername

@@ -52,13 +52,11 @@ public class WareHouseApiController extends BaseController {
 
     @PostMapping("/toggle-status")
     public WareHouseDto toggle(@RequestParam String identifier) {
-
         return wareHouseService.toggleStatus(identifier);
     }
 
     @GetMapping("/findByStatus")
     public List<WareHouseDto> findByStatus() {
-
         return wareHouseService.findIfTrue();
     }
 }

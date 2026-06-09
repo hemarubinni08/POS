@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/racks")
 public class RacksController {
+
     public static final String REDIRECT_RACKS_LIST = "redirect:/racks/list";
 
     private static final String SHELVES = "shelves";
@@ -29,7 +30,7 @@ public class RacksController {
     }
 
     @GetMapping("/add")
-    public String add(Model model,@ModelAttribute RacksDto racksDto) {
+    public String add(Model model, @ModelAttribute RacksDto racksDto) {
         model.addAttribute(SHELVES, shelfsService.findIfTrue());
         return "racks/add";
     }

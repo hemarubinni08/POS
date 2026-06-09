@@ -1,9 +1,7 @@
 package com.ust.pos.cartentry.service.impl;
 
-import com.ust.pos.cart.service.CartService;
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
-import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.CartEntry;
 import com.ust.pos.model.CartEntryRepository;
 import com.ust.pos.model.Price;
@@ -22,6 +20,7 @@ import java.util.List;
 
 @Service
 public class CartEntryServiceImpl implements CartEntryService {
+
     @Autowired
     private CartEntryRepository cartEntryRepository;
 

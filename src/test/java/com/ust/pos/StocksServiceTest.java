@@ -24,10 +24,13 @@ class StocksServiceTest {
 
     @Mock
     ProductServiceImpl productService;
+
     @Mock
     private StocksRepository stocksRepository;
+
     @Mock
     private ModelMapper modelMapper;
+
     @InjectMocks
     private StocksServiceImpl stocksService;
 

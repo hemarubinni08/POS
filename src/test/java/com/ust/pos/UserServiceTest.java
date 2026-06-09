@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.impl.UserServiceImpl;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.lenient;
 
 @ExtendWith(MockitoExtension.class)
 @org.mockito.junit.jupiter.MockitoSettings(strictness =
-                           org.mockito.quality.Strictness.LENIENT)
+        org.mockito.quality.Strictness.LENIENT)
 class UserServiceTest {
 
     @Mock
@@ -38,7 +39,6 @@ class UserServiceTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
-
 
     @Test
     void saveTest() {
@@ -176,9 +176,11 @@ class UserServiceTest {
                 Mockito.any(java.lang.reflect.Type.class)
         )).thenReturn(userDtos);
 
-        List<UserDto> response = userService.findAll(pageable);
+        WsDto<UserDto> response = userService.findAll(pageable);
 
-        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals(1, response.getTotalPages());
+        Assertions.assertEquals(1, response.getTotalRecords());
     }
 
     @Test

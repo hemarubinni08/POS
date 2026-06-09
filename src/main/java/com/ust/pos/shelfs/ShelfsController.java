@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/shelfs")
 public class ShelfsController {
+
     public static final String REDIRECT_SHELFS_LIST = "redirect:/shelfs/list";
+
     @Autowired
     private ShelfsService shelfsService;
 

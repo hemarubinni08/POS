@@ -16,7 +16,7 @@ public interface CartEntryService {
 
     List<CartEntryDto> findAllCarts(String cart);
 
-    boolean delete(String product,String cart);
+    boolean delete(String product, String cart);
 
     boolean deleteAllByCart(String cart);
 }

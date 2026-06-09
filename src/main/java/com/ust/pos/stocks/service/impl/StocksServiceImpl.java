@@ -18,6 +18,7 @@ import java.util.List;
 
 @Service
 public class StocksServiceImpl implements StocksService {
+
     @Autowired
     private StocksRepository stocksRepository;
 
@@ -26,7 +27,6 @@ public class StocksServiceImpl implements StocksService {
 
     @Autowired
     private ProductService productService;
-
 
     @Override
     public StocksDto findByIdentifier(String identifier) {

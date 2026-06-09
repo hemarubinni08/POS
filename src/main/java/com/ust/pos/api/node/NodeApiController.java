@@ -19,7 +19,7 @@ public class NodeApiController extends BaseController {
     private NodeService nodeService;
 
     @PostMapping("/list")
-    public WsDto home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<NodeDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(), paginationDto.getSortDirection(),
                 paginationDto.getSortField());
@@ -62,7 +62,7 @@ public class NodeApiController extends BaseController {
     }
 
     @GetMapping("/getNodesForRoles")
-    public List<NodeDto> getNodesForRoles(){
+    public List<NodeDto> getNodesForRoles() {
         return nodeService.getNodesForRoles();
     }
 }
