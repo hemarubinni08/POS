@@ -28,20 +28,46 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public PaginationResponseDto<WarehouseDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<WarehouseDto>>() {
         }.getType();
-        if (pageable == null) {
-            return modelMapper.map(warehouseRepository.findAll(), listType);
-        }
-        Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
-        List<WarehouseDto> warehouseDtoList = modelMapper.map(warehousePage.getContent(), listType);
 
-        PaginationResponseDto<WarehouseDto> paginationResponseDto = new PaginationResponseDto<>();
+        if (pageable == null) {
+
+            List<WarehouseDto> warehouseDtoList =
+                    modelMapper.map(
+                            warehouseRepository.findAll(),
+                            listType
+                    );
+
+            PaginationResponseDto<WarehouseDto> response =
+                    new PaginationResponseDto<>();
+
+            response.setDtoList(warehouseDtoList);
+            response.setTotalRecords(warehouseDtoList.size());
+
+            return response;
+        }
+
+        Page<Warehouse> warehousePage =
+                warehouseRepository.findAll(pageable);
+
+        List<WarehouseDto> warehouseDtoList =
+                modelMapper.map(
+                        warehousePage.getContent(),
+                        listType
+                );
+
+        PaginationResponseDto<WarehouseDto> paginationResponseDto =
+                new PaginationResponseDto<>();
+
         paginationResponseDto.setDtoList(warehouseDtoList);
         paginationResponseDto.setPage(warehousePage.getNumber());
         paginationResponseDto.setSizePerPage(warehousePage.getSize());
         paginationResponseDto.setTotalPages(warehousePage.getTotalPages());
-        paginationResponseDto.setTotalRecords(warehousePage.getTotalElements());
+        paginationResponseDto.setTotalRecords(
+                warehousePage.getTotalElements()
+        );
 
         return paginationResponseDto;
     }

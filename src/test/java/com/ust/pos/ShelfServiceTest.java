@@ -1,5 +1,6 @@
 package com.ust.pos;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.model.Shelf;
 import com.ust.pos.model.ShelfRepository;
@@ -106,10 +107,18 @@ class ShelfServiceTest {
                 Mockito.any(Type.class)
         )).thenReturn(shelfDtos);
 
-        List<ShelfDto> response = shelfService.findAll(pageable);
+        PaginationResponseDto<ShelfDto> response =
+                shelfService.findAll(pageable);
 
-        Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("Shelf1", response.get(0).getIdentifier());
+        Assertions.assertEquals(
+                1,
+                response.getDtoList().size()
+        );
+
+        Assertions.assertEquals(
+                "Shelf1",
+                response.getDtoList().get(0).getIdentifier()
+        );
     }
 
     @Test
@@ -132,9 +141,18 @@ class ShelfServiceTest {
                 Mockito.any(Type.class)
         )).thenReturn(shelfDtos);
 
-        List<ShelfDto> response = shelfService.findAll(null);
+        PaginationResponseDto<ShelfDto> response =
+                shelfService.findAll(null);
 
-        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals(
+                1,
+                response.getDtoList().size()
+        );
+
+        Assertions.assertEquals(
+                "Shelf1",
+                response.getDtoList().get(0).getIdentifier()
+        );
     }
 
     @Test

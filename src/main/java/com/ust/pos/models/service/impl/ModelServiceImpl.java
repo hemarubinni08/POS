@@ -30,7 +30,20 @@ public class ModelServiceImpl implements ModelService {
         Type listType = new TypeToken<List<ModelDto>>() {
         }.getType();
         if (pageable == null) {
-            return modelMapper.map(modelRepository.findAll(), listType);
+
+            List<ModelDto> modelDtoList =
+                    modelMapper.map(
+                            modelRepository.findAll(),
+                            listType
+                    );
+
+            PaginationResponseDto<ModelDto> response =
+                    new PaginationResponseDto<>();
+
+            response.setDtoList(modelDtoList);
+            response.setTotalRecords(modelDtoList.size());
+
+            return response;
         }
         Page<Model> modelPage = modelRepository.findAll(pageable);
         List<ModelDto> modelDtoList = modelMapper.map(modelPage.getContent(), listType);

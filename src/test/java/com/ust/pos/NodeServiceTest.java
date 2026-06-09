@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.User;
@@ -151,11 +152,15 @@ class NodeServiceTest {
                 any(Type.class)
         )).thenReturn(nodeDtos);
 
-        List<NodeDto> result = nodeService.findAll(pageable);
+        PaginationResponseDto<NodeDto> result =
+                nodeService.findAll(pageable);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("CUST1", result.get(0).getIdentifier());
+        assertEquals(1, result.getDtoList().size());
+        assertEquals(
+                "CUST1",
+                result.getDtoList().get(0).getIdentifier()
+        );
     }
 
     @Test
@@ -178,26 +183,36 @@ class NodeServiceTest {
                 any(Type.class)
         )).thenReturn(nodeDtos);
 
-        List<NodeDto> result = nodeService.findAll(null);
+        PaginationResponseDto<NodeDto> result =
+                nodeService.findAll(null);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("CUST1", result.get(0).getIdentifier());
+        assertEquals(1, result.getDtoList().size());
+        assertEquals(
+                "CUST1",
+                result.getDtoList().get(0).getIdentifier()
+        );
     }
 
     @Test
     void findAllWithPageable_emptyResult() {
+
         Pageable pageable = PageRequest.of(0, 5);
         Page<Node> emptyPage = Page.empty();
 
-        when(nodeRepository.findAll(pageable)).thenReturn(emptyPage);
-        when(modelMapper.map(eq(List.of()), any(Type.class)))
-                .thenReturn(List.of());
+        when(nodeRepository.findAll(pageable))
+                .thenReturn(emptyPage);
 
-        List<NodeDto> result = nodeService.findAll(pageable);
+        when(modelMapper.map(
+                eq(List.of()),
+                any(Type.class)
+        )).thenReturn(List.of());
+
+        PaginationResponseDto<NodeDto> result =
+                nodeService.findAll(pageable);
 
         assertNotNull(result);
-        assertTrue(result.isEmpty());
+        assertTrue(result.getDtoList().isEmpty());
     }
 
     @Test

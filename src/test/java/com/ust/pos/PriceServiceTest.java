@@ -1,5 +1,6 @@
 package com.ust.pos;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
@@ -64,7 +65,6 @@ class PriceServiceTest {
         product.setName("Apple");
     }
 
-    // ---------- findAll ----------
 
     @Test
     void findAllWithoutPageableTest() {
@@ -73,26 +73,28 @@ class PriceServiceTest {
         price.setProduct("SKU1");
 
         PriceDto priceDto = new PriceDto();
+        priceDto.setProduct("SKU1");
 
-        Product product = new Product();
-        product.setName("Apple");
+        List<Price> priceList = List.of(price);
+        List<PriceDto> dtoList = List.of(priceDto);
 
         Mockito.when(priceRepository.findAll())
-                .thenReturn(List.of(price));
+                .thenReturn(priceList);
 
-        Mockito.when(modelMapper.map(price, PriceDto.class))
-                .thenReturn(priceDto);
+        Mockito.when(modelMapper.map(
+                        eq(priceList),
+                        any(java.lang.reflect.Type.class)))
+                .thenReturn(dtoList);
 
-        Mockito.when(productRepository.existsByIdentifier("SKU1"))
-                .thenReturn(true);
+        PaginationResponseDto<PriceDto> result =
+                priceService.findAll(null);
 
-        Mockito.when(productRepository.findByIdentifier("SKU1"))
-                .thenReturn(product);
+        Assertions.assertEquals(1, result.getDtoList().size());
 
-        List<PriceDto> result = priceService.findAll(null);
-
-        Assertions.assertEquals(1, result.size());
-        Assertions.assertEquals("Apple", result.get(0).getProduct());
+        Assertions.assertEquals(
+                "SKU1",
+                result.getDtoList().get(0).getProduct()
+        );
     }
 
     @Test
@@ -102,29 +104,30 @@ class PriceServiceTest {
         price.setProduct("SKU1");
 
         PriceDto priceDto = new PriceDto();
-
-        Product product = new Product();
-        product.setName("Apple");
+        priceDto.setProduct("SKU1");
 
         Pageable pageable = PageRequest.of(0, 5);
         Page<Price> pricePage = new PageImpl<>(List.of(price));
 
+        List<PriceDto> dtoList = List.of(priceDto);
+
         Mockito.when(priceRepository.findAll(pageable))
                 .thenReturn(pricePage);
 
-        Mockito.when(modelMapper.map(price, PriceDto.class))
-                .thenReturn(priceDto);
+        Mockito.when(modelMapper.map(
+                        eq(pricePage.getContent()),
+                        any(java.lang.reflect.Type.class)))
+                .thenReturn(dtoList);
 
-        Mockito.when(productRepository.existsByIdentifier("SKU1"))
-                .thenReturn(true);
+        PaginationResponseDto<PriceDto> result =
+                priceService.findAll(pageable);
 
-        Mockito.when(productRepository.findByIdentifier("SKU1"))
-                .thenReturn(product);
+        Assertions.assertEquals(1, result.getDtoList().size());
 
-        List<PriceDto> result = priceService.findAll(pageable);
-
-        Assertions.assertEquals(1, result.size());
-        Assertions.assertEquals("Apple", result.get(0).getProduct());
+        Assertions.assertEquals(
+                "SKU1",
+                result.getDtoList().get(0).getProduct()
+        );
     }
 
     @Test
@@ -134,23 +137,29 @@ class PriceServiceTest {
         price.setProduct("SKU1");
 
         PriceDto priceDto = new PriceDto();
+        priceDto.setProduct("SKU1");
+
+        List<Price> priceList = List.of(price);
+        List<PriceDto> dtoList = List.of(priceDto);
 
         when(priceRepository.findAll())
-                .thenReturn(List.of(price));
+                .thenReturn(priceList);
 
-        when(modelMapper.map(price, PriceDto.class))
-                .thenReturn(priceDto);
+        when(modelMapper.map(
+                eq(priceList),
+                any(java.lang.reflect.Type.class)))
+                .thenReturn(dtoList);
 
-        when(productRepository.existsByIdentifier("SKU1"))
-                .thenReturn(false);
+        PaginationResponseDto<PriceDto> result =
+                priceService.findAll(null);
 
-        List<PriceDto> result = priceService.findAll(null);
+        assertEquals(1, result.getDtoList().size());
 
-        assertEquals(1, result.size());
-        assertNull(result.get(0).getProduct()); // name not set
+        assertEquals(
+                "SKU1",
+                result.getDtoList().get(0).getProduct()
+        );
     }
-
-    // ---------- save ----------
 
     @Test
     void save_productNotFound() {
@@ -186,8 +195,6 @@ class PriceServiceTest {
         assertTrue(response.isSuccess());
         assertEquals("Successfully added the price", response.getMessage());
     }
-
-    // ---------- findById ----------
 
     @Test
     void findById_success() {
@@ -239,10 +246,13 @@ class PriceServiceTest {
 
     @Test
     void delete_success() {
-        doNothing().when(priceRepository).deleteById(1L);
 
-        priceService.delete(1L);
+        doNothing().when(priceRepository)
+                .deleteByIdentifier("SKU1MRP");
 
-        verify(priceRepository, times(1)).deleteById(1L);
+        priceService.delete("SKU1MRP");
+
+        verify(priceRepository, times(1))
+                .deleteByIdentifier("SKU1MRP");
     }
 }

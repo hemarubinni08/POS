@@ -30,8 +30,19 @@ public class ShelfServiceImpl implements ShelfService {
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
         if (pageable == null) {
-            return modelMapper.map(shelfRepository.findAll(), listType);
+
+            List<ShelfDto> shelfDtoList =
+                    modelMapper.map(shelfRepository.findAll(), listType);
+
+            PaginationResponseDto<ShelfDto> response =
+                    new PaginationResponseDto<>();
+
+            response.setDtoList(shelfDtoList);
+            response.setTotalRecords(shelfDtoList.size());
+
+            return response;
         }
+
         Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
 
         List<ShelfDto> shelfDtoList = modelMapper.map(shelfPage.getContent(), listType);

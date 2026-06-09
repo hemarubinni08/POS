@@ -93,7 +93,17 @@ public class RoleServiceImpl implements RoleService {
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
         if (pageable == null) {
-            return modelMapper.map(roleRepository.findAll(), listType);
+
+            List<RoleDto> roleDtoList =
+                    modelMapper.map(roleRepository.findAll(), listType);
+
+            PaginationResponseDto<RoleDto> response =
+                    new PaginationResponseDto<>();
+
+            response.setDtoList(roleDtoList);
+            response.setTotalRecords(roleDtoList.size());
+
+            return response;
         }
         Page<Role> rolePage = roleRepository.findAll(pageable);
         List<RoleDto> roleDtoList = modelMapper.map(rolePage.getContent(), listType);

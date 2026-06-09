@@ -2,6 +2,7 @@ package com.ust.pos;
 
 import com.ust.pos.brand.service.impl.BrandServiceImpl;
 import com.ust.pos.dto.BrandDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
 import org.junit.jupiter.api.Assertions;
@@ -144,6 +145,7 @@ class BrandServiceTest {
 
     @Test
     void findAllWithPageableTest() {
+
         Brand brand = new Brand();
         brand.setIdentifier("BR001");
 
@@ -164,14 +166,23 @@ class BrandServiceTest {
                 Mockito.any(Type.class)
         )).thenReturn(dtos);
 
-        List<BrandDto> response = brandService.findAll(pageable);
+        PaginationResponseDto<BrandDto> response =
+                brandService.findAll(pageable);
 
-        Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("BR001", response.get(0).getIdentifier());
+        Assertions.assertEquals(
+                1,
+                response.getDtoList().size()
+        );
+
+        Assertions.assertEquals(
+                "BR001",
+                response.getDtoList().get(0).getIdentifier()
+        );
     }
 
     @Test
     void findAllWithoutPageableTest() {
+
         Brand brand = new Brand();
         brand.setIdentifier("BR001");
 
@@ -189,9 +200,18 @@ class BrandServiceTest {
                 Mockito.any(Type.class)
         )).thenReturn(dtos);
 
-        List<BrandDto> response = brandService.findAll(null);
+        PaginationResponseDto<BrandDto> response =
+                brandService.findAll(null);
 
-        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals(
+                1,
+                response.getDtoList().size()
+        );
+
+        Assertions.assertEquals(
+                "BR001",
+                response.getDtoList().get(0).getIdentifier()
+        );
     }
 
     @Test

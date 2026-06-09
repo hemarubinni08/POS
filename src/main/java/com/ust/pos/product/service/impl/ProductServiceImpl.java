@@ -28,20 +28,46 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PaginationResponseDto<ProductDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
-        if (pageable == null) {
-            return modelMapper.map(productRepository.findAll(), listType);
-        }
-        Page<Product> productPage = productRepository.findAll(pageable);
-        List<ProductDto> productDtoList = modelMapper.map(productPage.getContent(), listType);
 
-        PaginationResponseDto<ProductDto> paginationResponseDto = new PaginationResponseDto<>();
+        if (pageable == null) {
+
+            List<ProductDto> productDtoList =
+                    modelMapper.map(
+                            productRepository.findAll(),
+                            listType
+                    );
+
+            PaginationResponseDto<ProductDto> response =
+                    new PaginationResponseDto<>();
+
+            response.setDtoList(productDtoList);
+            response.setTotalRecords(productDtoList.size());
+
+            return response;
+        }
+
+        Page<Product> productPage =
+                productRepository.findAll(pageable);
+
+        List<ProductDto> productDtoList =
+                modelMapper.map(
+                        productPage.getContent(),
+                        listType
+                );
+
+        PaginationResponseDto<ProductDto> paginationResponseDto =
+                new PaginationResponseDto<>();
+
         paginationResponseDto.setDtoList(productDtoList);
         paginationResponseDto.setPage(productPage.getNumber());
         paginationResponseDto.setSizePerPage(productPage.getSize());
         paginationResponseDto.setTotalPages(productPage.getTotalPages());
-        paginationResponseDto.setTotalRecords(productPage.getTotalElements());
+        paginationResponseDto.setTotalRecords(
+                productPage.getTotalElements()
+        );
 
         return paginationResponseDto;
     }

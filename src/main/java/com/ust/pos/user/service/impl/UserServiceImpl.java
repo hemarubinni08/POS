@@ -85,15 +85,38 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PaginationResponseDto<UserDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
-        if (pageable == null) {
-            return modelMapper.map(userRepository.findAll(), listType);
-        }
-        Page<User> userPage = userRepository.findAll(pageable);
-        List<UserDto> userDtoList = modelMapper.map(userPage.getContent(), listType);
 
-        PaginationResponseDto<UserDto> paginationResponseDto = new PaginationResponseDto<>();
+        if (pageable == null) {
+
+            List<UserDto> userDtoList =
+                    modelMapper.map(
+                            userRepository.findAll(),
+                            listType
+                    );
+
+            PaginationResponseDto<UserDto> response =
+                    new PaginationResponseDto<>();
+
+            response.setDtoList(userDtoList);
+            response.setTotalRecords(userDtoList.size());
+
+            return response;
+        }
+
+        Page<User> userPage = userRepository.findAll(pageable);
+
+        List<UserDto> userDtoList =
+                modelMapper.map(
+                        userPage.getContent(),
+                        listType
+                );
+
+        PaginationResponseDto<UserDto> paginationResponseDto =
+                new PaginationResponseDto<>();
+
         paginationResponseDto.setDtoList(userDtoList);
         paginationResponseDto.setPage(userPage.getNumber());
         paginationResponseDto.setSizePerPage(userPage.getSize());

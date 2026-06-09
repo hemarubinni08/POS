@@ -30,7 +30,20 @@ public class RackServiceImpl implements RackService {
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
         if (pageable == null) {
-            return modelMapper.map(rackRepository.findAll(), listType);
+
+            List<RackDto> rackDtoList =
+                    modelMapper.map(
+                            rackRepository.findAll(),
+                            listType
+                    );
+
+            PaginationResponseDto<RackDto> response =
+                    new PaginationResponseDto<>();
+
+            response.setDtoList(rackDtoList);
+            response.setTotalRecords(rackDtoList.size());
+
+            return response;
         }
         Page<Rack> rackPage = rackRepository.findAll(pageable);
         List<RackDto> rackDtoList = modelMapper.map(rackPage.getContent(), listType);

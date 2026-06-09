@@ -30,7 +30,17 @@ public class UnitServiceImpl implements UnitService {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
         if (pageable == null) {
-            return modelMapper.map(unitRepository.findAll(), listType);
+
+            List<UnitDto> unitDtoList =
+                    modelMapper.map(unitRepository.findAll(), listType);
+
+            PaginationResponseDto<UnitDto> response =
+                    new PaginationResponseDto<>();
+
+            response.setDtoList(unitDtoList);
+            response.setTotalRecords(unitDtoList.size());
+
+            return response;
         }
         Page<Unit> unitPage = unitRepository.findAll(pageable);
         List<UnitDto> unitDtoList = modelMapper.map(unitPage.getContent(), listType);

@@ -30,31 +30,54 @@ public class PriceServiceImpl implements PriceService {
     @Autowired
     private ModelMapper modelMapper;
 
-    // Method to list all the records from the table
     @Override
     public PaginationResponseDto<PriceDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
-        if (pageable == null) {
-            return modelMapper.map(priceRepository.findAll(), listType);
-        }
-        Page<Price> pricePage = priceRepository.findAll(pageable);
-        List<PriceDto> priceDtoList = modelMapper.map(pricePage.getContent(), listType);
 
-        PaginationResponseDto<PriceDto> paginationResponseDto = new PaginationResponseDto<>();
+        if (pageable == null) {
+
+            List<PriceDto> priceDtoList =
+                    modelMapper.map(
+                            priceRepository.findAll(),
+                            listType
+                    );
+
+            PaginationResponseDto<PriceDto> response =
+                    new PaginationResponseDto<>();
+
+            response.setDtoList(priceDtoList);
+            response.setTotalRecords(priceDtoList.size());
+
+            return response;
+        }
+
+        Page<Price> pricePage =
+                priceRepository.findAll(pageable);
+
+        List<PriceDto> priceDtoList =
+                modelMapper.map(
+                        pricePage.getContent(),
+                        listType
+                );
+
+        PaginationResponseDto<PriceDto> paginationResponseDto =
+                new PaginationResponseDto<>();
+
         paginationResponseDto.setDtoList(priceDtoList);
         paginationResponseDto.setPage(pricePage.getNumber());
         paginationResponseDto.setSizePerPage(pricePage.getSize());
         paginationResponseDto.setTotalPages(pricePage.getTotalPages());
-        paginationResponseDto.setTotalRecords(pricePage.getTotalElements());
+        paginationResponseDto.setTotalRecords(
+                pricePage.getTotalElements()
+        );
 
         return paginationResponseDto;
     }
 
-    // Method to store the price details to the db
     @Override
     public PriceDto save(PriceDto priceDto) {
-        // Optional validation
         boolean exists = productRepository.existsByIdentifier(priceDto.getProduct());
 
         if (!exists) {
@@ -64,7 +87,6 @@ public class PriceServiceImpl implements PriceService {
             return response;
         }
 
-        // Create an identifier using a combination of product and price type
         priceDto.setIdentifier(priceDto.getProduct() + priceDto.getPriceType());
         Price existingPrice = priceRepository.findByIdentifier(priceDto.getIdentifier());
         if (existingPrice != null) {

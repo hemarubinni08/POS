@@ -27,13 +27,22 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private ModelMapper modelMapper;
 
-    // method to retrieve all category records from the database
     @Override
     public PaginationResponseDto<CategoryDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         if (pageable == null) {
-            return modelMapper.map(categoryRepository.findAll(), listType);
+
+            List<CategoryDto> categoryDtoList =
+                    modelMapper.map(categoryRepository.findAll(), listType);
+
+            PaginationResponseDto<CategoryDto> response =
+                    new PaginationResponseDto<>();
+
+            response.setDtoList(categoryDtoList);
+            response.setTotalRecords(categoryDtoList.size());
+
+            return response;
         }
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
         List<CategoryDto> categoryDtoList = modelMapper.map(categoryPage.getContent(), listType);
@@ -86,7 +95,6 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDto;
     }
 
-    // method to retrieve all category records that are not parent and is currently active
     @Override
     public List<CategoryDto> findBySuperCategoryIsNotNullAndStatusTrue() {
         Type listType = new TypeToken<List<CategoryDto>>() {
@@ -106,7 +114,6 @@ public class CategoryServiceImpl implements CategoryService {
             return response;
         }
 
-        // Toggle status
         category.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
