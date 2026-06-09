@@ -59,7 +59,6 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public void delete(String identifier) {
         unitRepository.deleteByIdentifier(identifier);
-
     }
 
     @Override
@@ -73,8 +72,8 @@ public class UnitServiceImpl implements UnitService {
         unitDtoWsDto.setTotalPages(unitPage.getTotalPages());
         unitDtoWsDto.setSizePerPage(pageable.getPageSize());
         unitDtoWsDto.setPage(pageable.getPageNumber());
-
-        return unitDtoWsDto;    }
+        return unitDtoWsDto;
+    }
 
     @Override
     public UnitDto findByIdentifier(String identifier) {

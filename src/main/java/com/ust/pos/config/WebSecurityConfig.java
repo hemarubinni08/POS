@@ -100,7 +100,6 @@ public class WebSecurityConfig {
     }
 
     @Bean
-
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("JavaInUse Authentication Service"))

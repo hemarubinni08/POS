@@ -20,9 +20,7 @@ import java.util.List;
 
 @Service
 @Transactional
-
 public class RoleServiceImpl implements RoleService {
-
     @Autowired
     private RoleRepository roleRepository;
 
@@ -73,14 +71,12 @@ public class RoleServiceImpl implements RoleService {
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
         Page<Role> rolePage = roleRepository.findAll(pageable);
-
         WsDto<RoleDto> RoleWsDto = new WsDto<>();
         RoleWsDto.setDtoList(modelMapper.map(rolePage.getContent(), listType));
         RoleWsDto.setTotalRecords(rolePage.getTotalElements());
         RoleWsDto.setTotalPages(rolePage.getTotalPages());
         RoleWsDto.setSizePerPage(pageable.getPageSize());
         RoleWsDto.setPage(pageable.getPageNumber());
-
-        return RoleWsDto;    }
-
+        return RoleWsDto;
+    }
 }

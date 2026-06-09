@@ -143,13 +143,11 @@ button:hover {
 
         <form:hidden path="id" />
 
-        <!-- Category Name (READ ONLY) -->
         <div class="input-group">
             <label>Category Name</label>
             <form:input path="identifier" readonly="true" />
         </div>
 
-        <!-- Description (EDITABLE) -->
         <div class="input-group">
              <label>Super Category</label>
                     <form:select path="superCategory">

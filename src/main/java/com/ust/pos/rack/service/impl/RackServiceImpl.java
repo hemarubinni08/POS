@@ -19,7 +19,6 @@ import java.util.List;
 
 @Service
 @Transactional
-
 public class RackServiceImpl implements RackService {
     @Autowired
     private RackRepository rackRepository;
@@ -42,7 +41,6 @@ public class RackServiceImpl implements RackService {
         return rackDto;
     }
 
-
     @Override
     public RackDto update(RackDto rackDto) {
         String identifier = rackDto.getIdentifier();
@@ -56,7 +54,6 @@ public class RackServiceImpl implements RackService {
         rackRepository.save(existingRack);
         return rackDto;
     }
-
 
     @Override
     public void delete(String identifier) {
@@ -74,9 +71,8 @@ public class RackServiceImpl implements RackService {
         rackDtoWsDto.setTotalPages(rackpage.getTotalPages());
         rackDtoWsDto.setSizePerPage(pageable.getPageSize());
         rackDtoWsDto.setPage(pageable.getPageNumber());
-
-        return rackDtoWsDto;    }
-
+        return rackDtoWsDto;
+    }
 
     @Override
     public RackDto findByIdentifier(String identifier) {

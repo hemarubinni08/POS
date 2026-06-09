@@ -148,7 +148,6 @@
 
 <div class="container">
 
-    <!-- Back Button -->
     <a href="${pageContext.request.contextPath}/brand/list" class="back-btn">
         ← Back
     </a>
@@ -158,7 +157,6 @@
         <p>Create a brand with icon, description and status.</p>
     </div>
 
-    <!-- Error Message -->
     <c:if test="${not empty message}">
         <div class="error-message">
             ${message}
@@ -175,9 +173,6 @@
                     placeholder="Enter brand name"
                     required="true"/>
 
-
-
-        <!-- ✅ STATUS DROPDOWN -->
         <label>Status</label>
         <form:select path="status" required="true">
             <form:option value="">-- Select Status --</form:option>

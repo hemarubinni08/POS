@@ -7,7 +7,6 @@
 <head>
     <title>Customer Management</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -88,17 +87,14 @@
 
                 <div class="card-body">
 
-                    <!-- SUCCESS MESSAGE -->
                     <c:if test="${not empty customer}">
                         <div class="alert alert-success text-center">
                             ${customer}
                         </div>
                     </c:if>
 
-                    <!-- FORM (LOGIC UNCHANGED) -->
                     <form:form action="/customer/update" method="post" modelAttribute="customerDto">
 
-                        <!-- BASIC INFO -->
                         <h5>Basic Information</h5>
 
                         <div class="mb-3">
@@ -143,7 +139,6 @@
                             <form:input path="creditLimit" cssClass="form-control" type="number" required="true"/>
                         </div>
 
-                        <!-- SHIPPING ADDRESS -->
                         <h5>Shipping Address</h5>
 
                         <div class="mb-3">
@@ -178,7 +173,6 @@
                             </form:select>
                         </div>
 
-                        <!-- BILLING ADDRESS -->
                         <h5>Billing Address</h5>
 
                         <div class="mb-3">
@@ -213,14 +207,11 @@
                             </form:select>
                         </div>
 
-                        <!-- SUBMIT BUTTONS (UNCHANGED) -->
                         <div class="d-grid mt-4">
                             <button type="submit" class="btn btn-success">
                                 Update Customer
                             </button>
                         </div>
-
-
 
                         <div class="card-footer text-center mt-4">
                             <a href="${pageContext.request.contextPath}/customer/list"
@@ -231,7 +222,6 @@
 
                     </form:form>
 
-                    <!-- ERROR MESSAGE -->
                     <c:if test="${not empty message}">
                         <div class="alert alert-danger text-center mt-3">
                             ${message}
@@ -240,7 +230,6 @@
 
                 </div>
 
-                <!-- FOOTER -->
                 <div class="card-footer text-center">
                     <div class="text-muted small">
                         Customer Management System

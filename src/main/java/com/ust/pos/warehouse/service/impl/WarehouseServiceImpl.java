@@ -76,8 +76,8 @@ public class WarehouseServiceImpl implements WarehouseService {
         warehouseDtoWsDto.setTotalPages(warehousePage.getTotalPages());
         warehouseDtoWsDto.setSizePerPage(pageable.getPageSize());
         warehouseDtoWsDto.setPage(pageable.getPageNumber());
-
-        return warehouseDtoWsDto;    }
+        return warehouseDtoWsDto;
+    }
 
     @Override
     public WarehouseDto findByIdentifier(String identifier) {

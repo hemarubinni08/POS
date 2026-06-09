@@ -21,7 +21,6 @@ import java.util.Optional;
 @Transactional
 @Service
 public class UserServiceImpl implements UserService {
-
     public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
     @Autowired
     private UserRepository userRepository;
@@ -56,7 +55,6 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
         String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
-
         if (userOptional.isEmpty()) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " not found");
             userDto.setSuccess(false);
@@ -84,15 +82,12 @@ public class UserServiceImpl implements UserService {
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
         Page<User> userPage = userRepository.findAll(pageable);
-
         WsDto<UserDto> userWsDto = new WsDto<>();
         userWsDto.setDtoList(modelMapper.map(userPage.getContent(), listType));
         userWsDto.setTotalRecords(userPage.getTotalElements());
         userWsDto.setTotalPages(userPage.getTotalPages());
         userWsDto.setSizePerPage(pageable.getPageSize());
         userWsDto.setPage(pageable.getPageNumber());
-
         return userWsDto;
     }
-
 }

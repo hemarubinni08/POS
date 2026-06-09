@@ -49,7 +49,6 @@ public class NodeControllerApi extends BaseController {
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
-
             nodeService.delete(identifier);
         } catch (Exception e) {
             return false;

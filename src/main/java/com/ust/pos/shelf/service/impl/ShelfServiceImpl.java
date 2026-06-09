@@ -42,7 +42,6 @@ public class ShelfServiceImpl implements ShelfService {
         return shelfDto;
     }
 
-
     @Override
     public ShelfDto update(ShelfDto shelfDto) {
         String identifier = shelfDto.getIdentifier();
@@ -61,7 +60,6 @@ public class ShelfServiceImpl implements ShelfService {
     @Override
     public void delete(String identifier) {
         shelfRepository.deleteByIdentifier(identifier);
-
     }
 
     @Override
@@ -76,9 +74,8 @@ public class ShelfServiceImpl implements ShelfService {
         shelfDtoWsDto.setSizePerPage(pageable.getPageSize());
         shelfDtoWsDto.setPage(pageable.getPageNumber());
 
-        return shelfDtoWsDto;    }
-
-
+        return shelfDtoWsDto;
+    }
 
     @Override
     public ShelfDto findByIdentifier(String identifier) {

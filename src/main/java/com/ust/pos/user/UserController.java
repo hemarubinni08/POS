@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-
     @Autowired
     private UserService userService;
 
@@ -37,7 +36,6 @@ public class UserController {
 
     @PostMapping("/update")
     public String updatePost(Model model, @ModelAttribute UserDto userDto, Pageable pageable) {
-
         UserDto response = userService.update(userDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());

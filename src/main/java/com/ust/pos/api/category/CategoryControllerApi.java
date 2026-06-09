@@ -55,7 +55,6 @@ public class CategoryControllerApi extends BaseController {
     @PostMapping("/toggle")
     public String toggle(@RequestParam String identifier,
                          @RequestParam boolean status) {
-
         categoryService.updateStatus(identifier, status);
         return "success";
     }
@@ -65,4 +64,3 @@ public class CategoryControllerApi extends BaseController {
         return categoryService.findAllActive();
     }
 }
-

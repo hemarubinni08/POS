@@ -53,7 +53,6 @@ public class RackControllerApi extends BaseController {
     @PostMapping("/toggle")
     public String toggle(@RequestParam String identifier,
                          @RequestParam boolean status) {
-
         rackService.updateStatus(identifier, status);
         return "success";
     }

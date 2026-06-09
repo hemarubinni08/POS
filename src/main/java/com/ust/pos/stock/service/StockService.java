@@ -16,5 +16,4 @@ public interface StockService {
     WsDto<StockDto> findAll(Pageable pageable);
 
     StockDto findByIdentifier(String identifier);
-
 }

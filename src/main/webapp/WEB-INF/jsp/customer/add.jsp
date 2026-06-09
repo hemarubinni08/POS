@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <title>Customer Registration</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
@@ -75,7 +74,6 @@
 <div class="container my-5">
     <div class="card shadow-lg">
 
-        <!-- HEADER -->
         <div class="card-header">
             <h3>Add New Customer</h3>
             <small class="text-light">Customer Registration</small>
@@ -83,28 +81,24 @@
 
         <div class="card-body">
 
-            <!-- SUCCESS MESSAGE -->
             <c:if test="${not empty customer}">
                 <div class="alert alert-success text-center">
                     ${customer}
                 </div>
             </c:if>
 
-            <!-- ERROR MESSAGE -->
             <c:if test="${not empty message}">
                 <div class="alert alert-danger text-center">
                     ${message}
                 </div>
             </c:if>
 
-            <!-- FORM -->
             <form:form action="${pageContext.request.contextPath}/customer/add"
                        method="post"
                        modelAttribute="customerDto">
 
                 <div class="row g-3">
 
-                    <!-- BASIC DETAILS -->
                     <div class="section-title">Basic Details</div>
 
                     <div class="col-md-6">
@@ -112,7 +106,6 @@
                         <form:input path="name" class="form-control" required="true"/>
                     </div>
 
-                    <!-- PHONE NUMBER VALIDATION -->
                     <div class="col-md-6">
                         <label>Phone Number</label>
                         <form:input path="phoneNo"
@@ -126,7 +119,6 @@
                                     oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
                     </div>
 
-                    <!-- EMAIL VALIDATION -->
                     <div class="col-md-6">
                         <label>Email</label>
                         <form:input path="identifier"
@@ -160,7 +152,6 @@
 
                     <hr class="mt-4">
 
-                    <!-- SHIPPING ADDRESS -->
                     <div class="section-title">Shipping Address</div>
 
                     <div class="col-md-12">
@@ -190,7 +181,6 @@
 
                     <hr class="mt-4">
 
-                    <!-- BILLING ADDRESS -->
                     <div class="section-title">Billing Address</div>
 
                     <div class="col-md-12">
@@ -218,7 +208,6 @@
                         <form:input path="billingAddress.country" class="form-control"/>
                     </div>
 
-                    <!-- SUBMIT -->
                     <div class="col-12 text-center mt-4">
                         <button type="submit" class="btn btn-success">
                             Register Customer
@@ -229,7 +218,6 @@
             </form:form>
         </div>
 
-        <!-- FOOTER -->
         <div class="card-footer text-center">
             <a href="${pageContext.request.contextPath}/" class="btn btn-outline-secondary me-2">
                 Home

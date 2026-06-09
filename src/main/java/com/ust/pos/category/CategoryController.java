@@ -52,7 +52,6 @@ public class CategoryController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("category", userDto);
-
             return "category/category";
         }
         return REDIRECT_CATEGORY_LIST;

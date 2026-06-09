@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Retail POS | Customer List</title>
 
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -90,7 +89,6 @@
             background-color: #f8fafc;
         }
 
-        /* Icon-only actions */
         .action-icon {
             color: var(--primary);
             font-size: 16px;
@@ -147,12 +145,10 @@
         <p>Manage customers registered in the POS system.</p>
     </div>
 
-    <!-- NO CUSTOMERS -->
     <c:if test="${empty customer}">
         <div class="alert">No customers found</div>
     </c:if>
 
-    <!-- CUSTOMER TABLE -->
     <c:if test="${not empty customer}">
         <table>
             <thead>
@@ -178,14 +174,14 @@
                     <td>${cat.balance}</td>
                     <td>${cat.creditLimit}</td>
                     <td>
-                        <!-- Edit Customer -->
+
                         <a href="/customer/get?identifier=${cat.identifier}"
                            class="action-icon"
                            title="Edit Customer">
                             <i class="fa-solid fa-pen"></i>
                         </a>
 
-                        <!-- Delete Customer -->
+
                         <a href="/customer/delete?identifier=${cat.identifier}"
                            class="action-icon delete-icon"
                            title="Delete Customer"

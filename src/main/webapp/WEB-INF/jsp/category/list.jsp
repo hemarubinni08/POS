@@ -67,7 +67,6 @@
             color: #64748b;
         }
 
-        /* Toggle Switch */
         .switch {
             position: relative;
             display: inline-block;
@@ -120,7 +119,6 @@
         .action-icon:hover { color: var(--primary); }
         .delete-btn:hover { color: var(--danger) !important; }
 
-        /* Toast */
         #toast {
             visibility: hidden;
             min-width: 280px;

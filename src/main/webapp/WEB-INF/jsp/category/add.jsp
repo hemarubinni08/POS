@@ -112,13 +112,11 @@
                action="${pageContext.request.contextPath}/category/add"
                modelAttribute="categoryDto">
 
-        <!-- Category Name -->
         <label>Category Name</label>
         <form:input path="identifier"
                     placeholder="Enter category name"
                     required="true"/>
 
-        <!-- Super Category Dropdown -->
         <label>Super Category</label>
         <form:select path="superCategory">
             <form:option value="" label="-- None (Top Level Category) --"/>

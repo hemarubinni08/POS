@@ -142,16 +142,13 @@
                modelAttribute="brand"
                enctype="multipart/form-data">
 
-        <!-- Hidden ID -->
         <form:hidden path="id"/>
 
-        <!-- Brand Name (READ ONLY) -->
         <div class="input-group">
             <label>Brand Name</label>
             <form:input path="identifier" readonly="true"/>
         </div>
 
-        <!-- Status -->
         <div class="input-group">
             <label>Status</label>
             <form:select path="status">
@@ -160,7 +157,6 @@
             </form:select>
         </div>
 
-        <!-- Description -->
         <div class="input-group">
             <label>Description</label>
             <form:textarea path="description"
