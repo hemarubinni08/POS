@@ -136,7 +136,7 @@ class RacksServiceTest {
                 .thenReturn(List.of(racksDto));
 
         Pageable pageable = PageRequest.of(0, 50, Sort.unsorted());
-        List<RacksDto> response = racksService.findAll(pageable);
+        List<RacksDto> response = racksService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("Rack", response.get(0).getIdentifier());

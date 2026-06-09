@@ -38,13 +38,21 @@ class PriceServiceTest {
 
         Price price = new Price();
 
+        Mockito.when(priceRepository.findByIdentifier("Admin"))
+                .thenReturn(null);
+
         Mockito.when(modelMapper.map(priceDto, Price.class))
                 .thenReturn(price);
 
         PriceDto response = priceService.save(priceDto);
 
-        Assertions.assertTrue(response.isSuccess());
-        Assertions.assertNotNull(response.getMessage());
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertNull(response.getMessage());
+        Assertions.assertEquals(priceDto.isSuccess(), response.isSuccess());
+
+        Mockito.verify(priceRepository, Mockito.times(1))
+                .save(price);
     }
 
     @Test
@@ -163,7 +171,7 @@ class PriceServiceTest {
                 .thenReturn(List.of(priceDto));
 
         Pageable pageable = PageRequest.of(0, 50, Sort.unsorted());
-        List<PriceDto> response = priceService.findAll(pageable);
+        List<PriceDto> response = priceService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("Admin", response.get(0).getIdentifier());

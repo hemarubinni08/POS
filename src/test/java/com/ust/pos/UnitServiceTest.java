@@ -117,7 +117,7 @@ class UnitServiceTest {
                 .thenReturn(List.of(unitDto));
 
         Pageable pageable = PageRequest.of(0, 50, Sort.unsorted());
-        List<UnitDto> response = unitService.findAll(pageable);
+        List<UnitDto> response = unitService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("Unit", response.get(0).getIdentifier());

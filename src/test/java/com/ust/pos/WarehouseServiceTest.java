@@ -135,7 +135,7 @@ class WarehouseServiceTest {
                 .thenReturn(List.of(warehouseDto));
 
         Pageable pageable = PageRequest.of(0, 50, Sort.unsorted());
-        List<WarehouseDto> response = warehouseService.findAll(pageable);
+        List<WarehouseDto> response = warehouseService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("Admin", response.get(0).getIdentifier());

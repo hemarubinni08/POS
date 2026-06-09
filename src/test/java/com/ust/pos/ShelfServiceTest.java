@@ -150,7 +150,7 @@ class ShelfServiceTest {
                 .thenReturn(List.of(dto));
 
         Pageable pageable = PageRequest.of(0, 50, Sort.unsorted());
-        List<ShelfDto> response = shelfsService.findAll(pageable);
+        List<ShelfDto> response = shelfsService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
     }
@@ -168,8 +168,10 @@ class ShelfServiceTest {
         Mockito.when(shelfsRepository.findByStatusTrue(true))
                 .thenReturn(List.of(shelf));
 
-        Mockito.when(modelMapper.map(shelf, ShelfDto.class))
-                .thenReturn(dto);
+        Mockito.when(modelMapper.map(
+                Mockito.anyList(),
+                Mockito.any(java.lang.reflect.Type.class)
+        )).thenReturn(List.of(dto));
 
         List<ShelfDto> response = shelfsService.findActiveShelf();
 

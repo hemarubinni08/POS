@@ -159,7 +159,7 @@ class CustomerServiceTest {
                 .thenReturn(List.of(new CustomerDto()));
 
         List<CustomerDto> result =
-                customerService.findAll(PageRequest.of(0, 5));
+                customerService.findAll(PageRequest.of(0, 5)).getDtoList();
 
         Assertions.assertEquals(1, result.size());
     }

@@ -116,8 +116,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto changeUserStatus(String identifier, boolean status) {
-        User user = userRepository.findByIdentifier(identifier);
+    public UserDto changeUserStatus(String username, boolean status) {
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             return null; // test expects null
         }

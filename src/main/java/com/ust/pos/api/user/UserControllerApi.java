@@ -3,7 +3,6 @@ package com.ust.pos.api.user;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +51,7 @@ public class UserControllerApi extends BaseController {
     @PostMapping("/changeStatus")
     public UserDto toggle(@RequestBody UserDto userDto) {
 
-        return userService.changeUserStatus(userDto.getIdentifier(), userDto.isStatus());
+        return userService.changeUserStatus(userDto.getUsername(), userDto.isStatus());
 
     }
 }

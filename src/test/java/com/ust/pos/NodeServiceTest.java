@@ -167,19 +167,25 @@ class NodeServiceTest {
         User user = new User();
         user.setRoles(List.of("ADMIN"));
 
-        Mockito.when(userRepository.findByUsername("admin@test.com")).thenReturn(user);
+        Mockito.when(userRepository.findByUsername("admin@test.com"))
+                .thenReturn(user);
 
         Node node = new Node();
         node.setIdentifier("dashboard");
         node.setRoles(List.of("ADMIN"));
+        node.setStatus(true);
 
-        Mockito.when(nodeRepository.findAll()).thenReturn(List.of(node));
-        Mockito.when(nodeRepository.findByIdentifier("dashboard")).thenReturn(node);
+        Mockito.when(nodeRepository.findByStatusTrue(true))
+                .thenReturn(List.of(node));
+
+        Mockito.when(nodeRepository.findByIdentifier("dashboard"))
+                .thenReturn(node);
 
         NodeDto nodeDto = new NodeDto();
         nodeDto.setIdentifier("dashboard");
 
-        Mockito.when(modelMapper.map(node, NodeDto.class)).thenReturn(nodeDto);
+        Mockito.when(modelMapper.map(node, NodeDto.class))
+                .thenReturn(nodeDto);
 
         List<NodeDto> response = nodeService.getNodesForRoles();
 

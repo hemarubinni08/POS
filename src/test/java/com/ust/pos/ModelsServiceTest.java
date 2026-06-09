@@ -115,7 +115,7 @@ class ModelsServiceTest {
                 .thenReturn(List.of(dto));
 
         Pageable pageable = PageRequest.of(0, 10);
-        List<ModelsDto> response = modelsService.findAll(pageable);
+        List<ModelsDto> response = modelsService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
     }

@@ -16,5 +16,5 @@ public interface UserService {
 
     WsDto<UserDto> findAll(Pageable pageable);
 
-    UserDto changeUserStatus(String identifier, boolean status);
+    UserDto changeUserStatus(String username, boolean status);
 }

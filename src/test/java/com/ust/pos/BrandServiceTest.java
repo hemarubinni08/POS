@@ -117,7 +117,7 @@ class BrandServiceTest {
                 .thenReturn(List.of(brandDto));
 
         Pageable pageable = PageRequest.of(0, 10);
-        List<BrandDto> response = brandService.findAll(pageable);
+        List<BrandDto> response = brandService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("Nike", response.get(0).getIdentifier());

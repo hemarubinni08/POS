@@ -196,7 +196,7 @@ class UserServiceTest {
                 .thenReturn(List.of(userDto));
 
         Pageable pageable = PageRequest.of(0, 50, Sort.unsorted());
-        List<UserDto> response = userService.findAll(pageable);
+        List<UserDto> response = userService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("admin@test.com", response.get(0).getUsername());

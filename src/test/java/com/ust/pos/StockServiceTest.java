@@ -127,7 +127,7 @@ class StockServiceTest {
                 .thenReturn(List.of(dto));
 
         Pageable pageable = PageRequest.of(0, 50, Sort.unsorted());
-        List<StockDto> response = stockService.findAll(pageable);
+        List<StockDto> response = stockService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("STOCK-1", response.get(0).getIdentifier());

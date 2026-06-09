@@ -52,8 +52,7 @@ class CategoryServiceTest {
     @Test
     void save_shouldSaveCategory() {
         when(modelMapper.map(categoryDto, Category.class)).thenReturn(category);
-        when(categoryRepository.save(category)).thenReturn(category);
-        when(modelMapper.map(category, CategoryDto.class)).thenReturn(categoryDto);
+        when(categoryRepository.findByIdentifier(categoryDto.getIdentifier())).thenReturn(null);
 
         CategoryDto result = categoryService.save(categoryDto);
 
@@ -61,6 +60,7 @@ class CategoryServiceTest {
         assertEquals("FOOD", result.getIdentifier());
         verify(categoryRepository, times(1)).save(category);
     }
+
 
     @Test
     void findById_shouldReturnCategory() {
@@ -126,7 +126,7 @@ class CategoryServiceTest {
                 .thenReturn(List.of(categoryDto));
 
         List<CategoryDto> result =
-                categoryService.findAll(PageRequest.of(0, 50, Sort.unsorted()));
+                categoryService.findAll(PageRequest.of(0, 50, Sort.unsorted())).getDtoList();
 
         assertEquals(1, result.size());
         assertEquals("FOOD", result.get(0).getIdentifier());
@@ -144,9 +144,10 @@ class CategoryServiceTest {
     @Test
     void findSubCategories_shouldReturnSubCategories() {
         category.setSupercategory("MAIN");
+        category.setStatus(true);
         categoryDto.setSupercategory("MAIN");
 
-        when(categoryRepository.findBySupercategoryIsNot(""))
+        when(categoryRepository.findByStatusTrueAndSupercategoryIsNot(""))
                 .thenReturn(List.of(category));
         when(modelMapper.map(category, CategoryDto.class))
                 .thenReturn(categoryDto);

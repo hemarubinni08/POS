@@ -137,7 +137,7 @@ class RoleServiceTest {
                 .thenReturn(List.of(roleDto));
 
         Pageable pageable = PageRequest.of(0, 50, Sort.unsorted());
-        List<RoleDto> response = roleService.findAll(pageable);
+        List<RoleDto> response = roleService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("Admin", response.get(0).getIdentifier());

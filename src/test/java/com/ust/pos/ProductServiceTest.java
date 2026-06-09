@@ -85,7 +85,7 @@ class ProductServiceTest {
                 .thenReturn(List.of(dto));
 
         Pageable pageable = PageRequest.of(0, 50, Sort.unsorted());
-        List<ProductDto> response = productService.findAll(pageable);
+        List<ProductDto> response = productService.findAll(pageable).getDtoList();
 
         Assertions.assertEquals(1, response.size());
         Assertions.assertEquals("PROD-1", response.get(0).getIdentifier());
@@ -217,7 +217,7 @@ class ProductServiceTest {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
 
-        Mockito.when(productRepository.findByStatusTrue())
+        Mockito.when(productRepository.findByStatusTrue(true))
                 .thenReturn(activeProducts);
         Mockito.when(modelMapper.map(activeProducts, listType))
                 .thenReturn(activeDtos);
