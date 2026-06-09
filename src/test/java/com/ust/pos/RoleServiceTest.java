@@ -160,20 +160,23 @@ class RoleServiceTest {
 
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<Role> roles = List.of(new Role());
-        List<RoleDto> dtos = List.of(new RoleDto());
+        Role role = new Role();
+        RoleDto dto = new RoleDto();
+
+        List<Role> roles = List.of(role);
         Page<Role> page = new PageImpl<>(roles);
 
         when(roleRepository.findAll(pageable)).thenReturn(page);
-        when(modelMapper.map(
-                eq(roles),
-                any(Type.class)
-        )).thenReturn(dtos);
 
-        List<RoleDto> result = roleService.findAll(pageable);
+        when(modelMapper.map(role, RoleDto.class))
+                .thenReturn(dto);
+
+        List<RoleDto> result = roleService.findAll(pageable).getContent();
+
         assertNotNull(result);
         assertEquals(1, result.size());
 
         verify(roleRepository).findAll(pageable);
+        verify(modelMapper).map(role, RoleDto.class);
     }
 }

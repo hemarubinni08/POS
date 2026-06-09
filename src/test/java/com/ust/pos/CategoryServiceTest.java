@@ -138,22 +138,25 @@ class CategoryServiceTest {
     void findAllTest() {
 
         Pageable pageable = PageRequest.of(0, 10);
-        List<Category> categories = List.of(new Category());
+
+        Category category = new Category();
+        CategoryDto dto = new CategoryDto();
+
+        List<Category> categories = List.of(category);
         Page<Category> page = new PageImpl<>(categories);
-        List<CategoryDto> dtos = List.of(new CategoryDto());
 
         when(categoryRepository.findAll(pageable)).thenReturn(page);
-        when(modelMapper.map(
-                eq(categories),
-                any(Type.class)
-        )).thenReturn(dtos);
+
+        when(modelMapper.map(category, CategoryDto.class))
+                .thenReturn(dto);
 
         WsDto<CategoryDto> result = categoryService.findAll(pageable);
 
         assertNotNull(result);
         assertEquals(1, result.getContent().size());
+
         verify(categoryRepository).findAll(pageable);
-        assertNotNull(result);
+        verify(modelMapper).map(category, CategoryDto.class);
     }
 
     @Test

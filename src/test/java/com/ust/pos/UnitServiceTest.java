@@ -154,23 +154,24 @@ class UnitServiceTest {
 
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<Unit> units = List.of(new Unit());
+        Unit unit = new Unit();
+        UnitDto dto = new UnitDto();
+
+        List<Unit> units = List.of(unit);
         Page<Unit> page = new PageImpl<>(units);
 
-        List<UnitDto> dtos = List.of(new UnitDto());
-
         when(unitRepository.findAll(pageable)).thenReturn(page);
-        when(modelMapper.map(
-                eq(units),
-                any(Type.class)
-        )).thenReturn(dtos);
 
-        List<UnitDto> result = unitService.findAll(pageable);
+        when(modelMapper.map(unit, UnitDto.class))
+                .thenReturn(dto);
+
+        List<UnitDto> result = unitService.findAll(pageable).getContent();
 
         assertNotNull(result);
         assertEquals(1, result.size());
 
         verify(unitRepository).findAll(pageable);
+        verify(modelMapper).map(unit, UnitDto.class);
     }
 
     @Test

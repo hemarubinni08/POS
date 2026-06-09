@@ -4,6 +4,7 @@ import com.ust.pos.brand.service.impl.BrandServiceImpl;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
+import com.ust.pos.model.CommonFields;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -118,21 +119,27 @@ class BrandServiceTest {
     void findAllTest() {
 
         Pageable pageable = PageRequest.of(0, 10);
-        List<Brand> brands = List.of(new Brand());
+
+        Brand brand = new Brand();
+        BrandDto dto = new BrandDto();
+
+        List<Brand> brands = List.of(brand);
         Page<Brand> page = new PageImpl<>(brands);
-        List<BrandDto> dtos = List.of(new BrandDto());
 
         when(brandRepository.findAll(pageable)).thenReturn(page);
-        when(modelMapper.map(
-                eq(brands),
-                any(Type.class)
-        )).thenReturn(dtos);
 
-        List<BrandDto> result = brandService.findAll(pageable);
+        when(modelMapper.map(brand, BrandDto.class))
+                .thenReturn(dto);
+
+        List<BrandDto> result = brandService.findAll(pageable).getContent();
+
         assertNotNull(result);
         assertEquals(1, result.size());
+
         verify(brandRepository).findAll(pageable);
+        verify(modelMapper).map(brand, BrandDto.class);
     }
+
 
     @Test
     void toggleStatus_trueToFalse() {
@@ -159,8 +166,7 @@ class BrandServiceTest {
         when(brandRepository.findByIdentifier("BR001")).thenReturn(brand);
         brandService.toggleStatus("BR001");
         assertTrue(brand.isStatus());
-        verify(brandRepository).save(argThat(saved ->
-                saved.isStatus()
+        verify(brandRepository).save(argThat(CommonFields::isStatus
         ));
     }
 

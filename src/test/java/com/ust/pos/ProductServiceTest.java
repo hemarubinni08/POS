@@ -152,17 +152,19 @@ class ProductServiceTest {
 
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<Product> products = List.of(new Product());
+        Product product = new Product();
+        ProductDto dto = new ProductDto();
+
+        List<Product> products = List.of(product);
         Page<Product> page = new PageImpl<>(products);
-        List<ProductDto> dtos = List.of(new ProductDto());
 
         when(productRepository.findAll(pageable)).thenReturn(page);
-        when(modelMapper.map(
-                eq(products),
-                any(Type.class)
-        )).thenReturn(dtos);
 
-        List<ProductDto> result = productService.findAll(pageable);
+        when(modelMapper.map(product, ProductDto.class))
+                .thenReturn(dto);
+
+        List<ProductDto> result = productService.findAll(pageable).getContent();
+
         assertNotNull(result);
         assertEquals(1, result.size());
 

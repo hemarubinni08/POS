@@ -128,17 +128,19 @@ class NodeServiceTest {
 
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<Node> nodes = List.of(new Node());
+        Node node = new Node();
+        NodeDto dto = new NodeDto();
+
+        List<Node> nodes = List.of(node);
         Page<Node> page = new PageImpl<>(nodes);
-        List<NodeDto> dtos = List.of(new NodeDto());
 
         when(nodeRepository.findAll(pageable)).thenReturn(page);
-        when(modelMapper.map(
-                eq(nodes),
-                any(Type.class)
-        )).thenReturn(dtos);
 
-        List<NodeDto> result = nodeService.findAll(pageable);
+        when(modelMapper.map(node, NodeDto.class))
+                .thenReturn(dto);
+
+        List<NodeDto> result = nodeService.findAll(pageable).getContent();
+
         assertNotNull(result);
         assertEquals(1, result.size());
 

@@ -34,15 +34,12 @@ public class UserApiController extends BaseController {
     @PostMapping("/add")
     public UserDto addUser(@RequestBody UserDto userDto) {
 
-            return processUser(userDto);
+        return processUser(userDto);
     }
 
-
     private UserDto processUser(UserDto userDto) {
-        if (userService.findByUserName(userDto.getUsername()) == null) {
-            return userService.save(userDto);
-        }
-        return userDto;
+
+        return userService.save(userDto);
     }
 
 
