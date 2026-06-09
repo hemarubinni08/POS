@@ -50,6 +50,11 @@ public class NodeApiController extends BaseController {
         return nodeService.findByIdentifier(identifier);
     }
 
+    @GetMapping("/roles")
+    public List<NodeDto> getNodesForRoles() {
+        return nodeService.getNodesForRoles();
+    }
+
     @PostMapping("/update")
     public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
         return nodeService.update(nodeDto);
