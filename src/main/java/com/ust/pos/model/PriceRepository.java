@@ -11,5 +11,5 @@ public interface PriceRepository extends JpaRepository<Price, Long> {
 
     void deleteByIdentifier(String identifier);
 
-    Page<Price> findByIdentifierContainingIgnoreCase(Pageable pageable , String search);
+    Page<Price> findByIdentifierContainingIgnoreCase(Pageable pageable, String search);
 }

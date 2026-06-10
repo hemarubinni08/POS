@@ -10,5 +10,6 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     Role findByIdentifier(String identifier);
 
     void deleteByIdentifier(String identifier);
-    Page<Role> findByIdentifierContainingIgnoreCase(String identifier,Pageable pageable);
+
+    Page<Role> findByIdentifierContainingIgnoreCase(String identifier, Pageable pageable);
 }

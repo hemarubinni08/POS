@@ -11,8 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/price")
 public class PriceApiController extends BaseController {
@@ -25,7 +23,7 @@ public class PriceApiController extends BaseController {
     public WsDto<PriceDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortField());
-        Page<PriceDto> price = priceService.findAll(pageable,paginationDto.getSearch());
+        Page<PriceDto> price = priceService.findAll(pageable, paginationDto.getSearch());
         WsDto<PriceDto> result = new WsDto<>();
         result.setPage(price.getNumber());
         result.setContent(price.getContent());

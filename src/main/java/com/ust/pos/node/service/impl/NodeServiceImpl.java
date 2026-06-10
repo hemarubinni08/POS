@@ -101,15 +101,14 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
-    public Page<NodeDto> findAll(Pageable pageable ,String search ) {
+    public Page<NodeDto> findAll(Pageable pageable, String search) {
         Page<Node> nodePage;
-        if(search !=null && !search.trim().isEmpty()){
+        if (search != null && !search.trim().isEmpty()) {
             nodePage = nodeRepository.findByIdentifierContainingIgnoreCase
-                    (search,pageable);
-        }
-        else {
+                    (search, pageable);
+        } else {
             nodePage = nodeRepository.findAll(pageable);
         }
-        return nodePage.map(node ->modelMapper.map(node , NodeDto.class));
+        return nodePage.map(node -> modelMapper.map(node, NodeDto.class));
     }
 }

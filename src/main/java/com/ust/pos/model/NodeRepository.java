@@ -11,5 +11,5 @@ public interface NodeRepository extends JpaRepository<Node, Long> {
 
     void deleteByIdentifier(String identifier);
 
-    Page<Node> findByIdentifierContainingIgnoreCase(String identifier,Pageable pageable);
+    Page<Node> findByIdentifierContainingIgnoreCase(String identifier, Pageable pageable);
 }

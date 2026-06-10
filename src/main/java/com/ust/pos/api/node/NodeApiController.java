@@ -26,7 +26,7 @@ public class NodeApiController extends BaseController {
     public WsDto<NodeDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortField());
-        Page<NodeDto> node = nodeService.findAll(pageable , paginationDto.getSearch());
+        Page<NodeDto> node = nodeService.findAll(pageable, paginationDto.getSearch());
         WsDto<NodeDto> result = new WsDto<>();
         result.setContent(node.getContent());
         result.setSizePerPage(node.getSize());
@@ -37,7 +37,7 @@ public class NodeApiController extends BaseController {
 
     @GetMapping("/list")
     public List<NodeDto> list() {
-        return nodeService.findAll();
+        return nodeService.getNodesForRoles();
     }
 
     @PostMapping("/add")

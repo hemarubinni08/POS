@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -67,9 +68,9 @@ public class UserServiceImpl implements UserService {
             User existingUser = userOptional.get();
             if (!username.equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(username) != null) {
 
-                    userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
-                    userDto.setSuccess(false);
-                    return userDto;
+                userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
+                userDto.setSuccess(false);
+                return userDto;
             }
             modelMapper.map(userDto, existingUser);
             userRepository.save(existingUser);

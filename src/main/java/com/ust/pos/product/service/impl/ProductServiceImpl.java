@@ -74,11 +74,10 @@ public class ProductServiceImpl implements ProductService {
     public Page<ProductDto> findAll(Pageable pageable, String search) {
 
         Page<Product> productPage;
-        if(search != null && !search.trim().isEmpty()){
+        if (search != null && !search.trim().isEmpty()) {
             productPage = productRepository.findByIdentifierContainingIgnoreCase
-                    (pageable,search);
-        }
-        else {
+                    (pageable, search);
+        } else {
             productPage = productRepository.findAll(pageable);
         }
         return productPage.map(product ->

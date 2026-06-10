@@ -32,7 +32,7 @@ public class ProductApiController extends BaseController {
     public WsDto<ProductDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(), paginationDto.getSortField());
-        Page<ProductDto> pageResult = productService.findAll(pageable,paginationDto.getSearch());
+        Page<ProductDto> pageResult = productService.findAll(pageable, paginationDto.getSearch());
         WsDto<ProductDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());
         response.setPage(pageResult.getNumber());

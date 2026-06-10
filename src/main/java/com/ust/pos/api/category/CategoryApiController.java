@@ -24,10 +24,10 @@ public class CategoryApiController extends BaseController {
     }
 
     @PostMapping("/list")
-    public WsDto<CategoryDto> list(@RequestBody PaginationDto paginationDto ) {
+    public WsDto<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),paginationDto.getSortField());
-        Page<CategoryDto> pageResult = categoryService.findAll(pageable , paginationDto.getSearch());
+                paginationDto.getSizePerPage(), paginationDto.getSortField());
+        Page<CategoryDto> pageResult = categoryService.findAll(pageable, paginationDto.getSearch());
         WsDto<CategoryDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());
         response.setPage(pageResult.getNumber());
@@ -37,12 +37,12 @@ public class CategoryApiController extends BaseController {
     }
 
     @GetMapping("listWithNull")
-    public List<CategoryDto> listWithNull(){
+    public List<CategoryDto> listWithNull() {
         return categoryService.findAllWithNull();
     }
 
     @GetMapping("/listWithoutNull")
-    public List<CategoryDto> listWithoutNull(@RequestParam String identifier){
+    public List<CategoryDto> listWithoutNull(@RequestParam String identifier) {
         return categoryService.findAllWithoutNull(identifier);
     }
 
