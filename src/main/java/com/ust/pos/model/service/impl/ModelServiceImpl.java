@@ -1,6 +1,7 @@
 package com.ust.pos.model.service.impl;
 
 import com.ust.pos.dto.ModelDto;
+import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.service.ModelService;
 import com.ust.pos.modell.Model;
 import com.ust.pos.modell.ModelRepository;
@@ -86,6 +87,13 @@ public class ModelServiceImpl implements ModelService {
         }
         model.setStatus(!model.isStatus());
         modelRepository.save(model);
+    }
+    @Override
+    public List<ModelDto> findAllActive() {
+        return modelRepository.findByStatusTrue()
+                .stream()
+                .map(model -> modelMapper.map(model, ModelDto.class))
+                .toList();
     }
 
 }

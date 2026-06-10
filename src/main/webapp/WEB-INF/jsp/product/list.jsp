@@ -79,6 +79,7 @@
                 <th>Brand</th>
                 <th>Model</th>
                 <th>Unit</th>
+                <th>Quantity</th>
                 <th class="text-center">Status</th>
                 <th class="text-center">Actions</th>
             </tr>
@@ -93,6 +94,7 @@
                     <td>${p.brand}</td>
                     <td>${p.model}</td>
                     <td>${p.unit}</td>
+                    <td>${p.quantity}</td>
 
                     <td class="text-center">
                         <form action="${pageContext.request.contextPath}/product/toggle"
@@ -103,7 +105,7 @@
                             <div class="form-check form-switch d-flex justify-content-center">
                                 <input class="form-check-input"
                                        type="checkbox"
-                                       ${p.status == 'ACTIVE' ? 'checked' : ''}
+                                       ${p.status == true ? 'checked' : ''}
                                        onchange="this.form.submit()">
                             </div>
                         </form>

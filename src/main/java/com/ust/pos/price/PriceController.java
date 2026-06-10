@@ -25,7 +25,7 @@ public class PriceController {
     @GetMapping("/add")
     public String add(Model model, Pageable pageable) {
         model.addAttribute("price", new PriceDto());
-        model.addAttribute(PRODUCTS, productService.findAll(pageable));
+        model.addAttribute(PRODUCTS, productService.findAllActive());
         return "price/add";
     }
 
@@ -36,7 +36,7 @@ public class PriceController {
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("product", priceDto);
-            model.addAttribute(PRODUCTS, productService.findAll(pageable));
+            model.addAttribute(PRODUCTS, productService.findAllActive());
             return "price/add";
         }
         return REDIRECT_PRICE_LIST;
@@ -53,7 +53,7 @@ public class PriceController {
     public String update(Model model, @RequestParam String identifier, Pageable pageable) {
         PriceDto response = priceService.findByIdentifier(identifier);
         model.addAttribute("price", response);
-        model.addAttribute(PRODUCTS, productService.findAll(pageable));
+        model.addAttribute(PRODUCTS, productService.findAllActive());
         return "price/price";
     }
 
@@ -63,7 +63,7 @@ public class PriceController {
         PriceDto response = priceService.update(priceDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute(PRODUCTS, productService.findAll(pageable));
+            model.addAttribute(PRODUCTS, productService.findAllActive());
             return "price/price";
         }
         return REDIRECT_PRICE_LIST;

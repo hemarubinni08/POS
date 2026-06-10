@@ -54,7 +54,7 @@ public class ProductController {
         model.addAttribute("product", new ProductDto());
         model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
         model.addAttribute(BRANDS, brandService.findAll(pageable));
-        model.addAttribute(MODELS, modelService.findAll(pageable));
+        model.addAttribute(MODELS, modelService.findAllActive());
         model.addAttribute(UNITS, unitService.findAll(pageable));
         model.addAttribute(SHELVES, shelfService.findAllActive());
         model.addAttribute(RACKS, racksService.findAllActive());
