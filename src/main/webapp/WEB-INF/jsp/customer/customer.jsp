@@ -56,7 +56,7 @@
 
                         <div class="mb-3">
                             <label>Phone Number</label>
-                            <form:input path="phoneNo" cssClass="form-control" type="tel" pattern="[0-9]{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required="true"/>
+                            <form:input path="phoneNo" cssClass="form-control" type="tel" pattern="[0-9]{10}" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required="true"/>
                         </div>
 
                         <div class="mb-3">
@@ -105,6 +105,7 @@
                                          class="form-control"
                                          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                          pattern="[0-9]{6}"
+                                         maxlength="6"
                                          inputmode="numeric"
                                          required="true"/>
                         </div>
@@ -141,6 +142,7 @@
                              <label>Zip Code</label>
                              <form:input path="shippingAddress.zipcode"
                                          class="form-control"
+                                         maxlength="6"
                                          oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                          pattern="[0-9]{6}"
                                          inputmode="numeric"

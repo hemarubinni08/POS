@@ -66,6 +66,13 @@ public class WebSecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    @Bean
+    public AuthenticationProvider userDetailsAuthProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
+        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+        return authenticationProvider;
+    }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
@@ -74,10 +81,10 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Allow the specific origin
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(true); // Allow credentials if needed
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // Apply CORS settings to all paths
         return source;
@@ -91,12 +98,5 @@ public class WebSecurityConfig {
                 .components(new Components().addSecuritySchemes(JAVA_IN_USE_SECURITY_SCHEME, new SecurityScheme()
                         .name(JAVA_IN_USE_SECURITY_SCHEME).type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
 
-    }
-
-    @Bean
-    public AuthenticationProvider userDetailsAuthProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
-        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
-        return authenticationProvider;
     }
 }

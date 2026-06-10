@@ -58,7 +58,7 @@
                     <div class="col-md-6">
                         <label>Phone Number</label>
                         <form:input path="phoneNo"
-                                    type="number"
+                                    type="tel"
                                     maxlength="10"
                                     class="form-control"
                                     title="10 digits"
@@ -101,7 +101,7 @@
                     <hr class="mt-4">
                     <h5 class="text-center mt-3">Shipping Address</h5>
 
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label>Address Line</label>
                         <form:input path="shippingAddress.addressLine" class="form-control" required="true"/>
                     </div>
@@ -122,6 +122,7 @@
                                     class="form-control"
                                     oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                     pattern="[0-9]{6}"
+                                    maxlength="6"
                                     inputmode="numeric"
                                     required="true"/>
                     </div>
@@ -141,7 +142,7 @@
                     <hr class="mt-4">
                     <h5 class="text-center mt-3">Billing Address</h5>
 
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label>Address Line</label>
                         <form:input path="billingAddress.addressLine" class="form-control" required="true"/>
                     </div>
@@ -162,6 +163,7 @@
                                       class="form-control"
                                       oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                       pattern="[0-9]{6}"
+                                      maxlength="6"
                                       inputmode="numeric"
                                       required="true"/>
                     </div>
@@ -202,6 +204,7 @@
             </div>
         </div>
     </div>
+    ${error}
 </div>
 
 </body>
