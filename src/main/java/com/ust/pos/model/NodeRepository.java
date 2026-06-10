@@ -9,7 +9,7 @@ import java.util.List;
 public interface NodeRepository extends JpaRepository<Node, Long> {
     Node findByIdentifier(String identifier);
 
-    List<Node> findByRoles(List<String> roles);
+    Node findByPath(String path);
 
     void deleteByIdentifier(String identifier);
 }

@@ -18,4 +18,6 @@ public interface NodeService {
     WsDto<NodeDto> findAll(Pageable pageable);
 
     NodeDto findByIdentifier(String identifier);
+
+    NodeDto findByPath(String path);
 }
