@@ -181,7 +181,7 @@
                             <i class="fa-solid fa-pen"></i>
                         </a>
 
-                        <a href="/customer/delete?identifier=${cat.identifier}"
+                        <a href="/customer/delete?identifier=${cat.identifier}&&phoneNo=${cat.phoneNo}"
                            class="action-icon delete-icon"
                            title="Delete Customer"
                            onclick="return confirm('Are you sure you want to delete this customer?');">

@@ -7,15 +7,16 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface CustomerService {
+
+    List<CustomerDto> findAll(Pageable pageable);
+
+    CustomerDto findByIdentifier(String identifier);
+
     CustomerDto save(CustomerDto customerDto);
 
     CustomerDto update(CustomerDto customerDto);
 
-    void delete(String identifier);
+    void delete(String identifier, Long phoneNo);
 
-    List<CustomerDto> findAll(Pageable pageable);
-
-    String buildAddressIdentifier(AddressDto address);
-
-    CustomerDto findByIdentifier(String identifier);
+    public String buildAddressIdentifier(AddressDto address);
 }

@@ -31,7 +31,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto findByIdentifier(String identifier) {
         Customer customer = customerRepository.findByIdentifier(identifier);
-
         if (customer == null) {
             return null;
         }
@@ -91,8 +90,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public void delete(String identifier) {
+    public void delete(String identifier, Long phoneNo) {
         customerRepository.deleteByIdentifier(identifier);
+        addressService.deleteByPhoneNo(phoneNo);
     }
 
     @Override

@@ -5,11 +5,14 @@ import com.ust.pos.dto.AddressDto;
 import java.util.List;
 
 public interface AddressService {
+
+    AddressDto findByPhoneNoAndAddressType(Long phoneNo, String addressType);
+
     AddressDto save(AddressDto addressDto);
 
     AddressDto update(AddressDto addressDto);
 
     List<AddressDto> findAll();
 
-    AddressDto findByPhoneNoAndAddressType(Long phoneNo, String addressType);
+    void deleteByPhoneNo(Long phoneNo);
 }

@@ -13,13 +13,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerControllerApi extends BaseController {
-    public static final String REDIRECT_ROLE_LIST = "redirect:/customer/list";
+
     @Autowired
     private CustomerService customerService;
 
     @PostMapping("/list")
     public List<CustomerDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        Pageable pageable = getPageable(
+                paginationDto.getPage(),
+                paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(),
+                paginationDto.getSortField()
+        );
         return customerService.findAll(pageable);
     }
 
@@ -29,7 +34,7 @@ public class CustomerControllerApi extends BaseController {
     }
 
     @GetMapping("/get")
-    public CustomerDto update(@RequestParam String identifier) {
+    public CustomerDto get(@RequestParam String identifier) {
         return customerService.findByIdentifier(identifier);
     }
 
@@ -39,9 +44,9 @@ public class CustomerControllerApi extends BaseController {
     }
 
     @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    public boolean delete(@RequestParam String identifier, @RequestParam Long phoneNo) {
         try {
-            customerService.delete(identifier);
+            customerService.delete(identifier, phoneNo);
         } catch (Exception e) {
             return false;
         }

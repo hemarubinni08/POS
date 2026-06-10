@@ -64,4 +64,10 @@ public class AddressServiceImpl implements AddressService {
         }.getType();
         return modelMapper.map(addressRepository.findAll(), listType);
     }
+
+    @Override
+    public void deleteByPhoneNo(Long phoneNo) {
+        addressRepository.deleteByPhoneNo(phoneNo);
+
+    }
 }

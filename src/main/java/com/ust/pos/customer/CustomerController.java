@@ -63,8 +63,8 @@ public class CustomerController {
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam String identifier) {
-        customerService.delete(identifier);
+    public String delete(Model model, @RequestParam String identifier, @RequestParam Long phoneNo) {
+        customerService.delete(identifier, phoneNo);
         return REDIRECT_ROLE_LIST;
     }
 }
