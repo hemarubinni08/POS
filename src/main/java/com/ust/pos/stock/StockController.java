@@ -24,7 +24,7 @@ public class StockController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("stocks", stockService.findAll());
+        model.addAttribute("stocks", stockService.findAll(null));
         return "stock/list";
     }
 

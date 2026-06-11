@@ -80,6 +80,7 @@ public class UnitServiceImpl implements UnitService {
         unitRepository.deleteByIdentifier(identifier);
     }
 
+
     @Override
     public void toggleStatus(String identifier) {
         Unit unit = unitRepository.findByIdentifier(identifier);

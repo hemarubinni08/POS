@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/customer")
 public class CustomerController {
 
+
     public static final String REDIRECT_CUSTOMER_LIST = "redirect:/customer/list";
 
     @Autowired
@@ -23,7 +24,7 @@ public class CustomerController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("customers", customerService.findAll());
+        model.addAttribute("customers", customerService.findAll(null));
         return "customer/list";
     }
 

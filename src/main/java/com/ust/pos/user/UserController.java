@@ -22,7 +22,7 @@ public class UserController {
 
     @GetMapping("/list")
     public String home(Model model) {
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute("users", userService.findAll(null));
         return "user/list";
     }
 
@@ -55,6 +55,7 @@ public class UserController {
                 SecurityContextHolder.clearContext();
                 return "redirect:/login";
             }
+
         }
         return "redirect:/user/list";
     }

@@ -127,6 +127,7 @@
         <div class="error-message">${message}</div>
     </c:if>
 
+    <!-- IMPORTANT: multipart for image upload -->
     <form:form method="post"
                action="/brand/add"
                modelAttribute="brandDto"

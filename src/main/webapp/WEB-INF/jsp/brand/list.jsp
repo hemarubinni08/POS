@@ -77,6 +77,7 @@
             border-radius: 50%;
         }
 
+        /* ✅ Toggle switch */
         .toggle-switch {
             position: relative;
             width: 52px;
@@ -168,6 +169,8 @@
                 <td>${st.count}</td>
                 <td class="brand-name">${brand.identifier}</td>
                 <td>${brand.description}</td>
+
+                <!-- ✅ Toggle Status -->
                 <td>
                     <form action="/brand/toggleStatus" method="post" style="margin:0;">
                         <input type="hidden" name="identifier"
