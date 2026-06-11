@@ -24,63 +24,47 @@ public class CustomerApiController extends BaseController {
 
     @PostMapping("/list")
     public List<CustomerDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return customerService.findAll(pageable);
-
     }
 
     @PostMapping("/add")
     public CustomerDto addPost(@RequestBody CustomerDto customerDto) {
-
         return customerService.save(customerDto);
-
     }
 
     @GetMapping("/get")
     public CustomerDto update(@RequestParam String identifier) {
-
         return customerService.findByIdentifierWithAddressDto(identifier);
-
     }
 
     @PostMapping("/update")
     public CustomerDto updatePost(Model model, @RequestBody CustomerDto customerDto) {
-
         return customerService.update(customerDto);
-
     }
 
     @GetMapping("/delete")
     public boolean delete(Model model, @RequestParam String identifier) {
-
         try {
             customerService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
         return true;
-
     }
 
     @PostMapping("/toggle-status")
     public CustomerDto toggle(@RequestParam String identifier) {
-
         return customerService.toggleStatus(identifier);
-
     }
 
     @GetMapping("/findByStatus")
     public List<CustomerDto> findByStatus() {
-
         return customerService.findIfTrue();
-
     }
 
     @GetMapping("/findByIdentifier")
     public CustomerDto findByIdentifier(@RequestParam String identifier) {
-
         return customerService.findByIdentifier(identifier);
-
     }
 }

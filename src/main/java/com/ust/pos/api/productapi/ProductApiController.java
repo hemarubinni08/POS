@@ -57,7 +57,6 @@ public class ProductApiController extends BaseController {
         return productService.toggleStatus(identifier);
     }
 
-
     @GetMapping("/findByStatus")
     public List<ProductDto> findByStatus() {
         return productService.findIfTrue();

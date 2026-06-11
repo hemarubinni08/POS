@@ -54,7 +54,6 @@ public class PriceApiController extends BaseController {
         return priceService.toggleStatus(identifier);
     }
 
-
     @GetMapping("/findByStatus")
     public List<PriceDto> findByStatus() {
         return priceService.findIfTrue();

@@ -57,7 +57,6 @@ public class NodeApiController extends BaseController {
         return nodeService.toggleStatus(identifier);
     }
 
-
     @GetMapping("/findByStatus")
     public List<NodeDto> findByStatus() {
         return nodeService.findIfTrue();

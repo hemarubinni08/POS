@@ -53,7 +53,6 @@ public class ModelsApiController extends BaseController {
         return modelsService.toggleStatus(identifier);
     }
 
-
     @GetMapping("/findByStatus")
     public List<ModelsDto> findByStatus() {
         return modelsService.findIfTrue();
