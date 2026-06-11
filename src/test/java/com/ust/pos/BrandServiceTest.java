@@ -21,6 +21,10 @@ import org.springframework.data.domain.Pageable;
 import java.lang.reflect.Type;
 import java.util.List;
 
+//    Reduces production bugs
+//    Improves software quality
+//    Saves debugging time
+
 @ExtendWith(MockitoExtension.class)
 class BrandServiceTest {
 
@@ -34,7 +38,6 @@ class BrandServiceTest {
     private ModelMapper modelMapper;
 
     // SAVE
-
     @Test
     void saveTest_Success() {
         BrandDto brandDto = new BrandDto();
