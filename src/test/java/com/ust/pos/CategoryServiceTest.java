@@ -39,7 +39,8 @@ class CategoryServiceTest {
         List<Category> categories = List.of(new Category());
         Page<Category> categoryPage = new PageImpl<>(categories);
         List<CategoryDto> categoryDtos = List.of(new CategoryDto());
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
         Mockito.when(categoryRepository.findAll(pageable))
                 .thenReturn(categoryPage);
         Mockito.when(modelMapper.map(categories, listType))
@@ -133,7 +134,8 @@ class CategoryServiceTest {
     void findAllTest() {
         List<Category> categories = List.of(new Category());
         List<CategoryDto> categoryDtos = List.of(new CategoryDto());
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
         Mockito.when(categoryRepository.findAll())
                 .thenReturn(categories);
         Mockito.when(modelMapper.map(categories, listType))
@@ -143,21 +145,26 @@ class CategoryServiceTest {
     }
 
     @Test
-    void findAllWithoutNullTest() {
-        CategoryDto dto1 = new CategoryDto();
-        dto1.setSuperCategory("Parent");
-        CategoryDto dto2 = new CategoryDto();
-        dto2.setSuperCategory(null);
-        List<Category> entities = List.of(new Category(), new Category());
-        List<CategoryDto> dtoList = List.of(dto1, dto2);
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
-        Mockito.when(categoryRepository.findAll())
-                .thenReturn(entities);
-        Mockito.when(modelMapper.map(entities, listType))
-                .thenReturn(dtoList);
-        List<CategoryDto> result = categoryService.findAllWithoutNull();
-        Assertions.assertEquals(1, result.size());
-        Assertions.assertNotNull(result.get(0).getSuperCategory());
+    void findBySuperCategoryNotNullTest() {
+        Category category = new Category();
+        category.setIdentifier("SubCat");
+
+        CategoryDto dto = new CategoryDto();
+        dto.setIdentifier("SubCat");
+
+        List<Category> categories = List.of(category);
+        List<CategoryDto> dtos = List.of(dto);
+
+        Mockito.when(categoryRepository.findBySuperCategoryIsNot(""))
+                .thenReturn(categories);
+
+        Mockito.when(modelMapper.map(Mockito.eq(categories), Mockito.any(Type.class)))
+                .thenReturn(dtos);
+
+        List<CategoryDto> response = categoryService.findBySuperCategoryNotNull();
+
+        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals("SubCat", response.get(0).getIdentifier());
     }
 
     @Test

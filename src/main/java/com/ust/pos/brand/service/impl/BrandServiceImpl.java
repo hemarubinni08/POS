@@ -50,12 +50,9 @@ public class BrandServiceImpl implements BrandService {
             return brandDto;
         }
 
-        // ✅ update existing row
         existingBrand.setDescription(brandDto.getDescription());
         existingBrand.setStatus(brandDto.isStatus());
-
-        brandRepository.save(existingBrand); // ✅ UPDATE
-
+        brandRepository.save(existingBrand);
         return brandDto;
     }
 
@@ -91,5 +88,4 @@ public class BrandServiceImpl implements BrandService {
         Page<Brand> brandPage = brandRepository.findAll(pageable);
         return modelMapper.map(brandPage.getContent(), listType);
     }
-
 }
