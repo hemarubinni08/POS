@@ -1,7 +1,6 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
@@ -106,14 +105,12 @@ public class NodeServiceImpl implements NodeService {
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
         Page<Node> nodePage = nodeRepository.findAll(pageable);
-
         WsDto<NodeDto> nodeDtoWsDto = new WsDto<>();
         nodeDtoWsDto .setDtoList(modelMapper.map(nodePage.getContent(), listType));
         nodeDtoWsDto .setTotalRecords(nodePage.getTotalElements());
         nodeDtoWsDto .setTotalPages(nodePage.getTotalPages());
         nodeDtoWsDto .setSizePerPage(pageable.getPageSize());
         nodeDtoWsDto .setPage(pageable.getPageNumber());
-
         return nodeDtoWsDto ;
     }
 

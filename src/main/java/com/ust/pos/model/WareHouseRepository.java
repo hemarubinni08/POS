@@ -9,6 +9,9 @@ import java.util.List;
 public interface WareHouseRepository extends JpaRepository<WareHouse,Long> {
 
     WareHouse findByIdentifier(String identifier);
+
     void deleteByIdentifier(String identifier);
+
     List<WareHouse> findByStatusIsTrue();
+
 }

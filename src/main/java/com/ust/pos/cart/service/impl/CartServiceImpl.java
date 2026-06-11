@@ -1,6 +1,5 @@
 package com.ust.pos.cart.service.impl;
 
-
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.cart.service.CartService;
 import com.ust.pos.dto.CartDto;
@@ -19,6 +18,7 @@ import java.util.List;
 @Service
 public class CartServiceImpl implements CartService {
     private static final String CART_WITH_IDENTIFIER = "Cart with identifier - " ;
+
     @Autowired
     private CartRepository cartRepository;
 
@@ -27,7 +27,6 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private CartEntryService cartEntryService;
-
 
     @Override
     public CartDto save(CartDto cartDto) {
@@ -49,7 +48,6 @@ public class CartServiceImpl implements CartService {
         Cart cartModel = cartRepository.findByIdentifier(cart);
         BigDecimal totalPrice = BigDecimal.ZERO;
         BigDecimal totalDiscount = BigDecimal.ZERO;
-
         for(CartEntryDto cartEntryDto: cartEntries){
             totalPrice = totalPrice.add(cartEntryDto.getTotalPrice());
             totalDiscount = totalDiscount.add(cartEntryDto.getDiscount());

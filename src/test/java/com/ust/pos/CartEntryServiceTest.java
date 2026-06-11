@@ -36,8 +36,6 @@ class CartEntryServiceTest {
     @InjectMocks
     private CartEntryServiceImpl cartEntryService;
 
-    /* ===================== SAVE - NEW ENTRY ===================== */
-
     @Test
     void saveNewEntryFullCoverageTest() {
         CartEntryDto dto = new CartEntryDto();
@@ -59,7 +57,6 @@ class CartEntryServiceTest {
         Assertions.assertEquals(BigDecimal.valueOf(40), response.getDiscount());
         Mockito.verify(cartEntryRepository).save(Mockito.any(CartEntry.class));
     }
-    /* ===================== SAVE - EXISTING ENTRY ===================== */
 
     @Test
     void saveExistingEntryFullCoverageTest() {
@@ -78,16 +75,11 @@ class CartEntryServiceTest {
         Mockito.doNothing().when(modelMapper).map(dto, existing);
         Mockito.when(cartEntryRepository.save(existing)).thenReturn(existing);
         CartEntryDto response = cartEntryService.save(dto);
-        // 3 + 2 = 5
         Assertions.assertEquals(BigDecimal.valueOf(5), response.getQuantity());
-        // total = 80 * 5 = 400
         Assertions.assertEquals(BigDecimal.valueOf(400), response.getTotalPrice());
-        // discount = (100 - 80) * 5 = 100
         Assertions.assertEquals(BigDecimal.valueOf(100), response.getDiscount());
         Mockito.verify(cartEntryRepository).save(existing);
     }
-
-    /* ===================== FIND ALL ===================== */
 
     @Test
     void findAllEntriesForCartTest() {
@@ -105,16 +97,12 @@ class CartEntryServiceTest {
         Assertions.assertEquals("P1-C1", response.get(0).getIdentifier());
     }
 
-    /* ===================== DELETE BY IDENTIFIER ===================== */
-
     @Test
     void deleteByIdentifierTest() {
         Mockito.doNothing().when(cartEntryRepository).deleteByIdentifier("P1-C1");
         cartEntryService.deleteByIdentifier("P1-C1");
         Mockito.verify(cartEntryRepository, Mockito.times(1)).deleteByIdentifier("P1-C1");
     }
-
-    /* ===================== DELETE ALL - WITH DATA ===================== */
 
     @Test
     void deleteAllByCartWithDataTest() {
@@ -126,8 +114,6 @@ class CartEntryServiceTest {
         cartEntryService.deleteAllByCart(cart);
         Mockito.verify(cartEntryRepository).deleteAll(list);
     }
-
-    /* ===================== DELETE ALL - EMPTY ===================== */
 
     @Test
     void deleteAllByCartEmptyTest() {

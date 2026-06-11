@@ -2,7 +2,6 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
-import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.ShelfsDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Category;
@@ -71,14 +70,12 @@ public class CategoryServiceImpl implements CategoryService {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
-
         WsDto<CategoryDto> categoryDtoWsDto = new WsDto<>();
         categoryDtoWsDto.setDtoList(modelMapper.map(categoryPage.getContent(), listType));
         categoryDtoWsDto.setTotalRecords(categoryPage.getTotalElements());
         categoryDtoWsDto.setTotalPages(categoryPage.getTotalPages());
         categoryDtoWsDto.setSizePerPage(pageable.getPageSize());
         categoryDtoWsDto.setPage(pageable.getPageNumber());
-
         return categoryDtoWsDto;
     }
 
@@ -112,7 +109,6 @@ public class CategoryServiceImpl implements CategoryService {
             String superCategory = category.getSuperCategory();
             if (superCategory != null && !superCategory.trim().isEmpty()
                     && category.isStatus()) {
-
                 activeAssignableCategories.add(
                         modelMapper.map(category, CategoryDto.class)
                 );

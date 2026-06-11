@@ -55,8 +55,6 @@ class CartServiceTest {
         Assertions.assertTrue(response.getMessage().contains("already exists"));
     }
 
-    /* ===================== RECALCULATE ===================== */
-
     @Test
     void recalculateTest() {
         String cartId = "C1";
@@ -75,9 +73,7 @@ class CartServiceTest {
         Mockito.when(modelMapper.map(cart, CartDto.class)).thenReturn(mappedDto);
         Mockito.when(modelMapper.map(Mockito.eq(entries), Mockito.any(Type.class))).thenReturn(entries);
         CartDto response = cartService.recalculate(cartId);
-        // total = 100 + 200 = 300
         Assertions.assertEquals(BigDecimal.valueOf(300), cart.getTotalPrice());
-        // discount = 10 + 20 = 30
         Assertions.assertEquals(BigDecimal.valueOf(30), cart.getTotalDiscount());
         Assertions.assertNotNull(response.getCartEntryDtoList());
         Assertions.assertEquals(2, response.getCartEntryDtoList().size());
@@ -95,13 +91,10 @@ class CartServiceTest {
         Mockito.when(modelMapper.map(cart, CartDto.class)).thenReturn(dto);
         Mockito.when(modelMapper.map(Mockito.eq(entries), Mockito.any(Type.class))).thenReturn(entries);
         CartDto response = cartService.recalculate(cartId);
-
         Assertions.assertEquals(BigDecimal.ZERO, cart.getTotalPrice());
         Assertions.assertEquals(BigDecimal.ZERO, cart.getTotalDiscount());
         Assertions.assertTrue(response.getCartEntryDtoList().isEmpty());
     }
-
-    /* ===================== FIND BY IDENTIFIER ===================== */
 
     @Test
     void findByIdentifierTest() {
@@ -122,8 +115,6 @@ class CartServiceTest {
         Assertions.assertEquals("C1", response.getIdentifier());
         Assertions.assertEquals(1, response.getCartEntryDtoList().size());
     }
-
-    /* ===================== DELETE ===================== */
 
     @Test
     void deleteByIdentifierTest() {

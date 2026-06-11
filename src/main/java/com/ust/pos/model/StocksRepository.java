@@ -9,7 +9,9 @@ import java.util.List;
 public interface StocksRepository extends JpaRepository<Stocks ,Long> {
 
     Stocks findByIdentifier(String identifier);
+
     void deleteByIdentifier(String identifier);
+
     List<Stocks> findByStatusIsTrue();
 
 }

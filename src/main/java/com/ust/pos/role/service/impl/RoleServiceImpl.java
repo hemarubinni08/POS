@@ -72,10 +72,8 @@ public class RoleServiceImpl implements RoleService {
         roleDtoWsDto.setDtoList(modelMapper.map(rolePage.getContent(), listType));
         roleDtoWsDto.setTotalRecords(rolePage.getTotalElements());
         roleDtoWsDto.setTotalPages(rolePage.getTotalPages());
-
         roleDtoWsDto.setSizePerPage(pageable.getPageSize());
         roleDtoWsDto.setPage(pageable.getPageNumber());
-
         return roleDtoWsDto;
     }
 
