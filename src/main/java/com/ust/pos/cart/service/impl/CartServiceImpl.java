@@ -74,7 +74,6 @@ public class CartServiceImpl implements CartService {
             totalDiscount = totalDiscount.add(entry.getDiscount());
             totalPrice = totalPrice.add(entry.getTotalPrice());
         }
-
         cart.setTotalOriginalPrice(totalOriginalPrice);
         cart.setTotalDiscount(totalDiscount);
         cart.setTotalPrice(totalPrice);
