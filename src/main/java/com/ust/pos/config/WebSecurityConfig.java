@@ -80,7 +80,6 @@ public class WebSecurityConfig {
         return provider;
     }
 
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
