@@ -89,7 +89,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto toggleStatus(String identifier, boolean status) {
         Category category = categoryRepository.findByIdentifier(identifier);
         if (category != null) {
-            category.setStatus(!category.isStatus()); //  boolean toggle
+            category.setStatus(!category.isStatus());
             categoryRepository.save(category);
         }
         return modelMapper.map(category, CategoryDto.class);

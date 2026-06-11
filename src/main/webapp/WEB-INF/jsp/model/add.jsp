@@ -118,8 +118,6 @@
         <div class="message">${message}</div>
     </c:if>
     <form method="post" action="${pageContext.request.contextPath}/model/add">
-        <!-- Hidden ID (for edit use-case) -->
-        <input type="hidden" name="identifier" value="${modelDto.identifier}" />
         <div class="form-group">
             <label>Identifier</label>
             <input type="text"
