@@ -88,17 +88,14 @@
         <div class="error-message">${message}</div>
     </c:if>
 
-    <!-- ✅ CORRECT SPRING FORM -->
     <form:form
         method="post"
         action="${pageContext.request.contextPath}/stock/add"
         modelAttribute="stockDto">
 
-        <!-- Identifier -->
         <label>Identifier</label>
         <form:input path="identifier" required="true"/>
 
-        <!-- Product Dropdown -->
         <label>Product</label>
         <form:select path="product" required="true">
             <form:option value="" label="-- Select Product --"/>
@@ -108,7 +105,6 @@
                 itemLabel="identifier"/>
         </form:select>
 
-        <!-- Warehouse Dropdown -->
         <label>Warehouse</label>
         <form:select path="warehouse" required="true">
             <form:option value="" label="-- Select Warehouse --"/>
@@ -118,11 +114,9 @@
                 itemLabel="identifier"/>
         </form:select>
 
-        <!-- Quantity -->
         <label>Quantity</label>
         <form:input path="quantity" type="number" min="0" required="true"/>
 
-        <!-- Minimum Stock -->
         <label>Minimum Stock Level</label>
         <form:input path="minimumstock" type="number" min="0" required="true"/>
 

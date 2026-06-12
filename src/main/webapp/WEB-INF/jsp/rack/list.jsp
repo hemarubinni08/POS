@@ -81,7 +81,6 @@
             border: 1px solid #cbd5e1;
         }
 
-        /* Toggle switch */
         .switch {
             position: relative;
             display: inline-block;
@@ -196,7 +195,6 @@
 
                     <td><strong>${rack.identifier}</strong></td>
 
-                    <!-- Shelves -->
                     <td>
                         <div class="shelf-container">
                             <c:if test="${empty rack.shelfs}">
@@ -208,7 +206,6 @@
                         </div>
                     </td>
 
-                    <!-- Toggle Status -->
                     <td>
                         <label class="switch">
                             <input type="checkbox"
@@ -223,7 +220,6 @@
                         </span>
                     </td>
 
-                    <!-- Actions -->
                     <td>
                         <a class="action-icon"
                            href="${pageContext.request.contextPath}/rack/get?identifier=${rack.identifier}">
@@ -248,7 +244,6 @@
     </div>
 </div>
 
-<!-- ✅ CORRECT SCRIPT (NO EL ERRORS) -->
 <script>
     const contextPath = '${pageContext.request.contextPath}';
 

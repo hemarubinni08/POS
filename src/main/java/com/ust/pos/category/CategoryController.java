@@ -47,20 +47,24 @@ public class CategoryController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute CategoryDto userDto) {
-        CategoryDto response = categoryService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute CategoryDto categoryDto) {
+        CategoryDto response = categoryService.update(categoryDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("category", userDto);
+            model.addAttribute("category", categoryDto);
             return "category/category";
         }
         return REDIRECT_CATEGORY_LIST;
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam String identifier) {
-        categoryService.delete(identifier);
-        return REDIRECT_CATEGORY_LIST;
+    public boolean delete(@RequestParam String identifier) {
+        try {
+            categoryService.delete(identifier);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @PostMapping("/toggle")

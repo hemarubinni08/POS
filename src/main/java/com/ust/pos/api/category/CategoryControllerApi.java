@@ -2,14 +2,11 @@ package com.ust.pos.api.category;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,8 +35,8 @@ public class CategoryControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public CategoryDto updatePost( @RequestBody CategoryDto userDto) {
-        return categoryService.update(userDto);
+    public CategoryDto updatePost( @RequestBody CategoryDto categoryDto) {
+        return categoryService.update(categoryDto);
     }
 
     @GetMapping("/delete")

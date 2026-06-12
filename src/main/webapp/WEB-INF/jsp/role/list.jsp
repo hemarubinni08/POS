@@ -8,7 +8,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Retail POS | Role List</title>
 
-<!-- Font Awesome Icons -->
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -168,14 +167,11 @@
                     <td>${role.identifier}</td>
                     <td>${role.description}</td>
                     <td>
-                        <!-- Edit Role -->
                         <a href="${pageContext.request.contextPath}/role/get?identifier=${role.identifier}"
                            class="action-icon"
                            title="Edit Role">
                             <i class="fa-solid fa-pen"></i>
                         </a>
-
-                        <!-- Delete Role -->
                         <a href="${pageContext.request.contextPath}/role/delete?identifier=${role.identifier}"
                            class="action-icon delete-icon"
                            title="Delete Role"

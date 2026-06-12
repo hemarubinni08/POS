@@ -3,7 +3,6 @@ package com.ust.pos.api.product;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
-import com.ust.pos.dto.RackDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +35,8 @@ public class ProductControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public ProductDto updatePost(@RequestBody ProductDto userDto) {
-        return productService.update(userDto);
+    public ProductDto updatePost(@RequestBody ProductDto productDto) {
+        return productService.update(productDto);
     }
 
     @GetMapping("/delete")

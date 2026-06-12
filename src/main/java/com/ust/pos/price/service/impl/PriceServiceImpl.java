@@ -1,11 +1,9 @@
 package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.dto.UnitDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
-import com.ust.pos.model.Unit;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

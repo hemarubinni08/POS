@@ -86,7 +86,6 @@
             font-size: 15px;
         }
 
-        /* Styling for the multi-select specifically */
         select[multiple] {
             height: 120px;
             padding: 8px;

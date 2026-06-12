@@ -111,17 +111,14 @@
                method="post"
                modelAttribute="product">
 
-        <!-- Hidden ID -->
         <form:hidden path="id"/>
 
-        <!-- Product Name -->
         <div class="input-group">
             <label>Product Name</label>
             <form:input path="identifier" readonly="true"/>
             <form:errors path="identifier" cssClass="error-text"/>
         </div>
 
-        <!-- Categories -->
         <div class="input-group">
             <label>Categories *</label>
             <form:select path="category" multiple="true" required="true">
@@ -132,7 +129,6 @@
             <form:errors path="category" cssClass="error-text"/>
         </div>
 
-        <!-- Model -->
         <div class="input-group">
             <label>Model *</label>
             <form:select path="models" required="true">
@@ -144,7 +140,6 @@
             <form:errors path="models" cssClass="error-text"/>
         </div>
 
-        <!-- Brand -->
         <div class="input-group">
             <label>Brand *</label>
             <form:select path="brand" required="true">
@@ -156,7 +151,6 @@
             <form:errors path="brand" cssClass="error-text"/>
         </div>
 
-        <!-- Unit -->
         <div class="input-group">
             <label>Unit *</label>
             <form:select path="unit" required="true">
@@ -176,7 +170,6 @@
 
     </form:form>
 
-    <!-- Global error message -->
     <c:if test="${not empty message}">
         <div class="bottom-error">${message}</div>
     </c:if>

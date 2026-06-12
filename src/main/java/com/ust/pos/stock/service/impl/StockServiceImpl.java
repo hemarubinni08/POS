@@ -1,10 +1,7 @@
 package com.ust.pos.stock.service.impl;
 
-import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.NodeRepository;
-import com.ust.pos.model.Price;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.StockService;
@@ -22,11 +19,9 @@ import java.util.List;
 @Service
 @Transactional
 public class StockServiceImpl implements StockService {
+    public static final WsDto<StockDto> STOCK_DTO_WS_DTO = new WsDto<>();
     @Autowired
     private StockRepository stockRepository;
-
-    @Autowired
-    private NodeRepository nodeRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -71,13 +66,12 @@ public class StockServiceImpl implements StockService {
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
         Page<Stock> stockPage = stockRepository.findAll(pageable);
-        WsDto<StockDto> StockDtoWsDto = new WsDto<>();
-        StockDtoWsDto.setDtoList(modelMapper.map(stockPage.getContent(), listType));
-        StockDtoWsDto.setTotalRecords(stockPage.getTotalElements());
-        StockDtoWsDto.setTotalPages(stockPage.getTotalPages());
-        StockDtoWsDto.setSizePerPage(pageable.getPageSize());
-        StockDtoWsDto.setPage(pageable.getPageNumber());
-        return StockDtoWsDto;
+        STOCK_DTO_WS_DTO.setDtoList(modelMapper.map(stockPage.getContent(), listType));
+        STOCK_DTO_WS_DTO.setTotalRecords(stockPage.getTotalElements());
+        STOCK_DTO_WS_DTO.setTotalPages(stockPage.getTotalPages());
+        STOCK_DTO_WS_DTO.setSizePerPage(pageable.getPageSize());
+        STOCK_DTO_WS_DTO.setPage(pageable.getPageNumber());
+        return STOCK_DTO_WS_DTO;
     }
 
     @Override

@@ -105,14 +105,12 @@
 
 <div class="container">
 
-
     <a class="back-link" href="${pageContext.request.contextPath}/warehouse/list">
         ← Back
     </a>
 
     <h2>Add Warehouse</h2>
 
-    <!-- Error / Validation Message -->
     <c:if test="${not empty message}">
         <div class="error-message">${message}</div>
     </c:if>
@@ -144,7 +142,6 @@
                             oninput="this.value=this.value.replace(/[^0-9]/g,'')"/>
 
         <button type="submit">Save Warehouse</button>
-
 
     </form:form>
 

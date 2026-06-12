@@ -44,11 +44,11 @@ public class RoleController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RoleDto userDto) {
-        RoleDto response = roleService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute RoleDto roleDto) {
+        RoleDto response = roleService.update(roleDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("role", userDto);
+            model.addAttribute("role", roleDto);
             return "role/role";
         }
         return REDIRECT_ROLE_LIST;

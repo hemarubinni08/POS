@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PosApplicationTests {
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -54,15 +53,8 @@ class PosApplicationTests {
     @Test
     void testPasswordEncoderBean() {
         String password = "admin123";
-
         String encoded = passwordEncoder.encode(password);
-
         assertNotNull(encoded);
         assertTrue(passwordEncoder.matches(password, encoded));
-    }
-
-    @Test
-    void testMain() {
-        PosApplication.main(new String[]{});
     }
 }

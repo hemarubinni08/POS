@@ -7,7 +7,6 @@
     <meta charset="UTF-8">
     <title>Retail POS | Unit List</title>
 
-    <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
@@ -179,7 +178,6 @@
                     <td><strong>${unit.identifier}</strong></td>
                      <td>${unit.description}</td>
 
-                    <!-- ✅ STATUS TOGGLE -->
                     <td>
                         <label class="switch">
                             <input type="checkbox"
@@ -194,7 +192,6 @@
                         </span>
                     </td>
 
-                    <!-- ACTIONS -->
                     <td>
                         <a class="action-icon"
                            href="${pageContext.request.contextPath}/unit/get?identifier=${unit.identifier}">
@@ -220,7 +217,6 @@
 
 </div>
 
-<!-- ✅ TOGGLE SCRIPT -->
 <script>
     const contextPath = '${pageContext.request.contextPath}';
 

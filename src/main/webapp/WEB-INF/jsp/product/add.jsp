@@ -105,7 +105,6 @@
 
     <h2>Add Product</h2>
 
-    <!-- GLOBAL ERROR MESSAGE -->
     <c:if test="${not empty message}">
         <div class="error-message">${message}</div>
     </c:if>
@@ -114,12 +113,10 @@
                action="${pageContext.request.contextPath}/product/add"
                modelAttribute="productDto">
 
-        <!-- Product Name -->
         <label>Product Name *</label>
         <form:input path="identifier" required="true" minlength="2" maxlength="50"/>
         <form:errors path="identifier" cssClass="error-message"/>
 
-        <!-- Category -->
         <label>Categories *</label>
         <form:select path="category" multiple="true" required="true">
             <form:options items="${categoryList}"
@@ -128,7 +125,6 @@
         </form:select>
         <form:errors path="category" cssClass="error-message"/>
 
-        <!-- Model -->
         <label>Model *</label>
         <form:select path="models" required="true">
             <form:option value="" label="-- Select Model --"/>
@@ -138,7 +134,6 @@
         </form:select>
         <form:errors path="models" cssClass="error-message"/>
 
-        <!-- Brand -->
         <label>Brand *</label>
         <form:select path="brand" required="true">
             <form:option value="" label="-- Select Brand --"/>
@@ -148,7 +143,6 @@
         </form:select>
         <form:errors path="brand" cssClass="error-message"/>
 
-        <!-- Unit -->
         <label>Unit *</label>
         <form:select path="unit" required="true">
             <form:option value="" label="-- Select Unit --"/>

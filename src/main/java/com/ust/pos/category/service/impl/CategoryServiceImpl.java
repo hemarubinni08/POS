@@ -2,11 +2,9 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
-import com.ust.pos.dto.RackDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
-import com.ust.pos.model.Rack;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -57,7 +55,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void delete(String identifier) {
+        if(categoryRepository.existsBySuperCategory(identifier)){
+            throw new IllegalArgumentException(
+                    "Cannot delete category. It is used as a super category."
+            );
+        }
         categoryRepository.deleteByIdentifier(identifier);
     }
 

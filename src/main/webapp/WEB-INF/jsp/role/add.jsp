@@ -79,7 +79,6 @@
         color: var(--text-muted);
     }
 
-    /* ✅ SAME validation message style as Node Add */
     .error-message {
         padding: 12px;
         border-radius: 6px;
@@ -152,7 +151,6 @@
         <p>Create a role and define its access scope.</p>
     </div>
 
-    <!-- ✅ VALIDATION MESSAGE (same as Node Add) -->
     <c:if test="${not empty message}">
         <div class="error-message">
             ${message}

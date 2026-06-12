@@ -1,13 +1,11 @@
 package com.ust.pos.cartentry.service.impl;
 
 import com.ust.pos.dto.CartEntryDto;
-import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.CartEntry;
 import com.ust.pos.model.CartEntryRepository;
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
-import com.ust.pos.price.service.PriceService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -28,9 +26,6 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Autowired
     private ModelMapper modelMapper;
-
-    @Autowired
-    private PriceService priceService;
 
     @Autowired
     private PriceRepository priceRepository;

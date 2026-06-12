@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Retail POS | Price List</title>
 
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -170,14 +169,11 @@
                     <td>${itemPrice.sumPrice}</td>
                     <td>${itemPrice.priceType}</td>
                     <td>
-                        <!-- Update -->
                         <a href="/price/get?identifier=${itemPrice.identifier}"
                            class="action-icon"
                            title="Update Price">
                             <i class="fa-solid fa-pen"></i>
                         </a>
-
-                        <!-- Delete -->
                         <a href="/price/delete?identifier=${itemPrice.identifier}"
                            class="action-icon delete-icon"
                            title="Delete Price"

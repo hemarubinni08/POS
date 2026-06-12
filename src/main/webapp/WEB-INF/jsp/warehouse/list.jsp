@@ -66,7 +66,6 @@
             color: #64748b;
         }
 
-        /* TOGGLE SWITCH */
         .switch {
             position: relative;
             display: inline-block;
@@ -141,7 +140,6 @@
             color: var(--danger) !important;
         }
 
-        /* TOAST */
         #toast {
             visibility: hidden;
             min-width: 280px;

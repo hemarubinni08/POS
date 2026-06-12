@@ -1,11 +1,9 @@
 package com.ust.pos.shelf.service.impl;
 
 import com.ust.pos.dto.ShelfDto;
-import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Shelf;
 import com.ust.pos.model.ShelfRepository;
-import com.ust.pos.model.Warehouse;
 import com.ust.pos.shelf.service.ShelfService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -56,7 +54,6 @@ public class ShelfServiceImpl implements ShelfService {
         return shelfDto;
     }
 
-
     @Override
     public void delete(String identifier) {
         shelfRepository.deleteByIdentifier(identifier);
@@ -73,7 +70,6 @@ public class ShelfServiceImpl implements ShelfService {
         shelfDtoWsDto.setTotalPages(shelfPage.getTotalPages());
         shelfDtoWsDto.setSizePerPage(pageable.getPageSize());
         shelfDtoWsDto.setPage(pageable.getPageNumber());
-
         return shelfDtoWsDto;
     }
 

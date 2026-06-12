@@ -1,6 +1,5 @@
 package com.ust.pos.rack.service.impl;
 
-import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.RackDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Rack;

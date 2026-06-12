@@ -1,10 +1,7 @@
 package com.ust.pos.warehouse.service.impl;
 
-import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Category;
-import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
@@ -24,9 +21,6 @@ import java.util.List;
 public class WarehouseServiceImpl implements WarehouseService {
     @Autowired
     private WarehouseRepository warehouseRepository;
-
-    @Autowired
-    private NodeRepository nodeRepository;
 
     @Autowired
     private ModelMapper modelMapper;

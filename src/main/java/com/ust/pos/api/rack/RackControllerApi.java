@@ -1,7 +1,6 @@
 package com.ust.pos.api.rack;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RackDto;
 import com.ust.pos.dto.WsDto;
@@ -36,8 +35,8 @@ public class RackControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public RackDto updatePost(@RequestBody RackDto userDto) {
-        return rackService.update(userDto);
+    public RackDto updatePost(@RequestBody RackDto rackDto) {
+        return rackService.update(rackDto);
     }
 
     @GetMapping("/delete")

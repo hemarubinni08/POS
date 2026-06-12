@@ -77,6 +77,7 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteByUsername(username);
         return true;
     }
+
     @Override
     public WsDto<UserDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UserDto>>() {

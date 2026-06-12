@@ -4,11 +4,9 @@ import com.ust.pos.customer.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
-import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
-import com.ust.pos.model.Price;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +20,7 @@ import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+    public static final WsDto<CustomerDto> CUSTOMER_DTO_WS_DTO = new WsDto<>();
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -97,13 +96,12 @@ public class CustomerServiceImpl implements CustomerService {
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
         Page<Customer> customerPage = customerRepository.findAll(pageable);
-        WsDto<CustomerDto> CustomerDtoWsDto = new WsDto<>();
-        CustomerDtoWsDto.setDtoList(modelMapper.map(customerPage.getContent(), listType));
-        CustomerDtoWsDto.setTotalRecords(customerPage.getTotalElements());
-        CustomerDtoWsDto.setTotalPages(customerPage.getTotalPages());
-        CustomerDtoWsDto.setSizePerPage(pageable.getPageSize());
-        CustomerDtoWsDto.setPage(pageable.getPageNumber());
-        return CustomerDtoWsDto;    }
+        CUSTOMER_DTO_WS_DTO.setDtoList(modelMapper.map(customerPage.getContent(), listType));
+        CUSTOMER_DTO_WS_DTO.setTotalRecords(customerPage.getTotalElements());
+        CUSTOMER_DTO_WS_DTO.setTotalPages(customerPage.getTotalPages());
+        CUSTOMER_DTO_WS_DTO.setSizePerPage(pageable.getPageSize());
+        CUSTOMER_DTO_WS_DTO.setPage(pageable.getPageNumber());
+        return CUSTOMER_DTO_WS_DTO;    }
 
     @Override
     public String buildAddressIdentifier(AddressDto address) {

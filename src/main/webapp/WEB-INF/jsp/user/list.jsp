@@ -8,7 +8,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Retail POS | User List</title>
 
-<!-- Font Awesome Icons -->
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -87,7 +86,6 @@
 
     tr:hover { background-color: #f8fafc; }
 
-    /* Icon-only actions */
     .action-icon {
         color: var(--primary);
         font-size: 16px;
@@ -169,14 +167,13 @@
                     <td>${user.phoneNo}</td>
                     <td>${user.roles}</td>
                     <td>
-                        <!-- Pencil Icon -->
+
                         <a href="${pageContext.request.contextPath}/user/get?username=${user.username}"
                            class="action-icon"
                            title="Edit User">
                             <i class="fa-solid fa-pen"></i>
                         </a>
 
-                        <!-- Delete Icon -->
                         <a href="${pageContext.request.contextPath}/user/delete?username=${user.username}"
                            class="action-icon delete-icon"
                            title="Delete User"

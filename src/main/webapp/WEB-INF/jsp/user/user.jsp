@@ -42,7 +42,6 @@
         color: #1e293b;
     }
 
-    /* Back button */
     .back-icon {
         position: absolute;
         top: 16px;
@@ -153,7 +152,6 @@
 
 <div class="edit-card">
 
-    <!-- Back to User List -->
     <a href="/user/list" class="back-icon">←</a>
 
     <h2>Update User</h2>

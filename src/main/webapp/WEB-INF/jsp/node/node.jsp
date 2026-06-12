@@ -134,22 +134,18 @@
                method="post"
                modelAttribute="node">
 
-        <!-- Hidden ID -->
         <form:hidden path="id"/>
 
-        <!-- Node Name -->
         <div class="input-group">
             <label>Node Name</label>
             <form:input path="identifier" readonly="true"/>
         </div>
 
-        <!-- Path -->
         <div class="input-group">
             <label>Path</label>
             <form:input path="path" placeholder="/example/path"/>
         </div>
 
-        <!-- Roles Dropdown (MULTI SELECT) -->
         <div class="input-group">
             <label>Assign Roles</label>
             <form:select path="roles" multiple="true">

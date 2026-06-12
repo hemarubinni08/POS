@@ -51,11 +51,11 @@ public class RackController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RackDto userDto) {
-        RackDto response = rackService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute RackDto rackDto) {
+        RackDto response = rackService.update(rackDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute("rack", userDto);
+            model.addAttribute("rack", rackDto);
             return "rack/rack";
         }
         return REDIRECT_RACK_LIST;

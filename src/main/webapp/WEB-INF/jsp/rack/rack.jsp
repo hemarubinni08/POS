@@ -131,16 +131,13 @@
                method="post"
                modelAttribute="rack">
 
-        <!-- Hidden ID -->
         <form:hidden path="id"/>
 
-        <!-- Rack Name -->
         <div class="input-group">
             <label>Rack Name</label>
             <form:input path="identifier" readonly="true"/>
         </div>
 
-        <!-- Shelf (REQUIRED) -->
         <div class="input-group">
             <label>Shelf <span style="color:#be123c">*</span></label>
             <form:select path="shelfs" required="true">
@@ -152,7 +149,6 @@
             <form:errors path="shelfs" cssClass="error-text"/>
         </div>
 
-        <!-- Status -->
         <div class="input-group">
             <label>Status</label>
             <form:select path="status" required="true">
@@ -170,7 +166,6 @@
 
     </form:form>
 
-    <!-- Global error message -->
     <c:if test="${not empty message}">
         <div class="bottom-error">${message}</div>
     </c:if>

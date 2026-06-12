@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/role")
@@ -35,8 +34,8 @@ public class RoleControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public RoleDto updatePost(@RequestBody RoleDto userDto) {
-        return roleService.update(userDto);
+    public RoleDto updatePost(@RequestBody RoleDto roleDto) {
+        return roleService.update(roleDto);
     }
 
     @GetMapping("/delete")

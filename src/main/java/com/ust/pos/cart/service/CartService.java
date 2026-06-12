@@ -1,7 +1,6 @@
 package com.ust.pos.cart.service;
 
 import com.ust.pos.dto.CartDto;
-import com.ust.pos.dto.CartEntryDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
