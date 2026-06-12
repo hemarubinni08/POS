@@ -99,14 +99,11 @@ class CartServiceTest {
     @Test
     void findByIdentifierTest() {
         String id = "C1";
-        Cart cart = new Cart();
-        CartDto dto = new CartDto();
         List<CartEntryDto> entries = new ArrayList<>();
         entries.add(new CartEntryDto());
-        Mockito.when(cartRepository.findByIdentifier(id)).thenReturn(cart);
+        Mockito.when(cartRepository.findByIdentifier(id)).thenReturn(new Cart());
         Mockito.when(cartEntryService.findAllEntriesForCart(id)).thenReturn(entries);
         Mockito.doAnswer(invocation -> {
-            Cart source = invocation.getArgument(0);
             CartDto target = invocation.getArgument(1);
             target.setIdentifier("C1");
             return null;

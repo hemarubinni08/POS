@@ -1,5 +1,6 @@
 package com.ust.pos;
 
+import com.ust.pos.cart.service.CartService;
 import com.ust.pos.cartentry.service.impl.CartEntryServiceImpl;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.model.*;
@@ -33,6 +34,9 @@ class CartEntryServiceTest {
     @Mock
     private PriceService priceService;
 
+    @Mock
+    private CartService cartService;
+
     @InjectMocks
     private CartEntryServiceImpl cartEntryService;
 
@@ -46,16 +50,19 @@ class CartEntryServiceTest {
         Price price = new Price();
         price.setMrp(BigDecimal.valueOf(100));
         price.setSellingPrice(BigDecimal.valueOf(80));
+        CartEntry savedEntry = new CartEntry();
+        savedEntry.setCart("C1");
         Mockito.when(cartEntryRepository.findByIdentifier(identifier)).thenReturn(null);
         Mockito.when(priceRepository.findByIdentifier("P1")).thenReturn(price);
-        Mockito.doNothing().when(modelMapper).map(Mockito.any(CartEntryDto.class), Mockito.any(CartEntry.class));
-        Mockito.when(cartEntryRepository.save(Mockito.any(CartEntry.class))).thenReturn(new CartEntry());
+        Mockito.when(cartEntryRepository.save(Mockito.any(CartEntry.class))).thenReturn(savedEntry);
+        Mockito.when(cartService.recalculate(Mockito.any())).thenReturn(null);
         CartEntryDto response = cartEntryService.save(dto);
         Assertions.assertEquals("P1-C1", response.getIdentifier());
         Assertions.assertEquals(BigDecimal.valueOf(2), response.getQuantity());
         Assertions.assertEquals(BigDecimal.valueOf(160), response.getTotalPrice());
         Assertions.assertEquals(BigDecimal.valueOf(40), response.getDiscount());
         Mockito.verify(cartEntryRepository).save(Mockito.any(CartEntry.class));
+        Mockito.verify(cartService).recalculate(Mockito.any());
     }
 
     @Test
@@ -72,8 +79,8 @@ class CartEntryServiceTest {
         price.setSellingPrice(BigDecimal.valueOf(80));
         Mockito.when(cartEntryRepository.findByIdentifier(identifier)).thenReturn(existing);
         Mockito.when(priceRepository.findByIdentifier("P1")).thenReturn(price);
-        Mockito.doNothing().when(modelMapper).map(dto, existing);
         Mockito.when(cartEntryRepository.save(existing)).thenReturn(existing);
+        Mockito.when(cartService.recalculate(Mockito.any())).thenReturn(null);
         CartEntryDto response = cartEntryService.save(dto);
         Assertions.assertEquals(BigDecimal.valueOf(5), response.getQuantity());
         Assertions.assertEquals(BigDecimal.valueOf(400), response.getTotalPrice());
