@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/rack")
@@ -55,5 +57,10 @@ public class ApiRacksController extends BaseController {
     @PostMapping("/toggle")
     public RacksDto toggle(@RequestBody RacksDto racksDto) {
         return racksService.changeToggleStatus(racksDto.getIdentifier(), racksDto.isStatus());
+    }
+
+    @PostMapping("/findActiveStatus")
+    public List<RacksDto> findActive() {
+        return racksService.findActiveStatus();
     }
 }

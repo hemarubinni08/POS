@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/stock")
@@ -60,5 +62,10 @@ public class ApiStockController extends BaseController {
     @PostMapping("/toggle")
     public StockDto toggle(@RequestBody StockDto stockDto) {
         return stockService.changeToggleStatus(stockDto.getIdentifier(), stockDto.isStatus());
+    }
+
+    @PostMapping("/findActiveStatus")
+    public List<StockDto> findActive() {
+        return stockService.findActiveStatus();
     }
 }

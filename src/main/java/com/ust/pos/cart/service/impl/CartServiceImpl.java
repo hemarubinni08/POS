@@ -4,7 +4,9 @@ import com.ust.pos.cart.service.CartService;
 
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartDto;
+import com.ust.pos.dto.CartDto;
 import com.ust.pos.dto.CartEntryDto;
+import com.ust.pos.model.Cart;
 import com.ust.pos.model.Cart;
 import com.ust.pos.model.CartEntryRepository;
 import com.ust.pos.model.CartRepository;
@@ -74,6 +76,15 @@ public class CartServiceImpl implements CartService {
         cartDto.setEntryDtoList(cartEntryService.findAllCarts(cartDto.getIdentifier()));
         return cartDto;
     }
+
+    @Override
+    public List<CartDto> findActiveStatus() {
+        List<Cart> allCarts = cartRepository.findAll();
+        List<Cart> activeCarts = allCarts.stream().filter(Cart::isStatus).toList();
+
+        Type listType = new TypeToken<List<CartDto>>() {
+        }.getType();
+        return modelMapper.map(activeCarts, listType);    }
 
     @Override
     public void deleteByIdentifier(String identifier) {

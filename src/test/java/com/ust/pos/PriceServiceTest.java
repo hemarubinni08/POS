@@ -19,6 +19,10 @@ import org.springframework.data.domain.Pageable;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class PriceServiceTest {
 
@@ -41,10 +45,10 @@ class PriceServiceTest {
 
         Page<Price> page = new PageImpl<>(List.of(price));
 
-        Mockito.when(priceRepository.findAll(Mockito.any(Pageable.class)))
+        when(priceRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(page);
 
-        Mockito.when(modelMapper.map(
+        when(modelMapper.map(
                         Mockito.eq(List.of(price)),
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
@@ -52,9 +56,9 @@ class PriceServiceTest {
         WsDto<PriceDto> result =
                 priceService.findAll(pageable);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(1, result.getDtoList().size());
-        Assertions.assertEquals(1, result.getTotalRecords());    }
+        assertNotNull(result);
+        assertEquals(1, result.getDtoList().size());
+        assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void save_success() {
@@ -62,20 +66,20 @@ class PriceServiceTest {
         PriceDto input = new PriceDto();
         input.setIdentifier("PRICE01");
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE01"))
+        when(priceRepository.findByIdentifier("PRICE01"))
                 .thenReturn(null);
 
         Price entity = new Price();
 
-        Mockito.when(modelMapper.map(input, Price.class))
+        when(modelMapper.map(input, Price.class))
                 .thenReturn(entity);
 
-        Mockito.when(priceRepository.save(entity))
+        when(priceRepository.save(entity))
                 .thenReturn(entity);
 
         PriceDto result = priceService.save(input);
 
-        Assertions.assertEquals("PRICE01", result.getIdentifier());
+        assertEquals("PRICE01", result.getIdentifier());
         Assertions.assertTrue(result.isSuccess());
     }
 
@@ -85,13 +89,13 @@ class PriceServiceTest {
         PriceDto input = new PriceDto();
         input.setIdentifier("PRICE01");
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE01"))
+        when(priceRepository.findByIdentifier("PRICE01"))
                 .thenReturn(new Price());
 
         PriceDto result = priceService.save(input);
 
         Assertions.assertFalse(result.isSuccess());
-        Assertions.assertNotNull(result.getMessage());
+        assertNotNull(result.getMessage());
     }
 
     @Test
@@ -103,15 +107,15 @@ class PriceServiceTest {
         PriceDto dto = new PriceDto();
         dto.setIdentifier("PRICE01");
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE01"))
+        when(priceRepository.findByIdentifier("PRICE01"))
                 .thenReturn(price);
 
-        Mockito.when(modelMapper.map(price, PriceDto.class))
+        when(modelMapper.map(price, PriceDto.class))
                 .thenReturn(dto);
 
         PriceDto result = priceService.findByIdentifier("PRICE01");
 
-        Assertions.assertEquals("PRICE01", result.getIdentifier());
+        assertEquals("PRICE01", result.getIdentifier());
     }
 
     @Test
@@ -122,18 +126,18 @@ class PriceServiceTest {
 
         Price existing = new Price();
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE01"))
+        when(priceRepository.findByIdentifier("PRICE01"))
                 .thenReturn(existing);
 
         Mockito.doNothing()
                 .when(modelMapper).map(input, existing);
 
-        Mockito.when(priceRepository.save(existing))
+        when(priceRepository.save(existing))
                 .thenReturn(existing);
 
         PriceDto result = priceService.update(input);
 
-        Assertions.assertEquals("PRICE01", result.getIdentifier());
+        assertEquals("PRICE01", result.getIdentifier());
     }
 
     @Test
@@ -156,20 +160,20 @@ class PriceServiceTest {
 
         PriceDto dto = new PriceDto();
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE01"))
+        when(priceRepository.findByIdentifier("PRICE01"))
                 .thenReturn(price);
 
-        Mockito.when(priceRepository.save(price))
+        when(priceRepository.save(price))
                 .thenReturn(price);
 
-        Mockito.when(modelMapper.map(price, PriceDto.class))
+        when(modelMapper.map(price, PriceDto.class))
                 .thenReturn(dto);
 
         PriceDto result =
                 priceService.changeToggleStatus("PRICE01", true);
 
         Assertions.assertTrue(price.isStatus());
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -180,19 +184,44 @@ class PriceServiceTest {
 
         PriceDto dto = new PriceDto();
 
-        Mockito.when(priceRepository.findByIdentifier("PRICE01"))
+        when(priceRepository.findByIdentifier("PRICE01"))
                 .thenReturn(price);
 
-        Mockito.when(priceRepository.save(price))
+        when(priceRepository.save(price))
                 .thenReturn(price);
 
-        Mockito.when(modelMapper.map(price, PriceDto.class))
+        when(modelMapper.map(price, PriceDto.class))
                 .thenReturn(dto);
 
         PriceDto result =
                 priceService.changeToggleStatus("PRICE01", false);
 
         Assertions.assertFalse(price.isStatus());
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
+    }
+
+    @Test
+    void testFindActiveStatus() {
+        Price active = new Price();
+        active.setStatus(true);
+
+        Price inactive = new Price();
+        inactive.setStatus(false);
+
+        when(priceRepository.findAll())
+                .thenReturn(List.of(active, inactive));
+
+        PriceDto dto = new PriceDto();
+        List<PriceDto> expectedDtoList = List.of(dto);
+
+        when(modelMapper.map(
+                Mockito.eq(List.of(active)),
+                Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(expectedDtoList);
+
+        List<PriceDto> result = priceService.findActiveStatus();
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
     }
 }

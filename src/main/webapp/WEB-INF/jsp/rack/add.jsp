@@ -70,11 +70,11 @@
             <div class="mb-3">
                 <label class="form-label">Shelfs</label>
 
-                <select class="form-select" name="shelfId" required>
+                <select class="form-select" name="shelfs" required>
                     <option value="">-- Select Shelf --</option>
 
                     <c:forEach var="shelf" items="${shelves}">
-                        <option value="${shelfs.identifier}">
+                        <option value="${shelf.identifier}">
                             ${shelf.identifier}
                         </option>
                     </c:forEach>

@@ -2,6 +2,8 @@ package com.ust.pos.cart.service;
 
 import com.ust.pos.dto.CartDto;
 
+import java.util.List;
+
 
 public interface CartService {
 
@@ -13,4 +15,5 @@ public interface CartService {
 
     CartDto findByIdentifier(String identifier);
 
+    List<CartDto> findActiveStatus();
 }

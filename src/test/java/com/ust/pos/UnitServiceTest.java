@@ -19,6 +19,10 @@ import org.springframework.data.domain.Pageable;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class UnitServiceTest {
 
@@ -41,19 +45,19 @@ class UnitServiceTest {
 
         Page<Unit> page = new PageImpl<>(List.of(unit));
 
-        Mockito.when(unitRepository.findAll(Mockito.any(Pageable.class)))
+        when(unitRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(page);
 
-        Mockito.when(modelMapper.map(
+        when(modelMapper.map(
                         Mockito.eq(List.of(unit)),
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
         WsDto<UnitDto> result = unitService.findAll(pageable);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(1, result.getDtoList().size());
-        Assertions.assertEquals(1, result.getTotalRecords());    }
+        assertNotNull(result);
+        assertEquals(1, result.getDtoList().size());
+        assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void save_success() {
@@ -61,20 +65,20 @@ class UnitServiceTest {
         UnitDto input = new UnitDto();
         input.setIdentifier("UNIT01");
 
-        Mockito.when(unitRepository.findByIdentifier("UNIT01"))
+        when(unitRepository.findByIdentifier("UNIT01"))
                 .thenReturn(null);
 
         Unit entity = new Unit();
 
-        Mockito.when(modelMapper.map(input, Unit.class))
+        when(modelMapper.map(input, Unit.class))
                 .thenReturn(entity);
 
-        Mockito.when(unitRepository.save(entity))
+        when(unitRepository.save(entity))
                 .thenReturn(entity);
 
         UnitDto result = unitService.save(input);
 
-        Assertions.assertEquals("UNIT01", result.getIdentifier());
+        assertEquals("UNIT01", result.getIdentifier());
         Assertions.assertTrue(result.isSuccess());
     }
 
@@ -84,13 +88,13 @@ class UnitServiceTest {
         UnitDto input = new UnitDto();
         input.setIdentifier("UNIT01");
 
-        Mockito.when(unitRepository.findByIdentifier("UNIT01"))
+        when(unitRepository.findByIdentifier("UNIT01"))
                 .thenReturn(new Unit());
 
         UnitDto result = unitService.save(input);
 
         Assertions.assertFalse(result.isSuccess());
-        Assertions.assertNotNull(result.getMessage());
+        assertNotNull(result.getMessage());
     }
 
     @Test
@@ -102,16 +106,16 @@ class UnitServiceTest {
         UnitDto dto = new UnitDto();
         dto.setIdentifier("UNIT01");
 
-        Mockito.when(unitRepository.findByIdentifier("UNIT01"))
+        when(unitRepository.findByIdentifier("UNIT01"))
                 .thenReturn(unit);
 
-        Mockito.when(modelMapper.map(unit, UnitDto.class))
+        when(modelMapper.map(unit, UnitDto.class))
                 .thenReturn(dto);
 
         UnitDto result =
                 unitService.findByIdentifier("UNIT01");
 
-        Assertions.assertEquals("UNIT01", result.getIdentifier());
+        assertEquals("UNIT01", result.getIdentifier());
     }
 
     @Test
@@ -122,18 +126,18 @@ class UnitServiceTest {
 
         Unit existing = new Unit();
 
-        Mockito.when(unitRepository.findByIdentifier("UNIT01"))
+        when(unitRepository.findByIdentifier("UNIT01"))
                 .thenReturn(existing);
 
         Mockito.doNothing()
                 .when(modelMapper).map(input, existing);
 
-        Mockito.when(unitRepository.save(existing))
+        when(unitRepository.save(existing))
                 .thenReturn(existing);
 
         UnitDto result = unitService.update(input);
 
-        Assertions.assertEquals("UNIT01", result.getIdentifier());
+        assertEquals("UNIT01", result.getIdentifier());
     }
 
     @Test
@@ -142,13 +146,13 @@ class UnitServiceTest {
         UnitDto input = new UnitDto();
         input.setIdentifier("UNIT01");
 
-        Mockito.when(unitRepository.findByIdentifier("UNIT01"))
+        when(unitRepository.findByIdentifier("UNIT01"))
                 .thenReturn(null);
 
         UnitDto result = unitService.update(input);
 
         Assertions.assertFalse(result.isSuccess());
-        Assertions.assertNotNull(result.getMessage());
+        assertNotNull(result.getMessage());
     }
 
     @Test
@@ -171,20 +175,20 @@ class UnitServiceTest {
 
         UnitDto dto = new UnitDto();
 
-        Mockito.when(unitRepository.findByIdentifier("UNIT01"))
+        when(unitRepository.findByIdentifier("UNIT01"))
                 .thenReturn(unit);
 
-        Mockito.when(unitRepository.save(unit))
+        when(unitRepository.save(unit))
                 .thenReturn(unit);
 
-        Mockito.when(modelMapper.map(unit, UnitDto.class))
+        when(modelMapper.map(unit, UnitDto.class))
                 .thenReturn(dto);
 
         UnitDto result =
                 unitService.changeToggleStatus("UNIT01", true);
 
         Assertions.assertTrue(unit.isStatus());
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -195,20 +199,20 @@ class UnitServiceTest {
 
         UnitDto dto = new UnitDto();
 
-        Mockito.when(unitRepository.findByIdentifier("UNIT01"))
+        when(unitRepository.findByIdentifier("UNIT01"))
                 .thenReturn(unit);
 
-        Mockito.when(unitRepository.save(unit))
+        when(unitRepository.save(unit))
                 .thenReturn(unit);
 
-        Mockito.when(modelMapper.map(unit, UnitDto.class))
+        when(modelMapper.map(unit, UnitDto.class))
                 .thenReturn(dto);
 
         UnitDto result =
                 unitService.changeToggleStatus("UNIT01", false);
 
         Assertions.assertFalse(unit.isStatus());
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -220,18 +224,43 @@ class UnitServiceTest {
         Unit inactive = new Unit();
         inactive.setStatus(false);
 
-        Mockito.when(unitRepository.findAll())
+        when(unitRepository.findAll())
                 .thenReturn(List.of(active, inactive));
 
         UnitDto dto = new UnitDto();
 
-        Mockito.when(modelMapper.map(
+        when(modelMapper.map(
                         Mockito.eq(List.of(active)),
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
         List<UnitDto> result = unitService.findActiveStatus();
 
-        Assertions.assertEquals(1, result.size());
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void testFindActiveStatus() {
+        Unit active = new Unit();
+        active.setStatus(true);
+
+        Unit inactive = new Unit();
+        inactive.setStatus(false);
+
+        when(unitRepository.findAll())
+                .thenReturn(List.of(active, inactive));
+
+        UnitDto dto = new UnitDto();
+        List<UnitDto> expectedDtoList = List.of(dto);
+
+        when(modelMapper.map(
+                Mockito.eq(List.of(active)),
+                Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(expectedDtoList);
+
+        List<UnitDto> result = unitService.findActiveStatus();
+
+        assertNotNull(result, "The result list should not be null");
+        assertEquals(1, result.size(), "The result list should contain exactly 1 active unit");
     }
 }

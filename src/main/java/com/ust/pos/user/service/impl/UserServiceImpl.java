@@ -90,6 +90,17 @@ public class UserServiceImpl implements UserService {
         }
         return modelMapper.map(user, UserDto.class);
     }
+
+    @Override
+    public List<UserDto> findActiveStatus() {
+        List<User> allShelves = userRepository.findAll();
+        List<User> activeShelves = allShelves.stream().filter(User::isStatus).toList();
+
+        Type listType = new TypeToken<List<UserDto>>() {
+        }.getType();
+        return modelMapper.map(activeShelves, listType);
+    }
+
     @Override
     public WsDto<UserDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UserDto>>() {

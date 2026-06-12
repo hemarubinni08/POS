@@ -13,4 +13,6 @@ public interface CartEntryService {
     void deleteByIdentifier(String identifier);
 
     List<CartEntryDto> findAllCarts(String cart);
+
+    List<CartEntryDto> findActiveStatus();
 }

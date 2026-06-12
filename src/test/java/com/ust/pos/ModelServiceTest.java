@@ -19,6 +19,10 @@ import org.springframework.data.domain.Pageable;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class ModelServiceTest {
 
@@ -41,10 +45,10 @@ class ModelServiceTest {
 
         Page<Model> page = new PageImpl<>(List.of(model));
 
-        Mockito.when(modelRepository.findAll(Mockito.any(Pageable.class)))
+        when(modelRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(page);
 
-        Mockito.when(modelMapper.map(
+        when(modelMapper.map(
                         Mockito.eq(List.of(model)),
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
@@ -52,9 +56,9 @@ class ModelServiceTest {
         WsDto<ModelDto> result =
                 modelService.findAll(pageable);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(1, result.getDtoList().size());
-        Assertions.assertEquals(1, result.getTotalRecords());    }
+        assertNotNull(result);
+        assertEquals(1, result.getDtoList().size());
+        assertEquals(1, result.getTotalRecords());    }
 
     @Test
     void save_success() {
@@ -62,20 +66,20 @@ class ModelServiceTest {
         ModelDto input = new ModelDto();
         input.setIdentifier("MOD01");
 
-        Mockito.when(modelRepository.findByIdentifier("MOD01"))
+        when(modelRepository.findByIdentifier("MOD01"))
                 .thenReturn(null);
 
         Model entity = new Model();
 
-        Mockito.when(modelMapper.map(input, Model.class))
+        when(modelMapper.map(input, Model.class))
                 .thenReturn(entity);
 
-        Mockito.when(modelRepository.save(entity))
+        when(modelRepository.save(entity))
                 .thenReturn(entity);
 
         ModelDto result = modelService.save(input);
 
-        Assertions.assertEquals("MOD01", result.getIdentifier());
+        assertEquals("MOD01", result.getIdentifier());
         Assertions.assertTrue(result.isSuccess());
     }
 
@@ -85,13 +89,13 @@ class ModelServiceTest {
         ModelDto input = new ModelDto();
         input.setIdentifier("MOD01");
 
-        Mockito.when(modelRepository.findByIdentifier("MOD01"))
+        when(modelRepository.findByIdentifier("MOD01"))
                 .thenReturn(new Model());
 
         ModelDto result = modelService.save(input);
 
         Assertions.assertFalse(result.isSuccess());
-        Assertions.assertNotNull(result.getMessage());
+        assertNotNull(result.getMessage());
     }
 
     @Test
@@ -103,16 +107,16 @@ class ModelServiceTest {
         ModelDto dto = new ModelDto();
         dto.setIdentifier("MOD01");
 
-        Mockito.when(modelRepository.findByIdentifier("MOD01"))
+        when(modelRepository.findByIdentifier("MOD01"))
                 .thenReturn(model);
 
-        Mockito.when(modelMapper.map(model, ModelDto.class))
+        when(modelMapper.map(model, ModelDto.class))
                 .thenReturn(dto);
 
         ModelDto result =
                 modelService.findByIdentifier("MOD01");
 
-        Assertions.assertEquals("MOD01", result.getIdentifier());
+        assertEquals("MOD01", result.getIdentifier());
     }
 
     @Test
@@ -123,18 +127,18 @@ class ModelServiceTest {
 
         Model existing = new Model();
 
-        Mockito.when(modelRepository.findByIdentifier("MOD01"))
+        when(modelRepository.findByIdentifier("MOD01"))
                 .thenReturn(existing);
 
         Mockito.doNothing()
                 .when(modelMapper).map(input, existing);
 
-        Mockito.when(modelRepository.save(existing))
+        when(modelRepository.save(existing))
                 .thenReturn(existing);
 
         ModelDto result = modelService.update(input);
 
-        Assertions.assertEquals("MOD01", result.getIdentifier());
+        assertEquals("MOD01", result.getIdentifier());
     }
 
     @Test
@@ -143,13 +147,13 @@ class ModelServiceTest {
         ModelDto input = new ModelDto();
         input.setIdentifier("MOD01");
 
-        Mockito.when(modelRepository.findByIdentifier("MOD01"))
+        when(modelRepository.findByIdentifier("MOD01"))
                 .thenReturn(null);
 
         ModelDto result = modelService.update(input);
 
         Assertions.assertFalse(result.isSuccess());
-        Assertions.assertNotNull(result.getMessage());
+        assertNotNull(result.getMessage());
     }
 
     @Test
@@ -172,20 +176,20 @@ class ModelServiceTest {
 
         ModelDto dto = new ModelDto();
 
-        Mockito.when(modelRepository.findByIdentifier("MOD01"))
+        when(modelRepository.findByIdentifier("MOD01"))
                 .thenReturn(model);
 
-        Mockito.when(modelRepository.save(model))
+        when(modelRepository.save(model))
                 .thenReturn(model);
 
-        Mockito.when(modelMapper.map(model, ModelDto.class))
+        when(modelMapper.map(model, ModelDto.class))
                 .thenReturn(dto);
 
         ModelDto result =
                 modelService.changeToggleStatus("MOD01", true);
 
         Assertions.assertTrue(model.isStatus());
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -196,20 +200,20 @@ class ModelServiceTest {
 
         ModelDto dto = new ModelDto();
 
-        Mockito.when(modelRepository.findByIdentifier("MOD01"))
+        when(modelRepository.findByIdentifier("MOD01"))
                 .thenReturn(model);
 
-        Mockito.when(modelRepository.save(model))
+        when(modelRepository.save(model))
                 .thenReturn(model);
 
-        Mockito.when(modelMapper.map(model, ModelDto.class))
+        when(modelMapper.map(model, ModelDto.class))
                 .thenReturn(dto);
 
         ModelDto result =
                 modelService.changeToggleStatus("MOD01", false);
 
         Assertions.assertFalse(model.isStatus());
-        Assertions.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
@@ -221,18 +225,43 @@ class ModelServiceTest {
         Model inactive = new Model();
         inactive.setStatus(false);
 
-        Mockito.when(modelRepository.findAll())
+        when(modelRepository.findAll())
                 .thenReturn(List.of(active, inactive));
 
         ModelDto dto = new ModelDto();
 
-        Mockito.when(modelMapper.map(
+        when(modelMapper.map(
                         Mockito.eq(List.of(active)),
                         Mockito.any(Type.class)))
                 .thenReturn(List.of(dto));
 
         List<ModelDto> result = modelService.findActiveStatus();
 
-        Assertions.assertEquals(1, result.size());
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void testFindActiveStatus() {
+        Model active = new Model();
+        active.setStatus(true);
+
+        Model inactive = new Model();
+        inactive.setStatus(false);
+
+        when(modelRepository.findAll())
+                .thenReturn(List.of(active, inactive));
+
+        ModelDto dto = new ModelDto();
+        List<ModelDto> expectedDtoList = List.of(dto);
+
+        when(modelMapper.map(
+                Mockito.eq(List.of(active)),
+                Mockito.any(java.lang.reflect.Type.class)))
+                .thenReturn(expectedDtoList);
+
+        List<ModelDto> result = modelService.findActiveStatus();
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
     }
 }

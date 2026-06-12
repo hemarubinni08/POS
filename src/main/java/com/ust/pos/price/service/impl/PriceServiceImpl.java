@@ -1,7 +1,9 @@
 package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.Price;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
@@ -81,5 +83,15 @@ public class PriceServiceImpl implements PriceService {
             priceRepository.save(price);
         }
         return modelMapper.map(price, PriceDto.class);
+    }
+
+    @Override
+    public List<PriceDto> findActiveStatus() {
+        List<Price> allPrices = priceRepository.findAll();
+        List<Price> activePrices = allPrices.stream().filter(Price::isStatus).toList();
+
+        Type listType = new TypeToken<List<PriceDto>>() {
+        }.getType();
+        return modelMapper.map(activePrices, listType);
     }
 }

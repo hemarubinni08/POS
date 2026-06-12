@@ -1,7 +1,9 @@
 package com.ust.pos.stock.service.impl;
 
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.Stock;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.StockService;
@@ -68,6 +70,16 @@ public class StockServiceImpl implements StockService {
             stockRepository.save(stock);
         }
         return modelMapper.map(stock, StockDto.class);
+    }
+
+    @Override
+    public List<StockDto> findActiveStatus() {
+        List<Stock> allShelves = stockRepository.findAll();
+        List<Stock> activeShelves = allShelves.stream().filter(Stock::isStatus).toList();
+
+        Type listType = new TypeToken<List<StockDto>>() {
+        }.getType();
+        return modelMapper.map(activeShelves, listType);
     }
 
     @Override

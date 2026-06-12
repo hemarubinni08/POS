@@ -84,4 +84,14 @@ public class RacksServiceImpl implements RacksService {
         }
         return modelMapper.map(rack, RacksDto.class);
     }
+
+    @Override
+    public List<RacksDto> findActiveStatus() {
+        List<Racks> allRacks = racksRepository.findAll();
+        List<Racks> activeRacks = allRacks.stream().filter(Racks::isStatus).toList();
+
+        Type listType = new TypeToken<List<RacksDto>>() {
+        }.getType();
+        return modelMapper.map(activeRacks, listType);
+    }
 }

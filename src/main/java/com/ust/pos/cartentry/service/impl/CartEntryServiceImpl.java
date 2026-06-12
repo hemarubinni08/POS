@@ -74,4 +74,14 @@ public class CartEntryServiceImpl implements CartEntryService {
     }.getType();
     return modelMapper.map(cartEntryList, listType);
     }
+
+    @Override
+    public List<CartEntryDto> findActiveStatus() {
+        List<CartEntry> allCartEntrys = cartEntryRepository.findAll();
+        List<CartEntry> activeCartEntrys = allCartEntrys.stream().filter(CartEntry::isStatus).toList();
+
+        Type listType = new TypeToken<List<CartEntryDto>>() {
+        }.getType();
+        return modelMapper.map(activeCartEntrys, listType);
+    }
 }
