@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/customer")
 public class CustomerController {
 
-    public static final String REDIRECT_STOCK_LIST = "redirect:/customer/list";
+    public static final String REDIRECT_CUSTOMER_LIST = "redirect:/customer/list";
     public static final String NODES = "nodes";
-    public static final String STOCK_ADD = "customer/add";
+    public static final String CUSTOMER_ADD = "customer/add";
 
     @Autowired
     private CustomerService customerService;
@@ -37,7 +37,7 @@ public class CustomerController {
     @GetMapping("/add")
     public String add(Model model, @ModelAttribute CustomerDto customerDto) {
         model.addAttribute(NODES, nodeService.getNodesForRoles());
-        return STOCK_ADD;
+        return CUSTOMER_ADD;
     }
 
     @PostMapping("/add")
@@ -45,9 +45,9 @@ public class CustomerController {
         CustomerDto response = customerService.save(customerDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            return STOCK_ADD;
+            return CUSTOMER_ADD;
         }
-        return REDIRECT_STOCK_LIST;
+        return REDIRECT_CUSTOMER_LIST;
     }
 
     @GetMapping("/get")
@@ -65,12 +65,12 @@ public class CustomerController {
             model.addAttribute("message", response.getMessage());
             return "customer/customer";
         }
-        return REDIRECT_STOCK_LIST;
+        return REDIRECT_CUSTOMER_LIST;
     }
 
     @GetMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         customerService.delete(identifier);
-        return REDIRECT_STOCK_LIST;
+        return REDIRECT_CUSTOMER_LIST;
     }
 }

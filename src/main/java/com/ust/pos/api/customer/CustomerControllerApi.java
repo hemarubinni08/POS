@@ -4,7 +4,6 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.node.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +16,7 @@ public class CustomerControllerApi extends BaseController {
 
     @Autowired
     private CustomerService customerService;
-
-    @Autowired
-    private NodeService nodeService;
-
+    
     @PostMapping("/list")
     public List<CustomerDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -28,8 +24,8 @@ public class CustomerControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    public CustomerDto addPost(@RequestBody CustomerDto userDto) {
-        return customerService.save(userDto);
+    public CustomerDto addPost(@RequestBody CustomerDto customerDto) {
+        return customerService.save(customerDto);
     }
 
     @GetMapping("/get")
@@ -38,8 +34,8 @@ public class CustomerControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public CustomerDto updatePost(@RequestBody CustomerDto userDto) {
-        return customerService.update(userDto);
+    public CustomerDto updatePost(@RequestBody CustomerDto customerDto) {
+        return customerService.update(customerDto);
     }
 
     @GetMapping("/delete")

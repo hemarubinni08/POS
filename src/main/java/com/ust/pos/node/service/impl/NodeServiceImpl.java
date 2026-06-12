@@ -1,7 +1,6 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
@@ -121,5 +120,10 @@ public class NodeServiceImpl implements NodeService {
             node.setStatus(!node.isStatus());
             nodeRepository.save(node);
         }
+    }
+
+    @Override
+    public NodeDto findByPath(String path) {
+        return modelMapper.map(nodeRepository.findByPathAndStatus(path,true),NodeDto.class);
     }
 }

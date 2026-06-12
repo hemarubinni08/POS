@@ -20,4 +20,6 @@ public interface NodeService {
     NodeDto findByIdentifier(String identifier);
 
     void toggleStatus(String identifier);
+
+    NodeDto findByPath(String path);
 }

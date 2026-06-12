@@ -3,7 +3,6 @@ package com.ust.pos.api.cart;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.CartDto;
-import com.ust.pos.node.service.NodeService;
 import com.ust.pos.cart.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -17,9 +16,6 @@ public class CartControllerApi extends BaseController {
     @Autowired
     private CartService cartService;
 
-    @Autowired
-    private NodeService nodeService;
-
     @PostMapping("/list")
     public List<CartDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -27,8 +23,8 @@ public class CartControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    public CartDto addPost(@RequestBody CartDto userDto) {
-        return cartService.save(userDto);
+    public CartDto addPost(@RequestBody CartDto cartDto) {
+        return cartService.save(cartDto);
     }
 
     @GetMapping("/get")
@@ -37,8 +33,8 @@ public class CartControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public CartDto updatePost(@RequestBody CartDto userDto) {
-        return cartService.update(userDto);
+    public CartDto updatePost(@RequestBody CartDto cartDto) {
+        return cartService.update(cartDto);
     }
 
     @GetMapping("/delete")

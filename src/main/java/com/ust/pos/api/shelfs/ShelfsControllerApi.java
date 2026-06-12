@@ -4,7 +4,6 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.dto.ShelfsDto;
-import com.ust.pos.node.service.NodeService;
 import com.ust.pos.shelfs.service.ShelfsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -19,18 +18,15 @@ public class ShelfsControllerApi extends BaseController {
     @Autowired
     private ShelfsService shelfsService;
 
-    @Autowired
-    private NodeService nodeService;
-
     @PostMapping("/list")
-    public WsDto home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<ShelfsDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return shelfsService.findAll(pageable);
     }
 
     @PostMapping("/add")
-    public ShelfsDto addPost(@RequestBody ShelfsDto userDto) {
-        return shelfsService.save(userDto);
+    public ShelfsDto addPost(@RequestBody ShelfsDto shelfsDto) {
+        return shelfsService.save(shelfsDto);
     }
 
     @GetMapping("/get")
@@ -39,8 +35,8 @@ public class ShelfsControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public ShelfsDto updatePost(@RequestBody ShelfsDto userDto) {
-        return shelfsService.update(userDto);
+    public ShelfsDto updatePost(@RequestBody ShelfsDto shelfsDto) {
+        return shelfsService.update(shelfsDto);
     }
 
     @GetMapping("/delete")

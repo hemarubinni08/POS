@@ -1,6 +1,5 @@
 package com.ust.pos.warehouse.service.impl;
 
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Warehouse;

@@ -1,7 +1,6 @@
 package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;

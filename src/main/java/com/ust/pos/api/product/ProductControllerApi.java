@@ -4,13 +4,11 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.node.service.NodeService;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/product")
@@ -19,9 +17,6 @@ public class ProductControllerApi extends BaseController {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private NodeService nodeService;
-
     @PostMapping("/list")
     public WsDto<ProductDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -29,8 +24,8 @@ public class ProductControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    public ProductDto addPost(@RequestBody ProductDto userDto) {
-        return productService.save(userDto);
+    public ProductDto addPost(@RequestBody ProductDto productDto) {
+        return productService.save(productDto);
     }
 
     @GetMapping("/get")
@@ -39,8 +34,8 @@ public class ProductControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public ProductDto updatePost(@RequestBody ProductDto userDto) {
-        return productService.update(userDto);
+    public ProductDto updatePost(@RequestBody ProductDto productDto) {
+        return productService.update(productDto);
     }
 
     @GetMapping("/delete")
