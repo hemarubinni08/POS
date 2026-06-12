@@ -30,9 +30,9 @@ public class RoleApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public RoleDto addPost(@RequestBody RoleDto userDto) {
+    public RoleDto addPost(@RequestBody RoleDto roleDto) {
 
-        return roleService.save(userDto);
+        return roleService.save(roleDto);
     }
 
     @PostMapping("/get")
