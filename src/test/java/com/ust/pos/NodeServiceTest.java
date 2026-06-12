@@ -77,9 +77,8 @@ class NodeServiceTest {
 
     @Test
     void getNodesForRolesTest() {
-        org.springframework.security.core.userdetails.User principal =
-                new org.springframework.security.core.userdetails.User(
-                        "admin@test.com", "password", List.of());
+        org.springframework.security.core.userdetails.User principal = new org.springframework.security.core.userdetails.User(
+                "admin@test.com", "password", List.of());
         Authentication authentication = Mockito.mock(Authentication.class);
         Mockito.when(authentication.getPrincipal()).thenReturn(principal);
         SecurityContext securityContext = Mockito.mock(SecurityContext.class);
@@ -91,7 +90,7 @@ class NodeServiceTest {
         Node node = new Node();
         node.setIdentifier("dashboard");
         node.setRoles(List.of("ADMIN"));
-        Mockito.when(nodeRepository.findAll()).thenReturn(List.of(node));
+        Mockito.when(nodeRepository.findByStatusIsTrue()).thenReturn(List.of(node)); // ← fix here
         NodeDto nodeDto = new NodeDto();
         nodeDto.setIdentifier("dashboard");
         Mockito.when(nodeRepository.findByIdentifier("dashboard")).thenReturn(node);
