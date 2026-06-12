@@ -59,7 +59,7 @@ public class UnitControllerApi extends BaseController {
         return unitService.toggleStatus(unitDto.getIdentifier());
     }
 
-    @GetMapping("/active")
+    @PostMapping("/active")
     public List<UnitDto> active() {
         return unitService.findActiveUnits();
     }
