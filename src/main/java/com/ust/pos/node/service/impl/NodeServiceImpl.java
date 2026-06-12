@@ -76,7 +76,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public NodeDto findByPath(String path) {
-        return modelMapper.map(nodeRepository.findByPath(path),NodeDto.class);
+        return modelMapper.map(nodeRepository.findByPath(path), NodeDto.class);
     }
 
     @Override

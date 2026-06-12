@@ -7,9 +7,10 @@ import com.ust.pos.dto.WsDto;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/unit")
@@ -20,7 +21,6 @@ public class UnitApiController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<UnitDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -28,9 +28,8 @@ public class UnitApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public UnitDto addPost(@RequestBody UnitDto userDto) {
-        return unitService.save(userDto);
-
+    public UnitDto addPost(@RequestBody UnitDto unitDto) {
+        return unitService.save(unitDto);
     }
 
     @PostMapping("/get")
@@ -39,9 +38,8 @@ public class UnitApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public UnitDto updatePost(@RequestBody UnitDto userDto) {
-        return unitService.update(userDto);
-
+    public UnitDto updatePost(@RequestBody UnitDto unitDto) {
+        return unitService.update(unitDto);
     }
 
     @PostMapping("/delete")

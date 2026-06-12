@@ -1,4 +1,4 @@
-package com.ust.pos.cartEntry.service;
+package com.ust.pos.cartentry.service;
 
 import com.ust.pos.dto.CartEntryDto;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +17,7 @@ public interface CartEntryService {
 
     BigDecimal getSellingPriceAmount(String product);
 
-    BigDecimal getDiscountPriceAmount(String product,BigDecimal quantity);
+    BigDecimal getDiscountPriceAmount(String product, BigDecimal quantity);
 
     BigDecimal getTotalPrice(String product, BigDecimal quantity);
 

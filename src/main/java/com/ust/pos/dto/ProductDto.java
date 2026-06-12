@@ -9,5 +9,5 @@ public class ProductDto extends CommonDto {
     private String name;
     private String unit;
     private String category;
-    private  String brand;
+    private String brand;
 }

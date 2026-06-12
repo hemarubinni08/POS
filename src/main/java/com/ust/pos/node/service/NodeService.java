@@ -9,11 +9,11 @@ import java.util.List;
 public interface NodeService {
     List<NodeDto> getNodesForRoles();
 
-    NodeDto save(NodeDto userDto);
+    NodeDto save(NodeDto nodeDto);
 
-    NodeDto update(NodeDto userDto);
+    NodeDto update(NodeDto nodeDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
     WsDto<NodeDto> findAll(Pageable pageable);
 

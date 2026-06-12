@@ -86,7 +86,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public WsDto<UserDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<UserDto>>() {}.getType();
+        Type listType = new TypeToken<List<UserDto>>() {
+        }.getType();
         Page<User> userPage = userRepository.findAll(pageable);
 
         WsDto<UserDto> userWsDto = new WsDto<>();

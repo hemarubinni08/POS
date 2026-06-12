@@ -7,9 +7,10 @@ import com.ust.pos.dto.WsDto;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/warehouse")
@@ -20,7 +21,6 @@ public class WarehouseApiController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<WarehouseDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -28,9 +28,8 @@ public class WarehouseApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public WarehouseDto addPost(@RequestBody WarehouseDto userDto) {
-        return warehouseService.save(userDto);
-
+    public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
+        return warehouseService.save(warehouseDto);
     }
 
     @PostMapping("/get")
@@ -39,9 +38,8 @@ public class WarehouseApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public WarehouseDto updatePost(@RequestBody WarehouseDto userDto) {
-        return warehouseService.update(userDto);
-
+    public WarehouseDto updatePost(@RequestBody WarehouseDto warehouseDto) {
+        return warehouseService.update(warehouseDto);
     }
 
     @PostMapping("/delete")

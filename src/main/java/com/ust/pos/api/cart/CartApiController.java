@@ -1,13 +1,16 @@
 package com.ust.pos.api.cart;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.CartDto;
 import com.ust.pos.cart.service.CartService;
+import com.ust.pos.dto.CartDto;
+import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.node.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -28,8 +31,8 @@ public class CartApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public CartDto addPost(@RequestBody CartDto userDto) {
-        return cartService.save(userDto);
+    public CartDto addPost(@RequestBody CartDto cartDto) {
+        return cartService.save(cartDto);
     }
 
     @PostMapping("/get")
@@ -38,8 +41,8 @@ public class CartApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public CartDto updatePost(@RequestBody CartDto userDto) {
-        return cartService.update(userDto);
+    public CartDto updatePost(@RequestBody CartDto cartDto) {
+        return cartService.update(cartDto);
     }
 
     @PostMapping("/delete")

@@ -161,22 +161,43 @@ class UserServiceTest {
 
     @Test
     void findAllTest() {
+
         Pageable pageable = mock(Pageable.class);
         Page<User> page = mock(Page.class);
 
-        List<User> users = List.of(new User(), new User());
-        List<UserDto> dtoList = List.of(new UserDto(), new UserDto());
+        List<User> users = List.of(
+                new User(),
+                new User()
+        );
+
+        List<UserDto> dtoList = List.of(
+                new UserDto(),
+                new UserDto()
+        );
 
         when(userRepository.findAll(pageable)).thenReturn(page);
         when(page.getContent()).thenReturn(users);
+        when(page.getTotalElements()).thenReturn(2L);
+        when(page.getTotalPages()).thenReturn(1);
+        when(pageable.getPageSize()).thenReturn(10);
+        when(pageable.getPageNumber()).thenReturn(0);
         when(modelMapper.map(eq(users), any(Type.class))).thenReturn(dtoList);
 
         WsDto<UserDto> result = userService.findAll(pageable);
 
-        Assertions.assertEquals(2, result.getDtoList().size());
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(dtoList, result.getDtoList());
+        Assertions.assertEquals(2L, result.getTotalRecords());
+        Assertions.assertEquals(1, result.getTotalPages());
+        Assertions.assertEquals(10, result.getSizePerPage());
+        Assertions.assertEquals(0, result.getPage());
 
         verify(userRepository).findAll(pageable);
         verify(page).getContent();
+        verify(page).getTotalElements();
+        verify(page).getTotalPages();
+        verify(pageable).getPageSize();
+        verify(pageable).getPageNumber();
         verify(modelMapper).map(eq(users), any(Type.class));
     }
 }

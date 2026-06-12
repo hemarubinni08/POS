@@ -66,7 +66,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public void delete(String identifier) {
-
         brandRepository.deleteByIdentifier(identifier);
     }
 
@@ -81,7 +80,6 @@ public class BrandServiceImpl implements BrandService {
         brandWsDto.setTotalPages(brandPage.getTotalPages());
         brandWsDto.setSizePerPage(pageable.getPageSize());
         brandWsDto.setPage(pageable.getPageNumber());
-
         return brandWsDto;
     }
 

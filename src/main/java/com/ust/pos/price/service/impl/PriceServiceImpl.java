@@ -88,6 +88,6 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto findByProductAndPriceType(String product, String priceType) {
-        return modelMapper.map(priceRepository.findByProductAndPriceType(product,priceType),PriceDto.class);
+        return modelMapper.map(priceRepository.findByProductAndPriceType(product, priceType), PriceDto.class);
     }
 }

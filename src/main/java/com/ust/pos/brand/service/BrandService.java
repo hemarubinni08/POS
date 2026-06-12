@@ -4,14 +4,12 @@ import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 public interface BrandService {
-    BrandDto save(BrandDto userDto);
+    BrandDto save(BrandDto brandDto);
 
-    BrandDto update(BrandDto userDto);
+    BrandDto update(BrandDto brandDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
     WsDto<BrandDto> findAll(Pageable pageable);
 

@@ -11,5 +11,5 @@ public class Product extends CommonFields {
     private String name;
     private String unit;
     private String category;
-    private  String brand;
+    private String brand;
 }
