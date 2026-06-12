@@ -8,6 +8,6 @@ class PosApplicationTests {
 
     @Test
     void contextLoads() {
+        //context empty
     }
-
 }

@@ -53,7 +53,7 @@ public class NodeApiController extends BaseController {
     }
 
     @PostMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    public boolean delete(@RequestBody String identifier) {
 
         try {
             nodeService.delete(identifier);
