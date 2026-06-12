@@ -125,16 +125,27 @@ class UserServiceTest {
 
     @Test
     void findAllWithoutPageableTest() {
+
         User user = new User();
-        user.setIdentifier("chailaa@gmail.com");
+        user.setIdentifier("chaila@gmail.com");
+
         UserDto dto = new UserDto();
         dto.setIdentifier("chaila@gmail.com");
+
         List<User> users = List.of(user);
         List<UserDto> dtos = List.of(dto);
-        Mockito.when(userRepository.findAll()).thenReturn(users);
-        Mockito.when(modelMapper.map(Mockito.eq(users), Mockito.any(Type.class))).thenReturn(dtos);
+
+        Mockito.when(userRepository.findAll())
+                .thenReturn(users);
+
+        Mockito.when(modelMapper.map(Mockito.eq(users), Mockito.any(Type.class)))
+                .thenReturn(dtos);
+
         PaginationResponseDto<UserDto> response = userService.findAll(null);
+
+        Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
-        Assertions.assertEquals("chaila@gmail.com", response.getDtoList().get(0).getIdentifier());
+        Assertions.assertEquals("chaila@gmail.com",
+                response.getDtoList().get(0).getIdentifier());
     }
 }

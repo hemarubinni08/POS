@@ -117,17 +117,27 @@ class RoleServiceTest {
 
     @Test
     void findAllWithoutPageableTest() {
+
         Role role = new Role();
         role.setIdentifier("Admin");
+
         RoleDto dto = new RoleDto();
         dto.setIdentifier("Admin");
+
         List<Role> roles = List.of(role);
         List<RoleDto> dtos = List.of(dto);
-        Mockito.when(roleRepository.findAll()).thenReturn(roles);
-        Mockito.when(modelMapper.map(Mockito.eq(roles), Mockito.any(Type.class))).thenReturn(dtos);
+
+        Mockito.when(roleRepository.findAll())
+                .thenReturn(roles);
+        Mockito.when(modelMapper.map(Mockito.eq(roles), Mockito.any(Type.class)))
+                .thenReturn(dtos);
+
         PaginationResponseDto<RoleDto> response = roleService.findAll(null);
+
+        Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
-        Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
+        Assertions.assertEquals("Admin",
+                response.getDtoList().get(0).getIdentifier());
     }
 
     @Test

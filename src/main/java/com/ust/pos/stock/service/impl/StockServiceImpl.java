@@ -2,6 +2,8 @@ package com.ust.pos.stock.service.impl;
 
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.StockDto;
+import com.ust.pos.model.Stock;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.StockService;
@@ -38,20 +40,27 @@ public class StockServiceImpl implements StockService {
         return stockDto;
     }
 
+
     @Override
     public PaginationResponseDto<StockDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<StockDto>>() {
-        }.getType();
-        Page<Stock> stockPage = stockRepository.findAll(pageable);
-
-        PaginationResponseDto<StockDto> stockPaginationResponseDto = new PaginationResponseDto<>();
-        stockPaginationResponseDto.setDtoList(modelMapper.map(stockPage.getContent(), listType));
-        stockPaginationResponseDto.setTotalRecords(stockPage.getTotalElements());
-        stockPaginationResponseDto.setTotalPages(stockPage.getTotalPages());
-        stockPaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        stockPaginationResponseDto.setPage(pageable.getPageNumber());
-
-        return stockPaginationResponseDto;
+        Type listType = new TypeToken<List<StockDto>>() {}.getType();
+        PaginationResponseDto<StockDto> response = new PaginationResponseDto<>();
+        if (pageable == null) {
+            List<Stock> stocks = stockRepository.findAll();
+            response.setDtoList(modelMapper.map(stocks, listType));
+            response.setTotalRecords((long) stocks.size());
+            response.setTotalPages(1);
+            response.setSizePerPage(stocks.size());
+            response.setPage(0);
+        } else {
+            Page<Stock> stockPage = stockRepository.findAll(pageable);
+            response.setDtoList(modelMapper.map(stockPage.getContent(), listType));
+            response.setTotalRecords(stockPage.getTotalElements());
+            response.setTotalPages(stockPage.getTotalPages());
+            response.setSizePerPage(pageable.getPageSize());
+            response.setPage(pageable.getPageNumber());
+        }
+        return response;
     }
 
     @Override

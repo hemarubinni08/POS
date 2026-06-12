@@ -3,8 +3,10 @@ package com.ust.pos.brand.service.impl;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
+import com.ust.pos.model.Brand;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -39,18 +41,27 @@ public class BrandServiceImpl implements BrandService {
         return brandDto;
     }
 
+
     @Override
     public PaginationResponseDto<BrandDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<BrandDto>>() {
-        }.getType();
-        Page<Brand> brandPage = brandRepository.findAll(pageable);
-        PaginationResponseDto<BrandDto> brandPaginationResponseDto = new PaginationResponseDto<>();
-        brandPaginationResponseDto.setDtoList(modelMapper.map(brandPage.getContent(), listType));
-        brandPaginationResponseDto.setTotalRecords(brandPage.getTotalElements());
-        brandPaginationResponseDto.setTotalPages(brandPage.getTotalPages());
-        brandPaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        brandPaginationResponseDto.setPage(pageable.getPageNumber());
-        return brandPaginationResponseDto;
+        Type listType = new TypeToken<List<BrandDto>>() {}.getType();
+        PaginationResponseDto<BrandDto> response = new PaginationResponseDto<>();
+        if (pageable == null) {
+            List<Brand> brands = brandRepository.findAll();
+            response.setDtoList(modelMapper.map(brands, listType));
+            response.setTotalRecords((long) brands.size());
+            response.setTotalPages(1);
+            response.setSizePerPage(brands.size());
+            response.setPage(0);
+        } else {
+            Page<Brand> brandPage = brandRepository.findAll(pageable);
+            response.setDtoList(modelMapper.map(brandPage.getContent(), listType));
+            response.setTotalRecords(brandPage.getTotalElements());
+            response.setTotalPages(brandPage.getTotalPages());
+            response.setSizePerPage(pageable.getPageSize());
+            response.setPage(pageable.getPageNumber());
+        }
+        return response;
     }
 
     @Override

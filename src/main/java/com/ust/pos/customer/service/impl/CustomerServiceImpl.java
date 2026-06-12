@@ -122,17 +122,23 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public PaginationResponseDto<CustomerDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<CustomerDto>>() {
-        }.getType();
-        Page<Customer> customerPage = customerRepository.findAll(pageable);
-
-        PaginationResponseDto<CustomerDto> customerPaginationResponseDto = new PaginationResponseDto<>();
-        customerPaginationResponseDto.setDtoList(modelMapper.map(customerPage.getContent(), listType));
-        customerPaginationResponseDto.setTotalRecords(customerPage.getTotalElements());
-        customerPaginationResponseDto.setTotalPages(customerPage.getTotalPages());
-        customerPaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        customerPaginationResponseDto.setPage(pageable.getPageNumber());
-
-        return customerPaginationResponseDto;
+        Type listType = new TypeToken<List<CustomerDto>>() {}.getType();
+        PaginationResponseDto<CustomerDto> response = new PaginationResponseDto<>();
+        if (pageable == null) {
+            List<Customer> customers = customerRepository.findAll();
+            response.setDtoList(modelMapper.map(customers, listType));
+            response.setTotalRecords((long) customers.size());
+            response.setTotalPages(1);
+            response.setSizePerPage(customers.size());
+            response.setPage(0);
+        } else {
+            Page<Customer> customerPage = customerRepository.findAll(pageable);
+            response.setDtoList(modelMapper.map(customerPage.getContent(), listType));
+            response.setTotalRecords(customerPage.getTotalElements());
+            response.setTotalPages(customerPage.getTotalPages());
+            response.setSizePerPage(pageable.getPageSize());
+            response.setPage(pageable.getPageNumber());
+        }
+        return response;
     }
 }

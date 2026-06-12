@@ -3,8 +3,10 @@ package com.ust.pos.category.service.impl;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
+import com.ust.pos.model.Category;
 import io.micrometer.common.util.StringUtils;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -27,18 +29,27 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private ModelMapper modelMapper;
 
+
     @Override
     public PaginationResponseDto<CategoryDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<CategoryDto>>() {
-        }.getType();
-        Page<Category> categoryPage = categoryRepository.findAll(pageable);
-        PaginationResponseDto<CategoryDto> categoryPaginationResponseDto = new PaginationResponseDto<>();
-        categoryPaginationResponseDto.setDtoList(modelMapper.map(categoryPage.getContent(), listType));
-        categoryPaginationResponseDto.setTotalRecords(categoryPage.getTotalElements());
-        categoryPaginationResponseDto.setTotalPages(categoryPage.getTotalPages());
-        categoryPaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        categoryPaginationResponseDto.setPage(pageable.getPageNumber());
-        return categoryPaginationResponseDto;
+        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        PaginationResponseDto<CategoryDto> response = new PaginationResponseDto<>();
+        if (pageable == null) {
+            List<Category> categorys = categoryRepository.findAll();
+            response.setDtoList(modelMapper.map(categorys, listType));
+            response.setTotalRecords((long) categorys.size());
+            response.setTotalPages(1);
+            response.setSizePerPage(categorys.size());
+            response.setPage(0);
+        } else {
+            Page<Category> categoryPage = categoryRepository.findAll(pageable);
+            response.setDtoList(modelMapper.map(categoryPage.getContent(), listType));
+            response.setTotalRecords(categoryPage.getTotalElements());
+            response.setTotalPages(categoryPage.getTotalPages());
+            response.setSizePerPage(pageable.getPageSize());
+            response.setPage(pageable.getPageNumber());
+        }
+        return response;
     }
 
     @Override

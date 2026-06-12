@@ -41,18 +41,24 @@ public class RackServiceImpl implements RackService {
 
     @Override
     public PaginationResponseDto<RackDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<RackDto>>() {
-        }.getType();
-        Page<Rack> rackPage = rackRepository.findAll(pageable);
-
-        PaginationResponseDto<RackDto> rackPaginationResponseDto = new PaginationResponseDto<>();
-        rackPaginationResponseDto.setDtoList(modelMapper.map(rackPage.getContent(), listType));
-        rackPaginationResponseDto.setTotalRecords(rackPage.getTotalElements());
-        rackPaginationResponseDto.setTotalPages(rackPage.getTotalPages());
-        rackPaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        rackPaginationResponseDto.setPage(pageable.getPageNumber());
-
-        return rackPaginationResponseDto;
+        Type listType = new TypeToken<List<RackDto>>() {}.getType();
+        PaginationResponseDto<RackDto> response = new PaginationResponseDto<>();
+        if (pageable == null) {
+            List<Rack> racks = rackRepository.findAll();
+            response.setDtoList(modelMapper.map(racks, listType));
+            response.setTotalRecords((long) racks.size());
+            response.setTotalPages(1);
+            response.setSizePerPage(racks.size());
+            response.setPage(0);
+        } else {
+            Page<Rack> rackPage = rackRepository.findAll(pageable);
+            response.setDtoList(modelMapper.map(rackPage.getContent(), listType));
+            response.setTotalRecords(rackPage.getTotalElements());
+            response.setTotalPages(rackPage.getTotalPages());
+            response.setSizePerPage(pageable.getPageSize());
+            response.setPage(pageable.getPageNumber());
+        }
+        return response;
     }
 
     @Override

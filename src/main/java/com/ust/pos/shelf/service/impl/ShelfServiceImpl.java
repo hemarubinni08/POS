@@ -2,6 +2,8 @@ package com.ust.pos.shelf.service.impl;
 
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.ShelfDto;
+import com.ust.pos.dto.ShelfDto;
+import com.ust.pos.model.Shelf;
 import com.ust.pos.model.Shelf;
 import com.ust.pos.model.ShelfRepository;
 import com.ust.pos.shelf.service.ShelfService;
@@ -41,18 +43,23 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public PaginationResponseDto<ShelfDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<ShelfDto>>() {
-        }.getType();
-        Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
-
-        PaginationResponseDto<ShelfDto> shelfPaginationResponseDto = new PaginationResponseDto<>();
-        shelfPaginationResponseDto.setDtoList(modelMapper.map(shelfPage.getContent(), listType));
-        shelfPaginationResponseDto.setTotalRecords(shelfPage.getTotalElements());
-        shelfPaginationResponseDto.setTotalPages(shelfPage.getTotalPages());
-        shelfPaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        shelfPaginationResponseDto.setPage(pageable.getPageNumber());
-
-        return shelfPaginationResponseDto;
+        Type listType = new TypeToken<List<ShelfDto>>() {}.getType();
+        PaginationResponseDto<ShelfDto> response = new PaginationResponseDto<>();
+        if (pageable == null) {
+            List<Shelf> shelfs = shelfRepository.findAll();
+            response.setDtoList(modelMapper.map(shelfs, listType));
+            response.setTotalRecords((long) shelfs.size());
+            response.setTotalPages(1);
+            response.setSizePerPage(shelfs.size());
+            response.setPage(0);
+        } else {
+            Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
+            response.setDtoList(modelMapper.map(shelfPage.getContent(), listType));
+            response.setTotalRecords(shelfPage.getTotalElements());
+            response.setSizePerPage(pageable.getPageSize());
+            response.setPage(pageable.getPageNumber());
+        }
+        return response;
     }
 
     @Override

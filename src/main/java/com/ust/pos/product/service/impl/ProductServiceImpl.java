@@ -40,18 +40,24 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PaginationResponseDto<ProductDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<ProductDto>>() {
-        }.getType();
-        Page<Product> productPage = productRepository.findAll(pageable);
-
-        PaginationResponseDto<ProductDto> productPaginationResponseDto = new PaginationResponseDto<>();
-        productPaginationResponseDto.setDtoList(modelMapper.map(productPage.getContent(), listType));
-        productPaginationResponseDto.setTotalRecords(productPage.getTotalElements());
-        productPaginationResponseDto.setTotalPages(productPage.getTotalPages());
-        productPaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        productPaginationResponseDto.setPage(pageable.getPageNumber());
-
-        return productPaginationResponseDto;
+        Type listType = new TypeToken<List<ProductDto>>() {}.getType();
+        PaginationResponseDto<ProductDto> response = new PaginationResponseDto<>();
+        if (pageable == null) {
+            List<Product> products = productRepository.findAll();
+            response.setDtoList(modelMapper.map(products, listType));
+            response.setTotalRecords((long) products.size());
+            response.setTotalPages(1);
+            response.setSizePerPage(products.size());
+            response.setPage(0);
+        } else {
+            Page<Product> productPage = productRepository.findAll(pageable);
+            response.setDtoList(modelMapper.map(productPage.getContent(), listType));
+            response.setTotalRecords(productPage.getTotalElements());
+            response.setTotalPages(productPage.getTotalPages());
+            response.setSizePerPage(pageable.getPageSize());
+            response.setPage(pageable.getPageNumber());
+        }
+        return response;
     }
 
     @Override

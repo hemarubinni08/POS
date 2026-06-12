@@ -63,17 +63,28 @@ class ModelServiceTest {
 
     @Test
     void findAllWithoutPageableTest() {
+
         Model model = new Model();
         model.setIdentifier("Jordan");
+
         ModelDto dto = new ModelDto();
         dto.setIdentifier("Jordan");
+
         List<Model> models = List.of(model);
         List<ModelDto> dtos = List.of(dto);
-        Mockito.when(modelRepository.findAll()).thenReturn(models);
-        Mockito.when(modelMapper.map(Mockito.eq(models), Mockito.any(Type.class))).thenReturn(dtos);
+
+        Mockito.when(modelRepository.findAll())
+                .thenReturn(models);
+
+        Mockito.when(modelMapper.map(Mockito.eq(models), Mockito.any(Type.class)))
+                .thenReturn(dtos);
+
         PaginationResponseDto<ModelDto> response = modelService.findAll(null);
+
+        Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
-        Assertions.assertEquals("Jordan", response.getDtoList().get(0).getIdentifier());
+        Assertions.assertEquals("Jordan",
+                response.getDtoList().get(0).getIdentifier());
     }
 
     @Test

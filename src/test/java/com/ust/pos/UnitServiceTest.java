@@ -78,17 +78,28 @@ class UnitServiceTest {
 
     @Test
     void findAllWithoutPageableTest() {
+
         Unit unit = new Unit();
         unit.setIdentifier("kg");
+
         UnitDto dto = new UnitDto();
         dto.setIdentifier("kg");
+
         List<Unit> units = List.of(unit);
         List<UnitDto> dtos = List.of(dto);
-        Mockito.when(unitRepository.findAll()).thenReturn(units);
-        Mockito.when(modelMapper.map(Mockito.eq(units), Mockito.any(Type.class))).thenReturn(dtos);
+
+        Mockito.when(unitRepository.findAll())
+                .thenReturn(units);
+
+        Mockito.when(modelMapper.map(Mockito.eq(units), Mockito.any(Type.class)))
+                .thenReturn(dtos);
+
         PaginationResponseDto<UnitDto> response = unitService.findAll(null);
+
+        Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
-        Assertions.assertEquals("kg", response.getDtoList().get(0).getIdentifier());
+        Assertions.assertEquals("kg",
+                response.getDtoList().get(0).getIdentifier());
     }
 
     @Test

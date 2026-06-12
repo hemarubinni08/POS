@@ -2,8 +2,10 @@ package com.ust.pos.models.service.impl;
 
 import com.ust.pos.dto.ModelDto;
 import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.ModelDto;
 import com.ust.pos.model.Model;
 import com.ust.pos.model.ModelRepository;
+import com.ust.pos.model.Model;
 import com.ust.pos.models.service.ModelService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -39,20 +41,27 @@ public class ModelServiceImpl implements ModelService {
         return modelDto;
     }
 
+
     @Override
     public PaginationResponseDto<ModelDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<ModelDto>>() {
-        }.getType();
-        Page<Model> modelPage = modelRepository.findAll(pageable);
-
-        PaginationResponseDto<ModelDto> modelPaginationResponseDto = new PaginationResponseDto<>();
-        modelPaginationResponseDto.setDtoList(modelMapper.map(modelPage.getContent(), listType));
-        modelPaginationResponseDto.setTotalRecords(modelPage.getTotalElements());
-        modelPaginationResponseDto.setTotalPages(modelPage.getTotalPages());
-        modelPaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        modelPaginationResponseDto.setPage(pageable.getPageNumber());
-
-        return modelPaginationResponseDto;
+        Type listType = new TypeToken<List<ModelDto>>() {}.getType();
+        PaginationResponseDto<ModelDto> response = new PaginationResponseDto<>();
+        if (pageable == null) {
+            List<Model> models = modelRepository.findAll();
+            response.setDtoList(modelMapper.map(models, listType));
+            response.setTotalRecords((long) models.size());
+            response.setTotalPages(1);
+            response.setSizePerPage(models.size());
+            response.setPage(0);
+        } else {
+            Page<Model> modelPage = modelRepository.findAll(pageable);
+            response.setDtoList(modelMapper.map(modelPage.getContent(), listType));
+            response.setTotalRecords(modelPage.getTotalElements());
+            response.setTotalPages(modelPage.getTotalPages());
+            response.setSizePerPage(pageable.getPageSize());
+            response.setPage(pageable.getPageNumber());
+        }
+        return response;
     }
 
     @Override

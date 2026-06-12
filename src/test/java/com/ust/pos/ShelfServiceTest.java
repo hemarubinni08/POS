@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -80,19 +81,28 @@ class ShelfServiceTest {
         Assertions.assertEquals("Shelf1", response.getDtoList().get(0).getIdentifier());
     }
 
+
     @Test
     void findAllWithoutPageableTest() {
+
         Shelf shelf = new Shelf();
         shelf.setIdentifier("Shelf1");
+
         ShelfDto dto = new ShelfDto();
         dto.setIdentifier("Shelf1");
-        List<Shelf> shelfs = List.of(shelf);
+
+        List<Shelf> shelves = List.of(shelf);
         List<ShelfDto> dtos = List.of(dto);
-        Mockito.when(shelfRepository.findAll()).thenReturn(shelfs);
-        Mockito.when(modelMapper.map(Mockito.eq(shelfs), Mockito.any(Type.class))).thenReturn(dtos);
+        Mockito.when(shelfRepository.findAll())
+                .thenReturn(shelves);
+        Mockito.when(modelMapper.map(Mockito.eq(shelves), Mockito.any(Type.class)))
+                .thenReturn(dtos);
+
         PaginationResponseDto<ShelfDto> response = shelfService.findAll(null);
+
         Assertions.assertEquals(1, response.getDtoList().size());
-        Assertions.assertEquals("Shelf1", response.getDtoList().get(0).getIdentifier());
+        Assertions.assertEquals("Shelf1",
+                response.getDtoList().get(0).getIdentifier());
     }
 
     @Test

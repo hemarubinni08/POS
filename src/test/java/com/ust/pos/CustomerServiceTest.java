@@ -151,18 +151,30 @@ class CustomerServiceTest {
     void findAllWithPageableTest() {
         Customer customer = new Customer();
         customer.setIdentifier("1234567890");
+
         CustomerDto dto = new CustomerDto();
         dto.setIdentifier("1234567890");
+
         List<Customer> customers = List.of(customer);
         List<CustomerDto> dtos = List.of(dto);
+
         Pageable pageable = PageRequest.of(0, 5);
         Page<Customer> customerPage = new PageImpl<>(customers);
-        Mockito.when(customerRepository.findAll(pageable)).thenReturn(customerPage);
-        Mockito.when(modelMapper.map(Mockito.eq(customers), Mockito.any(Type.class))).thenReturn(dtos);
+
+        Mockito.when(customerRepository.findAll(pageable))
+                .thenReturn(customerPage);
+
+        Mockito.when(modelMapper.map(Mockito.eq(customers), Mockito.any(Type.class)))
+                .thenReturn(dtos);
+
         PaginationResponseDto<CustomerDto> response = customerService.findAll(pageable);
+
+        Assertions.assertNotNull(response.getDtoList()); // optional safety
         Assertions.assertEquals(1, response.getDtoList().size());
-        Assertions.assertEquals("1234567890", response.getDtoList().get(0).getIdentifier());
+        Assertions.assertEquals("1234567890",
+                response.getDtoList().get(0).getIdentifier());
     }
+
 
     @Test
     void findAllWithoutPageableTest() {
@@ -172,7 +184,8 @@ class CustomerServiceTest {
         dto.setIdentifier("1234567890");
         List<Customer> customers = List.of(customer);
         List<CustomerDto> dtos = List.of(dto);
-        Mockito.when(customerRepository.findAll()).thenReturn(customers);
+        Mockito.when(customerRepository.findAll())
+                .thenReturn(customers);
         Mockito.when(modelMapper.map(Mockito.eq(customers), Mockito.any(Type.class))).thenReturn(dtos);
         PaginationResponseDto<CustomerDto> response = customerService.findAll(null);
         Assertions.assertEquals(1, response.getDtoList().size());

@@ -118,17 +118,30 @@ class CategoryServiceTest {
 
     @Test
     void findAllWithoutPageableTest() {
+
         Category category = new Category();
         category.setIdentifier("Chips");
+
         CategoryDto dto = new CategoryDto();
         dto.setIdentifier("Chips");
+
         List<Category> categorys = List.of(category);
         List<CategoryDto> dtos = List.of(dto);
-        Mockito.when(categoryRepository.findAll()).thenReturn(categorys);
-        Mockito.when(modelMapper.map(Mockito.eq(categorys), Mockito.any(Type.class))).thenReturn(dtos);
+
+        // ✅ correct mock (no pageable)
+        Mockito.when(categoryRepository.findAll())
+                .thenReturn(categorys);
+
+        // ✅ correct mapper mock
+        Mockito.when(modelMapper.map(Mockito.eq(categorys), Mockito.any(Type.class)))
+                .thenReturn(dtos);
+
         PaginationResponseDto<CategoryDto> response = categoryService.findAll(null);
+
+        Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
-        Assertions.assertEquals("Chips", response.getDtoList().get(0).getIdentifier());
+        Assertions.assertEquals("Chips",
+                response.getDtoList().get(0).getIdentifier());
     }
 
     @Test

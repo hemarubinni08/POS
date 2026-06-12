@@ -118,17 +118,26 @@ class StockServiceTest {
 
     @Test
     void findAllWithoutPageableTest() {
+
         Stock stock = new Stock();
         stock.setIdentifier("Lays In-001");
+
         StockDto dto = new StockDto();
         dto.setIdentifier("Lays In-001");
+
         List<Stock> stocks = List.of(stock);
         List<StockDto> dtos = List.of(dto);
-        Mockito.when(stockRepository.findAll()).thenReturn(stocks);
-        Mockito.when(modelMapper.map(Mockito.eq(stocks), Mockito.any(Type.class))).thenReturn(dtos);
+        Mockito.when(stockRepository.findAll())
+                .thenReturn(stocks);
+        Mockito.when(modelMapper.map(Mockito.eq(stocks), Mockito.any(Type.class)))
+                .thenReturn(dtos);
+
         PaginationResponseDto<StockDto> response = stockService.findAll(null);
+
+        Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
-        Assertions.assertEquals("Lays In-001", response.getDtoList().get(0).getIdentifier());
+        Assertions.assertEquals("Lays In-001",
+                response.getDtoList().get(0).getIdentifier());
     }
 
     @Test

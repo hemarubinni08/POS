@@ -43,18 +43,32 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PaginationResponseDto<PriceDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<PriceDto>>() {
-        }.getType();
-        Page<Price> pricePage = priceRepository.findAll(pageable);
 
-        PaginationResponseDto<PriceDto> pricePaginationResponseDto = new PaginationResponseDto<>();
-        pricePaginationResponseDto.setDtoList(modelMapper.map(pricePage.getContent(), listType));
-        pricePaginationResponseDto.setTotalRecords(pricePage.getTotalElements());
-        pricePaginationResponseDto.setTotalPages(pricePage.getTotalPages());
-        pricePaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        pricePaginationResponseDto.setPage(pageable.getPageNumber());
+        Type listType = new TypeToken<List<PriceDto>>() {}.getType();
+        PaginationResponseDto<PriceDto> response = new PaginationResponseDto<>();
 
-        return pricePaginationResponseDto;
+        if (pageable == null) {
+
+            List<Price> prices = priceRepository.findAll();
+
+            response.setDtoList(modelMapper.map(prices, listType));
+            response.setTotalRecords((long) prices.size());
+            response.setTotalPages(1);
+            response.setSizePerPage(prices.size());
+            response.setPage(0);
+
+        } else {
+
+            Page<Price> pricePage = priceRepository.findAll(pageable);
+
+            response.setDtoList(modelMapper.map(pricePage.getContent(), listType));
+            response.setTotalRecords(pricePage.getTotalElements());
+            response.setTotalPages(pricePage.getTotalPages());
+            response.setSizePerPage(pageable.getPageSize());
+            response.setPage(pageable.getPageNumber());
+        }
+
+        return response;
     }
 
     @Override

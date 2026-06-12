@@ -2,6 +2,8 @@ package com.ust.pos.warehouse.service.impl;
 
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.WarehouseDto;
+import com.ust.pos.dto.WarehouseDto;
+import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
@@ -40,18 +42,24 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public PaginationResponseDto<WarehouseDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<WarehouseDto>>() {
-        }.getType();
-        Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
-
-        PaginationResponseDto<WarehouseDto> warehousePaginationResponseDto = new PaginationResponseDto<>();
-        warehousePaginationResponseDto.setDtoList(modelMapper.map(warehousePage.getContent(), listType));
-        warehousePaginationResponseDto.setTotalRecords(warehousePage.getTotalElements());
-        warehousePaginationResponseDto.setTotalPages(warehousePage.getTotalPages());
-        warehousePaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        warehousePaginationResponseDto.setPage(pageable.getPageNumber());
-
-        return warehousePaginationResponseDto;
+        Type listType = new TypeToken<List<WarehouseDto>>() {}.getType();
+        PaginationResponseDto<WarehouseDto> response = new PaginationResponseDto<>();
+        if (pageable == null) {
+            List<Warehouse> warehouses = warehouseRepository.findAll();
+            response.setDtoList(modelMapper.map(warehouses, listType));
+            response.setTotalRecords((long) warehouses.size());
+            response.setTotalPages(1);
+            response.setSizePerPage(warehouses.size());
+            response.setPage(0);
+        } else {
+            Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
+            response.setDtoList(modelMapper.map(warehousePage.getContent(), listType));
+            response.setTotalRecords(warehousePage.getTotalElements());
+            response.setTotalPages(warehousePage.getTotalPages());
+            response.setSizePerPage(pageable.getPageSize());
+            response.setPage(pageable.getPageNumber());
+        }
+        return response;
     }
 
     @Override

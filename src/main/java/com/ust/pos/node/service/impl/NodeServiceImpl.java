@@ -61,18 +61,24 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public PaginationResponseDto<NodeDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<NodeDto>>() {
-        }.getType();
-        Page<Node> nodePage = nodeRepository.findAll(pageable);
-
-        PaginationResponseDto<NodeDto> nodePaginationResponseDto = new PaginationResponseDto<>();
-        nodePaginationResponseDto.setDtoList(modelMapper.map(nodePage.getContent(), listType));
-        nodePaginationResponseDto.setTotalRecords(nodePage.getTotalElements());
-        nodePaginationResponseDto.setTotalPages(nodePage.getTotalPages());
-        nodePaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        nodePaginationResponseDto.setPage(pageable.getPageNumber());
-
-        return nodePaginationResponseDto;
+        Type listType = new TypeToken<List<NodeDto>>() {}.getType();
+        PaginationResponseDto<NodeDto> response = new PaginationResponseDto<>();
+        if (pageable == null) {
+            List<Node> nodes = nodeRepository.findAll();
+            response.setDtoList(modelMapper.map(nodes, listType));
+            response.setTotalRecords((long) nodes.size());
+            response.setTotalPages(1);
+            response.setSizePerPage(nodes.size());
+            response.setPage(0);
+        } else {
+            Page<Node> nodePage = nodeRepository.findAll(pageable);
+            response.setDtoList(modelMapper.map(nodePage.getContent(), listType));
+            response.setTotalRecords(nodePage.getTotalElements());
+            response.setTotalPages(nodePage.getTotalPages());
+            response.setSizePerPage(pageable.getPageSize());
+            response.setPage(pageable.getPageNumber());
+        }
+        return response;
     }
 
     @Override

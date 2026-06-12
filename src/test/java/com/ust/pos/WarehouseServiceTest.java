@@ -117,16 +117,26 @@ class WarehouseServiceTest {
 
     @Test
     void findAllWithoutPageableTest() {
+
         Warehouse warehouse = new Warehouse();
         warehouse.setIdentifier("Lays Warehouse");
+
         WarehouseDto dto = new WarehouseDto();
         dto.setIdentifier("Lays Warehouse");
+
         List<Warehouse> warehouses = List.of(warehouse);
         List<WarehouseDto> dtos = List.of(dto);
-        Mockito.when(warehouseRepository.findAll()).thenReturn(warehouses);
-        Mockito.when(modelMapper.map(Mockito.eq(warehouses), Mockito.any(Type.class))).thenReturn(dtos);
+        Mockito.when(warehouseRepository.findAll())
+                .thenReturn(warehouses);
+
+        Mockito.when(modelMapper.map(Mockito.eq(warehouses), Mockito.any(Type.class)))
+                .thenReturn(dtos);
+
         PaginationResponseDto<WarehouseDto> response = warehouseService.findAll(null);
+
+        Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
-        Assertions.assertEquals("Lays Warehouse", response.getDtoList().get(0).getIdentifier());
+        Assertions.assertEquals("Lays Warehouse",
+                response.getDtoList().get(0).getIdentifier());
     }
 }

@@ -2,6 +2,8 @@ package com.ust.pos.unit.service.impl;
 
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.UnitDto;
+import com.ust.pos.model.Unit;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
 import com.ust.pos.unit.service.UnitService;
@@ -42,20 +44,27 @@ public class UnitServiceImpl implements UnitService {
         return unitDto;
     }
 
+
     @Override
     public PaginationResponseDto<UnitDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<UnitDto>>() {
-        }.getType();
-        Page<Unit> unitPage = unitRepository.findAll(pageable);
-
-        PaginationResponseDto<UnitDto> unitPaginationResponseDto = new PaginationResponseDto<>();
-        unitPaginationResponseDto.setDtoList(modelMapper.map(unitPage.getContent(), listType));
-        unitPaginationResponseDto.setTotalRecords(unitPage.getTotalElements());
-        unitPaginationResponseDto.setTotalPages(unitPage.getTotalPages());
-        unitPaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        unitPaginationResponseDto.setPage(pageable.getPageNumber());
-
-        return unitPaginationResponseDto;
+        Type listType = new TypeToken<List<UnitDto>>() {}.getType();
+        PaginationResponseDto<UnitDto> response = new PaginationResponseDto<>();
+        if (pageable == null) {
+            List<Unit> units = unitRepository.findAll();
+            response.setDtoList(modelMapper.map(units, listType));
+            response.setTotalRecords((long) units.size());
+            response.setTotalPages(1);
+            response.setSizePerPage(units.size());
+            response.setPage(0);
+        } else {
+            Page<Unit> unitPage = unitRepository.findAll(pageable);
+            response.setDtoList(modelMapper.map(unitPage.getContent(), listType));
+            response.setTotalRecords(unitPage.getTotalElements());
+            response.setTotalPages(unitPage.getTotalPages());
+            response.setSizePerPage(pageable.getPageSize());
+            response.setPage(pageable.getPageNumber());
+        }
+        return response;
     }
 
     @Override
