@@ -60,7 +60,7 @@ public class PriceServiceImpl implements PriceService {
             priceDto.setSuccess(false);
             return priceDto;
         }
-        String product = existingPrice.getProduct().split(",")[0]; // clean once
+        String product = existingPrice.getProduct().split(",")[0];
         String newIdentifier = product + "_" + priceDto.getPriceType();
         existingPrice.setProduct(product);
         Price duplicate = priceRepository.findByIdentifier(newIdentifier);

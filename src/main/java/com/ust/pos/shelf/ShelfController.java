@@ -24,13 +24,13 @@ public class ShelfController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute ShelfDto userDto) {
+    public String add(Model model, @ModelAttribute ShelfDto shelfDto) {
         return "shelf/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, Pageable pageable, @ModelAttribute ShelfDto userDto) {
-        ShelfDto response = shelfService.save(userDto);
+    public String addPost(Model model, Pageable pageable, @ModelAttribute ShelfDto shelfDto) {
+        ShelfDto response = shelfService.save(shelfDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(SHELFS, shelfService.findAll(pageable));
@@ -48,8 +48,8 @@ public class ShelfController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, Pageable pageable, @ModelAttribute ShelfDto userDto) {
-        ShelfDto response = shelfService.update(userDto);
+    public String updatePost(Model model, Pageable pageable, @ModelAttribute ShelfDto shelfDto) {
+        ShelfDto response = shelfService.update(shelfDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(SHELFS, shelfService.findAll(pageable));

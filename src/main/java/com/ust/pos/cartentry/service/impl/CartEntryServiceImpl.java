@@ -32,7 +32,6 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Override
     public CartEntryDto findByIdentifier(String identifier) {
-
         CartEntry cartEntry = cartEntryRepository.findByIdentifier(identifier);
         if (cartEntry == null) {
             return null;
@@ -42,7 +41,6 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Override
     public BigDecimal getSellingPrice(String product) {
-
         Price price = priceRepository.
                 findByProductAndPriceType(product, "Selling Price");
         return price.getPriceAmount();
@@ -50,7 +48,6 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Override
     public BigDecimal getDiscount(CartEntryDto cartEntryDto) {
-
         BigDecimal sellingPrice = getSellingPrice(cartEntryDto.getProduct());
         Price price = priceRepository.
                 findByProductAndPriceType(cartEntryDto.getProduct(), "MRP");
@@ -62,7 +59,6 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Override
     public CartEntryDto save(CartEntryDto cartEntryDto) {
-
         String product = cartEntryDto.getProduct();
         String cartId = cartEntryDto.getCartId();
 
@@ -101,44 +97,35 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Override
     public void recalculate(String cartId) {
-
         List<CartEntry> cartEntries = cartEntryRepository.findAllByCartId(cartId);
-
         BigDecimal cartEntryTotalPrice = new BigDecimal(0);
         BigDecimal cartEntryTotaldiscount = new BigDecimal(0);
         BigDecimal cartEntryOriginalPrice = new BigDecimal(0);
-
         for (CartEntry cartEntry : cartEntries){
             cartEntryTotalPrice = cartEntryTotalPrice.add(cartEntry.getTotalPrice());
             cartEntryTotaldiscount = cartEntryTotaldiscount.add(cartEntry.getDiscount());
             cartEntryOriginalPrice = cartEntryOriginalPrice.add(cartEntry.getOriginalPrice());
         }
-
         Cart cart = cartRepository.findByIdentifier(cartId);
         cart.setTotalPrice(cartEntryTotalPrice);
         cart.setDiscount(cartEntryTotaldiscount);
         cart.setOriginalPrice(cartEntryOriginalPrice);
-
         cartRepository.save(cart);
     }
 
     @Override
     public List<CartEntryDto> findByCartId(String cartId) {
-
         Type listType = new TypeToken<List<CartEntryDto>>() {
         }.getType();
         List<CartEntry> cartEntryList = cartEntryRepository.findByCartId(cartId);
-
         return modelMapper.map(cartEntryList, listType);
     }
 
     @Override
     @Transactional
     public void delete(String identifier) {
-
         String cartId = cartEntryRepository.findByIdentifier(identifier).getCartId();
         cartEntryRepository.deleteByIdentifier(identifier);
-
         recalculate(cartId);
     }
 
@@ -146,17 +133,14 @@ public class CartEntryServiceImpl implements CartEntryService {
     @Transactional
     public void deleteAllByCartId(String cartId) {
         cartEntryRepository.deleteAllByCartId(cartId);
-
         recalculate(cartId);
     }
 
     @Override
     public List<CartEntryDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<CartEntryDto>>() {
         }.getType();
         Page<CartEntry> cartEntryPage = cartEntryRepository.findAll(pageable);
-
         return modelMapper.map(cartEntryPage.getContent(), listType);
     }
 }

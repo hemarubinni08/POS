@@ -40,8 +40,8 @@ public class UnitControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public UnitDto updatePost(@ModelAttribute UnitDto userDto) {
-        return unitService.update(userDto);
+    public UnitDto updatePost(@ModelAttribute UnitDto unitDto) {
+        return unitService.update(unitDto);
     }
 
     @GetMapping("/delete")

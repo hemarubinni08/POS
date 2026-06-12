@@ -34,8 +34,8 @@ public class WarehouseControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public WarehouseDto updatePost(Model model, @RequestBody WarehouseDto userDto) {
-        return warehouseService.update(userDto);
+    public WarehouseDto updatePost(Model model, @RequestBody WarehouseDto warehouseDto) {
+        return warehouseService.update(warehouseDto);
     }
 
     @GetMapping("/delete")

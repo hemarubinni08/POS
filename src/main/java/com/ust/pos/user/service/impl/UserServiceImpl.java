@@ -33,7 +33,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByUserName(String username) {
-        return modelMapper.map(userRepository.findByUsername(username), UserDto.class);
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override

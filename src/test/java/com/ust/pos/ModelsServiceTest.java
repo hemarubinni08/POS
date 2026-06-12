@@ -215,11 +215,14 @@ class ModelsServiceTest {
     void testFindActiveModels() {
 
         when(modelsRepository.findByStatus(true))
-                .thenReturn((List<ModelsDto>) Collections.singletonList(models));
+                .thenReturn(Collections.singletonList(models));
+
         List<Models> result =
                 modelsService.findActiveModels();
+
         assertNotNull(result);
         assertEquals(1, result.size());
+
         verify(modelsRepository, times(1))
                 .findByStatus(true);
     }

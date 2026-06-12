@@ -88,8 +88,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto toggleStatus(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
-            product.setStatus(!product.isStatus());
-            productRepository.save(product);
-            return modelMapper.map(product,ProductDto.class);
+        if (product == null) {
+            return null;
+        }
+        product.setStatus(!product.isStatus());
+        productRepository.save(product);
+        return modelMapper.map(product,ProductDto.class);
     }
 }

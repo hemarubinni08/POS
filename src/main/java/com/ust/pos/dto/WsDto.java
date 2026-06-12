@@ -9,5 +9,6 @@ import java.util.List;
 @Setter
 
 public class WsDto<T> extends PaginationDto{
+
         List<T> dtoList;
     }

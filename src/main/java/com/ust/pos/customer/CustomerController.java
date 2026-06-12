@@ -49,12 +49,10 @@ public class CustomerController {
 
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
-
         CustomerDto response = customerService.findByIdentifier(identifier);
         response.setBillingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNo(), "billingAddress"));
         response.setShippingAddress(addressService.findByPhoneNoAndAddressType(response.getPhoneNo(), "shippingAddress"));
         model.addAttribute("customerDto", response);
-
         return "customer/customer";
     }
 

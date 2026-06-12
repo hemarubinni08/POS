@@ -35,8 +35,8 @@ public class RackController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, Pageable pageable, @ModelAttribute RackDto userDto) {
-        RackDto response = rackService.save(userDto);
+    public String addPost(Model model, Pageable pageable, @ModelAttribute RackDto rackDto) {
+        RackDto response = rackService.save(rackDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(SHELF, shelfService.findActiveShelves());
@@ -56,8 +56,8 @@ public class RackController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, Pageable pageable, @ModelAttribute RackDto userDto) {
-        RackDto response = rackService.update(userDto);
+    public String updatePost(Model model, Pageable pageable, @ModelAttribute RackDto rackDto) {
+        RackDto response = rackService.update(rackDto);
         model.addAttribute(SHELF, shelfService.findActiveShelves());
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());

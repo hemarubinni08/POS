@@ -23,7 +23,6 @@
             height: 100vh;
         }
 
-        /* LEFT PANEL */
         .left-panel {
             flex: 60%;
             background: linear-gradient(135deg, #0f766e, #022c43);
@@ -56,7 +55,6 @@
             margin-bottom: 10px;
         }
 
-        /* RIGHT PANEL */
         .right-panel {
             flex: 40%;
             display: flex;
@@ -143,7 +141,6 @@
 
 <div class="container">
 
-    <!-- LEFT SIDE -->
     <div class="left-panel">
         <div class="left-content">
             <h1>POS System</h1>
@@ -161,23 +158,19 @@
         </div>
     </div>
 
-    <!-- RIGHT SIDE -->
     <div class="right-panel">
         <div class="login-card">
 
             <h2>Login</h2>
 
-            <!-- Success Message -->
-            <%
-                String logout = request.getParameter("logout");
-                if ("true".equals(logout)) {
+            <%String logout = request.getParameter("logout");
+               if ("true".equals(logout)) {
             %>
                 <div class="alert">You have logged out successfully</div>
             <%
                 }
             %>
 
-            <!-- Login Form -->
             <form action="login" method="post">
                 <input type="email" name="username" placeholder="Enter your email" required />
                 <input type="password" name="password" placeholder="Enter your password" required />
@@ -189,11 +182,8 @@
             New User?
             <a href="${pageContext.request.contextPath}/register">Register here</a>
             </div>
-
         </div>
     </div>
-
 </div>
-
 </body>
 </html>

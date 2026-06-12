@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.User;
@@ -179,20 +180,32 @@ class NodeServiceTest {
 
     @Test
     void testFindAll() {
+
         Pageable pageable = PageRequest.of(0, 10);
 
-        Page<Node> page = new PageImpl<>(List.of(node));
+        Page<Node> page =
+                new PageImpl<>(List.of(node), pageable, 1);
 
-        Type listType = new TypeToken<List<NodeDto>>() {}.getType();
+        Type listType =
+                new TypeToken<List<NodeDto>>() {
+                }.getType();
 
-        when(nodeRepository.findAll(pageable)).thenReturn(page);
+        when(nodeRepository.findAll(pageable))
+                .thenReturn(page);
+
         when(modelMapper.map(page.getContent(), listType))
                 .thenReturn(List.of(nodeDto));
 
-        List<NodeDto> result = nodeService.findAll(pageable);
+        WsDto<NodeDto> result =
+                nodeService.findAll(pageable);
 
-        assertEquals(1, result.size());
+        assertNotNull(result);
+        assertEquals(1, result.getDtoList().size());
+
         verify(nodeRepository).findAll(pageable);
+
+        verify(modelMapper)
+                .map(page.getContent(), listType);
     }
 
     @Test

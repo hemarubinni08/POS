@@ -25,7 +25,8 @@ public class BrandControllerApi extends BaseController {
 
     @PostMapping("/list")
     public WsDto<BrandDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(), paginationDto.getSortField());
         return brandService.findAll(pageable);
     }
 
@@ -40,8 +41,8 @@ public class BrandControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public BrandDto updatePost(@RequestBody BrandDto userDto) {
-        return brandService.update(userDto);
+    public BrandDto updatePost(@RequestBody BrandDto brandDto) {
+        return brandService.update(brandDto);
     }
 
     @GetMapping("/delete")

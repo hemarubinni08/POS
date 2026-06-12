@@ -18,35 +18,28 @@ public class CartControllerApi extends BaseController {
 
     @PostMapping("/list")
     public WsDto<CartDto> home(@RequestBody PaginationDto paginationDto) {
-
-        Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
-
         return cartService.findAllws(pageable);
     }
 
     @PostMapping("/add")
     public CartDto addPost(@RequestBody CartDto cartDto) {
-
         return cartService.save(cartDto);
     }
 
     @GetMapping("/get")
     public CartDto update(@RequestParam String identifier) {
-
         return cartService.findByIdentifier(identifier);
     }
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-
         try {
             cartService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
-
         return true;
     }
 }

@@ -86,6 +86,9 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public BrandDto toggleStatus(String identifier) {
         Brand brands = brandRepository.findByIdentifier(identifier);
+        if (brands == null) {
+            return null;
+        }
         brands.setStatus(!brands.isStatus());
         brandRepository.save(brands);
         return modelMapper.map(brands, BrandDto.class);

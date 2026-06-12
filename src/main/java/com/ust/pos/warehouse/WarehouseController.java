@@ -48,8 +48,8 @@ public class WarehouseController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, Pageable pageable, @ModelAttribute WarehouseDto userDto) {
-        WarehouseDto response = warehouseService.update(userDto);
+    public String updatePost(Model model, Pageable pageable, @ModelAttribute WarehouseDto warehouseDto) {
+        WarehouseDto response = warehouseService.update(warehouseDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("warehouse", warehouseService.findAll(pageable));

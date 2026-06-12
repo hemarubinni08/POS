@@ -53,8 +53,8 @@ public class UnitController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, Pageable pageable, @ModelAttribute UnitDto userDto) {
-        UnitDto response = unitService.update(userDto);
+    public String updatePost(Model model, Pageable pageable, @ModelAttribute UnitDto unitDto) {
+        UnitDto response = unitService.update(unitDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute(UNITS, unitService.findAll(pageable));

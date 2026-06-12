@@ -83,6 +83,9 @@ public class RackServiceImpl implements RackService {
     @Override
     public RackDto toggleStatus(String identifier) {
         Rack rack = rackRepository.findByIdentifier(identifier);
+        if (rack == null) {
+            return null;
+        }
         rack.setStatus(!rack.isStatus());
         rackRepository.save(rack);
         return modelMapper.map(rack, RackDto.class);

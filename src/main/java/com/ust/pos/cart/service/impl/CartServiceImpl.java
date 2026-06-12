@@ -31,7 +31,6 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartDto findByIdentifier(String identifier) {
-
         Cart cart = cartRepository.findByIdentifier(identifier);
         if (cart == null) {
             return null;
@@ -41,15 +40,12 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartDto save(CartDto cartDto) {
-
         String identifier = cartDto.getIdentifier();
         Cart existingCart = cartRepository.findByIdentifier(identifier);
-
         if(existingCart!=null){
             cartDto.setMessage("cart with"+identifier+"exists");
             return cartDto;
         }
-
         cartRepository.save(modelMapper.map(cartDto, Cart.class));
         return cartDto;
     }
@@ -57,18 +53,15 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public void delete(String identifier) {
-
         cartEntryRepository.deleteAllByCartId(identifier);
         cartRepository.deleteByIdentifier(identifier);
     }
 
     @Override
     public List<CartDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<CartDto>>() {
         }.getType();
         Page<Cart> cartPage = cartRepository.findAll(pageable);
-
         return modelMapper.map(cartPage.getContent(), listType);
     }
 
@@ -83,7 +76,6 @@ public class CartServiceImpl implements CartService {
         cartWsDto.setTotalPages(cartPage.getTotalPages());
         cartWsDto.setSizePerPage(pageable.getPageSize());
         cartWsDto.setPage(pageable.getPageNumber());
-
         return cartWsDto;
     }
 }

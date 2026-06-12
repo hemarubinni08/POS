@@ -8,6 +8,8 @@ import com.ust.pos.role.service.RoleService;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +47,17 @@ public class UserControllerApi extends BaseController {
     @GetMapping("/delete")
     public boolean delete(Model model, @RequestParam String username) {
         try {
-            userService.delete(username);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null) {
+                String loggedInUser = authentication.getName();
+                if (loggedInUser != null) {
+                    userService.delete(username);
+                    if (loggedInUser.equals(username)) {
+                        SecurityContextHolder.clearContext();
+                        return true;
+                    }
+                }
+            }
         } catch (Exception e) {
             return false;
         }

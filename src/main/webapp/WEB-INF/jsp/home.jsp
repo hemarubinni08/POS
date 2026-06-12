@@ -143,7 +143,6 @@
             color: #64748b;
             font-size: 14px;
         }
-
     </style>
 </head>
 
@@ -151,7 +150,6 @@
 
 <div class="wrapper">
 
-    <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
         <h2>POS System</h2>
 
@@ -176,32 +174,26 @@
         </div>
     </div>
 
-    <!-- MAIN -->
     <div class="main" id="main">
 
-        <!-- TOPBAR -->
         <div class="topbar">
             <span class="toggle-btn" onclick="toggleSidebar()">☰</span>
             <h3>POS Dashboard</h3>
         </div>
 
-        <!-- CONTENT -->
         <div class="content">
             <div class="center-box">
                 <h1>POS Dashboard</h1>
                 <p>Welcome to your POS system management panel</p>
             </div>
         </div>
-
     </div>
-
 </div>
 
 <script>
     function toggleSidebar() {
         const sidebar = document.getElementById("sidebar");
         const main = document.getElementById("main");
-
         sidebar.classList.toggle("active");
         main.classList.toggle("shift");
     }

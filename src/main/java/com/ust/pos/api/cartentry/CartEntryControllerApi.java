@@ -19,21 +19,18 @@ public class CartEntryControllerApi extends BaseController {
 
     @PostMapping("/list")
     public List<CartEntryDto> home(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),
+        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
         return cartEntryService.findAll(pageable);
     }
 
     @PostMapping("/add")
     public CartEntryDto addPost(@RequestBody CartEntryDto cartEntryDto) {
-
         return cartEntryService.save(cartEntryDto);
     }
 
     @GetMapping("/get")
     public CartEntryDto update(@RequestParam String identifier) {
-
         return cartEntryService.findByIdentifier(identifier);
     }
 }

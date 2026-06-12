@@ -23,13 +23,13 @@ public class RoleControllerApi extends BaseController {
     }
 
     @GetMapping("/add")
-    public String add(@RequestBody RoleDto userDto) {
+    public String add(@RequestBody RoleDto roleDto) {
         return "role/add";
     }
 
     @PostMapping("/add")
-    public RoleDto addPost(@RequestBody RoleDto userDto) {
-        return roleService.save(userDto);
+    public RoleDto addPost(@RequestBody RoleDto roleDto) {
+        return roleService.save(roleDto);
     }
 
     @GetMapping("/get")
@@ -38,8 +38,8 @@ public class RoleControllerApi extends BaseController {
     }
 
     @PostMapping("/update")
-    public RoleDto updatePost(@RequestBody RoleDto userDto) {
-        return roleService.update(userDto);
+    public RoleDto updatePost(@RequestBody RoleDto roleDto) {
+        return roleService.update(roleDto);
     }
 
     @GetMapping("/delete")

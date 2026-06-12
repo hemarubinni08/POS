@@ -52,8 +52,8 @@ public class BrandController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, Pageable pageable, @ModelAttribute BrandDto userDto) {
-        BrandDto response = brandService.update(userDto);
+    public String updatePost(Model model, Pageable pageable, @ModelAttribute BrandDto brandDto) {
+        BrandDto response = brandService.update(brandDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("brand", brandService.findAll(pageable));

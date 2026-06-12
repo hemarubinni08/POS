@@ -89,8 +89,8 @@ ProductController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, Pageable pageable, @ModelAttribute ProductDto userDto) {
-        ProductDto response = productService.update(userDto);
+    public String updatePost(Model model, Pageable pageable, @ModelAttribute ProductDto productDto) {
+        ProductDto response = productService.update(productDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("product", productService.findAll(pageable));

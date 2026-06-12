@@ -87,6 +87,9 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public UnitDto toggleStatus(String identifier) {
         Unit unit = unitRepository.findByIdentifier(identifier);
+        if (unit == null) {
+            return null;
+        }
         unit.setStatus(!unit.isStatus());
         unitRepository.save(unit);
         return modelMapper.map(unit,UnitDto.class);
