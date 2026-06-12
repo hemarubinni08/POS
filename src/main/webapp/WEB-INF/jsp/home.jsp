@@ -39,7 +39,6 @@
             letter-spacing: 1px;
         }
 
-        /* Scrollable navigation */
         .nav-links {
             flex: 1;
             overflow-y: auto;
@@ -69,7 +68,6 @@
             padding-left: 35px;
         }
 
-        /* Logout fixed at bottom */
         .logout-btn {
             padding: 20px;
         }
