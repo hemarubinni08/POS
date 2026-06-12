@@ -147,27 +147,27 @@ public class RoleServiceTest {
     }
 
     @Test
-    void findAll_WithPagination_ShouldReturnRoleDtos() {
-        Pageable pageable = PageRequest.of(0, 10);
+    void findAll_ShouldReturnRoleDtos() {
 
         List<Role> roles = List.of(new Role());
-        Page<Role> page = new PageImpl<>(roles);
 
         List<RoleDto> roleDtos = List.of(new RoleDto());
 
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
 
-        Mockito.when(roleRepository.findAll(pageable))
-                .thenReturn(page);
+        Mockito.when(roleRepository.findAll())
+                .thenReturn(roles);
+
         Mockito.when(modelMapper.map(roles, listType))
                 .thenReturn(roleDtos);
 
-        List<RoleDto> response = roleService.findAll(pageable);
+        List<RoleDto> response = roleService.findAll();
 
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.size());
-        Mockito.verify(roleRepository).findAll(pageable);
+
+        Mockito.verify(roleRepository).findAll();
         Mockito.verify(modelMapper).map(roles, listType);
     }
 }

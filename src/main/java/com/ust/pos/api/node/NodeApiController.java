@@ -23,6 +23,11 @@ public class NodeApiController extends BaseController {
     @Autowired
     private NodeService nodeService;
 
+    @GetMapping("/roles")
+    public List<NodeDto> getNodesForRoles() {
+        return nodeService.getNodesForRoles();
+    }
+
     @PostMapping("/list")
     public WsDto<NodeDto> home(
             @RequestBody PaginationDto paginationDto) {
