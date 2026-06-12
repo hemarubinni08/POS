@@ -94,13 +94,20 @@ class BrandServiceTest {
         Mockito.when(brandRepository.findByIdentifier("BR001"))
                 .thenReturn(brand);
 
-        Mockito.when(modelMapper.map(dto, Brand.class))
+        Mockito.doNothing()
+                .when(modelMapper)
+                .map(dto, brand);
+
+        Mockito.when(brandRepository.save(brand))
                 .thenReturn(brand);
 
         BrandDto response = brandService.update(dto);
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Successfully updated the brand", response.getMessage());
+
+        Mockito.verify(modelMapper).map(dto, brand);
+        Mockito.verify(brandRepository).save(brand);
     }
 
     @Test

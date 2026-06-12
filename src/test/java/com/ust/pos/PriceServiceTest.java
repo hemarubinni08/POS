@@ -235,11 +235,15 @@ class PriceServiceTest {
     @Test
     void update_success() {
         when(priceRepository.findById(1L)).thenReturn(Optional.of(price));
-        when(modelMapper.map(priceDto, Price.class)).thenReturn(price);
+
+        doNothing().when(modelMapper).map(priceDto, price);
+
+        when(priceRepository.save(price)).thenReturn(price);
 
         PriceDto response = priceService.update(priceDto);
 
         verify(priceRepository).save(price);
+
         assertTrue(response.isSuccess());
         assertEquals("Successfully updated price", response.getMessage());
     }

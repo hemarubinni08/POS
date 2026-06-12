@@ -1,6 +1,7 @@
 package com.ust.pos.stock.service.impl;
 
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.model.ProductRepository;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.StockService;
@@ -22,7 +23,7 @@ public class StockServiceImpl implements StockService {
     private StockRepository stockRepository;
 
     @Autowired
-    private StockRepository productRepository;
+    private ProductRepository productRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -50,15 +51,27 @@ public class StockServiceImpl implements StockService {
     }
 
     public StockDto update(StockDto stockDto) {
-        stockRepository.save(modelMapper.map(stockDto, Stock.class));
-        stockDto.setMessage("Stock updated successfully");
-        stockDto.setSuccess(true);
 
-        return stockDto;
+        Stock existingStock = stockRepository.findById(stockDto.getId())
+                .orElseThrow(() ->
+                        new RuntimeException("Stock not found with id: " + stockDto.getId()));
+
+        modelMapper.map(stockDto, existingStock);
+
+        Stock updatedStock = stockRepository.save(existingStock);
+
+        StockDto response = modelMapper.map(updatedStock, StockDto.class);
+        response.setMessage("Stock updated successfully");
+        response.setSuccess(true);
+
+        return response;
     }
 
     public StockDto findById(long id) {
-        return modelMapper.map(stockRepository.findById(id), StockDto.class);
+        Stock stock = stockRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Stock not found"));
+
+        return modelMapper.map(stock, StockDto.class);
     }
 
     @Override

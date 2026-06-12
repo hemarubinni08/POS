@@ -79,12 +79,13 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public UnitDto update(UnitDto unitDto) {
         String identifier = unitDto.getIdentifier();
-        Unit unit = unitRepository.findByIdentifier(identifier);
-        if (unit == null) {
+        Unit existingUnit = unitRepository.findByIdentifier(identifier);
+        if (existingUnit == null) {
             unitDto.setMessage("Unit not found");
             unitDto.setSuccess(false);
         } else {
-            unitRepository.save(modelMapper.map(unitDto, Unit.class));
+            modelMapper.map(unitDto, existingUnit);
+            unitRepository.save(existingUnit);
             unitDto.setMessage("Unit updated successfully");
             unitDto.setSuccess(true);
         }
@@ -103,7 +104,6 @@ public class UnitServiceImpl implements UnitService {
             return response;
         }
 
-        // Toggle status
         unit.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

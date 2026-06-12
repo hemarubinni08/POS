@@ -45,8 +45,6 @@ class NodeServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ================= save =================
-
     @Test
     void save_success() {
         NodeDto dto = new NodeDto();
@@ -84,12 +82,15 @@ class NodeServiceTest {
         Node node = new Node();
 
         when(nodeRepository.findByIdentifier("N1")).thenReturn(node);
-        when(modelMapper.map(dto, Node.class)).thenReturn(node);
+
+        doNothing().when(modelMapper).map(dto, node);
+
+        when(nodeRepository.save(node)).thenReturn(node);
 
         NodeDto response = nodeService.update(dto);
 
         assertTrue(response.isSuccess());
-        assertEquals("Node updated successfully", response.getMessage());
+        assertEquals("Node updated successfully.", response.getMessage());
         verify(nodeRepository).save(node);
     }
 
@@ -103,7 +104,7 @@ class NodeServiceTest {
         NodeDto response = nodeService.update(dto);
 
         assertFalse(response.isSuccess());
-        assertEquals("Node not found", response.getMessage());
+        assertEquals("Node not found.", response.getMessage()); // added period
         verify(nodeRepository, never()).save(any());
     }
 

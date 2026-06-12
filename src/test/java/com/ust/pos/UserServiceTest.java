@@ -161,6 +161,7 @@ class UserServiceTest {
 
         Assertions.assertEquals("same@mail.com", response.getUsername());
     }
+
     @Test
     void deleteTest() {
         Mockito.doNothing()

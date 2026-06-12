@@ -101,17 +101,23 @@ class CategoryServiceTest {
         Category existingCategory = new Category();
         existingCategory.setIdentifier("Category1");
 
-        Mockito.when(modelMapper.map(categoryDto, Category.class))
-                .thenReturn(existingCategory);
         Mockito.when(categoryRepository.findByIdentifier("Category1"))
                 .thenReturn(existingCategory);
+
+        Mockito.doNothing()
+                .when(modelMapper)
+                .map(categoryDto, existingCategory);
+
         Mockito.when(categoryRepository.save(existingCategory))
                 .thenReturn(existingCategory);
 
         CategoryDto response = categoryService.update(categoryDto);
 
-        Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
+        Mockito.verify(modelMapper).map(categoryDto, existingCategory);
+        Mockito.verify(categoryRepository).save(existingCategory);
+
         Assertions.assertTrue(response.isSuccess());
+        Assertions.assertNotNull(response.getMessage());
     }
 
     @Test

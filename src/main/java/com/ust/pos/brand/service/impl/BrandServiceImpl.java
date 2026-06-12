@@ -87,14 +87,18 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public BrandDto update(BrandDto brandDto) {
         String identifier = brandDto.getIdentifier();
-        Brand brand = brandRepository.findByIdentifier(identifier);
-        if (brand != null) {
-            brandRepository.save(modelMapper.map(brandDto, Brand.class));
+        Brand existingBrand = brandRepository.findByIdentifier(identifier);
+        if (existingBrand != null) {
+            modelMapper.map(brandDto, existingBrand);
+
+            brandRepository.save(existingBrand);
+
             brandDto.setMessage("Successfully updated the brand");
             brandDto.setSuccess(true);
             return brandDto;
         }
         brandDto.setSuccess(false);
+        brandDto.setMessage("Brand not found");
         return brandDto;
     }
 

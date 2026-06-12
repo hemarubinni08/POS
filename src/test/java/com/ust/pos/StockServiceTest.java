@@ -117,13 +117,25 @@ class StockServiceTest {
     @Test
     void update_success() {
         StockDto dto = new StockDto();
-        Stock stock = new Stock();
+        dto.setId(1L);
 
-        Mockito.when(modelMapper.map(dto, Stock.class))
-                .thenReturn(stock);
+        Stock existingStock = new Stock();
+        existingStock.setId(1L);
 
-        Mockito.when(stockRepository.save(stock))
-                .thenReturn(stock);
+        Stock updatedStock = new Stock();
+
+        Mockito.when(stockRepository.findById(1L))
+                .thenReturn(java.util.Optional.of(existingStock));
+
+        Mockito.doNothing()
+                .when(modelMapper)
+                .map(dto, existingStock);
+
+        Mockito.when(stockRepository.save(existingStock))
+                .thenReturn(updatedStock);
+
+        Mockito.when(modelMapper.map(updatedStock, StockDto.class))
+                .thenReturn(new StockDto());
 
         StockDto response = stockService.update(dto);
 
@@ -137,7 +149,7 @@ class StockServiceTest {
         StockDto dto = new StockDto();
 
         Mockito.when(stockRepository.findById(1L))
-                .thenReturn(stock);
+                .thenReturn(java.util.Optional.of(stock));
 
         Mockito.when(modelMapper.map(stock, StockDto.class))
                 .thenReturn(dto);

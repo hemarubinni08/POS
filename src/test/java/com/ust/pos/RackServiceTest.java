@@ -92,17 +92,23 @@ class RackServiceTest {
         Rack existingRack = new Rack();
         existingRack.setIdentifier("Rack1");
 
-        Mockito.when(modelMapper.map(rackDto, Rack.class))
-                .thenReturn(existingRack);
         Mockito.when(rackRepository.findByIdentifier("Rack1"))
                 .thenReturn(existingRack);
+
+        Mockito.doNothing()
+                .when(modelMapper)
+                .map(rackDto, existingRack);
+
         Mockito.when(rackRepository.save(existingRack))
                 .thenReturn(existingRack);
 
         RackDto response = rackService.update(rackDto);
 
-        Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
+        Mockito.verify(modelMapper).map(rackDto, existingRack);
+        Mockito.verify(rackRepository).save(existingRack);
+
         Assertions.assertTrue(response.isSuccess());
+        Assertions.assertNotNull(response.getMessage());
     }
 
     @Test

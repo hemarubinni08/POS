@@ -91,12 +91,13 @@ public class RackServiceImpl implements RackService {
     @Override
     public RackDto update(RackDto rackDto) {
         String identifier = rackDto.getIdentifier();
-        Rack rack = rackRepository.findByIdentifier(identifier);
-        if (rack == null) {
+        Rack existingRack = rackRepository.findByIdentifier(identifier);
+        if (existingRack == null) {
             rackDto.setMessage("Rack not found");
             rackDto.setSuccess(false);
         } else {
-            rackRepository.save(modelMapper.map(rackDto, Rack.class));
+            modelMapper.map(rackDto, existingRack);
+            rackRepository.save(existingRack);
             rackDto.setMessage("Rack updated successfully");
             rackDto.setSuccess(true);
         }
@@ -115,7 +116,6 @@ public class RackServiceImpl implements RackService {
             return response;
         }
 
-        // Toggle status
         rack.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

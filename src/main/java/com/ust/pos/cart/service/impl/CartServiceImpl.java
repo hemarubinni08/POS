@@ -31,7 +31,6 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private CartEntryRepository cartEntryRepository;
 
-    // method to retrieve all cart records from the database
     @Override
     public List<CartDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CartDto>>() {

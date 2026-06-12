@@ -38,29 +38,48 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public NodeDto save(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
+        String path = nodeDto.getPath();
 
         if (nodeRepository.findByIdentifier(identifier) != null) {
             nodeDto.setSuccess(false);
+            nodeDto.setMessage("A node with this identifier already exists.");
+            return nodeDto;
+        }
+
+        if (nodeRepository.findByPath(path) != null) {
+            nodeDto.setSuccess(false);
+            nodeDto.setMessage("A node with this path already exists.");
             return nodeDto;
         }
 
         Node node = modelMapper.map(nodeDto, Node.class);
         nodeRepository.save(node);
         nodeDto.setSuccess(true);
+        nodeDto.setMessage("Node created successfully.");
         return nodeDto;
     }
 
     public NodeDto update(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
-        Node node = nodeRepository.findByIdentifier(identifier);
-        if (node == null) {
-            nodeDto.setMessage("Node not found");
+        String path = nodeDto.getPath();
+
+        Node existingNode = nodeRepository.findByIdentifier(identifier);
+        if (existingNode == null) {
+            nodeDto.setMessage("Node not found.");
             nodeDto.setSuccess(false);
             return nodeDto;
         }
 
-        nodeRepository.save(modelMapper.map(nodeDto, Node.class));
-        nodeDto.setMessage("Node updated successfully");
+        Node nodeWithSamePath = nodeRepository.findByPath(path);
+        if (nodeWithSamePath != null && !nodeWithSamePath.getIdentifier().equals(identifier)) {
+            nodeDto.setMessage("A node with this path already exists.");
+            nodeDto.setSuccess(false);
+            return nodeDto;
+        }
+
+        modelMapper.map(nodeDto, existingNode);
+        nodeRepository.save(existingNode);
+        nodeDto.setMessage("Node updated successfully.");
         nodeDto.setSuccess(true);
 
         return nodeDto;

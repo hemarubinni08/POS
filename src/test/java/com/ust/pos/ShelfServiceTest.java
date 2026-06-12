@@ -181,12 +181,19 @@ class ShelfServiceTest {
 
         Mockito.when(shelfRepository.findByIdentifier("Shelf1"))
                 .thenReturn(shelf);
-        Mockito.when(modelMapper.map(shelfDto, Shelf.class))
+
+        Mockito.doNothing()
+                .when(modelMapper)
+                .map(shelfDto, shelf);
+
+        Mockito.when(shelfRepository.save(shelf))
                 .thenReturn(shelf);
 
         ShelfDto response = shelfService.update(shelfDto);
 
+        Mockito.verify(modelMapper).map(shelfDto, shelf);
         Mockito.verify(shelfRepository).save(shelf);
+
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Shelf updated successfully", response.getMessage());
     }

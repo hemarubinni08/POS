@@ -153,11 +153,13 @@ class UnitServiceTest {
         Unit unit = new Unit();
 
         Mockito.when(unitRepository.findByIdentifier("U1")).thenReturn(unit);
-        Mockito.when(modelMapper.map(dto, Unit.class)).thenReturn(unit);
+
+        Mockito.doNothing().when(modelMapper).map(dto, unit);
 
         UnitDto response = unitService.update(dto);
 
         Mockito.verify(unitRepository).save(unit);
+        Mockito.verify(modelMapper).map(dto, unit);
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Unit updated successfully", response.getMessage());

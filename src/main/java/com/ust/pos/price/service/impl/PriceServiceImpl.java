@@ -135,7 +135,10 @@ public class PriceServiceImpl implements PriceService {
             return priceDto;
         }
 
-        priceRepository.save(modelMapper.map(priceDto, Price.class));
+        Price existingPrice = priceOptional.get();
+
+        modelMapper.map(priceDto, existingPrice);
+        priceRepository.save(existingPrice);
         priceDto.setMessage("Successfully updated price");
         priceDto.setSuccess(true);
 

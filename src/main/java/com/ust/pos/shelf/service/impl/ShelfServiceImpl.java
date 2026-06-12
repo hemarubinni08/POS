@@ -99,7 +99,6 @@ public class ShelfServiceImpl implements ShelfService {
             return response;
         }
 
-        // Toggle status
         shelf.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
@@ -110,14 +109,15 @@ public class ShelfServiceImpl implements ShelfService {
     @Override
     public ShelfDto update(ShelfDto shelfDto) {
         String identifier = shelfDto.getIdentifier();
-        Shelf shelf = shelfRepository.findByIdentifier(identifier);
-        if (shelf == null) {
+        Shelf existingShelf = shelfRepository.findByIdentifier(identifier);
+        if (existingShelf == null) {
             shelfDto.setMessage("Shelf not found");
             shelfDto.setSuccess(false);
             return shelfDto;
         }
 
-        shelfRepository.save(modelMapper.map(shelfDto, Shelf.class));
+        modelMapper.map(shelfDto, existingShelf);
+        shelfRepository.save(existingShelf);
         shelfDto.setMessage("Shelf updated successfully");
         shelfDto.setSuccess(true);
 
