@@ -7,9 +7,10 @@ import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/brand")
@@ -31,8 +32,8 @@ public class BrandRestController extends BaseController {
 
 
     @PostMapping("/add")
-    public BrandDto addPost(@RequestBody BrandDto userDto) {
-        return brandService.save(userDto);
+    public BrandDto addPost(@RequestBody BrandDto brandDto) {
+        return brandService.save(brandDto);
     }
 
     @PostMapping("/get")
@@ -41,8 +42,8 @@ public class BrandRestController extends BaseController {
     }
 
     @PostMapping("/update")
-    public BrandDto updatePost(@RequestBody BrandDto userDto) {
-        return brandService.update(userDto);
+    public BrandDto updatePost(@RequestBody BrandDto brandDto) {
+        return brandService.update(brandDto);
     }
 
     @PostMapping("/delete")

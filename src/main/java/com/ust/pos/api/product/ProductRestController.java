@@ -7,16 +7,15 @@ import com.ust.pos.dto.WsDto;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/product")
 public class ProductRestController extends BaseController {
 
-    public static final String REDIRECT_ROLE_LIST = "redirect:/product/list";
-    public static final String ROLE_ADD = "product/add";
     @Autowired
     private ProductService productService;
 
@@ -29,8 +28,8 @@ public class ProductRestController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ProductDto addPost(@RequestBody ProductDto userDto) {
-        return productService.save(userDto);
+    public ProductDto addPost(@RequestBody ProductDto productDto) {
+        return productService.save(productDto);
     }
 
     @PostMapping("/get")
@@ -39,8 +38,8 @@ public class ProductRestController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ProductDto updatePost(@RequestBody ProductDto userDto) {
-        return productService.update(userDto);
+    public ProductDto updatePost(@RequestBody ProductDto productDto) {
+        return productService.update(productDto);
     }
 
     @PostMapping("/delete")

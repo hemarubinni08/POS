@@ -23,13 +23,13 @@ public class ProductController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute ProductDto userDto) {
+    public String add(Model model, @ModelAttribute ProductDto productDto) {
         return ROLE_ADD;
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute ProductDto userDto) {
-        ProductDto response = productService.save(userDto);
+    public String addPost(Model model, @ModelAttribute ProductDto productDto) {
+        ProductDto response = productService.save(productDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return ROLE_ADD;
@@ -45,8 +45,8 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute ProductDto userDto) {
-        ProductDto response = productService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute ProductDto productDto) {
+        ProductDto response = productService.update(productDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return ROLE_ADD;

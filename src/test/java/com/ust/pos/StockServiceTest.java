@@ -1,20 +1,23 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.impl.StockServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.*;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -128,9 +131,9 @@ class StockServiceImplTest {
         doReturn(dtoList).when(modelMapper)
                 .map(anyList(), any(java.lang.reflect.Type.class));
 
-        List<StockDto> result = stockService.findAll(pageable);
+        WsDto<StockDto> result = stockService.findAll(pageable);
 
-        assertEquals(1, result.size());
+        assertEquals(1, result.getDtoList().size());
     }
 
     @Test

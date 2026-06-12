@@ -17,7 +17,7 @@ public interface CartEntryService {
 
     BigDecimal getSellingPriceAmount(String product);
 
-    BigDecimal getDiscountPriceAmount(String product,BigDecimal quantity);
+    BigDecimal getDiscountPriceAmount(String product, BigDecimal quantity);
 
     BigDecimal getTotalPrice(String product, BigDecimal quantity);
 

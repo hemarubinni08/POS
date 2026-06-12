@@ -5,7 +5,6 @@ import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,12 +33,12 @@ public class TokenGenerationController {
     public UserDto authenticate(@RequestBody UserDto userDto) {
         try {
             authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(
-                            userDto.getUsername(),
-                            userDto.getPassword()));
+                    userDto.getUsername(),
+                    userDto.getPassword()));
             UserDetails userDetails = userDetailsService.loadUserByUsername(
                     userDto.getUsername());
-            final String token =jwtUtility.generateToken(userDetails);
-            UserDto response =userService.findByUserName(userDto.getUsername());
+            final String token = jwtUtility.generateToken(userDetails);
+            UserDto response = userService.findByUserName(userDto.getUsername());
             response.setToken(token);
             return response;
         } catch (Exception e) {

@@ -1,9 +1,7 @@
 package com.ust.pos.unit.service.impl;
 
-import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.UnitDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Node;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
 import com.ust.pos.unit.service.UnitService;

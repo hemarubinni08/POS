@@ -7,9 +7,10 @@ import com.ust.pos.dto.WsDto;
 import com.ust.pos.models.service.ModelsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/models")
@@ -29,8 +30,8 @@ public class ModelsRestController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ModelsDto addPost(@RequestBody ModelsDto userDto) {
-        return modelsService.save(userDto);
+    public ModelsDto addPost(@RequestBody ModelsDto modelsDto) {
+        return modelsService.save(modelsDto);
     }
 
     @PostMapping("/get")
@@ -39,8 +40,8 @@ public class ModelsRestController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ModelsDto updatePost(@RequestBody ModelsDto userDto) {
-        return modelsService.update(userDto);
+    public ModelsDto updatePost(@RequestBody ModelsDto modelsDto) {
+        return modelsService.update(modelsDto);
     }
 
     @PostMapping("/delete")

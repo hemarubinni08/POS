@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,10 +72,10 @@ public class CartServiceImpl implements CartService {
     public List<CartDto> findAll(Pageable pageable) {
         List<CartDto> cartDtoList = new ArrayList<>();
         Page<Cart> cartPage = cartRepository.findAll(pageable);
-        for (Cart cart : cartPage.getContent()){
-            cartDtoList.add(modelMapper.map(cart,CartDto.class));
+        for (Cart cart : cartPage.getContent()) {
+            cartDtoList.add(modelMapper.map(cart, CartDto.class));
         }
-        for (CartDto cartDto : cartDtoList){
+        for (CartDto cartDto : cartDtoList) {
             cartDto.setCartEntryDtoList(cartEntryService.findByCartId(cartDto.getIdentifier()));
         }
         return cartDtoList;

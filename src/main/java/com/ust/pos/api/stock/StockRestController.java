@@ -7,9 +7,11 @@ import com.ust.pos.dto.WsDto;
 import com.ust.pos.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/stock")
@@ -29,8 +31,8 @@ public class StockRestController extends BaseController {
     }
 
     @PostMapping("/add")
-    public StockDto addPost(@RequestBody StockDto userDto) {
-        return stockService.save(userDto);
+    public StockDto addPost(@RequestBody StockDto stockDto) {
+        return stockService.save(stockDto);
     }
 
     @PostMapping("/get")
@@ -39,8 +41,8 @@ public class StockRestController extends BaseController {
     }
 
     @PostMapping("/update")
-    public StockDto updatePost(@RequestBody StockDto userDto) {
-        return stockService.update(userDto);
+    public StockDto updatePost(@RequestBody StockDto stockDto) {
+        return stockService.update(stockDto);
     }
 
     @PostMapping("/delete")

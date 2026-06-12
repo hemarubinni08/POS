@@ -38,8 +38,8 @@ public class RacksController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute RacksDto userDto, Pageable pageable) {
-        RacksDto response = racksService.save(userDto);
+    public String addPost(Model model, @ModelAttribute RacksDto racksDto, Pageable pageable) {
+        RacksDto response = racksService.save(racksDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -58,8 +58,8 @@ public class RacksController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RacksDto userDto, Pageable pageable) {
-        RacksDto response = racksService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute RacksDto racksDto, Pageable pageable) {
+        RacksDto response = racksService.update(racksDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());

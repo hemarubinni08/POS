@@ -1,9 +1,8 @@
 package com.ust.pos.shelf.service.impl;
 
-import com.ust.pos.dto.NodeDto;
+
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Node;
 import com.ust.pos.model.Shelf;
 import com.ust.pos.model.ShelfRepository;
 import com.ust.pos.shelf.service.ShelfService;

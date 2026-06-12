@@ -41,7 +41,7 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Override
     public CartEntryDto save(CartEntryDto cartEntryDto) {
-        cartEntryDto.setIdentifier(cartEntryDto.getCartId()+"_"+cartEntryDto.getProduct());
+        cartEntryDto.setIdentifier(cartEntryDto.getCartId() + "_" + cartEntryDto.getProduct());
 
         String identifier = cartEntryDto.getIdentifier();
         CartEntry existingCartEntry = cartEntryRepository.findByIdentifier(identifier);
@@ -50,15 +50,15 @@ public class CartEntryServiceImpl implements CartEntryService {
         }
 
 
-        cartEntryDto.setDiscount(getDiscountPriceAmount(cartEntryDto.getProduct(),cartEntryDto.getQuantity()));
-        cartEntryDto.setTotalPrice(getTotalPrice(cartEntryDto.getProduct(),cartEntryDto.getQuantity()));
+        cartEntryDto.setDiscount(getDiscountPriceAmount(cartEntryDto.getProduct(), cartEntryDto.getQuantity()));
+        cartEntryDto.setTotalPrice(getTotalPrice(cartEntryDto.getProduct(), cartEntryDto.getQuantity()));
         cartEntryDto.setUnitPrice(getSellingPriceAmount(cartEntryDto.getProduct()));
         cartEntryDto.setTotalOriginalPrice(cartEntryDto.getTotalPrice().add(cartEntryDto.getDiscount()));
 
-        if(existingCartEntry != null){
+        if (existingCartEntry != null) {
             modelMapper.map(cartEntryDto, existingCartEntry);
             cartEntryRepository.save(existingCartEntry);
-        }else{
+        } else {
             CartEntry cartEntry = modelMapper.map(cartEntryDto, CartEntry.class);
             cartEntryRepository.save(cartEntry);
         }
@@ -69,7 +69,7 @@ public class CartEntryServiceImpl implements CartEntryService {
     @Override
     @Transactional
     public void delete(String cartId, String product) {
-        cartEntryRepository.deleteByCartIdAndProduct(cartId,product);
+        cartEntryRepository.deleteByCartIdAndProduct(cartId, product);
         recalculate(cartId);
     }
 
@@ -83,14 +83,14 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Override
     public BigDecimal getSellingPriceAmount(String product) {
-        PriceDto sellingPrice = priceService.findByProductAndPriceType(product,"Selling price");
+        PriceDto sellingPrice = priceService.findByProductAndPriceType(product, "Selling price");
         return sellingPrice.getPriceAmount();
     }
 
     @Override
-    public BigDecimal getDiscountPriceAmount(String product,BigDecimal quantity) {
-        PriceDto mrp = priceService.findByProductAndPriceType(product,"MRP");
-        PriceDto sellingPrice = priceService.findByProductAndPriceType(product,"Selling price");
+    public BigDecimal getDiscountPriceAmount(String product, BigDecimal quantity) {
+        PriceDto mrp = priceService.findByProductAndPriceType(product, "MRP");
+        PriceDto sellingPrice = priceService.findByProductAndPriceType(product, "Selling price");
         return (mrp.getPriceAmount().subtract(sellingPrice.getPriceAmount())).multiply(quantity);
     }
 
@@ -107,7 +107,7 @@ public class CartEntryServiceImpl implements CartEntryService {
         BigDecimal cartEntryTotaldiscount = new BigDecimal(0);
         BigDecimal cartEntryTotalOriginalDiscount = new BigDecimal(0);
 
-        for (CartEntry cartEntry : cartEntries){
+        for (CartEntry cartEntry : cartEntries) {
             cartEntryTotalPrice = cartEntryTotalPrice.add(cartEntry.getTotalPrice());
             cartEntryTotaldiscount = cartEntryTotaldiscount.add(cartEntry.getDiscount());
             cartEntryTotalOriginalDiscount = cartEntryTotalOriginalDiscount.add(cartEntry.getTotalOrignalPrice());
