@@ -21,7 +21,7 @@ public class BrandControllerApi extends BaseController {
     @PostMapping("/list")
     public WsDto<BrandDto> listCategories(@RequestBody PaginationDto paginationDto) {
 
-        Pageable pageable = getPageable(paginationDto.getPage(),paginationDto.getSizePerPage(),paginationDto.getSortDirection(),paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return brandService.findAll(pageable);
 
     }
@@ -63,6 +63,7 @@ public class BrandControllerApi extends BaseController {
         return brandService.changeBrandStatus(brandDto.getIdentifier(), brandDto.isStatus());
 
     }
+
     @GetMapping("/findAllActive")
     public List<BrandDto> allactive() {
         return brandService.findActiveBrand();

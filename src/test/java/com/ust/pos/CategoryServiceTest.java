@@ -7,11 +7,11 @@ import com.ust.pos.model.CategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.*;
 
 import java.lang.reflect.Type;
@@ -156,5 +156,63 @@ class CategoryServiceTest {
 
         assertFalse(result.isEmpty());
         assertEquals("MAIN", result.get(0).getSupercategory());
+    }
+
+    @Test
+    void save_shouldFail_whenCategoryAlreadyExists() {
+        CategoryDto dto = new CategoryDto();
+        dto.setIdentifier("FOOD");
+
+        Category existing = new Category();
+        existing.setIdentifier("FOOD");
+
+        when(categoryRepository.findByIdentifier("FOOD"))
+                .thenReturn(existing);
+
+        CategoryDto result = categoryService.save(dto);
+
+        assertFalse(result.isSuccess());
+        assertEquals(
+                "Category with identifier - FOOD already exists",
+                result.getMessage()
+        );
+
+        verify(categoryRepository, never()).save(any());
+    }
+
+    @Test
+    void changeCategoryStatusTest() {
+        Category category = new Category();
+        category.setIdentifier("FOOD");
+        category.setStatus(false);
+
+        CategoryDto dto = new CategoryDto();
+        dto.setIdentifier("FOOD");
+        dto.setStatus(true);
+
+        when(categoryRepository.findByIdentifier("FOOD"))
+                .thenReturn(category);
+        when(categoryRepository.save(category))
+                .thenReturn(category);
+        when(modelMapper.map(category, CategoryDto.class))
+                .thenReturn(dto);
+
+        CategoryDto result = categoryService.changeCategoryStatus("FOOD", true);
+
+        assertNotNull(result);
+        assertTrue(result.isStatus());
+        assertEquals("FOOD", result.getIdentifier());
+
+        verify(categoryRepository, times(1)).save(category);
+    }
+
+    @Test
+    void changeCategoryStatus_NotFound() {
+        when(categoryRepository.findByIdentifier("FOOD"))
+                .thenReturn(null);
+
+        CategoryDto result = categoryService.changeCategoryStatus("FOOD", true);
+
+        assertNull(result);
     }
 }

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class PriceDto extends CommonDto{
+public class PriceDto extends CommonDto {
 
     private BigDecimal costPrice;
     private BigDecimal sellingPrice;

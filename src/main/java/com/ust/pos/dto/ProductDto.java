@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ProductDto extends CommonDto{
+public class ProductDto extends CommonDto {
     private String description;
     private List<String> category;
     private String brand;

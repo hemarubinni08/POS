@@ -53,7 +53,7 @@ public class WebSecurityConfig {
 
     @Bean
 
-    public SecurityFilterChain filterChain(HttpSecurity http) {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
@@ -66,7 +66,7 @@ public class WebSecurityConfig {
 
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 
-                        .requestMatchers("/login", "/register", "/api/authenticate","/api/user/add","/api/role/list","/api/role/findAllActive", "/api/validateToken","/swagger-ui/**","/v3/**").permitAll()
+                        .requestMatchers("/login", "/register", "/api/authenticate", "/api/user/add", "/api/role/list", "/api/role/findAllActive", "/api/validateToken", "/swagger-ui/**", "/v3/**").permitAll()
 
                         .anyRequest().authenticated()
 
@@ -104,7 +104,7 @@ public class WebSecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:3000","http://localhost:5173")); // Allow the specific origin
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173")); // Allow the specific origin
 
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 

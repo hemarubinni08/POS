@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Transactional
-public interface CartRepository extends JpaRepository<Cart,Long>{
+public interface CartRepository extends JpaRepository<Cart, Long> {
 
     Cart findByIdentifier(String identifier);
 

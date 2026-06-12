@@ -4,17 +4,23 @@ import com.ust.pos.address.service.AddressService;
 import com.ust.pos.customer.service.impl.CustomerServiceImpl;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
-import com.ust.pos.model.*;
+import com.ust.pos.model.Address;
+import com.ust.pos.model.AddressRepository;
+import com.ust.pos.model.Customer;
+import com.ust.pos.model.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.*;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -35,8 +41,6 @@ class CustomerServiceTest {
     @InjectMocks
     CustomerServiceImpl customerService;
 
-    // ---------------- SAVE ----------------
-
     @Test
     void saveCustomerSuccess() {
         CustomerDto dto = new CustomerDto();
@@ -48,7 +52,6 @@ class CustomerServiceTest {
         Mockito.when(customerRepository.findByPhoneNum("111"))
                 .thenReturn(null);
 
-        //  CORRECT ModelMapper stub
         Mockito.doAnswer(invocation -> null)
                 .when(modelMapper)
                 .map(Mockito.any(CustomerDto.class), Mockito.any(Customer.class));
@@ -76,8 +79,6 @@ class CustomerServiceTest {
 
         Assertions.assertFalse(response.isSuccess());
     }
-
-    // ---------------- FIND BY IDENTIFIER ----------------
 
     @Test
     void findByIdentifierSuccess() {
@@ -113,8 +114,6 @@ class CustomerServiceTest {
         );
     }
 
-    // ---------------- CHANGE STATUS ----------------
-
     @Test
     void changeCustomerStatusSuccess() {
         Customer customer = new Customer();
@@ -145,8 +144,6 @@ class CustomerServiceTest {
         Assertions.assertNull(response);
     }
 
-    // ---------------- FIND ALL ----------------
-
     @Test
     void findAllCustomers() {
         Page<Customer> page = new PageImpl<>(List.of(new Customer()));
@@ -154,7 +151,8 @@ class CustomerServiceTest {
         Mockito.when(customerRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(page);
 
-        Type listType = new TypeToken<List<CustomerDto>>(){}.getType();
+        Type listType = new TypeToken<List<CustomerDto>>() {
+        }.getType();
         Mockito.when(modelMapper.map(Mockito.any(), Mockito.eq(listType)))
                 .thenReturn(List.of(new CustomerDto()));
 
@@ -163,8 +161,6 @@ class CustomerServiceTest {
 
         Assertions.assertEquals(1, result.size());
     }
-
-    // ---------------- UPDATE ----------------
 
     @Test
     void updateCustomerSuccess() {
@@ -245,8 +241,6 @@ class CustomerServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    // ---------------- FIND BY ID ----------------
-
     @Test
     void findByIdSuccess() {
         Mockito.when(customerRepository.findById(1L))
@@ -269,8 +263,6 @@ class CustomerServiceTest {
                 () -> customerService.findById(1L)
         );
     }
-
-    // ---------------- DELETE ----------------
 
     @Test
     void deleteByIdentifier() {

@@ -12,9 +12,9 @@ import org.springframework.data.domain.Sort;
 @ToString
 public class PaginationDto {
     private int page;
-    private int sizePerPage=50;
+    private int sizePerPage = 50;
     private String sortDirection = Sort.Direction.DESC.toString();
-    private String sortField="identifier";
+    private String sortField = "identifier";
     private int totalPages;
     private Long totalRecords;
 }

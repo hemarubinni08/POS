@@ -52,7 +52,7 @@ public class CartEntryServiceImpl implements CartEntryService {
     @Override
     public void deleteAllByCart(String cart) {
         List<CartEntry> cartEntries = cartEntryRepository.findByCart(cart);
-        if(cartEntries.isEmpty()){
+        if (cartEntries.isEmpty()) {
             return;
         }
         cartEntryRepository.deleteAll(cartEntries);
@@ -60,9 +60,9 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Override
     public void deleteByIdentifier(String identifier) {
-        CartEntry cartEntry=cartEntryRepository.findByIdentifier(identifier);
-        if(cartEntry==null){
-            throw  new IllegalArgumentException("CartEntry not found");
+        CartEntry cartEntry = cartEntryRepository.findByIdentifier(identifier);
+        if (cartEntry == null) {
+            throw new IllegalArgumentException("CartEntry not found");
         }
         cartEntryRepository.deleteByIdentifier(identifier);
     }

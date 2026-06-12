@@ -65,6 +65,7 @@ public class NodeControllerApi extends BaseController {
     public NodeDto changestatus(@RequestBody NodeDto nodeDto) {
         return nodeService.changeNodeStatus(nodeDto.getIdentifier(), nodeDto.isStatus());
     }
+
     @GetMapping("/findAllActive")
     public List<NodeDto> allactive() {
         return nodeService.findActiveNode();

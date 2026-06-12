@@ -57,6 +57,7 @@ public class ProductControllerApi extends BaseController {
         return productService.changeProductStatus(productDto.getIdentifier(), productDto.isStatus());
 
     }
+
     @GetMapping("/findAllActive")
     public List<ProductDto> allactive() {
         return productService.findAllActiveProduct();

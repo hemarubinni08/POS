@@ -52,6 +52,7 @@ public class ProductServiceImpl implements ProductService {
 
         return productWsDto;
     }
+
     @Override
     public ProductDto update(ProductDto productDto) {
         Product product = productRepository.findByIdentifier(productDto.getIdentifier());

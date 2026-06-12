@@ -1,7 +1,10 @@
 package com.ust.pos.api.role;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.*;
+import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.RacksDto;
+import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -58,6 +61,7 @@ public class RoleControllerApi extends BaseController {
     public RoleDto toggle(@RequestBody RacksDto rolesDto) {
         return roleService.changeRoleStatus(rolesDto.getIdentifier(), rolesDto.isStatus());
     }
+
     @GetMapping("/findAllActive")
     public List<RoleDto> allactive() {
         return roleService.findActiveRole();

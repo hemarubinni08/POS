@@ -1,7 +1,6 @@
 package com.ust.pos.cart.service.impl;
 
 import com.ust.pos.cart.service.CartService;
-
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartDto;
 import com.ust.pos.dto.CartEntryDto;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.List;
+
 @Service
 public class CartServiceImpl implements CartService {
 
@@ -52,7 +52,7 @@ public class CartServiceImpl implements CartService {
         BigDecimal totalDiscount = BigDecimal.ZERO;
 
 
-        for(CartEntryDto cartEntryDto: cartEntries){
+        for (CartEntryDto cartEntryDto : cartEntries) {
             totalPrice = totalPrice.add(cartEntryDto.getTotalPrice());
             totalDiscount = totalDiscount.add(cartEntryDto.getDiscount());
         }

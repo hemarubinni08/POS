@@ -3,8 +3,8 @@ package com.ust.pos.models.service.impl;
 import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Models;
-import com.ust.pos.models.service.ModelsService;
 import com.ust.pos.model.ModelsRepository;
+import com.ust.pos.models.service.ModelsService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,10 @@ public class ModelsServiceImpl implements ModelsService {
     @Override
     public ModelsDto save(ModelsDto modelsDto) {
 
-        Models existingModels=modelsRepository.findByIdentifier(modelsDto.getIdentifier());
-        if(existingModels!=null)
-        {
+        Models existingModels = modelsRepository.findByIdentifier(modelsDto.getIdentifier());
+        if (existingModels != null) {
             modelsDto.setSuccess(false);
-            modelsDto.setMessage("Models with Identifier"+modelsDto.getIdentifier()+"already exist!");
+            modelsDto.setMessage("Models with Identifier" + modelsDto.getIdentifier() + "already exist!");
             return modelsDto;
         }
         Models models = modelMapper.map(modelsDto, Models.class);

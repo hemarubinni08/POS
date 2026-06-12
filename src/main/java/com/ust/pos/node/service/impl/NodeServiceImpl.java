@@ -1,9 +1,11 @@
 package com.ust.pos.node.service.impl;
 
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.*;
+import com.ust.pos.model.Node;
+import com.ust.pos.model.NodeRepository;
+import com.ust.pos.model.User;
+import com.ust.pos.model.UserRepository;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -70,7 +72,7 @@ public class NodeServiceImpl implements NodeService {
             node.setStatus(status);
             nodeRepository.save(node);
         }
-        return modelMapper.map(node,NodeDto.class);
+        return modelMapper.map(node, NodeDto.class);
     }
 
     @Override

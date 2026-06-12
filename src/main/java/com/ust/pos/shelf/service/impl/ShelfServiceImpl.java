@@ -65,7 +65,8 @@ public class ShelfServiceImpl implements ShelfService {
     @Override
     public WsDto<ShelfDto> findAll(Pageable pageable) {
 
-        Type listType = new TypeToken<List<ShelfDto>>() {}.getType();
+        Type listType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
         Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
         WsDto<ShelfDto> shelfWsDto = new WsDto<>();
         shelfWsDto.setDtoList(modelMapper.map(shelfPage.getContent(), listType));

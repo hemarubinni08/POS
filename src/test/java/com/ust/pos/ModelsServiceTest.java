@@ -7,13 +7,16 @@ import com.ust.pos.models.service.impl.ModelsServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.*;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -30,8 +33,6 @@ class ModelsServiceTest {
 
     @InjectMocks
     private ModelsServiceImpl modelsService;
-
-    /* ================= SAVE ================= */
 
     @Test
     void saveSuccess() {
@@ -68,8 +69,6 @@ class ModelsServiceTest {
         Mockito.verify(modelsRepository, Mockito.never()).save(Mockito.any());
     }
 
-    /* ================= FIND BY ID ================= */
-
     @Test
     void findByIdSuccess() {
         Models models = new Models();
@@ -98,8 +97,6 @@ class ModelsServiceTest {
         Assertions.assertTrue(exception.getMessage().contains("Models not found"));
     }
 
-    /* ================= FIND ALL ================= */
-
     @Test
     void findAllSuccess() {
         Models models = new Models();
@@ -110,7 +107,8 @@ class ModelsServiceTest {
         Mockito.when(modelsRepository.findAll(Mockito.any(Pageable.class)))
                 .thenReturn(page);
 
-        Type listType = new TypeToken<List<ModelsDto>>() {}.getType();
+        Type listType = new TypeToken<List<ModelsDto>>() {
+        }.getType();
         Mockito.when(modelMapper.map(page.getContent(), listType))
                 .thenReturn(List.of(dto));
 
@@ -119,8 +117,6 @@ class ModelsServiceTest {
 
         Assertions.assertEquals(1, response.size());
     }
-
-    /* ================= UPDATE ================= */
 
     @Test
     void updateSuccess() {
@@ -152,8 +148,6 @@ class ModelsServiceTest {
         Assertions.assertFalse(response.isSuccess());
     }
 
-    /* ================= CHANGE STATUS ================= */
-
     @Test
     void changeModelsStatusSuccess() {
         Models models = new Models();
@@ -170,8 +164,6 @@ class ModelsServiceTest {
 
         Assertions.assertNotNull(response);
     }
-
-    /* ================= DELETE ================= */
 
     @Test
     void deleteByIdSuccess() {

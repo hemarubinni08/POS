@@ -72,6 +72,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         return categoryWsDto;
     }
+
     @Override
     public void deleteById(Long id) {
         categoryRepository.deleteById(id);

@@ -99,10 +99,12 @@ public class UserServiceImpl implements UserService {
         user.setMessage("User deleted");
         return user;
     }
+
     @Override
     public WsDto<UserDto> findAll(Pageable pageable) {
 
-        Type listType = new TypeToken<List<UserDto>>() {}.getType();
+        Type listType = new TypeToken<List<UserDto>>() {
+        }.getType();
         Page<User> userPage = userRepository.findAll(pageable);
         WsDto<UserDto> userWsDto = new WsDto<>();
         userWsDto.setDtoList(modelMapper.map(userPage.getContent(), listType));

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ModelsRepository extends JpaRepository<Models,Long> {
+public interface ModelsRepository extends JpaRepository<Models, Long> {
 
     Models findByIdentifier(String identifier);
 

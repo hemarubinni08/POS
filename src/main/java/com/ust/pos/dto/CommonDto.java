@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CommonDto   {
+public class CommonDto {
     private Long id;
     private String identifier;
     private String name;
     private String message;
     private boolean success = true;
-    private boolean status=true;
+    private boolean status = true;
 }

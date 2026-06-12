@@ -2,10 +2,9 @@ package com.ust.pos.api.cart;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.cart.service.CartService;
-
 import com.ust.pos.cartentry.service.CartEntryService;
-import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.CartDto;
+import com.ust.pos.dto.CartEntryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +28,7 @@ public class CartControllerApi extends BaseController {
     }
 
     @PostMapping("/addToCart")
-    public CartDto addtocart(@RequestBody CartEntryDto cartEntryDto)
-    {
+    public CartDto addtocart(@RequestBody CartEntryDto cartEntryDto) {
         return cartService.recalculate(cartEntryDto.getCart());
     }
 
@@ -45,13 +43,13 @@ public class CartControllerApi extends BaseController {
     }
 
     @GetMapping("/deleteEntry")
-    public boolean deleteEntry(@RequestBody CartEntryDto cartEntryDto){
-        String identifier= cartEntryDto.getProduct()+"-"+cartEntryDto.getCart();
-        try{
+    public boolean deleteEntry(@RequestBody CartEntryDto cartEntryDto) {
+        String identifier = cartEntryDto.getProduct() + "-" + cartEntryDto.getCart();
+        try {
             cartEntryService.deleteByIdentifier(identifier);
             cartService.recalculate(cartEntryDto.getCart());
         } catch (Exception e) {
-            return  false;
+            return false;
         }
         return true;
     }

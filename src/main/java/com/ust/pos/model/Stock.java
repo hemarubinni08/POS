@@ -9,8 +9,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Stock extends CommonFields{
-   
+public class Stock extends CommonFields {
+
     private List<String> warehouse;
     private Integer quantity;
     private Double unitPrice;

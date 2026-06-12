@@ -23,13 +23,14 @@ import javax.sql.DataSource;
 public class PosApplication {
     @Autowired
     Environment environment;
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(PosApplication.class, args);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -53,9 +54,8 @@ public class PosApplication {
         ds.setUrl(environment.getProperty("spring.datasource.url"));
         ds.setUsername(environment.getProperty("spring.datasource.username"));
         ds.setPassword(environment.getProperty("spring.datasource.password"));
-        String driverClass =environment.getProperty("spring.datasource.driver-class-name");
-        if(driverClass != null)
-        {
+        String driverClass = environment.getProperty("spring.datasource.driver-class-name");
+        if (driverClass != null) {
             ds.setDriverClassName(driverClass);
         }
         return ds;

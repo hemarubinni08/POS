@@ -61,6 +61,7 @@ public class RacksServiceImpl implements RacksService {
 
         return racksWsDto;
     }
+
     @Override
     public void deleteById(Long id) {
         racksRepository.deleteById(id);
