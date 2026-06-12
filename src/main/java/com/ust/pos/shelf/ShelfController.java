@@ -30,7 +30,7 @@ public class ShelfController {
     }
 
     @PostMapping("/add")
-    public String doadd(Model model, @ModelAttribute ShelfDto shelfDto) {
+    public String doAdd(Model model, @ModelAttribute ShelfDto shelfDto) {
         ShelfDto shelfDto1 = shelfService.save(shelfDto);
         if (!shelfDto1.isSuccess()) {
             model.addAttribute("message", shelfDto1.getMessage());

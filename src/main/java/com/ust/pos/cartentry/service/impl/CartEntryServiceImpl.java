@@ -21,6 +21,7 @@ import java.util.List;
 @Service
 @Transactional
 public class CartEntryServiceImpl implements CartEntryService {
+
     @Autowired
     private PriceService priceService;
 

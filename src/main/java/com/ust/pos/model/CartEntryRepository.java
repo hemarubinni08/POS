@@ -12,5 +12,4 @@ public interface CartEntryRepository extends JpaRepository<CartEntry,Long > {
     void deleteByIdentifier(String identifier);
 
     List<CartEntry> findByCartId(String cart);
-
 }
