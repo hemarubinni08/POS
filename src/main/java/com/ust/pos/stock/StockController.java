@@ -18,12 +18,11 @@ public class StockController {
     public static final String REDIRECT_STOCK_LIST = "redirect:/stock/list";
     public static final String WAREHOUSES = "warehouses";
     public static final String PRODUCTS = "products";
+
     @Autowired
     private StockService stockService;
-
     @Autowired
     private ProductService productService;
-
     @Autowired
     private WarehouseService warehouseService;
 
@@ -34,18 +33,10 @@ public class StockController {
     }
 
     @GetMapping("/add")
-    public String add(Model model,
-                      Pageable pageable,
-                      @ModelAttribute StockDto stockDto) {
-
+    public String add(Model model, Pageable pageable, @ModelAttribute StockDto stockDto) {
         model.addAttribute(STOCKS, new StockDto());
-
-        model.addAttribute(PRODUCTS,
-                productService.findAll(pageable));
-
-        model.addAttribute(WAREHOUSES,
-                warehouseService.findAll(pageable));
-
+        model.addAttribute(PRODUCTS, productService.findAll(pageable));
+        model.addAttribute(WAREHOUSES, warehouseService.findAll(pageable));
         return "stock/add";
     }
 
@@ -63,49 +54,24 @@ public class StockController {
     }
 
     @GetMapping("/get")
-    public String update(Model model,
-                         Pageable pageable,
-                         @RequestParam String identifier) {
-
-        StockDto response =
-                stockService.findByIdentifier(identifier);
-
+    public String update(Model model, Pageable pageable, @RequestParam String identifier) {
+        StockDto response = stockService.findByIdentifier(identifier);
         model.addAttribute("stock", response);
-
-        model.addAttribute(PRODUCTS,
-                productService.findAll(pageable));
-
-        model.addAttribute(WAREHOUSES,
-                warehouseService.findAll(pageable));
-
+        model.addAttribute(PRODUCTS, productService.findAll(pageable));
+        model.addAttribute(WAREHOUSES, warehouseService.findAll(pageable));
         return "stock/stock";
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model,
-                             Pageable pageable,
-                             @ModelAttribute("stock") StockDto stockDto) {
-
-        StockDto response =
-                stockService.update(stockDto);
-
+    public String updatePost(Model model, Pageable pageable, @ModelAttribute("stock") StockDto stockDto) {
+        StockDto response = stockService.update(stockDto);
         if (!response.isSuccess()) {
-
-            model.addAttribute("message",
-                    response.getMessage());
-
-            model.addAttribute("stock",
-                    stockDto);
-
-            model.addAttribute(PRODUCTS,
-                    productService.findAll(pageable));
-
-            model.addAttribute(WAREHOUSES,
-                    warehouseService.findAll(pageable));
-
+            model.addAttribute("message", response.getMessage());
+            model.addAttribute("stock", stockDto);
+            model.addAttribute(PRODUCTS, productService.findAll(pageable));
+            model.addAttribute(WAREHOUSES, warehouseService.findAll(pageable));
             return "stock/stock";
         }
-
         return REDIRECT_STOCK_LIST;
     }
 
@@ -114,4 +80,5 @@ public class StockController {
         stockService.delete(identifier);
         return REDIRECT_STOCK_LIST;
     }
+
 }

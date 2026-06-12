@@ -65,7 +65,6 @@ public class RackServiceImpl implements RackService {
 
     @Override
     public WsDto<RackDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
         Page<Rack> rackPage = rackRepository.findAll(pageable);

@@ -25,8 +25,8 @@ public class UnitApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public UnitDto addPost(@RequestBody UnitDto dto) {
-        return unitService.save(dto);
+    public UnitDto addPost(@RequestBody UnitDto unitDto) {
+        return unitService.save(unitDto);
     }
 
     @GetMapping("/get")
@@ -35,8 +35,8 @@ public class UnitApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public UnitDto update(@RequestBody UnitDto dto) {
-        return unitService.update(dto);
+    public UnitDto update(@RequestBody UnitDto unitDto) {
+        return unitService.update(unitDto);
     }
 
     @GetMapping("/delete")

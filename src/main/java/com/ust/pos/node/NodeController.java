@@ -28,16 +28,16 @@ public class NodeController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute NodeDto userDto, Pageable pageable) {
+    public String add(Model model, @ModelAttribute NodeDto nodeDto, Pageable pageable) {
         model.addAttribute("nodes", nodeService.findAll(pageable));
         model.addAttribute(ROLES, roleService.findAll(pageable));
         return "node/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute NodeDto userDto, Pageable pageable) {
+    public String addPost(Model model, @ModelAttribute NodeDto nodeDto, Pageable pageable) {
 
-        NodeDto response = nodeService.save(userDto);
+        NodeDto response = nodeService.save(nodeDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("error", response.getMessage());
@@ -56,8 +56,8 @@ public class NodeController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute NodeDto userDto) {
-        NodeDto response = nodeService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute NodeDto nodeDto) {
+        NodeDto response = nodeService.update(nodeDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
@@ -69,4 +69,5 @@ public class NodeController {
         nodeService.delete(identifier);
         return REDIRECT_NODE_LIST;
     }
+
 }

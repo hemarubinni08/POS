@@ -16,6 +16,7 @@ public class RackController {
     public static final String REDIRECT_RACK_LIST = "redirect:/rack/list";
     public static final String SHELF = "shelf";
     public static final String RACKS = "racks";
+
     @Autowired
     private RackService rackService;
     @Autowired
@@ -82,4 +83,5 @@ public class RackController {
         rackService.toggleStatus(identifier);
         return REDIRECT_RACK_LIST;
     }
+
 }

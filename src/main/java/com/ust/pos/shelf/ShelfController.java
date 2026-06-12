@@ -18,7 +18,6 @@ public class ShelfController {
     @Autowired
     private ShelfService shelfService;
 
-
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {
         model.addAttribute(SHELF, shelfService.findAll(pageable));
@@ -32,18 +31,17 @@ public class ShelfController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute ShelfDto dto) {
-        ShelfDto response = shelfService.save(dto);
+    public String addPost(Model model, @ModelAttribute ShelfDto shelfDto) {
+        ShelfDto response = shelfService.save(shelfDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute(SHELF, dto);
+            model.addAttribute(SHELF,shelfDto);
             model.addAttribute("message", response.getMessage());
             return "shelf/add";
         }
 
         return REDIRECT_LIST;
     }
-
 
     @GetMapping("/get")
     public String get(Model model, @RequestParam String identifier) {
@@ -52,18 +50,17 @@ public class ShelfController {
     }
 
     @PostMapping("/update")
-    public String update(Model model, @ModelAttribute ShelfDto dto) {
-        ShelfDto response = shelfService.update(dto);
+    public String update(Model model, @ModelAttribute ShelfDto shelfDto) {
+        ShelfDto response = shelfService.update(shelfDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute(SHELF, dto);
+            model.addAttribute(SHELF, shelfDto);
             model.addAttribute("message", response.getMessage());
             return "shelf/shelf";
         }
 
         return REDIRECT_LIST;
     }
-
 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
@@ -76,4 +73,5 @@ public class ShelfController {
         shelfService.toggleStatus(identifier);
         return REDIRECT_LIST;
     }
+
 }

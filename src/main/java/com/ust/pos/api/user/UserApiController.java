@@ -51,7 +51,6 @@ public class UserApiController extends BaseController {
             if (authentication != null) {
                 String loggedInUser = authentication.getName();
 
-                // check if deleting self before deleting
                 UserDto userToDelete = userService.findByIdentifier(identifier);
                 boolean isDeletingSelf = userToDelete != null && loggedInUser.equals(userToDelete.getUsername());
                 userService.delete(identifier);

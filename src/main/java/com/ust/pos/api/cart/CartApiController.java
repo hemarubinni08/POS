@@ -59,7 +59,6 @@ public class CartApiController {
 
     @PostMapping("/clearcart")
     public void delete(@RequestBody CommonDto common) {
-
         cartEntryService.deleteAllByCartIdentifier(common.getIdentifier());
         cartService.recalculate(common.getIdentifier());
     }

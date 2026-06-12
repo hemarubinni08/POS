@@ -6,13 +6,13 @@ import org.springframework.data.domain.Pageable;
 
 public interface RoleService {
 
-    RoleDto save(RoleDto userDto);
+    RoleDto save(RoleDto roleDto);
 
-    RoleDto update(RoleDto userDto);
+    RoleDto update(RoleDto roleDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
-    WsDto<RoleDto> findAll(Pageable pageable);
+    WsDto<RoleDto>findAll(Pageable pageable);
 
     RoleDto findByIdentifier(String identifier);
 

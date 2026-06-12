@@ -69,5 +69,6 @@ public class PriceController {
         priceService.delete(identifier);
         return REDIRECT_ROLE_LIST;
     }
+
 }
 

@@ -23,6 +23,7 @@ public class ProductController {
     public static final String MODEL = "model";
     public static final String CATEGORIES = "categories";
     public static final String UNIT = "unit";
+
     @Autowired
     private ProductService productService;
     @Autowired

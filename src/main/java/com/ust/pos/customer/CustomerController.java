@@ -15,12 +15,11 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/customer/list";
+
     @Autowired
     private CustomerService customerService;
-
     @Autowired
     private ProductService productService;
-
     @Autowired
     private AddressService addressService;
 
@@ -74,6 +73,7 @@ public class CustomerController {
         customerService.delete(identifier);
         return REDIRECT_ROLE_LIST;
     }
+
 }
 
 

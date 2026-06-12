@@ -26,8 +26,8 @@ public class BrandApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public BrandDto addPost(@RequestBody BrandDto dto) {
-        return brandService.save(dto);
+    public BrandDto addPost(@RequestBody BrandDto brandDto) {
+        return brandService.save(brandDto);
     }
 
     @GetMapping("/get")
@@ -36,8 +36,8 @@ public class BrandApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public BrandDto update(Model model, @ModelAttribute BrandDto dto) {
-        return brandService.update(dto);
+    public BrandDto update(Model model, @ModelAttribute BrandDto brandDto) {
+        return brandService.update(brandDto);
     }
 
     @GetMapping("/delete")
@@ -59,4 +59,5 @@ public class BrandApiController extends BaseController {
     public List<BrandDto> findActiveBrand() {
         return brandService.findActiveBrands();
     }
+
 }

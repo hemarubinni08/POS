@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.User;
@@ -37,16 +38,12 @@ class NodeServiceTest {
 
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private NodeRepository nodeRepository;
-
     @Mock
     private ModelMapper modelMapper;
-
     @InjectMocks
     private NodeServiceImpl nodeService;
-
     private Node sampleNode;
     private NodeDto sampleNodeDto;
 
@@ -55,19 +52,15 @@ class NodeServiceTest {
         sampleNode = new Node();
         sampleNode.setIdentifier("NODE-001");
         sampleNode.setRoles(List.of("ROLE_ADMIN", "ROLE_USER"));
-
         sampleNodeDto = new NodeDto();
         sampleNodeDto.setIdentifier("NODE-001");
     }
-
 
     @Test
     void findByIdentifier_shouldReturnMappedDto() {
         when(nodeRepository.findByIdentifier("NODE-001")).thenReturn(sampleNode);
         when(modelMapper.map(sampleNode, NodeDto.class)).thenReturn(sampleNodeDto);
-
         NodeDto result = nodeService.findByIdentifier("NODE-001");
-
         assertNotNull(result);
         assertEquals("NODE-001", result.getIdentifier());
         verify(nodeRepository).findByIdentifier("NODE-001");
@@ -77,32 +70,24 @@ class NodeServiceTest {
     void findByIdentifier_whenNotFound_shouldReturnNull() {
         when(nodeRepository.findByIdentifier("UNKNOWN")).thenReturn(null);
         when(modelMapper.map(null, NodeDto.class)).thenReturn(null);
-
         NodeDto result = nodeService.findByIdentifier("UNKNOWN");
-
         assertNull(result);
     }
-
 
     @Test
     void save_whenNodeDoesNotExist_shouldSaveAndReturnDto() {
         when(nodeRepository.findByIdentifier("NODE-001")).thenReturn(null);
         when(modelMapper.map(sampleNodeDto, Node.class)).thenReturn(sampleNode);
-
         NodeDto result = nodeService.save(sampleNodeDto);
-
         assertNotNull(result);
         verify(nodeRepository).save(sampleNode);
-        // success flag should NOT be set to false
         assertNotEquals(Boolean.FALSE, result.isSuccess());
     }
 
     @Test
     void save_whenNodeAlreadyExists_shouldReturnFailureDto() {
         when(nodeRepository.findByIdentifier("NODE-001")).thenReturn(sampleNode);
-
         NodeDto result = nodeService.save(sampleNodeDto);
-
         assertNotNull(result);
         assertFalse(result.isSuccess());
         assertTrue(result.getMessage().contains("NODE-001"));
@@ -110,14 +95,10 @@ class NodeServiceTest {
         verify(nodeRepository, never()).save(any());
     }
 
-    // ─── update ───────────────────────────────────────────────────────────────
-
     @Test
     void update_whenNodeExists_shouldUpdateAndReturnDto() {
         when(nodeRepository.findByIdentifier("NODE-001")).thenReturn(sampleNode);
-
         NodeDto result = nodeService.update(sampleNodeDto);
-
         assertNotNull(result);
         verify(modelMapper).map(sampleNodeDto, sampleNode);
         verify(nodeRepository).save(sampleNode);
@@ -126,9 +107,7 @@ class NodeServiceTest {
     @Test
     void update_whenNodeDoesNotExist_shouldReturnFailureDto() {
         when(nodeRepository.findByIdentifier("NODE-001")).thenReturn(null);
-
         NodeDto result = nodeService.update(sampleNodeDto);
-
         assertNotNull(result);
         assertFalse(result.isSuccess());
         assertTrue(result.getMessage().contains("NODE-001"));
@@ -136,55 +115,32 @@ class NodeServiceTest {
         verify(nodeRepository, never()).save(any());
     }
 
-    // ─── delete ───────────────────────────────────────────────────────────────
-
     @Test
     void delete_shouldCallRepositoryDeleteByIdentifier() {
         doNothing().when(nodeRepository).deleteByIdentifier("NODE-001");
-
         nodeService.delete("NODE-001");
-
         verify(nodeRepository).deleteByIdentifier("NODE-001");
     }
 
-
     @Test
     void findAllTest() {
-
-        // Step 1: Create pageable
         Pageable pageable = PageRequest.of(0, 5);
-
-        // Step 2: Mock Node entity
         Node node = new Node();
         node.setIdentifier("NODE1");
-
         List<Node> nodeList = List.of(node);
-
-        // Step 3: Mock Page
         Page<Node> nodePage = new PageImpl<>(nodeList);
 
-        Mockito.when(nodeRepository.findAll(pageable))
-                .thenReturn(nodePage);
+        Mockito.when(nodeRepository.findAll(pageable)).thenReturn(nodePage);
 
-        // Step 4: Mock DTO
         NodeDto nodeDto = new NodeDto();
         nodeDto.setIdentifier("NODE1");
-
         List<NodeDto> nodeDtoList = List.of(nodeDto);
 
-        Mockito.when(modelMapper.map(
-                        Mockito.eq(nodePage.getContent()),
-                        Mockito.any(Type.class)))
-                .thenReturn(nodeDtoList);
+        Mockito.when(modelMapper.map(Mockito.eq(nodePage.getContent()),Mockito.any(Type.class))).thenReturn(nodeDtoList);
 
-        // Step 5: Call method
-        List<NodeDto> result = nodeService.findAll(pageable);
-
-        // Step 6: Assertions
-        Assertions.assertEquals(1, result.size());
-        Assertions.assertEquals("NODE1", result.get(0).getIdentifier());
-
-        // Step 7: Verify
+        WsDto<NodeDto> result = nodeService.findAll(pageable);
+        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals("NODE1", result.getDtoList().get(0).getIdentifier());
         Mockito.verify(nodeRepository).findAll(pageable);
     }
 
@@ -193,34 +149,24 @@ class NodeServiceTest {
         SecurityContext securityContext = mock(SecurityContext.class);
         when(securityContext.getAuthentication()).thenReturn(null);
         SecurityContextHolder.setContext(securityContext);
-
         List<NodeDto> result = nodeService.getNodesForRoles();
-
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
 
     @Test
     void getNodesForRoles_whenUserHasMatchingRole_shouldReturnMatchingNodes() {
-        // Setup SecurityContext
         Authentication authentication = mock(Authentication.class);
         SecurityContext securityContext = mock(SecurityContext.class);
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
-
-        // Spring Security principal
-        org.springframework.security.core.userdetails.User principal =
-                new org.springframework.security.core.userdetails.User(
-                        "john", "password", Collections.emptyList());
+        org.springframework.security.core.userdetails.User principal = new org.springframework.security.core.userdetails.User("john", "password", Collections.emptyList());
         when(authentication.getPrincipal()).thenReturn(principal);
 
-        // Domain user with roles
         User domainUser = new User();
         domainUser.setUsername("john");
         domainUser.setRoles(List.of("ROLE_ADMIN"));
         when(userRepository.findByIdentifier("john")).thenReturn(domainUser);
-
-        // Nodes in DB — one matches ROLE_ADMIN, one does not
         Node adminNode = new Node();
         adminNode.setIdentifier("NODE-ADMIN");
         adminNode.setRoles(List.of("ROLE_ADMIN"));
@@ -228,16 +174,13 @@ class NodeServiceTest {
         Node userNode = new Node();
         userNode.setIdentifier("NODE-USER");
         userNode.setRoles(List.of("ROLE_USER"));
-
         when(nodeRepository.findAll()).thenReturn(Arrays.asList(adminNode, userNode));
 
         NodeDto adminNodeDto = new NodeDto();
         adminNodeDto.setIdentifier("NODE-ADMIN");
         when(nodeRepository.findByIdentifier("NODE-ADMIN")).thenReturn(adminNode);
         when(modelMapper.map(adminNode, NodeDto.class)).thenReturn(adminNodeDto);
-
         List<NodeDto> result = nodeService.getNodesForRoles();
-
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("NODE-ADMIN", result.get(0).getIdentifier());
@@ -249,15 +192,12 @@ class NodeServiceTest {
         SecurityContext securityContext = mock(SecurityContext.class);
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
-
-        org.springframework.security.core.userdetails.User principal =
-                new org.springframework.security.core.userdetails.User(
-                        "john", "password", Collections.emptyList());
+        org.springframework.security.core.userdetails.User principal = new org.springframework.security.core.userdetails.User("john", "password", Collections.emptyList());
         when(authentication.getPrincipal()).thenReturn(principal);
 
         User domainUser = new User();
         domainUser.setUsername("john");
-        domainUser.setRoles(List.of("ROLE_CASHIER")); // No node has this role
+        domainUser.setRoles(List.of("ROLE_CASHIER"));
         when(userRepository.findByIdentifier("john")).thenReturn(domainUser);
 
         Node adminNode = new Node();
@@ -266,7 +206,6 @@ class NodeServiceTest {
         when(nodeRepository.findAll()).thenReturn(List.of(adminNode));
 
         List<NodeDto> result = nodeService.getNodesForRoles();
-
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -277,10 +216,7 @@ class NodeServiceTest {
         SecurityContext securityContext = mock(SecurityContext.class);
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
-
-        org.springframework.security.core.userdetails.User principal =
-                new org.springframework.security.core.userdetails.User(
-                        "john", "password", Collections.emptyList());
+        org.springframework.security.core.userdetails.User principal = new org.springframework.security.core.userdetails.User(                 "john", "password", Collections.emptyList());
         when(authentication.getPrincipal()).thenReturn(principal);
 
         User domainUser = new User();
@@ -290,13 +226,12 @@ class NodeServiceTest {
 
         Node nodeWithNullRoles = new Node();
         nodeWithNullRoles.setIdentifier("NODE-NULL");
-        nodeWithNullRoles.setRoles(null); // null roles — should not crash
+        nodeWithNullRoles.setRoles(null);
 
         when(nodeRepository.findAll()).thenReturn(List.of(nodeWithNullRoles));
-
         List<NodeDto> result = nodeService.getNodesForRoles();
-
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
+
 }

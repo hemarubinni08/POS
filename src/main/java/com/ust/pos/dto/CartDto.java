@@ -11,13 +11,9 @@ import java.util.List;
 public class CartDto extends CommonDto {
 
     private BigDecimal originalPrice;
-
     private BigDecimal totalPrice;
-
     private BigDecimal discount;
-
     private String coupon;
-
     private List<CartEntryDto> entryList;
 
 }
