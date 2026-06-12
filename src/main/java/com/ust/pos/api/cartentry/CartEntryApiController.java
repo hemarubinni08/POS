@@ -24,9 +24,9 @@ public class CartEntryApiController {
         return cartService.recalulateCart(cartEntryDto.getCartId());
     }
 
-    @PostMapping("/getByCartId")
-    public List<CartEntryDto> list(@RequestBody CartEntryDto cartEntryDto) {
-        return cartEntryService.findByCartId(cartEntryDto.getCartId());
+    @GetMapping("/getByCartId")
+    public List<CartEntryDto> list(@RequestParam String cartId) {
+        return cartEntryService.findByCartId(cartId);
     }
 
     @GetMapping("/delete")
