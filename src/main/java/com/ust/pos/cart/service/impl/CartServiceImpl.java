@@ -1,10 +1,9 @@
 package com.ust.pos.cart.service.impl;
 
 
-import com.ust.pos.CartEntry.service.CartEntryService;
 import com.ust.pos.cart.service.CartService;
+import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartDto;
-import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.model.Cart;
 import com.ust.pos.model.CartEntry;
 import com.ust.pos.model.CartEntryRepository;
@@ -20,7 +19,7 @@ import java.util.List;
 
 @Service
 public class CartServiceImpl implements CartService {
-    private static final String CART_WITH_IDENTIFIER = "Cart with identifier - " ;
+    private static final String CART_WITH_IDENTIFIER = "Cart with identifier - ";
     @Autowired
     private CartRepository cartRepository;
 
@@ -53,8 +52,7 @@ public class CartServiceImpl implements CartService {
         Cart cartModel = cartRepository.findByIdentifier(cart);
         BigDecimal totalPrice = BigDecimal.ZERO;
         BigDecimal totalDiscount = BigDecimal.ZERO;
-
-        for(CartEntry cartEntryDto: cartEntries){
+        for (CartEntry cartEntryDto : cartEntries) {
             totalPrice = totalPrice.add(cartEntryDto.getTotalPrice());
             totalDiscount = totalDiscount.add(cartEntryDto.getDiscount());
         }
@@ -69,12 +67,12 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartDto findByIdentifier(String identifier){
+    public CartDto findByIdentifier(String identifier) {
         CartDto cartDto = new CartDto();
-        modelMapper.map(cartRepository.findByIdentifier(identifier),cartDto);
+        modelMapper.map(cartRepository.findByIdentifier(identifier), cartDto);
         Type listType = new TypeToken<List<CartDto>>() {
         }.getType();
-        cartDto.setCartEntryDtoList(modelMapper.map(cartEntryRepository.findAllByCart(identifier),listType));
+        cartDto.setCartEntryDtoList(modelMapper.map(cartEntryRepository.findAllByCart(identifier), listType));
         return cartDto;
     }
 }

@@ -1,9 +1,9 @@
 package com.ust.pos.api.cartentrty;
 
 import com.ust.pos.api.BaseController;
+import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.node.service.NodeService;
-import com.ust.pos.CartEntry.service.CartEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +22,7 @@ public class CartEntryControllerApi extends BaseController {
     }
 
     @GetMapping("/delete")
-    public boolean delete( @RequestParam String identifier) {
+    public boolean delete(@RequestParam String identifier) {
         try {
             cartEntryService.delete(identifier);
         } catch (Exception e) {

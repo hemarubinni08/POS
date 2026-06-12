@@ -56,7 +56,6 @@ public class CategoryApiController extends BaseController {
         return categoryService.findBySuperCategoryNotNull();
     }
 
-    // ← NEW
     @PostMapping("/all/list")
     public List<CategoryDto> getAllCategories() {
         return categoryService.findAllList();

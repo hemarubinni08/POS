@@ -1,7 +1,6 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
@@ -36,7 +35,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public List<NodeDto> getNodesForRoles() {
-        Authentication authentication =SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             return Collections.emptyList();
         }

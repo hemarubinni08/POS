@@ -12,10 +12,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -33,96 +36,68 @@ import java.util.List;
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
-    private static final String SECURITY_SCHEME = "bearerAuth";
+    public static final String JAVA_IN_USE_SECURITY_SCHEME = "JavaInUseSecurityScheme";
     @Autowired
     private UserDetailsService userDetailsService;
-
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private JwtFilter jwtFilter;
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) {
+
         http
-                .cors(cors -> {})
+                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers(
-                                "/api/authenticate",
-                                "/api/validateToken",
-                                "/api/user/register",
-                                "/api/role/**",
-                                "/swagger-ui/**",
-                                "/api/product/**",
-                                "/v3/**"
-                        ).permitAll()
+
+                        .requestMatchers("/login", "/register", "/api/authenticate", "/api/role/list", "/api/user/register", "/api/validateToken", "/swagger-ui/**", "/v3/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .logout(logout -> logout.permitAll());
-
+                .logout(LogoutConfigurer::permitAll);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
+            AuthenticationConfiguration config) {
         return config.getAuthenticationManager();
     }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
-        provider.setPasswordEncoder(bCryptPasswordEncoder);
-        return provider;
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of(
-                "http://localhost:3000"
-        ));
-
-        configuration.setAllowedMethods(Arrays.asList(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS"
-        ));
-
-        configuration.setAllowedHeaders(Arrays.asList(
-                "Authorization", "Content-Type", "Accept"
-        ));
-
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
-
+        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Allow the specific origin
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true); // Allow credentials if needed
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
+        source.registerCorsConfiguration("/**", configuration); // Apply CORS settings to all paths
         return source;
     }
 
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Authentication Service"))
-                .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME))
-                .components(
-                        new Components().addSecuritySchemes(
-                                SECURITY_SCHEME,
-                                new SecurityScheme()
-                                        .name(SECURITY_SCHEME)
-                                        .type(SecurityScheme.Type.HTTP)
-                                        .scheme("bearer")
-                                        .bearerFormat("JWT")
-                        )
-                );
+                .info(new Info().title("JavaInUse Authentication Service"))
+                .addSecurityItem(new SecurityRequirement().addList(JAVA_IN_USE_SECURITY_SCHEME))
+                .components(new Components().addSecuritySchemes(JAVA_IN_USE_SECURITY_SCHEME, new SecurityScheme()
+                        .name(JAVA_IN_USE_SECURITY_SCHEME).type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
+
+    }
+
+    @Bean
+    public AuthenticationProvider userDetailsAuthProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
+        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+        return authenticationProvider;
     }
 }

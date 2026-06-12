@@ -25,6 +25,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsService userService;
+
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
 
@@ -32,7 +33,6 @@ public class JwtFilter extends OncePerRequestFilter {
         return path.equals("/api/authenticate")
                 || path.equals("/api/validateToken")
                 || path.equals("/api/user/register")
-                || path.startsWith("/api/role/")
                 || path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/");
     }

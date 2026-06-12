@@ -1,11 +1,9 @@
 package com.ust.pos.product.service.impl;
 
 import com.ust.pos.dto.ProductDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
-import com.ust.pos.model.Unit;
 import com.ust.pos.product.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -80,12 +78,13 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto findByIdentifier(String identifier) {
         return modelMapper.map(productRepository.findByIdentifier(identifier.trim()), ProductDto.class);
     }
+
     @Override
     public void toggleStatus(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
-        if(product != null) {
+        if (product != null) {
             Boolean status = product.getStatus();
-            if(status == null) {
+            if (status == null) {
                 status = false;
             }
             product.setStatus(!status);

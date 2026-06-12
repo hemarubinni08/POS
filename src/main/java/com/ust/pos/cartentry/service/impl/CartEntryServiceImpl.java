@@ -1,10 +1,13 @@
-package com.ust.pos.CartEntry.service.impl;
+package com.ust.pos.cartentry.service.impl;
 
-import com.ust.pos.CartEntry.service.CartEntryService;
 import com.ust.pos.cart.service.CartService;
+import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.*;
+import com.ust.pos.model.CartEntry;
+import com.ust.pos.model.CartEntryRepository;
+import com.ust.pos.model.Price;
+import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

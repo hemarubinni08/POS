@@ -4,7 +4,7 @@ import com.ust.pos.address.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
-import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.AddressRepository;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
 import org.modelmapper.ModelMapper;
@@ -21,6 +21,8 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
+    public static final String SHIPPING_ADDRESS = "shippingAddress";
+    public static final String BILLING_ADDRESS = "billingAddress";
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -29,6 +31,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Override
     public CustomerDto findByIdentifier(String identifier) {
@@ -52,6 +57,8 @@ public class CustomerServiceImpl implements CustomerService {
         AddressDto shipAddr = customerDto.getShippingAddress();
         billAddr.setPhoneNo(customerDto.getPhoneNo());
         shipAddr.setPhoneNo(customerDto.getPhoneNo());
+        billAddr.setAddressType(BILLING_ADDRESS);
+        shipAddr.setAddressType(SHIPPING_ADDRESS);
         addressService.save(billAddr);
         addressService.save(shipAddr);
         Customer customer = modelMapper.map(customerDto, Customer.class);
@@ -72,13 +79,13 @@ public class CustomerServiceImpl implements CustomerService {
         AddressDto shipAddr = customerDto.getShippingAddress();
         billAddr.setPhoneNo(customerDto.getPhoneNo());
         shipAddr.setPhoneNo(customerDto.getPhoneNo());
-        addressService.save(billAddr);
-        addressService.save(shipAddr);
+        billAddr.setAddressType(BILLING_ADDRESS);
+        shipAddr.setAddressType(SHIPPING_ADDRESS);
+        addressService.update(billAddr);
+        addressService.update(shipAddr);
         modelMapper.map(customerDto, existingCustomer);
-        customerDto.setBillingAddress(addressService.
-                findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "billingAddress"));
-        customerDto.setShippingAddress(addressService.
-                findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), "shippingAddress"));
+        customerDto.setBillingAddress(addressService.findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), BILLING_ADDRESS));
+        customerDto.setShippingAddress(addressService.findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), SHIPPING_ADDRESS));
         customerRepository.save(existingCustomer);
         return customerDto;
     }
@@ -86,21 +93,18 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void delete(String identifier) {
+        Customer customer = customerRepository.findByIdentifier(identifier);
         customerRepository.deleteByIdentifier(identifier);
+        addressRepository.deleteByPhoneNo(customer.getPhoneNo());
     }
 
     @Override
-    public WsDto<CustomerDto> findAll(Pageable pageable) {
+    public List<CustomerDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
         Page<Customer> customerPage = customerRepository.findAll(pageable);
-        WsDto<CustomerDto> customerDtoWsDto = new WsDto<>();
-        customerDtoWsDto.setDtoList(modelMapper.map(customerPage.getContent(), listType));
-        customerDtoWsDto.setTotalRecords(customerPage.getTotalElements());
-        customerDtoWsDto.setTotalPages(customerPage.getTotalPages());
-        customerDtoWsDto.setSizePerPage(pageable.getPageSize());
-        customerDtoWsDto.setPage(pageable.getPageNumber());
-        return customerDtoWsDto;    }
+        return modelMapper.map(customerPage.getContent(), listType);
+    }
 
     @Override
     public String buildAddressIdentifier(AddressDto address) {
@@ -110,5 +114,3 @@ public class CustomerServiceImpl implements CustomerService {
                 + "-" + address.getAddressType().toUpperCase();
     }
 }
-
-

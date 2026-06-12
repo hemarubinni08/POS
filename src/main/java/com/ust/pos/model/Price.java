@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.security.KeyStore;
-import java.security.PrivateKey;
 
 @Entity
 @Getter

@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.User;
@@ -101,9 +102,7 @@ class NodeServiceTest {
     @Test
     void findByIdentifierFailureTest() {
         Mockito.when(nodeRepository.findByIdentifier("N1")).thenReturn(null);
-
         NodeDto result = nodeService.findByIdentifier("N1");
-
         Assertions.assertNull(result);
     }
 
@@ -172,7 +171,6 @@ class NodeServiceTest {
     @Test
     void deleteTest() {
         nodeService.delete("N1");
-
         verify(nodeRepository).deleteByIdentifier("N1");
     }
 
@@ -188,10 +186,15 @@ class NodeServiceTest {
         Mockito.when(nodeRepository.findAll(pageable)).thenReturn(nodePage);
         Mockito.when(modelMapper.map(Mockito.eq(nodes), Mockito.any(Type.class))).thenReturn(dtoList);
 
-        List<NodeDto> result = nodeService.findAll(pageable);
+        WsDto<NodeDto> result = nodeService.findAll(pageable);
 
-        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals(2, result.getDtoList().size());
+        Assertions.assertEquals(2, result.getTotalRecords());
+        Assertions.assertEquals(1, result.getTotalPages());
+        Assertions.assertEquals(10, result.getSizePerPage());
+        Assertions.assertEquals(0, result.getPage());
 
         Mockito.verify(nodeRepository).findAll(pageable);
+        Mockito.verify(modelMapper).map(Mockito.eq(nodes), Mockito.any(Type.class));
     }
 }

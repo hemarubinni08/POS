@@ -19,7 +19,6 @@ public class UserApiController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<UserDto> list(@RequestBody PaginationDto paginationDto) {
-        // Users don't have "identifier" column — fall back to username
         if ("identifier".equals(paginationDto.getSortField())) {
             paginationDto.setSortField("username");
         }
@@ -35,7 +34,7 @@ public class UserApiController extends BaseController {
 
     @GetMapping("/get")
     public UserDto get(@RequestParam String identifier) {
-        return userService.findByIdentifier(identifier); // now works, returns by username
+        return userService.findByIdentifier(identifier);
     }
 
     @PostMapping("/update")
@@ -58,7 +57,7 @@ public class UserApiController extends BaseController {
         return userService.save(userDto);
     }
 
-    @GetMapping("/profile")  // fixed: was /api/profile causing /api/api/profile
+    @GetMapping("/profile")
     public UserDto getProfile(Authentication authentication) {
         return userService.getUserDetails(authentication.getName());
     }

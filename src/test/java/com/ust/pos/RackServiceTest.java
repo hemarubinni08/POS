@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.RackDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
 import com.ust.pos.rack.service.impl.RackServiceImpl;
@@ -104,7 +105,6 @@ class RackServiceTest {
     @Test
     void deleteTest() {
         rackService.delete("RACK3");
-
         Mockito.verify(rackRepository).deleteByIdentifier("RACK3");
     }
 
@@ -133,9 +133,9 @@ class RackServiceTest {
         Mockito.when(rackRepository.findAll(pageable)).thenReturn(rackPage);
         Mockito.when(modelMapper.map(Mockito.eq(racks), Mockito.any(Type.class))).thenReturn(rackDtos);
 
-        List<RackDto> result = rackService.findAll(pageable);
+        WsDto<RackDto> result = rackService.findAll(pageable);
 
-        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals(2, result.getDtoList().size());
 
         Mockito.verify(rackRepository).findAll(pageable);
         Mockito.verify(modelMapper).map(Mockito.eq(racks), Mockito.any(Type.class));

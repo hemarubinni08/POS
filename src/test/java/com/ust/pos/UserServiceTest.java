@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.UserDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.impl.UserServiceImpl;
@@ -70,8 +71,8 @@ class UserServiceTest {
     void saveSuccessTest() {
         UserDto dto = new UserDto();
         dto.setUsername("john");
-
         dto.setPassword("pass");
+
         User user = new User();
         user.setUsername("john");
 
@@ -122,13 +123,12 @@ class UserServiceTest {
     void updateFailureUsernameAlreadyExistsTest() {
         User existing = new User();
         existing.setId(1L);
-
         existing.setUsername("old");
+
         User duplicate = new User();
-
         duplicate.setUsername("new");
-        UserDto dto = new UserDto();
 
+        UserDto dto = new UserDto();
         dto.setId(1L);
         dto.setUsername("new");
 
@@ -145,12 +145,13 @@ class UserServiceTest {
     void updateSuccessTest() {
         User existing = new User();
         existing.setId(1L);
-
         existing.setUsername("john");
-        UserDto dto = new UserDto();
 
+        UserDto dto = new UserDto();
         dto.setId(1L);
         dto.setUsername("john");
+        dto.setName("John Doe");
+        dto.setPhoneNo("1234567890");
 
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(existing));
 
@@ -158,7 +159,6 @@ class UserServiceTest {
 
         Assertions.assertEquals("john", result.getUsername());
 
-        verify(modelMapper).map(dto, existing);
         verify(userRepository).save(existing);
     }
 
@@ -180,9 +180,13 @@ class UserServiceTest {
         Mockito.when(userRepository.findAll(pageable)).thenReturn(userPage);
         Mockito.when(modelMapper.map(Mockito.eq(users), Mockito.any(Type.class))).thenReturn(dtoList);
 
-        List<UserDto> result = userService.findAll(pageable);
+        WsDto<UserDto> result = userService.findAll(pageable);
 
-        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals(2, result.getDtoList().size());
+        Assertions.assertEquals(2, result.getTotalRecords());
+        Assertions.assertEquals(1, result.getTotalPages());
+        Assertions.assertEquals(10, result.getSizePerPage());
+        Assertions.assertEquals(0, result.getPage());
 
         Mockito.verify(userRepository).findAll(pageable);
         Mockito.verify(modelMapper).map(Mockito.eq(users), Mockito.any(Type.class));

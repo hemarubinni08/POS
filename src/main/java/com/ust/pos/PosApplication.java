@@ -39,26 +39,6 @@ public class PosApplication {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(getDataSource());
-    }
-
-    @Bean
-    public DataSource getDataSource() {
-
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-
-        ds.setUrl(environment.getRequiredProperty("spring.datasource.url"));
-        ds.setUsername(environment.getRequiredProperty("spring.datasource.username"));
-        ds.setPassword(environment.getRequiredProperty("spring.datasource.password"));
-        ds.setDriverClassName(
-                environment.getRequiredProperty("spring.datasource.driver-class-name")
-        );
-
-        return ds;
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }

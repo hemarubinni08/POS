@@ -75,5 +75,6 @@ public class PriceServiceImpl implements PriceService {
         priceDtoWsDto.setTotalPages(pricePage.getTotalPages());
         priceDtoWsDto.setSizePerPage(pageable.getPageSize());
         priceDtoWsDto.setPage(pageable.getPageNumber());
-        return priceDtoWsDto;    }
+        return priceDtoWsDto;
+    }
 }

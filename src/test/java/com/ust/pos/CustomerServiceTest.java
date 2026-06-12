@@ -4,6 +4,7 @@ import com.ust.pos.address.service.AddressService;
 import com.ust.pos.customer.service.impl.CustomerServiceImpl;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
@@ -60,9 +61,7 @@ class CustomerServiceTest {
     @Test
     void findByIdentifierFailureTest() {
         Mockito.when(customerRepository.findByIdentifier("C1")).thenReturn(null);
-
         CustomerDto result = customerService.findByIdentifier("C1");
-
         Assertions.assertNull(result);
     }
 
@@ -164,7 +163,6 @@ class CustomerServiceTest {
     @Test
     void deleteTest() {
         customerService.delete("C1");
-
         verify(customerRepository).deleteByIdentifier("C1");
     }
 
@@ -180,9 +178,9 @@ class CustomerServiceTest {
         Mockito.when(customerRepository.findAll(pageable)).thenReturn(customerPage);
         Mockito.when(modelMapper.map(Mockito.eq(customers), Mockito.any(Type.class))).thenReturn(dtos);
 
-        List<CustomerDto> result = customerService.findAll(pageable);
+        WsDto<CustomerDto> result = customerService.findAll(pageable);
 
-        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals(2, result.getDtoList().size());
 
         Mockito.verify(customerRepository).findAll(pageable);
         Mockito.verify(modelMapper).map(Mockito.eq(customers), Mockito.any(Type.class));

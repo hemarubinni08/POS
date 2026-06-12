@@ -50,7 +50,9 @@ public class NodeApiController extends BaseController {
         }
         return true;
     }
+
     @GetMapping("/getNodesForRoles")
-    public List<NodeDto> getNodesForRoles() {return nodeService.getNodesForRoles();
+    public List<NodeDto> getNodesForRoles() {
+        return nodeService.getNodesForRoles();
     }
 }
