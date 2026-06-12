@@ -1,6 +1,7 @@
 package com.ust.pos.modelmodule.service.impl;
 
 import com.ust.pos.dto.ModelDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Model;
 import com.ust.pos.model.ModelRepository;
 import com.ust.pos.modelmodule.service.ModelService;
@@ -18,9 +19,9 @@ import java.util.List;
 @Service
 @Transactional
 public class ModelServiceImpl implements ModelService {
+
     @Autowired
     ModelRepository modelRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -38,14 +39,25 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public List<ModelDto> findAll(Pageable pageable) {
+    public WsDto<ModelDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ModelDto>>() {
         }.getType();
         if (pageable == null) {
-            return modelMapper.map(modelRepository.findAll(), listType);
+            List<ModelDto> modelDtoList = modelMapper.map(modelRepository.findAll(), listType);
+            WsDto<ModelDto> response = new WsDto<>();
+            response.setDtoList(modelDtoList);
+            response.setTotalRecords(modelDtoList.size());
+            return response;
         }
         Page<Model> modelPage = modelRepository.findAll(pageable);
-        return modelMapper.map(modelPage.getContent(), listType);
+        List<ModelDto> modelDtoList = modelMapper.map(modelPage.getContent(), listType);
+        WsDto<ModelDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(modelDtoList);
+        wsDto.setPage(modelPage.getNumber());
+        wsDto.setSizePerPage(modelPage.getSize());
+        wsDto.setTotalPages(modelPage.getTotalPages());
+        wsDto.setTotalRecords(modelPage.getTotalElements());
+        return wsDto;
     }
 
     @Override
@@ -82,11 +94,10 @@ public class ModelServiceImpl implements ModelService {
             response.setMessage("Model not found");
             return response;
         }
-        // Toggle status
         model.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
     }
+
 }

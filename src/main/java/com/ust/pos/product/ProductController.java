@@ -16,16 +16,15 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/product")
 public class ProductController extends BaseController {
+
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
+
     @Autowired
     ProductService productService;
-
     @Autowired
     CategoryService categoryService;
-
     @Autowired
     BrandService brandService;
-
     @Autowired
     UnitService unitService;
 
@@ -79,4 +78,5 @@ public class ProductController extends BaseController {
         productService.deleteByIdentifier(identifier);
         return REDIRECT_PRODUCT_LIST;
     }
+
 }

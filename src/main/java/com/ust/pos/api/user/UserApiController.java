@@ -16,7 +16,6 @@ public class UserApiController extends BaseController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private UserRepository userRepository;
 
@@ -45,5 +44,5 @@ public class UserApiController extends BaseController {
         }
         return true;
     }
-}
 
+}

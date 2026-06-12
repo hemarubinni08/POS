@@ -1,6 +1,9 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.Stock;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.impl.StockServiceImpl;
@@ -23,11 +26,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class StockServiceTest {
+
     @InjectMocks
     private StockServiceImpl stockService;
+
     @Mock
     private StockRepository stockRepository;
-
     @Mock
     private ModelMapper modelMapper;
 
@@ -37,9 +41,12 @@ public class StockServiceTest {
         stockDto.setIdentifier("Lays In-001");
 
         Mockito.when(stockRepository.findByIdentifier("Lays In-001")).thenReturn(null);
+
         Stock stock = new Stock();
+
         Mockito.when(modelMapper.map(stockDto, Stock.class)).thenReturn(stock);
         Mockito.when(stockRepository.save(stock)).thenReturn(stock);
+
         StockDto response = stockService.save(stockDto);
 
         Assertions.assertEquals("Lays In-001", response.getIdentifier());
@@ -48,17 +55,17 @@ public class StockServiceTest {
 
     @Test
     void saveTestFailure() {
-        //request data
         StockDto stockDto = new StockDto();
         stockDto.setIdentifier("Lays In-001");
+
         Stock stock = new Stock();
 
         Mockito.when(stockRepository.findByIdentifier("Lays In-001")).thenReturn(stock);
+
         StockDto response = stockService.save(stockDto);
 
         Assertions.assertEquals("Lays In-001", response.getIdentifier());
         Assertions.assertNotNull(response.getMessage(), "Message cannot be null");
-
         Assertions.assertFalse(response.isSuccess());
     }
 
@@ -86,10 +93,8 @@ public class StockServiceTest {
         Stock existingStock = new Stock();
         existingStock.setIdentifier("Lays In-001");
 
-        Mockito.when(stockRepository.findByIdentifier("Lays In-001"))
-                .thenReturn(existingStock);
-        Mockito.when(stockRepository.save(existingStock))
-                .thenReturn(existingStock);
+        Mockito.when(stockRepository.findByIdentifier("Lays In-001")).thenReturn(existingStock);
+        Mockito.when(stockRepository.save(existingStock)).thenReturn(existingStock);
 
         StockDto response = stockService.update(stockDto);
 
@@ -101,8 +106,7 @@ public class StockServiceTest {
         StockDto stockDto = new StockDto();
         stockDto.setIdentifier("Lays In-001");
 
-        Mockito.when(stockRepository.findByIdentifier("Lays In-001"))
-                .thenReturn(null);
+        Mockito.when(stockRepository.findByIdentifier("Lays In-001")).thenReturn(null);
 
         StockDto response = stockService.update(stockDto);
 
@@ -111,9 +115,7 @@ public class StockServiceTest {
 
     @Test
     void deleteTest() {
-
-        Mockito.doNothing().when(stockRepository)
-                .deleteByIdentifier("Lays In-001");
+        Mockito.doNothing().when(stockRepository).deleteByIdentifier("Lays In-001");
 
         stockService.delete("Lays In-001");
 
@@ -123,10 +125,10 @@ public class StockServiceTest {
     @Test
     void findAllWithPageableTest() {
         Stock stock = new Stock();
-        stock.setIdentifier("Lays IN-001");
+        stock.setIdentifier("Lays In-001");
 
         StockDto dto = new StockDto();
-        dto.setIdentifier("Lays IN-001");
+        dto.setIdentifier("Lays In-001");
 
         List<Stock> stocks = List.of(stock);
         List<StockDto> dtos = List.of(dto);
@@ -134,42 +136,34 @@ public class StockServiceTest {
         Pageable pageable = PageRequest.of(0, 5);
         Page<Stock> stockPage = new PageImpl<>(stocks);
 
-        Mockito.when(stockRepository.findAll(pageable))
-                .thenReturn(stockPage);
+        Mockito.when(stockRepository.findAll(pageable)).thenReturn(stockPage);
+        Mockito.when(modelMapper.map(Mockito.eq(stocks), Mockito.any(Type.class))).thenReturn(dtos);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(stocks),
-                Mockito.any(Type.class)
-        )).thenReturn(dtos);
+        WsDto<StockDto> response = stockService.findAll(pageable);
 
-        List<StockDto> response = stockService.findAll(pageable);
-
-        Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("Lays IN-001", response.get(0).getIdentifier());
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("Lays In-001", response.getDtoList().get(0).getIdentifier());
     }
 
     @Test
     void findAllWithoutPageableTest() {
         Stock stock = new Stock();
-        stock.setIdentifier("Lays IN-001");
+        stock.setIdentifier("Lays In-001");
 
         StockDto dto = new StockDto();
-        dto.setIdentifier("Lays IN-001");
+        dto.setIdentifier("Lays In-001");
 
         List<Stock> stocks = List.of(stock);
         List<StockDto> dtos = List.of(dto);
 
-        Mockito.when(stockRepository.findAll())
-                .thenReturn(stocks);
+        Mockito.when(stockRepository.findAll()).thenReturn(stocks);
+        Mockito.when(modelMapper.map(Mockito.eq(stocks), Mockito.any(Type.class))).thenReturn(dtos);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(stocks),
-                Mockito.any(Type.class)
-        )).thenReturn(dtos);
+        WsDto<StockDto> response = stockService.findAll(null);
 
-        List<StockDto> response = stockService.findAll(null);
+        Assertions.assertEquals(1, response.getDtoList().size());
 
-        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals("Lays In-001", response.getDtoList().get(0).getIdentifier());
     }
 
     @Test
@@ -178,27 +172,24 @@ public class StockServiceTest {
         stock.setIdentifier("Lays In-001");
         stock.setStatus(false);
 
-        Mockito.when(stockRepository.findByIdentifier("Lays In-001"))
-                .thenReturn(stock);
+        Mockito.when(stockRepository.findByIdentifier("Lays In-001")).thenReturn(stock);
 
         StockDto response = stockService.toggleStatus("Lays In-001", true);
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
 
-        Mockito.verify(stockRepository, Mockito.never())
-                .save(Mockito.any());
+        Mockito.verify(stockRepository, Mockito.never()).save(Mockito.any());
     }
 
     @Test
     void toggleStatusFailureTest() {
-
-        Mockito.when(stockRepository.findByIdentifier("Lays In-001"))
-                .thenReturn(null);
+        Mockito.when(stockRepository.findByIdentifier("Lays In-001")).thenReturn(null);
 
         StockDto response = stockService.toggleStatus("Lays In-001", true);
 
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertEquals("Stock not found", response.getMessage());
     }
+
 }

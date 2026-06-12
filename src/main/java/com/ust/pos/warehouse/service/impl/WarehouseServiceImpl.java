@@ -19,9 +19,9 @@ import java.util.List;
 @Service
 @Transactional
 public class WarehouseServiceImpl implements WarehouseService {
+
     @Autowired
     WarehouseRepository warehouseRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -41,28 +41,23 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public WsDto<WarehouseDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<WarehouseDto>>() {
-
         }.getType();
-
         if (pageable == null) {
-            return modelMapper.map(warehouseRepository.findAll(), listType);
+            List<WarehouseDto> warehouseDtoList = modelMapper.map(warehouseRepository.findAll(), listType);
+            WsDto<WarehouseDto> response = new WsDto<>();
+            response.setDtoList(warehouseDtoList);
+            response.setTotalRecords(warehouseDtoList.size());
+            return response;
         }
-
         Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
-
-        WsDto<WarehouseDto> warehouseWsDto = new WsDto<>();
-
-        warehouseWsDto.setDtoList(modelMapper.map(warehousePage.getContent(), listType));
-
-        warehouseWsDto.setTotalRecords(warehousePage.getTotalElements());
-
-        warehouseWsDto.setTotalPages(warehousePage.getTotalPages());
-
-        warehouseWsDto.setSizePerPage(pageable.getPageSize());
-
-        warehouseWsDto.setPage(pageable.getPageNumber());
-
-        return warehouseWsDto;
+        List<WarehouseDto> warehouseDtoList = modelMapper.map(warehousePage.getContent(), listType);
+        WsDto<WarehouseDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(warehouseDtoList);
+        wsDto.setPage(warehousePage.getNumber());
+        wsDto.setSizePerPage(warehousePage.getSize());
+        wsDto.setTotalPages(warehousePage.getTotalPages());
+        wsDto.setTotalRecords(warehousePage.getTotalElements());
+        return wsDto;
     }
 
     @Override
@@ -87,4 +82,5 @@ public class WarehouseServiceImpl implements WarehouseService {
     public void delete(String identifier) {
         warehouseRepository.deleteByIdentifier(identifier);
     }
+
 }

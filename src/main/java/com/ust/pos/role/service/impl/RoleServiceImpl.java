@@ -21,7 +21,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -46,7 +45,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto save(RoleDto roleDto) {
-        String identifier = roleDto.getIdentifier();
+        String identifier = roleDto.getIdentifier().trim();
         Role existingRole = roleRepository.findByIdentifier(identifier);
         if (existingRole != null) {
             roleDto.setMessage("Role with identifier - " + identifier + " already exists");
@@ -64,31 +63,26 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.deleteByIdentifier(identifier);
     }
 
+    @Override
     public WsDto<RoleDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<RoleDto>>() {
-
         }.getType();
-
         if (pageable == null) {
-            return modelMapper.map(roleRepository.findAll(), listType);
+            List<RoleDto> roleDtoList = modelMapper.map(roleRepository.findAll(), listType);
+            WsDto<RoleDto> response = new WsDto<>();
+            response.setDtoList(roleDtoList);
+            response.setTotalRecords(roleDtoList.size());
+            return response;
         }
-
         Page<Role> rolePage = roleRepository.findAll(pageable);
-
-        WsDto<RoleDto> roleWsDto = new WsDto<>();
-
-        roleWsDto.setDtoList(modelMapper.map(rolePage.getContent(), listType));
-
-        roleWsDto.setTotalRecords(rolePage.getTotalElements());
-
-        roleWsDto.setTotalPages(rolePage.getTotalPages());
-
-        roleWsDto.setSizePerPage(pageable.getPageSize());
-
-        roleWsDto.setPage(pageable.getPageNumber());
-
-        return roleWsDto;
-
+        List<RoleDto> roleDtoList = modelMapper.map(rolePage.getContent(), listType);
+        WsDto<RoleDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(roleDtoList);
+        wsDto.setPage(rolePage.getNumber());
+        wsDto.setSizePerPage(rolePage.getSize());
+        wsDto.setTotalPages(rolePage.getTotalPages());
+        wsDto.setTotalRecords(rolePage.getTotalElements());
+        return wsDto;
     }
+
 }

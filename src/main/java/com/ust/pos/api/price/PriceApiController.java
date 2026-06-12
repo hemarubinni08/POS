@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/price")
 public class PriceApiController extends BaseController {
+
     @Autowired
     PriceService priceService;
 
@@ -45,4 +46,5 @@ public class PriceApiController extends BaseController {
         }
         return true;
     }
+
 }

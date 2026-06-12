@@ -2,10 +2,7 @@ package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Node;
-import com.ust.pos.model.NodeRepository;
-import com.ust.pos.model.User;
-import com.ust.pos.model.UserRepository;
+import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -25,64 +22,40 @@ import java.util.Set;
 
 @Service
 public class NodeServiceImpl implements NodeService {
+
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private NodeRepository nodeRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
     public List<NodeDto> getNodesForRoles() {
-
         List<NodeDto> nodeDtos = new ArrayList<>();
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if (authentication != null && !authentication.getPrincipal().equals("anonymousUser")) {
-
             org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-
             if (principalObject != null) findNodes(principalObject, nodeDtos);
-
         }
-
         return nodeDtos;
-
     }
 
     private void findNodes(org.springframework.security.core.userdetails.User principalObject, List<NodeDto> nodeDtos) {
-
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
-
         Set<String> nodesStr = new HashSet<>();
-
         List<Node> nodes = nodeRepository.findAll();
-
         for (String role : currentUser.getRoles()) {
-
             for (Node node : nodes) {
-
                 if (node.getRoles() != null && node.getRoles().contains(role)) {
-
                     nodesStr.add(node.getIdentifier());
-
                 }
-
             }
-
         }
-
         for (String nodeStr : nodesStr) {
-
             nodeDtos.add(modelMapper.map(nodeRepository.findByIdentifier(nodeStr), NodeDto.class));
-
         }
-
     }
-
 
     @Override
     public NodeDto save(NodeDto nodeDto) {
@@ -123,31 +96,26 @@ public class NodeServiceImpl implements NodeService {
         return modelMapper.map(nodeRepository.findByIdentifier(identifier), NodeDto.class);
     }
 
+    @Override
     public WsDto<NodeDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<NodeDto>>() {
-
         }.getType();
-
         if (pageable == null) {
-            return modelMapper.map(nodeRepository.findAll(), listType);
+            List<NodeDto> nodeDtoList = modelMapper.map(nodeRepository.findAll(), listType);
+            WsDto<NodeDto> response = new WsDto<>();
+            response.setDtoList(nodeDtoList);
+            response.setTotalRecords(nodeDtoList.size());
+            return response;
         }
-
         Page<Node> nodePage = nodeRepository.findAll(pageable);
-
-        WsDto<NodeDto> nodeWsDto = new WsDto<>();
-
-        nodeWsDto.setDtoList(modelMapper.map(nodePage.getContent(), listType));
-
-        nodeWsDto.setTotalRecords(nodePage.getTotalElements());
-
-        nodeWsDto.setTotalPages(nodePage.getTotalPages());
-
-        nodeWsDto.setSizePerPage(pageable.getPageSize());
-
-        nodeWsDto.setPage(pageable.getPageNumber());
-
-        return nodeWsDto;
-
+        List<NodeDto> nodeDtoList = modelMapper.map(nodePage.getContent(), listType);
+        WsDto<NodeDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(nodeDtoList);
+        wsDto.setPage(nodePage.getNumber());
+        wsDto.setSizePerPage(nodePage.getSize());
+        wsDto.setTotalPages(nodePage.getTotalPages());
+        wsDto.setTotalRecords(nodePage.getTotalElements());
+        return wsDto;
     }
+
 }

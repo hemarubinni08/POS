@@ -242,12 +242,11 @@
                 required
             />
         </div>
-
-                <input
-                    type="hidden"
-                    name="status"
-                    value="${stock.status}"
-                />
+            <input
+                type="hidden"
+                name="status"
+                value="${stock.status}"
+            />
 
         <div class="btn-group">
             <button type="submit" class="btn">

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/warehouse")
 public class WarehouseApiController extends BaseController {
+
     @Autowired
     WarehouseService warehouseService;
 
@@ -45,4 +46,5 @@ public class WarehouseApiController extends BaseController {
         }
         return true;
     }
+
 }

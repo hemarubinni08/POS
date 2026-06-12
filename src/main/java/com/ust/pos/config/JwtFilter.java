@@ -15,6 +15,7 @@ import java.io.IOException;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
+
     @Autowired
     private com.ust.pos.config.JWTUtility jwtUtility;
     @Autowired
@@ -47,4 +48,5 @@ public class JwtFilter extends OncePerRequestFilter {
             httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
         }
     }
+
 }

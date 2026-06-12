@@ -1,6 +1,7 @@
 package com.ust.pos.rack.service.impl;
 
 import com.ust.pos.dto.RackDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
 import com.ust.pos.rack.service.RackService;
@@ -18,9 +19,9 @@ import java.util.List;
 @Service
 @Transactional
 public class RackServiceImpl implements RackService {
+
     @Autowired
     RackRepository rackRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -38,14 +39,25 @@ public class RackServiceImpl implements RackService {
     }
 
     @Override
-    public List<RackDto> findAll(Pageable pageable) {
+    public WsDto<RackDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
         if (pageable == null) {
-            return modelMapper.map(rackRepository.findAll(), listType);
+            List<RackDto> rackDtoList = modelMapper.map(rackRepository.findAll(), listType);
+            WsDto<RackDto> response = new WsDto<>();
+            response.setDtoList(rackDtoList);
+            response.setTotalRecords(rackDtoList.size());
+            return response;
         }
         Page<Rack> rackPage = rackRepository.findAll(pageable);
-        return modelMapper.map(rackPage.getContent(), listType);
+        List<RackDto> rackDtoList = modelMapper.map(rackPage.getContent(), listType);
+        WsDto<RackDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(rackDtoList);
+        wsDto.setPage(rackPage.getNumber());
+        wsDto.setSizePerPage(rackPage.getSize());
+        wsDto.setTotalPages(rackPage.getTotalPages());
+        wsDto.setTotalRecords(rackPage.getTotalElements());
+        return wsDto;
     }
 
     @Override
@@ -81,20 +93,16 @@ public class RackServiceImpl implements RackService {
             response.setMessage("Rack not found");
             return response;
         }
-        // Toggle status
         rack.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
     }
 
     public List<RackDto> findActiveRacks() {
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
-        return modelMapper.map(
-                rackRepository.findByStatusTrue(),
-                listType
-        );
+        return modelMapper.map(rackRepository.findByStatusTrue(), listType);
     }
+
 }

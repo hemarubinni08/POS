@@ -3,10 +3,8 @@ package com.ust.pos.cart.service.impl;
 import com.ust.pos.cart.service.CartService;
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartDto;
-import com.ust.pos.model.Cart;
-import com.ust.pos.model.CartEntry;
-import com.ust.pos.model.CartEntryRepository;
-import com.ust.pos.model.CartRepository;
+import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.*;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,15 +20,13 @@ import java.util.List;
 @Service
 @Transactional
 public class CartServiceImpl implements CartService {
+
     @Autowired
     CartRepository cartRepository;
-
     @Autowired
     ModelMapper modelMapper;
-
     @Autowired
     CartEntryService cartEntryService;
-
     @Autowired
     CartEntryRepository cartEntryRepository;
 
@@ -73,14 +69,25 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartDto> findAll(Pageable pageable) {
+    public WsDto<CartDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CartDto>>() {
         }.getType();
         if (pageable == null) {
-            return modelMapper.map(cartRepository.findAll(), listType);
+            List<CartDto> cartDtoList = modelMapper.map(cartRepository.findAll(), listType);
+            WsDto<CartDto> response = new WsDto<>();
+            response.setDtoList(cartDtoList);
+            response.setTotalRecords(cartDtoList.size());
+            return response;
         }
         Page<Cart> cartPage = cartRepository.findAll(pageable);
-        return modelMapper.map(cartPage.getContent(), listType);
+        List<CartDto> cartDtoList = modelMapper.map(cartPage.getContent(), listType);
+        WsDto<CartDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(cartDtoList);
+        wsDto.setPage(cartPage.getNumber());
+        wsDto.setSizePerPage(cartPage.getSize());
+        wsDto.setTotalPages(cartPage.getTotalPages());
+        wsDto.setTotalRecords(cartPage.getTotalElements());
+        return wsDto;
     }
 
     @Override
@@ -93,4 +100,5 @@ public class CartServiceImpl implements CartService {
         cartEntryRepository.deleteByCartIdentifier(identifier);
         cartRepository.deleteByIdentifier(identifier);
     }
+
 }

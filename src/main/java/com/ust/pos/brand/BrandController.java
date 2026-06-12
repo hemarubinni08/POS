@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/brand")
 public class BrandController extends BaseController {
+
     public static final String REDIRECT_BRAND_LIST = "redirect:/brand/list";
+
     @Autowired
     BrandService brandService;
 
@@ -67,4 +69,5 @@ public class BrandController extends BaseController {
     public BrandDto toggleStatus(@RequestBody BrandDto brandDto) {
         return brandService.toggleStatus(brandDto.getIdentifier(), brandDto.isStatus());
     }
+
 }

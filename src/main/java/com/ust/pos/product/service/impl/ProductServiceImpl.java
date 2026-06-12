@@ -21,7 +21,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductRepository productRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -38,34 +37,27 @@ public class ProductServiceImpl implements ProductService {
         return productDto;
     }
 
+    @Override
     public WsDto<ProductDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<ProductDto>>() {
-
         }.getType();
-
         if (pageable == null) {
-            return modelMapper.map(productRepository.findAll(), listType);
+            List<ProductDto> productDtoList = modelMapper.map(productRepository.findAll(), listType);
+            WsDto<ProductDto> response = new WsDto<>();
+            response.setDtoList(productDtoList);
+            response.setTotalRecords(productDtoList.size());
+            return response;
         }
-
         Page<Product> productPage = productRepository.findAll(pageable);
-
-        WsDto<ProductDto> productWsDto = new WsDto<>();
-
-        productWsDto.setDtoList(modelMapper.map(productPage.getContent(), listType));
-
-        productWsDto.setTotalRecords(productPage.getTotalElements());
-
-        productWsDto.setTotalPages(productPage.getTotalPages());
-
-        productWsDto.setSizePerPage(pageable.getPageSize());
-
-        productWsDto.setPage(pageable.getPageNumber());
-
-        return productWsDto;
-
+        List<ProductDto> productDtoList = modelMapper.map(productPage.getContent(), listType);
+        WsDto<ProductDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(productDtoList);
+        wsDto.setPage(productPage.getNumber());
+        wsDto.setSizePerPage(productPage.getSize());
+        wsDto.setTotalPages(productPage.getTotalPages());
+        wsDto.setTotalRecords(productPage.getTotalElements());
+        return wsDto;
     }
-
 
     @Override
     public ProductDto findByIdentifier(String identifier) {
@@ -90,4 +82,5 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(existingProduct);
         return productDto;
     }
+
 }

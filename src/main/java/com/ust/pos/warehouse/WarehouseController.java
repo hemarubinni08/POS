@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/warehouse")
 public class WarehouseController extends BaseController {
+
     public static final String REDIRECT_WAREHOUSE_LIST = "redirect:/warehouse/list";
+
     @Autowired
     WarehouseService warehouseService;
 
@@ -61,4 +63,5 @@ public class WarehouseController extends BaseController {
         warehouseService.delete(identifier);
         return REDIRECT_WAREHOUSE_LIST;
     }
+
 }

@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.impl.PriceServiceImpl;
@@ -22,12 +23,12 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class PriceServiceTest {
+
     @InjectMocks
     PriceServiceImpl priceService;
 
     @Mock
     PriceRepository priceRepository;
-
     @Mock
     ModelMapper modelMapper;
 
@@ -41,14 +42,9 @@ public class PriceServiceTest {
 
         Price price = new Price();
 
-        Mockito.when(priceRepository.findByIdentifier(expectedIdentifier))
-                .thenReturn(null);
-
-        Mockito.when(modelMapper.map(priceDto, Price.class))
-                .thenReturn(price);
-
-        Mockito.when(priceRepository.save(price))
-                .thenReturn(price);
+        Mockito.when(priceRepository.findByIdentifier(expectedIdentifier)).thenReturn(null);
+        Mockito.when(modelMapper.map(priceDto, Price.class)).thenReturn(price);
+        Mockito.when(priceRepository.save(price)).thenReturn(price);
 
         PriceDto response = priceService.save(priceDto);
 
@@ -70,18 +66,13 @@ public class PriceServiceTest {
         Pageable pageable = PageRequest.of(0, 5);
         Page<Price> pricePage = new PageImpl<>(prices);
 
-        Mockito.when(priceRepository.findAll(pageable))
-                .thenReturn(pricePage);
+        Mockito.when(priceRepository.findAll(pageable)).thenReturn(pricePage);
+        Mockito.when(modelMapper.map(Mockito.eq(prices), Mockito.any(Type.class))).thenReturn(dtos);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(prices),
-                Mockito.any(Type.class)
-        )).thenReturn(dtos);
+        WsDto<PriceDto> response = priceService.findAll(pageable);
 
-        List<PriceDto> response = priceService.findAll(pageable);
-
-        Assertions.assertEquals(1, response.size());
-        Assertions.assertEquals("P001", response.get(0).getIdentifier());
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("P001", response.getDtoList().get(0).getIdentifier());
     }
 
     @Test
@@ -95,17 +86,13 @@ public class PriceServiceTest {
         List<Price> prices = List.of(price);
         List<PriceDto> dtos = List.of(dto);
 
-        Mockito.when(priceRepository.findAll())
-                .thenReturn(prices);
+        Mockito.when(priceRepository.findAll()).thenReturn(prices);
+        Mockito.when(modelMapper.map(Mockito.eq(prices), Mockito.any(Type.class))).thenReturn(dtos);
 
-        Mockito.when(modelMapper.map(
-                Mockito.eq(prices),
-                Mockito.any(Type.class)
-        )).thenReturn(dtos);
+        WsDto<PriceDto> response = priceService.findAll(null);
 
-        List<PriceDto> response = priceService.findAll(null);
-
-        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals(1, response.getDtoList().size());
+        Assertions.assertEquals("P001", response.getDtoList().get(0).getIdentifier());
     }
 
     @Test
@@ -160,4 +147,5 @@ public class PriceServiceTest {
         priceService.deleteByIdentifier("P001");
         Mockito.verify(priceRepository).deleteByIdentifier("P001");
     }
+
 }

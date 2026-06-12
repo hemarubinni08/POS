@@ -160,6 +160,7 @@
             <input type="datetime-local" name="expiryDate"
                    value="${stockDto.expiryDate}" required />
         </div>
+
         <div class="form-group">
                     <label>Shelf</label>
 

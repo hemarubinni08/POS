@@ -14,7 +14,6 @@ public class AddressServiceImpl implements AddressService {
 
     @Autowired
     private AddressRepository addressRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -40,7 +39,6 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.deleteByPhoneNo(phoneNo);
     }
 
-    //Finding address using phoneno and address type->shipping or billing
     @Override
     public AddressDto findByPhoneAndAddressType(String phoneNo, String addressType) {
         Address address = addressRepository.findByPhoneNoAndAddressType(phoneNo, addressType);
@@ -49,4 +47,5 @@ public class AddressServiceImpl implements AddressService {
         }
         return modelMapper.map(address, AddressDto.class);
     }
+
 }

@@ -5,6 +5,7 @@ import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface BrandService {
+
     BrandDto save(BrandDto brandDto);
 
     WsDto<BrandDto> findAll(Pageable pageable);
@@ -16,4 +17,5 @@ public interface BrandService {
     BrandDto update(BrandDto brandDto);
 
     BrandDto toggleStatus(String identifier, boolean status);
+
 }

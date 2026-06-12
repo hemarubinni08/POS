@@ -5,6 +5,7 @@ import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface UserService {
+
     UserDto findByUserName(String username);
 
     UserDto save(UserDto userDto);
@@ -14,4 +15,5 @@ public interface UserService {
     void delete(String identifier);
 
     WsDto<UserDto> findAll(Pageable pageable);
+
 }

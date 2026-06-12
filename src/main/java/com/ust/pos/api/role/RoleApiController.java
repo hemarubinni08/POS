@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/role")
 public class RoleApiController extends BaseController {
+
     @Autowired
     private RoleService roleService;
 
@@ -45,4 +46,5 @@ public class RoleApiController extends BaseController {
         }
         return true;
     }
+
 }

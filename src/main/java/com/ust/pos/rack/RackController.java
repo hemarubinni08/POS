@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/rack")
 public class RackController extends BaseController {
+
     public static final String REDIRECT_RACK_LIST = "redirect:/rack/list";
     public static final String SHELFS = "shelfs";
+
     @Autowired
     RackService rackService;
-
     @Autowired
     ShelfService shelfService;
 
@@ -75,4 +76,5 @@ public class RackController extends BaseController {
     public RackDto toggleStatus(@RequestBody RackDto rackDto) {
         return rackService.toggleStatus(rackDto.getIdentifier(), rackDto.isStatus());
     }
+
 }

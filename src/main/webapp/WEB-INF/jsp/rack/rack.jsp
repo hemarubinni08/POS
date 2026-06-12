@@ -35,31 +35,31 @@
         }
 
         .form-group {
-                    margin-bottom: 18px;
-                }
+            margin-bottom: 18px;
+        }
 
-                .checkbox-group {
-                    margin-top: 8px;
-                }
+        .checkbox-group {
+            margin-top: 8px;
+        }
 
-                .checkbox-item {
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                    margin-bottom: 8px;
-                }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
 
-                .checkbox-item input[type="checkbox"] {
-                    width: 16px;
-                    height: 16px;
-                    cursor: pointer;
-                }
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
 
-                .checkbox-item label {
-                    margin: 0;
-                    font-size: 14px;
-                    cursor: pointer;
-                }
+        .checkbox-item label {
+            margin: 0;
+            font-size: 14px;
+            cursor: pointer;
+        }
 
         label {
             display: block;

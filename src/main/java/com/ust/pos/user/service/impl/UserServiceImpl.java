@@ -23,12 +23,11 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
+
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -58,7 +57,6 @@ public class UserServiceImpl implements UserService {
     public UserDto update(UserDto userDto) {
         String username = userDto.getUsername();
         Optional<User> userOptional = userRepository.findById(userDto.getId());
-
         if (userOptional.isEmpty()) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " not found");
             userDto.setSuccess(false);
@@ -66,11 +64,9 @@ public class UserServiceImpl implements UserService {
         } else {
             User existingUser = userOptional.get();
             if (!username.equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(username) != null) {
-
                 userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
                 userDto.setSuccess(false);
                 return userDto;
-
             }
             modelMapper.map(userDto, existingUser);
             userRepository.save(existingUser);
@@ -83,29 +79,26 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteByIdentifier(identifier);
     }
 
+    @Override
     public WsDto<UserDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<UserDto>>() {
-
         }.getType();
         if (pageable == null) {
-            return modelMapper.map(userRepository.findAll(), listType);
+            List<UserDto> userDtoList = modelMapper.map(userRepository.findAll(), listType);
+            WsDto<UserDto> response = new WsDto<>();
+            response.setDtoList(userDtoList);
+            response.setTotalRecords(userDtoList.size());
+            return response;
         }
         Page<User> userPage = userRepository.findAll(pageable);
-
-        WsDto<UserDto> userWsDto = new WsDto<>();
-
-        userWsDto.setDtoList(modelMapper.map(userPage.getContent(), listType));
-
-        userWsDto.setTotalRecords(userPage.getTotalElements());
-
-        userWsDto.setTotalPages(userPage.getTotalPages());
-
-        userWsDto.setSizePerPage(pageable.getPageSize());
-
-        userWsDto.setPage(pageable.getPageNumber());
-
-        return userWsDto;
+        List<UserDto> userDtoList = modelMapper.map(userPage.getContent(), listType);
+        WsDto<UserDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(userDtoList);
+        wsDto.setPage(userPage.getNumber());
+        wsDto.setSizePerPage(userPage.getSize());
+        wsDto.setTotalPages(userPage.getTotalPages());
+        wsDto.setTotalRecords(userPage.getTotalElements());
+        return wsDto;
     }
 
 }

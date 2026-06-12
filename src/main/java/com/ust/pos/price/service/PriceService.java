@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface PriceService {
+
     PriceDto save(PriceDto priceDto);
 
     WsDto<PriceDto> findAll(Pageable pageable);

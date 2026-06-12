@@ -20,4 +20,5 @@ public class HomeApiController {
     public List<NodeDto> home() {
         return nodeService.getNodesForRoles();
     }
+
 }

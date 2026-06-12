@@ -17,23 +17,21 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/stock")
 public class StockController extends BaseController {
+
     public static final String PRODUCTS = "products";
     public static final String WAREHOUSES = "warehouses";
     public static final String REDIRECT_STOCK_LIST = "redirect:/stock/list";
     public static final String SHELFS = "shelfs";
     public static final String RACKS = "racks";
+
     @Autowired
     StockService stockService;
-
     @Autowired
     ProductService productService;
-
     @Autowired
     WarehouseService warehouseService;
-
     @Autowired
     RackService rackService;
-
     @Autowired
     ShelfService shelfService;
 
@@ -50,18 +48,14 @@ public class StockController extends BaseController {
     public String addPost(Model model, @ModelAttribute StockDto stockDto) {
         String identifier = stockDto.getProduct() + "_" + stockDto.getWarehouse();
         stockDto.setIdentifier(identifier);
-
         StockDto response = stockService.save(stockDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             model.addAttribute("stockDto", stockDto);
-
             model.addAttribute(PRODUCTS, productService.findAll(null));
             model.addAttribute(WAREHOUSES, warehouseService.findAll(null));
-
             return "stock/add";
         }
-
         return REDIRECT_STOCK_LIST;
     }
 
@@ -105,4 +99,5 @@ public class StockController extends BaseController {
     public StockDto toggleStatus(@RequestBody StockDto stockDto) {
         return stockService.toggleStatus(stockDto.getIdentifier(), stockDto.isStatus());
     }
+
 }

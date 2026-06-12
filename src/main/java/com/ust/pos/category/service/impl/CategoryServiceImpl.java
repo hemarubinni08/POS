@@ -19,9 +19,9 @@ import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
+
     @Autowired
     CategoryRepository categoryRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -41,32 +41,26 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDto;
     }
 
+    @Override
     public WsDto<CategoryDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<CategoryDto>>() {
-
         }.getType();
-
         if (pageable == null) {
-            return modelMapper.map(categoryRepository.findAll(), listType);
+            List<CategoryDto> categoryDtoList = modelMapper.map(categoryRepository.findAll(), listType);
+            WsDto<CategoryDto> response = new WsDto<>();
+            response.setDtoList(categoryDtoList);
+            response.setTotalRecords(categoryDtoList.size());
+            return response;
         }
-
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
-
-        WsDto<CategoryDto> categoryWsDto = new WsDto<>();
-
-        categoryWsDto.setDtoList(modelMapper.map(categoryPage.getContent(), listType));
-
-        categoryWsDto.setTotalRecords(categoryPage.getTotalElements());
-
-        categoryWsDto.setTotalPages(categoryPage.getTotalPages());
-
-        categoryWsDto.setSizePerPage(pageable.getPageSize());
-
-        categoryWsDto.setPage(pageable.getPageNumber());
-
-        return categoryWsDto;
-
+        List<CategoryDto> categoryDtoList = modelMapper.map(categoryPage.getContent(), listType);
+        WsDto<CategoryDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(categoryDtoList);
+        wsDto.setPage(categoryPage.getNumber());
+        wsDto.setSizePerPage(categoryPage.getSize());
+        wsDto.setTotalPages(categoryPage.getTotalPages());
+        wsDto.setTotalRecords(categoryPage.getTotalElements());
+        return wsDto;
     }
 
     @Override
@@ -97,4 +91,5 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> findSubCategories() {
         return categoryRepository.findBySuperCategoryNotNull().stream().map(category -> modelMapper.map(category, CategoryDto.class)).toList();
     }
+
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class RoleController extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/role/list";
+
     @Autowired
     private RoleService roleService;
 
@@ -63,4 +64,5 @@ public class RoleController extends BaseController {
         roleService.delete(identifier);
         return REDIRECT_ROLE_LIST;
     }
+
 }

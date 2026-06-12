@@ -17,13 +17,10 @@ public class TokenGenerationControllerTest {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
     @Autowired
     private AuthenticationProvider authenticationProvider;
-
     @Autowired
     private JWTUtility jwtUtility;
-
     @Autowired
     private UserService userService;
 
@@ -33,11 +30,9 @@ public class TokenGenerationControllerTest {
             authenticationProvider.authenticate(
                     new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword())
             );
-
             UserDto persistedUser = userService.findByUserName(userDto.getUsername());
             UserDetails userDetails = userDetailsService.loadUserByUsername(userDto.getUsername());
             final String token = jwtUtility.generateToken(userDetails);
-
             UserDto response = new UserDto(token);
             response.setUsername(persistedUser.getUsername());
             response.setRoles(persistedUser.getRoles());
@@ -56,4 +51,5 @@ public class TokenGenerationControllerTest {
             return false;
         }
     }
+
 }

@@ -17,7 +17,7 @@ public class SecurityApiController {
 
     @PostMapping("/add")
     public UserDto addUser(@RequestBody UserDto userDto) {
-
         return userService.save(userDto);
     }
+
 }

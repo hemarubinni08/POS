@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/node")
 public class NodeApiController extends BaseController {
+
     @Autowired
     private NodeService nodeService;
 
@@ -57,4 +58,5 @@ public class NodeApiController extends BaseController {
     public List<NodeDto> getNodes() {
         return nodeService.getNodesForRoles();
     }
+
 }

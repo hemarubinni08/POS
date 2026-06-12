@@ -25,6 +25,7 @@ import javax.sql.DataSource;
 )
 @ComponentScan({"com.ust.pos.api", "com.ust.pos.web.controller", "com.ust.pos"})
 public class PosApplication {
+
     @Autowired
     Environment environment;
 
@@ -64,4 +65,5 @@ public class PosApplication {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

@@ -5,6 +5,7 @@ import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface WarehouseService {
+
     WarehouseDto save(WarehouseDto warehouseDto);
 
     WsDto<WarehouseDto> findAll(Pageable pageable);
@@ -14,4 +15,5 @@ public interface WarehouseService {
     WarehouseDto findByIdentifier(String identifier);
 
     void delete(String identifier);
+
 }

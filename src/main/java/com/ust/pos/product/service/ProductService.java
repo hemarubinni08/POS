@@ -5,6 +5,7 @@ import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
+
     ProductDto save(ProductDto productDto);
 
     WsDto<ProductDto> findAll(Pageable pageable);
@@ -14,4 +15,5 @@ public interface ProductService {
     void deleteByIdentifier(String identifier);
 
     ProductDto update(ProductDto productDto);
+
 }

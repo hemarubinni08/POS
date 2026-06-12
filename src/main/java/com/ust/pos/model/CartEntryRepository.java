@@ -7,6 +7,7 @@ import java.util.List;
 
 @Repository
 public interface CartEntryRepository extends JpaRepository<CartEntry, Long> {
+
     CartEntry findByIdentifier(String identifier);
 
     void deleteByIdentifier(String identifier);
@@ -14,4 +15,5 @@ public interface CartEntryRepository extends JpaRepository<CartEntry, Long> {
     List<CartEntry> findByCartIdentifier(String cartIdentifier);
 
     void deleteByCartIdentifier(String cartIdentifier);
+
 }

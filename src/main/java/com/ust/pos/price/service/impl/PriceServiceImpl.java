@@ -19,15 +19,14 @@ import java.util.List;
 @Service
 @Transactional
 public class PriceServiceImpl implements PriceService {
+
     @Autowired
     PriceRepository priceRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
     @Override
     public PriceDto save(PriceDto priceDto) {
-        // Create an identifier using a combination of price and price type
         priceDto.setIdentifier(priceDto.getProduct() + "_" + priceDto.getType());
         String identifier = priceDto.getIdentifier();
         Price existingPrice = priceRepository.findByIdentifier(identifier);
@@ -41,32 +40,26 @@ public class PriceServiceImpl implements PriceService {
         return priceDto;
     }
 
+    @Override
     public WsDto<PriceDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<PriceDto>>() {
-
         }.getType();
-
         if (pageable == null) {
-            return modelMapper.map(priceRepository.findAll(), listType);
+            List<PriceDto> priceDtoList = modelMapper.map(priceRepository.findAll(), listType);
+            WsDto<PriceDto> response = new WsDto<>();
+            response.setDtoList(priceDtoList);
+            response.setTotalRecords(priceDtoList.size());
+            return response;
         }
-
         Page<Price> pricePage = priceRepository.findAll(pageable);
-
-        WsDto<PriceDto> priceWsDto = new WsDto<>();
-
-        priceWsDto.setDtoList(modelMapper.map(pricePage.getContent(), listType));
-
-        priceWsDto.setTotalRecords(pricePage.getTotalElements());
-
-        priceWsDto.setTotalPages(pricePage.getTotalPages());
-
-        priceWsDto.setSizePerPage(pageable.getPageSize());
-
-        priceWsDto.setPage(pageable.getPageNumber());
-
-        return priceWsDto;
-
+        List<PriceDto> priceDtoList = modelMapper.map(pricePage.getContent(), listType);
+        WsDto<PriceDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(priceDtoList);
+        wsDto.setPage(pricePage.getNumber());
+        wsDto.setSizePerPage(pricePage.getSize());
+        wsDto.setTotalPages(pricePage.getTotalPages());
+        wsDto.setTotalRecords(pricePage.getTotalElements());
+        return wsDto;
     }
 
     @Override
@@ -92,4 +85,5 @@ public class PriceServiceImpl implements PriceService {
     public void deleteByIdentifier(String identifier) {
         priceRepository.deleteByIdentifier(identifier);
     }
+
 }

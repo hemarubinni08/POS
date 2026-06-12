@@ -19,9 +19,9 @@ import java.util.List;
 @Service
 @Transactional
 public class ShelfServiceImpl implements ShelfService {
+
     @Autowired
     ShelfRepository shelfRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -40,31 +40,24 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public WsDto<ShelfDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<ShelfDto>>() {
-
         }.getType();
-
         if (pageable == null) {
-            return modelMapper.map(shelfRepository.findAll(), listType);
+            List<ShelfDto> shelfDtoList = modelMapper.map(shelfRepository.findAll(), listType);
+            WsDto<ShelfDto> response = new WsDto<>();
+            response.setDtoList(shelfDtoList);
+            response.setTotalRecords(shelfDtoList.size());
+            return response;
         }
-
         Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
-
-        WsDto<ShelfDto> shelfWsDto = new WsDto<>();
-
-        shelfWsDto.setDtoList(modelMapper.map(shelfPage.getContent(), listType));
-
-        shelfWsDto.setTotalRecords(shelfPage.getTotalElements());
-
-        shelfWsDto.setTotalPages(shelfPage.getTotalPages());
-
-        shelfWsDto.setSizePerPage(pageable.getPageSize());
-
-        shelfWsDto.setPage(pageable.getPageNumber());
-
-        return shelfWsDto;
-
+        List<ShelfDto> shelfDtoList = modelMapper.map(shelfPage.getContent(), listType);
+        WsDto<ShelfDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(shelfDtoList);
+        wsDto.setPage(shelfPage.getNumber());
+        wsDto.setSizePerPage(shelfPage.getSize());
+        wsDto.setTotalPages(shelfPage.getTotalPages());
+        wsDto.setTotalRecords(shelfPage.getTotalElements());
+        return wsDto;
     }
 
     @Override
@@ -100,20 +93,16 @@ public class ShelfServiceImpl implements ShelfService {
             response.setMessage("Shelf not found");
             return response;
         }
-        // Toggle status
         shelf.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
     }
 
     public List<ShelfDto> findActiveShelves() {
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
-        return modelMapper.map(
-                shelfRepository.findByStatusTrue(),
-                listType
-        );
+        return modelMapper.map(shelfRepository.findByStatusTrue(), listType);
     }
+
 }

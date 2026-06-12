@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/unit")
 public class UnitController extends BaseController {
+
     public static final String REDIRECT_UNIT_LIST = "redirect:/unit/list";
+
     @Autowired
     UnitService unitService;
 
@@ -67,4 +69,5 @@ public class UnitController extends BaseController {
     public UnitDto toggleStatus(@RequestBody UnitDto unitDto) {
         return unitService.toggleStatus(unitDto.getIdentifier(), unitDto.isStatus());
     }
+
 }

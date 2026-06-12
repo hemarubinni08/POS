@@ -19,9 +19,9 @@ import java.util.List;
 @Service
 @Transactional
 public class UnitServiceImpl implements UnitService {
+
     @Autowired
     UnitRepository unitRepository;
-
     @Autowired
     ModelMapper modelMapper;
 
@@ -38,32 +38,26 @@ public class UnitServiceImpl implements UnitService {
         return unitDto;
     }
 
+    @Override
     public WsDto<UnitDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<UnitDto>>() {
-
         }.getType();
-
         if (pageable == null) {
-            return modelMapper.map(unitRepository.findAll(), listType);
+            List<UnitDto> unitDtoList = modelMapper.map(unitRepository.findAll(), listType);
+            WsDto<UnitDto> response = new WsDto<>();
+            response.setDtoList(unitDtoList);
+            response.setTotalRecords(unitDtoList.size());
+            return response;
         }
-
         Page<Unit> unitPage = unitRepository.findAll(pageable);
-
-        WsDto<UnitDto> unitWsDto = new WsDto<>();
-
-        unitWsDto.setDtoList(modelMapper.map(unitPage.getContent(), listType));
-
-        unitWsDto.setTotalRecords(unitPage.getTotalElements());
-
-        unitWsDto.setTotalPages(unitPage.getTotalPages());
-
-        unitWsDto.setSizePerPage(pageable.getPageSize());
-
-        unitWsDto.setPage(pageable.getPageNumber());
-
-        return unitWsDto;
-
+        List<UnitDto> unitDtoList = modelMapper.map(unitPage.getContent(), listType);
+        WsDto<UnitDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(unitDtoList);
+        wsDto.setPage(unitPage.getNumber());
+        wsDto.setSizePerPage(unitPage.getSize());
+        wsDto.setTotalPages(unitPage.getTotalPages());
+        wsDto.setTotalRecords(unitPage.getTotalElements());
+        return wsDto;
     }
 
     @Override
@@ -99,11 +93,10 @@ public class UnitServiceImpl implements UnitService {
             response.setMessage("Unit not found");
             return response;
         }
-        // Toggle status
         unit.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
     }
+
 }
