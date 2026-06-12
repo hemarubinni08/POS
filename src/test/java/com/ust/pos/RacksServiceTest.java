@@ -18,6 +18,7 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class RacksServiceTest {
+
     @Mock
     private RacksRepository racksRepository;
 
@@ -27,10 +28,8 @@ class RacksServiceTest {
     @InjectMocks
     private RacksServiceImpl racksService;
 
-    /* ===================== SAVE ===================== */
     @Test
     void saveTest() {
-
         RacksDto racksDto = new RacksDto();
         racksDto.setIdentifier("Admin");
         Mockito.when(racksRepository.findByIdentifier("Admin")).thenReturn(null);
@@ -40,12 +39,10 @@ class RacksServiceTest {
         RacksDto response = racksService.save(racksDto);
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void saveTestFailure() {
-
         RacksDto racksDto = new RacksDto();
         racksDto.setIdentifier("Admin");
         Racks existingRacks = new Racks();
@@ -53,10 +50,8 @@ class RacksServiceTest {
         Mockito.when(racksRepository.findByIdentifier("Admin")).thenReturn(existingRacks);
         RacksDto response = racksService.save(racksDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
-    /* ===================== FIND BY IDENTIFIER ===================== */
     @Test
     void findByIdentifierTest() {
         Racks racks = new Racks();
@@ -67,13 +62,10 @@ class RacksServiceTest {
         Mockito.when(modelMapper.map(racks, RacksDto.class)).thenReturn(racksDto);
         RacksDto response = racksService.findByIdentifier("Admin");
         Assertions.assertEquals("Admin", response.getIdentifier());
-
     }
 
-    /* ===================== UPDATE ===================== */
     @Test
     void updateTest() {
-
         RacksDto racksDto = new RacksDto();
         racksDto.setIdentifier("Admin");
         Racks existingRacks = new Racks();
@@ -82,34 +74,26 @@ class RacksServiceTest {
         Mockito.when(racksRepository.save(existingRacks)).thenReturn(existingRacks);
         RacksDto response = racksService.update(racksDto);
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void updateTestFailure() {
-
         RacksDto racksDto = new RacksDto();
         racksDto.setIdentifier("Admin");
         Mockito.when(racksRepository.findByIdentifier("Admin")).thenReturn(null);
         RacksDto response = racksService.update(racksDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
-    /* ===================== DELETE ===================== */
     @Test
     void deleteTest() {
-
         Mockito.doNothing().when(racksRepository).deleteByIdentifier("Admin");
         boolean response = racksService.delete("Admin");
         Assertions.assertEquals(true, response);
-
     }
 
-    /* ===================== FIND ALL ===================== */
     @Test
     void findAllTest() {
-
         Racks racks = new Racks();
         racks.setIdentifier("Admin");
         RacksDto racksDto = new RacksDto();
@@ -125,12 +109,10 @@ class RacksServiceTest {
         )).thenReturn(racksDtos);
         List<RacksDto> response = racksService.findAll(pageable);
         Assertions.assertEquals(1, response.size());
-
     }
 
     @Test
     void findByStatusTest() {
-
         Racks racks = new Racks();
         racks.setIdentifier("Admin");
         RacksDto racksDto = new RacksDto();
@@ -144,12 +126,10 @@ class RacksServiceTest {
         )).thenReturn(racksDtos);
         List<RacksDto> response = racksService.findIfTrue();
         Assertions.assertEquals(1, response.size());
-
     }
 
     @Test
     void toggleTestActive() {
-
         Racks racks = new Racks();
         racks.setStatus(false);
         RacksDto racksDto = new RacksDto();
@@ -158,12 +138,10 @@ class RacksServiceTest {
         Mockito.when(modelMapper.map(racks, RacksDto.class)).thenReturn(racksDto);
         RacksDto response = racksService.toggleStatus("Admin");
         Assertions.assertTrue(response.isStatus());
-
     }
 
     @Test
     void toggleTestInactive() {
-
         Racks racks = new Racks();
         racks.setStatus(true);
         RacksDto racksDto = new RacksDto();
@@ -172,6 +150,5 @@ class RacksServiceTest {
         Mockito.when(modelMapper.map(racks, RacksDto.class)).thenReturn(racksDto);
         RacksDto response = racksService.toggleStatus("Admin");
         Assertions.assertFalse(response.isStatus());
-
     }
 }

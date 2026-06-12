@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
 
     private static final String BRAND = "brand";

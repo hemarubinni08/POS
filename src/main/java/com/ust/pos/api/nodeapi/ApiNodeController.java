@@ -24,50 +24,38 @@ public class ApiNodeController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<NodeDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return nodeService.findAll(pageable);
-
     }
 
     @PostMapping("/add")
     public NodeDto addPost(@RequestBody NodeDto nodeDto) {
-
         return nodeService.save(nodeDto);
-
     }
 
     @GetMapping("/get")
     public NodeDto update(@RequestParam String identifier) {
-
         return nodeService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
-
         return nodeService.update(nodeDto);
-
     }
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-
         try {
             nodeService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
         return true;
-
     }
 
     @PostMapping("/toggle-status")
     public NodeDto toggle(@RequestParam String identifier) {
-
         return nodeService.toggleStatus(identifier);
-
     }
 
     @GetMapping("/findByStatus")
@@ -79,5 +67,4 @@ public class ApiNodeController extends BaseController {
     public List<NodeDto> getNodesForRoles(){
         return nodeService.getNodesForRoles();
     }
-
 }

@@ -18,6 +18,7 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class UnitServiceTest {
+
     @Mock
     private UnitRepository unitRepository;
 
@@ -27,10 +28,8 @@ class UnitServiceTest {
     @InjectMocks
     private UnitServiceImpl unitService;
 
-    /* ===================== SAVE ===================== */
     @Test
     void saveTest() {
-
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("Admin");
         Mockito.when(unitRepository.findByIdentifier("Admin")).thenReturn(null);
@@ -40,12 +39,10 @@ class UnitServiceTest {
         UnitDto response = unitService.save(unitDto);
         Assertions.assertEquals("Admin", response.getIdentifier());
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void saveTestFailure() {
-
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("Admin");
         Unit existingUnit = new Unit();
@@ -53,13 +50,10 @@ class UnitServiceTest {
         Mockito.when(unitRepository.findByIdentifier("Admin")).thenReturn(existingUnit);
         UnitDto response = unitService.save(unitDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
-    /* ===================== FIND BY IDENTIFIER ===================== */
     @Test
     void findByIdentifierTest() {
-
         Unit unit = new Unit();
         unit.setIdentifier("Admin");
         UnitDto unitDto = new UnitDto();
@@ -68,13 +62,10 @@ class UnitServiceTest {
         Mockito.when(modelMapper.map(unit, UnitDto.class)).thenReturn(unitDto);
         UnitDto response = unitService.findByIdentifier("Admin");
         Assertions.assertEquals("Admin", response.getIdentifier());
-
     }
 
-    /* ===================== UPDATE ===================== */
     @Test
     void updateTest() {
-
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("Admin");
         Unit existingUnit = new Unit();
@@ -83,34 +74,26 @@ class UnitServiceTest {
         Mockito.when(unitRepository.save(existingUnit)).thenReturn(existingUnit);
         UnitDto response = unitService.update(unitDto);
         Assertions.assertTrue(response.isSuccess());
-
     }
 
     @Test
     void updateTestFailure() {
-
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("Admin");
         Mockito.when(unitRepository.findByIdentifier("Admin")).thenReturn(null);
         UnitDto response = unitService.update(unitDto);
         Assertions.assertFalse(response.isSuccess());
-
     }
 
-    /* ===================== DELETE ===================== */
     @Test
     void deleteTest() {
-
         Mockito.doNothing().when(unitRepository).deleteByIdentifier("Admin");
         boolean response = unitService.delete("Admin");
         Assertions.assertEquals(true, response);
-
     }
 
-    /* ===================== FIND ALL ===================== */
     @Test
     void findAllTest() {
-
         Unit unit = new Unit();
         unit.setIdentifier("Admin");
         UnitDto unitDto = new UnitDto();
@@ -126,11 +109,9 @@ class UnitServiceTest {
         )).thenReturn(unitDtos);
         List<UnitDto> response = unitService.findAll(pageable);
         Assertions.assertEquals(1, response.size());
-
     }
     @Test
     void findByStatusTest() {
-
         Unit unit = new Unit();
         unit.setIdentifier("Admin");
         UnitDto unitDto = new UnitDto();
@@ -144,12 +125,10 @@ class UnitServiceTest {
         )).thenReturn(unitDtos);
         List<UnitDto> response = unitService.findIfTrue();
         Assertions.assertEquals(1, response.size());
-
     }
 
     @Test
     void toggleTestActive() {
-
         Unit unit = new Unit();
         unit.setStatus(false);
         UnitDto unitDto = new UnitDto();
@@ -158,12 +137,10 @@ class UnitServiceTest {
         Mockito.when(modelMapper.map(unit, UnitDto.class)).thenReturn(unitDto);
         UnitDto response = unitService.toggleStatus("Admin");
         Assertions.assertTrue(response.isStatus());
-
     }
 
     @Test
     void toggleTestInactive() {
-
         Unit unit = new Unit();
         unit.setStatus(true);
         UnitDto unitDto = new UnitDto();
@@ -172,7 +149,5 @@ class UnitServiceTest {
         Mockito.when(modelMapper.map(unit, UnitDto.class)).thenReturn(unitDto);
         UnitDto response = unitService.toggleStatus("Admin");
         Assertions.assertFalse(response.isStatus());
-
     }
-
 }

@@ -124,6 +124,7 @@ public class UserServiceImpl implements UserService {
         }.getType();
         return modelMapper.map(userRepository.findByStatusIsTrue(), listType);
     }
+
     @Override
     public UserDto getUserDetails(String username) {
         User user = userRepository.findByUsername(username);

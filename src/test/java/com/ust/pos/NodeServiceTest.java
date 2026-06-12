@@ -24,12 +24,16 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class NodeServiceTest {
+
     @Mock
     UserRepository userRepository;
+
     @Mock
     private NodeRepository nodeRepository;
+
     @Mock
     private ModelMapper modelMapper;
+
     @InjectMocks
     private NodeServiceImpl nodeService;
 

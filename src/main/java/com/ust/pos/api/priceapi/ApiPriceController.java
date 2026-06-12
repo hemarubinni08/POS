@@ -21,24 +21,18 @@ public class ApiPriceController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<PriceDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return priceService.findAll(pageable);
-
     }
 
     @PostMapping("/add")
     public PriceDto addPost(@RequestBody PriceDto priceDto) {
-
         return priceService.save(priceDto);
-
     }
 
     @GetMapping("/get")
     public PriceDto update(@RequestParam String identifier) {
-
         return priceService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
@@ -48,28 +42,21 @@ public class ApiPriceController extends BaseController {
 
     @GetMapping("/delete")
     public boolean delete(Model model, @RequestParam String identifier) {
-
         try {
             priceService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
         return true;
-
     }
 
     @PostMapping("/toggle-status")
     public PriceDto toggle(@RequestParam String identifier) {
-
         return priceService.toggleStatus(identifier);
-
     }
-
 
     @GetMapping("/findByStatus")
     public List<PriceDto> findByStatus() {
-
         return priceService.findIfTrue();
-
     }
 }

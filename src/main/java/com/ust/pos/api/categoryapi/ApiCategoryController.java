@@ -20,32 +20,23 @@ public class ApiCategoryController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return categoryService.findAll(pageable);
-
     }
 
     @PostMapping("/add")
     public CategoryDto addPost(@RequestBody CategoryDto categoryDto) {
-
         return categoryService.save(categoryDto);
-
     }
 
     @GetMapping("/get")
     public CategoryDto update(@RequestParam String identifier) {
-
         return categoryService.findByIdentifier(identifier);
-
     }
-
 
     @PostMapping("/update")
     public CategoryDto updatePost(@RequestBody CategoryDto categoryDto) {
-
         return categoryService.update(categoryDto);
-
     }
 
     @GetMapping("/delete")
@@ -60,22 +51,16 @@ public class ApiCategoryController extends BaseController {
 
     @GetMapping("/getBySuperCategoryNotNull")
     public List<CategoryDto> superCategoryNotNull() {
-
         return categoryService.findBySuperCategoryNotNull();
-
     }
 
     @PostMapping("/toggle-status")
     public CategoryDto toggle(@RequestParam String identifier) {
-
         return categoryService.toggleStatus(identifier);
-
     }
 
     @GetMapping("/findByStatus")
     public List<CategoryDto> findByStatus() {
-
         return categoryService.findIfTrue();
-
     }
 }

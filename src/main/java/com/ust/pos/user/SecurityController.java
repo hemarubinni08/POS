@@ -23,9 +23,7 @@ public class SecurityController extends BaseController {
 
     @GetMapping("/login")
     public String login(Model model) {
-
         return "login";
-
     }
 
     @GetMapping("/register")

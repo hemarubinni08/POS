@@ -22,57 +22,42 @@ public class ApiRacksController extends BaseController {
 
     @PostMapping("/list")
     public List<RacksDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return racksService.findAll(pageable);
-
     }
 
     @PostMapping("/add")
     public RacksDto addPost(@RequestBody RacksDto racksDto) {
-
         return racksService.save(racksDto);
-
     }
 
     @GetMapping("/get")
     public RacksDto update(@RequestParam String identifier) {
-
         return racksService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public RacksDto updatePost(@RequestBody RacksDto racksDto) {
-
         return racksService.update(racksDto);
-
     }
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-
         try {
             racksService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
         return true;
-
     }
 
     @PostMapping("/toggle-status")
     public RacksDto toggle(@RequestParam String identifier) {
-
         return racksService.toggleStatus(identifier);
-
     }
-
 
     @GetMapping("/findByStatus")
     public List<RacksDto> findByStatus() {
-
         return racksService.findIfTrue();
-
     }
 }

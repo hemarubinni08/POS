@@ -11,19 +11,12 @@ import java.util.List;
 public interface NodeService {
 
     List<NodeDto> getNodesForRoles();
-
     NodeDto save(NodeDto nodeDto);
-
     NodeDto update(NodeDto nodeDto);
-
     boolean delete(String identifier);
-
     WsDto<NodeDto> findAll(Pageable pageable);
-
     NodeDto findByIdentifier(String identifier);
-
     NodeDto toggleStatus(String identifier);
-
     List<NodeDto> findIfTrue();
 
 }

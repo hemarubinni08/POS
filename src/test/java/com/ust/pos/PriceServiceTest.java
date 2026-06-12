@@ -20,6 +20,7 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class PriceServiceTest {
+
     @Mock
     private PriceRepository priceRepository;
 
@@ -117,6 +118,7 @@ class PriceServiceTest {
         Assertions.assertEquals(50, response.getSizePerPage());
         Assertions.assertEquals(0, response.getPage());
     }
+
     @Test
     void findByStatusTest() {
         Price price = new Price();

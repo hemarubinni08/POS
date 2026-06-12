@@ -17,6 +17,7 @@ import java.util.List;
 
 @Repository
 public class CartEntryServiceImpl implements CartEntryService {
+
     @Autowired
     private CartEntryRepository cartEntryRepository;
 

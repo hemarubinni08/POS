@@ -1,6 +1,5 @@
 package com.ust.pos.api.unitapi;
 
-
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UnitDto;
@@ -20,56 +19,42 @@ public class ApiUnitController extends BaseController {
 
     @PostMapping("/list")
     public List<UnitDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return unitService.findAll(pageable);
-
     }
 
     @PostMapping("/add")
     public UnitDto addPost(@RequestBody UnitDto unitDto) {
-
         return unitService.save(unitDto);
-
     }
 
     @GetMapping("/get")
     public UnitDto update(@RequestParam String identifier) {
-
         return unitService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public UnitDto updatePost(@RequestBody UnitDto unitDto) {
-
         return unitService.update(unitDto);
-
     }
 
     @GetMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
-
         try {
             unitService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
         return true;
-
     }
 
     @PostMapping("/toggle-status")
     public UnitDto toggle(@RequestParam String identifier) {
-
         return unitService.toggleStatus(identifier);
-
     }
 
     @GetMapping("/findByStatus")
     public List<UnitDto> findByStatus() {
-
         return unitService.findIfTrue();
-
     }
 }

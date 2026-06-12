@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class NodeController extends BaseController {
 
     public static final String REDIRECT_NODE_LIST = "redirect:/node/list";
+
     public static final String ROLES = "roles";
 
     @Autowired

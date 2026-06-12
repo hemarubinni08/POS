@@ -18,6 +18,7 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class AddressServiceTest {
+
     @Mock
     private AddressRepository addressRepository;
 
@@ -26,7 +27,6 @@ class AddressServiceTest {
 
     @InjectMocks
     private AddressServiceImpl addressService;
-
 
     @Test
     void saveTest() {
@@ -63,7 +63,6 @@ class AddressServiceTest {
         AddressDto response = addressService.findByIdentifier("Admin");
         Assertions.assertEquals("Admin", response.getIdentifier());
     }
-
 
     @Test
     void updateTest() {

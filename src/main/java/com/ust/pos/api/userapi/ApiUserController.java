@@ -34,7 +34,6 @@ public class ApiUserController extends BaseController {
     @GetMapping("/get")
     public UserDto update(@RequestParam String username) {
         return userService.findByUserName(username);
-
     }
 
     @PostMapping("/update")

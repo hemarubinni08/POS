@@ -28,10 +28,13 @@ class UserServiceTest {
 
     @Mock
     PasswordEncoder passwordEncoder;
+
     @Mock
     private UserRepository userRepository;
+
     @Mock
     private ModelMapper modelMapper;
+
     @InjectMocks
     private UserServiceImpl userService;
 

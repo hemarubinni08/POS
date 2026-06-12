@@ -26,7 +26,6 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private CartEntryService cartEntryService;
 
-
     @Override
     public CartDto save(CartDto cartDto) {
         String identifier = cartDto.getIdentifier();
@@ -47,7 +46,6 @@ public class CartServiceImpl implements CartService {
         Cart cartModel = cartRepository.findByIdentifier(cart);
         BigDecimal totalPrice = BigDecimal.ZERO;
         BigDecimal totalDiscount = BigDecimal.ZERO;
-
         for(CartEntryDto cartEntryDto: cartEntries){
             totalPrice = totalPrice.add(cartEntryDto.getTotalPrice());
             totalDiscount = totalDiscount.add(cartEntryDto.getDiscount());
