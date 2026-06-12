@@ -33,8 +33,8 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/get")
-    public String update(Model model, @RequestParam String username) {
-        UserDto response = userService.findByUserName(username);
+    public String update(Model model, @RequestParam String identifier) {
+        UserDto response = userService.findByUserName(identifier);
         model.addAttribute("roles", roleService.findAllActive());
         model.addAttribute("user", response);
         return "user/user";
@@ -57,17 +57,17 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam String username, RedirectAttributes redirectAttributes) {
+    public String delete(@RequestParam String identifier, RedirectAttributes redirectAttributes) {
 
         String loggedInUsername = AUTHENTICATION.getName();
-        if (loggedInUsername.equalsIgnoreCase(username)) {
+        if (loggedInUsername.equalsIgnoreCase(identifier)) {
             redirectAttributes.addFlashAttribute(MESSAGE,
                     "Sorry! You cannot delete your own account.");
             redirectAttributes.addFlashAttribute(COLOUR, "red");
             return "redirect:/user/list";
         }
-        userService.delete(username);
-        redirectAttributes.addFlashAttribute(MESSAGE, "User '" + username + "' deleted successfully");
+        userService.delete(identifier);
+        redirectAttributes.addFlashAttribute(MESSAGE, "User '" + identifier + "' deleted successfully");
         redirectAttributes.addFlashAttribute(COLOUR, "green");
         return "redirect:/user/list";
     }

@@ -66,7 +66,7 @@ public class CartEntryServiceImpl implements CartEntryService {
     @Override
     public void deleteByIdentifier(String identifier) throws RuntimeException {
         CartEntry cartEntry = cartEntryRepository.findByIdentifier(identifier);
-        if (cartEntry == null) throw new RuntimeException("CartEntry not found");
+        if (cartEntry == null) throw new IllegalArgumentException("CartEntry not found");
         cartEntryRepository.deleteByIdentifier(identifier);
     }
 
