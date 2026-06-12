@@ -1,6 +1,7 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
 import com.ust.pos.unit.service.impl.UnitServiceImpl;
@@ -46,12 +47,15 @@ class UnitServiceTest {
 
         List<UnitDto> dtoList = List.of(new UnitDto());
 
-        when(modelMapper.map(eq(units), any(java.lang.reflect.Type.class)))
+        when(modelMapper.map(any(), any(java.lang.reflect.Type.class)))
                 .thenReturn(dtoList);
 
-        List<UnitDto> result = unitService.findAll(pageable);
+        WsDto<UnitDto> result = unitService.findAll(pageable);
 
-        assertEquals(1, result.size());
+        assertNotNull(result);
+        assertNotNull(result.getContent());
+        assertEquals(1, result.getContent().size());
+
         verify(unitRepository).findAll(pageable);
     }
 

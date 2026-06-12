@@ -1,9 +1,10 @@
-package com.ust.pos.api.cartEntry;
+package com.ust.pos.api.cartentry;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.cartEntry.service.CartEntryService;
+import com.ust.pos.cartentry.service.CartentryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +13,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cartEntry")
-public class CartEntryRestController extends BaseController {
+public class CartentryRestController extends BaseController {
     @Autowired
-    CartEntryService cartEntryService;
+    CartentryService cartEntryService;
 
     @PostMapping("/list")
-    public List<CartEntryDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<CartEntryDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),

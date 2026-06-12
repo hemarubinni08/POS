@@ -11,4 +11,5 @@ public class CommonDto extends PaginationDto {
     private String message;
     private boolean success = true;
     private boolean status;
+    private String description;
 }

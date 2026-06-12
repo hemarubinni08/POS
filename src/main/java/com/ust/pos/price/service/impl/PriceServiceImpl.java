@@ -1,6 +1,5 @@
 package com.ust.pos.price.service.impl;
 
-import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Price;
@@ -27,7 +26,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public WsDto<PriceDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<NodeDto>>() {
+        Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
         Page<Price> pricePage = priceRepository.findAll(pageable);
 

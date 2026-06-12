@@ -83,27 +83,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public WsDto<CategoryDto> findAllCategoriesWithNoSuper() {
+    public List<CategoryDto> findAllCategoriesWithNoSuper() {
 
         List<Category> categoryList = categoryRepository.findAll();
 
         List<Category> filteredCategories = categoryList.stream()
                 .filter(category ->
-                        category.getSuperCategory() == null ||
-                                category.getSuperCategory().isEmpty()
+                        category.getSuperCategory() != null &&
+                                !category.getSuperCategory().isEmpty()
                 )
                 .toList();
 
-        Type listType = new TypeToken<List<CategoryDto>>() {
-        }.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
 
-        WsDto<CategoryDto> dto = new WsDto<>();
-        dto.setContent(modelMapper.map(filteredCategories, listType));
-        dto.setTotalRecords(filteredCategories.size());
-        dto.setTotalPages(1);
-        dto.setSizePerPage(filteredCategories.size());
-        dto.setPage(0);
-
-        return dto;
+        return modelMapper.map(filteredCategories, listType);
     }
 }

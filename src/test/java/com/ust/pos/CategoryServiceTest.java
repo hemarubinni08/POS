@@ -150,17 +150,19 @@ class CategoryServiceTest {
         when(categoryRepository.findAll(pageable)).thenReturn(page);
 
         when(modelMapper.map(
-                eq(categories),
+                any(),
                 any(Type.class)
         )).thenReturn(dtos);
 
-        List<CategoryDto> result = categoryService.findAll(pageable);
+        WsDto<CategoryDto> result = categoryService.findAll(pageable);
 
         assertNotNull(result);
-        assertEquals(1, result.size());
+        assertNotNull(result.getContent());
+        assertEquals(1, result.getContent().size());
 
         verify(categoryRepository).findAll(pageable);
     }
+
 
     @Test
     void testFindAllCategoriesWithNoSuper() {
@@ -169,7 +171,7 @@ class CategoryServiceTest {
         category1.setSuperCategory(List.of("parent"));
 
         Category category2 = new Category();
-        category2.setSuperCategory(List.of()); // empty
+        category2.setSuperCategory(List.of());
 
         List<Category> categories = List.of(category1, category2);
 
@@ -180,7 +182,7 @@ class CategoryServiceTest {
         when(modelMapper.map(any(), any(java.lang.reflect.Type.class)))
                 .thenReturn(List.of(dto));
 
-        WsDto<CategoryDto> result = categoryService.findAllCategoriesWithNoSuper();
+        List<CategoryDto> result = categoryService.findAllCategoriesWithNoSuper();
 
         assertNotNull(result);
         assertEquals(1, result.size());

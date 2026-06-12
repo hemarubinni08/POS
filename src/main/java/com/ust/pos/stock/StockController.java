@@ -42,7 +42,7 @@ public class StockController {
     public String add(Model model, @ModelAttribute StockDto stockDto, Pageable pageable) {
         WsDto<ProductDto> productDtos = productService.findAll(pageable);
         model.addAttribute("productList", productDtos);
-        List<WarehouseDto> warehouseDtos = warehouseService.findAll(pageable);
+        WsDto<WarehouseDto> warehouseDtos = warehouseService.findAll(pageable);
         model.addAttribute("warehouseList", warehouseDtos);
         return "stock/add";
     }
@@ -63,7 +63,7 @@ public class StockController {
     public String update(Model model, @RequestParam String identifier, Pageable pageable) {
         WsDto<ProductDto> productDtos = productService.findAll(pageable);
         model.addAttribute("productList", productDtos);
-        List<WarehouseDto> warehouseDtos = warehouseService.findAll(pageable);
+        WsDto<WarehouseDto> warehouseDtos = warehouseService.findAll(pageable);
         model.addAttribute("warehouseList", warehouseDtos);
         StockDto response = stockService.findByIdentifier(identifier);
         model.addAttribute("stock", response);

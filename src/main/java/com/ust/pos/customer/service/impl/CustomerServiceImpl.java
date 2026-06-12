@@ -3,7 +3,10 @@ package com.ust.pos.customer.service.impl;
 import com.ust.pos.customer.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.AddressDto;
+import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.Category;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
 import jakarta.transaction.Transactional;
@@ -29,11 +32,22 @@ public class CustomerServiceImpl implements CustomerService {
     AddressService addressService;
 
     @Override
-    public List<CustomerDto> findAll(Pageable pageable) {
+    public WsDto<CustomerDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
+
         Page<Customer> customerPage = customerRepository.findAll(pageable);
-        return modelMapper.map(customerPage.getContent(), listType);
+
+        WsDto<CustomerDto> dto = new WsDto<>();
+
+        dto.setContent(modelMapper.map(customerPage.getContent(), listType));
+        dto.setTotalRecords(customerPage.getTotalElements());
+        dto.setTotalPages(customerPage.getTotalPages());
+        dto.setSizePerPage(pageable.getPageSize());
+        dto.setPage(pageable.getPageNumber());
+
+        return dto;
     }
 
     @Override

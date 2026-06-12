@@ -3,10 +3,9 @@ package com.ust.pos.cart.service.impl;
 import com.ust.pos.cart.service.CartService;
 import com.ust.pos.dto.CartDto;
 import com.ust.pos.dto.CartEntryDto;
-import com.ust.pos.model.Cart;
-import com.ust.pos.model.CartEntry;
-import com.ust.pos.model.CartEntryRepository;
-import com.ust.pos.model.CartRepository;
+import com.ust.pos.dto.CategoryDto;
+import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,13 +97,22 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartDto> findAll(Pageable pageable) {
+    public WsDto<CartDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<CartDto>>() {
         }.getType();
+
         Page<Cart> cartPage = cartRepository.findAll(pageable);
 
-        return modelMapper.map(cartPage.getContent(), listType);
+        WsDto<CartDto> dto = new WsDto<>();
+
+        dto.setContent(modelMapper.map(cartPage.getContent(), listType));
+        dto.setTotalRecords(cartPage.getTotalElements());
+        dto.setTotalPages(cartPage.getTotalPages());
+        dto.setSizePerPage(pageable.getPageSize());
+        dto.setPage(pageable.getPageNumber());
+
+        return dto;
     }
 }
 

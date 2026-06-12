@@ -1,7 +1,9 @@
-package com.ust.pos.cartEntry.service.impl;
+package com.ust.pos.cartentry.service.impl;
 
-import com.ust.pos.cartEntry.service.CartEntryService;
+import com.ust.pos.cartentry.service.CartentryService;
+import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.CartEntryDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.*;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -16,7 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-public class CartEntryServiceImpl implements CartEntryService {
+public class CartentryServiceImpl implements CartentryService {
     @Autowired
     CartEntryRepository cartEntryRepository;
 
@@ -30,11 +32,22 @@ public class CartEntryServiceImpl implements CartEntryService {
     ModelMapper modelMapper;
 
     @Override
-    public List<CartEntryDto> findAll(Pageable pageable) {
+    public WsDto<CartEntryDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<CartEntryDto>>() {
         }.getType();
+
         Page<CartEntry> cartEntryPage = cartEntryRepository.findAll(pageable);
-        return modelMapper.map(cartEntryPage.getContent(), listType);
+
+        WsDto<CartEntryDto> dto = new WsDto<>();
+
+        dto.setContent(modelMapper.map(cartEntryPage.getContent(), listType));
+        dto.setTotalRecords(cartEntryPage.getTotalElements());
+        dto.setTotalPages(cartEntryPage.getTotalPages());
+        dto.setSizePerPage(pageable.getPageSize());
+        dto.setPage(pageable.getPageNumber());
+
+        return dto;
     }
 
     @Override

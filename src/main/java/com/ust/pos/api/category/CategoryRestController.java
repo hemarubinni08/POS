@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/category")
@@ -51,7 +53,7 @@ public class CategoryRestController extends BaseController {
     }
 
     @PostMapping("/dropdown")
-    public WsDto<CategoryDto> getDropdownCategories(@RequestBody PaginationDto paginationDto) {
+    public List<CategoryDto> getDropdownCategories() {
         return categoryService.findAllCategoriesWithNoSuper();
     }
 }
