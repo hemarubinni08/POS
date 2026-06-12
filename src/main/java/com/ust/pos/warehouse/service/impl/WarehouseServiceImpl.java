@@ -1,9 +1,7 @@
 package com.ust.pos.warehouse.service.impl;
 
 import com.ust.pos.dto.PaginationResponseDto;
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.WarehouseDto;
-import com.ust.pos.model.Product;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;

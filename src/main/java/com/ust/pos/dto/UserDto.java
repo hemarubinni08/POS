@@ -1,6 +1,5 @@
 package com.ust.pos.dto;
 
-import com.ust.pos.model.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

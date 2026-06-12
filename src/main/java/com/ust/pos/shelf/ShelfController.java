@@ -71,4 +71,3 @@ public class ShelfController extends BaseController {
         return REDIRECT_SHELF_LIST;
     }
 }
-

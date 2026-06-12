@@ -2,7 +2,6 @@ package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationResponseDto;
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;

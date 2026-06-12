@@ -48,4 +48,3 @@ public class BrandApiController extends BaseController {
         return true;
     }
 }
-

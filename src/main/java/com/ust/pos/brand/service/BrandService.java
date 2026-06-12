@@ -16,5 +16,4 @@ public interface BrandService {
     BrandDto update(BrandDto brandDto);
 
     BrandDto toggleStatus(String identifier, boolean status);
-
 }

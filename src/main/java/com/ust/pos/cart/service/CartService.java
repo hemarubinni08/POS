@@ -18,4 +18,3 @@ public interface CartService {
 
     CartDto recalculate(String identifier);
 }
-

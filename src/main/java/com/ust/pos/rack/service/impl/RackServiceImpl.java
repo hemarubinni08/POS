@@ -1,9 +1,7 @@
 package com.ust.pos.rack.service.impl;
 
 import com.ust.pos.dto.PaginationResponseDto;
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.RackDto;
-import com.ust.pos.model.Product;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
 import com.ust.pos.rack.service.RackService;
@@ -85,7 +83,7 @@ public class RackServiceImpl implements RackService {
     public RackDto toggleStatus(String identifier, boolean status) {
         Rack rack = rackRepository.findByIdentifier(identifier);
         if (rack != null) {
-            rack.setStatus(!rack.isStatus()); //  boolean toggle
+            rack.setStatus(!rack.isStatus());
             rackRepository.save(rack);
         }
         return modelMapper.map(rack , RackDto.class);

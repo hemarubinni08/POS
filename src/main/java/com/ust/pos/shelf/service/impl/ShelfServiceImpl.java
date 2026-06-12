@@ -1,9 +1,7 @@
 package com.ust.pos.shelf.service.impl;
 
 import com.ust.pos.dto.PaginationResponseDto;
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.ShelfDto;
-import com.ust.pos.model.Product;
 import com.ust.pos.model.Shelf;
 import com.ust.pos.model.ShelfRepository;
 import com.ust.pos.shelf.service.ShelfService;
@@ -85,7 +83,7 @@ public class ShelfServiceImpl implements ShelfService {
     public ShelfDto toggleStatus(String identifier,boolean status) {
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
         if (shelf != null) {
-            shelf.setStatus(!shelf.isStatus()); //  boolean toggle
+            shelf.setStatus(!shelf.isStatus());
             shelfRepository.save(shelf);
         }
         return modelMapper.map(shelf ,ShelfDto.class);

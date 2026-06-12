@@ -2,10 +2,8 @@ package com.ust.pos.price.service.impl;
 
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
-import com.ust.pos.model.Product;
 import com.ust.pos.price.service.PriceService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;

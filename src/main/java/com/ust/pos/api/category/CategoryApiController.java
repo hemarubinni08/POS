@@ -55,4 +55,3 @@ public class CategoryApiController extends BaseController {
         return categoryService.findSubCategories();
     }
 }
-
