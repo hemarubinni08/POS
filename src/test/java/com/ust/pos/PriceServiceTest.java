@@ -42,8 +42,6 @@ class PriceServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ---------------- SAVE ----------------
-
     @Test
     void save_success() {
 
@@ -73,8 +71,6 @@ class PriceServiceTest {
         verify(priceRepository).save(price);
     }
 
-    // ---------------- SAVE EXIST ----------------
-
     @Test
     void save_failure_priceExists() {
 
@@ -92,8 +88,6 @@ class PriceServiceTest {
 
         verify(priceRepository, never()).save(any());
     }
-
-    // ---------------- UPDATE ----------------
 
     @Test
     void update_success() {
@@ -122,8 +116,6 @@ class PriceServiceTest {
 
         verify(priceRepository).save(existing);
     }
-
-    // ---------------- FIND BY ID ----------------
 
     @Test
     void findByIdentifier_success() {
@@ -154,8 +146,6 @@ class PriceServiceTest {
         Assertions.assertEquals("Price not found", response.getMessage());
     }
 
-    // ---------------- FIND ALL (FIXED) ----------------
-
     @Test
     void findAll_success() {
 
@@ -176,8 +166,6 @@ class PriceServiceTest {
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
     }
-
-    // ---------------- DELETE ----------------
 
     @Test
     void delete_success() {

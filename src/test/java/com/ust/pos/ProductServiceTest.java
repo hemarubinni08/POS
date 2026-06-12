@@ -100,8 +100,6 @@ class ProductServiceTest {
     @Test
     void save_failure_nullIdentifier() {
         ProductDto dto = new ProductDto();
-        // identifier not set → null
-
         ProductDto response = productService.save(dto);
 
         assertFalse(response.isSuccess());
@@ -292,7 +290,6 @@ class ProductServiceTest {
 
         assertTrue(response.isSuccess());
         assertEquals("Status updated successfully", response.getMessage());
-        // status should have been flipped before save
         assertFalse(product.getStatus());
         verify(productRepository).save(product);
     }
@@ -314,14 +311,13 @@ class ProductServiceTest {
 
         assertTrue(response.isSuccess());
         assertEquals("Status updated successfully", response.getMessage());
-        // status should have been flipped
         assertTrue(product.getStatus());
     }
 
     @Test
     void toggleStatus_fromNullToTrue() {
         Product product = new Product();
-        product.setStatus(null);   // null → treated as false → toggled to true
+        product.setStatus(null);
 
         ProductDto responseDto = new ProductDto();
         responseDto.setSuccess(true);
@@ -334,7 +330,7 @@ class ProductServiceTest {
         ProductDto response = productService.toggleStatus("P1");
 
         assertTrue(response.isSuccess());
-        assertTrue(product.getStatus());   // null → false → true
+        assertTrue(product.getStatus());
     }
 
     @Test

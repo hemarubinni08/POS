@@ -38,8 +38,6 @@ class ShelfServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ---------------- SAVE ----------------
-
     @Test
     void save_success() {
 
@@ -95,8 +93,6 @@ class ShelfServiceTest {
         Assertions.assertEquals("Shelf already exists", response.getMessage());
     }
 
-    // ---------------- UPDATE ----------------
-
     @Test
     void update_success() {
 
@@ -139,8 +135,6 @@ class ShelfServiceTest {
         Assertions.assertEquals("Shelf not found", response.getMessage());
     }
 
-    // ---------------- FIND ----------------
-
     @Test
     void find_success() {
 
@@ -171,8 +165,6 @@ class ShelfServiceTest {
         Assertions.assertEquals("Shelf not found", response.getMessage());
     }
 
-    // ---------------- FIND ALL ----------------
-
     @Test
     void findAll_test() {
 
@@ -189,13 +181,11 @@ class ShelfServiceTest {
                 .thenReturn(mappedList);
 
         WsDto<ShelfDto> result =
-                shelfService.findAll(PageRequest.of(0, 5)); // ✅ FIX HERE
+                shelfService.findAll(PageRequest.of(0, 5));
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(1, result.getDtoList().size());
     }
-
-    // ---------------- ACTIVE ----------------
 
     @Test
     void getActiveShelves_test() {
@@ -214,8 +204,6 @@ class ShelfServiceTest {
         Assertions.assertEquals(1, result.size());
     }
 
-    // ---------------- DELETE ----------------
-
     @Test
     void delete_test() {
 
@@ -223,8 +211,6 @@ class ShelfServiceTest {
 
         verify(shelfRepository).deleteByIdentifier("Shelf1");
     }
-
-    // ---------------- TOGGLE ----------------
 
     @Test
     void toggle_success() {

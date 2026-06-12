@@ -36,8 +36,6 @@ class RoleServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ---------------- SAVE ----------------
-
     @Test
     void save_success() {
 
@@ -76,8 +74,6 @@ class RoleServiceTest {
         verify(roleRepository, never()).save(any());
     }
 
-    // ---------------- UPDATE ----------------
-
     @Test
     void update_success() {
 
@@ -114,8 +110,6 @@ class RoleServiceTest {
         verify(roleRepository, never()).save(any());
     }
 
-    // ---------------- FIND BY ID ----------------
-
     @Test
     void find_success() {
 
@@ -145,8 +139,6 @@ class RoleServiceTest {
         Assertions.assertEquals("Role not found", response.getMessage());
     }
 
-    // ---------------- DELETE ----------------
-
     @Test
     void delete_test() {
 
@@ -156,8 +148,6 @@ class RoleServiceTest {
 
         verify(roleRepository).deleteByIdentifier("Admin");
     }
-
-    // ---------------- FIND ALL ----------------
 
     @Test
     void findAll_success() {

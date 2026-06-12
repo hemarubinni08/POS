@@ -36,8 +36,6 @@ class WarehouseServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ---------------- SAVE SUCCESS ----------------
-
     @Test
     void save_success() {
 
@@ -70,43 +68,15 @@ class WarehouseServiceTest {
         assertEquals("Warehouse saved successfully", response.getMessage());
     }
 
-    // ---------------- SAVE FAILURE (FIXED BLANK CASE) ----------------
-
     @Test
     void save_failure_blank_identifier() {
-
         WarehouseDto dto = new WarehouseDto();
         dto.setIdentifier("   ");
 
-        // service will NOT stop here due to trim issue
-        // so we must allow safe execution mocks
-
-        Warehouse entity = new Warehouse();
-        Warehouse saved = new Warehouse();
-
-        WarehouseDto responseDto = new WarehouseDto();
-        responseDto.setSuccess(true);
-        responseDto.setMessage("Warehouse saved successfully");
-
-        when(warehouseRepository.findByIdentifier("   "))
-                .thenReturn(null);
-
-        when(modelMapper.map(any(WarehouseDto.class), eq(Warehouse.class)))
-                .thenReturn(entity);
-
-        when(warehouseRepository.save(any(Warehouse.class)))
-                .thenReturn(saved);
-
-        when(modelMapper.map(any(Warehouse.class), eq(WarehouseDto.class)))
-                .thenReturn(responseDto);
-
         WarehouseDto response = warehouseService.save(dto);
-
-        //  Now assert actual behavior
-        assertTrue(response.isSuccess());
+        assertFalse(response.isSuccess());
+        assertEquals("Identifier required", response.getMessage());
     }
-
-    // ---------------- UPDATE (FIXED STRICT STUBBING ISSUE) ----------------
 
     @Test
     void update_success() {
@@ -123,8 +93,6 @@ class WarehouseServiceTest {
 
         when(warehouseRepository.findByIdentifier("W1"))
                 .thenReturn(existing);
-
-        // 🔥 FIX: lenient + correct mapping
         lenient().when(modelMapper.map(any(WarehouseDto.class), eq(Warehouse.class)))
                 .thenReturn(existing);
 
@@ -140,8 +108,6 @@ class WarehouseServiceTest {
         assertEquals("Warehouse updated successfully", response.getMessage());
     }
 
-    // ---------------- UPDATE FAILURE ----------------
-
     @Test
     void update_failure_not_found() {
 
@@ -156,8 +122,6 @@ class WarehouseServiceTest {
         assertFalse(response.isSuccess());
         assertEquals("Warehouse not found", response.getMessage());
     }
-
-    // ---------------- FIND BY ID ----------------
 
     @Test
     void findByIdentifier_success() {
@@ -178,8 +142,6 @@ class WarehouseServiceTest {
         assertTrue(response.isSuccess());
         assertEquals("W1", response.getIdentifier());
     }
-
-    // ---------------- FIND ALL (FIXED STRICT STUBBING) ----------------
 
     @Test
     void findAll_success() {
@@ -207,8 +169,6 @@ class WarehouseServiceTest {
         assertNotNull(result);
         assertEquals(1, result.getDtoList().size());
     }
-
-    // ---------------- DELETE ----------------
 
     @Test
     void delete_success() {

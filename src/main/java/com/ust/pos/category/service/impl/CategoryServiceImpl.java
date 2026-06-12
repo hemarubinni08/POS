@@ -43,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAllc(Pageable pageable) {
+    public List<CategoryDto> findAllcontroller(Pageable pageable) {
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
         Page<Category> page = categoryRepository.findAll(pageable);
@@ -111,7 +111,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto save(CategoryDto dto) {
         CategoryDto response = new CategoryDto();
-        if (categoryRepository.existsByIdentifier(dto.getIdentifier())) {
+        if (categoryRepository.existsByIdentifier(dto.getIdentifier().trim())) {
             response.setSuccess(false);
             response.setMessage("Identifier already exists");
             return response;

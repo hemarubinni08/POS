@@ -27,13 +27,13 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public WarehouseDto save(WarehouseDto warehouseDto) {
-        if (warehouseDto.getIdentifier() == null || warehouseDto.getIdentifier().isEmpty()) {
+        if (warehouseDto.getIdentifier() == null || warehouseDto.getIdentifier().isBlank()) {
             WarehouseDto dto = new WarehouseDto();
             dto.setSuccess(false);
             dto.setMessage("Identifier required");
             return dto;
         }
-        Warehouse existing = warehouseRepository.findByIdentifier(warehouseDto.getIdentifier());
+        Warehouse existing = warehouseRepository.findByIdentifier(warehouseDto.getIdentifier().trim());
         if (existing != null) {
             WarehouseDto dto = new WarehouseDto();
             dto.setSuccess(false);

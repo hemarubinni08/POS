@@ -45,7 +45,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDto save(RoleDto roleDto) {
 
-        String identifier = roleDto.getIdentifier();
+        String identifier = roleDto.getIdentifier().trim();
 
         Role existingRole = roleRepository.findByIdentifier(identifier);
 
