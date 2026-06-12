@@ -16,7 +16,6 @@ public class AddressServiceImpl implements AddressService {
     @Autowired
     private ModelMapper modelMapper;
 
-    // Method for saving the address details of a customer in the database
     @Override
     public void save(AddressDto addressDto) {
         addressRepository.save(modelMapper.map(addressDto, Address.class));
@@ -24,13 +23,11 @@ public class AddressServiceImpl implements AddressService {
         addressDto.setSuccess(true);
     }
 
-    // Method to retrieve the shipping or billing address based on the phone number
     @Override
     public AddressDto findByPhoneNoAndAddressType(String phoneNo, String addressType) {
         return modelMapper.map(addressRepository.findByPhoneNoAndAddressType(phoneNo, addressType), AddressDto.class);
     }
 
-    // method to update the address details of a customer
     @Override
     public void update(AddressDto addressDto) {
         String phoneNo = addressDto.getPhoneNo();
@@ -39,7 +36,6 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.save(existingAddress);
     }
 
-    // method for deleting the address. Automatically happens when a customer is deleted
     @Override
     public void delete(String phoneNo) {
         addressRepository.deleteByPhoneNo(phoneNo);

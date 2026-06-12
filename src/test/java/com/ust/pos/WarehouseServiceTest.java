@@ -224,7 +224,7 @@ class WarehouseServiceTest {
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
-        Assertions.assertTrue(warehouse.isStatus()); // important
+        Assertions.assertTrue(warehouse.isStatus());
     }
 
     @Test

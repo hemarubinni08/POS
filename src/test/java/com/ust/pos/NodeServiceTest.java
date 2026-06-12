@@ -104,7 +104,7 @@ class NodeServiceTest {
         NodeDto response = nodeService.update(dto);
 
         assertFalse(response.isSuccess());
-        assertEquals("Node not found.", response.getMessage()); // added period
+        assertEquals("Node not found.", response.getMessage());
         verify(nodeRepository, never()).save(any());
     }
 
@@ -297,7 +297,7 @@ class NodeServiceTest {
         SecurityContextHolder.getContext().setAuthentication(auth);
 
         User user = new User();
-        user.setRoles(null); // IMPORTANT branch
+        user.setRoles(null);
 
         Mockito.when(userRepository.findByUsername("john")).thenReturn(user);
 
@@ -320,7 +320,7 @@ class NodeServiceTest {
 
         Node node = new Node();
         node.setIdentifier("N1");
-        node.setRoles(null); // IMPORTANT branch
+        node.setRoles(null);
 
         Mockito.when(userRepository.findByUsername("john")).thenReturn(user);
         Mockito.when(nodeRepository.findAll()).thenReturn(List.of(node));
@@ -348,7 +348,7 @@ class NodeServiceTest {
 
         Mockito.when(userRepository.findByUsername("john")).thenReturn(user);
         Mockito.when(nodeRepository.findAll()).thenReturn(List.of(node));
-        Mockito.when(nodeRepository.findByIdentifier("N1")).thenReturn(null); // IMPORTANT
+        Mockito.when(nodeRepository.findByIdentifier("N1")).thenReturn(null);
 
         List<NodeDto> response = nodeService.getNodesForRoles();
 

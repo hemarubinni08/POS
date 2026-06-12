@@ -205,7 +205,7 @@ class RoleServiceTest {
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
-        Assertions.assertTrue(role.isStatus()); // state change
+        Assertions.assertTrue(role.isStatus());
     }
 
     @Test

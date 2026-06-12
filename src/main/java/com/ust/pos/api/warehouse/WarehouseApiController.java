@@ -23,7 +23,6 @@ public class WarehouseApiController extends BaseController {
         return warehouseService.findAll(pageable);
     }
 
-    // method to handle the form submission of warehouse addition
     @PostMapping("/add")
     public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.save(warehouseDto);

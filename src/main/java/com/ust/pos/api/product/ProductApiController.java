@@ -37,7 +37,6 @@ public class ProductApiController extends BaseController {
         return productService.updateStatus(dto.getIdentifier(), dto.isStatus());
     }
 
-    // method to load the product profile page
     @GetMapping("/get")
     public ProductDto get(@RequestParam String identifier) {
         return productService.findByIdentifier(identifier);

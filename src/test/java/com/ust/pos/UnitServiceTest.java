@@ -190,7 +190,7 @@ class UnitServiceTest {
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
-        Assertions.assertTrue(unit.isStatus()); // verify mutation
+        Assertions.assertTrue(unit.isStatus());
     }
 
     @Test

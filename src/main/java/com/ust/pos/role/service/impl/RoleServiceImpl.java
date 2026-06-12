@@ -75,7 +75,6 @@ public class RoleServiceImpl implements RoleService {
             return response;
         }
 
-        // Toggle status
         role.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

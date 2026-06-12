@@ -223,7 +223,7 @@ class RackServiceTest {
 
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Status updated successfully", response.getMessage());
-        Assertions.assertTrue(rack.isStatus()); // verify mutation
+        Assertions.assertTrue(rack.isStatus());
     }
 
     @Test

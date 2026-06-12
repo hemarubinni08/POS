@@ -1,7 +1,7 @@
-package com.ust.pos.cartEntry.service.impl;
+package com.ust.pos.cartentry.service.impl;
 
 import com.ust.pos.cart.service.impl.CartServiceImpl;
-import com.ust.pos.cartEntry.service.CartEntryService;
+import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.CartEntry;
@@ -35,7 +35,6 @@ public class CartEntryServiceImpl implements CartEntryService {
     @Autowired
     private PriceServiceImpl priceService;
 
-    // method to retrieve all cartEntry records from the database
     @Override
     public List<CartEntryDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CartEntryDto>>() {
@@ -80,7 +79,7 @@ public class CartEntryServiceImpl implements CartEntryService {
         PriceDto mrpDto = priceService.findByIdentifier(product + "Mrp");
 
         if (sellingPriceDto == null || mrpDto == null) {
-            throw new RuntimeException("Price not configured for product: " + product);
+            throw new IllegalArgumentException("Price not configured for product: " + product);
         }
 
         BigDecimal sellingPrice = sellingPriceDto.getValue();

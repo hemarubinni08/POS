@@ -141,7 +141,6 @@ public class ProductServiceImpl implements ProductService {
             return response;
         }
 
-        // Toggle status
         product.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

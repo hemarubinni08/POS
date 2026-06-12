@@ -47,7 +47,6 @@ public class ProductController extends BaseController {
         return PRODUCT_LIST;
     }
 
-    // method to load the product addition page
     @GetMapping("/add")
     public String add(@ModelAttribute ProductDto productDto, Model model) {
         model.addAttribute("brands", brandService.findByStatusTrue());
@@ -57,7 +56,6 @@ public class ProductController extends BaseController {
         return PRODUCT_ADD;
     }
 
-    // method to handle the form submission of product addition
     @PostMapping("/add")
     public String addPost(RedirectAttributes redirectAttributes, @ModelAttribute ProductDto productDto) {
         ProductDto productDto1 = productService.save(productDto);
@@ -69,14 +67,12 @@ public class ProductController extends BaseController {
         }
     }
 
-    // method to change the status of the product to active or inactive
     @PostMapping("/toggle")
     @ResponseBody
     public ProductDto toggleStatus(@RequestBody ProductDto dto) {
         return productService.updateStatus(dto.getIdentifier(), dto.isStatus());
     }
 
-    // method to load the product profile page
     @GetMapping("/get")
     public String update(Model model, @RequestParam String identifier) {
         model.addAttribute("brands", brandService.findByStatusTrue());
