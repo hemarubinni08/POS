@@ -32,13 +32,11 @@ public class ApiShelfController extends BaseController {
     @GetMapping("/get")
     public ShelfDto update(@RequestParam String identifier) {
         return shelfService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public ShelfDto updatePost(@RequestBody ShelfDto shelfDto) {
         return shelfService.update(shelfDto);
-
     }
 
     @GetMapping("/delete")
@@ -65,4 +63,5 @@ public class ApiShelfController extends BaseController {
     public ShelfDto toggle(@RequestParam String identifier) {
         return shelfService.toggleStatus(identifier);
     }
+
 }

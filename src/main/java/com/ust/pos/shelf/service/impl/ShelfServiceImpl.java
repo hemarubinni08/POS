@@ -1,11 +1,9 @@
-package com.ust.pos.shelf.impl;
+package com.ust.pos.shelf.service.impl;
 
 import com.ust.pos.dto.ShelfDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Shelf;
 import com.ust.pos.modell.ShelfRepository;
-import com.ust.pos.modell.User;
 import com.ust.pos.shelf.service.ShelfService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;

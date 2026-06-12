@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/warehouse")
 public class ApiWarehouseController extends BaseController {
@@ -21,7 +19,6 @@ public class ApiWarehouseController extends BaseController {
     @PostMapping("/add")
     public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.save(warehouseDto);
-
     }
 
     @PostMapping("/list")
@@ -38,7 +35,6 @@ public class ApiWarehouseController extends BaseController {
     @PostMapping("/update")
     public WarehouseDto updatePost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.update(warehouseDto);
-
     }
 
     @GetMapping("/delete")
@@ -55,4 +51,5 @@ public class ApiWarehouseController extends BaseController {
     public void toggle(@RequestParam String identifier) {
         warehouseService.toggleStatus(identifier);
     }
+
 }

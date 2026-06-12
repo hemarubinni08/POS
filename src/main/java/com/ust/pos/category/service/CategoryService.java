@@ -19,4 +19,8 @@ public interface CategoryService {
     WsDto<CategoryDto> findAll(Pageable pageable);
 
     List<CategoryDto> findChildCategories();
+
+    CategoryDto toggleStatus(String identifier);
+
+    List<CategoryDto> findAllActive();
 }

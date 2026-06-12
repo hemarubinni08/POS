@@ -11,6 +11,6 @@ import java.math.BigDecimal;
 @Setter
 public class Price extends CommonFields {
     private String product;
-    private BigDecimal price;
+    private BigDecimal priceAmount;
     private String type;
 }

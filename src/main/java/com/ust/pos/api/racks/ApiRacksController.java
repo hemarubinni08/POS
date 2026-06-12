@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/rack")
@@ -33,19 +32,16 @@ public class ApiRacksController extends BaseController {
     @PostMapping("/add")
     public RacksDto addPost(@RequestBody RacksDto rackDto) {
         return racksService.save(rackDto);
-
     }
 
     @GetMapping("/get")
     public RacksDto get(@RequestParam String identifier) {
         return racksService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public RacksDto update(@RequestBody RacksDto rackDto) {
         return racksService.update(rackDto);
-
     }
 
     @GetMapping("/delete")
@@ -57,4 +53,5 @@ public class ApiRacksController extends BaseController {
         }
         return false;
     }
+
 }

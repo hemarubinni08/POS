@@ -1,11 +1,9 @@
 package com.ust.pos.stock.service.impl;
 
 import com.ust.pos.dto.StockDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Stock;
 import com.ust.pos.modell.StockRepository;
-import com.ust.pos.modell.User;
 import com.ust.pos.stock.service.StockService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;

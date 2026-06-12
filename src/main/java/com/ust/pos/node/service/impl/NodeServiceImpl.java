@@ -1,11 +1,9 @@
 package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Node;
 import com.ust.pos.modell.NodeRepository;
-import com.ust.pos.modell.User;
 import com.ust.pos.modell.UserRepository;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
@@ -52,10 +50,8 @@ public class NodeServiceImpl implements NodeService {
     ) {
         com.ust.pos.modell.User currentUser =
                 userRepository.findByUsername(principalObject.getUsername());
-
         Set<String> nodesStr = new HashSet<>();
         List<Node> nodes = nodeRepository.findAll();
-
         for (String role : currentUser.getRoles()) {
             for (Node node : nodes) {
                 if (node.getRoles() != null && node.getRoles().contains(role)) {
@@ -63,7 +59,6 @@ public class NodeServiceImpl implements NodeService {
                 }
             }
         }
-
         for (String nodeStr : nodesStr) {
             nodeDtos.add(
                     modelMapper.map(

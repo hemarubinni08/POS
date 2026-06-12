@@ -7,212 +7,111 @@ import com.ust.pos.modell.AddressRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AddressServiceTest {
 
     @Mock
-    private AddressRepository addressRepository;
+    private AddressRepository repository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private ModelMapper mapper;
 
     @InjectMocks
-    private AddressServiceImpl addressService;
+    private AddressServiceImpl service;
 
     private Address address;
-    private AddressDto addressDto;
+    private AddressDto dto;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         address = new Address();
         address.setPhoneNo("9876543210");
         address.setAddressType("HOME");
-
-        addressDto = new AddressDto();
-        addressDto.setPhoneNo("9876543210");
-        addressDto.setAddressType("HOME");
+        dto = new AddressDto();
+        dto.setPhoneNo("9876543210");
+        dto.setAddressType("HOME");
     }
 
     @Test
-    void findByIdentifier_shouldReturnAddressDto() {
-        when(addressRepository.findByIdentifier("ADDR01")).thenReturn(address);
-        when(modelMapper.map(address, AddressDto.class)).thenReturn(addressDto);
-
-        AddressDto result = addressService.findByIdentifier("ADDR01");
-
+    void findByIdentifier_shouldHandleFoundAndNotFound() {
+        when(repository.findByIdentifier("ID1")).thenReturn(address);
+        when(mapper.map(address, AddressDto.class)).thenReturn(dto);
+        AddressDto result = service.findByIdentifier("ID1");
         assertNotNull(result);
+        when(repository.findByIdentifier("ID2")).thenReturn(null);
+        when(mapper.map(null, AddressDto.class)).thenReturn(null);
+        assertNull(service.findByIdentifier("ID2"));
+        verify(repository, times(2)).findByIdentifier(anyString());
+    }
+
+    @Test
+    void findAllByPhoneNo_shouldHandleDataAndEmpty() {
+        Type type = new TypeToken<List<AddressDto>>() {}.getType();
+        when(repository.findAllByPhoneNo("987"))
+                .thenReturn(List.of(address));
+        when(mapper.map(any(), eq(type)))
+                .thenReturn(List.of(dto));
+        List<AddressDto> result = service.findAllByPhoneNo("987");
+        assertEquals(1, result.size());
+        when(repository.findAllByPhoneNo("000"))
+                .thenReturn(List.of());
+        when(mapper.map(List.of(), type)).thenReturn(List.of());
+        assertTrue(service.findAllByPhoneNo("000").isEmpty());
+    }
+
+    @Test
+    void save_shouldMapAndPersist() {
+        when(mapper.map(dto, Address.class)).thenReturn(address);
+        AddressDto result = service.save(dto);
+        verify(mapper).map(dto, Address.class);
+        verify(repository).save(address);
+        assertEquals(dto, result);
+    }
+
+    @Test
+    void update_shouldFetchMapAndSave() {
+        when(repository.findByPhoneNoAndAddressType("9876543210", "HOME"))
+                .thenReturn(address);
+        AddressDto result = service.update(dto);
+        verify(repository).findByPhoneNoAndAddressType("9876543210", "HOME");
+        verify(mapper).map(dto, address);
+        verify(repository).save(address);
         assertEquals("9876543210", result.getPhoneNo());
     }
 
     @Test
-    void findAllByPhoneNo_shouldReturnAddressList() {
-        when(addressRepository.findAllByPhoneNo("9876543210"))
+    void delete_shouldHandleDataAndEmptyList() {
+        when(repository.findAllByPhoneNo("987"))
                 .thenReturn(List.of(address));
-
-        when(modelMapper.map(any(), any(Type.class)))
-                .thenReturn(List.of(addressDto));
-
-        List<AddressDto> result = addressService.findAllByPhoneNo("9876543210");
-
-        assertEquals(1, result.size());
-        assertEquals("HOME", result.get(0).getAddressType());
-    }
-
-    @Test
-    void save_shouldPersistAddress() {
-        when(modelMapper.map(addressDto, Address.class))
-                .thenReturn(address);
-
-        AddressDto result = addressService.save(addressDto);
-
-        verify(addressRepository).save(address);
-        assertNotNull(result);
-    }
-
-    @Test
-    void update_shouldUpdateAddress() {
-        when(addressRepository.findByPhoneNoAndAddressType(
-                "9876543210", "HOME"))
-                .thenReturn(address);
-
-        AddressDto result = addressService.update(addressDto);
-
-        verify(modelMapper).map(addressDto, address);
-        verify(addressRepository).save(address);
-        assertEquals("9876543210", result.getPhoneNo());
-    }
-
-    @Test
-    void delete_shouldRemoveAddressesByPhoneNo() {
-        when(addressRepository.findAllByPhoneNo("9876543210"))
-                .thenReturn(List.of(address));
-
-        boolean result = addressService.delete("9876543210");
-
-        verify(addressRepository).deleteAll(anyList());
-        assertTrue(result);
-    }
-
-    @Test
-    void findAll_shouldReturnAllAddresses() {
-        when(addressRepository.findAll())
-                .thenReturn(List.of(address));
-
-        when(modelMapper.map(any(), any(Type.class)))
-                .thenReturn(List.of(addressDto));
-
-        List<AddressDto> result = addressService.findAll();
-
-        assertEquals(1, result.size());
-        assertEquals("HOME", result.get(0).getAddressType());
-    }
-
-    @Test
-    void findByIdentifier_shouldReturnNull_whenAddressNotFound() {
-
-        when(addressRepository.findByIdentifier("ADDR404"))
-                .thenReturn(null);
-        when(modelMapper.map(null, AddressDto.class))
-                .thenReturn(null);
-
-        AddressDto result = addressService.findByIdentifier("ADDR404");
-
-        assertNull(result);
-
-        verify(addressRepository).findByIdentifier("ADDR404");
-    }
-
-    @Test
-    void findAllByPhoneNo_shouldReturnEmptyList_whenNoAddresses() {
-
-        when(addressRepository.findAllByPhoneNo("0000000000"))
+        assertTrue(service.delete("987"));
+        verify(repository).deleteAll(anyList());
+        when(repository.findAllByPhoneNo("000"))
                 .thenReturn(List.of());
-
-        when(modelMapper.map(eq(List.of()), any(Type.class)))
-                .thenReturn(List.of());
-
-        List<AddressDto> result =
-                addressService.findAllByPhoneNo("0000000000");
-
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
+        assertTrue(service.delete("000"));
+        verify(repository).deleteAll(List.of());
     }
 
     @Test
-    void save_shouldInvokeMapperAndRepository() {
-
-        when(modelMapper.map(addressDto, Address.class))
-                .thenReturn(address);
-
-        addressService.save(addressDto);
-
-        verify(modelMapper).map(addressDto, Address.class);
-        verify(addressRepository).save(address);
-    }
-
-    @Test
-    void update_shouldFetchAddressUsingPhoneAndType() {
-
-        when(addressRepository.findByPhoneNoAndAddressType(
-                "9876543210", "HOME"))
-                .thenReturn(address);
-
-        addressService.update(addressDto);
-
-        verify(addressRepository)
-                .findByPhoneNoAndAddressType("9876543210", "HOME");
-    }
-
-    @Test
-    void update_shouldApplyDtoValuesToExistingAddress() {
-
-        when(addressRepository.findByPhoneNoAndAddressType(
-                "9876543210", "HOME"))
-                .thenReturn(address);
-
-        addressService.update(addressDto);
-
-        verify(modelMapper).map(addressDto, address);
-        verify(addressRepository).save(address);
-    }
-
-    @Test
-    void delete_shouldHandleEmptyAddressListGracefully() {
-
-        when(addressRepository.findAllByPhoneNo("1111111111"))
-                .thenReturn(List.of());
-
-        boolean result = addressService.delete("1111111111");
-
-        verify(addressRepository).deleteAll(List.of());
-        assertTrue(result);
-    }
-
-    @Test
-    void findAll_shouldReturnEmptyList_whenRepositoryEmpty() {
-
-        when(addressRepository.findAll())
-                .thenReturn(List.of());
-
-        when(modelMapper.map(eq(List.of()), any(Type.class)))
-                .thenReturn(List.of());
-
-        List<AddressDto> result = addressService.findAll();
-
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
+    void findAll_shouldHandleDataAndEmpty() {
+        Type type = new TypeToken<List<AddressDto>>() {}.getType();
+        when(repository.findAll()).thenReturn(List.of(address));
+        when(mapper.map(any(), eq(type))).thenReturn(List.of(dto));
+        assertEquals(1, service.findAll().size());
+        when(repository.findAll()).thenReturn(List.of());
+        when(mapper.map(List.of(), type)).thenReturn(List.of());
+        assertTrue(service.findAll().isEmpty());
     }
 }

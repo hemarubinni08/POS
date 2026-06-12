@@ -15,6 +15,7 @@ public class BrandController {
     public static final String MESSAGE = "message";
     public static final String BRAND = "brand";
     public static final String REDIRECT_BRAND_LIST = "redirect:/brand/list";
+
     @Autowired
     private BrandService brandService;
 
@@ -72,4 +73,5 @@ public class BrandController {
         brandService.delete(identifier);
         return REDIRECT_BRAND_LIST;
     }
+
 }

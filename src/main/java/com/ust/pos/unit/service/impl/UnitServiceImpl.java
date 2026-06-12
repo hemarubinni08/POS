@@ -1,11 +1,9 @@
 package com.ust.pos.unit.service.impl;
 
 import com.ust.pos.dto.UnitDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Unit;
 import com.ust.pos.modell.UnitRepository;
-import com.ust.pos.modell.User;
 import com.ust.pos.unit.service.UnitService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -94,7 +92,6 @@ public class UnitServiceImpl implements UnitService {
         if (unit == null) {
             throw new RuntimeException("Unit not found with identifier: " + identifier);
         }
-
         Boolean currentStatus = unit.getStatus();
         unit.setStatus(currentStatus == null ? Boolean.TRUE : !currentStatus);
 

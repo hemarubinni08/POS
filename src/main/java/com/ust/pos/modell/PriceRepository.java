@@ -10,5 +10,4 @@ public interface PriceRepository extends JpaRepository<Price, Long> {
 
     void deleteByIdentifier(String identifier);
 
-
 }

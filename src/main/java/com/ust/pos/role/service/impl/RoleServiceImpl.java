@@ -1,10 +1,8 @@
 package com.ust.pos.role.service.impl;
 
 import com.ust.pos.dto.*;
-import com.ust.pos.modell.Product;
 import com.ust.pos.modell.Role;
 import com.ust.pos.modell.RoleRepository;
-import com.ust.pos.modell.User;
 import com.ust.pos.role.service.RoleService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -88,6 +86,7 @@ public class RoleServiceImpl implements RoleService {
                 .map(role -> modelMapper.map(role, RoleDto.class))
                 .toList();
     }
+
     @Override
     @Transactional
     public RoleDto toggleStatus(String identifier) {

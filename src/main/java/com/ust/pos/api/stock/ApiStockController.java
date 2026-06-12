@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/stock")
 public class ApiStockController extends BaseController {
@@ -26,11 +24,9 @@ public class ApiStockController extends BaseController {
     @Autowired
     private WarehouseService warehouseService;
 
-
     @PostMapping("/add")
     public StockDto addPost(@RequestBody StockDto stockDto) {
         return stockService.save(stockDto);
-
     }
 
     @PostMapping("/list")
@@ -58,4 +54,5 @@ public class ApiStockController extends BaseController {
         }
         return true;
     }
+
 }

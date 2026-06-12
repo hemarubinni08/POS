@@ -2,7 +2,6 @@ package com.ust.pos.api.role;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.role.service.RoleService;
@@ -33,13 +32,11 @@ public class ApiRoleController extends BaseController {
     @GetMapping("/get")
     public RoleDto update(@RequestParam String identifier) {
         return roleService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public RoleDto updatePost(@RequestBody RoleDto userDto) {
         return roleService.update(userDto);
-
     }
 
     @GetMapping("/delete")
@@ -55,7 +52,6 @@ public class ApiRoleController extends BaseController {
     @GetMapping("/findallactive")
     public List<RoleDto> findAllActive() {
         return roleService.findAllActive();
-
     }
 
     @PostMapping("/toggle-status")

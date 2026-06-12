@@ -53,4 +53,15 @@ public class ApiCategoryController extends BaseController {
     public List<CategoryDto> findChildCategories() {
         return categoryService.findChildCategories();
     }
+
+    @PostMapping("/toggle-status")
+    public CategoryDto toggle(@RequestParam String identifier) {
+        return  categoryService.toggleStatus(identifier);
+    }
+
+    @GetMapping("/findallactive")
+    public List<CategoryDto> findAllActive() {
+        return categoryService.findAllActive();
+    }
+
 }

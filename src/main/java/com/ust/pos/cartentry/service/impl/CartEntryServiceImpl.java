@@ -4,11 +4,9 @@ import com.ust.pos.cart.service.CartService;
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.CartEntry;
 import com.ust.pos.modell.CartEntryRepository;
-import com.ust.pos.modell.User;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -54,13 +52,13 @@ public class CartEntryServiceImpl implements CartEntryService {
         BigDecimal unitPrice;
         BigDecimal discount = BigDecimal.ZERO;
         if (selling != null) {
-            unitPrice = selling.getPrice();
+            unitPrice = selling.getPriceAmount();
         } else {
-            unitPrice = mrp.getPrice();
+            unitPrice = mrp.getPriceAmount();
         }
         if (selling != null && mrp != null) {
-            BigDecimal mrpPrice = mrp.getPrice();
-            BigDecimal sellingPrice = selling.getPrice();
+            BigDecimal mrpPrice = mrp.getPriceAmount();
+            BigDecimal sellingPrice = selling.getPriceAmount();
             discount = mrpPrice.subtract(sellingPrice);
         }
         CartEntry entry = cartEntryRepository.findByIdentifier(identifier);
@@ -76,9 +74,7 @@ public class CartEntryServiceImpl implements CartEntryService {
         entry.setUnitPrice(unitPrice);
         entry.setTotalPrice(unitPrice.multiply(BigDecimal.valueOf(updatedQty)));
         entry.setDiscount(discount);
-
         cartEntryRepository.save(entry);
-
         return modelMapper.map(entry, CartEntryDto.class);
     }
 

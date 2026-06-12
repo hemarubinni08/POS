@@ -1,12 +1,10 @@
 package com.ust.pos.model.service.impl;
 
 import com.ust.pos.dto.ModelDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.service.ModelService;
 import com.ust.pos.modell.Model;
 import com.ust.pos.modell.ModelRepository;
-import com.ust.pos.modell.User;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -21,8 +19,7 @@ import java.util.List;
 @Service
 public class ModelServiceImpl implements ModelService {
 
-    public static final RuntimeException MODEL_NOT_FOUND =
-            new RuntimeException("model not found");
+    public static final RuntimeException MODEL_NOT_FOUND = new RuntimeException("model not found");
 
     @Autowired
     private ModelMapper modelMapper;

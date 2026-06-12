@@ -29,24 +29,17 @@ public class ApiCartController extends BaseController {
 
     @PostMapping("/addToCart")
     public CartDto addToCart(@RequestBody CartEntryDto cartEntryDto) {
-
-        cartEntryService.save(cartEntryDto);
-        // ✅ force recalculation (important)
-        CartDto cart = cartService.findByIdentifier(cartEntryDto.getCartIdentifier());
-
-        return cart;
+        return cartService.findByIdentifier(cartEntryDto.getCartIdentifier());
     }
 
     @PostMapping("/list")
     public WsDto<CartDto> list(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(
                 paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(),
                 paginationDto.getSortField()
         );
-
         return cartService.findAll(pageable);
     }
 

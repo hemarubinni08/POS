@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import java.util.Optional;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
+    public static final WsDto<CategoryDto> CATEGORY_WS_DTO = new WsDto<>();
     @Autowired
     private CategoryRepository categoryRepository;
 
@@ -27,12 +29,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
+
         if (categoryRepository.findByIdentifier(categoryDto.getIdentifier()) != null) {
             categoryDto.setSuccess(false);
             categoryDto.setMessage("Category already exists");
             return categoryDto;
         }
-
         Category category = new Category();
         category.setIdentifier(categoryDto.getIdentifier());
 
@@ -42,39 +44,35 @@ public class CategoryServiceImpl implements CategoryService {
         } else {
             category.setSuperCategory(categoryDto.getSuperCategory());
         }
-
         categoryRepository.save(category);
         return categoryDto;
     }
 
     @Override
     public CategoryDto update(CategoryDto categoryDto) {
-        Optional<Category> optional = categoryRepository.findById(categoryDto.getId());
+        Optional<Category> optional =
+                categoryRepository.findById(categoryDto.getId());
 
         if (optional.isEmpty()) {
             categoryDto.setSuccess(false);
             categoryDto.setMessage("Category not found");
             return categoryDto;
         }
-
         Category existing = optional.get();
 
-        if (!existing.getIdentifier().equalsIgnoreCase(categoryDto.getIdentifier()) &&
-                categoryRepository.findByIdentifier(categoryDto.getIdentifier()) != null) {
-
+        if (!existing.getIdentifier().equalsIgnoreCase(categoryDto.getIdentifier()) && (categoryRepository.findByIdentifier(categoryDto.getIdentifier()) != null)) {
             categoryDto.setSuccess(false);
             categoryDto.setMessage("Category already exists");
             return categoryDto;
         }
-
         existing.setIdentifier(categoryDto.getIdentifier());
 
-        if (categoryDto.getSuperCategory() == null || categoryDto.getSuperCategory().trim().isEmpty()) {
+        if (categoryDto.getSuperCategory() == null ||
+                categoryDto.getSuperCategory().trim().isEmpty()) {
             existing.setSuperCategory(null);
         } else {
             existing.setSuperCategory(categoryDto.getSuperCategory());
         }
-
         categoryRepository.save(existing);
         return categoryDto;
     }
@@ -82,47 +80,66 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void delete(String identifier) {
+
         if (categoryRepository.existsBySuperCategory(identifier)) {
             throw new IllegalStateException(
                     "Cannot delete category. It is used as a super category."
             );
         }
-
         categoryRepository.deleteByIdentifier(identifier);
     }
 
     @Override
     public CategoryDto findByIdentifier(String identifier) {
-        return modelMapper.map(categoryRepository.findByIdentifier(identifier), CategoryDto.class
+        return modelMapper.map(
+                categoryRepository.findByIdentifier(identifier),
+                CategoryDto.class
         );
     }
 
     @Override
     public WsDto<CategoryDto> findAll(Pageable pageable) {
-
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
-
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
 
-        WsDto<CategoryDto> categoryWsDto = new WsDto<>();
-
-        categoryWsDto.setDtoList(
-                modelMapper.map(categoryPage.getContent(), listType)
-        );
-        categoryWsDto.setTotalRecords(categoryPage.getTotalElements());
-        categoryWsDto.setTotalPage(categoryPage.getTotalPages());
-        categoryWsDto.setSizePerPage(pageable.getPageSize());
-        categoryWsDto.setPage(pageable.getPageNumber());
-
-        return categoryWsDto;
+        CATEGORY_WS_DTO.setDtoList(modelMapper.map(categoryPage.getContent(), listType));
+        CATEGORY_WS_DTO.setTotalRecords(categoryPage.getTotalElements());
+        CATEGORY_WS_DTO.setTotalPage(categoryPage.getTotalPages());
+        CATEGORY_WS_DTO.setSizePerPage(pageable.getPageSize());
+        CATEGORY_WS_DTO.setPage(pageable.getPageNumber());
+        return CATEGORY_WS_DTO;
     }
 
     @Override
     public List<CategoryDto> findChildCategories() {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-
-        return modelMapper.map(categoryRepository.findBySuperCategoryIsNotNull(), listType
+        return modelMapper.map(
+                categoryRepository.findBySuperCategoryIsNotNull(),
+                listType
         );
     }
+
+    @Override
+    @Transactional
+    public CategoryDto toggleStatus(String identifier) {
+        Category category = categoryRepository.findByIdentifier(identifier);
+        if (category == null) {
+            throw new RuntimeException("category not found with identifier: " + identifier);
+        }
+        Boolean currentStatus = category.getStatus();
+        category.setStatus(currentStatus == null ? Boolean.TRUE : !currentStatus);
+        Category saved = categoryRepository.save(category);
+        return modelMapper.map(saved, CategoryDto.class);
+    }
+
+    @Override
+    public List<CategoryDto> findAllActive() {
+        return categoryRepository.findByStatusTrue()
+                .stream()
+                .map(category -> modelMapper.map(category, CategoryDto.class))
+                .toList();
+    }
+
 }

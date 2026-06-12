@@ -57,7 +57,6 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDto update(PriceDto priceDto) {
 
-        // ✅ STEP 1: Find existing using OLD identifier
         Price existingPrice = priceRepository.findByIdentifier(priceDto.getIdentifier());
 
         if (existingPrice == null) {
@@ -65,11 +64,8 @@ public class PriceServiceImpl implements PriceService {
             priceDto.setSuccess(false);
             return priceDto;
         }
-
-        // ✅ STEP 2: Generate NEW identifier
         String newIdentifier =  priceDto.getProduct() + "-" + priceDto.getType();
 
-        // ✅ STEP 3: Check duplicate
         Price duplicate = priceRepository.findByIdentifier(newIdentifier);
 
         if (duplicate != null && !duplicate.getId().equals(existingPrice.getId())) {
@@ -78,9 +74,8 @@ public class PriceServiceImpl implements PriceService {
             return priceDto;
         }
 
-        // ✅ STEP 4: Update values
         existingPrice.setProduct(priceDto.getProduct());
-        existingPrice.setPrice(priceDto.getPrice());
+        existingPrice.setPriceAmount(priceDto.getPriceAmount());
         existingPrice.setType(priceDto.getType());
         existingPrice.setIdentifier(newIdentifier);
 
