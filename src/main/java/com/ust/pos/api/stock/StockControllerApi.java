@@ -1,16 +1,13 @@
 package com.ust.pos.api.stock;
 
 import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.PaginatedResponseDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StockDto;
-import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
-import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/stock")
@@ -20,7 +17,7 @@ public class StockControllerApi extends BaseController {
     private StockService stockService;
 
     @PostMapping("/list")
-    public List<StockDto> home(@RequestBody PaginationDto paginationDto) {
+    public PaginatedResponseDto<StockDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());

@@ -4,6 +4,7 @@ import com.ust.pos.customer.service.AddressService;
 import com.ust.pos.customer.service.impl.CustomerServiceImpl;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.dto.PaginatedResponseDto;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
@@ -135,11 +136,11 @@ class CustomerServiceTest {
         when(customerRepository.findByIdentifier("CUST123")).thenReturn(customer);
 
         when(addressService.findByPhoneNoAndAddressType(
-                eq(1234567890L), eq("billingAddress")))
+                (1234567890L), ("billingAddress")))
                 .thenReturn(customerDto.getBillingAddress());
 
         when(addressService.findByPhoneNoAndAddressType(
-                eq(1234567890L), eq("shippingAddress")))
+                (1234567890L), ("shippingAddress")))
                 .thenReturn(customerDto.getShippingAddress());
 
         CustomerDto result = customerService.update(customerDto);
@@ -180,21 +181,20 @@ class CustomerServiceTest {
                 any(java.lang.reflect.Type.class)
         )).thenReturn(List.of(customerDto));
 
-        List<CustomerDto> result =
+        PaginatedResponseDto<CustomerDto> result =
                 customerService.findAll(pageable);
 
-        assertEquals(1, result.size());
+        assertEquals(1, result.getItems().size());
     }
 
     @Test
     void findAllActiveTest() {
 
-        Customer customer = new Customer();
-        customer.setIdentifier("Admin");
-        customer.setStatus(true);
-
-        CustomerDto customerDto = new CustomerDto();
-        customerDto.setIdentifier("Admin");
+        Customer activeCustomer = new Customer();
+        activeCustomer.setIdentifier("Admin");
+        activeCustomer.setStatus(true);
+        CustomerDto activeCustomerDto = new CustomerDto();
+        activeCustomerDto.setIdentifier("Admin");
 
         List<Customer> customers = List.of(customer);
         List<CustomerDto> customerDtos = List.of(customerDto);
@@ -213,9 +213,9 @@ class CustomerServiceTest {
     @Test
     void changeStatusTest() {
 
-        Customer customer = new Customer();
-        customer.setIdentifier("Admin");
-        customer.setStatus(false);
+        Customer activeCustomer = new Customer();
+        activeCustomer.setIdentifier("Admin");
+        activeCustomer.setStatus(true);
 
         Mockito.when(customerRepository.findByIdentifier("Admin"))
                 .thenReturn(customer);

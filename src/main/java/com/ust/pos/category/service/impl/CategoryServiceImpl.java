@@ -3,7 +3,6 @@ package com.ust.pos.category.service.impl;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginatedResponseDto;
-import com.ust.pos.dto.UnitDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import jakarta.transaction.Transactional;
@@ -59,6 +58,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void delete(String identifier) {
+
+        if (categoryRepository.existsBySuperCategory(identifier)) {
+            throw new IllegalStateException("Cannot delete category because it is used as a super category.");
+        }
         categoryRepository.deleteByIdentifier(identifier);
     }
 

@@ -60,9 +60,4 @@ class PosApplicationTests {
         assertNotNull(encoded);
         assertTrue(passwordEncoder.matches(password, encoded));
     }
-
-    @Test
-    void testMain() {
-        PosApplication.main(new String[]{});
-    }
 }

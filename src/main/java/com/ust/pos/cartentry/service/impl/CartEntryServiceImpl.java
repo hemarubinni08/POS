@@ -3,6 +3,7 @@ package com.ust.pos.cartentry.service.impl;
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.cart.service.CartService;
 import com.ust.pos.dto.CartEntryDto;
+import com.ust.pos.dto.PaginatedResponseDto;
 import com.ust.pos.model.*;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -103,11 +104,21 @@ public class CartEntryServiceImpl implements CartEntryService {
     }
 
     @Override
-    public List<CartEntryDto> findAll(Pageable pageable) {
+    public PaginatedResponseDto<CartEntryDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<CartEntryDto>>(){}.getType();
         Page<CartEntry> cartEntryPage = cartEntryRepository.findAll(pageable);
-        return modelMapper.map(cartEntryPage.getContent(), listType);
+
+        List<CartEntryDto> items = modelMapper.map(cartEntryPage.getContent(), listType);
+
+        PaginatedResponseDto<CartEntryDto> response = new PaginatedResponseDto<>();
+        response.setItems(items);
+        response.setTotalRecords(cartEntryPage.getTotalElements());
+        response.setTotalPages(cartEntryPage.getTotalPages());
+        response.setSizePerPage(pageable.getPageSize());
+        response.setPage(pageable.getPageNumber());
+
+        return response;
     }
 
     @Override

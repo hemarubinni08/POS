@@ -1,6 +1,5 @@
 package com.ust.pos.user.service.impl;
 
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.PaginatedResponseDto;
 import com.ust.pos.model.User;

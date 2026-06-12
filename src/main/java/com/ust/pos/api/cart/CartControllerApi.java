@@ -3,12 +3,11 @@ package com.ust.pos.api.cart;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.cart.service.CartService;
 import com.ust.pos.dto.CartDto;
+import com.ust.pos.dto.PaginatedResponseDto;
 import com.ust.pos.dto.PaginationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -18,7 +17,7 @@ public class CartControllerApi extends BaseController {
     private CartService cartService;
 
     @PostMapping("/list")
-    public List<CartDto> home(@RequestBody PaginationDto paginationDto) {
+    public PaginatedResponseDto<CartDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());

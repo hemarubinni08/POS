@@ -2,7 +2,6 @@ package com.ust.pos.node.service.impl;
 
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginatedResponseDto;
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.User;

@@ -1,9 +1,8 @@
 package com.ust.pos.cartentry.service;
 
 import com.ust.pos.dto.CartEntryDto;
+import com.ust.pos.dto.PaginatedResponseDto;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface CartEntryService {
 
@@ -11,7 +10,7 @@ public interface CartEntryService {
 
     void delete(String identifier);
 
-    List<CartEntryDto> findAll(Pageable pageable);
+    PaginatedResponseDto<CartEntryDto> findAll(Pageable pageable);
 
     CartEntryDto findByIdentifier(String identifier);
 }

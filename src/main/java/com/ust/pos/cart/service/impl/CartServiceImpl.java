@@ -2,6 +2,7 @@ package com.ust.pos.cart.service.impl;
 
 import com.ust.pos.cart.service.CartService;
 import com.ust.pos.dto.CartDto;
+import com.ust.pos.dto.PaginatedResponseDto;
 import com.ust.pos.model.Cart;
 import com.ust.pos.model.CartEntry;
 import com.ust.pos.model.CartEntryRepository;
@@ -54,11 +55,22 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartDto> findAll(Pageable pageable) {
+    public PaginatedResponseDto<CartDto> findAll(Pageable pageable) {
+
         Type listType = new TypeToken<List<CartDto>>() {
         }.getType();
         Page<Cart> cartPage = cartRepository.findAll(pageable);
-        return modelMapper.map(cartPage.getContent(), listType);
+
+        List<CartDto> items = modelMapper.map(cartPage.getContent(), listType);
+
+        PaginatedResponseDto<CartDto> response = new PaginatedResponseDto<>();
+        response.setItems(items);
+        response.setTotalRecords(cartPage.getTotalElements());
+        response.setTotalPages(cartPage.getTotalPages());
+        response.setSizePerPage(pageable.getPageSize());
+        response.setPage(pageable.getPageNumber());
+
+        return response;
     }
 
     @Override

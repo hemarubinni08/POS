@@ -2,7 +2,6 @@ package com.ust.pos.api.user;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.PaginatedResponseDto;
 import com.ust.pos.user.service.UserService;
@@ -67,15 +66,8 @@ public class UserControllerApi extends BaseController {
     }
 
     @GetMapping("/me")
-    public UserDto currentUser() {
-
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-
-        String username = authentication.getName();
-
-        return userService.findByUserName(username);
-
+    public UserDto currentUser(Authentication authentication) {
+        return userService.findByUserName(authentication.getName());
     }
 
     @PostMapping("/toggle")

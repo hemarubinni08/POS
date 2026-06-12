@@ -5,12 +5,9 @@ import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginatedResponseDto;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.ProductDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/category")
@@ -46,10 +43,10 @@ public class CategoryControllerApi extends BaseController {
     public boolean delete(@RequestBody CategoryDto categoryDto) {
         try {
             categoryService.delete(categoryDto.getIdentifier());
-        } catch (Exception e) {
+            return true;
+        } catch (IllegalStateException e) {
             return false;
         }
-        return true;
     }
 
     @PostMapping("/toggle")
