@@ -2,10 +2,8 @@ package com.ust.pos.role.service.impl;
 
 import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.RoleDto;
-import com.ust.pos.dto.ShelfsDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
-import com.ust.pos.model.Shelfs;
 import com.ust.pos.role.service.RoleService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

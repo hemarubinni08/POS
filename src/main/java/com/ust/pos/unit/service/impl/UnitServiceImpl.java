@@ -1,12 +1,9 @@
 package com.ust.pos.unit.service.impl;
 
-import com.ust.pos.dto.ModelDto;
 import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.UnitDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
-import com.ust.pos.model.User;
 import com.ust.pos.unit.service.UnitService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

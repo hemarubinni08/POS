@@ -140,7 +140,7 @@
        <form:option value="">-- Select Status --</form:option>
        <form:option value="true">Active</form:option>
        <form:option value="false">Deactive</form:option>
-</form:select>
+       </form:select>
 
         </div>
 

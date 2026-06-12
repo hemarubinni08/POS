@@ -2,7 +2,6 @@ package com.ust.pos.role.service;
 
 import com.ust.pos.dto.PageDto;
 import com.ust.pos.dto.RoleDto;
-import com.ust.pos.dto.ShelfsDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 

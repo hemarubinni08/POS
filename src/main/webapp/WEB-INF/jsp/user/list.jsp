@@ -48,7 +48,6 @@
             border-color: #eee;
         }
 
-        /* Edit button (gradient like Register) */
         .edit-btn {
             background: linear-gradient(90deg, #4facfe, #00f2fe);
             color: #fff;
@@ -143,7 +142,6 @@
 
         </div>
 
-        <!-- Footer -->
         <div class="card-footer text-center">
             <div class="d-flex justify-content-center gap-3">
                 <a href="/" class="btn btn-secondary">Home</a>

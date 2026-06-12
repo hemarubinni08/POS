@@ -92,5 +92,4 @@ public class UserServiceImpl implements UserService {
         pageDto.setPage(pageable.getPageNumber());
         return pageDto;
     }
-
 }

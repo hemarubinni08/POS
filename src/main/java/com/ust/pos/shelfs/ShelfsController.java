@@ -36,7 +36,7 @@ public class ShelfsController extends BaseController {
         ShelfsDto response =shelfsService.save(shelfsDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
-            model.addAttribute(SHELFS_DTO, shelfsDto);// retain form values
+            model.addAttribute(SHELFS_DTO, shelfsDto);
             return "shelfs/add";
 
         }

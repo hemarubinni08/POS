@@ -59,7 +59,6 @@
 
                 <div class="col-md-6">
                     <label class="form-label">Phone Number</label>
-                    <!-- ✅ Phone number locked -->
                     <form:input path="phoneNo"
                                 cssClass="form-control"
                                 readonly="true"/>

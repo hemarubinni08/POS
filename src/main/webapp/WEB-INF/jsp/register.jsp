@@ -20,7 +20,6 @@
             align-items: center;
         }
 
-        /* ✅ Compact but good-looking card */
         .register-card {
             width: 320px;
             background: #ffffff;
@@ -38,7 +37,7 @@
         }
 
         .form-group {
-            margin-bottom: 10px;     /* ✅ reduced spacing */
+            margin-bottom: 10px;
         }
 
         label {
@@ -51,7 +50,7 @@
 
         input, select {
             width: 100%;
-            padding: 6px 8px;         /* ✅ compact inputs */
+            padding: 6px 8px;
             border-radius: 6px;
             border: 1px solid #ccc;
             font-size: 12.8px;
@@ -64,12 +63,11 @@
             box-shadow: 0 0 4px rgba(79,172,254,0.6);
         }
 
-        /* ✅ Smaller roles box */
+
         select[multiple] {
             height: 70px;
         }
 
-        /* ✅ Error message (shown only after submit) */
         .message-error {
             color: #721c24;
             background: #f8d7da;
@@ -81,7 +79,6 @@
             margin-bottom: 8px;
         }
 
-        /* ✅ Compact button */
         .btn-submit {
             width: 100%;
             padding: 8px;
@@ -124,7 +121,6 @@
 
     <h2>Create Account</h2>
 
-    <!-- ✅ Error message only after submit -->
     <c:if test="${not empty message}">
         <div class="message-error">
             ${message}
