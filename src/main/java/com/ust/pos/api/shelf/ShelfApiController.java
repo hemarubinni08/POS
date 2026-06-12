@@ -50,8 +50,8 @@ public class ShelfApiController extends BaseController {
     }
 
     @PostMapping("/togglestatus")
-    public ShelfDto toggle(@RequestBody ShelfDto dto) {
-        return shelfService.toggleStatus(dto.getIdentifier(), dto.isStatus());
+    public ShelfDto toggle(@RequestBody ShelfDto shelfDto) {
+        return shelfService.toggleStatus(shelfDto.getIdentifier(), shelfDto.isStatus());
     }
 
     @GetMapping("/shelfactive")

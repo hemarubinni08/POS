@@ -49,8 +49,8 @@ public class StockApiController extends BaseController {
     }
 
     @PostMapping("/togglestatus")
-    public StockDto toggle(@RequestBody StockDto dto) {
-        return stockService.toggleStatus(dto.getIdentifier(), dto.isStatus());
+    public StockDto toggle(@RequestBody StockDto stockDto) {
+        return stockService.toggleStatus(stockDto.getIdentifier(), stockDto.isStatus());
     }
 
 }

@@ -48,8 +48,8 @@ public class UnitApiController extends BaseController {
     }
 
     @PostMapping("/togglestatus")
-    public UnitDto toggle(@RequestBody UnitDto dto) {
-        return unitService.toggleStatus(dto.getIdentifier(), dto.isStatus());
+    public UnitDto toggle(@RequestBody UnitDto unitDto) {
+        return unitService.toggleStatus(unitDto.getIdentifier(), unitDto.isStatus());
     }
 
 }
