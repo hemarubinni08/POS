@@ -143,20 +143,17 @@
 
 <div class="card-container">
 
-    <!-- Back + Home Buttons -->
     <a href="/shelf/list" class="back-icon">←</a>
     <a href="/" class="home-link">Home</a>
 
     <h2>Add Shelf</h2>
 
-    <!-- Error Message -->
     <c:if test="${not empty message}">
         <div class="error-message">
             ${message}
         </div>
     </c:if>
 
-    <!-- Form -->
     <form:form method="post" action="/shelf/add" modelAttribute="shelfDto">
 
         <div class="form-group">

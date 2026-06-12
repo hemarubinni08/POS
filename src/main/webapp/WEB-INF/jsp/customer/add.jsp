@@ -110,10 +110,8 @@
         <div class="error-message">${message}</div>
     </c:if>
 
-    <!-- ✅ ONE form → customerDto -->
     <form:form action="/customer/add" method="post" modelAttribute="customerDto">
 
-        <!-- Customer -->
         <div class="form-group">
             <label>Customer Name</label>
             <form:input path="identifier"/>
@@ -121,7 +119,7 @@
 
         <div class="form-group">
             <label>Phone Number</label>
-            <form:input path="phoneno"/>
+            <form:input path="phoneNo"/>
         </div>
         <div class="form-group">
             <label>Email</label>
@@ -133,7 +131,7 @@
         </div>
         <div class="form-group">
             <label>Party Type</label>
-            <form:select path="partytype">
+            <form:select path="partyType">
                 <form:option value="" label="-- Select Party Type --"/>
                 <form:option value="Customer" label="Customer"/>
                 <form:option value="Dealer" label="Dealer"/>
@@ -141,7 +139,6 @@
             </form:select>
         </div>
 
-        <!-- ✅ Billing Address -->
         <details>
             <summary>Billing Address</summary>
             <input type="text"   name="billing.addressLine" placeholder="Address Line"/>
@@ -151,7 +148,6 @@
             <input type="text"   name="billing.country"     placeholder="Country"/>
         </details>
 
-        <!-- ✅ Shipping Address -->
         <details>
             <summary>Shipping Address</summary>
             <input type="text"   name="shipping.addressLine" placeholder="Address Line"/>

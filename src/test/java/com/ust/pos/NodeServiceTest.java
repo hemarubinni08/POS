@@ -221,24 +221,85 @@ class NodeServiceTest {
     void findAllWithPaginationShouldReturnNodeDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<Node> nodes = List.of(new Node());
-        Page<Node> page = new PageImpl<>(nodes);
+        Node node = new Node();
+        node.setIdentifier("N1");
 
-        List<NodeDto> nodeDtos = List.of(new NodeDto());
+        NodeDto dto = new NodeDto();
+        dto.setIdentifier("N1");
 
-        Type listType = new TypeToken<List<NodeDto>>() {
-        }.getType();
+        Page<Node> page = new PageImpl<>(List.of(node));
 
         Mockito.when(nodeRepository.findAll(pageable))
                 .thenReturn(page);
-        Mockito.when(modelMapper.map(nodes, listType))
-                .thenReturn(nodeDtos);
 
-        List<NodeDto> response = nodeService.findAll(pageable);
+        Mockito.when(modelMapper.map(node, NodeDto.class))
+                .thenReturn(dto);
+
+        Page<NodeDto> response =
+                nodeService.findAll(pageable, null);
 
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals(1, response.getContent().size());
+        Assertions.assertEquals(
+                "N1",
+                response.getContent().get(0).getIdentifier()
+        );
+
         Mockito.verify(nodeRepository).findAll(pageable);
-        Mockito.verify(modelMapper).map(nodes, listType);
+    }
+
+    @Test
+    void findAllWithSearchShouldReturnNodeDtos() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Node node = new Node();
+        node.setIdentifier("N1");
+
+        NodeDto dto = new NodeDto();
+        dto.setIdentifier("N1");
+
+        Page<Node> page = new PageImpl<>(List.of(node));
+
+        Mockito.when(
+                nodeRepository.findByIdentifierContainingIgnoreCase(
+                        "N1",
+                        pageable
+                )
+        ).thenReturn(page);
+
+        Mockito.when(modelMapper.map(node, NodeDto.class))
+                .thenReturn(dto);
+
+        Page<NodeDto> response =
+                nodeService.findAll(pageable, "N1");
+
+        Assertions.assertEquals(
+                1,
+                response.getContent().size()
+        );
+
+        Assertions.assertEquals(
+                "N1",
+                response.getContent().get(0).getIdentifier()
+        );
+
+        Mockito.verify(nodeRepository)
+                .findByIdentifierContainingIgnoreCase(
+                        "N1",
+                        pageable
+                );
+    }
+
+    @Test
+    void findByIdentifierNullTest() {
+        Mockito.when(nodeRepository.findByIdentifier("N1"))
+                .thenReturn(null);
+
+        Mockito.when(modelMapper.map(null, NodeDto.class))
+                .thenReturn(null);
+
+        NodeDto response = nodeService.findByIdentifier("N1");
+
+        Assertions.assertNull(response);
     }
 }

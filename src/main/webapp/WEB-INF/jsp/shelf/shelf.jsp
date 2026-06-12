@@ -160,7 +160,6 @@
 
 <div class="card-container">
 
-    <!-- Back + Home -->
     <a href="/shelf/list" class="back-icon">←</a>
     <a href="/" class="home-link">Home</a>
 

@@ -41,14 +41,14 @@ class CustomerServiceTest {
     @Test
     void saveTestSuccess() {
         CustomerDto dto = new CustomerDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("C1");
 
         AddressDto billing = new AddressDto();
         AddressDto shipping = new AddressDto();
         dto.setBilling(billing);
         dto.setShipping(shipping);
 
-        Mockito.when(customerRepository.findByIdentifier("Admin"))
+        Mockito.when(customerRepository.findByIdentifier("C1"))
                 .thenReturn(null);
 
         Mockito.doNothing()
@@ -70,9 +70,9 @@ class CustomerServiceTest {
     @Test
     void saveTestFailureWhenCustomerExists() {
         CustomerDto dto = new CustomerDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("C1");
 
-        Mockito.when(customerRepository.findByIdentifier("Admin"))
+        Mockito.when(customerRepository.findByIdentifier("C1"))
                 .thenReturn(new Customer());
 
         CustomerDto response = customerService.save(dto);
@@ -87,14 +87,14 @@ class CustomerServiceTest {
     @Test
     void updateTestSuccess() {
         CustomerDto dto = new CustomerDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("C1");
 
         AddressDto billing = new AddressDto();
         AddressDto shipping = new AddressDto();
         dto.setBilling(billing);
         dto.setShipping(shipping);
 
-        Mockito.when(customerRepository.findByIdentifier("Admin"))
+        Mockito.when(customerRepository.findByIdentifier("C1"))
                 .thenReturn(new Customer());
 
         Customer mappedCustomer = new Customer();
@@ -116,9 +116,9 @@ class CustomerServiceTest {
     @Test
     void updateTestFailureWhenNotFound() {
         CustomerDto dto = new CustomerDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("C1");
 
-        Mockito.when(customerRepository.findByIdentifier("Admin"))
+        Mockito.when(customerRepository.findByIdentifier("C1"))
                 .thenReturn(null);
 
         CustomerDto response = customerService.update(dto);
@@ -133,12 +133,12 @@ class CustomerServiceTest {
     @Test
     void findByIdentifierTest() {
         Customer customer = new Customer();
-        customer.setIdentifier("Admin");
+        customer.setIdentifier("C1");
 
         CustomerDto dto = new CustomerDto();
-        dto.setIdentifier("Admin");
+        dto.setIdentifier("C1");
 
-        Mockito.when(customerRepository.findByIdentifier("Admin"))
+        Mockito.when(customerRepository.findByIdentifier("C1"))
                 .thenReturn(customer);
         Mockito.when(modelMapper.map(customer, CustomerDto.class))
                 .thenReturn(dto);
@@ -146,14 +146,14 @@ class CustomerServiceTest {
         AddressDto billing = new AddressDto();
         AddressDto shipping = new AddressDto();
 
-        Mockito.when(addressService.findByIdentifierAndBilling("Admin"))
+        Mockito.when(addressService.findByIdentifierAndBilling("C1"))
                 .thenReturn(billing);
-        Mockito.when(addressService.findByIdentifierAndShipping("Admin"))
+        Mockito.when(addressService.findByIdentifierAndShipping("C1"))
                 .thenReturn(shipping);
 
-        CustomerDto response = customerService.findByIdentifier("Admin");
+        CustomerDto response = customerService.findByIdentifier("C1");
 
-        Assertions.assertEquals("Admin", response.getIdentifier());
+        Assertions.assertEquals("C1", response.getIdentifier());
         Assertions.assertNotNull(response.getBilling());
         Assertions.assertNotNull(response.getShipping());
     }
@@ -176,14 +176,14 @@ class CustomerServiceTest {
     @Test
     void deleteTest() {
         Mockito.doNothing()
-                .when(addressService).delete("Admin");
+                .when(addressService).delete("C1");
         Mockito.doNothing()
-                .when(customerRepository).deleteByIdentifier("Admin");
+                .when(customerRepository).deleteByIdentifier("C1");
 
-        customerService.deleteByIdentifier("Admin");
+        customerService.deleteByIdentifier("C1");
 
-        Mockito.verify(addressService).delete("Admin");
-        Mockito.verify(customerRepository).deleteByIdentifier("Admin");
+        Mockito.verify(addressService).delete("C1");
+        Mockito.verify(customerRepository).deleteByIdentifier("C1");
     }
 
     @Test

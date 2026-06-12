@@ -145,14 +145,14 @@
     <label>Phone Number</label>
 
     <form:input
-        path="phoneno"
+        path="phoneNo"
         type="text"
         maxlength="10"
         pattern="[0-9]{10}"
         oninput="this.value = this.value.replace(/[^0-9]/g, '')"
         class="form-control" />
 
-    <form:errors path="phoneno" cssClass="text-danger"/>
+    <form:errors path="phoneNo" cssClass="text-danger"/>
 </div>
 
 
@@ -170,7 +170,7 @@
 
         <div class="form-group">
             <label>Customer Type</label>
-            <form:select path="partytype">
+            <form:select path="partyType">
                 <form:option value="" label="-- Select Type --"/>
                 <form:option value="Customer" label="Customer"/>
                 <form:option value="Dealer" label="Dealer"/>
@@ -178,7 +178,6 @@
             </form:select>
         </div>
 
-        <!-- ✅ Billing Address -->
         <details>
             <summary>Billing Address</summary>
             <input type="hidden" name="billing.id" value="${customerDto.billing.id}" />

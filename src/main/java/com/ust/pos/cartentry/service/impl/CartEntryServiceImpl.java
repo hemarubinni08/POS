@@ -1,6 +1,5 @@
 package com.ust.pos.cartentry.service.impl;
 
-
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.CartEntry;
@@ -18,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.List;
+
 @Service
 @Transactional
 public class CartEntryServiceImpl implements CartEntryService {

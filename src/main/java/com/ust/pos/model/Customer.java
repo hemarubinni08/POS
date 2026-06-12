@@ -10,6 +10,6 @@ import lombok.Setter;
 public class Customer extends CommonFields {
     private String email;
     private String address;
-    private Long phoneno;
-    private String partytype;
+    private Long phoneNo;
+    private String partyType;
 }

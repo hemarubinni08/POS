@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -90,12 +89,16 @@ class ProductServiceTest {
 
         Mockito.when(productRepository.findByIdentifier("Admin"))
                 .thenReturn(existingProduct);
-        Mockito.when(productRepository.save(existingProduct))
-                .thenReturn(existingProduct);
 
         ProductDto response = productService.update(productDto);
 
-        Assertions.assertTrue(response.isSuccess());
+        Assertions.assertEquals("Admin", response.getIdentifier());
+
+        Mockito.verify(modelMapper)
+                .map(productDto, existingProduct);
+
+        Mockito.verify(productRepository)
+                .save(existingProduct);
     }
 
     @Test
@@ -147,24 +150,121 @@ class ProductServiceTest {
     void findAllWithPaginationShouldReturnProductDtos() {
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<Product> products = List.of(new Product());
-        Page<Product> page = new PageImpl<>(products);
+        Product product = new Product();
+        product.setIdentifier("Admin");
 
-        List<ProductDto> productDtos = List.of(new ProductDto());
+        ProductDto dto = new ProductDto();
+        dto.setIdentifier("Admin");
 
-        Type listType = new TypeToken<List<ProductDto>>() {
-        }.getType();
+        Page<Product> page =
+                new PageImpl<>(List.of(product));
 
         Mockito.when(productRepository.findAll(pageable))
                 .thenReturn(page);
-        Mockito.when(modelMapper.map(products, listType))
-                .thenReturn(productDtos);
 
-        List<ProductDto> response = productService.findAll(pageable);
+        Mockito.when(modelMapper.map(product, ProductDto.class))
+                .thenReturn(dto);
+
+        Page<ProductDto> response =
+                productService.findAll(pageable, null);
 
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(1, response.size());
-        Mockito.verify(productRepository).findAll(pageable);
-        Mockito.verify(modelMapper).map(products, listType);
+        Assertions.assertEquals(
+                1,
+                response.getContent().size()
+        );
+
+        Assertions.assertEquals(
+                "Admin",
+                response.getContent().get(0).getIdentifier()
+        );
+
+        Mockito.verify(productRepository)
+                .findAll(pageable);
+    }
+
+    @Test
+    void findByIdentifierNullTest() {
+        Mockito.when(productRepository.findByIdentifier("Admin"))
+                .thenReturn(null);
+
+        Mockito.when(modelMapper.map(null, ProductDto.class))
+                .thenReturn(null);
+
+        ProductDto response =
+                productService.findByIdentifier("Admin");
+
+        Assertions.assertNull(response);
+    }
+
+    @Test
+    void findAllWithSearchShouldReturnProductDtos() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Product product = new Product();
+        product.setIdentifier("Admin");
+
+        ProductDto dto = new ProductDto();
+        dto.setIdentifier("Admin");
+
+        Page<Product> page =
+                new PageImpl<>(List.of(product));
+
+        Mockito.when(
+                productRepository.findByIdentifierContainingIgnoreCase(
+                        "Admin",
+                        pageable
+                )
+        ).thenReturn(page);
+
+        Mockito.when(modelMapper.map(product, ProductDto.class))
+                .thenReturn(dto);
+
+        Page<ProductDto> response =
+                productService.findAll(pageable, "Admin");
+
+        Assertions.assertEquals(
+                1,
+                response.getContent().size()
+        );
+
+        Assertions.assertEquals(
+                "Admin",
+                response.getContent().get(0).getIdentifier()
+        );
+
+        Mockito.verify(productRepository)
+                .findByIdentifierContainingIgnoreCase(
+                        "Admin",
+                        pageable
+                );
+    }
+
+    @Test
+    void toggleStatusShouldFlipStatus() {
+        Product product = new Product();
+        product.setIdentifier("Admin");
+        product.setStatus(true);
+
+        Mockito.when(productRepository.findByIdentifier("Admin"))
+                .thenReturn(product);
+
+        productService.toggleStatus("Admin");
+
+        Assertions.assertFalse(product.isStatus());
+
+        Mockito.verify(productRepository)
+                .save(product);
+    }
+
+    @Test
+    void toggleStatusShouldDoNothingWhenProductNotFound() {
+        Mockito.when(productRepository.findByIdentifier("Admin"))
+                .thenReturn(null);
+
+        productService.toggleStatus("Admin");
+
+        Mockito.verify(productRepository, Mockito.never())
+                .save(Mockito.any());
     }
 }

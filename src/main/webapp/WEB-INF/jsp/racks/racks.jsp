@@ -160,7 +160,6 @@
 
 <div class="card-container">
 
-    <!-- ✅ Back + Home (FIXED with contextPath) -->
     <a href="${pageContext.request.contextPath}/racks/list" class="back-icon">←</a>
     <a href="${pageContext.request.contextPath}/" class="home-link">Home</a>
 

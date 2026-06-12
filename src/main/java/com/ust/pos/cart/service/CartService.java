@@ -18,5 +18,5 @@ public interface CartService {
 
     List<CartDto> findAll(Pageable pageable);
 
-    CartDto recalulateCart(String cartId);
+    CartDto recalculateCart(String cartId);
 }
