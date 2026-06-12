@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CartEntryServiceTest {
+class CartEntryServiceTest {
 
     @Mock
     private PriceRepository priceRepository;
@@ -51,8 +51,6 @@ public class CartEntryServiceTest {
 
         when(cartEntryRepository.findByIdentifier("P1-C1")).thenReturn(null);
         when(priceRepository.findByIdentifier("P1")).thenReturn(price);
-
-        CartEntry resultEntity = new CartEntry();
 
         CartEntryDto result = cartEntryService.save(dto);
 

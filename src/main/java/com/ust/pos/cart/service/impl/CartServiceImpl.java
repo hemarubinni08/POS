@@ -4,9 +4,7 @@ import com.ust.pos.cart.service.CartService;
 
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartDto;
-import com.ust.pos.dto.CartDto;
 import com.ust.pos.dto.CartEntryDto;
-import com.ust.pos.model.Cart;
 import com.ust.pos.model.Cart;
 import com.ust.pos.model.CartEntryRepository;
 import com.ust.pos.model.CartRepository;

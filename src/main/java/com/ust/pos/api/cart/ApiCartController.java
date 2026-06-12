@@ -4,7 +4,6 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.cart.service.CartService;
 
 import com.ust.pos.cartentry.service.CartEntryService;
-import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.CartDto;
 import org.springframework.beans.factory.annotation.Autowired;
