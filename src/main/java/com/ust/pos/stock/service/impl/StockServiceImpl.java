@@ -84,7 +84,7 @@ public class StockServiceImpl implements StockService {
     public StockDto toggleStatus(String identifier, boolean status) {
         Stock stock = stockRepository.findByIdentifier(identifier);
         if (stock != null) {
-            stock.setStatus(!stock.isStatus()); // boolean toggle
+            stock.setStatus(!stock.isStatus());
             stockRepository.save(stock);
         }
         return modelMapper.map(stock, StockDto.class);

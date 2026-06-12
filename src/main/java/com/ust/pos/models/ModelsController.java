@@ -29,8 +29,8 @@ public class ModelsController extends BaseController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute ModelsDto userDto) {
-        ModelsDto response = modelsService.save(userDto);
+    public String addPost(Model model, @ModelAttribute ModelsDto modelsDto) {
+        ModelsDto response = modelsService.save(modelsDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }
@@ -45,8 +45,8 @@ public class ModelsController extends BaseController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute ModelsDto userDto) {
-        ModelsDto response = modelsService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute ModelsDto modelsDto) {
+        ModelsDto response = modelsService.update(modelsDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
         }

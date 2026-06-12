@@ -85,7 +85,7 @@ public class ModelsServiceImpl implements ModelsService {
         Models model = modelsRepository.findByIdentifier(identifier);
 
         if (model != null) {
-            model.setStatus(!model.isStatus()); // boolean toggle
+            model.setStatus(!model.isStatus());
             modelsRepository.save(model);
         }
         return modelMapper.map(model, ModelsDto.class);

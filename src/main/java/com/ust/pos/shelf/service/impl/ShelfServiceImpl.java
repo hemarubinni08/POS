@@ -84,7 +84,7 @@ public class ShelfServiceImpl implements ShelfService {
     public ShelfDto toggleStatus(String identifier, boolean status) {
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
         if (shelf != null) {
-            shelf.setStatus(!shelf.isStatus()); //  boolean toggle
+            shelf.setStatus(!shelf.isStatus());
             shelfRepository.save(shelf);
         }
         return modelMapper.map(shelf, ShelfDto.class);
