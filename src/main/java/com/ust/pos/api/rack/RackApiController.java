@@ -19,7 +19,6 @@ public class RackApiController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<RackDto> home(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
         return rackService.findAll(pageable);

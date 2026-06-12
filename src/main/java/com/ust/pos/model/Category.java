@@ -9,5 +9,4 @@ import lombok.Setter;
 @Setter
 public class Category extends CommonFields {
     private String superCategory;
-
 }

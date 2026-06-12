@@ -5,7 +5,6 @@ import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
-
     ProductDto save(ProductDto userDto);
 
     ProductDto update(ProductDto userDto);

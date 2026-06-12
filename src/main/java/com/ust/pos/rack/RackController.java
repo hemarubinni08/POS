@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class RackController extends BaseController {
 
     private static final String REDIRECT_LIST = "redirect:/rack/list";
+
     @Autowired
     ShelfsRepository shelfsRepository;
+
     @Autowired
     private RackService rackService;
+
     @Autowired
     private ShelfsService shelfsService;
 

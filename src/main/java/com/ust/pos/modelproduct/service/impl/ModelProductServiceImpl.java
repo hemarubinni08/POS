@@ -20,7 +20,6 @@ import java.util.List;
 @Transactional
 public class ModelProductServiceImpl implements ModelProductService {
 
-
     @Autowired
     private ModelProductRepository modelProductRepository;
 

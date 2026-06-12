@@ -5,7 +5,6 @@ import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface StockService {
-
     StockDto save(StockDto stockDto);
 
     WsDto<StockDto> findAll(Pageable pageable);

@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 
 public interface ModelProductService {
-
     ModelProductDto save(ModelProductDto modelProductDto);
 
     ModelProductDto update(ModelProductDto modelProductDto);

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/user")
 public class UserController extends BaseController {
+
     @Autowired
     private RoleService roleService;
 

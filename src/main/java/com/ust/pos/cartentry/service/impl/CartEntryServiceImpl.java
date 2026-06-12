@@ -40,7 +40,6 @@ public class CartEntryServiceImpl implements CartEntryService {
     @Autowired
     private CartService cartService;
 
-
     @Override
     public CartEntryDto save(CartEntryDto cartEntryDto) {
         String identifier = cartEntryDto.getProduct() + "-" + cartEntryDto.getCart();

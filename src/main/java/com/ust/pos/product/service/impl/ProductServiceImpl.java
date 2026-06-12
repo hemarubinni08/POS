@@ -71,7 +71,6 @@ public class ProductServiceImpl implements ProductService {
         productDtoWsDto.setSizePerPage(pageable.getPageSize());
         productDtoWsDto.setPage(pageable.getPageNumber());
         return productDtoWsDto;
-
     }
 
     @Override

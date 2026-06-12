@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Address extends CommonFields {
-
     private String addressLine;
     private String city;
     private String state;

@@ -58,26 +58,22 @@ public class NodeServiceImpl implements NodeService {
                 }
             }
         }
-
         List<NodeDto> nodeDtos = new ArrayList<>();
         for (Node node : allowedNodes) {
             nodeDtos.add(modelMapper.map(node, NodeDto.class));
         }
-
         return nodeDtos;
     }
 
     @Override
     public NodeDto save(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
-
         Node existingNode = nodeRepository.findByIdentifier(identifier);
         if (existingNode != null) {
             nodeDto.setMessage("Node with identifier - " + identifier + " already exists");
             nodeDto.setSuccess(false);
             return nodeDto;
         }
-
         Node node = modelMapper.map(nodeDto, Node.class);
         nodeRepository.save(node);
         return nodeDto;
@@ -86,14 +82,12 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public NodeDto update(NodeDto nodeDto) {
         String identifier = nodeDto.getIdentifier();
-
         Node existingNode = nodeRepository.findByIdentifier(identifier);
         if (existingNode == null) {
             nodeDto.setMessage("Node with identifier - " + identifier + " not found");
             nodeDto.setSuccess(false);
             return nodeDto;
         }
-
         modelMapper.map(nodeDto, existingNode);
         nodeRepository.save(existingNode);
         return nodeDto;
@@ -116,7 +110,6 @@ public class NodeServiceImpl implements NodeService {
         nodeWsDto.setSizePerPage(pageable.getPageSize());
         nodeWsDto.setPage(pageable.getPageNumber());
         return nodeWsDto;
-
     }
 
     @Override

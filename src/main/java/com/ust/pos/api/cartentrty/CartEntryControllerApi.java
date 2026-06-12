@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/cartEntry")
 public class CartEntryControllerApi extends BaseController {
+
     @Autowired
     private CartEntryService cartEntryService;
 

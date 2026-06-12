@@ -75,7 +75,6 @@ public class StockServiceImpl implements StockService {
         stockDtoWsDto.setTotalPages(stockPage.getTotalPages());
         stockDtoWsDto.setSizePerPage(pageable.getPageSize());
         stockDtoWsDto.setPage(pageable.getPageNumber());
-
         return stockDtoWsDto;
     }
 }

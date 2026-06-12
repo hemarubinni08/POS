@@ -37,14 +37,15 @@ import java.util.List;
 public class WebSecurityConfig {
 
     public static final String JAVA_IN_USE_SECURITY_SCHEME = "JavaInUseSecurityScheme";
+
     @Autowired
     private UserDetailsService userDetailsService;
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) {
-
         http
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
@@ -52,7 +53,6 @@ public class WebSecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-
                         .requestMatchers("/login", "/register", "/api/authenticate", "/api/role/list", "/api/user/register", "/api/validateToken", "/swagger-ui/**", "/v3/**").permitAll()
                         .anyRequest().authenticated()
                 )

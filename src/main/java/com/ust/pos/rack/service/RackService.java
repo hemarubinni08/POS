@@ -5,7 +5,6 @@ import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface RackService {
-
     WsDto<RackDto> findAll(Pageable pageable);
 
     RackDto save(RackDto dto);

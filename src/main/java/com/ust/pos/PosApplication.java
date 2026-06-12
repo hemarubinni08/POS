@@ -1,5 +1,6 @@
 package com.ust.pos;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.sql.DataSource;
 
 @SpringBootApplication
-@ComponentScan(
-        {"com.ust.pos.web.controller", "com.ust.pos"}
-)
+@OpenAPIDefinition
+@ComponentScan({"com.ust.pos.web.controller", "com.ust.pos"})
 public class PosApplication {
 
     @Autowired
-    private Environment environment;
+    Environment environment;
 
     public static void main(String[] args) {
         SpringApplication.run(PosApplication.class, args);
@@ -32,10 +32,29 @@ public class PosApplication {
     public ModelMapper modelMapper() {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.STRICT)
-                .setSkipNullEnabled(true)
-                .setCollectionsMergeEnabled(false);
+                .setMatchingStrategy(MatchingStrategies.STRICT);
+        mapper.getConfiguration().setSkipNullEnabled(true);
+        mapper.getConfiguration().setCollectionsMergeEnabled(false);
         return mapper;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(getDataSource());
+    }
+
+    @Bean
+    DataSource getDataSource() {
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setUrl(environment.getProperty("spring.datasource.url"));
+        ds.setUsername(environment.getProperty("spring.datasource.username"));
+        ds.setPassword(environment.getProperty("spring.datasource.password"));
+        String drivercls = environment.getProperty("spring.datasource.driver-class-name");
+
+        if (drivercls != null) {
+            ds.setDriverClassName(drivercls);
+        }
+        return ds;
     }
 
     @Bean

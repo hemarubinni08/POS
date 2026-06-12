@@ -11,5 +11,4 @@ public class PriceDto extends CommonDto {
     private BigDecimal costPrice;
     private BigDecimal sellingPrice;
     private BigDecimal mrp;
-
 }

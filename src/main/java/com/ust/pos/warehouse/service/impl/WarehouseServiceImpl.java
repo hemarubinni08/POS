@@ -19,7 +19,6 @@ import java.util.List;
 @Service
 @Transactional
 public class WarehouseServiceImpl implements WarehouseService {
-
     @Autowired
     private WarehouseRepository warehouseRepository;
 
@@ -37,7 +36,6 @@ public class WarehouseServiceImpl implements WarehouseService {
         warehouseDtoWsDto.setTotalPages(warehousePage.getTotalPages());
         warehouseDtoWsDto.setSizePerPage(pageable.getPageSize());
         warehouseDtoWsDto.setPage(pageable.getPageNumber());
-
         return warehouseDtoWsDto;
     }
 

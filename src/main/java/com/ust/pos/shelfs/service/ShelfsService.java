@@ -5,7 +5,6 @@ import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface ShelfsService {
-
     ShelfsDto save(ShelfsDto brandDto);
 
     ShelfsDto update(ShelfsDto brandDto);
