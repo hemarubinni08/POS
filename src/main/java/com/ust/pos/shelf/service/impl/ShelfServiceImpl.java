@@ -27,7 +27,7 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public ShelfDto save(ShelfDto shelfDto) {
-        Shelf existingShelf = shelfRepository.findByIdentifier(shelfDto.getIdentifier());
+        Shelf existingShelf = shelfRepository.findByIdentifier(shelfDto.getIdentifier().trim());
         if (existingShelf != null) {
             shelfDto.setMessage("Shelf with identifier - " + shelfDto.getIdentifier() + " already exists");
             shelfDto.setSuccess(false);

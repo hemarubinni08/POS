@@ -27,7 +27,7 @@ public class RackServiceImpl implements RackService {
 
     @Override
     public RackDto save(RackDto rackDto) {
-        Rack existingRack = rackRepository.findByIdentifier(rackDto.getIdentifier());
+        Rack existingRack = rackRepository.findByIdentifier(rackDto.getIdentifier().trim());
         if (existingRack != null) {
             rackDto.setMessage("Rack with identifier - " + rackDto.getIdentifier() + " already exists");
             rackDto.setSuccess(false);

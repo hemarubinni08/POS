@@ -27,7 +27,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandDto save(BrandDto brandDto) {
-        Brand existingBrand = brandRepository.findByIdentifier(brandDto.getIdentifier());
+        Brand existingBrand = brandRepository.findByIdentifier(brandDto.getIdentifier().trim());
         if (existingBrand != null) {
             brandDto.setMessage("Brand with identifier - " + brandDto.getIdentifier() + " already exists");
             brandDto.setSuccess(false);

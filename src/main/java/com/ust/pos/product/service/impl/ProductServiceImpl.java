@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto save(ProductDto productDto) {
-        Product existingProduct = productRepository.findByIdentifier(productDto.getIdentifier());
+        Product existingProduct = productRepository.findByIdentifier(productDto.getIdentifier().trim());
         if (existingProduct != null) {
             productDto.setMessage("Stock with identifier - " + productDto.getIdentifier() + " already exists");
             productDto.setSuccess(false);

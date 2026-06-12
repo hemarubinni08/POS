@@ -27,7 +27,7 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public UnitDto save(UnitDto unitDto) {
-        Unit existingUnit = unitRepository.findByIdentifier(unitDto.getIdentifier());
+        Unit existingUnit = unitRepository.findByIdentifier(unitDto.getIdentifier().trim());
         if (existingUnit != null) {
             unitDto.setMessage("Unit with identifier - " + unitDto.getIdentifier() + " already exists");
             unitDto.setSuccess(false);

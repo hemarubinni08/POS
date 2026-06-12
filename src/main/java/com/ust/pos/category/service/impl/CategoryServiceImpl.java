@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (StringUtils.isEmpty(categoryDto.getSuperCategory())) {
             categoryDto.setSuperCategory(null);
         }
-        Category existingCategory = categoryRepository.findByIdentifier(categoryDto.getIdentifier());
+        Category existingCategory = categoryRepository.findByIdentifier(categoryDto.getIdentifier().trim());
         if (existingCategory != null) {
             categoryDto.setMessage("Category with identifier - " + categoryDto.getIdentifier() + " already exists");
             categoryDto.setSuccess(false);

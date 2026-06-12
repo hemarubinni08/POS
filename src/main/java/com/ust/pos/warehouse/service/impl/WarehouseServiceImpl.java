@@ -27,7 +27,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public WarehouseDto save(WarehouseDto warehouseDto) {
-        Warehouse existingWarehouse = warehouseRepository.findByIdentifier(warehouseDto.getIdentifier());
+        Warehouse existingWarehouse = warehouseRepository.findByIdentifier(warehouseDto.getIdentifier().trim());
         if (existingWarehouse != null) {
             warehouseDto.setMessage("Warehouse with identifier - " + warehouseDto.getIdentifier() + " already exists");
             warehouseDto.setSuccess(false);

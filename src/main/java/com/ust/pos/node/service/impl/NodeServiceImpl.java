@@ -59,7 +59,7 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public NodeDto save(NodeDto nodeDto) {
-        String identifier = nodeDto.getIdentifier();
+        String identifier = nodeDto.getIdentifier().trim();
         Node existingRole = nodeRepository.findByIdentifier(identifier);
         if (existingRole != null) {
             nodeDto.setMessage("Node with identifier - " + identifier + " already exists");

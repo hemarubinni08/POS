@@ -27,7 +27,7 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public ModelDto save(ModelDto modelDto) {
-        Model existingModel = modelRepository.findByIdentifier(modelDto.getIdentifier());
+        Model existingModel = modelRepository.findByIdentifier(modelDto.getIdentifier().trim());
         if (existingModel != null) {
             modelDto.setMessage("Model with identifier - " + modelDto.getIdentifier() + " already exists");
             modelDto.setSuccess(false);
