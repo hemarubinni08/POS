@@ -42,7 +42,7 @@ public class ShelfServiceImpl implements ShelfService {
             return shelfDto;
         }
         Shelf shelf = modelMapper.map(shelfDto, Shelf.class);
-        shelf.setIdentifier(shelfDto.getName()); // using name as identifier
+        shelf.setIdentifier(shelfDto.getName());
         shelfRepository.save(shelf);
         ShelfDto response = modelMapper.map(shelf, ShelfDto.class);
         response.setSuccess(true);
