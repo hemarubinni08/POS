@@ -4,7 +4,7 @@ import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Shelf;
 import com.ust.pos.modell.ShelfRepository;
-import com.ust.pos.shelf.impl.ShelfServiceImpl;
+import com.ust.pos.shelf.service.impl.ShelfServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.modelmapper.ModelMapper;

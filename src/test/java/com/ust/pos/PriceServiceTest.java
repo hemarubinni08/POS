@@ -79,7 +79,7 @@ class PriceServiceTest {
         dto.setIdentifier("OLD");
         dto.setProduct("P");
         dto.setType("T");
-        dto.setPrice(new BigDecimal("100.0"));
+        dto.setPriceAmount(new BigDecimal("100.0"));
 
         Price existing = new Price();
         existing.setId(1L);
