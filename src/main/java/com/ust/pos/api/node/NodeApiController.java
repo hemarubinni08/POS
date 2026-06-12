@@ -3,11 +3,14 @@ package com.ust.pos.api.node;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.node.service.NodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -19,7 +22,7 @@ public class NodeApiController extends BaseController {
     private NodeService nodeService;
 
     @PostMapping("/list")
-    public PaginationResponseDto<NodeDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<NodeDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -27,10 +30,9 @@ public class NodeApiController extends BaseController {
         return nodeService.findAll(pageable);
     }
 
-
     @PostMapping("/add")
-    public NodeDto addPost(@RequestBody NodeDto userDto) {
-        return nodeService.save(userDto);
+    public NodeDto addPost(@RequestBody NodeDto nodeDto) {
+        return nodeService.save(nodeDto);
 
     }
 
@@ -40,9 +42,8 @@ public class NodeApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public NodeDto updatePost(@RequestBody NodeDto userDto) {
-        return nodeService.update(userDto);
-
+    public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
+        return nodeService.update(nodeDto);
     }
 
     @PostMapping("/delete")

@@ -22,13 +22,13 @@ public class ShelvesController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute ShelvesDto userDto) {
+    public String add(Model model, @ModelAttribute ShelvesDto shelvesDto) {
         return "shelves/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute ShelvesDto userDto) {
-        ShelvesDto response = shelvesService.save(userDto);
+    public String addPost(Model model, @ModelAttribute ShelvesDto shelvesDto) {
+        ShelvesDto response = shelvesService.save(shelvesDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "shelves/add";
@@ -44,8 +44,8 @@ public class ShelvesController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute ShelvesDto userDto) {
-        ShelvesDto response = shelvesService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute ShelvesDto shelvesDto) {
+        ShelvesDto response = shelvesService.update(shelvesDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
 

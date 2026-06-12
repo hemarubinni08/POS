@@ -2,12 +2,15 @@ package com.ust.pos.api.role;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/role")
@@ -17,7 +20,7 @@ public class RoleApiController extends BaseController {
     private RoleService roleService;
 
     @PostMapping("/list")
-    public PaginationResponseDto<RoleDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<RoleDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -26,8 +29,8 @@ public class RoleApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public RoleDto addPost(@RequestBody RoleDto userDto) {
-        return roleService.save(userDto);
+    public RoleDto addPost(@RequestBody RoleDto roleDto) {
+        return roleService.save(roleDto);
 
     }
 
@@ -37,9 +40,8 @@ public class RoleApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public RoleDto updatePost(@RequestBody RoleDto userDto) {
-        return roleService.update(userDto);
-
+    public RoleDto updatePost(@RequestBody RoleDto roleDto) {
+        return roleService.update(roleDto);
     }
 
     @PostMapping("/delete")

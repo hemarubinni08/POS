@@ -1,7 +1,7 @@
 package com.ust.pos.role.service.impl;
 
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
 import com.ust.pos.role.service.RoleService;
@@ -57,6 +57,7 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.save(existingRole);
         return roleDto;
     }
+
     @Override
     @Transactional
     public void delete(String identifier) {
@@ -64,7 +65,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public PaginationResponseDto<RoleDto> findAll(Pageable pageable) {
+    public WsDto<RoleDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
@@ -76,15 +77,15 @@ public class RoleServiceImpl implements RoleService {
                 listType
         );
 
-        PaginationResponseDto<RoleDto> paginationResponseDto =
-                new PaginationResponseDto<>();
+        WsDto<RoleDto> wsDto =
+                new WsDto<>();
 
-        paginationResponseDto.setContent(roleDtos);
-        paginationResponseDto.setPage(rolePage.getNumber());
-        paginationResponseDto.setSizePerPage(rolePage.getSize());
-        paginationResponseDto.setTotalPages(rolePage.getTotalPages());
-        paginationResponseDto.setTotalRecords(rolePage.getTotalElements());
+        wsDto.setContent(roleDtos);
+        wsDto.setPage(rolePage.getNumber());
+        wsDto.setSizePerPage(rolePage.getSize());
+        wsDto.setTotalPages(rolePage.getTotalPages());
+        wsDto.setTotalRecords(rolePage.getTotalElements());
 
-        return paginationResponseDto;
+        return wsDto;
     }
 }

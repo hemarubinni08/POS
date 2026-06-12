@@ -1,7 +1,7 @@
 package com.ust.pos.warehouse.service.impl;
 
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.WarehouseDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
@@ -63,7 +63,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public PaginationResponseDto<WarehouseDto> findAll(Pageable pageable) {
+    public WsDto<WarehouseDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<WarehouseDto>>() {
         }.getType();
@@ -75,15 +75,15 @@ public class WarehouseServiceImpl implements WarehouseService {
                 listType
         );
 
-        PaginationResponseDto<WarehouseDto> paginationResponseDto =
-                new PaginationResponseDto<>();
+        WsDto<WarehouseDto> wsDto =
+                new WsDto<>();
 
-        paginationResponseDto.setContent(warehouseDtos);
-        paginationResponseDto.setPage(warehousePage.getNumber());
-        paginationResponseDto.setSizePerPage(warehousePage.getSize());
-        paginationResponseDto.setTotalPages(warehousePage.getTotalPages());
-        paginationResponseDto.setTotalRecords(warehousePage.getTotalElements());
+        wsDto.setContent(warehouseDtos);
+        wsDto.setPage(warehousePage.getNumber());
+        wsDto.setSizePerPage(warehousePage.getSize());
+        wsDto.setTotalPages(warehousePage.getTotalPages());
+        wsDto.setTotalRecords(warehousePage.getTotalElements());
 
-        return paginationResponseDto;
+        return wsDto;
     }
 }

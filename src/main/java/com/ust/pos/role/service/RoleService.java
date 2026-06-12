@@ -1,18 +1,18 @@
 package com.ust.pos.role.service;
 
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 
 public interface RoleService {
-    RoleDto save(RoleDto userDto);
+    RoleDto save(RoleDto roleDto);
 
-    RoleDto update(RoleDto userDto);
+    RoleDto update(RoleDto roleDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
-    PaginationResponseDto<RoleDto> findAll(Pageable pageable);
+    WsDto<RoleDto> findAll(Pageable pageable);
 
     RoleDto findByIdentifier(String identifier);
 }

@@ -1,18 +1,18 @@
 package com.ust.pos.brand.service;
 
 import com.ust.pos.dto.BrandDto;
-import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 
 public interface BrandService {
-    BrandDto save(BrandDto userDto);
+    BrandDto save(BrandDto brandDto);
 
-    BrandDto update(BrandDto userDto);
+    BrandDto update(BrandDto brandDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
-    PaginationResponseDto<BrandDto> findAll(Pageable pageable);
+    WsDto<BrandDto> findAll(Pageable pageable);
 
     BrandDto findByIdentifier(String identifier);
 

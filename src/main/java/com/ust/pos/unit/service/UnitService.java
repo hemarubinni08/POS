@@ -1,18 +1,18 @@
 package com.ust.pos.unit.service;
 
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 
 public interface UnitService {
-    UnitDto save(UnitDto userDto);
+    UnitDto save(UnitDto unitDto);
 
-    UnitDto update(UnitDto userDto);
+    UnitDto update(UnitDto unitDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
-    PaginationResponseDto<UnitDto> findAll(Pageable pageable);
+    WsDto<UnitDto> findAll(Pageable pageable);
 
     UnitDto findByIdentifier(String identifier);
 

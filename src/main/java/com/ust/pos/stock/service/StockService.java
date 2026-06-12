@@ -1,17 +1,17 @@
 package com.ust.pos.stock.service;
 
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface StockService {
-    StockDto save(StockDto userDto);
+    StockDto save(StockDto stockDto);
 
-    StockDto update(StockDto userDto);
+    StockDto update(StockDto stockDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
-    PaginationResponseDto<StockDto> findAll(Pageable pageable);
+    WsDto<StockDto> findAll(Pageable pageable);
 
     StockDto findByIdentifier(String identifier);
 }

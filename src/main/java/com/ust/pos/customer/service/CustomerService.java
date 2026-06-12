@@ -1,7 +1,7 @@
 package com.ust.pos.customer.service;
 
 import com.ust.pos.dto.CustomerDto;
-import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface CustomerService {
@@ -11,7 +11,7 @@ public interface CustomerService {
 
     void delete(String identifier);
 
-    PaginationResponseDto<CustomerDto> findAll(Pageable pageable);
+    WsDto<CustomerDto> findAll(Pageable pageable);
 
     CustomerDto findByIdentifier(String identifier);
 

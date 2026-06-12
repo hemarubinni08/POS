@@ -1,7 +1,7 @@
 package com.ust.pos.customer.service;
 
 import com.ust.pos.dto.AddressDto;
-import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface AddressService {
@@ -9,7 +9,7 @@ public interface AddressService {
 
     AddressDto update(AddressDto addressDto);
 
-    PaginationResponseDto<AddressDto> findAll(Pageable pageable);
+    WsDto<AddressDto> findAll(Pageable pageable);
 
     AddressDto findByPhoneNoAndAddressType(Long phoneNo, String addressType);
 

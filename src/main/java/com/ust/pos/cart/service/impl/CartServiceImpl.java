@@ -2,9 +2,9 @@ package com.ust.pos.cart.service.impl;
 
 
 import com.ust.pos.cart.service.CartService;
-import com.ust.pos.cartEntry.service.CartEntryService;
+import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartDto;
-import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Cart;
 import com.ust.pos.model.CartRepository;
 import org.modelmapper.ModelMapper;
@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +70,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public PaginationResponseDto<CartDto> findAll(Pageable pageable) {
+    public WsDto<CartDto> findAll(Pageable pageable) {
 
         List<CartDto> cartDtoList = new ArrayList<>();
 
@@ -91,16 +90,16 @@ public class CartServiceImpl implements CartService {
             );
         }
 
-        PaginationResponseDto<CartDto> paginationResponseDto =
-                new PaginationResponseDto<>();
+        WsDto<CartDto> wsDto =
+                new WsDto<>();
 
-        paginationResponseDto.setContent(cartDtoList);
-        paginationResponseDto.setPage(cartPage.getNumber());
-        paginationResponseDto.setSizePerPage(cartPage.getSize());
-        paginationResponseDto.setTotalPages(cartPage.getTotalPages());
-        paginationResponseDto.setTotalRecords(cartPage.getTotalElements());
+        wsDto.setContent(cartDtoList);
+        wsDto.setPage(cartPage.getNumber());
+        wsDto.setSizePerPage(cartPage.getSize());
+        wsDto.setTotalPages(cartPage.getTotalPages());
+        wsDto.setTotalRecords(cartPage.getTotalElements());
 
-        return paginationResponseDto;
+        return wsDto;
     }
 
 }

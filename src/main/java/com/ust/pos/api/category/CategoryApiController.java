@@ -4,10 +4,13 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/category")
@@ -16,7 +19,7 @@ public class CategoryApiController extends BaseController {
     private CategoryService categoryService;
 
     @PostMapping("/list")
-    public PaginationResponseDto<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -25,8 +28,8 @@ public class CategoryApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public CategoryDto addPost(@RequestBody CategoryDto userDto) {
-        return categoryService.save(userDto);
+    public CategoryDto addPost(@RequestBody CategoryDto categoryDto) {
+        return categoryService.save(categoryDto);
     }
 
     @PostMapping("/get")
@@ -35,8 +38,8 @@ public class CategoryApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public CategoryDto updatePost(@RequestBody CategoryDto userDto) {
-        return categoryService.update(userDto);
+    public CategoryDto updatePost(@RequestBody CategoryDto categoryDto) {
+        return categoryService.update(categoryDto);
     }
 
     @PostMapping("/delete")

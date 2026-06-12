@@ -2,7 +2,7 @@ package com.ust.pos.brand.service.impl;
 
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
-import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
 import org.modelmapper.ModelMapper;
@@ -62,7 +62,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public PaginationResponseDto<BrandDto> findAll(Pageable pageable) {
+    public WsDto<BrandDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
@@ -74,16 +74,16 @@ public class BrandServiceImpl implements BrandService {
                 listType
         );
 
-        PaginationResponseDto<BrandDto> paginationResponseDto =
-                new PaginationResponseDto<>();
+        WsDto<BrandDto> wsDto =
+                new WsDto<>();
 
-        paginationResponseDto.setContent(brandDtos);
-        paginationResponseDto.setPage(brandPage.getNumber());
-        paginationResponseDto.setSizePerPage(brandPage.getSize());
-        paginationResponseDto.setTotalPages(brandPage.getTotalPages());
-        paginationResponseDto.setTotalRecords(brandPage.getTotalElements());
+        wsDto.setContent(brandDtos);
+        wsDto.setPage(brandPage.getNumber());
+        wsDto.setSizePerPage(brandPage.getSize());
+        wsDto.setTotalPages(brandPage.getTotalPages());
+        wsDto.setTotalRecords(brandPage.getTotalElements());
 
-        return paginationResponseDto;
+        return wsDto;
     }
 
     @Override

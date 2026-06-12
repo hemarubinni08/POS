@@ -22,13 +22,13 @@ public class UnitController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, @ModelAttribute UnitDto userDto) {
+    public String add(Model model, @ModelAttribute UnitDto unitDto) {
         return "unit/add";
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute UnitDto userDto) {
-        UnitDto response = unitService.save(userDto);
+    public String addPost(Model model, @ModelAttribute UnitDto unitDto) {
+        UnitDto response = unitService.save(unitDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "unit/add";
@@ -44,8 +44,8 @@ public class UnitController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute UnitDto userDto) {
-        UnitDto response = unitService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute UnitDto unitDto) {
+        UnitDto response = unitService.update(unitDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
 

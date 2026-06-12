@@ -4,7 +4,7 @@ import com.ust.pos.customer.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
-import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
 import org.modelmapper.ModelMapper;
@@ -105,12 +105,16 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     public void delete(String identifier) {
         Customer customer = customerRepository.findByIdentifier(identifier);
-        addressService.deleteByPhoneNo(customer.getPhoneNo());
+
+        if (customer != null) {
+            addressService.deleteByPhoneNo(customer.getPhoneNo());
+        }
+
         customerRepository.deleteByIdentifier(identifier);
     }
 
     @Override
-    public PaginationResponseDto<CustomerDto> findAll(Pageable pageable) {
+    public WsDto<CustomerDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
@@ -122,16 +126,16 @@ public class CustomerServiceImpl implements CustomerService {
                 listType
         );
 
-        PaginationResponseDto<CustomerDto> paginationResponseDto =
-                new PaginationResponseDto<>();
+        WsDto<CustomerDto> wsDto =
+                new WsDto<>();
 
-        paginationResponseDto.setContent(customerDtos);
-        paginationResponseDto.setPage(customerPage.getNumber());
-        paginationResponseDto.setSizePerPage(customerPage.getSize());
-        paginationResponseDto.setTotalPages(customerPage.getTotalPages());
-        paginationResponseDto.setTotalRecords(customerPage.getTotalElements());
+        wsDto.setContent(customerDtos);
+        wsDto.setPage(customerPage.getNumber());
+        wsDto.setSizePerPage(customerPage.getSize());
+        wsDto.setTotalPages(customerPage.getTotalPages());
+        wsDto.setTotalRecords(customerPage.getTotalElements());
 
-        return paginationResponseDto;
+        return wsDto;
     }
 
     @Override

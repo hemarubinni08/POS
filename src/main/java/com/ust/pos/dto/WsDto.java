@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PaginationResponseDto<T> extends PaginationDto{
+public class WsDto<T> extends PaginationDto {
     private List<T> content;
 
 }

@@ -2,14 +2,15 @@ package com.ust.pos.api.stock;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/stock")
@@ -19,7 +20,7 @@ public class StockApiController extends BaseController {
     private StockService stockService;
 
     @PostMapping("/list")
-    public PaginationResponseDto<StockDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<StockDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -28,8 +29,8 @@ public class StockApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public StockDto addPost(@RequestBody StockDto userDto) {
-        return stockService.save(userDto);
+    public StockDto addPost(@RequestBody StockDto stockDto) {
+        return stockService.save(stockDto);
 
     }
 
@@ -39,8 +40,8 @@ public class StockApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public StockDto updatePost(@RequestBody StockDto userDto) {
-        return stockService.update(userDto);
+    public StockDto updatePost(@RequestBody StockDto stockDto) {
+        return stockService.update(stockDto);
 
     }
 

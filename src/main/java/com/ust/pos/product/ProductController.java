@@ -35,7 +35,7 @@ public class ProductController {
     }
 
     @GetMapping("/add")
-    public String add(Model model, Pageable pageable, @ModelAttribute ProductDto userDto) {
+    public String add(Model model, Pageable pageable, @ModelAttribute ProductDto productDto) {
         model.addAttribute("categories", categoryService.findAllCategoriesWithNoSuper());
         model.addAttribute("models", modelsService.findAll(pageable));
         model.addAttribute("brands", brandService.findAll(pageable));
@@ -44,8 +44,8 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute ProductDto userDto) {
-        ProductDto response = productService.save(userDto);
+    public String addPost(Model model, @ModelAttribute ProductDto productDto) {
+        ProductDto response = productService.save(productDto);
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
             return "product/add";

@@ -1,7 +1,6 @@
-package com.ust.pos.cartEntry.service;
+package com.ust.pos.cartentry.service;
 
 import com.ust.pos.dto.CartEntryDto;
-import com.ust.pos.dto.PaginationResponseDto;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
@@ -12,13 +11,13 @@ public interface CartEntryService {
 
     void delete(String cartId, String product);
 
-    PaginationResponseDto<CartEntryDto> findAll(Pageable pageable);
+    List<CartEntryDto> findAll(Pageable pageable);
 
     CartEntryDto findByIdentifier(String identifier);
 
     BigDecimal getSellingPriceAmount(String product);
 
-    BigDecimal getDiscountPriceAmount(String product,BigDecimal quantity);
+    BigDecimal getDiscountPriceAmount(String product, BigDecimal quantity);
 
     BigDecimal getTotalPrice(String product, BigDecimal quantity);
 

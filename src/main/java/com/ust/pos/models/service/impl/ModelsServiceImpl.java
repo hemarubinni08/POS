@@ -1,7 +1,7 @@
 package com.ust.pos.models.service.impl;
 
 import com.ust.pos.dto.ModelsDto;
-import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Models;
 import com.ust.pos.model.ModelsRepository;
 import com.ust.pos.models.service.ModelsService;
@@ -62,7 +62,7 @@ public class ModelsServiceImpl implements ModelsService {
     }
 
     @Override
-    public PaginationResponseDto<ModelsDto> findAll(Pageable pageable) {
+    public WsDto<ModelsDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<ModelsDto>>() {
         }.getType();
@@ -74,16 +74,16 @@ public class ModelsServiceImpl implements ModelsService {
                 listType
         );
 
-        PaginationResponseDto<ModelsDto> paginationResponseDto =
-                new PaginationResponseDto<>();
+        WsDto<ModelsDto> wsDto =
+                new WsDto<>();
 
-        paginationResponseDto.setContent(modelsDtos);
-        paginationResponseDto.setPage(modelsPage.getNumber());
-        paginationResponseDto.setSizePerPage(modelsPage.getSize());
-        paginationResponseDto.setTotalPages(modelsPage.getTotalPages());
-        paginationResponseDto.setTotalRecords(modelsPage.getTotalElements());
+        wsDto.setContent(modelsDtos);
+        wsDto.setPage(modelsPage.getNumber());
+        wsDto.setSizePerPage(modelsPage.getSize());
+        wsDto.setTotalPages(modelsPage.getTotalPages());
+        wsDto.setTotalRecords(modelsPage.getTotalElements());
 
-        return paginationResponseDto;
+        return wsDto;
     }
 
     @Override

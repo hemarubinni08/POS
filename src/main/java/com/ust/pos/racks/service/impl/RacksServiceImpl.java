@@ -1,7 +1,7 @@
 package com.ust.pos.racks.service.impl;
 
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.RacksDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Racks;
 import com.ust.pos.model.RacksRepository;
 import com.ust.pos.racks.service.RacksService;
@@ -63,7 +63,7 @@ public class RacksServiceImpl implements RacksService {
     }
 
     @Override
-    public PaginationResponseDto<RacksDto> findAll(Pageable pageable) {
+    public WsDto<RacksDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<RacksDto>>() {
         }.getType();
@@ -75,16 +75,16 @@ public class RacksServiceImpl implements RacksService {
                 listType
         );
 
-        PaginationResponseDto<RacksDto> paginationResponseDto =
-                new PaginationResponseDto<>();
+        WsDto<RacksDto> wsDto =
+                new WsDto<>();
 
-        paginationResponseDto.setContent(racksDtos);
-        paginationResponseDto.setPage(racksPage.getNumber());
-        paginationResponseDto.setSizePerPage(racksPage.getSize());
-        paginationResponseDto.setTotalPages(racksPage.getTotalPages());
-        paginationResponseDto.setTotalRecords(racksPage.getTotalElements());
+        wsDto.setContent(racksDtos);
+        wsDto.setPage(racksPage.getNumber());
+        wsDto.setSizePerPage(racksPage.getSize());
+        wsDto.setTotalPages(racksPage.getTotalPages());
+        wsDto.setTotalRecords(racksPage.getTotalElements());
 
-        return paginationResponseDto;
+        return wsDto;
     }
 
     @Override

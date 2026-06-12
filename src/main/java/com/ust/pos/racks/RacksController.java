@@ -37,8 +37,8 @@ public class RacksController {
     }
 
     @PostMapping("/add")
-    public String addPost(Model model, @ModelAttribute RacksDto userDto) {
-        RacksDto response = racksService.save(userDto);
+    public String addPost(Model model, @ModelAttribute RacksDto racksDto) {
+        RacksDto response = racksService.save(racksDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());
@@ -57,8 +57,8 @@ public class RacksController {
     }
 
     @PostMapping("/update")
-    public String updatePost(Model model, @ModelAttribute RacksDto userDto) {
-        RacksDto response = racksService.update(userDto);
+    public String updatePost(Model model, @ModelAttribute RacksDto racksDto) {
+        RacksDto response = racksService.update(racksDto);
 
         if (!response.isSuccess()) {
             model.addAttribute("message", response.getMessage());

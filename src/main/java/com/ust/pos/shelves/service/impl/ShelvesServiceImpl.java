@@ -1,7 +1,7 @@
 package com.ust.pos.shelves.service.impl;
 
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.ShelvesDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Shelves;
 import com.ust.pos.model.ShelvesRepository;
 import com.ust.pos.shelves.service.ShelvesService;
@@ -62,7 +62,7 @@ public class ShelvesServiceImpl implements ShelvesService {
     }
 
     @Override
-    public PaginationResponseDto<ShelvesDto> findAll(Pageable pageable) {
+    public WsDto<ShelvesDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<ShelvesDto>>() {
         }.getType();
@@ -74,16 +74,16 @@ public class ShelvesServiceImpl implements ShelvesService {
                 listType
         );
 
-        PaginationResponseDto<ShelvesDto> paginationResponseDto =
-                new PaginationResponseDto<>();
+        WsDto<ShelvesDto> wsDto =
+                new WsDto<>();
 
-        paginationResponseDto.setContent(shelvesDtos);
-        paginationResponseDto.setPage(shelvesPage.getNumber());
-        paginationResponseDto.setSizePerPage(shelvesPage.getSize());
-        paginationResponseDto.setTotalPages(shelvesPage.getTotalPages());
-        paginationResponseDto.setTotalRecords(shelvesPage.getTotalElements());
+        wsDto.setContent(shelvesDtos);
+        wsDto.setPage(shelvesPage.getNumber());
+        wsDto.setSizePerPage(shelvesPage.getSize());
+        wsDto.setTotalPages(shelvesPage.getTotalPages());
+        wsDto.setTotalRecords(shelvesPage.getTotalElements());
 
-        return paginationResponseDto;
+        return wsDto;
     }
 
     @Override

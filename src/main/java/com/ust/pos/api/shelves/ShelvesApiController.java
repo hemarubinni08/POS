@@ -2,14 +2,15 @@ package com.ust.pos.api.shelves;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.ShelvesDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.shelves.service.ShelvesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/shelves")
@@ -19,7 +20,7 @@ public class ShelvesApiController extends BaseController {
     private ShelvesService shelvesService;
 
     @PostMapping("/list")
-    public PaginationResponseDto<ShelvesDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<ShelvesDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -28,8 +29,8 @@ public class ShelvesApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ShelvesDto addPost(@RequestBody ShelvesDto userDto) {
-        return shelvesService.save(userDto);
+    public ShelvesDto addPost(@RequestBody ShelvesDto shelvesDto) {
+        return shelvesService.save(shelvesDto);
 
     }
 
@@ -39,8 +40,8 @@ public class ShelvesApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ShelvesDto updatePost(@RequestBody ShelvesDto userDto) {
-        return shelvesService.update(userDto);
+    public ShelvesDto updatePost(@RequestBody ShelvesDto shelvesDto) {
+        return shelvesService.update(shelvesDto);
 
     }
 

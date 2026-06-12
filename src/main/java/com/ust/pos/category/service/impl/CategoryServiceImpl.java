@@ -2,7 +2,7 @@ package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
-import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import org.modelmapper.ModelMapper;
@@ -63,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public PaginationResponseDto<CategoryDto> findAll(Pageable pageable) {
+    public WsDto<CategoryDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
@@ -75,16 +75,16 @@ public class CategoryServiceImpl implements CategoryService {
                 listType
         );
 
-        PaginationResponseDto<CategoryDto> paginationResponseDto =
-                new PaginationResponseDto<>();
+        WsDto<CategoryDto> wsDto =
+                new WsDto<>();
 
-        paginationResponseDto.setContent(categoryDtos);
-        paginationResponseDto.setPage(categoryPage.getNumber());
-        paginationResponseDto.setSizePerPage(categoryPage.getSize());
-        paginationResponseDto.setTotalPages(categoryPage.getTotalPages());
-        paginationResponseDto.setTotalRecords(categoryPage.getTotalElements());
+        wsDto.setContent(categoryDtos);
+        wsDto.setPage(categoryPage.getNumber());
+        wsDto.setSizePerPage(categoryPage.getSize());
+        wsDto.setTotalPages(categoryPage.getTotalPages());
+        wsDto.setTotalRecords(categoryPage.getTotalElements());
 
-        return paginationResponseDto;
+        return wsDto;
     }
 
     @Override

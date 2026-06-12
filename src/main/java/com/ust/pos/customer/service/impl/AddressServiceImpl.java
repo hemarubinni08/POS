@@ -2,7 +2,7 @@ package com.ust.pos.customer.service.impl;
 
 import com.ust.pos.customer.service.AddressService;
 import com.ust.pos.dto.AddressDto;
-import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Address;
 import com.ust.pos.model.AddressRepository;
 import org.modelmapper.ModelMapper;
@@ -76,7 +76,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public PaginationResponseDto<AddressDto> findAll(Pageable pageable) {
+    public WsDto<AddressDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<AddressDto>>() {
         }.getType();
@@ -88,16 +88,16 @@ public class AddressServiceImpl implements AddressService {
                 listType
         );
 
-        PaginationResponseDto<AddressDto> paginationResponseDto =
-                new PaginationResponseDto<>();
+        WsDto<AddressDto> wsDto =
+                new WsDto<>();
 
-        paginationResponseDto.setContent(addressDtos);
-        paginationResponseDto.setPage(addressPage.getNumber());
-        paginationResponseDto.setSizePerPage(addressPage.getSize());
-        paginationResponseDto.setTotalPages(addressPage.getTotalPages());
-        paginationResponseDto.setTotalRecords(addressPage.getTotalElements());
+        wsDto.setContent(addressDtos);
+        wsDto.setPage(addressPage.getNumber());
+        wsDto.setSizePerPage(addressPage.getSize());
+        wsDto.setTotalPages(addressPage.getTotalPages());
+        wsDto.setTotalRecords(addressPage.getTotalElements());
 
-        return paginationResponseDto;
+        return wsDto;
     }
 
     @Override

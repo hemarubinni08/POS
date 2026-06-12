@@ -43,7 +43,7 @@ public class WebSecurityConfig {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http,JwtFilter jwtFilter) {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) {
 
         http
                 .cors(Customizer.withDefaults())
@@ -53,7 +53,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 
-                        .requestMatchers("/login","/api/user/get","/api/user/register","/api/role/list", "/api/authenticate", "/api/validateToken", "/swagger-ui/**", "/v3/**").permitAll()
+                        .requestMatchers("/login", "/api/user/get", "/api/user/register", "/api/role/list", "/api/authenticate", "/api/validateToken", "/swagger-ui/**", "/v3/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(org.springframework.security.config.annotation.web.configurers.LogoutConfigurer::permitAll);
@@ -78,7 +78,7 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173","http://localhost:3000")); // Allow the specific origin
+        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:3000")); // Allow the specific origin
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);

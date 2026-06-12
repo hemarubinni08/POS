@@ -1,7 +1,7 @@
 package com.ust.pos.unit.service.impl;
 
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
 import com.ust.pos.unit.service.UnitService;
@@ -62,7 +62,7 @@ public class UnitServiceImpl implements UnitService {
     }
 
     @Override
-    public PaginationResponseDto<UnitDto> findAll(Pageable pageable) {
+    public WsDto<UnitDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
@@ -74,16 +74,16 @@ public class UnitServiceImpl implements UnitService {
                 listType
         );
 
-        PaginationResponseDto<UnitDto> paginationResponseDto =
-                new PaginationResponseDto<>();
+        WsDto<UnitDto> wsDto =
+                new WsDto<>();
 
-        paginationResponseDto.setContent(unitDtos);
-        paginationResponseDto.setPage(unitPage.getNumber());
-        paginationResponseDto.setSizePerPage(unitPage.getSize());
-        paginationResponseDto.setTotalPages(unitPage.getTotalPages());
-        paginationResponseDto.setTotalRecords(unitPage.getTotalElements());
+        wsDto.setContent(unitDtos);
+        wsDto.setPage(unitPage.getNumber());
+        wsDto.setSizePerPage(unitPage.getSize());
+        wsDto.setTotalPages(unitPage.getTotalPages());
+        wsDto.setTotalRecords(unitPage.getTotalElements());
 
-        return paginationResponseDto;
+        return wsDto;
     }
 
     @Override

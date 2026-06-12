@@ -1,17 +1,17 @@
 package com.ust.pos.warehouse.service;
 
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.WarehouseDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface WarehouseService {
-    WarehouseDto save(WarehouseDto userDto);
+    WarehouseDto save(WarehouseDto warehouseDto);
 
-    WarehouseDto update(WarehouseDto userDto);
+    WarehouseDto update(WarehouseDto warehouseDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
-    PaginationResponseDto<WarehouseDto> findAll(Pageable pageable);
+    WsDto<WarehouseDto> findAll(Pageable pageable);
 
     WarehouseDto findByIdentifier(String identifier);
 }

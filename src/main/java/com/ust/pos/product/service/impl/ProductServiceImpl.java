@@ -1,7 +1,7 @@
 package com.ust.pos.product.service.impl;
 
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.ProductDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
@@ -62,22 +61,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PaginationResponseDto<ProductDto> findAll(Pageable pageable) {
+    public WsDto<ProductDto> findAll(Pageable pageable) {
 
         Page<Product> productPage = productRepository.findAll(pageable);
-        PaginationResponseDto<ProductDto> paginationResponseDto = new PaginationResponseDto<>();
+        WsDto<ProductDto> wsDto = new WsDto<>();
 
         List<ProductDto> productDtos = productPage.getContent()
                 .stream()
                 .map(product -> modelMapper.map(product, ProductDto.class))
                 .toList();
 
-        paginationResponseDto.setContent(productDtos);
-        paginationResponseDto.setPage(productPage.getNumber());
-        paginationResponseDto.setSizePerPage(productPage.getSize());
-        paginationResponseDto.setTotalPages(productPage.getTotalPages());
-        paginationResponseDto.setTotalRecords(productPage.getTotalElements());
+        wsDto.setContent(productDtos);
+        wsDto.setPage(productPage.getNumber());
+        wsDto.setSizePerPage(productPage.getSize());
+        wsDto.setTotalPages(productPage.getTotalPages());
+        wsDto.setTotalRecords(productPage.getTotalElements());
 
-        return paginationResponseDto;
+        return wsDto;
     }
 }

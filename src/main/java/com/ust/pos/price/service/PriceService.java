@@ -1,17 +1,17 @@
 package com.ust.pos.price.service;
 
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface PriceService {
-    PriceDto save(PriceDto userDto);
+    PriceDto save(PriceDto priceDto);
 
-    PriceDto update(PriceDto userDto);
+    PriceDto update(PriceDto priceDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
-    PaginationResponseDto<PriceDto> findAll(Pageable pageable);
+    WsDto<PriceDto> findAll(Pageable pageable);
 
     PriceDto findByIdentifier(String identifier);
 

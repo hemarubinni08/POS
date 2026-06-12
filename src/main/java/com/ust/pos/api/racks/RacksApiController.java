@@ -2,12 +2,15 @@ package com.ust.pos.api.racks;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
-import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.RacksDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.racks.service.RacksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/racks")
@@ -17,7 +20,7 @@ public class RacksApiController extends BaseController {
     private RacksService racksService;
 
     @PostMapping("/list")
-    public PaginationResponseDto<RacksDto> home(@RequestBody PaginationDto paginationDto) {
+    public WsDto<RacksDto> home(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
@@ -26,8 +29,8 @@ public class RacksApiController extends BaseController {
     }
 
     @PostMapping("/add")
-    public RacksDto addPost(@RequestBody RacksDto userDto) {
-        return racksService.save(userDto);
+    public RacksDto addPost(@RequestBody RacksDto racksDto) {
+        return racksService.save(racksDto);
 
     }
 
@@ -37,8 +40,8 @@ public class RacksApiController extends BaseController {
     }
 
     @PostMapping("/update")
-    public RacksDto updatePost(@RequestBody RacksDto userDto) {
-        return racksService.update(userDto);
+    public RacksDto updatePost(@RequestBody RacksDto racksDto) {
+        return racksService.update(racksDto);
 
     }
 

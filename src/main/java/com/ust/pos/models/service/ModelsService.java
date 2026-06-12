@@ -1,17 +1,17 @@
 package com.ust.pos.models.service;
 
 import com.ust.pos.dto.ModelsDto;
-import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 
 public interface ModelsService {
-    ModelsDto save(ModelsDto userDto);
+    ModelsDto save(ModelsDto modelsDto);
 
-    ModelsDto update(ModelsDto userDto);
+    ModelsDto update(ModelsDto modelsDto);
 
-    void delete(String username);
+    void delete(String identifier);
 
-    PaginationResponseDto<ModelsDto> findAll(Pageable pageable);
+    WsDto<ModelsDto> findAll(Pageable pageable);
 
     ModelsDto findByIdentifier(String identifier);
 
