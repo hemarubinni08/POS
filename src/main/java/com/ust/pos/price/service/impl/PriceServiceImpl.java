@@ -69,14 +69,14 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Page<PriceDto> findAll(Pageable pageable , String search) {
-        Page<Price> categories;
+        Page<Price> pricePage;
         if(search!= null && !search.trim().isEmpty()){
-            categories = priceRepository.findByIdentifierContainingIgnoreCase(search , pageable);
+            pricePage = priceRepository.findByIdentifierContainingIgnoreCase(search , pageable);
         }
         else {
-            categories = priceRepository.findAll(pageable);
+            pricePage = priceRepository.findAll(pageable);
         }
-        return categories.map(price -> modelMapper.map(price , PriceDto.class));
+        return pricePage.map(price -> modelMapper.map(price , PriceDto.class));
     }
 
     @Override

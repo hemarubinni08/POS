@@ -8,5 +8,4 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class BrandDto extends CommonDto {
     private MultipartFile icon;
-
 }

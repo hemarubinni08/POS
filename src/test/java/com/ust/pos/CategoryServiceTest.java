@@ -157,18 +157,27 @@ class CategoryServiceTest {
     @Test
     void findAll_WithPagination_ShouldReturnCategoryDtos() {
         Pageable pageable = PageRequest.of(0, 10);
-        List<Category> categories = List.of(new Category());
-        Page<Category> categoryPage = new PageImpl<>(categories);
-        List<CategoryDto> categoryDtos = List.of(new CategoryDto());
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Category category = new Category();
+        CategoryDto categoryDto = new CategoryDto();
+        Page<Category> categoryPage =
+                new PageImpl<>(List.of(category));
         Mockito.when(categoryRepository.findAll(pageable))
                 .thenReturn(categoryPage);
-        Mockito.when(modelMapper.map(categories, listType))
-                .thenReturn(categoryDtos);
-        List<CategoryDto> response = categoryService.findAll(pageable);
-        Assertions.assertNotNull(response);
-        Assertions.assertEquals(1, response.size());
+        Mockito.when(categoryRepository
+                        .findByIdentifierContainingIgnoreCase("ABC", pageable))
+                .thenReturn(categoryPage);
+        Mockito.when(modelMapper.map(category, CategoryDto.class))
+                .thenReturn(categoryDto);
+        Page<CategoryDto> response1 =
+                categoryService.findAll(pageable, null);
+        Assertions.assertEquals(1, response1.getContent().size());
+        Page<CategoryDto> response2 =
+                categoryService.findAll(pageable, "ABC");
+        Assertions.assertEquals(1, response2.getContent().size());
         Mockito.verify(categoryRepository).findAll(pageable);
-        Mockito.verify(modelMapper).map(categories, listType);
+        Mockito.verify(categoryRepository)
+                .findByIdentifierContainingIgnoreCase("ABC", pageable);
+        Mockito.verify(modelMapper, Mockito.atLeastOnce())
+                .map(category, CategoryDto.class);
     }
 }

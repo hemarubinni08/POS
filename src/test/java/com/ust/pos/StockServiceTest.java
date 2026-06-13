@@ -109,7 +109,6 @@ class StockServiceTest {
     void findAllTest() {
         List<Stock> entities = List.of(new Stock());
         List<StockDto> dtos = List.of(new StockDto());
-        Type listType = new TypeToken<List<StockDto>>() {}.getType();
         Mockito.when(stockRepository.findAll())
                 .thenReturn(entities);
         Mockito.when(modelMapper.map(

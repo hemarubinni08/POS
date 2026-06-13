@@ -67,14 +67,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDto> findAll(Pageable pageable , String search) {
-        Page<Product> categories;
+        Page<Product> productPage;
         if(search!= null && !search.trim().isEmpty()){
-            categories = productRepository.findByIdentifierContainingIgnoreCase(search , pageable);
+            productPage = productRepository.findByIdentifierContainingIgnoreCase(search , pageable);
         }
         else {
-            categories = productRepository.findAll(pageable);
+            productPage = productRepository.findAll(pageable);
         }
-        return categories.map(product -> modelMapper.map(product , ProductDto.class));
+        return productPage.map(product -> modelMapper.map(product , ProductDto.class));
     }
 
     @Override

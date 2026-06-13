@@ -135,7 +135,6 @@ class BrandServiceTest {
 
     @Test
     void findAll_WithPagination_ShouldReturnBrandDtos() {
-        // Arrange
         Pageable pageable = PageRequest.of(0, 10);
         List<Brand> brands = List.of(new Brand());
         Page<Brand> brandPage = new PageImpl<>(brands);
