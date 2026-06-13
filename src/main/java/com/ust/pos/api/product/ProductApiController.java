@@ -34,7 +34,6 @@ public class ProductApiController extends BaseController {
         return productService.save(productDto);
     }
 
-
     @GetMapping("/get")
     public ProductDto update(@RequestParam String identifier) {
         return productService.findByIdentifier(identifier);
