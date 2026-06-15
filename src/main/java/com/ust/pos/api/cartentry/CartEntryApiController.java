@@ -2,11 +2,10 @@ package com.ust.pos.api.cartentry;
 
 
 import com.ust.pos.cart.CartService;
-import com.ust.pos.cartentry.service.CartEntryService;
+import com.ust.pos.cartentry.CartEntryService;
 import com.ust.pos.dto.CartDto;
 import com.ust.pos.dto.CartEntryDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

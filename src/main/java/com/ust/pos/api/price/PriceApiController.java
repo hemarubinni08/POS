@@ -28,6 +28,12 @@ public class PriceApiController extends BaseController {
         return priceService.findAll(pageable);
     }
 
+    @GetMapping("/list")
+    public List<PriceDto> dropdown()
+    {
+        return priceService.findAll();
+    }
+
     @PostMapping("/add")
     public PriceDto addPost(@RequestBody PriceDto priceDto)
     {

@@ -28,6 +28,11 @@ public class ProductApiController extends BaseController {
         return productService.findAll(pageable);
     }
 
+    @GetMapping("/list")
+    public List<ProductDto> dropdown()
+    {
+        return productService.findAll();
+    }
     @PostMapping("/add")
     public ProductDto addPost(@RequestBody ProductDto productDto)
     {

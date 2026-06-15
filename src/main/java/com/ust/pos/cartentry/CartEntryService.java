@@ -1,4 +1,4 @@
-package com.ust.pos.cartentry.service;
+package com.ust.pos.cartentry;
 
 import com.ust.pos.dto.CartEntryDto;
 import org.springframework.data.domain.Pageable;

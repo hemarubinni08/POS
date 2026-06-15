@@ -29,6 +29,12 @@ public class CustomerApiController extends BaseController {
         return customerService.findAll(pageable);
     }
 
+    @GetMapping("/list")
+    public List<CustomerDto> list()
+    {
+        return customerService.findAll();
+    }
+
     @PostMapping("/add")
     public CustomerDto addPost(@RequestBody CustomerDto customerDto) {
         return customerService.save(customerDto);

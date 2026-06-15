@@ -27,7 +27,7 @@ public class CartServiceImpl implements CartService {
     ModelMapper modelMapper;
 
     @Autowired
-    com.ust.pos.cartentry.service.CartEntryService cartEntryService;
+    com.ust.pos.cartentry.CartEntryService cartEntryService;
 
     @Autowired
     PriceService priceService;

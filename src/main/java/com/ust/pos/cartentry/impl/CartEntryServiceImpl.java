@@ -5,7 +5,7 @@ import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.CartEntry;
 import com.ust.pos.model.CartEntryRepository;
-import com.ust.pos.cartentry.service.CartEntryService;
+import com.ust.pos.cartentry.CartEntryService;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -36,18 +36,12 @@ public class CartEntryServiceImpl implements CartEntryService {
         if (cartEntry == null) {
             cartEntry = new CartEntry();
         }
-        BigDecimal existingQty = cartEntry.getQuantity() != null
-                ? cartEntry.getQuantity()
-                : BigDecimal.ZERO;
-        BigDecimal requestQty = cartEntryDto.getQuantity() != null
-                ? cartEntryDto.getQuantity()
-                : BigDecimal.ZERO;
+        BigDecimal existingQty = cartEntry.getQuantity() != null ? cartEntry.getQuantity() : BigDecimal.ZERO;
+        BigDecimal requestQty = cartEntryDto.getQuantity() != null ? cartEntryDto.getQuantity() : BigDecimal.ZERO;
         cartEntryDto.setQuantity(requestQty.add(existingQty));
         PriceDto priceDto = priceService.findByIdentifier(cartEntryDto.getProduct());
         cartEntryDto.setUnitPrice(priceDto.getSellingPrice());
-        BigDecimal discount = cartEntryDto.getDiscount() != null
-                ? cartEntryDto.getDiscount()
-                : BigDecimal.ZERO;
+        BigDecimal discount = cartEntryDto.getDiscount() != null ? cartEntryDto.getDiscount() : BigDecimal.ZERO;
         cartEntryDto.setTotalPrice(
                 cartEntryDto.getUnitPrice()
                         .multiply(cartEntryDto.getQuantity())
@@ -79,8 +73,7 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Override
     public List<CartEntryDto> findAll() {
-        Type listOfType = new TypeToken<List<CartEntryDto>>() {
-        }.getType();
+        Type listOfType = new TypeToken<List<CartEntryDto>>() {}.getType();
         return modelMapper.map(cartEntryRepository.findAll(), listOfType);
     }
 
