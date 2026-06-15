@@ -50,7 +50,7 @@ public class CartApiController extends BaseController {
     }
 
     @PostMapping("/recalculate")
-    public CartDto reCalculate(@RequestBody CartEntryDto cartEntryDto) {
-        return cartService.reCalculate(cartEntryDto.getCartIdentifier());
+    public CartDto reCalculate(@RequestBody CartDto cartDto) {
+        return cartService.reCalculate(cartDto.getIdentifier());
     }
 }

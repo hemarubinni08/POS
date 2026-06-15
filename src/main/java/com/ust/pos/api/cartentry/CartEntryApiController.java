@@ -39,9 +39,9 @@ public class CartEntryApiController extends BaseController {
     }
 
     @PostMapping("/delete")
-    public boolean delete(@RequestBody CartEntryDto cartEntryDto) {
+    public boolean delete(@RequestParam String identifier) {
         try {
-            cartEntryService.delete(cartEntryDto.getIdentifier());
+            cartEntryService.delete(identifier);
             return true;
         } catch (Exception e) {
             return false;

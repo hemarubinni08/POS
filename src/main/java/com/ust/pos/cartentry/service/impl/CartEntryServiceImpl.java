@@ -53,6 +53,9 @@ public class CartEntryServiceImpl implements CartEntryService {
         Price sellingPrice = priceRepository.findByProductAndPriceType(cartEntryDto.getProductIdentifier(), "SELLING PRICE");
         Price mrp = priceRepository.findByProductAndPriceType(cartEntryDto.getProductIdentifier(), "MRP");
         BigDecimal unitPrice = sellingPrice.getAmount();
+        if (sellingPrice == null) {
+            throw new RuntimeException("Selling price not configured for product: " + cartEntryDto.getProductIdentifier());
+        }
         BigDecimal mrpPrice = mrp.getAmount();
 
         cartEntry.setQuantity(quantity);
@@ -85,9 +88,37 @@ public class CartEntryServiceImpl implements CartEntryService {
             cartEntryDto.setSuccess(false);
             return cartEntryDto;
         }
-        modelMapper.map(cartEntryDto, existingCartEntry);
+
+        BigDecimal quantity = cartEntryDto.getQuantity();
+        if (quantity == null || quantity.compareTo(BigDecimal.ZERO) <= 0) {
+            cartEntryDto.setMessage("Quantity must be greater than 0");
+            cartEntryDto.setSuccess(false);
+            return cartEntryDto;
+        }
+        Price sellingPrice = priceRepository.findByProductAndPriceType(existingCartEntry.getProductIdentifier(), "SELLING PRICE");
+        Price mrp = priceRepository.findByProductAndPriceType(existingCartEntry.getProductIdentifier(), "MRP");
+        if (sellingPrice == null) {
+            throw new RuntimeException("Selling price not configured for product: " + existingCartEntry.getProductIdentifier());
+        }
+        if (mrp == null) {
+            throw new RuntimeException("MRP not configured for product: " + existingCartEntry.getProductIdentifier());
+        }
+
+        BigDecimal unitPrice = sellingPrice.getAmount();
+        BigDecimal mrpPrice = mrp.getAmount();
+        existingCartEntry.setQuantity(quantity);
+        existingCartEntry.setUnitPrice(unitPrice);
+
+        BigDecimal originalPrice = mrpPrice.multiply(quantity);
+        BigDecimal discount = mrpPrice.subtract(unitPrice).multiply(quantity);
+        BigDecimal totalPrice = unitPrice.multiply(quantity);
+
+        existingCartEntry.setOriginalPrice(originalPrice);
+        existingCartEntry.setDiscount(discount);
+        existingCartEntry.setTotalPrice(totalPrice);
         cartEntryRepository.save(existingCartEntry);
-        return cartEntryDto;
+        cartService.reCalculate(existingCartEntry.getCartIdentifier());
+        return modelMapper.map(existingCartEntry, CartEntryDto.class);
     }
 
     @Override
