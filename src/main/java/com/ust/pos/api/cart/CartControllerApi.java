@@ -48,7 +48,6 @@ public class CartControllerApi extends BaseController {
             response.setSuccess(false);
             response.setMessage("Delete failed: " + e.getMessage());
         }
-
         return response;
     }
 

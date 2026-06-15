@@ -36,6 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
     public WsDto<CustomerDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
+
         Page<Customer> customerPage = customerRepository.findAll(pageable);
 
         WsDto<CustomerDto> customerWsDto = new WsDto<>();
@@ -50,23 +51,65 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto findByIdentifier(String identifier) {
-        Customer customer = customerRepository.findByIdentifier(identifier);
+
+        Customer customer =customerRepository.findByIdentifier(identifier);
         if (customer == null) {
             return null;
         }
-        CustomerDto dto = modelMapper.map(customer, CustomerDto.class);
-        dto.setBillingAddress(
-                addressService.findByPhoneNoAndAddressType(customer.getPhoneNo(), "billing")
-        );
-        dto.setShippingAddress(
-                addressService.findByPhoneNoAndAddressType(customer.getPhoneNo(), "shipping")
-        );
+        CustomerDto dto =modelMapper.map(customer, CustomerDto.class);
+        dto.setBillingAddress(addressService.findByPhoneNoAndAddressType(customer.getPhoneNo(),
+                "billing"));
+        dto.setShippingAddress(addressService.findByPhoneNoAndAddressType(customer.getPhoneNo(),
+                "shipping"));
         return dto;
     }
 
     @Override
     public CustomerDto save(CustomerDto customerDto) {
-        if (customerDto.getPhoneNo() == null || customerDto.getPhoneNo().isEmpty()) {
+
+        if (customerDto.getPhoneNo() == null ||
+                customerDto.getPhoneNo().trim().isEmpty()) {
+            customerDto.setSuccess(false);
+            customerDto.setMessage("Phone number is required");
+            return customerDto;
+        }
+
+        if (!customerDto.getPhoneNo().matches("\\d{10}")) {
+            customerDto.setSuccess(false);
+            customerDto.setMessage("Phone number must be 10 digits");
+            return customerDto;
+        }
+
+        Customer existing =customerRepository.findByPhoneNo(customerDto.getPhoneNo());
+        if (existing != null) {
+            customerDto.setSuccess(false);
+            customerDto.setMessage("Customer already exists with this phone number");
+            return customerDto;
+        }
+        saveAddresses(customerDto);
+        Customer customer =modelMapper.map(customerDto, Customer.class);
+        customer.setIdentifier(customerDto.getPhoneNo());
+        if (customer.getStatus() == null) {
+            customer.setStatus(true);
+        }
+        customerRepository.save(customer);
+        customerDto.setSuccess(true);
+        customerDto.setMessage("Customer created successfully");
+
+        return customerDto;
+    }
+
+    @Override
+    public CustomerDto update(CustomerDto customerDto) {
+
+        Customer existing =customerRepository.findByIdentifier(customerDto.getIdentifier());
+        if (existing == null) {
+            customerDto.setSuccess(false);
+            customerDto.setMessage("Customer not found");
+            return customerDto;
+        }
+        if (customerDto.getPhoneNo() == null ||
+                customerDto.getPhoneNo().trim().isEmpty()) {
             customerDto.setSuccess(false);
             customerDto.setMessage("Phone number is required");
             return customerDto;
@@ -76,43 +119,27 @@ public class CustomerServiceImpl implements CustomerService {
             customerDto.setMessage("Phone number must be 10 digits");
             return customerDto;
         }
-        Customer existing = customerRepository.findByPhoneNo(customerDto.getPhoneNo());
-        if (existing != null) {
-            customerDto.setSuccess(false);
-            customerDto.setMessage("Customer already exists");
-            return customerDto;
-        }
-        saveAddresses(customerDto);
-        Customer customer = modelMapper.map(customerDto, Customer.class);
-        customer.setIdentifier(customerDto.getPhoneNo());
-        if (customer.getStatus() == null) {
-            customer.setStatus(true);
-        }
-        customerRepository.save(customer);
-        customerDto.setSuccess(true);
-        customerDto.setMessage("Customer created successfully");
-        return customerDto;
-    }
-
-    @Override
-    public CustomerDto update(CustomerDto customerDto) {
-        Customer existing = customerRepository.findByIdentifier(customerDto.getIdentifier());
-        if (existing == null) {
-            customerDto.setSuccess(false);
-            customerDto.setMessage("Customer not found");
-            return customerDto;
-        }
         if (!existing.getPhoneNo().equals(customerDto.getPhoneNo())) {
             customerDto.setSuccess(false);
-            customerDto.setMessage("Phone number is read-only and cannot be updated");
+            customerDto.setMessage("Phone number is read-only and cannot be updated"
+            );
             return customerDto;
         }
+
+        Customer phoneExists =customerRepository.findByPhoneNo(customerDto.getPhoneNo());
+        if (phoneExists != null &&!phoneExists.getIdentifier().equals(customerDto.getIdentifier())) {
+            customerDto.setSuccess(false);
+            customerDto.setMessage("Customer already exists with this phone number");
+            return customerDto;
+        }
+
         existing.setName(customerDto.getName());
         existing.setEmail(customerDto.getEmail());
         existing.setBalance(customerDto.getBalance());
         existing.setBalanceType(customerDto.getBalanceType());
         existing.setPartyType(customerDto.getPartyType());
         existing.setCreditLimit(customerDto.getCreditLimit());
+
         if (customerDto.getStatus() != null) {
             existing.setStatus(customerDto.getStatus());
         }
@@ -125,7 +152,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void delete(String identifier) {
-        Customer customer = customerRepository.findByIdentifier(identifier);
+        Customer customer =customerRepository.findByIdentifier(identifier);
         if (customer != null) {
             addressService.delete(customer.getPhoneNo());
             customerRepository.delete(customer);
@@ -135,9 +162,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<CustomerDto> findActive() {
         List<CustomerDto> result = new ArrayList<>();
-        for (Customer c : customerRepository.findAll()) {
-            if (Boolean.TRUE.equals(c.getStatus())) {
-                result.add(modelMapper.map(c, CustomerDto.class));
+        for (Customer customer : customerRepository.findAll()) {
+            if (Boolean.TRUE.equals(customer.getStatus())) {
+                result.add(modelMapper.map(customer,CustomerDto.class));
             }
         }
         return result;
@@ -146,14 +173,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto toggleStatus(String identifier) {
         CustomerDto response = new CustomerDto();
-        Customer customer = customerRepository.findByIdentifier(identifier);
+        Customer customer =customerRepository.findByIdentifier(identifier);
         if (customer == null) {
             response.setSuccess(false);
             response.setMessage("Customer not found");
             return response;
         }
         customer.setStatus(!Boolean.TRUE.equals(customer.getStatus()));
-        Customer saved = customerRepository.save(customer);
+        Customer saved =customerRepository.save(customer);
         response.setIdentifier(saved.getIdentifier());
         response.setName(saved.getName());
         response.setPhoneNo(saved.getPhoneNo());
@@ -165,13 +192,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     private void saveAddresses(CustomerDto customerDto) {
         if (customerDto.getBillingAddress() != null) {
-            AddressDto billing = customerDto.getBillingAddress();
+            AddressDto billing =customerDto.getBillingAddress();
             billing.setPhoneNo(customerDto.getPhoneNo());
             billing.setAddressType("billing");
             addressService.save(billing);
         }
         if (customerDto.getShippingAddress() != null) {
-            AddressDto shipping = customerDto.getShippingAddress();
+            AddressDto shipping =customerDto.getShippingAddress();
             shipping.setPhoneNo(customerDto.getPhoneNo());
             shipping.setAddressType("shipping");
             addressService.save(shipping);

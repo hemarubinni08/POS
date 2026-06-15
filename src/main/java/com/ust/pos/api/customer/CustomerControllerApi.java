@@ -61,7 +61,7 @@ public class CustomerControllerApi extends BaseController {
         return customerService.findActive();
     }
 
-    @PostMapping("/toggle-status")
+    @PostMapping("/toggle")
     public CustomerDto toggleStatus(@RequestBody CustomerDto customerDto) {
         return customerService.toggleStatus(customerDto.getIdentifier());
     }
