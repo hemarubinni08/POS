@@ -34,7 +34,7 @@ public class StockApiController extends BaseController {
     }
 
     @GetMapping("/get")
-    public StockDto update(@RequestParam String identifier, @RequestBody StockDto stockDto) {
+    public StockDto update(@RequestParam String identifier) {
         return stockService.findByIdentifier(identifier);
     }
 

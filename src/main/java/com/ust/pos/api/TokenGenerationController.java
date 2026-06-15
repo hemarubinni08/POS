@@ -30,7 +30,7 @@ public class TokenGenerationController {
     private UserService userService;
 
     @PostMapping("/api/authenticate")
-    public ResponseEntity<?> authenticate(@RequestBody UserDto userDto) {
+    public ResponseEntity<Object> authenticate(@RequestBody UserDto userDto) {
         try {
             authenticationProvider.authenticate(
                     new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword())

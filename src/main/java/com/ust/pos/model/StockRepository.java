@@ -10,4 +10,6 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
     void deleteByIdentifier(String identifier);
 
+    Stock findByProduct(String product);
+
 }

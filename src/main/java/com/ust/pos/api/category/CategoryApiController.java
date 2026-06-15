@@ -43,10 +43,10 @@ public class CategoryApiController extends BaseController {
     public boolean delete(@RequestParam String identifier) {
         try {
             categoryService.delete(identifier);
+            return true;
         } catch (Exception e) {
             return false;
         }
-        return true;
     }
 
     @GetMapping("/findchildcategories")

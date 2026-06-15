@@ -3,10 +3,7 @@ package com.ust.pos.cartentry.service.impl;
 import com.ust.pos.cart.service.CartService;
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
-import com.ust.pos.model.CartEntry;
-import com.ust.pos.model.CartEntryRepository;
-import com.ust.pos.model.Price;
-import com.ust.pos.model.PriceRepository;
+import com.ust.pos.model.*;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -30,16 +27,45 @@ public class CartEntryServiceImpl implements CartEntryService {
     @Lazy
     @Autowired
     private CartService cartService;
+    @Autowired
+    private StockRepository stockRepository;
 
     @Override
     public CartEntryDto save(CartEntryDto cartEntryDto) {
+        String identifier = cartEntryDto.getCartIdentifier() + "-"
+                + cartEntryDto.getProductIdentifier();
 
-        String identifier = cartEntryDto.getCartIdentifier() + "-" + cartEntryDto.getProductIdentifier();
         CartEntry existing = cartEntryRepository.findByIdentifier(identifier);
-        BigDecimal quantity = cartEntryDto.getQuantity();
+
+        BigDecimal existingQuantity = existing != null
+                ? existing.getQuantity()
+                : BigDecimal.ZERO;
+
+        BigDecimal requestedQuantity = existingQuantity.add(cartEntryDto.getQuantity());
+
+        Stock stock = stockRepository.findByProduct(
+                cartEntryDto.getProductIdentifier()
+        );
+
+        if (stock == null) {
+            cartEntryDto.setSuccess(false);
+            cartEntryDto.setMessage("Stock not found for this product");
+            return cartEntryDto;
+        }
+
+        BigDecimal availableStock = BigDecimal.valueOf(stock.getQuantity());
+
+        if (requestedQuantity.compareTo(availableStock) > 0) {
+            cartEntryDto.setSuccess(false);
+            cartEntryDto.setMessage(
+                    "Only " + availableStock + " quantity available in stock"
+            );
+            return cartEntryDto;
+        }
+
         CartEntry cartEntry;
+
         if (existing != null) {
-            quantity = existing.getQuantity().add(quantity);
             cartEntry = existing;
         } else {
             cartEntry = new CartEntry();
@@ -47,24 +73,56 @@ public class CartEntryServiceImpl implements CartEntryService {
             cartEntry.setCartIdentifier(cartEntryDto.getCartIdentifier());
             cartEntry.setProductIdentifier(cartEntryDto.getProductIdentifier());
         }
-        Price sellingPrice = priceRepository.findByProductIdentifierAndPriceType(cartEntryDto.getProductIdentifier(), "sellingPrice");
-        Price mrp = priceRepository.findByProductIdentifierAndPriceType(cartEntryDto.getProductIdentifier(), "Mrp");
+
+        Price sellingPrice = priceRepository.findByProductIdentifierAndPriceType(
+                cartEntryDto.getProductIdentifier(),
+                "SELLING_PRICE"
+        );
+
+        Price mrp = priceRepository.findByProductIdentifierAndPriceType(
+                cartEntryDto.getProductIdentifier(),
+                "MRP"
+        );
+
         BigDecimal unitPrice = sellingPrice.getPriceAmount();
         BigDecimal mrpPrice = mrp.getPriceAmount();
 
-        cartEntry.setQuantity(quantity);
+        cartEntry.setQuantity(requestedQuantity);
         cartEntry.setUnitPrice(unitPrice);
-        BigDecimal originalPrice = quantity.multiply(mrpPrice);
+
+        BigDecimal originalPrice = requestedQuantity.multiply(mrpPrice);
         cartEntry.setOriginalPrice(originalPrice);
 
         BigDecimal discountPerUnit = mrpPrice.subtract(unitPrice);
-        BigDecimal totalDiscount = discountPerUnit.multiply(quantity);
+        BigDecimal totalDiscount = discountPerUnit.multiply(requestedQuantity);
+
         cartEntry.setDiscount(totalDiscount);
-        cartEntry.setTotalPrice(unitPrice.multiply(quantity));
+        cartEntry.setTotalPrice(unitPrice.multiply(requestedQuantity));
 
         cartEntryRepository.save(cartEntry);
         cartService.recalculate(cartEntry.getCartIdentifier());
-        return modelMapper.map(cartEntry, CartEntryDto.class);
+
+        CartEntryDto response = modelMapper.map(cartEntry, CartEntryDto.class);
+        response.setSuccess(true);
+        return response;
+    }
+
+    public void reduceQuantity(String cartIdentifier, String productIdentifier) {
+        String identifier = cartIdentifier + "-" + productIdentifier;
+        CartEntry entry = cartEntryRepository.findByIdentifier(identifier);
+        if (entry == null) {
+            return;
+        }
+        BigDecimal qty = entry.getQuantity().subtract(BigDecimal.ONE);
+        if (qty.compareTo(BigDecimal.ZERO) <= 0) {
+            cartEntryRepository.deleteByIdentifier(identifier);
+        } else {
+            entry.setQuantity(qty);
+            entry.setTotalPrice(entry.getUnitPrice().multiply(qty)
+            );
+            cartEntryRepository.save(entry);
+        }
+        cartService.recalculate(cartIdentifier);
     }
 
     @Override
@@ -80,6 +138,7 @@ public class CartEntryServiceImpl implements CartEntryService {
         }.getType();
         return modelMapper.map(cartEntryList, listType);
     }
+
 
     @Override
     @Transactional

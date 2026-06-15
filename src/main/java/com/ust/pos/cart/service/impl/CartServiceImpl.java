@@ -48,17 +48,18 @@ public class CartServiceImpl implements CartService {
         BigDecimal originalPrice = BigDecimal.ZERO;
 
         for (CartEntryDto cartEntryDto : cartEntries) {
-            originalPrice = cartEntryDto.getOriginalPrice();
+            originalPrice = originalPrice.add(cartEntryDto.getOriginalPrice());
             totalDiscount = totalDiscount.add(cartEntryDto.getDiscount());
-            totalPrice = cartEntryDto.getTotalPrice();
+            totalPrice = totalPrice.add(cartEntryDto.getTotalPrice());
         }
         cartModel.setDiscount(totalDiscount);
         cartModel.setTotalPrice(totalPrice);
         cartModel.setOriginalPrice(originalPrice);
+
         cartRepository.save(cartModel);
+
         CartDto cartDto = modelMapper.map(cartModel, CartDto.class);
-        Type listType = new TypeToken<List<CartDto>>() {
-        }.getType();
+        Type listType = new TypeToken<List<CartEntryDto>>() {}.getType();
         cartDto.setEntryList(modelMapper.map(cartEntries, listType));
         return cartDto;
     }

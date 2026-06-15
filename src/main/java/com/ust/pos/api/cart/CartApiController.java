@@ -25,6 +25,16 @@ public class CartApiController {
         return cartService.save(cartDto);
     }
 
+    @PostMapping("/reduceEntry")
+    public boolean reduceEntry(@RequestBody CartEntryDto cartEntryDto) {
+        try {
+            cartEntryService.reduceQuantity(cartEntryDto.getCartIdentifier(), cartEntryDto.getProductIdentifier());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     @PostMapping("/getCart")
     public CartDto getCart(@RequestBody CartDto cartDto) {
         return cartService.findByIdentifier(cartDto.getIdentifier());

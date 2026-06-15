@@ -39,6 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
             return categoryDto;
         }
         Category category = modelMapper.map(categoryDto, Category.class);
+        category.setStatus(true);
         categoryRepository.save(category);
         return categoryDto;
     }
@@ -60,12 +61,16 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void delete(String identifier) {
+        if(categoryRepository.existsBySuperCategory(identifier)){
+            throw new IllegalArgumentException(
+                    "Cannot delete category. It is used as a super category."
+            );
+        }
         categoryRepository.deleteByIdentifier(identifier);
     }
 
     @Override
     public WsDto<CategoryDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
