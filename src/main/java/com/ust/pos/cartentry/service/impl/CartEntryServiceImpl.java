@@ -43,6 +43,7 @@ public class CartEntryServiceImpl implements CartEntryService {
             return dto;
         }
         String cartId = dto.getCartId();
+        cartService.save(cartId);
         String productId = dto.getProductId();
         String identifier = cartId + "_" + productId;
         CartEntry entry = cartEntryRepository.findByIdentifier(identifier);

@@ -4,6 +4,7 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class CustomerControllerApi extends BaseController {
     private CustomerService customerService;
 
     @PostMapping("/list")
-    public List<CustomerDto> list(@RequestBody PaginationDto pagination) {
+    public WsDto<CustomerDto> list(@RequestBody PaginationDto pagination) {
         Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
                 pagination.getSortDirection(), pagination.getSortfield());
         return customerService.findAll(pageable);
