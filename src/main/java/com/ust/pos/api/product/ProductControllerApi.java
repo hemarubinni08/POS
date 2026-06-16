@@ -65,4 +65,9 @@ public class ProductControllerApi extends BaseController {
     public List<ProductDto> getActiveProducts() {
         return productService.findActiveProducts();
     }
+
+    @GetMapping("/search")
+    public List<ProductDto>searchProduct(@RequestParam String query){
+        return productService.searchProduct(query);
+    }
 }

@@ -21,4 +21,6 @@ public interface CustomerService {
     List<CustomerDto> findActive();
 
     CustomerDto toggleStatus(String identifier);
+
+    List<CustomerDto> searchCustomer(String query);
 }

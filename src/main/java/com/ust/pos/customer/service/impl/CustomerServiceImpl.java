@@ -204,4 +204,14 @@ public class CustomerServiceImpl implements CustomerService {
             addressService.save(shipping);
         }
     }
+
+    @Override
+    public List<CustomerDto> searchCustomer(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<Customer> customers =customerRepository.
+                findByNameContainingIgnoreCaseOrPhoneNoContainingIgnoreCase(query, query);
+        return customers.stream().map(c -> modelMapper.map(c, CustomerDto.class)).toList();
+    }
 }

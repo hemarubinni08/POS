@@ -139,4 +139,13 @@ public class ProductServiceImpl implements ProductService {
         productDto.setMessage("Status updated successfully");
         return productDto;
     }
+    @Override
+    public List<ProductDto> searchProduct(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<Product> products =productRepository.
+                findByProductNameContainingIgnoreCaseOrIdentifierContainingIgnoreCase(query,query);
+        return products.stream().map(p -> modelMapper.map(p, ProductDto.class)).toList();
+    }
 }

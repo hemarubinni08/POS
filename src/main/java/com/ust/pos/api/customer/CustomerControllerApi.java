@@ -65,4 +65,9 @@ public class CustomerControllerApi extends BaseController {
     public CustomerDto toggleStatus(@RequestBody CustomerDto customerDto) {
         return customerService.toggleStatus(customerDto.getIdentifier());
     }
+
+    @GetMapping("/search")
+    public List<CustomerDto> searchCustomer(@RequestParam String query){
+        return customerService.searchCustomer(query);
+    }
 }
