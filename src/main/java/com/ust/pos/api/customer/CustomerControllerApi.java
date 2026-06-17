@@ -3,7 +3,6 @@ package com.ust.pos.api.customer;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.customer.service.CustomerService;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
 import org.springframework.beans.factory.annotation.Autowired;

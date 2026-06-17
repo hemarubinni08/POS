@@ -39,4 +39,14 @@ public class CartEntryControllerApi {
         }
         return true;
     }
+
+    @GetMapping("/clear")
+    public boolean clearCart(@RequestParam String cartId) {
+        try {
+            cartEntryService.deleteByCartId(cartId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

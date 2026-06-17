@@ -114,4 +114,9 @@ public class CartEntryServiceImpl implements CartEntryService {
         List<CartEntry> cartEntryList= cartEntryRepository.findByCartId(cart);
         return modelMapper.map(cartEntryList , listOfType);
     }
+
+    @Override
+    public void deleteByCartId(String cartId) {
+        cartEntryRepository.deleteByCartId(cartId);
+    }
 }
