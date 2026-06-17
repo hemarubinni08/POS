@@ -211,7 +211,7 @@ public class CustomerServiceImpl implements CustomerService {
             return new ArrayList<>();
         }
         List<Customer> customers =customerRepository.
-                findByNameContainingIgnoreCaseOrPhoneNoContainingIgnoreCase(query, query);
+                searchActiveCustomers(query);
         return customers.stream().map(c -> modelMapper.map(c, CustomerDto.class)).toList();
     }
 }

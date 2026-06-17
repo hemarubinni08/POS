@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.event.PaintEvent;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/price")
 public class PriceControllerApi extends BaseController {
@@ -52,5 +55,9 @@ public class PriceControllerApi extends BaseController {
             response.setMessage("Delete failed");
         }
         return response;
+    }
+    @PostMapping("/priceTypes")
+    public List<String> getPriceTypes(){
+        return priceService.getPriceTypes();
     }
 }

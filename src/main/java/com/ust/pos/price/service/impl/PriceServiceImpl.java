@@ -102,4 +102,9 @@ public class PriceServiceImpl implements PriceService {
     public void delete(String identifier) {
         priceRepository.deleteByIdentifier(identifier);
     }
+
+    @Override
+    public List<String> getPriceTypes() {
+        return List.of("Selling Price","Cost Price","MRP");
+    }
 }
