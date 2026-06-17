@@ -44,8 +44,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto save(CustomerDto customerDto) {
-        String identifier = customerDto.getIdentifier();
-        Customer existingCustomer = customerRepository.findByIdentifier(customerDto.getPhoneNo());
+        String identifier = customerDto.getPhoneNo();
+        Customer existingCustomer = customerRepository.findByIdentifier(identifier);
         if (existingCustomer != null) {
             customerDto.setMessage("Customer with identifier - " + identifier + " already exists");
             customerDto.setSuccess(false);
