@@ -108,19 +108,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findActiveProducts() {
-        Type listType = new TypeToken<List<ProductDto>>() {
+        List<Product> list = productRepository.findByStatusTrue();
+        Type type = new TypeToken<List<ProductDto>>() {
         }.getType();
-        List<Product> productList = productRepository.findAll();
-        List<ProductDto> productDtos = modelMapper.map(productList, listType);
-        List<ProductDto> active = new ArrayList<>();
-        if (productDtos != null) {
-            for (ProductDto dto : productDtos) {
-                if (Boolean.TRUE.equals(dto.getStatus())) {
-                    active.add(dto);
-                }
-            }
-        }
-        return active;
+        return modelMapper.map(list, type);
     }
 
     @Override
@@ -144,8 +135,7 @@ public class ProductServiceImpl implements ProductService {
         if (query == null || query.trim().isEmpty()) {
             return new ArrayList<>();
         }
-        List<Product> products =productRepository.
-                findByProductNameContainingIgnoreCaseOrIdentifierContainingIgnoreCase(query,query);
-        return products.stream().map(p -> modelMapper.map(p, ProductDto.class)).toList();
+        List<Product> products =productRepository.searchActiveProducts(query);
+        return products.stream().filter(p->priceRepository.countActivePriceTypes(p.getIdentifier())==3).map(p -> modelMapper.map(p, ProductDto.class)).toList();
     }
 }

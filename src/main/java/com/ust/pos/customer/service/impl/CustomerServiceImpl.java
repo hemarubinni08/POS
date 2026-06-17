@@ -210,8 +210,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (query == null || query.trim().isEmpty()) {
             return new ArrayList<>();
         }
-        List<Customer> customers =customerRepository.
-                searchActiveCustomers(query);
+        List<Customer> customers =customerRepository.searchActiveCustomers(query);
         return customers.stream().map(c -> modelMapper.map(c, CustomerDto.class)).toList();
     }
 }

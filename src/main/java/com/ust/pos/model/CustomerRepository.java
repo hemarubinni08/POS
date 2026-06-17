@@ -25,6 +25,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
         LOWER(c.name) LIKE LOWER(CONCAT('%', :query, '%'))
         OR c.phoneNo LIKE CONCAT('%', :query, '%')
     )
-""")
+    """)
    List<Customer> searchActiveCustomers(@Param("query") String query);
 }
