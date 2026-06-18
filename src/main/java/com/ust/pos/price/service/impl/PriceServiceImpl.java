@@ -1,5 +1,6 @@
 package com.ust.pos.price.service.impl;
 
+import com.ust.pos.commonservice.CommonService;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Price;
@@ -7,7 +8,6 @@ import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,16 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class PriceServiceImpl implements PriceService {
-    @Autowired
-    ModelMapper modelMapper;
-    @Autowired
-    PriceRepository priceRepository;
+public class PriceServiceImpl extends CommonService implements PriceService {
+
+    private final ModelMapper modelMapper;
+
+    private final PriceRepository priceRepository;
+
+    public PriceServiceImpl(ModelMapper modelMapper, PriceRepository priceRepository) {
+        this.modelMapper = modelMapper;
+        this.priceRepository = priceRepository;
+    }
 
     @Override
     public PriceDto save(PriceDto priceDto) {
@@ -32,6 +37,7 @@ public class PriceServiceImpl implements PriceService {
             return priceDto;
         }
         Price price = modelMapper.map(priceDto, Price.class);
+        setAuditFields(price,true);
         priceRepository.save(price);
         return priceDto;
     }
@@ -82,6 +88,7 @@ public class PriceServiceImpl implements PriceService {
             return priceDto;
         }
         modelMapper.map(priceDto, price);
+        setAuditFields(price,false);
         priceRepository.save(price);
         priceDto.setMessage("Product Updated Successfully");
         return priceDto;

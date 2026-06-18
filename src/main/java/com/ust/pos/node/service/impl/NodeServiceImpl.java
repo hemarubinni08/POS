@@ -1,5 +1,6 @@
 package com.ust.pos.node.service.impl;
 
+import com.ust.pos.commonservice.CommonService;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Node;
@@ -10,7 +11,6 @@ import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -24,15 +24,19 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class NodeServiceImpl implements NodeService {
-    @Autowired
-    private UserRepository userRepository;
+public class NodeServiceImpl extends CommonService implements NodeService {
 
-    @Autowired
-    private NodeRepository nodeRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final NodeRepository nodeRepository;
+
+    private final ModelMapper modelMapper;
+
+    public NodeServiceImpl(UserRepository userRepository, NodeRepository nodeRepository, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.nodeRepository = nodeRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public List<NodeDto> getNodesForRoles() {
         List<NodeDto> nodeDtos = new ArrayList<>();
@@ -92,6 +96,7 @@ public class NodeServiceImpl implements NodeService {
             return nodeDto;
         }
         Node node = modelMapper.map(nodeDto, Node.class);
+        setAuditFields(node,true);
         nodeRepository.save(node);
         return nodeDto;
     }
@@ -106,6 +111,7 @@ public class NodeServiceImpl implements NodeService {
             return nodeDto;
         }
         modelMapper.map(nodeDto, existingNode);
+        setAuditFields(existingNode,false);
         nodeRepository.save(existingNode);
         return nodeDto;
     }

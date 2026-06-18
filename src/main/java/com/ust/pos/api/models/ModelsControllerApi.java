@@ -5,7 +5,6 @@ import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.models.service.ModelsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +17,11 @@ public class ModelsControllerApi extends BaseController {
     public static final String REDIRECT_NODE_LIST = "redirect:/models/list";
     public static final String ROLES_LIST = "modelsList";
 
+    private final ModelsService modelsService;
 
-    @Autowired
-    private ModelsService modelsService;
+    public ModelsControllerApi(ModelsService modelsService) {
+        this.modelsService = modelsService;
+    }
 
     @PostMapping("/list")
     public WsDto<ModelsDto> home(@RequestBody PaginationDto paginationDto) {

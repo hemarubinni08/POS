@@ -9,7 +9,6 @@ import com.ust.pos.model.CartEntryRepository;
 import com.ust.pos.model.CartRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -19,17 +18,21 @@ import java.util.List;
 @Service
 public class CartServiceImpl implements CartService {
 
-    @Autowired
-    CartEntryService cartEntryService;
 
-    @Autowired
-    CartRepository cartRepository;
+    private final CartEntryService cartEntryService;
 
-    @Autowired
-    ModelMapper modelMapper;
+    private final CartRepository cartRepository;
 
-    @Autowired
-    CartEntryRepository cartEntryRepository;
+    private final ModelMapper modelMapper;
+
+    private final CartEntryRepository cartEntryRepository;
+
+    public CartServiceImpl(CartEntryService cartEntryService, CartRepository cartRepository, ModelMapper modelMapper, CartEntryRepository cartEntryRepository) {
+        this.cartEntryService = cartEntryService;
+        this.cartRepository = cartRepository;
+        this.modelMapper = modelMapper;
+        this.cartEntryRepository = cartEntryRepository;
+    }
 
     @Override
     public CartDto save(CartDto cartDto) {

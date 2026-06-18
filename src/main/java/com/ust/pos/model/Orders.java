@@ -5,12 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-@Entity
 @Getter
 @Setter
-public class Cart extends CommonFields {
+@Entity
+public class Orders extends CommonFields{
     private BigDecimal totalPrice;
-    private String couponCode;
     private BigDecimal totalDiscount;
+    private String couponCode;
+    private String orderId;
+    private LocalDateTime orderDate;
+    private String paymentMode;
 }

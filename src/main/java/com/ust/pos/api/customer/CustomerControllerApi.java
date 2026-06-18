@@ -6,7 +6,6 @@ import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +13,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerControllerApi extends BaseController {
-    @Autowired
-    CustomerService customerService;
-    @Autowired
-    AddressService addressService;
+
+    private final CustomerService customerService;
+
+    private final AddressService addressService;
+
+    public CustomerControllerApi(CustomerService customerService, AddressService addressService) {
+        this.customerService = customerService;
+        this.addressService = addressService;
+    }
 
     @PostMapping("/list")
     public WsDto<CustomerDto> list(@RequestBody PaginationDto paginationDto) {

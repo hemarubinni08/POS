@@ -1,5 +1,6 @@
 package com.ust.pos.warehouse.service.impl;
 
+import com.ust.pos.commonservice.CommonService;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Warehouse;
@@ -7,7 +8,6 @@ import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,13 +16,16 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class WarehouseServiceImpl implements WarehouseService {
+public class WarehouseServiceImpl extends CommonService implements WarehouseService {
 
-    @Autowired
-    private WarehouseRepository warehouseRepository;
+    private final WarehouseRepository warehouseRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public WarehouseServiceImpl(WarehouseRepository warehouseRepository, ModelMapper modelMapper) {
+        this.warehouseRepository = warehouseRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public WarehouseDto save(WarehouseDto warehouseDto) {
@@ -35,6 +38,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         }
 
         Warehouse warehouse = modelMapper.map(warehouseDto, Warehouse.class);
+        setAuditFields(warehouse,true);
         warehouseRepository.save(warehouse);
         warehouseDto.setSuccess(true);
         return warehouseDto;
@@ -49,6 +53,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             return warehouseDto;
         }
         modelMapper.map(warehouseDto, warehouse);
+        setAuditFields(warehouse,false);
         warehouseRepository.save(warehouse);
         warehouseDto.setSuccess(true);
         return warehouseDto;

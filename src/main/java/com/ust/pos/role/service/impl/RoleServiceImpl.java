@@ -1,5 +1,6 @@
 package com.ust.pos.role.service.impl;
 
+import com.ust.pos.commonservice.CommonService;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Role;
@@ -8,7 +9,6 @@ import com.ust.pos.role.service.RoleService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,13 +17,16 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends CommonService implements RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public RoleServiceImpl(RoleRepository roleRepository, ModelMapper modelMapper) {
+        this.roleRepository = roleRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public RoleDto findByIdentifier(String identifier) {
@@ -57,6 +60,7 @@ public class RoleServiceImpl implements RoleService {
             return roleDto;
         }
         Role role = modelMapper.map(roleDto, Role.class);
+        setAuditFields(role,true);
         roleRepository.save(role);
         return roleDto;
     }
@@ -71,6 +75,7 @@ public class RoleServiceImpl implements RoleService {
             return roleDto;
         }
         modelMapper.map(roleDto, existingRole);
+        setAuditFields(existingRole,false);
         roleRepository.save(existingRole);
         return roleDto;
     }

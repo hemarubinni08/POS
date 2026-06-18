@@ -1,15 +1,13 @@
-package com.ust.pos.model;
+package com.ust.pos.dto;
 
-import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Entity
 @Getter
 @Setter
-public class CartEntry extends CommonFields {
+public class OrderEntryDto extends CommonDto{
     private BigDecimal price;
     private BigDecimal totalPrice;
     private BigDecimal sellingPrice;
@@ -17,5 +15,5 @@ public class CartEntry extends CommonFields {
     private BigDecimal quantity;
     private String couponCode;
     private String product;
-    private String cart;
+    private String orderId;
 }

@@ -1,5 +1,6 @@
 package com.ust.pos.product.service.impl;
 
+import com.ust.pos.commonservice.CommonService;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Product;
@@ -7,7 +8,6 @@ import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,16 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class ProductServiceImpl implements ProductService {
-    @Autowired
-    ProductRepository productRepository;
-    @Autowired
-    ModelMapper modelMapper;
+public class ProductServiceImpl extends CommonService implements ProductService {
+
+   private final ProductRepository productRepository;
+
+   private final ModelMapper modelMapper;
+
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
+        this.productRepository = productRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public ProductDto save(ProductDto productDto) {
@@ -32,6 +37,7 @@ public class ProductServiceImpl implements ProductService {
         }
         Product response = new Product();
         modelMapper.map(productDto, response);
+        setAuditFields(response,true);
         productRepository.save(response);
         productDto.setMessage("Product Added Successfully");
         return productDto;
@@ -69,6 +75,7 @@ public class ProductServiceImpl implements ProductService {
             return productDto;
         }
         modelMapper.map(productDto, product);
+        setAuditFields(product,false);
         productRepository.save(product);
         productDto.setMessage("Product Updated Successfully");
         return productDto;

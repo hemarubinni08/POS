@@ -1,5 +1,6 @@
 package com.ust.pos.shelf.service.impl;
 
+import com.ust.pos.commonservice.CommonService;
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Shelf;
@@ -7,7 +8,6 @@ import com.ust.pos.model.ShelfRepository;
 import com.ust.pos.shelf.service.ShelfService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,13 +16,16 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class ShelfServiceImpl implements ShelfService {
+public class ShelfServiceImpl extends CommonService implements ShelfService {
 
-    @Autowired
-    private ShelfRepository shelfRepository;
+    private final ShelfRepository shelfRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public ShelfServiceImpl(ShelfRepository shelfRepository, ModelMapper modelMapper) {
+        this.shelfRepository = shelfRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public ShelfDto save(ShelfDto shelfDto) {
@@ -34,6 +37,7 @@ public class ShelfServiceImpl implements ShelfService {
             return shelfDto;
         }
         Shelf shelf = modelMapper.map(shelfDto, Shelf.class);
+        setAuditFields(shelf,true);
         shelfRepository.save(shelf);
         shelfDto.setSuccess(true);
         return shelfDto;
@@ -50,6 +54,7 @@ public class ShelfServiceImpl implements ShelfService {
         }
 
         modelMapper.map(shelfDto, shelf);
+        setAuditFields(shelf,false);
         shelfRepository.save(shelf);
         shelfDto.setSuccess(true);
         return shelfDto;

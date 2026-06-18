@@ -4,7 +4,6 @@ import com.ust.pos.dto.StockDto;
 import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
 import com.ust.pos.warehouse.service.WarehouseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +13,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/stock")
 public class StockController {
     public static final String STOCK_DTO = "stockDto";
-    @Autowired
-    StockService stockService;
-    @Autowired
-    WarehouseService warehouseService;
-    @Autowired
-    ProductService productService;
+
+    private final StockService stockService;
+
+    private final WarehouseService warehouseService;
+
+    private final ProductService productService;
+
+    public StockController(StockService stockService, WarehouseService warehouseService, ProductService productService) {
+        this.stockService = stockService;
+        this.warehouseService = warehouseService;
+        this.productService = productService;
+    }
 
 
     @GetMapping("/list")

@@ -4,7 +4,6 @@ import com.ust.pos.address.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.WsDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +14,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/customer")
 public class CustomerController {
     public static final String CUSTOMER_DTO = "customerDto";
-    @Autowired
-    CustomerService customerService;
-    @Autowired
-    AddressService addressService;
+
+    private final CustomerService customerService;
+
+    private final AddressService addressService;
+
+    public CustomerController(CustomerService customerService, AddressService addressService) {
+        this.customerService = customerService;
+        this.addressService = addressService;
+    }
 
     @GetMapping("/list")
     public String list(Model model, Pageable pageable) {

@@ -1,5 +1,6 @@
 package com.ust.pos.stock.service.impl;
 
+import com.ust.pos.commonservice.CommonService;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Stock;
@@ -7,7 +8,6 @@ import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.StockService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,16 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class StockServiceImpl implements StockService {
-    @Autowired
-    StockRepository stockRepository;
-    @Autowired
-    ModelMapper modelMapper;
+public class StockServiceImpl extends CommonService implements StockService {
+
+    private final StockRepository stockRepository;
+
+    private final ModelMapper modelMapper;
+
+    public StockServiceImpl(StockRepository stockRepository, ModelMapper modelMapper) {
+        this.stockRepository = stockRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public StockDto save(StockDto stockDto) {
@@ -35,6 +40,7 @@ public class StockServiceImpl implements StockService {
         }
 
         Stock stock = modelMapper.map(stockDto, Stock.class);
+        setAuditFields(stock,true);
         Stock savedStock = stockRepository.save(stock);
 
         StockDto responseDto = modelMapper.map(savedStock, StockDto.class);
@@ -51,6 +57,7 @@ public class StockServiceImpl implements StockService {
         Stock stock = stockRepository.findById(stockDto.getId())
                 .orElseThrow(() -> new RuntimeException("Stock not found"));
         modelMapper.map(stockDto, stock);
+        setAuditFields(stock,false);
         stockRepository.save(stock);
         StockDto responseDto = modelMapper.map(stock, StockDto.class);
         responseDto.setSuccess(true);

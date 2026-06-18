@@ -39,17 +39,17 @@ public class WebSecurityConfig {
 
     public static final String JAVA_IN_USE_SECURITY_SCHEME = "JavaInUseSecurityScheme";
 
-    @Autowired
+    private final UserDetailsService userDetailsService;
 
-    private UserDetailsService userDetailsService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
+    private final JwtFilter jwtFilter;
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-
-    private JwtFilter jwtFilter;
+    public WebSecurityConfig(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, JwtFilter jwtFilter) {
+        this.userDetailsService = userDetailsService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.jwtFilter = jwtFilter;
+    }
 
     @Bean
 

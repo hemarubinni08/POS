@@ -12,7 +12,6 @@ import com.ust.pos.model.CustomerRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,14 +23,21 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
     public static final String SHIPPING_ADDRESS = "Shipping Address";
     public static final String BILLING_ADDRESS = "Billing Address";
-    @Autowired
-    CustomerRepository customerRepository;
-    @Autowired
-    ModelMapper modelMapper;
-    @Autowired
-    AddressRepository addressRepository;
-    @Autowired
-    AddressService addressService;
+
+    private final CustomerRepository customerRepository;
+
+    private final ModelMapper modelMapper;
+
+    private final AddressRepository addressRepository;
+
+    private final AddressService addressService;
+
+    public CustomerServiceImpl(CustomerRepository customerRepository, ModelMapper modelMapper, AddressRepository addressRepository, AddressService addressService) {
+        this.customerRepository = customerRepository;
+        this.modelMapper = modelMapper;
+        this.addressRepository = addressRepository;
+        this.addressService = addressService;
+    }
 
     @Override
     public CustomerDto save(CustomerDto customerDto) {

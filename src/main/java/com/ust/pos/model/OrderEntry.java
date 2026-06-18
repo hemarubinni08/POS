@@ -6,10 +6,10 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Entity
 @Getter
 @Setter
-public class CartEntry extends CommonFields {
+@Entity
+public class OrderEntry extends CommonFields{
     private BigDecimal price;
     private BigDecimal totalPrice;
     private BigDecimal sellingPrice;
@@ -17,5 +17,5 @@ public class CartEntry extends CommonFields {
     private BigDecimal quantity;
     private String couponCode;
     private String product;
-    private String cart;
+    private String orderId;
 }

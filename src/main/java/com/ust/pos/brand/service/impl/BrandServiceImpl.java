@@ -1,13 +1,13 @@
 package com.ust.pos.brand.service.impl;
 
 import com.ust.pos.brand.service.BrandService;
+import com.ust.pos.commonservice.CommonService;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,11 +17,16 @@ import java.util.List;
 
 
 @Service
-public class BrandServiceImpl implements BrandService {
-    @Autowired
-    BrandRepository brandRepository;
-    @Autowired
-    ModelMapper modelMapper;
+public class BrandServiceImpl extends CommonService implements BrandService {
+
+    private final BrandRepository brandRepository;
+
+    private final ModelMapper modelMapper;
+
+    public BrandServiceImpl(BrandRepository brandRepository, ModelMapper modelMapper) {
+        this.brandRepository = brandRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public BrandDto save(BrandDto brandDto) {
@@ -33,6 +38,7 @@ public class BrandServiceImpl implements BrandService {
             return brandDto;
         }
         Brand brand = modelMapper.map(brandDto, Brand.class);
+        setAuditFields(brand,true);
         brandRepository.save(brand);
         return brandDto;
 
@@ -74,6 +80,7 @@ public class BrandServiceImpl implements BrandService {
         }
 
         modelMapper.map(brandDto, brand);
+        setAuditFields(brand,false);
         brandRepository.save(brand);
         brandDto.setSuccess(true);
         brandDto.setMessage("Brand updated successfully");

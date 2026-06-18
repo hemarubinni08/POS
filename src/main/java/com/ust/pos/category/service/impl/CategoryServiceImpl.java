@@ -1,13 +1,13 @@
 package com.ust.pos.category.service.impl;
 
 import com.ust.pos.category.service.CategoryService;
+import com.ust.pos.commonservice.CommonService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,16 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
-    @Autowired
-    CategoryRepository categoryRepository;
-    @Autowired
-    ModelMapper modelMapper;
+public class CategoryServiceImpl extends CommonService implements CategoryService {
+
+    private final CategoryRepository categoryRepository;
+
+    private final ModelMapper modelMapper;
+
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper) {
+        this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
@@ -32,6 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
             return categoryDto;
         }
         Category category = modelMapper.map(categoryDto, Category.class);
+        setAuditFields(category,true);
         categoryRepository.save(category);
         return categoryDto;
     }
@@ -53,6 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new RuntimeException("Category not found"));
         existing.setIdentifier(categoryDto.getIdentifier());
         existing.setSupercategory(categoryDto.getSupercategory());
+        setAuditFields(existing,false);
         Category updatedCategory = categoryRepository.save(existing);
         return modelMapper.map(updatedCategory, CategoryDto.class);
     }
