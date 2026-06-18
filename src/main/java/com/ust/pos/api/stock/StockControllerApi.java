@@ -3,6 +3,7 @@ package com.ust.pos.api.stock;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ public class StockControllerApi extends BaseController {
     private StockService stockService;
 
     @PostMapping("/list")
-    public List<StockDto> list(@RequestBody PaginationDto pagination) {
+    public WsDto<StockDto> list(@RequestBody PaginationDto pagination) {
         Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
                 pagination.getSortDirection(), pagination.getSortfield());
         return stockService.findAll(pageable);
@@ -53,9 +54,13 @@ public class StockControllerApi extends BaseController {
         return response;
     }
 
-
-    @GetMapping("/toggle")
-    public StockDto toggle(@RequestParam String identifier) {
+    @PostMapping("/toggle")
+    public StockDto toggle(@RequestBody String identifier) {
         return stockService.toggleStatus(identifier);
+    }
+
+    @PostMapping("/active")
+    public List<StockDto> active(){
+        return stockService.findActiveStock();
     }
 }

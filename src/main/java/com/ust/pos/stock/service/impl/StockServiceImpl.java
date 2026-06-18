@@ -1,8 +1,11 @@
 package com.ust.pos.stock.service.impl;
 
 import com.ust.pos.dto.StockDto;
+import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
+import com.ust.pos.model.Unit;
 import com.ust.pos.stock.service.StockService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -94,15 +97,19 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public List<StockDto> findAll(Pageable pageable) {
+    public WsDto<StockDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
         Page<Stock> stockPage = stockRepository.findAll(pageable);
-        List<StockDto> dtoList = modelMapper.map(stockPage.getContent(), listType);
-        for (int i = 0; i < dtoList.size(); i++) {
-            dtoList.get(i).setStockState(calculateState(stockPage.getContent().get(i)));
-        }
-        return dtoList;
+
+        WsDto<StockDto> stockWsDto = new WsDto<>();
+        stockWsDto.setDtoList(modelMapper.map(stockPage.getContent(), listType));
+        stockWsDto.setTotalRecords(stockPage.getTotalElements());
+        stockWsDto.setTotalPages(stockPage.getTotalPages());
+        stockWsDto.setSizePerPage(pageable.getPageSize());
+        stockWsDto.setPage(pageable.getPageNumber());
+
+        return stockWsDto;
     }
 
     @Override
@@ -126,5 +133,11 @@ public class StockServiceImpl implements StockService {
         dto.setSuccess(true);
         dto.setMessage("Stock status updated successfully");
         return dto;
+    }
+
+    @Override
+    public List<StockDto> findActiveStock() {
+        return stockRepository.findAll().stream().filter(s -> Boolean.TRUE
+                .equals(s.getStatus())).map(s -> modelMapper.map(s, StockDto.class)).toList();
     }
 }

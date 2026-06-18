@@ -7,6 +7,7 @@ import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.CartEntry;
 import com.ust.pos.model.CartEntryRepository;
 import com.ust.pos.price.service.PriceService;
+import com.ust.pos.product.service.ProductService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -35,6 +36,9 @@ public class CartEntryServiceImpl implements CartEntryService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private ProductService productService;
+
     @Override
     public CartEntryDto save(CartEntryDto dto) {
         if (dto.getQuantity() == null || dto.getQuantity().compareTo(BigDecimal.ZERO) <= 0) {
@@ -45,6 +49,8 @@ public class CartEntryServiceImpl implements CartEntryService {
         String cartId = dto.getCartId();
         cartService.save(cartId);
         String productId = dto.getProductId();
+        String productName =productService.findByIdentifier(productId).getProductName();
+
         String identifier = cartId + "_" + productId;
         CartEntry entry = cartEntryRepository.findByIdentifier(identifier);
         if (entry == null) {
@@ -54,6 +60,7 @@ public class CartEntryServiceImpl implements CartEntryService {
             entry.setProductId(productId);
             entry.setQuantity(BigDecimal.ZERO);
         }
+        entry.setProductName(productName);
         BigDecimal existingQty = entry.getQuantity() != null ? entry.getQuantity() : BigDecimal.ZERO;
         entry.setQuantity(existingQty.add(dto.getQuantity()));
         PriceDto mrpDto = priceService.findByIdentifier(productId + "_MRP");
