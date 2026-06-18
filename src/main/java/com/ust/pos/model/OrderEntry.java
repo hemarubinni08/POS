@@ -9,15 +9,12 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-
 public class OrderEntry extends CommonFields {
-    private String productId;
-    private String productName;
-    private String orderId;
-    private BigDecimal quantity = new BigDecimal(0);
+    private String orderIdentifier;
+    private String product;
     private BigDecimal mrp;
-    private BigDecimal sellingPrice;
-    private BigDecimal discount;
+    private BigDecimal unitDiscount;
+    private BigDecimal unitPrice;
+    private Integer quantity;
     private BigDecimal totalPrice;
-    private BigDecimal originalPrice;
 }

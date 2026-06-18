@@ -1,19 +1,21 @@
-package com.ust.pos.dto;
+package com.ust.pos.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.List;
 
+@Entity
 @Getter
 @Setter
-public class OrderDto extends CommonDto {
+@Table(name = "order_details")
+public class Order extends CommonFields {
     private String customer;
     private BigDecimal originalPrice;
     private BigDecimal discount;
     private BigDecimal totalPrice;
-    private List<OrderEntryDto> entryList;
     private String paymentMethod;
     private BigDecimal receivedAmount;
     private BigDecimal changeAmount;
