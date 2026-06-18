@@ -60,8 +60,8 @@ public class StockController extends BaseController {
     }
 
     @GetMapping("/get")
-    public String update(@RequestParam long id, Model model) {
-        StockDto stockDto = stockService.findById(id);
+    public String update(@RequestParam String identifier, Model model) {
+        StockDto stockDto = stockService.findByIdentifier(identifier);
         model.addAttribute("products", productService.findAll(null));
         model.addAttribute("warehouses", warehouseService.findAll(null));
         model.addAttribute("stockDto", stockDto);
@@ -77,8 +77,8 @@ public class StockController extends BaseController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam long id) {
-        stockService.delete(id);
+    public String delete(@RequestParam String identifier) {
+        stockService.delete(identifier);
         return REDIRECT_STOCK_LIST;
     }
 }

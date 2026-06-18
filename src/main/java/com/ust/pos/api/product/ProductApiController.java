@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/product")
 public class ProductApiController extends BaseController {
@@ -55,5 +57,10 @@ public class ProductApiController extends BaseController {
             return false;
         }
         return true;
+    }
+
+    @GetMapping("/search")
+    public List<ProductDto> search(@RequestParam String query) {
+        return productService.searchProduct(query);
     }
 }

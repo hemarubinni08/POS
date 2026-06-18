@@ -5,6 +5,7 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ public class CustomerApiController extends BaseController {
     private AddressService addressService;
 
     @PostMapping("/list")
-    public List<CustomerDto> list(@RequestBody PaginationDto paginationDto) {
+    public PaginationResponseDto<CustomerDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
         return customerService.findAll(pageable);
@@ -57,5 +58,10 @@ public class CustomerApiController extends BaseController {
             return false;
         }
         return true;
+    }
+
+    @GetMapping("/search")
+    public List<CustomerDto> search(@RequestParam String query) {
+        return customerService.searchCustomer(query);
     }
 }

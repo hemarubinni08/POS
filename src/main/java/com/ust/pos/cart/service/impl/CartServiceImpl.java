@@ -65,7 +65,6 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartDto recalculate(String identifier) {
-
         Cart cart = cartRepository.findByIdentifier(identifier);
 
         if (cart == null) {

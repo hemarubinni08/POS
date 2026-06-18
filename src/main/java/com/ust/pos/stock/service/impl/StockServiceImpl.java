@@ -1,5 +1,6 @@
 package com.ust.pos.stock.service.impl;
 
+import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.model.Stock;
@@ -28,26 +29,48 @@ public class StockServiceImpl implements StockService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<StockDto> findAll(Pageable pageable) {
+    public PaginationResponseDto<StockDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
         if (pageable == null) {
-            return modelMapper.map(stockRepository.findAll(), listType);
+
+            List<StockDto> stockDtoList =
+                    modelMapper.map(stockRepository.findAll(), listType);
+
+            PaginationResponseDto<StockDto> response =
+                    new PaginationResponseDto<>();
+
+            response.setDtoList(stockDtoList);
+            response.setTotalRecords(stockDtoList.size());
+
+            return response;
         }
         Page<Stock> stockPage = stockRepository.findAll(pageable);
-        return modelMapper.map(stockPage.getContent(), listType);
+        List<StockDto> stockDtoList = modelMapper.map(stockPage.getContent(), listType);
+
+        PaginationResponseDto<StockDto> paginationResponseDto = new PaginationResponseDto<>();
+        paginationResponseDto.setDtoList(stockDtoList);
+        paginationResponseDto.setPage(stockPage.getNumber());
+        paginationResponseDto.setSizePerPage(stockPage.getSize());
+        paginationResponseDto.setTotalPages(stockPage.getTotalPages());
+        paginationResponseDto.setTotalRecords(stockPage.getTotalElements());
+
+        return paginationResponseDto;
     }
 
     public StockDto save(StockDto stockDto) {
-
-        Stock stock = modelMapper.map(stockDto, Stock.class);
-        Stock savedStock = stockRepository.save(stock);
-
-        StockDto response = modelMapper.map(savedStock, StockDto.class);
-        response.setMessage("Successfully added the stock");
-        response.setSuccess(true);
-
-        return response;
+        String identifier = stockDto.getProduct() + stockDto.getWarehouse();
+        Stock stock=stockRepository.findByIdentifier(identifier);
+        if(stock==null){
+            stockDto.setIdentifier(identifier);
+            stockRepository.save(modelMapper.map(stockDto, Stock.class));
+            stockDto.setMessage("Successfully added the stock");
+            stockDto.setSuccess(true);
+        } else {
+            stockDto.setMessage("Successfully added the stock");
+            stockDto.setSuccess(false);
+        }
+        return stockDto;
     }
 
     public StockDto update(StockDto stockDto) {
@@ -67,15 +90,14 @@ public class StockServiceImpl implements StockService {
         return response;
     }
 
-    public StockDto findById(long id) {
-        Stock stock = stockRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Stock not found"));
+    public StockDto findByIdentifier(String identifier) {
+        Stock stock = stockRepository.findByIdentifier(identifier);
 
         return modelMapper.map(stock, StockDto.class);
     }
 
     @Override
-    public void delete(long id) {
-        stockRepository.deleteById(id);
+    public void delete(String identifier) {
+        stockRepository.deleteByIdentifier(identifier);
     }
 }
