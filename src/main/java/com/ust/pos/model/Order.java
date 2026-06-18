@@ -8,17 +8,23 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "cart")
 @Getter
 @Setter
-public class Cart extends CommonFields {
+@Table(name = "order_details")
+public class Order extends CommonFields{
+
+    private String customerIdentifier;
 
     private BigDecimal originalPrice;
 
-    private BigDecimal totalPrice;
-
     private BigDecimal discount;
 
-    private String coupon;
+    private BigDecimal totalPrice;
+
+    private String paymentMethod;
+
+    private BigDecimal receivedAmount;
+
+    private BigDecimal changeAmount;
 
 }

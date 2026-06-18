@@ -40,24 +40,31 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto save(CustomerDto customerDto) {
         String identifier = customerDto.getIdentifier();
+
         Customer existingCustomer = customerRepository.findByIdentifier(identifier);
         if (existingCustomer != null) {
             customerDto.setMessage("Customer with identifier - " + identifier + " already exists");
             customerDto.setSuccess(false);
             return customerDto;
         }
+
         AddressDto billingAddress = customerDto.getBillingAddress();
         AddressDto shippingAddress = customerDto.getShippingAddress();
 
-        billingAddress.setPhoneNumber(customerDto.getPhoneNumber());
-        shippingAddress.setPhoneNumber(customerDto.getPhoneNumber());
+        if (billingAddress != null) {
+            billingAddress.setPhoneNumber(customerDto.getPhoneNumber());
+            addressService.save(billingAddress);
+        }
 
-        addressService.save(billingAddress);
-        addressService.save(shippingAddress);
+        if (shippingAddress != null) {
+            shippingAddress.setPhoneNumber(customerDto.getPhoneNumber());
+            addressService.save(shippingAddress);
+        }
 
         Customer customer = modelMapper.map(customerDto, Customer.class);
         customerRepository.save(customer);
 
+        customerDto.setSuccess(true);
         return customerDto;
     }
 

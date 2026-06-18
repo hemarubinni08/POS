@@ -1,4 +1,4 @@
-package com.ust.pos.api;
+package com.ust.pos.base;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

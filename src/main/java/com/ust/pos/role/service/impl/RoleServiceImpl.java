@@ -1,5 +1,6 @@
 package com.ust.pos.role.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Role;
@@ -17,7 +18,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends BaseService implements RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
@@ -39,7 +40,11 @@ public class RoleServiceImpl implements RoleService {
             return roleDto;
         }
         Role role = modelMapper.map(roleDto, Role.class);
+
+        setCreatedDetails(role);
         roleRepository.save(role);
+        roleDto.setSuccess(true);
+        roleDto.setMessage("Role created successfully");
         return roleDto;
     }
 
@@ -53,7 +58,10 @@ public class RoleServiceImpl implements RoleService {
             return roleDto;
         }
         modelMapper.map(roleDto, existingRole);
+        setModifiedDetails(existingRole);
         roleRepository.save(existingRole);
+        roleDto.setSuccess(true);
+        roleDto.setMessage("Role updated successfully");
         return roleDto;
     }
 

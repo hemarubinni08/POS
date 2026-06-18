@@ -62,7 +62,6 @@ public class CartEntryServiceImpl implements CartEntryService {
             );
             return cartEntryDto;
         }
-
         CartEntry cartEntry;
 
         if (existing != null) {
@@ -89,11 +88,13 @@ public class CartEntryServiceImpl implements CartEntryService {
 
         cartEntry.setQuantity(requestedQuantity);
         cartEntry.setUnitPrice(unitPrice);
+        cartEntry.setMrp(mrpPrice);
 
         BigDecimal originalPrice = requestedQuantity.multiply(mrpPrice);
         cartEntry.setOriginalPrice(originalPrice);
 
         BigDecimal discountPerUnit = mrpPrice.subtract(unitPrice);
+        cartEntry.setUnitDiscount(discountPerUnit);
         BigDecimal totalDiscount = discountPerUnit.multiply(requestedQuantity);
 
         cartEntry.setDiscount(totalDiscount);
@@ -107,21 +108,50 @@ public class CartEntryServiceImpl implements CartEntryService {
         return response;
     }
 
+    @Override
+    @Transactional
     public void reduceQuantity(String cartIdentifier, String productIdentifier) {
         String identifier = cartIdentifier + "-" + productIdentifier;
+
         CartEntry entry = cartEntryRepository.findByIdentifier(identifier);
+
         if (entry == null) {
             return;
         }
-        BigDecimal qty = entry.getQuantity().subtract(BigDecimal.ONE);
-        if (qty.compareTo(BigDecimal.ZERO) <= 0) {
+
+        BigDecimal newQuantity = entry.getQuantity().subtract(BigDecimal.ONE);
+
+        if (newQuantity.compareTo(BigDecimal.ZERO) <= 0) {
             cartEntryRepository.deleteByIdentifier(identifier);
-        } else {
-            entry.setQuantity(qty);
-            entry.setTotalPrice(entry.getUnitPrice().multiply(qty)
-            );
-            cartEntryRepository.save(entry);
+            cartService.recalculate(cartIdentifier);
+            return;
         }
+
+        Price sellingPrice = priceRepository.findByProductIdentifierAndPriceType(
+                productIdentifier,
+                "SELLING_PRICE"
+        );
+
+        Price mrp = priceRepository.findByProductIdentifierAndPriceType(
+                productIdentifier,
+                "MRP"
+        );
+
+        BigDecimal unitPrice = sellingPrice.getPriceAmount();
+        BigDecimal mrpPrice = mrp.getPriceAmount();
+
+        entry.setQuantity(newQuantity);
+        entry.setUnitPrice(unitPrice);
+
+        entry.setOriginalPrice(newQuantity.multiply(mrpPrice));
+
+        BigDecimal discountPerUnit = mrpPrice.subtract(unitPrice);
+        entry.setDiscount(discountPerUnit.multiply(newQuantity));
+
+        entry.setTotalPrice(unitPrice.multiply(newQuantity));
+
+        cartEntryRepository.save(entry);
+
         cartService.recalculate(cartIdentifier);
     }
 
