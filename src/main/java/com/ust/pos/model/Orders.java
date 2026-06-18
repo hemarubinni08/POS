@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 
-public class Order extends CommonFields {
+public class Orders extends CommonFields {
     private String orderNumber;
     private String customerId;
     private BigDecimal originalPrice;
