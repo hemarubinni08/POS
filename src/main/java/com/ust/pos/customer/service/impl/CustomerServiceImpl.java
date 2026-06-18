@@ -38,13 +38,22 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto findByIdentifierWithAddressDto(String phoneNo) {
         Customer customer = customerRepository.findByPhoneNo(phoneNo);
+
+        if (customer == null) {
+            return null;
+        }
+
         CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
+
+        // 🚀 CRITICAL FIX: Explicitly copy the email from the identifier column
+        // into the email field of the DTO so the frontend can read it!
+        customerDto.setIdentifier(customer.getIdentifier());
+
         List<AddressDto> addressDtoList = addressService.findAllByPhoneNo(phoneNo);
 
-        if (addressDtoList != null) {
-            if (addressDtoList.isEmpty()) {
-                customerDto.setBillingAddress(addressDtoList.get(0));
-            }
+        if (addressDtoList != null && !addressDtoList.isEmpty()) {
+            customerDto.setBillingAddress(addressDtoList.get(0));
+
             if (addressDtoList.size() > 1) {
                 customerDto.setShippingAddress(addressDtoList.get(1));
             }
@@ -55,56 +64,89 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto save(CustomerDto customerDto) {
+
+        // CHANGE THIS LINE: Read email from the incoming DTO to use as the identifier value
         String identifier = customerDto.getIdentifier();
-        Customer existingCustomer = customerRepository.findById(identifier);
+
+        // CRITICAL: Keep checking existence by phone number so lookup mechanics do not break
+        Customer existingCustomer = customerRepository.findByPhoneNo(customerDto.getPhoneNo());
 
         if (existingCustomer != null) {
-            customerDto.setMessage("Customer with identifier - " + identifier + " already exists");
+            customerDto.setMessage("Customer already exists");
             customerDto.setSuccess(false);
             return customerDto;
         }
 
+        // ✅ Save customer mapping record
         Customer customer = modelMapper.map(customerDto, Customer.class);
+
+        // This line writes the email string cleanly to the posdb.customer.identifier database column
+        customer.setIdentifier(identifier);
         customerRepository.save(customer);
 
-        AddressDto billingAddress = modelMapper.map(customerDto.getBillingAddress(), AddressDto.class);
-        billingAddress.setIdentifier(customerDto.getIdentifier() + "_" + "Billing");
-        billingAddress.setAddressType("Billing");
-        billingAddress.setPhoneNo(customerDto.getPhoneNo());
-        addressService.save(billingAddress);
+        // ✅ Save Billing Address using email context strings to avoid foreign integrity breaks if needed
+        if (customerDto.getBillingAddress() != null) {
+            AddressDto billing = customerDto.getBillingAddress();
 
-        AddressDto shippingAddress = modelMapper.map(customerDto.getShippingAddress(), AddressDto.class);
-        shippingAddress.setIdentifier(customerDto.getIdentifier() + "_" + "Shipping");
-        shippingAddress.setAddressType("Shipping");
-        shippingAddress.setPhoneNo(customerDto.getPhoneNo());
-        addressService.save(shippingAddress);
+            billing.setIdentifier(identifier + "_Billing");
+            billing.setAddressType("Billing");
+            billing.setPhoneNo(customerDto.getPhoneNo()); // Keep raw phone link intact
+
+            addressService.save(billing);
+        }
+
+        // ✅ Save Shipping Address
+        if (customerDto.getShippingAddress() != null) {
+            AddressDto shipping = customerDto.getShippingAddress();
+
+            shipping.setIdentifier(identifier + "_Shipping");
+            shipping.setAddressType("Shipping");
+            shipping.setPhoneNo(customerDto.getPhoneNo()); // Keep raw phone link intact
+
+            addressService.save(shipping);
+        }
 
         return customerDto;
     }
-
     @Override
     public CustomerDto update(CustomerDto customerDto) {
+
         Customer existingCustomer = customerRepository.findByPhoneNo(customerDto.getPhoneNo());
 
         if (existingCustomer == null) {
             customerDto.setMessage(
-                    "Customer with identifier - " + customerDto.getPhoneNo() + " not found");
+                    "Customer with phoneNo - " + customerDto.getPhoneNo() + " not found");
             customerDto.setSuccess(false);
             return customerDto;
         }
 
+        // ✅ update customer
         modelMapper.map(customerDto, existingCustomer);
         customerRepository.save(existingCustomer);
 
-        List<AddressDto> addresses = addressService.findAllByPhoneNo(customerDto.getPhoneNo());
+        String phoneNo = existingCustomer.getPhoneNo();
 
-        AddressDto billingAddress = addresses.get(0);
-        billingAddress.setPhoneNo(existingCustomer.getPhoneNo());
-        addressService.update(billingAddress);
+        // ✅ UPDATE BILLING ADDRESS
+        if (customerDto.getBillingAddress() != null) {
+            AddressDto billing = customerDto.getBillingAddress();
 
-        AddressDto shippingAddress = addresses.get(1);
-        shippingAddress.setPhoneNo(existingCustomer.getPhoneNo());
-        addressService.update(shippingAddress);
+            billing.setPhoneNo(phoneNo);
+            billing.setAddressType("Billing");
+            billing.setIdentifier(phoneNo + "_Billing");
+
+            addressService.update(billing);
+        }
+
+        // ✅ UPDATE SHIPPING ADDRESS
+        if (customerDto.getShippingAddress() != null) {
+            AddressDto shipping = customerDto.getShippingAddress();
+
+            shipping.setPhoneNo(phoneNo);
+            shipping.setAddressType("Shipping");
+            shipping.setIdentifier(phoneNo + "_Shipping");
+
+            addressService.update(shipping);
+        }
 
         return customerDto;
     }

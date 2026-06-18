@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/customer")
 public class ApiCustomerController extends BaseController {
@@ -29,8 +31,8 @@ public class ApiCustomerController extends BaseController {
     }
 
     @GetMapping("/get")
-    public CustomerDto get(@RequestParam String identifier) {
-        return customerService.findByIdentifierWithAddressDto(identifier);
+    public CustomerDto get(@RequestParam String phoneNo) {
+        return customerService.findByIdentifierWithAddressDto(phoneNo);
     }
 
     @PostMapping("/update")
@@ -39,17 +41,18 @@ public class ApiCustomerController extends BaseController {
     }
 
     @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
-        try {
-            customerService.delete(identifier);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public boolean delete(@RequestParam String phoneNo) {
+        customerService.delete(phoneNo);
+        return true;
     }
 
     @PostMapping("/toggle-status")
     public void toggle(@RequestParam String identifier) {
         customerService.toggleStatus(identifier);
+    }
+
+    @GetMapping("/active")
+    public List<CustomerDto> activeCustomers() {
+        return customerService.findIfTrue();
     }
 }

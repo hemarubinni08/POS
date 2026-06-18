@@ -58,7 +58,7 @@ public class ApiCartController extends BaseController {
         }
     }
 
-    @GetMapping("/clear")
+    @PostMapping("/clear")
     public CartDto clearCart(@RequestParam String cartIdentifier) {
         cartService.clearCart(cartIdentifier);
         return cartService.findByIdentifier(cartIdentifier);

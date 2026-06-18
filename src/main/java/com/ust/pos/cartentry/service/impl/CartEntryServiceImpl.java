@@ -40,15 +40,35 @@ public class CartEntryServiceImpl implements CartEntryService {
         String productId = dto.getProductIdentifier();
         String cartId = dto.getCartIdentifier();
         int qty = dto.getQuantity();
+
         if (productId == null || productId.isBlank()) {
             throw new RuntimeException("Product identifier is missing");
         }
+
         String identifier = cartId + "-" + productId;
+        CartEntry entry = cartEntryRepository.findByIdentifier(identifier);
+
+        // --- NEW DELETE LOGIC FOR THE TRASH ICON ---
+        // If frontend passes an explicit quantity of -1000 (our delete flag)
+        // OR if the item exists and the new calculation forces it to 0 or less, delete it.
+        if (qty == -1000 || (entry != null && (entry.getQuantity() + qty) <= 0)) {
+            if (entry != null) {
+                cartEntryRepository.delete(entry);
+            }
+            CartEntryDto removedDto = new CartEntryDto();
+            removedDto.setProductIdentifier(productId);
+            removedDto.setCartIdentifier(cartId);
+            removedDto.setQuantity(0);
+            return removedDto;
+        }
+        // -------------------------------------------
+
         PriceDto selling = priceService.findByIdentifier(productId + "-SELLING");
         PriceDto mrp = priceService.findByIdentifier(productId + "-MRP");
         if (selling == null && mrp == null) {
             throw new RuntimeException("Price not configured for product: " + productId);
         }
+
         BigDecimal unitPrice;
         BigDecimal discount = BigDecimal.ZERO;
         if (selling != null) {
@@ -61,7 +81,7 @@ public class CartEntryServiceImpl implements CartEntryService {
             BigDecimal sellingPrice = selling.getPriceAmount();
             discount = mrpPrice.subtract(sellingPrice);
         }
-        CartEntry entry = cartEntryRepository.findByIdentifier(identifier);
+
         if (entry == null) {
             entry = new CartEntry();
             entry.setIdentifier(identifier);
@@ -69,11 +89,13 @@ public class CartEntryServiceImpl implements CartEntryService {
             entry.setCartIdentifier(cartId);
             entry.setQuantity(0);
         }
+
         int updatedQty = entry.getQuantity() + qty;
         entry.setQuantity(updatedQty);
         entry.setUnitPrice(unitPrice);
         entry.setTotalPrice(unitPrice.multiply(BigDecimal.valueOf(updatedQty)));
         entry.setDiscount(discount);
+
         cartEntryRepository.save(entry);
         return modelMapper.map(entry, CartEntryDto.class);
     }

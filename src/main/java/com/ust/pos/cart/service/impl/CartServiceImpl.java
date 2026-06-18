@@ -45,6 +45,9 @@ public class CartServiceImpl implements CartService {
         }
         Cart cart = new Cart();
         cart.setIdentifier(identifier);
+        cart.setCustomerIdentifier(
+                cartDto.getCustomerIdentifier()
+        );
         cart.setCoupon(cartDto.getCoupon());
         cart.setOriginalPrice(BigDecimal.ZERO);
         cart.setTotalPrice(BigDecimal.ZERO);

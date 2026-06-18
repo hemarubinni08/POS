@@ -15,4 +15,5 @@ public class Address extends CommonFields {
     private String state;
     private String zipCode;
     private String country;
+
 }
