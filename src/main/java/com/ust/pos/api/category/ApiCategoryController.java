@@ -39,7 +39,7 @@ public class ApiCategoryController extends BaseController {
         return categoryService.update(categoryDto);
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public boolean delete(@RequestParam("identifier") String identifier) {
         try {
             categoryService.delete(identifier);
@@ -52,5 +52,15 @@ public class ApiCategoryController extends BaseController {
     @GetMapping("/findChildCategories")
     public List<CategoryDto> findChildCategories() {
         return categoryService.findChildCategories();
+    }
+
+    @PostMapping("/toggle-status")
+    public CategoryDto toggle(@RequestParam String identifier) {
+        return categoryService.toggleStatus(identifier);
+    }
+
+    @GetMapping("/findallactive")
+    public List<CategoryDto> findAllActive() {
+        return categoryService.findAllActive();
     }
 }

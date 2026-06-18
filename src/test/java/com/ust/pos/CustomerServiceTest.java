@@ -134,7 +134,6 @@ class CustomerServiceTest {
         customerService.update(customerDto);
         verify(customerRepository).save(customer);
         verify(addressService, times(2)).update(any());
-
     }
 
     @Test
@@ -154,47 +153,27 @@ class CustomerServiceTest {
 
     @Test
     void findAllTest() {
-
-        // ✅ Arrange
-        Customer customer = new Customer();
-        customer.setIdentifier("Admin");
-
-        CustomerDto customerDto = new CustomerDto();
-        customerDto.setIdentifier("Admin");
-
-        List<Customer> customers = List.of(customer);
-        List<CustomerDto> customerDtos = List.of(customerDto);
-
+        Customer localCustomer = new Customer();
+        localCustomer.setIdentifier("Admin");
+        CustomerDto localCustomerDto = new CustomerDto();
+        localCustomerDto.setIdentifier("Admin");
+        List<Customer> customers = List.of(localCustomer);
+        List<CustomerDto> customerDtos = List.of(localCustomerDto);
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
         Page<Customer> customerPage = new PageImpl<>(customers, pageable, customers.size());
-
         Mockito.when(customerRepository.findAll(pageable)).thenReturn(customerPage);
-
-        // ✅ IMPORTANT: Mock TypeToken list mapping
-        Mockito.when(modelMapper.map(
-                        Mockito.eq(customers),
-                        Mockito.any(java.lang.reflect.Type.class)))
-                .thenReturn(customerDtos);
-
-        // ✅ Act
+        Mockito.when(modelMapper.map(Mockito.eq(customers), Mockito.any(java.lang.reflect.Type.class))).thenReturn(customerDtos);
         WsDto<CustomerDto> response = customerService.findAll(pageable);
-
-        // ✅ Assert
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
         Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
-
         Assertions.assertEquals(1, response.getTotalRecords());
         Assertions.assertEquals(1, response.getTotalPage());
         Assertions.assertEquals(50, response.getSizePerPage());
         Assertions.assertEquals(0, response.getPage());
-
-        // ✅ Verify
         Mockito.verify(customerRepository, Mockito.times(1)).findAll(pageable);
-        Mockito.verify(modelMapper, Mockito.times(1))
-                .map(Mockito.eq(customers), Mockito.any(java.lang.reflect.Type.class));
+        Mockito.verify(modelMapper, Mockito.times(1)).map(Mockito.eq(customers), Mockito.any(java.lang.reflect.Type.class));
     }
-
 
     @Test
     void toggleStatusTest() {

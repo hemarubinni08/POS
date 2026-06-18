@@ -74,14 +74,12 @@ public class RackServiceImpl implements RackService {
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
         Page<Rack> rackPage = rackRepository.findAll(pageable);
-
         WsDto<RackDto> rackWsDto = new WsDto<>();
         rackWsDto.setDtoList(modelMapper.map(rackPage.getContent(), listType));
         rackWsDto.setTotalRecords(rackPage.getTotalElements());
         rackWsDto.setTotalPage(rackPage.getTotalPages());
         rackWsDto.setSizePerPage(pageable.getPageSize());
         rackWsDto.setPage(pageable.getPageNumber());
-
         return rackWsDto;
     }
 

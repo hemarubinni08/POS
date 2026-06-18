@@ -107,7 +107,7 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Identifier</th> <!-- ✅ NEW -->
+                    <th>Identifier</th>
                     <th>Product</th>
                     <th>Price</th>
                     <th>Price Type</th>
@@ -121,7 +121,6 @@
                     <tr>
                         <td>${p.id}</td>
 
-                        <!-- ✅ Identifier displayed -->
                         <td class="fw-semibold text-primary">
                             ${p.identifier}
                         </td>
@@ -138,14 +137,12 @@
 
                         <td class="text-center">
 
-                            <!-- Edit -->
                             <a href="${pageContext.request.contextPath}/price/get?identifier=${p.identifier}"
                                class="action-icon edit-icon"
                                title="Edit">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
 
-                            <!-- Delete -->
                             <a href="${pageContext.request.contextPath}/price/delete?identifier=${p.identifier}"
                                class="action-icon delete-icon"
                                title="Delete"
@@ -156,8 +153,6 @@
                         </td>
                     </tr>
                 </c:forEach>
-
-                <!-- Empty case -->
                 <c:if test="${empty prices}">
                     <tr>
                         <td colspan="6" class="text-center text-muted py-4">

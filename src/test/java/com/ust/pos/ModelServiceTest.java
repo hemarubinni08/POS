@@ -104,36 +104,24 @@ class ModelServiceTest {
     void findAllTest() {
         Model model = new Model();
         model.setIdentifier("Admin");
-
         ModelDto modelDto = new ModelDto();
         modelDto.setIdentifier("Admin");
-
         List<Model> models = List.of(model);
         List<ModelDto> modelDtos = List.of(modelDto);
-
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
         Page<Model> modelPage = new PageImpl<>(models, pageable, models.size());
-
         Mockito.when(modelRepository.findAll(pageable)).thenReturn(modelPage);
-        Mockito.when(modelMapper.map(
-                        Mockito.eq(models),
-                        Mockito.any(java.lang.reflect.Type.class)))
-                .thenReturn(modelDtos);
-
+        Mockito.when(modelMapper.map(Mockito.eq(models), Mockito.any(java.lang.reflect.Type.class))).thenReturn(modelDtos);
         WsDto<ModelDto> response = modelService.findAll(pageable);
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
         Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
-
         Assertions.assertEquals(1, response.getTotalRecords());
         Assertions.assertEquals(1, response.getTotalPage());
         Assertions.assertEquals(50, response.getSizePerPage());
         Assertions.assertEquals(0, response.getPage());
-
-        // ✅ Verify
         Mockito.verify(modelRepository, Mockito.times(1)).findAll(pageable);
-        Mockito.verify(modelMapper, Mockito.times(1))
-                .map(Mockito.eq(models), Mockito.any(java.lang.reflect.Type.class));
+        Mockito.verify(modelMapper, Mockito.times(1)).map(Mockito.eq(models), Mockito.any(java.lang.reflect.Type.class));
     }
 
     @Test
@@ -152,7 +140,6 @@ class ModelServiceTest {
 
     @Test
     void toggleStatus_shouldToggleTrueToFalse() {
-
         String identifier = "123";
         Model model = new Model();
         model.setIdentifier(identifier);
@@ -165,7 +152,6 @@ class ModelServiceTest {
 
     @Test
     void toggleStatus_shouldToggleFalseToTrue() {
-
         String identifier = "123";
         Model model = new Model();
         model.setIdentifier(identifier);
@@ -178,7 +164,6 @@ class ModelServiceTest {
 
     @Test
     void toggleStatus_shouldThrowException_whenModelNotFound() {
-
         String identifier = "123";
         when(modelRepository.findByIdentifier(identifier)).thenReturn(null);
         RuntimeException ex = assertThrows(RuntimeException.class, () -> modelService.toggleStatus(identifier));

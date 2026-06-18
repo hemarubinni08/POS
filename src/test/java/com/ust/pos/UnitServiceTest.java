@@ -95,44 +95,26 @@ class UnitServiceTest {
 
     @Test
     void findAllTest() {
-
-        // ✅ Arrange
         Unit unit = new Unit();
         unit.setIdentifier("Admin");
-
         UnitDto unitDto = new UnitDto();
         unitDto.setIdentifier("Admin");
-
         List<Unit> units = List.of(unit);
         List<UnitDto> unitDtos = List.of(unitDto);
-
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
-
         Page<Unit> unitPage = new PageImpl<>(units, pageable, units.size());
-
         Mockito.when(unitRepository.findAll(pageable)).thenReturn(unitPage);
-
-        // ✅ IMPORTANT: Mock List mapping (TypeToken case)
-        Mockito.when(modelMapper.map(Mockito.eq(units), Mockito.any(java.lang.reflect.Type.class)))
-                .thenReturn(unitDtos);
-
-        // ✅ Act
+        Mockito.when(modelMapper.map(Mockito.eq(units), Mockito.any(java.lang.reflect.Type.class))).thenReturn(unitDtos);
         WsDto<UnitDto> response = unitService.findAll(pageable);
-
-        // ✅ Assert
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
         Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
-
         Assertions.assertEquals(1, response.getTotalRecords());
         Assertions.assertEquals(1, response.getTotalPage());
         Assertions.assertEquals(50, response.getSizePerPage());
         Assertions.assertEquals(0, response.getPage());
-
-        // ✅ Verify
         Mockito.verify(unitRepository, Mockito.times(1)).findAll(pageable);
-        Mockito.verify(modelMapper, Mockito.times(1))
-                .map(Mockito.eq(units), Mockito.any(java.lang.reflect.Type.class));
+        Mockito.verify(modelMapper, Mockito.times(1)).map(Mockito.eq(units), Mockito.any(java.lang.reflect.Type.class));
     }
 
 
@@ -161,10 +143,12 @@ class UnitServiceTest {
     @Test
     void toggleStatus_failure() {
         Mockito.when(unitRepository.findByIdentifier("U1")).thenReturn(null);
-        RuntimeException ex = Assertions.assertThrows(RuntimeException.class, () -> unitService.toggleStatus("U1")
+        NullPointerException ex = Assertions.assertThrows(NullPointerException.class, () -> unitService.toggleStatus("U1")
         );
-        Assertions.assertTrue(ex.getMessage().contains("Shelf not found"));
+        Assertions.assertTrue(ex.getMessage().contains("Unit not found with identifier: U1")
+        );
         Mockito.verify(unitRepository, Mockito.never()).save(Mockito.any());
     }
+
 
 }

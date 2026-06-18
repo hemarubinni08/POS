@@ -115,8 +115,7 @@ class WarehouseServiceTest {
         List<WarehouseDto> result = warehouseService.findAllActive();
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals("W1", result.get(0).getIdentifier());
-        verify(modelMapper, times(1))
-                .map(warehouse, WarehouseDto.class);
+        verify(modelMapper, times(1)).map(warehouse, WarehouseDto.class);
     }
 
     @Test
@@ -124,7 +123,6 @@ class WarehouseServiceTest {
         Warehouse entity = new Warehouse();
         entity.setIdentifier("WH1");
         entity.setStatus(true);
-
         when(warehouseRepository.findByIdentifier("WH1")).thenReturn(entity);
         warehouseService.toggleStatus("WH1");
         Assertions.assertFalse(entity.getStatus());
@@ -163,44 +161,26 @@ class WarehouseServiceTest {
     @Test
     void findAllTest() {
 
-        // ✅ Arrange
         Warehouse warehouse = new Warehouse();
         warehouse.setIdentifier("Admin");
-
         WarehouseDto warehouseDto = new WarehouseDto();
         warehouseDto.setIdentifier("Admin");
-
         List<Warehouse> warehouses = List.of(warehouse);
         List<WarehouseDto> warehouseDtos = List.of(warehouseDto);
-
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
         Page<Warehouse> warehousePage = new PageImpl<>(warehouses, pageable, warehouses.size());
-
         Mockito.when(warehouseRepository.findAll(pageable)).thenReturn(warehousePage);
-
-        // ✅ IMPORTANT: Mock TypeToken list mapping
-        Mockito.when(modelMapper.map(
-                        Mockito.eq(warehouses),
-                        Mockito.any(java.lang.reflect.Type.class)))
-                .thenReturn(warehouseDtos);
-
-        // ✅ Act
+        Mockito.when(modelMapper.map(Mockito.eq(warehouses), Mockito.any(java.lang.reflect.Type.class))).thenReturn(warehouseDtos);
         WsDto<WarehouseDto> response = warehouseService.findAll(pageable);
-
-        // ✅ Assert
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
         Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
-
         Assertions.assertEquals(1, response.getTotalRecords());
         Assertions.assertEquals(1, response.getTotalPage());
         Assertions.assertEquals(50, response.getSizePerPage());
         Assertions.assertEquals(0, response.getPage());
-
-        // ✅ Verify
         Mockito.verify(warehouseRepository, Mockito.times(1)).findAll(pageable);
-        Mockito.verify(modelMapper, Mockito.times(1))
-                .map(Mockito.eq(warehouses), Mockito.any(java.lang.reflect.Type.class));
+        Mockito.verify(modelMapper, Mockito.times(1)).map(Mockito.eq(warehouses), Mockito.any(java.lang.reflect.Type.class));
     }
 
 }

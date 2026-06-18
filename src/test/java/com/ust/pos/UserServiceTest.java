@@ -58,7 +58,9 @@ class UserServiceTest {
     void testFindByUserName_UserNotFound() {
         when(userRepository.findByUsername("test")).thenReturn(null);
         UserDto result = userService.findByUserName("test");
-        assertNull(result);
+        assertNotNull(result);
+        assertFalse(result.isSuccess());
+        assertEquals("User not found", result.getMessage());
     }
 
     @Test
@@ -147,42 +149,25 @@ class UserServiceTest {
 
         @Test
         void testFindAll_withTypeTokenMapping() {
-
-            // ✅ Arrange
             Pageable pageable = PageRequest.of(0, 2);
-
             User user = new User();
             user.setId(1L);
             user.setName("Test User");
-
             List<User> userList = List.of(user);
             Page<User> userPage = new PageImpl<>(userList, pageable, 1);
-
             UserDto userDto = new UserDto();
             userDto.setName("Test User");
-
             List<UserDto> dtoList = List.of(userDto);
-
             when(userRepository.findAll(pageable)).thenReturn(userPage);
-
-            // ✅ IMPORTANT: Mock list mapping (NOT single object mapping)
-            when(modelMapper.map(eq(userList), any(Type.class)))
-                    .thenReturn(dtoList);
-
-            // ✅ Act
+            when(modelMapper.map(eq(userList), any(Type.class))).thenReturn(dtoList);
             WsDto<UserDto> result = userService.findAll(pageable);
-
-            // ✅ Assert
             assertNotNull(result);
             assertEquals(1, result.getDtoList().size());
             assertEquals("Test User", result.getDtoList().get(0).getName());
-
             assertEquals(1, result.getTotalRecords());
             assertEquals(1, result.getTotalPage());
             assertEquals(2, result.getSizePerPage());
             assertEquals(0, result.getPage());
-
-            // ✅ Verify interactions
             verify(userRepository, times(1)).findAll(pageable);
             verify(modelMapper, times(1)).map(eq(userList), any(Type.class));
         }

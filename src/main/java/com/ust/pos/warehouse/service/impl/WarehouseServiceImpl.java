@@ -83,14 +83,12 @@ public class WarehouseServiceImpl implements WarehouseService {
         Type listType = new TypeToken<List<WarehouseDto>>() {
         }.getType();
         Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
-
         WsDto<WarehouseDto> warehouseWsDto = new WsDto<>();
         warehouseWsDto.setDtoList(modelMapper.map(warehousePage.getContent(), listType));
         warehouseWsDto.setTotalRecords(warehousePage.getTotalElements());
         warehouseWsDto.setTotalPage(warehousePage.getTotalPages());
         warehouseWsDto.setSizePerPage(pageable.getPageSize());
         warehouseWsDto.setPage(pageable.getPageNumber());
-
         return warehouseWsDto;
     }
 
@@ -104,7 +102,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
         Boolean currentStatus = warehouse.getStatus();
         warehouse.setStatus(currentStatus == null || !currentStatus);
-
         warehouseRepository.save(warehouse);
     }
 

@@ -19,7 +19,6 @@ public class ApiModelController extends BaseController {
     @PostMapping("/add")
     public ModelDto addPost(@RequestBody ModelDto modelDto) {
         return modelService.save(modelDto);
-
     }
 
     @PostMapping("/list")
@@ -36,10 +35,9 @@ public class ApiModelController extends BaseController {
     @PostMapping("/update")
     public ModelDto updatePost(@RequestBody ModelDto modelDto) {
         return modelService.update(modelDto);
-
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             modelService.delete(identifier);

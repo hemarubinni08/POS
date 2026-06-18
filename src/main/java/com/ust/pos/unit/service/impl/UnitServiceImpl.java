@@ -73,14 +73,12 @@ public class UnitServiceImpl implements UnitService {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
         Page<Unit> unitPage = unitRepository.findAll(pageable);
-
         WsDto<UnitDto> unitWsDto = new WsDto<>();
         unitWsDto.setDtoList(modelMapper.map(unitPage.getContent(), listType));
         unitWsDto.setTotalRecords(unitPage.getTotalElements());
         unitWsDto.setTotalPage(unitPage.getTotalPages());
         unitWsDto.setSizePerPage(pageable.getPageSize());
         unitWsDto.setPage(pageable.getPageNumber());
-
         return unitWsDto;
     }
 
@@ -95,7 +93,6 @@ public class UnitServiceImpl implements UnitService {
 
         Boolean currentStatus = unit.getStatus();
         unit.setStatus(currentStatus == null ? Boolean.TRUE : !currentStatus);
-
         Unit saved = unitRepository.save(unit);
         return modelMapper.map(saved, UnitDto.class);
     }

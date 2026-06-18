@@ -37,6 +37,7 @@ public class NodeServiceImpl implements NodeService {
     public List<NodeDto> getNodesForRoles() {
         List<NodeDto> nodeDtos = new ArrayList<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication != null) {
             org.springframework.security.core.userdetails.User principalObject = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
             if (principalObject != null) findNodes(principalObject, nodeDtos);
@@ -48,9 +49,7 @@ public class NodeServiceImpl implements NodeService {
             org.springframework.security.core.userdetails.User principalObject,
             List<NodeDto> nodeDtos
     ) {
-        com.ust.pos.modell.User currentUser =
-                userRepository.findByUsername(principalObject.getUsername());
-
+        com.ust.pos.modell.User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesStr = new HashSet<>();
         List<Node> nodes = nodeRepository.findAll();
 
@@ -91,7 +90,6 @@ public class NodeServiceImpl implements NodeService {
 
         Node node = modelMapper.map(nodeDto, Node.class);
         nodeRepository.save(node);
-
         return nodeDto;
     }
 
@@ -123,14 +121,12 @@ public class NodeServiceImpl implements NodeService {
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
         Page<Node> nodePage = nodeRepository.findAll(pageable);
-
         WsDto<NodeDto> nodeWsDto = new WsDto<>();
         nodeWsDto.setDtoList(modelMapper.map(nodePage.getContent(), listType));
         nodeWsDto.setTotalRecords(nodePage.getTotalElements());
         nodeWsDto.setTotalPage(nodePage.getTotalPages());
         nodeWsDto.setSizePerPage(pageable.getPageSize());
         nodeWsDto.setPage(pageable.getPageNumber());
-
         return nodeWsDto;
     }
 }

@@ -33,7 +33,6 @@ public class WarehouseController {
             model.addAttribute(WAREHOUSE, warehouseDto);
             return "warehouse/add";
         }
-
         return REDIRECT_WAREHOUSE_LIST;
     }
 
@@ -58,7 +57,6 @@ public class WarehouseController {
             model.addAttribute("message", response.getMessage());
             return "warehouse/warehouse";
         }
-
         return REDIRECT_WAREHOUSE_LIST;
     }
 

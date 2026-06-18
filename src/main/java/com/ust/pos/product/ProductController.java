@@ -39,13 +39,11 @@ public class ProductController {
 
     @GetMapping("/add")
     public String add(Model model, Pageable pageable) {
-
         model.addAttribute("product", new ProductDto());
         model.addAttribute(CATEGORIES, categoryService.findAll(pageable));
         model.addAttribute(BRANDS, brandService.findAll(pageable));
         model.addAttribute(MODELS, modelService.findAll(pageable));
         model.addAttribute(UNITS, unitService.findAll(pageable));
-
         return "product/add";
     }
 
@@ -76,10 +74,8 @@ public class ProductController {
             model.addAttribute(BRANDS, brandService.findAll(pageable));
             model.addAttribute(MODELS, modelService.findAll(pageable));
             model.addAttribute(UNITS, unitService.findAll(pageable));
-
             return "product/add";
         }
-
         return REDIRECT_PRODUCT_LIST;
     }
 
@@ -93,10 +89,8 @@ public class ProductController {
             model.addAttribute(BRANDS, brandService.findAll(pageable));
             model.addAttribute(MODELS, modelService.findAll(pageable));
             model.addAttribute(UNITS, unitService.findAll(pageable));
-
             return "product/product";
         }
-
         return REDIRECT_PRODUCT_LIST;
     }
 

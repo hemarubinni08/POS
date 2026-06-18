@@ -130,43 +130,26 @@ class StockServiceTest {
 
     @Test
     void findAllTest() {
-
-        // ✅ Arrange
         Stock stock = new Stock();
         stock.setIdentifier("STK-P1-W1");
-
         StockDto stockDto = new StockDto();
         stockDto.setIdentifier("STK-P1-W1");
-
         List<Stock> stocks = List.of(stock);
         List<StockDto> stockDtos = List.of(stockDto);
-
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
         Page<Stock> stockPage = new PageImpl<>(stocks, pageable, stocks.size());
-
         Mockito.when(stockRepository.findAll(pageable)).thenReturn(stockPage);
-
-        // ✅ IMPORTANT: Mock TypeToken list mapping
-        Mockito.when(modelMapper.map(Mockito.eq(stocks), Mockito.any(java.lang.reflect.Type.class)))
-                .thenReturn(stockDtos);
-
-        // ✅ Act
+        Mockito.when(modelMapper.map(Mockito.eq(stocks), Mockito.any(java.lang.reflect.Type.class))).thenReturn(stockDtos);
         WsDto<StockDto> response = stockService.findAll(pageable);
-
-        // ✅ Assert
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
         Assertions.assertEquals("STK-P1-W1", response.getDtoList().get(0).getIdentifier());
-
         Assertions.assertEquals(1, response.getTotalRecords());
         Assertions.assertEquals(1, response.getTotalPage());
         Assertions.assertEquals(50, response.getSizePerPage());
         Assertions.assertEquals(0, response.getPage());
-
-        // ✅ Verify
         Mockito.verify(stockRepository, Mockito.times(1)).findAll(pageable);
-        Mockito.verify(modelMapper, Mockito.times(1))
-                .map(Mockito.eq(stocks), Mockito.any(java.lang.reflect.Type.class));
+        Mockito.verify(modelMapper, Mockito.times(1)).map(Mockito.eq(stocks), Mockito.any(java.lang.reflect.Type.class));
     }
 
 }

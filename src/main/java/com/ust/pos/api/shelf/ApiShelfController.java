@@ -32,16 +32,14 @@ public class ApiShelfController extends BaseController {
     @GetMapping("/get")
     public ShelfDto update(@RequestParam String identifier) {
         return shelfService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
     public ShelfDto updatePost(@RequestBody ShelfDto shelfDto) {
         return shelfService.update(shelfDto);
-
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             shelfService.delete(identifier);

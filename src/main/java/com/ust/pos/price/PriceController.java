@@ -39,7 +39,6 @@ public class PriceController {
             model.addAttribute(PRODUCTS, productService.findAllActive());
             return "price/add";
         }
-
         return REDIRECT_PRICE_LIST;
     }
 
@@ -54,7 +53,6 @@ public class PriceController {
         PriceDto response = priceService.findByIdentifier(identifier);
         model.addAttribute("price", response);
         model.addAttribute(PRODUCTS, productService.findAllActive());
-
         return "price/price";
     }
 
@@ -67,7 +65,6 @@ public class PriceController {
             model.addAttribute(PRODUCTS, productService.findAllActive());
             return "price/price";
         }
-
         return REDIRECT_PRICE_LIST;
     }
 

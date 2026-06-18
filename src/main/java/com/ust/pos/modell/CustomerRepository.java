@@ -10,10 +10,11 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Customer findByPhoneNo(String phoneNo);
 
-    Customer findById(String identifier);
+    Customer findByIdentifier(String identifier);
 
     void deleteByPhoneNo(String phoneNo);
 
     List<Customer> findByStatusIsTrue();
+
 
 }

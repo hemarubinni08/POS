@@ -19,8 +19,7 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    public static final RuntimeException PRODUCT_NOT_FOUND =
-            new RuntimeException("Product not found");
+    public static final RuntimeException PRODUCT_NOT_FOUND = new RuntimeException("Product not found");
 
     @Autowired
     private ModelMapper modelMapper;
@@ -40,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
         Product existingProduct = productRepository.findByIdentifier(identifier);
 
         if (existingProduct != null) {
-            productDto.setMessage("Shelf with identifier - " + identifier + " already exists");
+            productDto.setMessage("product with identifier - " + identifier + " already exists");
             productDto.setSuccess(false);
             return productDto;
         }
@@ -78,14 +77,12 @@ public class ProductServiceImpl implements ProductService {
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
         Page<Product> productPage = productRepository.findAll(pageable);
-
         WsDto<ProductDto> productWsDto = new WsDto<>();
         productWsDto.setDtoList(modelMapper.map(productPage.getContent(), listType));
         productWsDto.setTotalRecords(productPage.getTotalElements());
         productWsDto.setTotalPage(productPage.getTotalPages());
         productWsDto.setSizePerPage(pageable.getPageSize());
         productWsDto.setPage(pageable.getPageNumber());
-
         return productWsDto;
     }
 
@@ -93,9 +90,11 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductDto toggleStatus(String identifier) {
         Product product = productRepository.findByIdentifier(identifier);
+
         if (product == null) {
-            throw new RuntimeException("Product not found with identifier: " + identifier);
+            throw new IllegalArgumentException ("Product not found with identifier: " + identifier);
         }
+
         Boolean currentStatus = product.getStatus();
         product.setStatus(currentStatus == null ? Boolean.TRUE : !currentStatus);
         Product saved = productRepository.save(product);

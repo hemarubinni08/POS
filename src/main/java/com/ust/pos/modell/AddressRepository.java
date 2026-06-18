@@ -1,5 +1,6 @@
 package com.ust.pos.modell;
 
+import com.ust.pos.dto.AddressDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +15,5 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 
     List<Address> findAllByPhoneNo(String phoneNo);
 
-    Address findByPhoneNoAndAddressType(String phoneNo, String addressType);
+    List<Address> findByPhoneNoAndAddressType(String phoneNo, String addressType);
 }

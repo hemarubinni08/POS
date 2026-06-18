@@ -4,7 +4,7 @@ import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.Shelf;
 import com.ust.pos.modell.ShelfRepository;
-import com.ust.pos.shelf.impl.ShelfServiceImpl;
+import com.ust.pos.shelf.service.impl.ShelfServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -95,42 +95,24 @@ class ShelfServiceTest {
 
     @Test
     void findAllTest() {
-
-        // ✅ Arrange
         Shelf shelf = new Shelf();
         shelf.setIdentifier("Admin");
-
         ShelfDto shelfDto = new ShelfDto();
         shelfDto.setIdentifier("Admin");
-
         List<Shelf> shelves = List.of(shelf);
         List<ShelfDto> shelfDtos = List.of(shelfDto);
-
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
         Page<Shelf> shelfPage = new PageImpl<>(shelves, pageable, shelves.size());
-
         Mockito.when(shelfRepository.findAll(pageable)).thenReturn(shelfPage);
-
-        // ✅ IMPORTANT: Mock list mapping (TypeToken case)
-        Mockito.when(modelMapper.map(
-                        Mockito.eq(shelves),
-                        Mockito.any(java.lang.reflect.Type.class)))
-                .thenReturn(shelfDtos);
-
-        // ✅ Act
+        Mockito.when(modelMapper.map(Mockito.eq(shelves), Mockito.any(java.lang.reflect.Type.class))).thenReturn(shelfDtos);
         WsDto<ShelfDto> response = shelfService.findAll(pageable);
-
-        // ✅ Assert
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
         Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
-
         Assertions.assertEquals(1, response.getTotalRecords());
         Assertions.assertEquals(1, response.getTotalPage());
         Assertions.assertEquals(50, response.getSizePerPage());
         Assertions.assertEquals(0, response.getPage());
-
-        // ✅ Verify
         Mockito.verify(shelfRepository, Mockito.times(1)).findAll(pageable);
         Mockito.verify(modelMapper, Mockito.times(1))
                 .map(Mockito.eq(shelves), Mockito.any(java.lang.reflect.Type.class));

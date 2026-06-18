@@ -82,7 +82,6 @@ public class UserServiceImpl implements UserService {
                 return userDto;
             }
         }
-
         existingUser.setName(userDto.getName());
         existingUser.setUsername(userDto.getUsername());
         existingUser.setPhoneNo(userDto.getPhoneNo());
@@ -104,14 +103,12 @@ public class UserServiceImpl implements UserService {
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
         Page<User> userPage = userRepository.findAll(pageable);
-
         WsDto<UserDto> userWsDto = new WsDto<>();
         userWsDto.setDtoList(modelMapper.map(userPage.getContent(), listType));
         userWsDto.setTotalRecords(userPage.getTotalElements());
         userWsDto.setTotalPage(userPage.getTotalPages());
         userWsDto.setSizePerPage(pageable.getPageSize());
         userWsDto.setPage(pageable.getPageNumber());
-
         return userWsDto;
     }
 }

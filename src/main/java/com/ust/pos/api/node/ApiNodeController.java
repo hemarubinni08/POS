@@ -32,13 +32,11 @@ public class ApiNodeController extends BaseController {
     @PostMapping("/add")
     public NodeDto addPost(@RequestBody NodeDto nodeDto) {
         return nodeService.save(nodeDto);
-
     }
 
     @GetMapping("/get")
     public NodeDto update(@RequestParam String identifier) {
         return nodeService.findByIdentifier(identifier);
-
     }
 
     @PostMapping("/update")
@@ -46,7 +44,7 @@ public class ApiNodeController extends BaseController {
         return nodeService.update(nodeDto);
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             nodeService.delete(identifier);

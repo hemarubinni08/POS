@@ -33,10 +33,8 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceDto save(PriceDto priceDto) {
-
         String identifier = priceDto.getProduct() + "-" + priceDto.getType();
         priceDto.setIdentifier(identifier);
-
         Price existingPrice = priceRepository.findByIdentifier(identifier);
 
         if (existingPrice != null) {
@@ -51,14 +49,11 @@ public class PriceServiceImpl implements PriceService {
         PriceDto response = modelMapper.map(saved, PriceDto.class);
         response.setSuccess(true);
         response.setMessage("Price saved successfully");
-
         return response;
     }
 
     @Override
     public PriceDto update(PriceDto priceDto) {
-
-        // ✅ STEP 1: Find existing
         Price existingPrice = priceRepository.findByIdentifier(priceDto.getIdentifier());
 
         if (existingPrice == null) {
@@ -67,10 +62,7 @@ public class PriceServiceImpl implements PriceService {
             return priceDto;
         }
 
-        // ✅ STEP 2: Generate new identifier
         String newIdentifier = priceDto.getProduct() + "-" + priceDto.getType();
-
-        // ✅ STEP 3: Check duplicate
         Price duplicate = priceRepository.findByIdentifier(newIdentifier);
 
         if (duplicate != null && !duplicate.getId().equals(existingPrice.getId())) {
@@ -79,18 +71,14 @@ public class PriceServiceImpl implements PriceService {
             return priceDto;
         }
 
-        // ✅ STEP 4: Update fields
         existingPrice.setProduct(priceDto.getProduct());
-        existingPrice.setPriceAmount(priceDto.getPriceAmount()); // ✅ FIXED
+        existingPrice.setPriceAmount(priceDto.getPriceAmount());
         existingPrice.setType(priceDto.getType());
         existingPrice.setIdentifier(newIdentifier);
-
         Price updated = priceRepository.save(existingPrice);
-
         PriceDto response = modelMapper.map(updated, PriceDto.class);
         response.setSuccess(true);
         response.setMessage("Price updated successfully");
-
         return response;
     }
 
@@ -102,17 +90,14 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public WsDto<PriceDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<PriceDto>>() {}.getType();
         Page<Price> pricePage = priceRepository.findAll(pageable);
-
         WsDto<PriceDto> priceWsDto = new WsDto<>();
         priceWsDto.setDtoList(modelMapper.map(pricePage.getContent(), listType));
         priceWsDto.setTotalRecords(pricePage.getTotalElements());
         priceWsDto.setTotalPage(pricePage.getTotalPages());
         priceWsDto.setSizePerPage(pageable.getPageSize());
         priceWsDto.setPage(pageable.getPageNumber());
-
         return priceWsDto;
     }
 }

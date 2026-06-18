@@ -25,7 +25,6 @@ public class ApiUnitController extends BaseController {
     public WsDto<UnitDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return unitService.findAll(pageable);
-
     }
 
     @GetMapping("/get")
@@ -38,7 +37,7 @@ public class ApiUnitController extends BaseController {
         return unitService.update(unitDto);
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             unitService.delete(identifier);

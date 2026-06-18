@@ -1,4 +1,4 @@
-package com.ust.pos.shelf.impl;
+package com.ust.pos.shelf.service.impl;
 
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.WsDto;
@@ -33,7 +33,6 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public ShelfDto save(ShelfDto shelfDto) {
-
         String identifier = shelfDto.getIdentifier();
         Shelf existingShelf = shelfRepository.findByIdentifier(identifier);
 
@@ -45,13 +44,11 @@ public class ShelfServiceImpl implements ShelfService {
 
         Shelf shelf = modelMapper.map(shelfDto, Shelf.class);
         shelfRepository.save(shelf);
-
         return shelfDto;
     }
 
     @Override
     public ShelfDto update(ShelfDto shelfDto) {
-
         String identifier = shelfDto.getIdentifier();
         Shelf existingShelf = shelfRepository.findByIdentifier(identifier);
 
@@ -63,7 +60,6 @@ public class ShelfServiceImpl implements ShelfService {
 
         modelMapper.map(shelfDto, existingShelf);
         shelfRepository.save(existingShelf);
-
         return shelfDto;
     }
 
@@ -78,14 +74,12 @@ public class ShelfServiceImpl implements ShelfService {
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
         Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
-
         WsDto<ShelfDto> shelfWsDto = new WsDto<>();
         shelfWsDto.setDtoList(modelMapper.map(shelfPage.getContent(), listType));
         shelfWsDto.setTotalRecords(shelfPage.getTotalElements());
         shelfWsDto.setTotalPage(shelfPage.getTotalPages());
         shelfWsDto.setSizePerPage(pageable.getPageSize());
         shelfWsDto.setPage(pageable.getPageNumber());
-
         return shelfWsDto;
     }
 
@@ -101,9 +95,11 @@ public class ShelfServiceImpl implements ShelfService {
     @Transactional
     public ShelfDto toggleStatus(String identifier) {
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
+
         if (shelf == null) {
             throw new IllegalArgumentException("Shelf not found with identifier: " + identifier);
         }
+
         Boolean currentStatus = shelf.getStatus();
         shelf.setStatus(currentStatus == null ? Boolean.TRUE : !currentStatus);
         Shelf saved = shelfRepository.save(shelf);

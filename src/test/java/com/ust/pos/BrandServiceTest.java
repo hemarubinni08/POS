@@ -98,44 +98,25 @@ class BrandServiceTest {
 
     @Test
     void findAllTest() {
-
-        // ✅ Arrange
         Brand brand = new Brand();
         brand.setIdentifier("Admin");
-
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("Admin");
-
         List<Brand> brands = List.of(brand);
         List<BrandDto> brandDtos = List.of(brandDto);
-
         Pageable pageable = PageRequest.of(0, 50, Sort.by(new ArrayList<>()));
         Page<Brand> brandPage = new PageImpl<>(brands, pageable, brands.size());
-
         Mockito.when(brandRepository.findAll(pageable)).thenReturn(brandPage);
-
-        // ✅ IMPORTANT: Mock TypeToken list mapping
-        Mockito.when(modelMapper.map(
-                        Mockito.eq(brands),
-                        Mockito.any(java.lang.reflect.Type.class)))
-                .thenReturn(brandDtos);
-
-        // ✅ Act
+        Mockito.when(modelMapper.map(Mockito.eq(brands), Mockito.any(java.lang.reflect.Type.class))).thenReturn(brandDtos);
         WsDto<BrandDto> response = brandService.findAll(pageable);
-
-        // ✅ Assert
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.getDtoList().size());
         Assertions.assertEquals("Admin", response.getDtoList().get(0).getIdentifier());
-
         Assertions.assertEquals(1, response.getTotalRecords());
         Assertions.assertEquals(1, response.getTotalPage());
         Assertions.assertEquals(50, response.getSizePerPage());
         Assertions.assertEquals(0, response.getPage());
-
-        // ✅ Verify
         Mockito.verify(brandRepository, Mockito.times(1)).findAll(pageable);
-        Mockito.verify(modelMapper, Mockito.times(1))
-                .map(Mockito.eq(brands), Mockito.any(java.lang.reflect.Type.class));
+        Mockito.verify(modelMapper, Mockito.times(1)).map(Mockito.eq(brands), Mockito.any(java.lang.reflect.Type.class));
     }
 }

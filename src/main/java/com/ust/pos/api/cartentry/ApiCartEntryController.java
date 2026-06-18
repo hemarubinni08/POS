@@ -18,9 +18,8 @@ public class ApiCartEntryController extends BaseController {
     private CartEntryService cartEntryService;
 
     @Autowired
-    private CartService cartService; // ✅ ADD THIS
+    private CartService cartService;
 
-    // ✅ FIXED METHOD
     @PostMapping("/add")
     public CartEntryDto addPost(@RequestBody CartEntryDto cartEntryDto) {
         return cartEntryService.save(cartEntryDto);
@@ -28,14 +27,12 @@ public class ApiCartEntryController extends BaseController {
 
     @PostMapping("/list")
     public WsDto<CartEntryDto> list(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(
                 paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(),
                 paginationDto.getSortField()
         );
-
         return cartEntryService.findAll(pageable);
     }
 

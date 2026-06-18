@@ -61,13 +61,10 @@
         <form:form method="post"
                    action="${pageContext.request.contextPath}/price/update"
                    modelAttribute="price">
-
-            <!-- ✅ Hidden fields -->
             <form:hidden path="id"/>
             <form:hidden path="identifier"/>
             <form:hidden path="product"/>
 
-            <!-- ✅ Product -->
             <div class="mb-3">
                 <label>Product</label>
                 <input type="text"
@@ -77,7 +74,6 @@
                        readonly/>
             </div>
 
-            <!-- ✅ Editable Type -->
             <div class="mb-3">
                 <label>Price Type</label>
                 <form:select path="type" cssClass="form-select" id="type">
@@ -87,7 +83,6 @@
                 </form:select>
             </div>
 
-            <!-- ✅ Price -->
             <div class="mb-3">
                 <label>Price</label>
                 <form:input path="price"
@@ -96,8 +91,6 @@
                             step="0.01"
                             required="true"/>
             </div>
-
-            <!-- ✅ Buttons -->
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-success">
                     Update Price

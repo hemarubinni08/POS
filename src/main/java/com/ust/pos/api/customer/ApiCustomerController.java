@@ -29,8 +29,8 @@ public class ApiCustomerController extends BaseController {
     }
 
     @GetMapping("/get")
-    public CustomerDto get(@RequestParam String identifier) {
-        return customerService.findByIdentifierWithAddressDto(identifier);
+    public CustomerDto get(@RequestParam String phoneNo) {
+        return customerService.findByIdentifierWithAddressDto(phoneNo);
     }
 
     @PostMapping("/update")
@@ -38,10 +38,10 @@ public class ApiCustomerController extends BaseController {
         return customerService.update(customerDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    @PostMapping("/delete")
+    public boolean delete(@RequestParam String phoneNo) {
         try {
-            customerService.delete(identifier);
+            customerService.delete(phoneNo);
             return true;
         } catch (Exception e) {
             return false;

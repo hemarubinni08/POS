@@ -39,7 +39,7 @@ public class ApiBrandController extends BaseController {
         return brandService.update(brandDto);
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public boolean delete(@RequestParam("identifier") String identifier) {
         try {
             brandService.delete(identifier);

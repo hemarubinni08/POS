@@ -59,7 +59,6 @@
 
                 <div class="card-body">
 
-                    <!-- ✅ Error Message -->
                     <c:if test="${not empty message}">
                         <div class="alert alert-danger">
                             ${message}
@@ -70,7 +69,6 @@
                                action="${pageContext.request.contextPath}/price/add"
                                modelAttribute="price">
 
-                        <!-- ✅ Product -->
                         <div class="mb-3">
                             <label class="form-label">Product</label>
                             <form:select path="product"
@@ -86,7 +84,6 @@
                             </form:select>
                         </div>
 
-                        <!-- ✅ Price Type -->
                         <div class="mb-3">
                             <label class="form-label">Price Type</label>
                             <form:select path="type"
@@ -102,8 +99,6 @@
                             </form:select>
                         </div>
 
-
-                        <!-- ✅ Price -->
                         <div class="mb-3">
                             <label class="form-label">Price</label>
                             <form:input path="price"
@@ -113,7 +108,6 @@
                                         required="true"/>
                         </div>
 
-                        <!-- ✅ Buttons -->
                         <button type="submit" class="btn btn-success w-100">
                             Save Price
                         </button>

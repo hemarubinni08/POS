@@ -69,14 +69,12 @@ public class RoleServiceImpl implements RoleService {
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
         Page<Role> rolePage = roleRepository.findAll(pageable);
-
         WsDto<RoleDto> roleWsDto = new WsDto<>();
         roleWsDto.setDtoList(modelMapper.map(rolePage.getContent(), listType));
         roleWsDto.setTotalRecords(rolePage.getTotalElements());
         roleWsDto.setTotalPage(rolePage.getTotalPages());
         roleWsDto.setSizePerPage(pageable.getPageSize());
         roleWsDto.setPage(pageable.getPageNumber());
-
         return roleWsDto;
     }
 

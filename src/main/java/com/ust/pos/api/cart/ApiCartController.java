@@ -29,21 +29,31 @@ public class ApiCartController extends BaseController {
     @PostMapping("/addToCart")
     public CartDto addToCart(@RequestBody CartEntryDto cartEntryDto) {
 
-        cartEntryService.save(cartEntryDto);
-        return cartService.findByIdentifier(cartEntryDto.getCartIdentifier());
+        // ✅ STEP 1: Check if cart exists
+        CartDto cart = cartService.findByIdentifier(cartEntryDto.getCartIdentifier());
 
+        // ✅ STEP 2: Create cart if not exists
+        if (cart == null) {
+            CartDto newCart = new CartDto();
+            newCart.setIdentifier(cartEntryDto.getCartIdentifier());
+            cartService.save(newCart);
+        }
+
+        // ✅ STEP 3: Add product
+        cartEntryService.save(cartEntryDto);
+
+        // ✅ STEP 4: Return updated cart
+        return cartService.findByIdentifier(cartEntryDto.getCartIdentifier());
     }
 
     @PostMapping("/list")
     public WsDto<CartDto> list(@RequestBody PaginationDto paginationDto) {
-
         Pageable pageable = getPageable(
                 paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(),
                 paginationDto.getSortField()
         );
-
         return cartService.findAll(pageable);
     }
 
@@ -52,7 +62,7 @@ public class ApiCartController extends BaseController {
         return cartService.findByIdentifier(identifier);
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             cartService.delete(identifier);
@@ -60,6 +70,12 @@ public class ApiCartController extends BaseController {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @GetMapping("/clear")
+    public CartDto clearCart (@RequestParam String cartIdentifier){
+        cartService.clearCart(cartIdentifier);
+        return cartService.findByIdentifier(cartIdentifier);
     }
 
 }

@@ -28,7 +28,6 @@ public class ApiStockController extends BaseController {
     @PostMapping("/add")
     public StockDto addPost(@RequestBody StockDto stockDto) {
         return stockService.save(stockDto);
-
     }
 
     @PostMapping("/list")
@@ -47,7 +46,7 @@ public class ApiStockController extends BaseController {
         return stockService.update(stockDto);
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public boolean delete(@RequestParam Long id) {
         try {
             stockService.delete(id);

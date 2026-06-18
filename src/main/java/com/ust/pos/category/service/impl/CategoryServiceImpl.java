@@ -83,12 +83,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public void delete(String identifier) {
+
         if (categoryRepository.existsBySuperCategory(identifier)) {
             throw new IllegalStateException(
                     "Cannot delete category. It is used as a super category."
             );
         }
-
         categoryRepository.deleteByIdentifier(identifier);
     }
 
@@ -100,22 +100,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public WsDto<CategoryDto> findAll(Pageable pageable) {
-
-        Type listType = new TypeToken<List<CategoryDto>>() {
-        }.getType();
-
+        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
-
         WsDto<CategoryDto> categoryWsDto = new WsDto<>();
-
-        categoryWsDto.setDtoList(
-                modelMapper.map(categoryPage.getContent(), listType)
+        categoryWsDto.setDtoList(modelMapper.map(categoryPage.getContent(), listType)
         );
         categoryWsDto.setTotalRecords(categoryPage.getTotalElements());
         categoryWsDto.setTotalPage(categoryPage.getTotalPages());
         categoryWsDto.setSizePerPage(pageable.getPageSize());
         categoryWsDto.setPage(pageable.getPageNumber());
-
         return categoryWsDto;
     }
 
@@ -123,8 +116,28 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDto> findChildCategories() {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-
         return modelMapper.map(categoryRepository.findBySuperCategoryIsNotNull(), listType
         );
+    }
+
+    @Override
+    @Transactional
+    public CategoryDto toggleStatus(String identifier) {
+        Category category = categoryRepository.findByIdentifier(identifier);
+        if (category == null) {
+            throw new IllegalArgumentException("Product not found with identifier: " + identifier);
+        }
+        Boolean currentStatus = category.getStatus();
+        category.setStatus(currentStatus == null ? Boolean.TRUE : !currentStatus);
+        Category saved = categoryRepository.save(category);
+        return modelMapper.map(saved, CategoryDto.class);
+    }
+
+    @Override
+    public List<CategoryDto> findAllActive() {
+        return categoryRepository.findByStatusTrue()
+                .stream()
+                .map(category -> modelMapper.map(category, CategoryDto.class))
+                .toList();
     }
 }

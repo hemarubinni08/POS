@@ -30,19 +30,16 @@ public class ApiUserController extends BaseController {
     public WsDto<UserDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return userService.findAll(pageable);
-
     }
 
     @PostMapping("/register")
     public UserDto add(@RequestBody UserDto userDto) {
         return userService.save(userDto);
-
     }
 
     @GetMapping("/get")
     public UserDto update(@RequestParam String username) {
         return userService.findByUserName(username);
-
     }
 
     @PostMapping("/update")
@@ -50,7 +47,7 @@ public class ApiUserController extends BaseController {
         return userService.update(oldUsername, userDto);
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public boolean delete(Model model, @RequestParam String username) {
         try {
 

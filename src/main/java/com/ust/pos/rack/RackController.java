@@ -47,7 +47,6 @@ public class RackController {
             );
             return "redirect:/rack/add";
         }
-
         redirectAttributes.addFlashAttribute(
                 SUCCESS_MESSAGE,
                 "Rack added successfully"
@@ -59,7 +58,6 @@ public class RackController {
     public String get(Model model, @RequestParam String identifier) {
         model.addAttribute("rack", rackService.findByIdentifier(identifier));
         model.addAttribute("shelves", shelfService.findAllActive());
-
         return "rack/rack";
     }
 

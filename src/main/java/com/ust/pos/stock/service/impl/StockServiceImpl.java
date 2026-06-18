@@ -46,9 +46,9 @@ public class StockServiceImpl implements StockService {
     public StockDto save(StockDto stockDto) {
         if (stockDto.getProductIdentifier() == null ||
                 stockDto.getWarehouseIdentifier() == null) {
-
             throw new IllegalArgumentException("Product & Warehouse required");
         }
+
         Stock stock = new Stock();
         String identifier = "STK-" + stockDto.getProductIdentifier() + "-" + stockDto.getWarehouseIdentifier();
         stock.setIdentifier(identifier);
@@ -86,14 +86,12 @@ public class StockServiceImpl implements StockService {
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
         Page<Stock> stockPage = stockRepository.findAll(pageable);
-
         WsDto<StockDto> stockWsDto = new WsDto<>();
         stockWsDto.setDtoList(modelMapper.map(stockPage.getContent(), listType));
         stockWsDto.setTotalRecords(stockPage.getTotalElements());
         stockWsDto.setTotalPage(stockPage.getTotalPages());
         stockWsDto.setSizePerPage(pageable.getPageSize());
         stockWsDto.setPage(pageable.getPageNumber());
-
         return stockWsDto;
     }
 

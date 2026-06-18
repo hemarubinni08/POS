@@ -9,16 +9,10 @@ import java.math.BigDecimal;
 @Setter
 public class CartEntryDto extends CommonDto {
     private String cartIdentifier;
-
     private String productIdentifier;
-
     private Integer quantity;
-
     private BigDecimal unitPrice;
-
     private BigDecimal originalPrice;
-
     private BigDecimal discount;
-
     private BigDecimal totalPrice;
 }

@@ -42,10 +42,24 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressDto update(AddressDto addressDto) {
+
         String phoneNo = addressDto.getPhoneNo();
-        Address existingAddress = addressRepository.findByPhoneNoAndAddressType(phoneNo, addressDto.getAddressType());
+        String type = addressDto.getAddressType();
+
+        // ✅ Use LIST instead of single
+        List<Address> addresses =
+                addressRepository.findByPhoneNoAndAddressType(phoneNo, type);
+
+        if (addresses == null || addresses.isEmpty()) {
+            return addressDto; // nothing to update
+        }
+
+        // ✅ Pick first (or loop all if you want)
+        Address existingAddress = addresses.get(0);
+
         modelMapper.map(addressDto, existingAddress);
         addressRepository.save(existingAddress);
+
         return addressDto;
     }
 

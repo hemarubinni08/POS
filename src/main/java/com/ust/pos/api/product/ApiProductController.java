@@ -37,10 +37,9 @@ public class ApiProductController extends BaseController {
     @PostMapping("/update")
     public ProductDto updatePost(@RequestBody ProductDto productDto) {
         return productService.update(productDto);
-
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             productService.delete(identifier);

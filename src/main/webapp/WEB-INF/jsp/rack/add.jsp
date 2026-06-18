@@ -154,7 +154,6 @@
     </div>
 </div>
 
-<!-- ✅ Validation Script -->
 <script>
 (() => {
     'use strict';

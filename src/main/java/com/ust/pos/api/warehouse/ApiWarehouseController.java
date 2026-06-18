@@ -19,7 +19,6 @@ public class ApiWarehouseController extends BaseController {
     @PostMapping("/add")
     public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.save(warehouseDto);
-
     }
 
     @PostMapping("/list")
@@ -36,10 +35,9 @@ public class ApiWarehouseController extends BaseController {
     @PostMapping("/update")
     public WarehouseDto updatePost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.update(warehouseDto);
-
     }
 
-    @GetMapping("/delete")
+    @PostMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             warehouseService.delete(identifier);
