@@ -1,5 +1,6 @@
 package com.ust.pos.unit.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.UnitDto;
 import com.ust.pos.model.Unit;
@@ -17,7 +18,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class UnitServiceImpl implements UnitService {
+public class UnitServiceImpl extends BaseService implements UnitService {
 
     @Autowired
     private UnitRepository unitRepository;
@@ -65,8 +66,9 @@ public class UnitServiceImpl implements UnitService {
         String identifier = unitDto.getIdentifier();
         Unit unit = unitRepository.findByIdentifier(identifier);
         if (unit == null) {
-            unitDto.setSuccess(true);
-            unitRepository.save(modelMapper.map(unitDto, Unit.class));
+            unit = modelMapper.map(unitDto, Unit.class);
+            setCreatedDetails(unit);
+            unitRepository.save(unit);
             unitDto.setMessage("Successfully added the unit");
             unitDto.setSuccess(true);
         } else {
@@ -85,6 +87,7 @@ public class UnitServiceImpl implements UnitService {
             unitDto.setSuccess(false);
         } else {
             modelMapper.map(unitDto, existingUnit);
+            setModifiedDetails(existingUnit);
             unitRepository.save(existingUnit);
             unitDto.setMessage("Unit updated successfully");
             unitDto.setSuccess(true);
@@ -104,6 +107,7 @@ public class UnitServiceImpl implements UnitService {
             return response;
         }
 
+        setModifiedDetails(unit);
         unit.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

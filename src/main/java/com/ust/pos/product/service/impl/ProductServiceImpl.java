@@ -1,8 +1,9 @@
 package com.ust.pos.product.service.impl;
 
-import com.ust.pos.dto.ProductDto;
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.PriceDto;
+import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.price.service.PriceService;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends BaseService implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
@@ -34,7 +35,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PaginationResponseDto<ProductDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<ProductDto>>() {}.getType();
+        Type listType = new TypeToken<List<ProductDto>>() {
+        }.getType();
 
         if (pageable == null) {
             List<ProductDto> productDtoList = modelMapper.map(productRepository.findAll(), listType);
@@ -64,7 +66,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findByStatusTrue() {
-        Type listType = new TypeToken<List<ProductDto>>() {}.getType();
+        Type listType = new TypeToken<List<ProductDto>>() {
+        }.getType();
         List<ProductDto> productDtoList = modelMapper.map(productRepository.findByStatusTrue(), listType);
 
         productDtoList.forEach(this::enrichProductWithPrice);
@@ -76,7 +79,9 @@ public class ProductServiceImpl implements ProductService {
         String identifier = productDto.getIdentifier();
         Product product = productRepository.findByIdentifier(identifier);
         if (product == null) {
-            productRepository.save(modelMapper.map(productDto, Product.class));
+            product = modelMapper.map(productDto, Product.class);
+            setCreatedDetails(product);
+            productRepository.save(product);
             productDto.setMessage("Successfully added the product");
             productDto.setSuccess(true);
         } else {
@@ -122,6 +127,7 @@ public class ProductServiceImpl implements ProductService {
         productDto.setMessage("Product successfully edited");
         productDto.setSuccess(true);
         modelMapper.map(productDto, existingProduct);
+        setModifiedDetails(existingProduct);
         productRepository.save(existingProduct);
 
         return productDto;
@@ -138,7 +144,7 @@ public class ProductServiceImpl implements ProductService {
             response.setMessage("Product not found");
             return response;
         }
-
+        setModifiedDetails(product);
         product.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

@@ -1,5 +1,6 @@
 package com.ust.pos.stock.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.model.ProductRepository;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class StockServiceImpl implements StockService {
+public class StockServiceImpl extends BaseService implements StockService {
     @Autowired
     private StockRepository stockRepository;
 
@@ -63,7 +64,9 @@ public class StockServiceImpl implements StockService {
         Stock stock=stockRepository.findByIdentifier(identifier);
         if(stock==null){
             stockDto.setIdentifier(identifier);
-            stockRepository.save(modelMapper.map(stockDto, Stock.class));
+            stock=modelMapper.map(stockDto, Stock.class);
+            setCreatedDetails(stock);
+            stockRepository.save(stock);
             stockDto.setMessage("Successfully added the stock");
             stockDto.setSuccess(true);
         } else {
@@ -74,13 +77,12 @@ public class StockServiceImpl implements StockService {
     }
 
     public StockDto update(StockDto stockDto) {
-
         Stock existingStock = stockRepository.findById(stockDto.getId())
                 .orElseThrow(() ->
                         new RuntimeException("Stock not found with id: " + stockDto.getId()));
 
         modelMapper.map(stockDto, existingStock);
-
+        setModifiedDetails(existingStock);
         Stock updatedStock = stockRepository.save(existingStock);
 
         StockDto response = modelMapper.map(updatedStock, StockDto.class);

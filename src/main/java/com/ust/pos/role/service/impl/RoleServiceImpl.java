@@ -1,5 +1,6 @@
 package com.ust.pos.role.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends BaseService implements RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
@@ -43,6 +44,7 @@ public class RoleServiceImpl implements RoleService {
         }
 
         Role role = modelMapper.map(roleDto, Role.class);
+        setCreatedDetails(role);
         roleRepository.save(role);
 
         roleDto.setSuccess(true);
@@ -59,6 +61,7 @@ public class RoleServiceImpl implements RoleService {
             return roleDto;
         }
         modelMapper.map(roleDto, existingRole);
+        setModifiedDetails(existingRole);
         roleRepository.save(existingRole);
         return roleDto;
     }
@@ -75,6 +78,7 @@ public class RoleServiceImpl implements RoleService {
             return response;
         }
 
+        setModifiedDetails(role);
         role.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

@@ -70,7 +70,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         for (CartEntry cartEntry : cartEntryList) {
             OrderEntry orderEntry = new OrderEntry();
             orderEntry.setIdentifier(orderIdentifier + "-" + cartEntry.getProduct());
-            orderEntry.setOrder(orderIdentifier);
+            orderEntry.setOrderIdentifier(orderIdentifier);
             orderEntry.setProduct(cartEntry.getProduct());
             orderEntry.setMrp(cartEntry.getOriginalPrice());
             orderEntry.setUnitDiscount(cartEntry.getDiscount());
@@ -89,7 +89,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         OrderDto responseDto = modelMapper.map(order, OrderDto.class);
         Type entryListType = new TypeToken<List<OrderEntryDto>>() {}.getType();
 
-        List<OrderEntry> orderEntryList = orderEntryRepository.findByOrder(orderIdentifier);
+        List<OrderEntry> orderEntryList = orderEntryRepository.findByOrderIdentifier(orderIdentifier);
 
         responseDto.setEntryList(modelMapper.map(orderEntryList, entryListType));
         responseDto.setSuccess(true);
@@ -100,7 +100,6 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
     @Override
     public OrderDto get(String identifier) {
-
         Order order = orderRepository.findByIdentifier(identifier);
 
         if (order == null) {
@@ -111,13 +110,10 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         }
 
         OrderDto orderDto = modelMapper.map(order, OrderDto.class);
-
         List<OrderEntry> orderEntryList =
-                orderEntryRepository.findByOrder(identifier);
-
+                orderEntryRepository.findByOrderIdentifier(identifier);
         Type entryListType = new TypeToken<List<OrderEntryDto>>() {
         }.getType();
-
         orderDto.setEntryList(modelMapper.map(orderEntryList, entryListType));
 
         return orderDto;
@@ -127,21 +123,31 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     public PaginationResponseDto<OrderDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<OrderDto>>() {
         }.getType();
+        if (pageable == null) {
+
+            List<OrderDto> orderDtoList =
+                    modelMapper.map(
+                            orderRepository.findAll(),
+                            listType
+                    );
+
+            PaginationResponseDto<OrderDto> response =
+                    new PaginationResponseDto<>();
+            response.setDtoList(orderDtoList);
+            response.setTotalRecords(orderDtoList.size());
+
+            return response;
+        }
         Page<Order> orderPage = orderRepository.findAll(pageable);
+        List<OrderDto> orderDtoList = modelMapper.map(orderPage.getContent(), listType);
 
-        PaginationResponseDto<OrderDto> orderPaginationResponseDto = new PaginationResponseDto<>();
-        orderPaginationResponseDto.setDtoList(modelMapper.map(orderPage.getContent(), listType));
-        orderPaginationResponseDto.setTotalRecords(orderPage.getTotalElements());
-        orderPaginationResponseDto.setTotalPages(orderPage.getTotalPages());
-        orderPaginationResponseDto.setSizePerPage(pageable.getPageSize());
-        orderPaginationResponseDto.setPage(pageable.getPageNumber());
-        return orderPaginationResponseDto;
-    }
+        PaginationResponseDto<OrderDto> paginationResponseDto = new PaginationResponseDto<>();
+        paginationResponseDto.setDtoList(orderDtoList);
+        paginationResponseDto.setPage(orderPage.getNumber());
+        paginationResponseDto.setSizePerPage(orderPage.getSize());
+        paginationResponseDto.setTotalPages(orderPage.getTotalPages());
+        paginationResponseDto.setTotalRecords(orderPage.getTotalElements());
 
-    @Override
-    public boolean delete(String identifier) {
-        orderEntryRepository.deleteByOrder(identifier);
-        orderRepository.deleteByIdentifier(identifier);
-        return true;
+        return paginationResponseDto;
     }
 }

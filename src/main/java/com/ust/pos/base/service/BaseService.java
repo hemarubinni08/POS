@@ -1,6 +1,7 @@
 package com.ust.pos.base.service;
 
 import com.ust.pos.model.CommonFields;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +11,22 @@ import java.time.LocalDateTime;
 public class BaseService {
 
     private String getLoggedInUser() {
-        try {
-            return SecurityContextHolder.getContext().getAuthentication().getName();
-        } catch (Exception e) {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null) {
             return "SYSTEM";
         }
+
+        return authentication.getName();
     }
+
     protected void setCreatedDetails(CommonFields entity) {
-        entity.setCreatedBy(getLoggedInUser());
+        String user = getLoggedInUser();
+
+        entity.setCreatedBy(user);
         entity.setCreatedOn(LocalDateTime.now());
-        entity.setModifiedBy(getLoggedInUser());
+        entity.setModifiedBy(user);
         entity.setModifiedOn(LocalDateTime.now());
     }
 

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class OrderEntryDto extends CommonDto {
-    private String order;
+    private String orderIdentifier;
     private String product;
     private BigDecimal mrp;
     private BigDecimal unitDiscount;

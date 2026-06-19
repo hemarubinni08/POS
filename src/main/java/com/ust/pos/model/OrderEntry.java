@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class OrderEntry extends CommonFields {
-    private String order;
+    private String orderIdentifier;
     private String product;
     private BigDecimal mrp;
     private BigDecimal unitDiscount;

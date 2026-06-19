@@ -1,5 +1,6 @@
 package com.ust.pos.category.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationResponseDto;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @Transactional
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl extends BaseService implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -70,7 +71,9 @@ public class CategoryServiceImpl implements CategoryService {
         String identifier = categoryDto.getIdentifier();
         Category category = categoryRepository.findByIdentifier(identifier);
         if (category == null) {
-            categoryRepository.save(modelMapper.map(categoryDto, Category.class));
+            category = modelMapper.map(categoryDto, Category.class);
+            setCreatedDetails(category);
+            categoryRepository.save(category);
             categoryDto.setMessage("Successfully added the category");
             categoryDto.setSuccess(true);
         } else {
@@ -89,6 +92,7 @@ public class CategoryServiceImpl implements CategoryService {
             categoryDto.setSuccess(false);
         } else {
             modelMapper.map(categoryDto, existingCategory);
+            setModifiedDetails(existingCategory);
             categoryRepository.save(existingCategory);
             categoryDto.setMessage("Category updated successfully");
             categoryDto.setSuccess(true);
@@ -115,6 +119,7 @@ public class CategoryServiceImpl implements CategoryService {
             return response;
         }
 
+        setModifiedDetails(category);
         category.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

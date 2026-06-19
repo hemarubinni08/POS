@@ -1,6 +1,7 @@
 package com.ust.pos.warehouse.service.impl;
 
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.model.Warehouse;
@@ -18,7 +19,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class WarehouseServiceImpl implements WarehouseService {
+public class WarehouseServiceImpl extends BaseService implements WarehouseService {
 
     @Autowired
     private WarehouseRepository warehouseRepository;
@@ -85,7 +86,9 @@ public class WarehouseServiceImpl implements WarehouseService {
         String identifier = warehouseDto.getIdentifier();
         Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
         if (warehouse == null) {
-            warehouseRepository.save(modelMapper.map(warehouseDto, Warehouse.class));
+            warehouse = modelMapper.map(warehouseDto, Warehouse.class);
+            setCreatedDetails(warehouse);
+            warehouseRepository.save(warehouse);
             warehouseDto.setMessage("Successfully added the warehouse");
             warehouseDto.setSuccess(true);
         } else {
@@ -110,6 +113,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         }
 
         modelMapper.map(warehouseDto, existingWarehouse);
+        setModifiedDetails(existingWarehouse);
         warehouseRepository.save(existingWarehouse);
         warehouseDto.setMessage("Warehouse updated successfully");
         warehouseDto.setSuccess(true);
@@ -129,6 +133,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             return response;
         }
 
+        setModifiedDetails(warehouse);
         warehouse.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

@@ -10,6 +10,4 @@ public interface OrderService {
     OrderDto get(String identifier);
 
     PaginationResponseDto<OrderDto> findAll(Pageable pageable);
-
-    boolean delete(String identifier);
 }

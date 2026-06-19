@@ -1,5 +1,6 @@
 package com.ust.pos.price.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.Price;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PriceServiceImpl implements PriceService {
+public class PriceServiceImpl extends BaseService implements PriceService {
 
     @Autowired
     private PriceRepository priceRepository;
@@ -32,7 +33,6 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PaginationResponseDto<PriceDto> findAll(Pageable pageable) {
-
         Type listType = new TypeToken<List<PriceDto>>() {
         }.getType();
 
@@ -97,6 +97,7 @@ public class PriceServiceImpl implements PriceService {
         }
 
         Price price = modelMapper.map(priceDto, Price.class);
+        setCreatedDetails(price);
         Price savedPrice = priceRepository.save(price);
 
         PriceDto response = modelMapper.map(savedPrice, PriceDto.class);
@@ -138,6 +139,7 @@ public class PriceServiceImpl implements PriceService {
         Price existingPrice = priceOptional.get();
 
         modelMapper.map(priceDto, existingPrice);
+        setModifiedDetails(existingPrice);
         priceRepository.save(existingPrice);
         priceDto.setMessage("Successfully updated price");
         priceDto.setSuccess(true);

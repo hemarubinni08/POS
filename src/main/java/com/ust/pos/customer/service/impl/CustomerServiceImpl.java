@@ -1,14 +1,13 @@
 package com.ust.pos.customer.service.impl;
 
 import com.ust.pos.address.service.AddressService;
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationResponseDto;
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
-import com.ust.pos.model.Product;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl extends BaseService implements CustomerService {
 
     private static final String SHIPPING = "shipping";
     private static final String BILLING = "billing";
@@ -77,6 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         Customer customer = modelMapper.map(customerDto, Customer.class);
         customer.setIdentifier(customerDto.getPhoneNo());
+        setCreatedDetails(customer);
         customerRepository.save(customer);
 
         return customerDto;
@@ -110,6 +110,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerDto.setBillingAddress(addressService.findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), BILLING));
         customerDto.setShippingAddress(addressService.findByPhoneNoAndAddressType(existingCustomer.getPhoneNo(), SHIPPING));
 
+        setModifiedDetails(existingCustomer);
         customerRepository.save(existingCustomer);
         return customerDto;
     }
@@ -126,6 +127,7 @@ public class CustomerServiceImpl implements CustomerService {
             return response;
         }
 
+        setModifiedDetails(customer);
         customer.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

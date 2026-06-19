@@ -1,5 +1,6 @@
 package com.ust.pos.shelf.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.model.Shelf;
@@ -17,7 +18,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class ShelfServiceImpl implements ShelfService {
+public class ShelfServiceImpl extends BaseService implements ShelfService {
 
     @Autowired
     private ShelfRepository shelfRepository;
@@ -76,8 +77,9 @@ public class ShelfServiceImpl implements ShelfService {
         String identifier = shelfDto.getIdentifier();
         Shelf shelf = shelfRepository.findByIdentifier(identifier);
         if (shelf == null) {
-            shelfDto.setSuccess(true);
-            shelfRepository.save(modelMapper.map(shelfDto, Shelf.class));
+            shelf = modelMapper.map(shelfDto, Shelf.class);
+            setCreatedDetails(shelf);
+            shelfRepository.save(shelf);
             shelfDto.setMessage("Successfully added the shelf");
             shelfDto.setSuccess(true);
         } else {
@@ -99,6 +101,7 @@ public class ShelfServiceImpl implements ShelfService {
             return response;
         }
 
+        setModifiedDetails(shelf);
         shelf.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
@@ -117,6 +120,7 @@ public class ShelfServiceImpl implements ShelfService {
         }
 
         modelMapper.map(shelfDto, existingShelf);
+        setModifiedDetails(existingShelf);
         shelfRepository.save(existingShelf);
         shelfDto.setMessage("Shelf updated successfully");
         shelfDto.setSuccess(true);

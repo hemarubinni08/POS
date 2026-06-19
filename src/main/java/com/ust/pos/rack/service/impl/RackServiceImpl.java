@@ -1,5 +1,6 @@
 package com.ust.pos.rack.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.RackDto;
 import com.ust.pos.model.Rack;
@@ -17,7 +18,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class RackServiceImpl implements RackService {
+public class RackServiceImpl extends BaseService implements RackService {
 
     @Autowired
     private RackRepository rackRepository;
@@ -77,8 +78,9 @@ public class RackServiceImpl implements RackService {
         String identifier = rackDto.getIdentifier();
         Rack rack = rackRepository.findByIdentifier(identifier);
         if (rack == null) {
-            rackDto.setSuccess(true);
-            rackRepository.save(modelMapper.map(rackDto, Rack.class));
+            rack = modelMapper.map(rackDto, Rack.class);
+            setCreatedDetails(rack);
+            rackRepository.save(rack);
             rackDto.setMessage("Successfully added the rack");
             rackDto.setSuccess(true);
         } else {
@@ -97,6 +99,7 @@ public class RackServiceImpl implements RackService {
             rackDto.setSuccess(false);
         } else {
             modelMapper.map(rackDto, existingRack);
+            setModifiedDetails(existingRack);
             rackRepository.save(existingRack);
             rackDto.setMessage("Rack updated successfully");
             rackDto.setSuccess(true);
@@ -116,6 +119,7 @@ public class RackServiceImpl implements RackService {
             return response;
         }
 
+        setModifiedDetails(rack);
         rack.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

@@ -14,6 +14,7 @@ public class CommonDto extends PaginationDto {
     private boolean success = true;
     private String description;
     private boolean status = true;
+    private boolean isDeleted = false;
 
     private String createdBy;
     private LocalDateTime createdOn;

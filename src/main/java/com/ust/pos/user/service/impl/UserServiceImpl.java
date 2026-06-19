@@ -1,5 +1,6 @@
 package com.ust.pos.user.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.User;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseService implements UserService {
     @Autowired
     private UserRepository userRepository;
 
@@ -46,6 +47,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        setCreatedDetails(user);
         userRepository.save(user);
         return userDto;
     }
@@ -72,6 +74,7 @@ public class UserServiceImpl implements UserService {
         }
 
         modelMapper.map(userDto, existingUser);
+        setModifiedDetails(existingUser);
         userRepository.save(existingUser);
 
         return userDto;

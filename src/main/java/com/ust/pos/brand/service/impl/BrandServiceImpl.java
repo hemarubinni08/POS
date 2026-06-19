@@ -1,5 +1,6 @@
 package com.ust.pos.brand.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.PaginationResponseDto;
@@ -17,7 +18,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class BrandServiceImpl implements BrandService {
+public class BrandServiceImpl extends BaseService implements BrandService {
 
     @Autowired
     private BrandRepository brandRepository;
@@ -74,7 +75,9 @@ public class BrandServiceImpl implements BrandService {
         Brand brand = brandRepository.findByIdentifier(identifier);
         if (brand == null) {
             brandDto.setSuccess(true);
-            brandRepository.save(modelMapper.map(brandDto, Brand.class));
+            brand = modelMapper.map(brandDto, Brand.class);
+            setCreatedDetails(brand);
+            brandRepository.save(brand);
             brandDto.setMessage("Successfully added the brand");
             brandDto.setSuccess(true);
         } else {
@@ -91,6 +94,7 @@ public class BrandServiceImpl implements BrandService {
         if (existingBrand != null) {
             modelMapper.map(brandDto, existingBrand);
 
+            setModifiedDetails(existingBrand);
             brandRepository.save(existingBrand);
 
             brandDto.setMessage("Successfully updated the brand");
@@ -114,6 +118,7 @@ public class BrandServiceImpl implements BrandService {
             return response;
         }
 
+        setModifiedDetails(brand);
         brand.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

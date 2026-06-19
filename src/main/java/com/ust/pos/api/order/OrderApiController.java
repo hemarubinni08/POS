@@ -32,13 +32,4 @@ public class OrderApiController extends BaseController {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return orderService.findAll(pageable);
     }
-
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
-        try {
-            return orderService.delete(identifier);
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }

@@ -1,5 +1,6 @@
 package com.ust.pos.models.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.ModelDto;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.model.Model;
@@ -17,7 +18,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class ModelServiceImpl implements ModelService {
+public class ModelServiceImpl extends BaseService implements ModelService {
 
     @Autowired
     private ModelRepository modelRepository;
@@ -75,7 +76,9 @@ public class ModelServiceImpl implements ModelService {
         String identifier = modelDto.getIdentifier().trim();
         Model model = modelRepository.findByIdentifier(identifier);
         if (model == null) {
-            modelRepository.save(modelMapper.map(modelDto, Model.class));
+            model = modelMapper.map(modelDto, Model.class);
+            setCreatedDetails(model);
+            modelRepository.save(model);
             modelDto.setSuccess(true);
             modelDto.setMessage("Successfully added the model");
         } else {
@@ -94,6 +97,7 @@ public class ModelServiceImpl implements ModelService {
             modelDto.setMessage("Model does not exist");
         } else {
             modelMapper.map(modelDto, existingModel);
+            setModifiedDetails(existingModel);
             modelRepository.save(existingModel);
             modelDto.setSuccess(true);
             modelDto.setMessage("Model updated successfully");
@@ -113,6 +117,7 @@ public class ModelServiceImpl implements ModelService {
             return response;
         }
 
+        setModifiedDetails(model);
         model.setStatus(status);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");

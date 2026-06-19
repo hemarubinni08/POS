@@ -1,5 +1,6 @@
 package com.ust.pos.node.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.model.Node;
@@ -25,7 +26,7 @@ import java.util.Set;
 
 @Transactional
 @Service
-public class NodeServiceImpl implements NodeService {
+public class NodeServiceImpl extends BaseService implements NodeService {
     @Autowired
     private UserRepository userRepository;
 
@@ -53,6 +54,7 @@ public class NodeServiceImpl implements NodeService {
         }
 
         Node node = modelMapper.map(nodeDto, Node.class);
+        setCreatedDetails(node);
         nodeRepository.save(node);
         nodeDto.setSuccess(true);
         nodeDto.setMessage("Node created successfully.");
@@ -78,6 +80,7 @@ public class NodeServiceImpl implements NodeService {
         }
 
         modelMapper.map(nodeDto, existingNode);
+        setModifiedDetails(existingNode);
         nodeRepository.save(existingNode);
         nodeDto.setMessage("Node updated successfully.");
         nodeDto.setSuccess(true);
@@ -137,6 +140,7 @@ public class NodeServiceImpl implements NodeService {
             return response;
         }
 
+        setModifiedDetails(node);
         node.setStatus(status);
         nodeRepository.save(node);
 
