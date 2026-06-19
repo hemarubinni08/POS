@@ -6,7 +6,6 @@ import com.ust.pos.model.UnitRepository;
 import com.ust.pos.unit.service.UnitService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,11 +19,14 @@ import java.util.Optional;
 @Transactional
 public class UnitServiceImpl implements UnitService {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final UnitRepository unitRepository;
 
-    @Autowired
-    private UnitRepository unitRepository;
+    public UnitServiceImpl(ModelMapper modelMapper,
+                           UnitRepository unitRepository) {
+        this.modelMapper = modelMapper;
+        this.unitRepository = unitRepository;
+    }
 
     @Override
     public UnitDto save(UnitDto unitDto) {

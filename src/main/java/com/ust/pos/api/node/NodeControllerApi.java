@@ -5,7 +5,6 @@ import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.node.service.NodeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +20,11 @@ import java.util.List;
 @RequestMapping("/api/node")
 public class NodeControllerApi extends BaseController {
 
-    @Autowired
-    private NodeService nodeService;
+    private final NodeService nodeService;
+
+    public NodeControllerApi(NodeService nodeService) {
+        this.nodeService = nodeService;
+    }
 
     @GetMapping("/all")
     public List<NodeDto> all() {

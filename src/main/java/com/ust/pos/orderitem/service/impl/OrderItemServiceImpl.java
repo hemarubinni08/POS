@@ -6,7 +6,6 @@ import com.ust.pos.model.OrderItemRepository;
 import com.ust.pos.orderitem.service.OrderItemService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,11 +18,16 @@ import java.util.List;
 @Transactional
 public class OrderItemServiceImpl implements OrderItemService {
 
-    @Autowired
-    private OrderItemRepository orderItemRepository;
+    private final OrderItemRepository orderItemRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public OrderItemServiceImpl(
+            OrderItemRepository orderItemRepository,
+            ModelMapper modelMapper
+    ) {
+        this.orderItemRepository = orderItemRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public OrderItemDto save(OrderItemDto dto) {

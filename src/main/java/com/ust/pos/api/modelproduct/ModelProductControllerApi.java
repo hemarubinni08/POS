@@ -4,7 +4,6 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.ModelProductDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.modelproduct.service.ModelProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +18,11 @@ import java.util.List;
 @RequestMapping("/api/model")
 public class ModelProductControllerApi extends BaseController {
 
-    @Autowired
-    private ModelProductService modelProductService;
+    private final ModelProductService modelProductService;
+
+    public ModelProductControllerApi(ModelProductService modelProductService) {
+        this.modelProductService = modelProductService;
+    }
 
     @PostMapping("/list")
     public List<ModelProductDto> list(@RequestBody PaginationDto paginationDto) {

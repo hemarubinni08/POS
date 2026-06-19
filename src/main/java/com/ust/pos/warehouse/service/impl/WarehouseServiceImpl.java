@@ -7,7 +7,6 @@ import com.ust.pos.warehouse.service.WarehouseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,11 +18,14 @@ import java.util.List;
 @Transactional
 public class WarehouseServiceImpl implements WarehouseService {
 
-    @Autowired
-    private WarehouseRepository warehouseRepository;
+    private final WarehouseRepository warehouseRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public WarehouseServiceImpl(WarehouseRepository warehouseRepository,
+                                ModelMapper modelMapper) {
+        this.warehouseRepository = warehouseRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public WarehouseDto findByIdentifier(String identifier) {

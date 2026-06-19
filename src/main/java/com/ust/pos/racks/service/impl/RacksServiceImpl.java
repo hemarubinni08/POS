@@ -6,7 +6,6 @@ import com.ust.pos.racks.service.RacksService;
 import com.ust.pos.model.RacksRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,11 +18,13 @@ import java.util.List;
 @Transactional
 public class RacksServiceImpl implements RacksService {
 
-    @Autowired
-    private RacksRepository racksRepository;
+    private final RacksRepository racksRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public RacksServiceImpl(RacksRepository racksRepository, ModelMapper modelMapper) {
+        this.racksRepository = racksRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public RacksDto save(RacksDto racksDto) {

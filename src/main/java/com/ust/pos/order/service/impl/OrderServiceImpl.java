@@ -10,7 +10,6 @@ import com.ust.pos.model.*;
 import com.ust.pos.order.service.OrderService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,20 +25,25 @@ import java.util.List;
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
-    private CartRepository cartRepository;
+    private final CartRepository cartRepository;
+    private final CartEntryService cartEntryService;
+    private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private CartEntryService cartEntryService;
+    public OrderServiceImpl(
+            CartRepository cartRepository,
+            CartEntryService cartEntryService,
+            OrderRepository orderRepository,
+            OrderItemRepository orderItemRepository,
+            ModelMapper modelMapper) {
 
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private OrderItemRepository orderItemRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+        this.cartRepository = cartRepository;
+        this.cartEntryService = cartEntryService;
+        this.orderRepository = orderRepository;
+        this.orderItemRepository = orderItemRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public OrderDto createOrder(String cartId, String paymentMethod) {

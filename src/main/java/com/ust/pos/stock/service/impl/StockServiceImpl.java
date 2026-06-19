@@ -7,7 +7,6 @@ import com.ust.pos.stock.service.StockService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,11 +18,13 @@ import java.util.List;
 @Transactional
 public class StockServiceImpl implements StockService {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final StockRepository stockRepository;
 
-    @Autowired
-    private StockRepository stockRepository;
+    public StockServiceImpl(ModelMapper modelMapper, StockRepository stockRepository) {
+        this.modelMapper = modelMapper;
+        this.stockRepository = stockRepository;
+    }
 
     @Override
     public StockDto save(StockDto stockDto) {

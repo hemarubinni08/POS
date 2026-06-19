@@ -9,7 +9,6 @@ import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -26,14 +25,19 @@ import java.util.Set;
 @Transactional
 public class NodeServiceImpl implements NodeService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final NodeRepository nodeRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private NodeRepository nodeRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    public NodeServiceImpl(
+            UserRepository userRepository,
+            NodeRepository nodeRepository,
+            ModelMapper modelMapper
+    ) {
+        this.userRepository = userRepository;
+        this.nodeRepository = nodeRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public List<NodeDto> getNodesForRoles() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

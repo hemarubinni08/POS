@@ -4,7 +4,6 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.PaginationDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +18,11 @@ import java.util.List;
 @RequestMapping("/api/brand")
 public class BrandControllerApi extends BaseController {
 
-    @Autowired
-    private BrandService brandService;
+    private final BrandService brandService;
+
+    public BrandControllerApi(BrandService brandService) {
+        this.brandService = brandService;
+    }
 
     @PostMapping("/list")
     public List<BrandDto> list(@RequestBody PaginationDto paginationDto) {

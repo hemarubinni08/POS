@@ -6,7 +6,6 @@ import com.ust.pos.model.ShelfRepository;
 import com.ust.pos.shelf.service.ShelfService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,11 +19,13 @@ import java.util.Optional;
 @Transactional
 public class ShelfServiceImpl implements ShelfService {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final ShelfRepository shelfRepository;
 
-    @Autowired
-    private ShelfRepository shelfRepository;
+    public ShelfServiceImpl(ModelMapper modelMapper, ShelfRepository shelfRepository) {
+        this.modelMapper = modelMapper;
+        this.shelfRepository = shelfRepository;
+    }
 
     @Override
     public ShelfDto save(ShelfDto shelfDto) {

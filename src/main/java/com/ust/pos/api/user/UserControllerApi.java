@@ -5,7 +5,6 @@ import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/user")
 public class UserControllerApi extends BaseController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserControllerApi(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/list")
     public WsDto<UserDto> home(@RequestBody PaginationDto paginationDto) {

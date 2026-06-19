@@ -3,7 +3,6 @@ package com.ust.pos.price;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.price.service.PriceService;
 import com.ust.pos.product.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +11,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/price")
 public class PriceController {
 
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private PriceService priceService;
+    private final ProductService productService;
+    private final PriceService priceService;
 
     private static final String LIST_PRICE = "redirect:/price/list";
+
+    public PriceController(ProductService productService, PriceService priceService) {
+        this.productService = productService;
+        this.priceService = priceService;
+    }
 
     @GetMapping("/list")
     public String home(Model model) {

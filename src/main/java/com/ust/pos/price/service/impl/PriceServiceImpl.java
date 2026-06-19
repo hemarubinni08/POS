@@ -6,7 +6,6 @@ import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,11 +18,13 @@ import java.util.List;
 @Transactional
 public class PriceServiceImpl implements PriceService {
 
-    @Autowired
-    private PriceRepository priceRepository;
+    private final PriceRepository priceRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public PriceServiceImpl(PriceRepository priceRepository, ModelMapper modelMapper) {
+        this.priceRepository = priceRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public PriceDto save(PriceDto priceDto) {

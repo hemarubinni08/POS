@@ -8,7 +8,6 @@ import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,14 +20,19 @@ import java.util.List;
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
 
-    @Autowired
-    CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
+    private final ModelMapper modelMapper;
+    private final AddressService addressService;
 
-    @Autowired
-    ModelMapper modelMapper;
-
-    @Autowired
-    AddressService addressService;
+    public CustomerServiceImpl(
+            CustomerRepository customerRepository,
+            ModelMapper modelMapper,
+            AddressService addressService
+    ) {
+        this.customerRepository = customerRepository;
+        this.modelMapper = modelMapper;
+        this.addressService = addressService;
+    }
 
     @Override
     public CustomerDto save(CustomerDto customerDto) {
