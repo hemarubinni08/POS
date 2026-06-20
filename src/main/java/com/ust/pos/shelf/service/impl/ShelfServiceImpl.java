@@ -1,5 +1,6 @@
 package com.ust.pos.shelf.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Shelf;
@@ -18,15 +19,17 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ShelfServiceImpl implements ShelfService {
+public class ShelfServiceImpl extends BaseService implements ShelfService {
 
     public static final String SHELF_NOT_FOUND = "Shelf not found";
 
-    @Autowired
-    private ShelfRepository shelfRepository;
+    private final ShelfRepository shelfRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public ShelfServiceImpl(ShelfRepository shelfRepository, ModelMapper modelMapper) {
+        this.shelfRepository = shelfRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public ShelfDto save(ShelfDto shelfDto) {
@@ -43,6 +46,7 @@ public class ShelfServiceImpl implements ShelfService {
         }
         Shelf shelf = modelMapper.map(shelfDto, Shelf.class);
         shelf.setIdentifier(shelfDto.getName());
+        setCreatedDetails(shelf);
         shelfRepository.save(shelf);
         ShelfDto response = modelMapper.map(shelf, ShelfDto.class);
         response.setSuccess(true);
@@ -62,6 +66,7 @@ public class ShelfServiceImpl implements ShelfService {
         if (shelfDto.getStatus() != null) {
             shelf.setStatus(shelfDto.getStatus());
         }
+        setModifiedDetails(shelf);
         shelfRepository.save(shelf);
         ShelfDto response = modelMapper.map(shelf, ShelfDto.class);
         response.setSuccess(true);
@@ -120,6 +125,7 @@ public class ShelfServiceImpl implements ShelfService {
             return dto;
         }
         shelf.setStatus(!Boolean.TRUE.equals(shelf.getStatus()));
+        setModifiedDetails(shelf);
         Shelf saved = shelfRepository.save(shelf);
         ShelfDto response = modelMapper.map(saved, ShelfDto.class);
         response.setSuccess(true);

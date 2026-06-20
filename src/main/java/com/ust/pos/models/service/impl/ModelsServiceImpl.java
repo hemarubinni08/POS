@@ -1,5 +1,6 @@
 package com.ust.pos.models.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Models;
@@ -17,13 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ModelsServiceImpl implements ModelsService {
+public class ModelsServiceImpl extends BaseService implements ModelsService {
 
-    @Autowired
-    private ModelsRepository modelsRepository;
+    private final ModelsRepository modelsRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public ModelsServiceImpl(ModelsRepository modelsRepository, ModelMapper modelMapper) {
+        this.modelsRepository = modelsRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public ModelsDto save(ModelsDto modelsDto) {
@@ -41,6 +44,7 @@ public class ModelsServiceImpl implements ModelsService {
         model.setIdentifier(modelsDto.getModelName());
         model.setModelName(modelsDto.getModelName());
         model.setStatus(modelsDto.getStatus());
+        setCreatedDetails(model);
         Models saved = modelsRepository.save(model);
         ModelsDto dto = modelMapper.map(saved, ModelsDto.class);
         dto.setSuccess(true);
@@ -57,6 +61,7 @@ public class ModelsServiceImpl implements ModelsService {
             return modelsDto;
         }
         model.setStatus(modelsDto.getStatus());
+        setModifiedDetails(model);
         modelsRepository.save(model);
         modelsDto.setSuccess(true);
         modelsDto.setMessage("Model updated successfully");
@@ -105,6 +110,7 @@ public class ModelsServiceImpl implements ModelsService {
             return response;
         }
         model.setStatus(!Boolean.TRUE.equals(model.getStatus()));
+        setModifiedDetails(model);
         Models saved = modelsRepository.save(model);
         response.setIdentifier(saved.getIdentifier());
         response.setModelName(saved.getModelName());

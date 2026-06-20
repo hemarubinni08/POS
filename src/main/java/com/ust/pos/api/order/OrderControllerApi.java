@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/order")
 public class OrderControllerApi extends BaseController {
@@ -37,5 +39,10 @@ public class OrderControllerApi extends BaseController {
     @GetMapping("/get")
     public OrderDto get(@RequestParam String identifier) {
         return orderService.get(identifier);
+    }
+
+    @GetMapping("/search")
+    public List<OrderDto> search(@RequestParam String query) {
+        return orderService.search(query);
     }
 }

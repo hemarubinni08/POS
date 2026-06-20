@@ -1,5 +1,6 @@
 package com.ust.pos.node.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Node;
@@ -24,16 +25,17 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class NodeServiceImpl implements NodeService {
+public class NodeServiceImpl extends BaseService implements NodeService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final NodeRepository nodeRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private NodeRepository nodeRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    public NodeServiceImpl(UserRepository userRepository, NodeRepository nodeRepository, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.nodeRepository = nodeRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public NodeDto findByIdentifier(String identifier) {
@@ -59,6 +61,7 @@ public class NodeServiceImpl implements NodeService {
             return nodeDto;
         }
         Node node = modelMapper.map(nodeDto, Node.class);
+        setCreatedDetails(node);
         nodeRepository.save(node);
         return nodeDto;
     }
@@ -73,6 +76,7 @@ public class NodeServiceImpl implements NodeService {
             return nodeDto;
         }
         modelMapper.map(nodeDto, existingNode);
+        setModifiedDetails(existingNode);
         nodeRepository.save(existingNode);
         return nodeDto;
     }

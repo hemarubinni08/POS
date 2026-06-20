@@ -1,5 +1,6 @@
 package com.ust.pos.unit.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.UnitDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Unit;
@@ -18,14 +19,17 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UnitServiceImpl implements UnitService {
+public class UnitServiceImpl extends BaseService implements UnitService {
 
     public static final String UNIT_NOT_FOUND = "Unit not found";
-    @Autowired
-    private UnitRepository unitRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final UnitRepository unitRepository;
+    private final ModelMapper modelMapper;
+
+    public UnitServiceImpl(UnitRepository unitRepository, ModelMapper modelMapper) {
+        this.unitRepository = unitRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public UnitDto save(UnitDto unitDto) {
@@ -45,6 +49,7 @@ public class UnitServiceImpl implements UnitService {
         unit.setIdentifier(unitName);
         unit.setUnitName(unitName);
         unit.setStatus(Boolean.TRUE.equals(unitDto.getStatus()));
+        setCreatedDetails(unit);
         unitRepository.save(unit);
         unitDto.setIdentifier(unitName);
         unitDto.setSuccess(true);
@@ -67,6 +72,7 @@ public class UnitServiceImpl implements UnitService {
             return unitDto;
         }
         unit.setStatus(Boolean.TRUE.equals(unitDto.getStatus()));
+        setModifiedDetails(unit);
         unitRepository.save(unit);
         unitDto.setSuccess(true);
         unitDto.setMessage("Unit updated successfully");
@@ -116,6 +122,7 @@ public class UnitServiceImpl implements UnitService {
             return response;
         }
         unit.setStatus(!Boolean.TRUE.equals(unit.getStatus()));
+        setModifiedDetails(unit);
         unitRepository.save(unit);
         response = modelMapper.map(unit, UnitDto.class);
         response.setSuccess(true);

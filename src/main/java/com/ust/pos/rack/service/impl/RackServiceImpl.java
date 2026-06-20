@@ -1,5 +1,6 @@
 package com.ust.pos.rack.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.RackDto;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
@@ -18,15 +19,17 @@ import java.util.List;
 
 @Service
 @Transactional
-public class RackServiceImpl implements RackService {
+public class RackServiceImpl extends BaseService implements RackService {
 
     public static final String RACK_NOT_FOUND = "Rack not found";
 
-    @Autowired
-    private RackRepository rackRepository;
+    private final RackRepository rackRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public RackServiceImpl(RackRepository rackRepository, ModelMapper modelMapper) {
+        this.rackRepository = rackRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public RackDto save(RackDto rackDto) {
@@ -44,6 +47,7 @@ public class RackServiceImpl implements RackService {
             return dto;
         }
         Rack rack = modelMapper.map(rackDto, Rack.class);
+        setCreatedDetails(rack);
         Rack saved = rackRepository.save(rack);
         RackDto response = modelMapper.map(saved, RackDto.class);
         response.setSuccess(true);
@@ -75,6 +79,7 @@ public class RackServiceImpl implements RackService {
         if (rackDto.getShelfIdentifiers() != null) {
             rack.setShelfIdentifiers(rackDto.getShelfIdentifiers());
         }
+        setModifiedDetails(rack);
         Rack saved = rackRepository.save(rack);
         RackDto response = modelMapper.map(saved, RackDto.class);
         response.setSuccess(true);
@@ -130,6 +135,7 @@ public class RackServiceImpl implements RackService {
             return dto;
         }
         rack.setStatus(!Boolean.TRUE.equals(rack.getStatus()));
+        setModifiedDetails(rack);
         Rack saved = rackRepository.save(rack);
         RackDto dto = modelMapper.map(saved, RackDto.class);
         dto.setSuccess(true);

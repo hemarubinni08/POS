@@ -1,5 +1,6 @@
 package com.ust.pos.role.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Role;
@@ -17,13 +18,15 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends BaseService implements RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public RoleServiceImpl(RoleRepository roleRepository, ModelMapper modelMapper) {
+        this.roleRepository = roleRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public RoleDto findByIdentifier(String identifier) {
@@ -56,6 +59,7 @@ public class RoleServiceImpl implements RoleService {
         }
 
         Role role = modelMapper.map(roleDto, Role.class);
+        setCreatedDetails(role);
         roleRepository.save(role);
 
         roleDto.setSuccess(true);
@@ -78,6 +82,7 @@ public class RoleServiceImpl implements RoleService {
         }
 
         modelMapper.map(roleDto, existingRole);
+        setModifiedDetails(existingRole);
         roleRepository.save(existingRole);
 
         roleDto.setSuccess(true);

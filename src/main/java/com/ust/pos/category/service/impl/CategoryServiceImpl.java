@@ -1,5 +1,6 @@
 package com.ust.pos.category.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.CustomerDto;
@@ -18,13 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl extends BaseService implements CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper) {
+        this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public WsDto<CategoryDto> findAll(Pageable pageable) {
@@ -120,6 +123,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setIdentifier(dto.getIdentifier());
         category.setName(dto.getName());
         category.setSuperCategoryIdentifier(dto.getSuperCategoryIdentifier());
+        setCreatedDetails(category);
         categoryRepository.save(category);
         response.setSuccess(true);
         return response;
@@ -140,7 +144,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setSuperCategoryIdentifier(
                 (superCat == null || superCat.trim().isEmpty()) ? null : superCat
         );
-
+        setModifiedDetails(category);
         categoryRepository.save(category);
         response.setSuccess(true);
         return response;

@@ -1,5 +1,6 @@
 package com.ust.pos.product.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.PriceRepository;
@@ -20,18 +21,19 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl extends BaseService implements ProductService {
 
     public static final String PRODUCT_NOT_FOUND = "Product not found";
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final PriceRepository priceRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private PriceRepository priceRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    public ProductServiceImpl(ProductRepository productRepository, PriceRepository priceRepository, ModelMapper modelMapper) {
+        this.productRepository = productRepository;
+        this.priceRepository = priceRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public ProductDto save(ProductDto productDto) {
@@ -47,6 +49,7 @@ public class ProductServiceImpl implements ProductService {
             return productDto;
         }
         Product saveProduct = modelMapper.map(productDto, Product.class);
+        setCreatedDetails(saveProduct);
         Product savedProduct = productRepository.save(saveProduct);
         ProductDto savedProductDto = modelMapper.map(savedProduct, ProductDto.class);
         savedProductDto.setSuccess(true);
@@ -63,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
             return productDto;
         }
         modelMapper.map(productDto, product);
+        setModifiedDetails(product);
         Product updatedProduct = productRepository.save(product);
         ProductDto updatedProductDto = modelMapper.map(updatedProduct, ProductDto.class);
         updatedProductDto.setSuccess(true);
@@ -124,6 +128,7 @@ public class ProductServiceImpl implements ProductService {
             return productDto;
         }
         product.setStatus(!Boolean.TRUE.equals(product.getStatus()));
+        setModifiedDetails(product);
         Product savedProduct = productRepository.save(product);
         ProductDto productDto = modelMapper.map(savedProduct, ProductDto.class);
         productDto.setSuccess(true);

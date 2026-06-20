@@ -1,5 +1,6 @@
 package com.ust.pos.brand.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.WsDto;
@@ -19,13 +20,15 @@ import java.util.List;
 
 @Service
 @Transactional
-public class BrandServiceImpl implements BrandService {
+public class BrandServiceImpl extends BaseService implements BrandService {
 
-    @Autowired
-    private BrandRepository brandRepository;
+    private final BrandRepository brandRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public BrandServiceImpl(BrandRepository brandRepository, ModelMapper modelMapper) {
+        this.brandRepository = brandRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public WsDto<BrandDto> findAll(Pageable pageable) {
@@ -57,9 +60,8 @@ public class BrandServiceImpl implements BrandService {
         }
         Brand brand = new Brand();
         brand.setIdentifier(brandDto.getBrandName());
-        brand.setBrandName(brandDto.getBrandName());
-        brand.setDescription(brandDto.getDescription());
-        brand.setStatus(brandDto.getStatus());
+        modelMapper.map(brandDto,brand);
+        setCreatedDetails(brand);
         Brand saved = brandRepository.save(brand);
         BrandDto dto = modelMapper.map(saved, BrandDto.class);
         dto.setSuccess(true);
@@ -78,6 +80,7 @@ public class BrandServiceImpl implements BrandService {
         modelMapper.map(brandDto, brand);
         brand.setIdentifier(brand.getIdentifier());
         brand.setBrandName(brand.getBrandName());
+        setModifiedDetails(brand);
         Brand updated = brandRepository.save(brand);
         BrandDto dto = modelMapper.map(updated, BrandDto.class);
         dto.setSuccess(true);
@@ -121,6 +124,7 @@ public class BrandServiceImpl implements BrandService {
             return dto;
         }
         brand.setStatus(!Boolean.TRUE.equals(brand.getStatus()));
+        setModifiedDetails(brand);
         brandRepository.save(brand);
         dto.setIdentifier(brand.getIdentifier());
         dto.setBrandName(brand.getBrandName());

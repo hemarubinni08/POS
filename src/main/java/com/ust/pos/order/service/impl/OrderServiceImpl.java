@@ -16,25 +16,25 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class OrderServiceImpl extends BaseService implements OrderService {
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
+    private final OrderEntryRepository orderEntryRepository;
+    private final CartRepository cartRepository;
+    private final CartEntryRepository cartEntryRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private OrderEntryRepository orderEntryRepository;
-
-    @Autowired
-    private CartRepository cartRepository;
-
-    @Autowired
-    private CartEntryRepository cartEntryRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    public OrderServiceImpl(OrderRepository orderRepository, OrderEntryRepository orderEntryRepository, CartRepository cartRepository, CartEntryRepository cartEntryRepository, ModelMapper modelMapper) {
+        this.orderRepository = orderRepository;
+        this.orderEntryRepository = orderEntryRepository;
+        this.cartRepository = cartRepository;
+        this.cartEntryRepository = cartEntryRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public OrderDto checkout(OrderDto orderDto) {
@@ -168,21 +168,15 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         Type type = new TypeToken<List<OrderDto>>() {}.getType();
 
         if (pageable == null) {
-
-            List<OrderDto> list =
-                    modelMapper.map(orderRepository.findAll(), type);
-
+            List<OrderDto> list =modelMapper.map(orderRepository.findAll(), type);
             WsDto<OrderDto> res = new WsDto<>();
             res.setDtoList(list);
             res.setTotalRecords(list.size());
-
             return res;
         }
 
         Page<Order> page = orderRepository.findAll(pageable);
-
-        List<OrderDto> list =
-                modelMapper.map(page.getContent(), type);
+        List<OrderDto> list =modelMapper.map(page.getContent(), type);
 
         WsDto<OrderDto> res = new WsDto<>();
         res.setDtoList(list);
@@ -192,5 +186,18 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         res.setTotalRecords(page.getTotalElements());
 
         return res;
+    }
+
+    @Override
+    public List<OrderDto> search(String query) {
+
+        if (query == null || query.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<Order> orders = orderRepository.searchOrders(query);
+
+        Type type = new TypeToken<List<OrderDto>>() {}.getType();
+
+        return modelMapper.map(orders, type);
     }
 }

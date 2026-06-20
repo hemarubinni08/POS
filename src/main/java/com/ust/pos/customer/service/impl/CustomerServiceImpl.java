@@ -1,6 +1,7 @@
 package com.ust.pos.customer.service.impl;
 
 import com.ust.pos.address.service.AddressService;
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
@@ -21,16 +22,17 @@ import java.util.List;
 
 @Service
 @Transactional
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl extends BaseService implements CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
+    private final ModelMapper modelMapper;
+    private final AddressService addressService;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private AddressService addressService;
+    public CustomerServiceImpl(CustomerRepository customerRepository, ModelMapper modelMapper, AddressService addressService) {
+        this.customerRepository = customerRepository;
+        this.modelMapper = modelMapper;
+        this.addressService = addressService;
+    }
 
     @Override
     public WsDto<CustomerDto> findAll(Pageable pageable) {
@@ -92,6 +94,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (customer.getStatus() == null) {
             customer.setStatus(true);
         }
+        setCreatedDetails(customer);
         customerRepository.save(customer);
         customerDto.setSuccess(true);
         customerDto.setMessage("Customer created successfully");
@@ -144,6 +147,7 @@ public class CustomerServiceImpl implements CustomerService {
             existing.setStatus(customerDto.getStatus());
         }
         saveAddresses(customerDto);
+        setModifiedDetails(existing);
         customerRepository.save(existing);
         customerDto.setSuccess(true);
         customerDto.setMessage("Customer updated successfully");
@@ -180,6 +184,7 @@ public class CustomerServiceImpl implements CustomerService {
             return response;
         }
         customer.setStatus(!Boolean.TRUE.equals(customer.getStatus()));
+        setModifiedDetails(customer);
         Customer saved =customerRepository.save(customer);
         response.setIdentifier(saved.getIdentifier());
         response.setName(saved.getName());

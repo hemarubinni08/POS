@@ -1,5 +1,6 @@
 package com.ust.pos.stock.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.UnitDto;
 import com.ust.pos.dto.WsDto;
@@ -20,13 +21,17 @@ import java.util.List;
 
 @Service
 @Transactional
-public class StockServiceImpl implements StockService {
+public class StockServiceImpl  extends BaseService implements StockService {
 
     public static final String STOCK_NOT_FOUND = "Stock not found";
-    @Autowired
-    private StockRepository stockRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+
+    private final StockRepository stockRepository;
+    private final ModelMapper modelMapper;
+
+    public StockServiceImpl(StockRepository stockRepository, ModelMapper modelMapper) {
+        this.stockRepository = stockRepository;
+        this.modelMapper = modelMapper;
+    }
 
     private String calculateState(Stock stock) {
         if (Boolean.FALSE.equals(stock.getStatus())) {
@@ -53,6 +58,7 @@ public class StockServiceImpl implements StockService {
         if (stock.getStatus() == null) {
             stock.setStatus(true);
         }
+        setCreatedDetails(stock);
         Stock saved = stockRepository.save(stock);
         StockDto response = modelMapper.map(saved, StockDto.class);
         response.setStockState(calculateState(saved));
@@ -73,6 +79,7 @@ public class StockServiceImpl implements StockService {
         existing.setAvailableQuantity(dto.getAvailableQuantity());
         existing.setReorderLevel(dto.getReorderLevel());
         existing.setStatus(dto.getStatus());
+        setModifiedDetails(existing);
         Stock saved = stockRepository.save(existing);
         StockDto response = modelMapper.map(saved, StockDto.class);
         response.setStockState(calculateState(saved));
@@ -127,6 +134,7 @@ public class StockServiceImpl implements StockService {
             return dto;
         }
         stock.setStatus(!Boolean.TRUE.equals(stock.getStatus()));
+        setModifiedDetails(stock);
         Stock saved = stockRepository.save(stock);
         StockDto dto = modelMapper.map(saved, StockDto.class);
         dto.setStockState(calculateState(saved));

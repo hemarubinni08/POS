@@ -22,14 +22,15 @@ import java.util.List;
 @Transactional
 public class CartServiceImpl implements CartService {
 
-    @Autowired
-    private CartRepository cartRepository;
+    private final CartRepository cartRepository;
+    private final CartEntryRepository cartEntryRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private CartEntryRepository cartEntryRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    public CartServiceImpl(CartRepository cartRepository, CartEntryRepository cartEntryRepository, ModelMapper modelMapper) {
+        this.cartRepository = cartRepository;
+        this.cartEntryRepository = cartEntryRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public List<CartDto> findAll(Pageable pageable) {

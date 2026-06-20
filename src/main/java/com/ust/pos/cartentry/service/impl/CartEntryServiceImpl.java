@@ -24,20 +24,20 @@ import java.util.List;
 @Transactional
 public class CartEntryServiceImpl implements CartEntryService {
 
-    @Autowired
-    private CartEntryRepository cartEntryRepository;
+    
+    private final CartEntryRepository cartEntryRepository;
+    private final CartService cartService;
+    private final PriceService priceService;
+    private final ModelMapper modelMapper;
+    private final ProductService productService;
 
-    @Autowired
-    private CartService cartService;
-
-    @Autowired
-    private PriceService priceService;
-
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private ProductService productService;
+    public CartEntryServiceImpl(CartEntryRepository cartEntryRepository, CartService cartService, PriceService priceService, ModelMapper modelMapper, ProductService productService) {
+        this.cartEntryRepository = cartEntryRepository;
+        this.cartService = cartService;
+        this.priceService = priceService;
+        this.modelMapper = modelMapper;
+        this.productService = productService;
+    }
 
     @Override
     public CartEntryDto save(CartEntryDto dto) {

@@ -11,11 +11,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class AddressServiceImpl implements AddressService {
 
-    @Autowired
-    private AddressRepository addressRepository;
+    private final AddressRepository addressRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public AddressServiceImpl(AddressRepository addressRepository, ModelMapper modelMapper) {
+        this.addressRepository = addressRepository;
+        this.modelMapper = modelMapper;
+    }
+
+    private final ModelMapper modelMapper;
 
     @Override
     public void save(AddressDto addressDto) {

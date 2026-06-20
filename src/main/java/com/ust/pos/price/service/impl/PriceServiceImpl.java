@@ -1,5 +1,6 @@
 package com.ust.pos.price.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Price;
@@ -19,16 +20,17 @@ import java.util.List;
 
 @Service
 @Transactional
-public class PriceServiceImpl implements PriceService {
+public class PriceServiceImpl extends BaseService implements PriceService {
 
-    @Autowired
-    private PriceRepository priceRepository;
+    private final PriceRepository priceRepository;
+    private final ProductService productService;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    public PriceServiceImpl(PriceRepository priceRepository, ProductService productService, ModelMapper modelMapper) {
+        this.priceRepository = priceRepository;
+        this.productService = productService;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public PriceDto save(PriceDto priceDto) {
@@ -43,6 +45,7 @@ public class PriceServiceImpl implements PriceService {
         priceDto.setIdentifier(identifier);
         priceDto.setProductName(productService.findByIdentifier(priceDto.getProductId()).getProductName());
         Price price = modelMapper.map(priceDto, Price.class);
+        setCreatedDetails(price);
         priceRepository.save(price);
         priceDto.setSuccess(true);
         priceDto.setMessage("Price saved successfully");
@@ -62,6 +65,7 @@ public class PriceServiceImpl implements PriceService {
         existing.setProductName(priceDto.getProductName());
         existing.setPriceType(priceDto.getPriceType());
         existing.setValue(priceDto.getValue());
+        setModifiedDetails(existing);
         priceRepository.save(existing);
         priceDto.setSuccess(true);
         priceDto.setMessage("Price updated successfully");

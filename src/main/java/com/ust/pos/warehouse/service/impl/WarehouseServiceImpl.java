@@ -1,5 +1,6 @@
 package com.ust.pos.warehouse.service.impl;
 
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Warehouse;
@@ -17,13 +18,15 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class WarehouseServiceImpl implements WarehouseService {
+public class WarehouseServiceImpl extends BaseService implements WarehouseService {
 
-    @Autowired
-    private WarehouseRepository warehouseRepository;
+    private final WarehouseRepository warehouseRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public WarehouseServiceImpl(WarehouseRepository warehouseRepository, ModelMapper modelMapper) {
+        this.warehouseRepository = warehouseRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public WarehouseDto save(WarehouseDto warehouseDto) {
@@ -41,6 +44,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             return dto;
         }
         Warehouse warehouse = modelMapper.map(warehouseDto, Warehouse.class);
+        setCreatedDetails(warehouse);
         Warehouse saved = warehouseRepository.save(warehouse);
         WarehouseDto response = modelMapper.map(saved, WarehouseDto.class);
         response.setSuccess(true);
@@ -58,6 +62,7 @@ public class WarehouseServiceImpl implements WarehouseService {
             return dto;
         }
         modelMapper.map(warehouseDto, existing);
+        setModifiedDetails(existing);
         Warehouse saved = warehouseRepository.save(existing);
         WarehouseDto response = modelMapper.map(saved, WarehouseDto.class);
         response.setSuccess(true);
