@@ -42,9 +42,9 @@ public class NodeServiceImpl extends BaseService implements NodeService {
     @Override
     public NodeDto findByIdentifier(String identifier) {
 
-        Node node = nodeRepository.findByIdentifier(identifier);
+        Node node = nodeRepository.findByIdentifierAndDeletedFalse(identifier);
 
-        if (node == null || Boolean.TRUE.equals(node.getDeleted())) {
+        if (node == null) {
             NodeDto dto = new NodeDto();
             dto.setSuccess(false);
             dto.setMessage("Node not found");
@@ -65,9 +65,9 @@ public class NodeServiceImpl extends BaseService implements NodeService {
             return nodeDto;
         }
 
-        Node existing = nodeRepository.findByIdentifier(identifier);
+        Node existing = nodeRepository.findByIdentifierAndDeletedFalse(identifier);
 
-        if (existing != null && !Boolean.TRUE.equals(existing.getDeleted())) {
+        if (existing != null) {
             nodeDto.setSuccess(false);
             nodeDto.setMessage("Node already exists");
             return nodeDto;
@@ -75,21 +75,24 @@ public class NodeServiceImpl extends BaseService implements NodeService {
 
         Node node = modelMapper.map(nodeDto, Node.class);
         node.setIdentifier(identifier);
+        node.setDeleted(false);
 
         setCreatedDetails(node);
+
         nodeRepository.save(node);
 
         nodeDto.setSuccess(true);
         nodeDto.setMessage("Node saved successfully");
+
         return nodeDto;
     }
 
     @Override
     public NodeDto update(NodeDto nodeDto) {
 
-        Node node = nodeRepository.findByIdentifier(nodeDto.getIdentifier());
+        Node node = nodeRepository.findByIdentifierAndDeletedFalse(nodeDto.getIdentifier());
 
-        if (node == null || Boolean.TRUE.equals(node.getDeleted())) {
+        if (node == null) {
             nodeDto.setSuccess(false);
             nodeDto.setMessage("Node not found");
             return nodeDto;
@@ -98,23 +101,28 @@ public class NodeServiceImpl extends BaseService implements NodeService {
         modelMapper.map(nodeDto, node);
 
         setModifiedDetails(node);
+
         nodeRepository.save(node);
 
         nodeDto.setSuccess(true);
         nodeDto.setMessage("Node updated successfully");
+
         return nodeDto;
     }
 
     @Override
     public void delete(String identifier) {
 
-        Node node = nodeRepository.findByIdentifier(identifier);
+        Node node = nodeRepository.findByIdentifierAndDeletedFalse(identifier);
 
-        if (node == null) return;
+        if (node == null) {
+            return;
+        }
 
         node.setDeleted(true);
 
         setModifiedDetails(node);
+
         nodeRepository.save(node);
     }
 
@@ -123,7 +131,7 @@ public class NodeServiceImpl extends BaseService implements NodeService {
 
         Type listType = new TypeToken<List<NodeDto>>() {}.getType();
 
-        Page<Node> page = nodeRepository.findAll(pageable);
+        Page<Node> page = nodeRepository.findByDeletedFalse(pageable);
 
         WsDto<NodeDto> ws = new WsDto<>();
         ws.setDtoList(modelMapper.map(page.getContent(), listType));
@@ -140,7 +148,9 @@ public class NodeServiceImpl extends BaseService implements NodeService {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth == null) return new ArrayList<>();
+        if (auth == null) {
+            return new ArrayList<>();
+        }
 
         org.springframework.security.core.userdetails.User principal =
                 (org.springframework.security.core.userdetails.User) auth.getPrincipal();
@@ -165,9 +175,11 @@ public class NodeServiceImpl extends BaseService implements NodeService {
 
         List<NodeDto> result = new ArrayList<>();
 
-        for (String id : allowedNodes) {
-            Node node = nodeRepository.findByIdentifier(id);
-            if (node != null && !Boolean.TRUE.equals(node.getDeleted())) {
+        for (String identifier : allowedNodes) {
+
+            Node node = nodeRepository.findByIdentifierAndDeletedFalse(identifier);
+
+            if (node != null) {
                 result.add(modelMapper.map(node, NodeDto.class));
             }
         }

@@ -50,11 +50,21 @@ public class RoleServiceImpl extends BaseService implements RoleService {
     @Override
     public RoleDto save(RoleDto roleDto) {
 
+        if (roleDto.getIdentifier() == null ||
+                roleDto.getIdentifier().trim().isEmpty()) {
+
+            roleDto.setSuccess(false);
+            roleDto.setMessage("Role identifier is required");
+            return roleDto;
+        }
+
         String identifier = roleDto.getIdentifier().trim();
 
         Role existingRole = roleRepository.findByIdentifier(identifier);
 
-        if (existingRole != null) {
+        if (existingRole != null &&
+                !Boolean.TRUE.equals(existingRole.getDeleted())) {
+
             roleDto.setSuccess(false);
             roleDto.setMessage("Role already exists");
             return roleDto;
@@ -63,6 +73,7 @@ public class RoleServiceImpl extends BaseService implements RoleService {
         Role role = modelMapper.map(roleDto, Role.class);
 
         role.setIdentifier(identifier);
+        role.setDeleted(false);
 
         setCreatedDetails(role);
 
@@ -77,9 +88,12 @@ public class RoleServiceImpl extends BaseService implements RoleService {
     @Override
     public RoleDto update(RoleDto roleDto) {
 
-        Role existingRole = roleRepository.findByIdentifier(roleDto.getIdentifier());
+        Role existingRole =
+                roleRepository.findByIdentifier(roleDto.getIdentifier());
 
-        if (existingRole == null || Boolean.TRUE.equals(existingRole.getDeleted())) {
+        if (existingRole == null ||
+                Boolean.TRUE.equals(existingRole.getDeleted())) {
+
             roleDto.setSuccess(false);
             roleDto.setMessage("Role not found");
             return roleDto;
@@ -98,12 +112,14 @@ public class RoleServiceImpl extends BaseService implements RoleService {
     }
 
     @Override
-    @Transactional
     public void delete(String identifier) {
 
         Role role = roleRepository.findByIdentifier(identifier);
 
-        if (role == null) return;
+        if (role == null ||
+                Boolean.TRUE.equals(role.getDeleted())) {
+            return;
+        }
 
         role.setDeleted(true);
 
@@ -115,12 +131,17 @@ public class RoleServiceImpl extends BaseService implements RoleService {
     @Override
     public WsDto<RoleDto> findAll(Pageable pageable) {
 
-        Type listType = new TypeToken<List<RoleDto>>() {}.getType();
+        Type listType = new TypeToken<List<RoleDto>>() {
+        }.getType();
 
-        Page<Role> page = roleRepository.findByDeletedFalse(pageable);
+        Page<Role> page =
+                roleRepository.findByDeletedFalse(pageable);
 
         WsDto<RoleDto> ws = new WsDto<>();
-        ws.setDtoList(modelMapper.map(page.getContent(), listType));
+
+        ws.setDtoList(
+                modelMapper.map(page.getContent(), listType)
+        );
         ws.setTotalRecords(page.getTotalElements());
         ws.setTotalPages(page.getTotalPages());
         ws.setPage(pageable.getPageNumber());

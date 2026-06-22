@@ -8,11 +8,14 @@ import com.ust.pos.stock.service.impl.StockServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.modelmapper.ModelMapper;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -33,7 +36,6 @@ class StockServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ================= SAVE SUCCESS =================
     @Test
     void save_success() {
 
@@ -43,24 +45,37 @@ class StockServiceTest {
         dto.setAvailableQuantity(10);
 
         Stock stock = new Stock();
+
         Stock saved = new Stock();
+        saved.setAvailableQuantity(10);
+        saved.setStatus(true);
+
         StockDto mapped = new StockDto();
         mapped.setIdentifier("P1_W1");
 
-        when(stockRepository.findByIdentifier("P1_W1")).thenReturn(null);
-        when(modelMapper.map(any(StockDto.class), eq(Stock.class))).thenReturn(stock);
-        when(stockRepository.save(stock)).thenReturn(saved);
-        when(modelMapper.map(eq(saved), eq(StockDto.class))).thenReturn(mapped);
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(null);
+
+        when(modelMapper.map(any(StockDto.class), eq(Stock.class)))
+                .thenReturn(stock);
+
+        when(stockRepository.save(stock))
+                .thenReturn(saved);
+
+        when(modelMapper.map(saved, StockDto.class))
+                .thenReturn(mapped);
 
         StockDto response = stockService.save(dto);
 
         Assertions.assertTrue(response.isSuccess());
-        Assertions.assertEquals("Stock saved successfully", response.getMessage());
+        Assertions.assertEquals(
+                "Stock saved successfully",
+                response.getMessage()
+        );
 
         verify(stockRepository).save(stock);
     }
 
-    // ================= SAVE FAILURE =================
     @Test
     void save_failure_alreadyExists() {
 
@@ -68,18 +83,23 @@ class StockServiceTest {
         dto.setProductIdentifier("P1");
         dto.setWarehouseIdentifier("W1");
 
+        Stock existing = new Stock();
+        existing.setDeleted(false);
+
         when(stockRepository.findByIdentifier("P1_W1"))
-                .thenReturn(new Stock());
+                .thenReturn(existing);
 
         StockDto response = stockService.save(dto);
 
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals("Product already exists in this warehouse", response.getMessage());
+        Assertions.assertEquals(
+                "Product already exists in this warehouse",
+                response.getMessage()
+        );
 
         verify(stockRepository, never()).save(any());
     }
 
-    // ================= UPDATE SUCCESS =================
     @Test
     void update_success() {
 
@@ -91,22 +111,30 @@ class StockServiceTest {
         dto.setStatus(true);
 
         Stock existing = new Stock();
-        StockDto mapped = new StockDto();
-        mapped.setIdentifier("P1_W1");
+        existing.setDeleted(false);
 
-        when(stockRepository.findByIdentifier("P1_W1")).thenReturn(existing);
-        when(stockRepository.save(existing)).thenReturn(existing);
-        when(modelMapper.map(eq(existing), eq(StockDto.class))).thenReturn(mapped);
+        StockDto mapped = new StockDto();
+
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(existing);
+
+        when(stockRepository.save(existing))
+                .thenReturn(existing);
+
+        when(modelMapper.map(existing, StockDto.class))
+                .thenReturn(mapped);
 
         StockDto response = stockService.update(dto);
 
         Assertions.assertTrue(response.isSuccess());
-        Assertions.assertEquals("Stock updated successfully", response.getMessage());
+        Assertions.assertEquals(
+                "Stock updated successfully",
+                response.getMessage()
+        );
 
         verify(stockRepository).save(existing);
     }
 
-    // ================= UPDATE FAILURE =================
     @Test
     void update_failure_notFound() {
 
@@ -114,102 +142,232 @@ class StockServiceTest {
         dto.setProductIdentifier("P1");
         dto.setWarehouseIdentifier("W1");
 
-        when(stockRepository.findByIdentifier("P1_W1")).thenReturn(null);
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(null);
 
         StockDto response = stockService.update(dto);
 
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals("Stock not found", response.getMessage());
+        Assertions.assertEquals(
+                "Stock not found",
+                response.getMessage()
+        );
     }
 
-    // ================= FIND SUCCESS =================
+    @Test
+    void update_failure_deleted() {
+
+        StockDto dto = new StockDto();
+        dto.setProductIdentifier("P1");
+        dto.setWarehouseIdentifier("W1");
+
+        Stock stock = new Stock();
+        stock.setDeleted(true);
+
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(stock);
+
+        StockDto response = stockService.update(dto);
+
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertEquals(
+                "Stock not found",
+                response.getMessage()
+        );
+    }
+
     @Test
     void find_success() {
 
         Stock stock = new Stock();
+        stock.setAvailableQuantity(10);
+        stock.setStatus(true);
+
         StockDto dto = new StockDto();
         dto.setIdentifier("P1_W1");
 
-        when(stockRepository.findByIdentifier("P1_W1")).thenReturn(stock);
-        when(modelMapper.map(eq(stock), eq(StockDto.class))).thenReturn(dto);
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(stock);
 
-        StockDto response = stockService.findByIdentifier("P1_W1");
+        when(modelMapper.map(stock, StockDto.class))
+                .thenReturn(dto);
+
+        StockDto response =
+                stockService.findByIdentifier("P1_W1");
 
         Assertions.assertTrue(response.isSuccess());
     }
 
-    // ================= FIND FAILURE =================
     @Test
     void find_notFound() {
 
-        when(stockRepository.findByIdentifier("P1_W1")).thenReturn(null);
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(null);
 
-        StockDto response = stockService.findByIdentifier("P1_W1");
+        StockDto response =
+                stockService.findByIdentifier("P1_W1");
 
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals("Stock not found", response.getMessage());
+        Assertions.assertEquals(
+                "Stock not found",
+                response.getMessage()
+        );
     }
 
-    // ================= FIND ALL =================
+    @Test
+    void find_deleted() {
+
+        Stock stock = new Stock();
+        stock.setDeleted(true);
+
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(stock);
+
+        StockDto response =
+                stockService.findByIdentifier("P1_W1");
+
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertEquals(
+                "Stock not found",
+                response.getMessage()
+        );
+    }
+
     @Test
     void findAllTest() {
 
         Stock stock = new Stock();
+
         List<Stock> list = List.of(stock);
 
         Page<Stock> page = new PageImpl<>(list);
+
         Pageable pageable = PageRequest.of(0, 5);
 
-        List<StockDto> dtoList = List.of(new StockDto());
+        List<StockDto> dtoList =
+                List.of(new StockDto());
 
-        when(stockRepository.findByDeletedFalse(pageable)).thenReturn(page);
+        when(stockRepository.findByDeletedFalse(pageable))
+                .thenReturn(page);
 
-        when(modelMapper.map(any(), any(Type.class)))
+        when(modelMapper.map(
+                any(),
+                any(Type.class)))
                 .thenReturn(dtoList);
 
-        WsDto<StockDto> result = stockService.findAll(pageable);
+        WsDto<StockDto> result =
+                stockService.findAll(pageable);
 
         Assertions.assertNotNull(result);
-        Assertions.assertEquals(1, result.getDtoList().size());
+        Assertions.assertEquals(
+                1,
+                result.getDtoList().size()
+        );
     }
 
-    // ================= DELETE =================
     @Test
-    void deleteTest() {
+    void delete_success() {
+
+        Stock stock = new Stock();
+        stock.setDeleted(false);
+
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(stock);
 
         stockService.delete("P1_W1");
 
-        verify(stockRepository).deleteByIdentifier("P1_W1");
+        Assertions.assertTrue(stock.getDeleted());
+
+        verify(stockRepository).save(stock);
     }
 
-    // ================= TOGGLE SUCCESS =================
+    @Test
+    void delete_notFound() {
+
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(null);
+
+        stockService.delete("P1_W1");
+
+        verify(stockRepository, never()).save(any());
+    }
+
+    @Test
+    void delete_alreadyDeleted() {
+
+        Stock stock = new Stock();
+        stock.setDeleted(true);
+
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(stock);
+
+        stockService.delete("P1_W1");
+
+        Assertions.assertTrue(stock.getDeleted());
+
+        verify(stockRepository).save(stock);
+    }
+
     @Test
     void toggle_success() {
 
         Stock stock = new Stock();
         stock.setStatus(true);
+        stock.setAvailableQuantity(10);
 
         StockDto dto = new StockDto();
-        dto.setSuccess(true);
 
-        when(stockRepository.findByIdentifier("P1_W1")).thenReturn(stock);
-        when(stockRepository.save(stock)).thenReturn(stock);
-        when(modelMapper.map(eq(stock), eq(StockDto.class))).thenReturn(dto);
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(stock);
 
-        StockDto response = stockService.toggleStatus("P1_W1");
+        when(stockRepository.save(stock))
+                .thenReturn(stock);
+
+        when(modelMapper.map(stock, StockDto.class))
+                .thenReturn(dto);
+
+        StockDto response =
+                stockService.toggleStatus("P1_W1");
 
         Assertions.assertTrue(response.isSuccess());
+        Assertions.assertEquals(
+                "Stock status updated successfully",
+                response.getMessage()
+        );
     }
 
-    // ================= TOGGLE FAILURE =================
     @Test
     void toggle_notFound() {
 
-        when(stockRepository.findByIdentifier("P1_W1")).thenReturn(null);
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(null);
 
-        StockDto response = stockService.toggleStatus("P1_W1");
+        StockDto response =
+                stockService.toggleStatus("P1_W1");
 
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals("Stock not found", response.getMessage());
+        Assertions.assertEquals(
+                "Stock not found",
+                response.getMessage()
+        );
+    }
+
+    @Test
+    void toggle_deleted() {
+
+        Stock stock = new Stock();
+        stock.setDeleted(true);
+
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(stock);
+
+        StockDto response =
+                stockService.toggleStatus("P1_W1");
+
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertEquals(
+                "Stock not found",
+                response.getMessage()
+        );
     }
 }
