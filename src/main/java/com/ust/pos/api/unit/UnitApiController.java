@@ -5,18 +5,18 @@ import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UnitDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.unit.service.UnitService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/unit")
 public class UnitApiController extends BaseController {
 
-    @Autowired
-    private UnitService unitService;
+    private final UnitService unitService;
 
     @PostMapping("/list")
     public WsDto<UnitDto> list(@RequestBody PaginationDto paginationDto) {

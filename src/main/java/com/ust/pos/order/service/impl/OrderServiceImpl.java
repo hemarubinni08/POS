@@ -6,9 +6,9 @@ import com.ust.pos.dto.OrderEntryDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.*;
 import com.ust.pos.order.service.OrderService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,22 +18,33 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl extends BaseService implements OrderService {
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
+    private final OrderEntryRepository orderEntryRepository;
+    private final CartRepository cartRepository;
+    private final CartEntryRepository cartEntryRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private OrderEntryRepository orderEntryRepository;
-
-    @Autowired
-    private CartRepository cartRepository;
-
-    @Autowired
-    private CartEntryRepository cartEntryRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    private static Order getOrder(OrderDto orderDto, String orderIdentifier, Cart cart) {
+        Order order = new Order();
+        order.setIdentifier(orderIdentifier);
+        order.setCustomerIdentifier(cart.getIdentifier());
+        order.setOriginalPrice(cart.getOriginalPrice());
+        order.setDiscount(cart.getDiscount());
+        order.setTotalPrice(cart.getTotalPrice());
+        order.setPaymentMethod(orderDto.getPaymentMethod());
+        if ("CASH".equalsIgnoreCase(orderDto.getPaymentMethod())) {
+            order.setReceivedAmount(orderDto.getReceivedAmount());
+            BigDecimal changeAmount = orderDto.getReceivedAmount().subtract(cart.getTotalPrice());
+            order.setChangeAmount(changeAmount);
+        } else {
+            order.setReceivedAmount(cart.getTotalPrice());
+            order.setChangeAmount(BigDecimal.ZERO);
+        }
+        return order;
+    }
 
     @Override
     public OrderDto checkout(OrderDto orderDto) {
@@ -50,22 +61,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             return orderDto;
         }
         String orderIdentifier = "ORD-" + System.currentTimeMillis();
-        Order order = new Order();
-        order.setIdentifier(orderIdentifier);
-        order.setCustomerIdentifier(cart.getIdentifier());
-        order.setOriginalPrice(cart.getOriginalPrice());
-        order.setDiscount(cart.getDiscount());
-        order.setTotalPrice(cart.getTotalPrice());
-        order.setPaymentMethod(orderDto.getPaymentMethod());
-
-        if ("CASH".equalsIgnoreCase(orderDto.getPaymentMethod())) {
-            order.setReceivedAmount(orderDto.getReceivedAmount());
-            BigDecimal changeAmount = orderDto.getReceivedAmount().subtract(cart.getTotalPrice());
-            order.setChangeAmount(changeAmount);
-        } else {
-            order.setReceivedAmount(cart.getTotalPrice());
-            order.setChangeAmount(BigDecimal.ZERO);
-        }
+        Order order = getOrder(orderDto, orderIdentifier, cart);
         setCreatedDetails(order);
         orderRepository.save(order);
         for (CartEntry cartEntry : cartEntryList) {
@@ -88,7 +84,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         setModifiedDetails(cart);
         cartRepository.save(cart);
         OrderDto responseDto = modelMapper.map(order, OrderDto.class);
-        Type entryListType = new TypeToken<List<OrderEntryDto>>() {}.getType();
+        Type entryListType = new TypeToken<List<OrderEntryDto>>() {
+        }.getType();
 
         List<OrderEntry> orderEntryList = orderEntryRepository.findByOrderIdentifier(orderIdentifier);
 
@@ -101,26 +98,18 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
     @Override
     public OrderDto get(String identifier) {
-
         Order order = orderRepository.findByIdentifier(identifier);
-
         if (order == null) {
             OrderDto orderDto = new OrderDto();
             orderDto.setSuccess(false);
             orderDto.setMessage("Order not found");
             return orderDto;
         }
-
         OrderDto orderDto = modelMapper.map(order, OrderDto.class);
-
-        List<OrderEntry> orderEntryList =
-                orderEntryRepository.findByOrderIdentifier(identifier);
-
+        List<OrderEntry> orderEntryList = orderEntryRepository.findByOrderIdentifier(identifier);
         Type entryListType = new TypeToken<List<OrderEntryDto>>() {
         }.getType();
-
         orderDto.setEntryList(modelMapper.map(orderEntryList, entryListType));
-
         return orderDto;
     }
 
@@ -129,7 +118,6 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         Type listType = new TypeToken<List<OrderDto>>() {
         }.getType();
         Page<Order> orderPage = orderRepository.findAll(pageable);
-
         WsDto<OrderDto> orderWsDto = new WsDto<>();
         orderWsDto.setDtoList(modelMapper.map(orderPage.getContent(), listType));
         orderWsDto.setTotalRecords(orderPage.getTotalElements());
@@ -145,4 +133,5 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         orderRepository.deleteByIdentifier(identifier);
         return true;
     }
+
 }

@@ -11,20 +11,14 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Table(name = "order_details")
-public class Order extends CommonFields{
+public class Order extends CommonFields {
 
     private String customerIdentifier;
-
     private BigDecimal originalPrice;
-
     private BigDecimal discount;
-
     private BigDecimal totalPrice;
-
     private String paymentMethod;
-
     private BigDecimal receivedAmount;
-
     private BigDecimal changeAmount;
 
 }

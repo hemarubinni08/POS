@@ -4,23 +4,17 @@ import com.ust.pos.base.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.product.service.ProductService;
 import com.ust.pos.stock.service.StockService;
-import com.ust.pos.warehouse.service.WarehouseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/stock")
 public class StockApiController extends BaseController {
 
-    @Autowired
-    private StockService stockService;
-    @Autowired
-    private ProductService productService;
-    @Autowired
-    private WarehouseService warehouseService;
+    private final StockService stockService;
 
     @PostMapping("/list")
     public WsDto<StockDto> list(@RequestBody PaginationDto paginationDto) {

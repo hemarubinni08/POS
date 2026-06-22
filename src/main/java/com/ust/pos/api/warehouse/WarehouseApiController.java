@@ -5,16 +5,16 @@ import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.warehouse.service.WarehouseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/warehouse")
 @RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/warehouse")
 public class WarehouseApiController extends BaseController {
 
-    @Autowired
-    private WarehouseService warehouseService;
+    private final WarehouseService warehouseService;
 
     @PostMapping("/list")
     public WsDto<WarehouseDto> list(@RequestBody PaginationDto paginationDto) {

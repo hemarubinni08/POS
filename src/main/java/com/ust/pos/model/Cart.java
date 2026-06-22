@@ -14,11 +14,8 @@ import java.math.BigDecimal;
 public class Cart extends CommonFields {
 
     private BigDecimal originalPrice;
-
     private BigDecimal totalPrice;
-
     private BigDecimal discount;
-
     private String coupon;
 
 }

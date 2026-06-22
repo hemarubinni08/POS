@@ -16,15 +16,20 @@ public class BaseService {
             return "SYSTEM";
         }
     }
-    protected void setCreatedDetails(CommonFields entity) {
+
+    public void setCreatedDetails(CommonFields entity) {
         entity.setCreatedBy(getLoggedInUser());
         entity.setCreatedOn(LocalDateTime.now());
         entity.setModifiedBy(getLoggedInUser());
         entity.setModifiedOn(LocalDateTime.now());
     }
 
-    protected void setModifiedDetails(CommonFields entity) {
+    public void setModifiedDetails(CommonFields entity) {
         entity.setModifiedBy(getLoggedInUser());
         entity.setModifiedOn(LocalDateTime.now());
+    }
+
+    public void softDelete(CommonFields entity) {
+        entity.setDeleted(true);
     }
 }

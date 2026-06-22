@@ -6,9 +6,9 @@ import com.ust.pos.dto.CartDto;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.model.Cart;
 import com.ust.pos.model.CartRepository;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -16,14 +16,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
-    @Autowired
-    CartRepository cartRepository;
-    @Autowired
-    ModelMapper modelMapper;
-    @Autowired
-    CartEntryService cartEntryService;
+    final CartRepository cartRepository;
+    final ModelMapper modelMapper;
+    final CartEntryService cartEntryService;
 
     @Override
     public CartDto save(CartDto cartDto) {
@@ -59,7 +57,8 @@ public class CartServiceImpl implements CartService {
         cartRepository.save(cartModel);
 
         CartDto cartDto = modelMapper.map(cartModel, CartDto.class);
-        Type listType = new TypeToken<List<CartEntryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CartEntryDto>>() {
+        }.getType();
         cartDto.setEntryList(modelMapper.map(cartEntries, listType));
         return cartDto;
     }

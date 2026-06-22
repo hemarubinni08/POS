@@ -5,7 +5,6 @@ import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Transactional
 public interface OrderService {
 
@@ -16,4 +15,5 @@ public interface OrderService {
     WsDto<OrderDto> findAll(Pageable pageable);
 
     boolean delete(String identifier);
+
 }

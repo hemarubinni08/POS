@@ -35,7 +35,7 @@ public class ShelfController {
         ShelfDto response = shelfService.save(shelfDto);
 
         if (!response.isSuccess()) {
-            model.addAttribute(SHELF,shelfDto);
+            model.addAttribute(SHELF, shelfDto);
             model.addAttribute("message", response.getMessage());
             return "shelf/add";
         }

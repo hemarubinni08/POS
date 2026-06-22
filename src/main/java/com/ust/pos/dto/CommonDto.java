@@ -13,11 +13,9 @@ public class CommonDto {
     private String identifier;
     private String message;
     private boolean success = true;
-
     private String createdBy;
     private LocalDateTime createdOn;
     private String modifiedBy;
     private LocalDateTime modifiedOn;
-
 
 }

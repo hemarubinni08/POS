@@ -15,17 +15,13 @@ public class CommonFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String identifier;
-
     @Column(updatable = false)
     private String createdBy;
-
     @Column(updatable = false)
     private LocalDateTime createdOn;
-
     private String modifiedBy;
-
     private LocalDateTime modifiedOn;
-
-
+    @Column(nullable = false)
+    private Boolean deleted = false;
 
 }

@@ -14,21 +14,13 @@ import java.math.BigDecimal;
 public class CartEntry extends CommonFields {
 
     private String cartIdentifier;
-
     private String productIdentifier;
-
     private BigDecimal quantity;
-
     private BigDecimal unitPrice;
-
     private BigDecimal mrp;
-
     private BigDecimal originalPrice;
-
     private BigDecimal discount;
-
     private BigDecimal unitDiscount;
-
     private BigDecimal totalPrice;
 
 }

@@ -6,9 +6,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrderEntryRepository extends JpaRepository<OrderEntry,Long> {
+public interface OrderEntryRepository extends JpaRepository<OrderEntry, Long> {
 
     List<OrderEntry> findByOrderIdentifier(String orderIdentifier);
 
     void deleteByOrderIdentifier(String orderIdentifier);
+
 }

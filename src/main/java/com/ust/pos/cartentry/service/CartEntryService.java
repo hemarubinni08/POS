@@ -16,6 +16,6 @@ public interface CartEntryService {
 
     void deleteAllByCartIdentifier(String cartIdentifier);
 
-    void reduceQuantity(String cartIdentifier,String productIdentifier);
+    void reduceQuantity(String cartIdentifier, String productIdentifier);
 
 }
