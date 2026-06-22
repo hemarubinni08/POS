@@ -15,8 +15,11 @@ import java.util.List;
 @RequestMapping("/api/unit")
 public class UnitControllerApi extends BaseController {
 
-    @Autowired
-    private UnitService unitService;
+    private final UnitService unitService;
+
+    public UnitControllerApi(UnitService unitService) {
+        this.unitService = unitService;
+    }
 
     @PostMapping("/list")
     public WsDto<UnitDto> list(@RequestBody PaginationDto pagination) {

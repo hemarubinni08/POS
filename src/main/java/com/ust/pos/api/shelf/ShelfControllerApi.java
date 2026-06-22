@@ -15,8 +15,11 @@ import java.util.List;
 @RequestMapping("/api/shelf")
 public class ShelfControllerApi extends BaseController {
 
-    @Autowired
-    private ShelfService shelfService;
+    private final ShelfService shelfService;
+
+    public ShelfControllerApi(ShelfService shelfService) {
+        this.shelfService = shelfService;
+    }
 
     @PostMapping("/list")
     public WsDto<ShelfDto> list(@RequestBody PaginationDto pagination) {
@@ -59,8 +62,8 @@ public class ShelfControllerApi extends BaseController {
         return shelfService.getActiveShelves();
     }
 
-    @GetMapping("/toggle")
-    public ShelfDto toggle(@RequestParam String identifier) {
-        return shelfService.toggleStatus(identifier);
+    @PostMapping("/toggle")
+    public ShelfDto toggle(@RequestBody ShelfDto shelfDto) {
+        return shelfService.toggleStatus(shelfDto.getIdentifier());
     }
 }

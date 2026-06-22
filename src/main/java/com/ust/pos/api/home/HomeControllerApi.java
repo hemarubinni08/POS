@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/home")
 public class HomeControllerApi {
 
-    @Autowired
-    private NodeService nodeService;
+    private final NodeService nodeService;
+
+    public HomeControllerApi(NodeService nodeService) {
+        this.nodeService = nodeService;
+    }
 
     @GetMapping
     public Object home() {

@@ -9,7 +9,6 @@ import com.ust.pos.shelf.service.ShelfService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,16 +37,24 @@ public class ShelfServiceImpl extends BaseService implements ShelfService {
             shelfDto.setMessage("Shelf name is required");
             return shelfDto;
         }
-        Shelf existing = shelfRepository.findByIdentifier(shelfDto.getName());
+
+        String name = shelfDto.getName().trim();
+
+        Shelf existing = shelfRepository.findByIdentifier(name);
         if (existing != null) {
             shelfDto.setSuccess(false);
             shelfDto.setMessage("Shelf already exists");
             return shelfDto;
         }
+
         Shelf shelf = modelMapper.map(shelfDto, Shelf.class);
-        shelf.setIdentifier(shelfDto.getName());
+        // name and identifier must always stay in sync
+        shelf.setName(name);
+        shelf.setIdentifier(name);
+
         setCreatedDetails(shelf);
         shelfRepository.save(shelf);
+
         ShelfDto response = modelMapper.map(shelf, ShelfDto.class);
         response.setSuccess(true);
         response.setMessage("Shelf saved successfully");
@@ -56,18 +63,35 @@ public class ShelfServiceImpl extends BaseService implements ShelfService {
 
     @Override
     public ShelfDto update(ShelfDto shelfDto) {
-        Shelf shelf = shelfRepository.findByIdentifier(shelfDto.getIdentifier());
+        if (shelfDto.getIdentifier() == null || shelfDto.getIdentifier().trim().isEmpty()) {
+            ShelfDto dto = new ShelfDto();
+            dto.setSuccess(false);
+            dto.setMessage(SHELF_NOT_FOUND);
+            return dto;
+        }
+
+        Shelf shelf = shelfRepository.findByIdentifier(shelfDto.getIdentifier().trim());
         if (shelf == null) {
             ShelfDto dto = new ShelfDto();
             dto.setSuccess(false);
             dto.setMessage(SHELF_NOT_FOUND);
             return dto;
         }
+
+        if (shelfDto.getName() != null && !shelfDto.getName().trim().isEmpty()) {
+            String newName = shelfDto.getName().trim();
+            // keep name and identifier in sync on rename too
+            shelf.setName(newName);
+            shelf.setIdentifier(newName);
+        }
+
         if (shelfDto.getStatus() != null) {
             shelf.setStatus(shelfDto.getStatus());
         }
+
         setModifiedDetails(shelf);
         shelfRepository.save(shelf);
+
         ShelfDto response = modelMapper.map(shelf, ShelfDto.class);
         response.setSuccess(true);
         response.setMessage("Shelf updated successfully");
@@ -90,12 +114,12 @@ public class ShelfServiceImpl extends BaseService implements ShelfService {
     public WsDto<ShelfDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
-        Page<Shelf> userPage = shelfRepository.findAll(pageable);
+        Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
 
         WsDto<ShelfDto> shelfWsDto = new WsDto<>();
-        shelfWsDto.setDtoList(modelMapper.map(userPage.getContent(), listType));
-        shelfWsDto.setTotalRecords(userPage.getTotalElements());
-        shelfWsDto.setTotalPages(userPage.getTotalPages());
+        shelfWsDto.setDtoList(modelMapper.map(shelfPage.getContent(), listType));
+        shelfWsDto.setTotalRecords(shelfPage.getTotalElements());
+        shelfWsDto.setTotalPages(shelfPage.getTotalPages());
         shelfWsDto.setSizePerPage(pageable.getPageSize());
         shelfWsDto.setPage(pageable.getPageNumber());
 

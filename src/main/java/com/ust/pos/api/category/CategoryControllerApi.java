@@ -17,8 +17,11 @@ public class CategoryControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/category/list";
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
+
+    public CategoryControllerApi(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @PostMapping("/list")
     public WsDto<CategoryDto> list(@RequestBody PaginationDto pagination) {

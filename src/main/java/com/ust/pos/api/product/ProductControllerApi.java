@@ -17,8 +17,11 @@ public class ProductControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/product/list";
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+
+    public ProductControllerApi(ProductService productService) {
+        this.productService = productService;
+    }
 
     @PostMapping("/list")
     public WsDto<ProductDto> list(@RequestBody PaginationDto pagination) {

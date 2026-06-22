@@ -17,8 +17,11 @@ public class ModelsControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/models/list";
 
-    @Autowired
-    private ModelsService modelsService;
+    private final ModelsService modelsService;
+
+    public ModelsControllerApi(ModelsService modelsService) {
+        this.modelsService = modelsService;
+    }
 
     @PostMapping("/list")
     public WsDto<ModelsDto> list(@RequestBody PaginationDto pagination) {

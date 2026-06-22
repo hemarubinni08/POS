@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user")
 public class UserControllerApi extends BaseController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserControllerApi(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/list")
     public WsDto<UserDto> list(@RequestBody PaginationDto pagination) {

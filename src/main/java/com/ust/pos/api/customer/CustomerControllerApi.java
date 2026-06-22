@@ -17,8 +17,11 @@ public class CustomerControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/customer/list";
 
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
+
+    public CustomerControllerApi(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @PostMapping("/list")
     public WsDto<CustomerDto> list(@RequestBody PaginationDto pagination) {

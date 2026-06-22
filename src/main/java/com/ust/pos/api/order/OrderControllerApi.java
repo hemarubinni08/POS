@@ -15,8 +15,11 @@ import java.util.List;
 @RequestMapping("/api/order")
 public class OrderControllerApi extends BaseController {
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
+
+    public OrderControllerApi(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @PostMapping("/list")
     public WsDto<OrderDto> list(@RequestBody PaginationDto pagination) {

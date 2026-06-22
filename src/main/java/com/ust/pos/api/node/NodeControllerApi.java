@@ -17,8 +17,11 @@ public class NodeControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/node/list";
 
-    @Autowired
-    private NodeService nodeService;
+    private final NodeService nodeService;
+
+    public NodeControllerApi(NodeService nodeService) {
+        this.nodeService = nodeService;
+    }
 
     @PostMapping("/list")
     public WsDto<NodeDto> list(@RequestBody PaginationDto paginationDto) {

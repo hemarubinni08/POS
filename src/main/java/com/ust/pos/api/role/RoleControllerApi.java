@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.*;
 //here its disable if it is as enable then in the role contrller API no need of @CrossOrigin(origins = "http://localhost:5173")
 public class RoleControllerApi extends BaseController {
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
+
+    public RoleControllerApi(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @PostMapping("/list")
     public WsDto<RoleDto> list(@RequestBody PaginationDto pagination) {

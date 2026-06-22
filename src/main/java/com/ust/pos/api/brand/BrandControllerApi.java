@@ -15,8 +15,11 @@ import java.util.List;
 @RequestMapping("/api/brand")
 public class BrandControllerApi extends BaseController {
 
-    @Autowired
-    private BrandService brandService;
+    private final BrandService brandService;
+
+    public BrandControllerApi(BrandService brandService) {
+        this.brandService = brandService;
+    }
 
     @PostMapping("/list")
     public WsDto<BrandDto> list(@RequestBody PaginationDto pagination) {

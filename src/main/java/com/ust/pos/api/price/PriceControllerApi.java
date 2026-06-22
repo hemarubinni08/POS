@@ -17,8 +17,11 @@ public class PriceControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/price/list";
 
-    @Autowired
-    private PriceService priceService;
+    private final PriceService priceService;
+
+    public PriceControllerApi(PriceService priceService) {
+        this.priceService = priceService;
+    }
 
     @PostMapping("/list")
     public WsDto<PriceDto> list(@RequestBody PaginationDto pagination) {

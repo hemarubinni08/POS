@@ -15,8 +15,11 @@ import java.util.List;
 @RequestMapping("/api/stock")
 public class StockControllerApi extends BaseController {
 
-    @Autowired
-    private StockService stockService;
+    private final StockService stockService;
+
+    public StockControllerApi(StockService stockService) {
+        this.stockService = stockService;
+    }
 
     @PostMapping("/list")
     public WsDto<StockDto> list(@RequestBody PaginationDto pagination) {

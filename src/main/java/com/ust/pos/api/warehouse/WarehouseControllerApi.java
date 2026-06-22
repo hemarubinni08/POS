@@ -15,8 +15,11 @@ public class WarehouseControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/warehouse/list";
 
-    @Autowired
-    private WarehouseService warehouseService;
+    private final WarehouseService warehouseService;
+
+    public WarehouseControllerApi(WarehouseService warehouseService) {
+        this.warehouseService = warehouseService;
+    }
 
     @PostMapping("/list")
     public WsDto<WarehouseDto> list(@RequestBody PaginationDto pagination) {

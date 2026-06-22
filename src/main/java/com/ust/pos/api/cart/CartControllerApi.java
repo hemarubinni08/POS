@@ -14,8 +14,11 @@ import java.util.List;
 @RequestMapping("/api/cart")
 public class CartControllerApi extends BaseController {
 
-    @Autowired
-    private CartService cartService;
+    private final CartService cartService;
+
+    public CartControllerApi(CartService cartService) {
+        this.cartService = cartService;
+    }
 
     @PostMapping("/list")
     public List<CartDto> list(@RequestBody PaginationDto pagination) {

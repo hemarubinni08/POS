@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TokenGenerationController {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
+    private final AuthenticationProvider authenticationProvider;
+    private final JWTUtility jwtUtility;
+    private final UserService userService;
 
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
-
-    @Autowired
-    private JWTUtility jwtUtility;
-
-    @Autowired
-    private UserService userService;
+    public TokenGenerationController(UserDetailsService userDetailsService, AuthenticationProvider authenticationProvider, JWTUtility jwtUtility, UserService userService) {
+        this.userDetailsService = userDetailsService;
+        this.authenticationProvider = authenticationProvider;
+        this.jwtUtility = jwtUtility;
+        this.userService = userService;
+    }
 
     @PostMapping("/api/authenticate")
     public UserDto authenticate(@RequestBody UserDto userDto) {
