@@ -11,5 +11,5 @@ import java.util.List;
 @Setter
 public class Product extends CommonFields {
     private List<String> categories;
-    private Long supplierID;
+    private String supplierID;
 }

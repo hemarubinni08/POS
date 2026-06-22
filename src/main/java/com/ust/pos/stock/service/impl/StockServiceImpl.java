@@ -29,7 +29,7 @@ public class StockServiceImpl implements StockService {
     @Override
     public StockDto save(StockDto stockDto) {
         String identifier = stockDto.getIdentifier();
-        Stock existingStock = stockRepository.findByIdentifier(identifier);
+        Stock existingStock = stockRepository.findByIdentifierAndDeletedFalse(identifier);
 
         if (existingStock != null) {
             stockDto.setMessage("Stock with identifier - " + identifier + " already exists");
@@ -45,7 +45,7 @@ public class StockServiceImpl implements StockService {
     @Override
     public StockDto update(StockDto stockDto) {
         String identifier = stockDto.getIdentifier();
-        Stock existingStock = stockRepository.findByIdentifier(identifier);
+        Stock existingStock = stockRepository.findByIdentifierAndDeletedFalse(identifier);
 
         if (existingStock == null) {
             stockDto.setMessage("Stock with identifier - " + identifier + " not found");
@@ -60,24 +60,29 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public void delete(String identifier) {
-        stockRepository.deleteByIdentifier(identifier);
+        Stock stock = stockRepository.findByIdentifierAndDeletedFalse(identifier);
+
+        if (stock != null) {
+            stock.setDeleted(true);
+            stockRepository.save(stock);
+        }
     }
 
     @Override
     public List<StockDto> findAll() {
         Type listType = new TypeToken<List<StockDto>>() {
         }.getType();
-        return modelMapper.map(stockRepository.findAll(), listType);
+        return modelMapper.map(stockRepository.findByDeletedFalse(), listType);
     }
 
     @Override
     public StockDto findByIdentifier(String identifier) {
-        return modelMapper.map(stockRepository.findByIdentifier(identifier), StockDto.class);
+        return modelMapper.map(stockRepository.findByIdentifierAndDeletedFalse(identifier), StockDto.class);
     }
 
     @Override
     public void toggleStatus(String identifier) {
-        Stock stock = stockRepository.findByIdentifier(identifier);
+        Stock stock = stockRepository.findByIdentifierAndDeletedFalse(identifier);
         if (stock != null) {
             stock.setStatus(!stock.isStatus());
             stockRepository.save(stock);
@@ -85,10 +90,13 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
-    public List<StockDto> findAll(Pageable pageable) {
-        Type listtype = new TypeToken<List<StockDto>>() {
-        }.getType();
-        Page<Stock> stockPage = stockRepository.findAll(pageable);
-        return modelMapper.map(stockPage.getContent(), listtype);
+    public Page<StockDto> findAll(Pageable pageable, String search) {
+        Page<Stock> stocks;
+        if (search != null && !search.trim().isEmpty()) {
+            stocks = stockRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search, pageable);
+        } else {
+            stocks = stockRepository.findByDeletedFalse(pageable);
+        }
+        return stocks.map(stock -> modelMapper.map(stock, StockDto.class));
     }
 }

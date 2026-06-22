@@ -48,7 +48,7 @@ class CustomerServiceTest {
         dto.setBilling(billing);
         dto.setShipping(shipping);
 
-        Mockito.when(customerRepository.findByIdentifier("C1"))
+        Mockito.when(customerRepository.findByIdentifierAndDeletedFalse("C1"))
                 .thenReturn(null);
 
         Mockito.doNothing()
@@ -72,7 +72,7 @@ class CustomerServiceTest {
         CustomerDto dto = new CustomerDto();
         dto.setIdentifier("C1");
 
-        Mockito.when(customerRepository.findByIdentifier("C1"))
+        Mockito.when(customerRepository.findByIdentifierAndDeletedFalse("C1"))
                 .thenReturn(new Customer());
 
         CustomerDto response = customerService.save(dto);
@@ -94,7 +94,7 @@ class CustomerServiceTest {
         dto.setBilling(billing);
         dto.setShipping(shipping);
 
-        Mockito.when(customerRepository.findByIdentifier("C1"))
+        Mockito.when(customerRepository.findByIdentifierAndDeletedFalse("C1"))
                 .thenReturn(new Customer());
 
         Customer mappedCustomer = new Customer();
@@ -118,7 +118,7 @@ class CustomerServiceTest {
         CustomerDto dto = new CustomerDto();
         dto.setIdentifier("C1");
 
-        Mockito.when(customerRepository.findByIdentifier("C1"))
+        Mockito.when(customerRepository.findByIdentifierAndDeletedFalse("C1"))
                 .thenReturn(null);
 
         CustomerDto response = customerService.update(dto);
@@ -138,7 +138,7 @@ class CustomerServiceTest {
         CustomerDto dto = new CustomerDto();
         dto.setIdentifier("C1");
 
-        Mockito.when(customerRepository.findByIdentifier("C1"))
+        Mockito.when(customerRepository.findByIdentifierAndDeletedFalse("C1"))
                 .thenReturn(customer);
         Mockito.when(modelMapper.map(customer, CustomerDto.class))
                 .thenReturn(dto);

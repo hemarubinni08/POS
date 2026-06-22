@@ -3,7 +3,9 @@ package com.ust.pos.api.modelproduct;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.ModelProductDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.modelproduct.service.ModelProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,11 +26,22 @@ public class ModelProductControllerApi extends BaseController {
         this.modelProductService = modelProductService;
     }
 
+    @GetMapping("/all")
+    public List<ModelProductDto> all() {
+        return modelProductService.findAll();
+    }
+
     @PostMapping("/list")
-    public List<ModelProductDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
-                paginationDto.getSortDirection(), paginationDto.getSortField());
-        return modelProductService.findAll(pageable);
+    public WsDto<ModelProductDto> list(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(),
+                paginationDto.getSizePerPage(),paginationDto.getSortField());
+        Page<ModelProductDto> pageResult = modelProductService.findAll(pageable, paginationDto.getSearch());
+        WsDto<ModelProductDto> response = new WsDto<>();
+        response.setContent(pageResult.getContent());
+        response.setPage(pageResult.getNumber());
+        response.setSizePerPage(pageResult.getSize());
+        response.setTotalPages(pageResult.getTotalPages());
+        return response;
     }
 
     @PostMapping("/add")
@@ -57,7 +70,7 @@ public class ModelProductControllerApi extends BaseController {
     }
 
     @PostMapping("/toggleStatus")
-    public boolean toggleStatus(@RequestBody String identifier) {
+    public boolean toggleStatus(@RequestParam String identifier) {
         try {
             modelProductService.toggleStatus(identifier);
         } catch (Exception e) {

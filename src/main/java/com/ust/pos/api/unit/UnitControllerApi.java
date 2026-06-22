@@ -1,9 +1,11 @@
 package com.ust.pos.api.unit;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.UnitDto;
+import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.WsDto;
 import com.ust.pos.unit.service.UnitService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,11 +26,22 @@ public class UnitControllerApi extends BaseController {
         this.unitService = unitService;
     }
 
+    @GetMapping("/all")
+    public List<UnitDto> all() {
+        return unitService.findAll();
+    }
+
     @PostMapping("/list")
-    public List<UnitDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
-                paginationDto.getSortDirection(), paginationDto.getSortField());
-        return unitService.findAll(pageable);
+    public WsDto<UnitDto> list(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(),
+                paginationDto.getSizePerPage(),paginationDto.getSortField());
+        Page<UnitDto> pageResult = unitService.findAll(pageable, paginationDto.getSearch());
+        WsDto<UnitDto> response = new WsDto<>();
+        response.setContent(pageResult.getContent());
+        response.setPage(pageResult.getNumber());
+        response.setSizePerPage(pageResult.getSize());
+        response.setTotalPages(pageResult.getTotalPages());
+        return response;
     }
 
     @PostMapping("/add")
@@ -57,7 +70,7 @@ public class UnitControllerApi extends BaseController {
     }
 
     @PostMapping("/toggleStatus")
-    public boolean toggleStatus(@RequestBody String identifier) {
+    public boolean toggleStatus(@RequestParam String identifier) {
         try {
             unitService.toggleStatus(identifier);
         } catch (Exception e) {

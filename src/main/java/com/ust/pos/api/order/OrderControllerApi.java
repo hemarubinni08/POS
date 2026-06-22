@@ -21,7 +21,6 @@ public class OrderControllerApi extends BaseController {
         this.orderService = orderService;
     }
 
-
     @GetMapping("/all")
     public List<OrderDto> all() {
         return orderService.findAll();

@@ -30,7 +30,7 @@ public class ShelfServiceImpl implements ShelfService {
     @Override
     public ShelfDto save(ShelfDto shelfDto) {
         String identifier = shelfDto.getIdentifier();
-        Shelf existingshelf = shelfRepository.findByIdentifier(identifier);
+        Shelf existingshelf = shelfRepository.findByIdentifierAndDeletedFalse(identifier);
 
         if (existingshelf != null) {
             shelfDto.setMessage("Shelf already exists");
@@ -53,7 +53,7 @@ public class ShelfServiceImpl implements ShelfService {
             return shelfDto;
         } else {
             Shelf existingshelf = optionalShelf.get();
-            if (!identifier.equalsIgnoreCase(existingshelf.getIdentifier()) && shelfRepository.findByIdentifier(identifier) != null) {
+            if (!identifier.equalsIgnoreCase(existingshelf.getIdentifier()) && shelfRepository.findByIdentifierAndDeletedFalse(identifier) != null) {
                 shelfDto.setSuccess(false);
                 shelfDto.setMessage("Shelf already exists");
                 return shelfDto;
@@ -68,24 +68,29 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public ShelfDto findByIdentifier(String identifier) {
-        return modelMapper.map(shelfRepository.findByIdentifier(identifier), ShelfDto.class);
+        return modelMapper.map(shelfRepository.findByIdentifierAndDeletedFalse(identifier), ShelfDto.class);
     }
 
     @Override
     public List<ShelfDto> findAll() {
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
-        return modelMapper.map(shelfRepository.findAll(), listType);
+        return modelMapper.map(shelfRepository.findByDeletedFalse(), listType);
     }
 
     @Override
     public void delete(String identifier) {
-        shelfRepository.deleteByIdentifier(identifier);
+        Shelf shelf = shelfRepository.findByIdentifierAndDeletedFalse(identifier);
+
+        if (shelf != null) {
+            shelf.setDeleted(true);
+            shelfRepository.save(shelf);
+        }
     }
 
     @Override
     public void toggleStatus(String identifier) {
-        Shelf shelfs = shelfRepository.findByIdentifier(identifier);
+        Shelf shelfs = shelfRepository.findByIdentifierAndDeletedFalse(identifier);
         if (shelfs != null) {
             shelfs.setStatus(!shelfs.isStatus());
             shelfRepository.save(shelfs);
@@ -96,14 +101,17 @@ public class ShelfServiceImpl implements ShelfService {
     public List<ShelfDto> findActive() {
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
-        return modelMapper.map(shelfRepository.findByStatusIs(true), listType);
+        return modelMapper.map(shelfRepository.findByStatusIsAndDeletedFalse(true), listType);
     }
 
     @Override
-    public List<ShelfDto> findAll(Pageable pageable) {
-        Type listtype = new TypeToken<List<ShelfDto>>() {
-        }.getType();
-        Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
-        return modelMapper.map(shelfPage.getContent(), listtype);
+    public Page<ShelfDto> findAll(Pageable pageable, String search) {
+        Page<Shelf> shelfs;
+        if (search != null && !search.trim().isEmpty()) {
+            shelfs = shelfRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search, pageable);
+        } else {
+            shelfs = shelfRepository.findByDeletedFalse(pageable);
+        }
+        return shelfs.map(shelf -> modelMapper.map(shelf, ShelfDto.class));
     }
 }

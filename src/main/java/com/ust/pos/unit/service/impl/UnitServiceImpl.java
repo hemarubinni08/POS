@@ -31,7 +31,7 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public UnitDto save(UnitDto unitDto) {
         String identifier = unitDto.getIdentifier();
-        Unit existingModel = unitRepository.findByIdentifier(identifier);
+        Unit existingModel = unitRepository.findByIdentifierAndDeletedFalse(identifier);
 
         if (existingModel != null) {
             unitDto.setMessage("Model - " + identifier + " already exists");
@@ -54,7 +54,7 @@ public class UnitServiceImpl implements UnitService {
             return unitDto;
         } else {
             Unit existingModel = optionalUnit.get();
-            if (!identifier.equals(existingModel.getIdentifier()) && unitRepository.findByIdentifier(identifier) != null) {
+            if (!identifier.equals(existingModel.getIdentifier()) && unitRepository.findByIdentifierAndDeletedFalse(identifier) != null) {
                 unitDto.setSuccess(false);
                 unitDto.setMessage("Model Already Exists");
                 return unitDto;
@@ -69,24 +69,29 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public UnitDto findByIdentifier(String identifier) {
-        return modelMapper.map(unitRepository.findByIdentifier(identifier), UnitDto.class);
+        return modelMapper.map(unitRepository.findByIdentifierAndDeletedFalse(identifier), UnitDto.class);
     }
 
     @Override
     public List<UnitDto> findAll() {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
-        return modelMapper.map(unitRepository.findAll(), listType);
+        return modelMapper.map(unitRepository.findByDeletedFalse(), listType);
     }
 
     @Override
     public void delete(String identifier) {
-        unitRepository.deleteByIdentifier(identifier);
+        Unit unit = unitRepository.findByIdentifierAndDeletedFalse(identifier);
+
+        if (unit != null) {
+            unit.setDeleted(true);
+            unitRepository.save(unit);
+        }
     }
 
     @Override
     public void toggleStatus(String identifier) {
-        Unit unit = unitRepository.findByIdentifier(identifier);
+        Unit unit = unitRepository.findByIdentifierAndDeletedFalse(identifier);
         if (unit != null) {
             unit.setStatus(!unit.isStatus());
             unitRepository.save(unit);
@@ -94,10 +99,13 @@ public class UnitServiceImpl implements UnitService {
     }
 
     @Override
-    public List<UnitDto> findAll(Pageable pageable) {
-        Type listtype = new TypeToken<List<UnitDto>>() {
-        }.getType();
-        Page<Unit> unitPage = unitRepository.findAll(pageable);
-        return modelMapper.map(unitPage.getContent(), listtype);
+    public Page<UnitDto> findAll(Pageable pageable, String search) {
+        Page<Unit> units;
+        if (search != null && !search.trim().isEmpty()) {
+            units = unitRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search, pageable);
+        } else {
+            units = unitRepository.findByDeletedFalse(pageable);
+        }
+        return units.map(unit -> modelMapper.map(unit, UnitDto.class));
     }
 }

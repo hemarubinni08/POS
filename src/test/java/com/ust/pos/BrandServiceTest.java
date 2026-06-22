@@ -38,7 +38,7 @@ class BrandServiceTest {
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("B1");
 
-        Mockito.when(brandRepository.findByIdentifier("B1")).thenReturn(null);
+        Mockito.when(brandRepository.findByIdentifierAndDeletedFalse("B1")).thenReturn(null);
 
         Brand brand = new Brand();
 
@@ -60,7 +60,7 @@ class BrandServiceTest {
 
         Brand brand = new Brand();
 
-        Mockito.when(brandRepository.findByIdentifier("B1")).thenReturn(brand);
+        Mockito.when(brandRepository.findByIdentifierAndDeletedFalse("B1")).thenReturn(brand);
 
         BrandDto response = brandService.save(brandDto);
 
@@ -79,7 +79,7 @@ class BrandServiceTest {
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("B1");
 
-        Mockito.when(brandRepository.findByIdentifier("B1")).thenReturn(brand);
+        Mockito.when(brandRepository.findByIdentifierAndDeletedFalse("B1")).thenReturn(brand);
         Mockito.when(modelMapper.map(brand, BrandDto.class)).thenReturn(brandDto);
 
         BrandDto response = brandService.findByIdentifier("B1");
@@ -89,7 +89,7 @@ class BrandServiceTest {
 
     @Test
     void findByIdentifierNullTest() {
-        Mockito.when(brandRepository.findByIdentifier("B1"))
+        Mockito.when(brandRepository.findByIdentifierAndDeletedFalse("B1"))
                 .thenReturn(null);
 
         BrandDto response = brandService.findByIdentifier("B1");
@@ -104,7 +104,7 @@ class BrandServiceTest {
 
         Brand existingBrand = new Brand();
 
-        Mockito.when(brandRepository.findByIdentifier("B1")).thenReturn(existingBrand);
+        Mockito.when(brandRepository.findByIdentifierAndDeletedFalse("B1")).thenReturn(existingBrand);
         Mockito.when(brandRepository.save(existingBrand)).thenReturn(existingBrand);
 
         BrandDto response = brandService.update(brandDto);
@@ -120,7 +120,7 @@ class BrandServiceTest {
         BrandDto brandDto = new BrandDto();
         brandDto.setIdentifier("B1");
 
-        Mockito.when(brandRepository.findByIdentifier("B1")).thenReturn(null);
+        Mockito.when(brandRepository.findByIdentifierAndDeletedFalse("B1")).thenReturn(null);
 
         BrandDto response = brandService.update(brandDto);
 
@@ -166,7 +166,7 @@ class BrandServiceTest {
         brand.setIdentifier("B1");
         brand.setStatus(false);
 
-        Mockito.when(brandRepository.findByIdentifier("B1")).thenReturn(brand);
+        Mockito.when(brandRepository.findByIdentifierAndDeletedFalse("B1")).thenReturn(brand);
 
         brandService.toggleStatus("B1");
 
@@ -177,7 +177,7 @@ class BrandServiceTest {
 
     @Test
     void toggleStatusNotFoundTest() {
-        Mockito.when(brandRepository.findByIdentifier("B1")).thenReturn(null);
+        Mockito.when(brandRepository.findByIdentifierAndDeletedFalse("B1")).thenReturn(null);
 
         brandService.toggleStatus("B1");
 

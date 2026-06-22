@@ -36,13 +36,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByUserName(String username) {
-        return modelMapper.map(userRepository.findByUsername(username), UserDto.class);
+        return modelMapper.map(userRepository.findByUsernameAndDeletedFalse(username), UserDto.class);
     }
 
     @Override
     public UserDto save(UserDto userDto) {
         String username = userDto.getUsername();
-        User existingUser = userRepository.findByUsername(username);
+        User existingUser = userRepository.findByUsernameAndDeletedFalse(username);
 
         if (existingUser != null) {
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
             return userDto;
         } else {
             User existingUser = userOptional.get();
-            if (!username.equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsername(username) != null) {
+            if (!username.equalsIgnoreCase(existingUser.getUsername()) && userRepository.findByUsernameAndDeletedFalse(username) != null) {
                 userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
                 userDto.setSuccess(false);
                 return userDto;
@@ -80,23 +80,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(String username) {
-        userRepository.deleteByUsername(username);
+        User user = userRepository.findByUsernameAndDeletedFalse(username);
+
+        if (user != null) {
+            user.setDeleted(true);
+            userRepository.save(user);
+        }
     }
 
     @Override
     public List<UserDto> findAll() {
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
-        return modelMapper.map(userRepository.findAll(), listType);
+        return modelMapper.map(userRepository.findByDeletedFalse(), listType);
     }
 
     @Override
     public Page<UserDto> findAll(Pageable pageable, String search) {
         Page<User> users;
         if (search != null && !search.trim().isEmpty()) {
-            users = userRepository.findByUsernameContainingIgnoreCase(search, pageable);
+            users = userRepository.findByUsernameContainingIgnoreCaseAndDeletedFalse(search, pageable);
         } else {
-            users = userRepository.findAll(pageable);
+            users = userRepository.findByDeletedFalse(pageable);
         }
         return users.map(user -> modelMapper.map(user, UserDto.class));
     }
