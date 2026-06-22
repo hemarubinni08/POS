@@ -16,6 +16,9 @@ public class CommonFields {
     private String identifier;
     private Boolean status = true;
 
+    @Column(nullable = false)
+    private Boolean deleted = false;
+
     @Column(updatable = false)
     private String createdBy;
 

@@ -9,7 +9,6 @@ import com.ust.pos.unit.service.UnitService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,19 +38,34 @@ public class UnitServiceImpl extends BaseService implements UnitService {
             unitDto.setMessage("Unit name is required");
             return unitDto;
         }
-        Unit existing = unitRepository.findByIdentifier(unitName);
+
+        String identifier = unitName.trim();
+
+        Unit existing = unitRepository.findByIdentifier(identifier);
+
         if (existing != null) {
+
+            if (Boolean.TRUE.equals(existing.getDeleted())) {
+                unitDto.setMessage(
+                        "Unit with identifier " + identifier +
+                                " has been soft deleted. (Rollback by changing status)"
+                );
+                unitDto.setSuccess(false);
+                return unitDto;
+            }
+
             unitDto.setSuccess(false);
             unitDto.setMessage("Unit already exists");
             return unitDto;
         }
+
         Unit unit = new Unit();
-        unit.setIdentifier(unitName);
-        unit.setUnitName(unitName);
+        unit.setIdentifier(identifier);
+        unit.setUnitName(identifier);
         unit.setStatus(Boolean.TRUE.equals(unitDto.getStatus()));
         setCreatedDetails(unit);
         unitRepository.save(unit);
-        unitDto.setIdentifier(unitName);
+        unitDto.setIdentifier(identifier);
         unitDto.setSuccess(true);
         unitDto.setMessage("Unit added successfully");
         return unitDto;
@@ -65,12 +79,23 @@ public class UnitServiceImpl extends BaseService implements UnitService {
             unitDto.setMessage("Invalid identifier");
             return unitDto;
         }
+
         Unit unit = unitRepository.findByIdentifier(identifier);
         if (unit == null) {
             unitDto.setSuccess(false);
             unitDto.setMessage(UNIT_NOT_FOUND);
             return unitDto;
         }
+
+        if (Boolean.TRUE.equals(unit.getDeleted())) {
+            unitDto.setSuccess(false);
+            unitDto.setMessage(
+                    "Unit with identifier " + identifier +
+                            " has been soft deleted. (Rollback by changing status)"
+            );
+            return unitDto;
+        }
+
         unit.setStatus(Boolean.TRUE.equals(unitDto.getStatus()));
         setModifiedDetails(unit);
         unitRepository.save(unit);
@@ -81,14 +106,25 @@ public class UnitServiceImpl extends BaseService implements UnitService {
 
     @Override
     public void delete(String identifier) {
-        unitRepository.deleteByIdentifier(identifier);
+
+        Unit unit = unitRepository.findByIdentifier(identifier);
+
+        if (unit == null) {
+            return;
+        }
+
+        softDelete(unit);
+
+        setModifiedDetails(unit);
+
+        unitRepository.save(unit);
     }
 
     @Override
     public WsDto<UnitDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
-        Page<Unit> unitPage = unitRepository.findAll(pageable);
+        Page<Unit> unitPage = unitRepository.findByDeletedFalse(pageable);
 
         WsDto<UnitDto> unitWsDto = new WsDto<>();
         unitWsDto.setDtoList(modelMapper.map(unitPage.getContent(), listType));
@@ -103,7 +139,7 @@ public class UnitServiceImpl extends BaseService implements UnitService {
     @Override
     public UnitDto findByIdentifier(String identifier) {
         Unit unit = unitRepository.findByIdentifier(identifier);
-        if (unit == null) {
+        if (unit == null || Boolean.TRUE.equals(unit.getDeleted())) {
             UnitDto dto = new UnitDto();
             dto.setSuccess(false);
             dto.setMessage(UNIT_NOT_FOUND);
@@ -121,6 +157,16 @@ public class UnitServiceImpl extends BaseService implements UnitService {
             response.setMessage(UNIT_NOT_FOUND);
             return response;
         }
+
+        if (Boolean.TRUE.equals(unit.getDeleted())) {
+            response.setSuccess(false);
+            response.setMessage(
+                    "Unit with identifier " + identifier +
+                            " has been soft deleted. (Rollback by changing status)"
+            );
+            return response;
+        }
+
         unit.setStatus(!Boolean.TRUE.equals(unit.getStatus()));
         setModifiedDetails(unit);
         unitRepository.save(unit);
@@ -132,7 +178,9 @@ public class UnitServiceImpl extends BaseService implements UnitService {
 
     @Override
     public List<UnitDto> findActiveUnits() {
-        return unitRepository.findAll().stream().filter(u -> Boolean.TRUE
-                .equals(u.getStatus())).map(u -> modelMapper.map(u, UnitDto.class)).toList();
+        return unitRepository.findAll().stream()
+                .filter(u -> Boolean.TRUE.equals(u.getStatus()) && !Boolean.TRUE.equals(u.getDeleted()))
+                .map(u -> modelMapper.map(u, UnitDto.class))
+                .toList();
     }
 }

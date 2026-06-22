@@ -13,6 +13,7 @@ public class CommonDto extends PaginationDto {
     private String message;
     private boolean success = true;
     private Boolean status = true;
+    private Boolean deleted = false;
 
     private String createdBy;
     private LocalDateTime createdOn;

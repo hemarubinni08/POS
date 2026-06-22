@@ -19,4 +19,6 @@ public interface PriceService {
     void delete(String identifier);
 
     List<String> getPriceTypes();
+
+    List<PriceDto> findActivePrices();
 }

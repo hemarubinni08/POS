@@ -27,4 +27,9 @@ public class BaseService {
         entity.setModifiedBy(getLoggedInUser());
         entity.setModifiedOn(LocalDateTime.now());
     }
+
+    protected void softDelete(CommonFields entity){
+        entity.setDeleted(true);
+        entity.setStatus(false);
+    }
 }
