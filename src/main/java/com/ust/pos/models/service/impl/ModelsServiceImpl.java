@@ -20,6 +20,7 @@ import java.util.List;
 @Transactional
 public class ModelsServiceImpl extends BaseService implements ModelsService {
 
+    public static final String MODEL_NOT_FOUND = "Model not found";
     private final ModelsRepository modelsRepository;
     private final ModelMapper modelMapper;
 
@@ -71,7 +72,7 @@ public class ModelsServiceImpl extends BaseService implements ModelsService {
 
         if (model == null || Boolean.TRUE.equals(model.getDeleted())) {
             dto.setSuccess(false);
-            dto.setMessage("Model not found");
+            dto.setMessage(MODEL_NOT_FOUND);
             return dto;
         }
 
@@ -99,7 +100,7 @@ public class ModelsServiceImpl extends BaseService implements ModelsService {
         if (model == null || Boolean.TRUE.equals(model.getDeleted())) {
             ModelsDto dto = new ModelsDto();
             dto.setSuccess(false);
-            dto.setMessage("Model not found");
+            dto.setMessage(MODEL_NOT_FOUND);
             return dto;
         }
 
@@ -145,7 +146,7 @@ public class ModelsServiceImpl extends BaseService implements ModelsService {
         if (model == null || Boolean.TRUE.equals(model.getDeleted())) {
             ModelsDto dto = new ModelsDto();
             dto.setSuccess(false);
-            dto.setMessage("Model not found");
+            dto.setMessage(MODEL_NOT_FOUND);
             return dto;
         }
 

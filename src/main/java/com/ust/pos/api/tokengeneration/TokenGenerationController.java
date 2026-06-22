@@ -3,7 +3,6 @@ package com.ust.pos.api.tokengeneration;
 import com.ust.pos.config.JWTUtility;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;

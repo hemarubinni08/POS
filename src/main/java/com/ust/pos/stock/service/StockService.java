@@ -2,7 +2,6 @@ package com.ust.pos.stock.service;
 
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Stock;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

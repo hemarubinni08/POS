@@ -21,6 +21,8 @@ import java.util.List;
 public class UnitServiceImpl extends BaseService implements UnitService {
 
     public static final String UNIT_NOT_FOUND = "Unit not found";
+    public static final String UNIT_WITH_IDENTIFIER = "Unit with identifier ";
+    public static final String HAS_BEEN_SOFT_DELETED_ROLLBACK_BY_CHANGING_STATUS = " has been soft deleted. (Rollback by changing status)";
 
     private final UnitRepository unitRepository;
     private final ModelMapper modelMapper;
@@ -47,8 +49,8 @@ public class UnitServiceImpl extends BaseService implements UnitService {
 
             if (Boolean.TRUE.equals(existing.getDeleted())) {
                 unitDto.setMessage(
-                        "Unit with identifier " + identifier +
-                                " has been soft deleted. (Rollback by changing status)"
+                        UNIT_WITH_IDENTIFIER + identifier +
+                                HAS_BEEN_SOFT_DELETED_ROLLBACK_BY_CHANGING_STATUS
                 );
                 unitDto.setSuccess(false);
                 return unitDto;
@@ -90,8 +92,8 @@ public class UnitServiceImpl extends BaseService implements UnitService {
         if (Boolean.TRUE.equals(unit.getDeleted())) {
             unitDto.setSuccess(false);
             unitDto.setMessage(
-                    "Unit with identifier " + identifier +
-                            " has been soft deleted. (Rollback by changing status)"
+                    UNIT_WITH_IDENTIFIER + identifier +
+                            HAS_BEEN_SOFT_DELETED_ROLLBACK_BY_CHANGING_STATUS
             );
             return unitDto;
         }
@@ -161,8 +163,8 @@ public class UnitServiceImpl extends BaseService implements UnitService {
         if (Boolean.TRUE.equals(unit.getDeleted())) {
             response.setSuccess(false);
             response.setMessage(
-                    "Unit with identifier " + identifier +
-                            " has been soft deleted. (Rollback by changing status)"
+                    UNIT_WITH_IDENTIFIER + identifier +
+                            HAS_BEEN_SOFT_DELETED_ROLLBACK_BY_CHANGING_STATUS
             );
             return response;
         }

@@ -23,6 +23,7 @@ import java.util.List;
 @Transactional
 public class CustomerServiceImpl extends BaseService implements CustomerService {
 
+    public static final String CUSTOMER_NOT_FOUND = "Customer not found";
     private final CustomerRepository customerRepository;
     private final ModelMapper modelMapper;
     private final AddressService addressService;
@@ -60,7 +61,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         if (customer == null || Boolean.TRUE.equals(customer.getDeleted())) {
             CustomerDto dto = new CustomerDto();
             dto.setSuccess(false);
-            dto.setMessage("Customer not found");
+            dto.setMessage(CUSTOMER_NOT_FOUND);
             return dto;
         }
 
@@ -99,7 +100,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         Customer customer = modelMapper.map(dto, Customer.class);
 
         customer.setIdentifier(dto.getPhoneNo());
-        customer.setStatus(customer.getStatus() == null ? true : customer.getStatus());
+        customer.setStatus(customer.getStatus() == null || customer.getStatus());
 
         setCreatedDetails(customer);
 
@@ -118,7 +119,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
 
         if (existing == null || Boolean.TRUE.equals(existing.getDeleted())) {
             dto.setSuccess(false);
-            dto.setMessage("Customer not found");
+            dto.setMessage(CUSTOMER_NOT_FOUND);
             return dto;
         }
 
@@ -180,7 +181,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
 
         if (customer == null || Boolean.TRUE.equals(customer.getDeleted())) {
             dto.setSuccess(false);
-            dto.setMessage("Customer not found");
+            dto.setMessage(CUSTOMER_NOT_FOUND);
             return dto;
         }
 

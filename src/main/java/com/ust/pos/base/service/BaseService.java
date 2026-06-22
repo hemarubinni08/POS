@@ -11,12 +11,17 @@ public class BaseService {
 
     private String getLoggedInUser() {
         try {
-            return SecurityContextHolder.getContext().getAuthentication().getName();
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+
+            if (auth == null || auth.getName() == null) {
+                return "SYSTEM";
+            }
+
+            return auth.getName();
         } catch (Exception e) {
             return "SYSTEM";
         }
-    }
-    protected void setCreatedDetails(CommonFields entity) {
+    }    protected void setCreatedDetails(CommonFields entity) {
         entity.setCreatedBy(getLoggedInUser());
         entity.setCreatedOn(LocalDateTime.now());
         entity.setModifiedBy(getLoggedInUser());
