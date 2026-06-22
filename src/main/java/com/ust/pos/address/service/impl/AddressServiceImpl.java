@@ -1,6 +1,7 @@
 package com.ust.pos.address.service.impl;
 
 import com.ust.pos.address.service.AddressService;
+import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.model.Address;
 import com.ust.pos.model.AddressRepository;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AddressServiceImpl implements AddressService {
+public class AddressServiceImpl extends BaseService implements AddressService {
 
     private final AddressRepository addressRepository;
 
@@ -42,9 +43,11 @@ public class AddressServiceImpl implements AddressService {
             existing.setState(addressDto.getState());
             existing.setZip(addressDto.getZip());
             existing.setCountry(addressDto.getCountry());
+            setCreatedDetails(existing);
             addressRepository.save(existing);
         } else {
             Address address = modelMapper.map(addressDto, Address.class);
+            setCreatedDetails(address);
             addressRepository.save(address);
         }
         addressDto.setSuccess(true);
