@@ -37,10 +37,12 @@ class UserServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private ModelMapper modelMapper;
+    private PasswordEncoder passwordEncoder;
 
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private ModelMapper modelMapper;
+
+    // ================= FIND =================
 
     @Test
     void find_success() {
@@ -75,6 +77,22 @@ class UserServiceTest {
     }
 
     @Test
+    void find_deletedUser() {
+
+        User user = new User();
+        user.setDeleted(true);
+
+        when(userRepository.findByUsername("admin"))
+                .thenReturn(user);
+
+        UserDto response = userService.findByUserName("admin");
+
+        Assertions.assertNull(response);
+    }
+
+    // ================= SAVE =================
+
+    @Test
     void save_success() {
 
         UserDto dto = new UserDto();
@@ -82,7 +100,6 @@ class UserServiceTest {
         dto.setPassword("123");
 
         User user = new User();
-        user.setUsername("admin");
 
         when(userRepository.findByUsername("admin"))
                 .thenReturn(null);
@@ -99,13 +116,17 @@ class UserServiceTest {
         UserDto response = userService.save(dto);
 
         Assertions.assertTrue(response.isSuccess());
+        Assertions.assertEquals(
+                "User created successfully",
+                response.getMessage()
+        );
 
         verify(passwordEncoder).encode("123");
         verify(userRepository).save(any(User.class));
     }
 
     @Test
-    void save_failure_userExists() {
+    void save_userAlreadyExists() {
 
         UserDto dto = new UserDto();
         dto.setUsername("admin");
@@ -116,6 +137,7 @@ class UserServiceTest {
         UserDto response = userService.save(dto);
 
         Assertions.assertFalse(response.isSuccess());
+
         Assertions.assertTrue(
                 response.getMessage()
                         .contains("User already exists")
@@ -123,6 +145,8 @@ class UserServiceTest {
 
         verify(userRepository, never()).save(any());
     }
+
+    // ================= UPDATE =================
 
     @Test
     void update_success() {
@@ -144,12 +168,16 @@ class UserServiceTest {
         UserDto response = userService.update(dto);
 
         Assertions.assertTrue(response.isSuccess());
+        Assertions.assertEquals(
+                "User updated successfully",
+                response.getMessage()
+        );
 
         verify(userRepository).save(existing);
     }
 
     @Test
-    void update_notFound() {
+    void update_userNotFound() {
 
         UserDto dto = new UserDto();
         dto.setId(1L);
@@ -167,20 +195,41 @@ class UserServiceTest {
     }
 
     @Test
-    void update_usernameConflict() {
+    void update_deletedUser() {
 
         UserDto dto = new UserDto();
         dto.setId(1L);
-        dto.setUsername("newUser");
+
+        User user = new User();
+        user.setDeleted(true);
+
+        when(userRepository.findById(1L))
+                .thenReturn(Optional.of(user));
+
+        UserDto response = userService.update(dto);
+
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertEquals(
+                "User is deleted",
+                response.getMessage()
+        );
+    }
+
+    @Test
+    void update_usernameAlreadyExists() {
+
+        UserDto dto = new UserDto();
+        dto.setId(1L);
+        dto.setUsername("newuser");
 
         User existing = new User();
         existing.setId(1L);
-        existing.setUsername("oldUser");
+        existing.setUsername("olduser");
 
         when(userRepository.findById(1L))
                 .thenReturn(Optional.of(existing));
 
-        when(userRepository.findByUsername("newUser"))
+        when(userRepository.findByUsername("newuser"))
                 .thenReturn(new User());
 
         UserDto response = userService.update(dto);
@@ -195,14 +244,35 @@ class UserServiceTest {
         verify(userRepository, never()).save(any());
     }
 
+    // ================= DELETE =================
+
     @Test
-    void delete_test() {
+    void delete_success() {
+
+        User user = new User();
+
+        when(userRepository.findByUsername("admin"))
+                .thenReturn(user);
 
         userService.delete("admin");
 
-        verify(userRepository)
-                .deleteByUsername("admin");
+        Assertions.assertTrue(user.getDeleted());
+
+        verify(userRepository).save(user);
     }
+
+    @Test
+    void delete_userNotFound() {
+
+        when(userRepository.findByUsername("admin"))
+                .thenReturn(null);
+
+        userService.delete("admin");
+
+        verify(userRepository, never()).save(any());
+    }
+
+    // ================= FIND ALL =================
 
     @Test
     void findAll_success() {
@@ -214,19 +284,19 @@ class UserServiceTest {
         dto.setUsername("admin@test.com");
 
         List<User> users = List.of(user);
-        List<UserDto> dtos = List.of(dto);
+        List<UserDto> dtoList = List.of(dto);
 
         Pageable pageable = PageRequest.of(0, 10);
 
         Page<User> page = new PageImpl<>(users);
 
-        when(userRepository.findAll(pageable))
+        when(userRepository.findByDeletedFalse(pageable))
                 .thenReturn(page);
 
         when(modelMapper.map(
                 eq(users),
                 ArgumentMatchers.<Type>any()))
-                .thenReturn(dtos);
+                .thenReturn(dtoList);
 
         WsDto<UserDto> response =
                 userService.findAll(pageable);
@@ -239,9 +309,7 @@ class UserServiceTest {
 
         Assertions.assertEquals(
                 "admin@test.com",
-                response.getDtoList()
-                        .get(0)
-                        .getUsername()
+                response.getDtoList().get(0).getUsername()
         );
     }
 }

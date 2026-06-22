@@ -141,4 +141,5 @@ public class UserServiceImpl extends BaseService implements UserService {
         wsDto.setPage(pageable.getPageNumber());
 
         return wsDto;
-    }}
+    }
+}

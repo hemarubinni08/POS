@@ -38,6 +38,7 @@ class CartServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
+    // ---------------- FIND ALL ----------------
     @Test
     void findAll_success() {
 
@@ -45,8 +46,7 @@ class CartServiceTest {
         Page<Cart> page = new PageImpl<>(List.of(cart));
         Pageable pageable = PageRequest.of(0, 5);
 
-        when(cartRepository.findAll(pageable))
-                .thenReturn(page);
+        when(cartRepository.findAll(pageable)).thenReturn(page);
 
         Type type = new TypeToken<List<CartDto>>() {}.getType();
 
@@ -58,6 +58,7 @@ class CartServiceTest {
         assertEquals(1, result.size());
     }
 
+    // ---------------- FIND BY ID SUCCESS ----------------
     @Test
     void findByIdentifier_success() {
 
@@ -76,6 +77,7 @@ class CartServiceTest {
         assertTrue(result.isSuccess());
     }
 
+    // ---------------- FIND BY ID FAILURE ----------------
     @Test
     void findByIdentifier_failure() {
 
@@ -88,46 +90,48 @@ class CartServiceTest {
         assertEquals("Cart not found", result.getMessage());
     }
 
+    // ---------------- SAVE NEW CART ----------------
     @Test
     void save_new_cart() {
-
-        CartDto mappedDto = new CartDto();
-        mappedDto.setSuccess(true);
-        mappedDto.setMessage("Cart created successfully");
 
         when(cartRepository.findByIdentifier("C1"))
                 .thenReturn(null);
 
         when(cartRepository.save(any(Cart.class)))
-                .thenReturn(new Cart());
+                .thenAnswer(i -> i.getArgument(0));
 
         when(modelMapper.map(any(Cart.class), eq(CartDto.class)))
-                .thenReturn(mappedDto);
+                .thenReturn(new CartDto());
 
         CartDto result = cartService.save("C1");
 
         assertTrue(result.isSuccess());
         assertEquals("Cart created successfully", result.getMessage());
+
+        verify(cartRepository).save(any(Cart.class));
     }
 
+    // ---------------- SAVE EXISTING CART ----------------
     @Test
     void save_existing_cart() {
 
         Cart existing = new Cart();
-        CartDto mappedDto = new CartDto();
 
         when(cartRepository.findByIdentifier("C1"))
                 .thenReturn(existing);
 
         when(modelMapper.map(existing, CartDto.class))
-                .thenReturn(mappedDto);
+                .thenReturn(new CartDto());
 
         CartDto result = cartService.save("C1");
 
         assertTrue(result.isSuccess());
         assertEquals("Cart already exists", result.getMessage());
+
+        verify(cartRepository, never()).save(any());
     }
 
+    // ---------------- DELETE CART ----------------
     @Test
     void delete_cart() {
 
@@ -137,6 +141,7 @@ class CartServiceTest {
         verify(cartRepository).deleteByIdentifier("C1");
     }
 
+    // ---------------- RECALCULATE SUCCESS ----------------
     @Test
     void recalculate_success() {
 
@@ -155,7 +160,7 @@ class CartServiceTest {
                 .thenReturn(cart);
 
         when(cartRepository.save(any(Cart.class)))
-                .thenReturn(cart);
+                .thenAnswer(i -> i.getArgument(0));
 
         when(modelMapper.map(any(Cart.class), eq(CartDto.class)))
                 .thenReturn(new CartDto());
@@ -163,8 +168,15 @@ class CartServiceTest {
         CartDto result = cartService.recalculate("C1");
 
         assertNotNull(result);
+
+        assertEquals(BigDecimal.valueOf(100), cart.getTotalPrice());
+        assertEquals(BigDecimal.valueOf(120), cart.getOriginalPrice());
+        assertEquals(BigDecimal.valueOf(20), cart.getDiscount());
+
+        verify(cartRepository).save(cart);
     }
 
+    // ---------------- RECALCULATE FAILURE ----------------
     @Test
     void recalculate_failure() {
 
