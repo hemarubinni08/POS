@@ -2,7 +2,6 @@ package com.ust.pos.role;
 
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.role.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +11,12 @@ import org.springframework.web.bind.annotation.*;
 public class RoleController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/role/list";
-    @Autowired
-    private RoleService roleService;
+
+    private final RoleService roleService;
+
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @GetMapping("/list")
     public String home(Model model) {
@@ -54,7 +57,7 @@ public class RoleController {
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam String identifier) {
+    public String delete(@RequestParam String identifier) {
         roleService.delete(identifier);
         return REDIRECT_ROLE_LIST;
     }
