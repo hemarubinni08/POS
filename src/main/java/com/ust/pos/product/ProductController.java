@@ -22,7 +22,6 @@ public class ProductController {
     private final CategoryService categoryService;
 
     public ProductController(ProductService productService,
-                             WarehouseService warehouseService,
                              CategoryService categoryService) {
         this.productService = productService;
         this.categoryService = categoryService;

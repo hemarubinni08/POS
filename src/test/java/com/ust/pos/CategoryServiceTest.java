@@ -50,7 +50,8 @@ class CategoryServiceTest {
 
         Assertions.assertEquals("C1", response.getIdentifier());
 
-        Mockito.verify(categoryRepository).save(category);
+        Mockito.verify(categoryRepository)
+                .save(category);
     }
 
     @Test
@@ -144,14 +145,17 @@ class CategoryServiceTest {
 
     @Test
     void deleteTest() {
-        Mockito.doNothing()
-                .when(categoryRepository)
-                .deleteByIdentifier("C1");
+        Category category = new Category();
+
+        Mockito.when(categoryRepository.findByIdentifierAndDeletedFalse("C1"))
+                .thenReturn(category);
 
         categoryService.delete("C1");
 
+        Assertions.assertTrue(category.isDeleted());
+
         Mockito.verify(categoryRepository)
-                .deleteByIdentifier("C1");
+                .save(category);
     }
 
     @Test
@@ -168,7 +172,7 @@ class CategoryServiceTest {
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
 
-        Mockito.when(categoryRepository.findAll())
+        Mockito.when(categoryRepository.findByDeletedFalse())
                 .thenReturn(categories);
 
         Mockito.when(modelMapper.map(categories, listType))
@@ -226,7 +230,7 @@ class CategoryServiceTest {
         Page<Category> categoryPage =
                 new PageImpl<>(List.of(category));
 
-        Mockito.when(categoryRepository.findAll(pageable))
+        Mockito.when(categoryRepository.findByDeletedFalse(pageable))
                 .thenReturn(categoryPage);
 
         Mockito.when(modelMapper.map(category, CategoryDto.class))
@@ -242,7 +246,8 @@ class CategoryServiceTest {
                 response.getContent().get(0).getIdentifier()
         );
 
-        Mockito.verify(categoryRepository).findAll(pageable);
+        Mockito.verify(categoryRepository)
+                .findByDeletedFalse(pageable);
     }
 
     @Test
