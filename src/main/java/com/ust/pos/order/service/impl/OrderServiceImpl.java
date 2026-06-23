@@ -6,10 +6,12 @@ import com.ust.pos.dto.OrderEntryDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.*;
 import com.ust.pos.order.service.OrderService;
+import com.ust.pos.stock.service.StockService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.ust.pos.dto.StockDto;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -25,13 +27,15 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     private final CartRepository cartRepository;
     private final CartEntryRepository cartEntryRepository;
     private final ModelMapper modelMapper;
+    private final StockService stockService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, OrderEntryRepository orderEntryRepository, CartRepository cartRepository, CartEntryRepository cartEntryRepository, ModelMapper modelMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderEntryRepository orderEntryRepository, CartRepository cartRepository, CartEntryRepository cartEntryRepository, ModelMapper modelMapper, StockService stockService) {
         this.orderRepository = orderRepository;
         this.orderEntryRepository = orderEntryRepository;
         this.cartRepository = cartRepository;
         this.cartEntryRepository = cartEntryRepository;
         this.modelMapper = modelMapper;
+        this.stockService = stockService;
     }
 
     @Override
@@ -52,6 +56,16 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             orderDto.setSuccess(false);
             orderDto.setMessage("Cart is empty");
             return orderDto;
+        }
+
+        // ================= STOCK VERIFICATION =================
+        for (CartEntry ce : cartEntries) {
+            boolean available = stockService.isStockAvailable(ce.getProductId(), ce.getQuantity().intValue());
+            if (!available) {
+                orderDto.setSuccess(false);
+                orderDto.setMessage("Insufficient stock for product: " + ce.getProductName());
+                return orderDto;
+            }
         }
 
         String orderId = "ORD-" + System.currentTimeMillis();
@@ -84,29 +98,30 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         setCreatedDetails(order);
         orderRepository.save(order);
 
-        // ================= ORDER ENTRIES =================
+        // ================= ORDER ENTRIES + STOCK REDUCTION =================
         for (CartEntry ce : cartEntries) {
 
             OrderEntry oe = new OrderEntry();
             oe.setIdentifier(orderId + "-" + ce.getProductId());
             oe.setOrderIdentifier(orderId);
 
-            // ⚠️ ONLY USING YOUR ENTITY FIELDS
             oe.setProduct(ce.getProductName());
-
             oe.setMrp(ce.getMrp());
-
-            // treat sellingPrice as unitPrice
             oe.setUnitPrice(ce.getSellingPrice());
-
             oe.setUnitDiscount(ce.getDiscount());
-
             oe.setQuantity(ce.getQuantity().intValue());
-
             oe.setTotalPrice(ce.getTotalPrice());
 
             setCreatedDetails(oe);
             orderEntryRepository.save(oe);
+
+            StockDto stockResult = stockService.reduceStock(ce.getProductId(), ce.getQuantity().intValue());
+
+            if (Boolean.FALSE.equals(stockResult.isSuccess())) {
+                orderDto.setSuccess(false);
+                orderDto.setMessage("Stock reduction failed for product: " + ce.getProductName());
+                return orderDto;
+            }
         }
 
         // ================= CLEAR CART =================
@@ -134,7 +149,6 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
         return response;
     }
-
     @Override
     public OrderDto get(String identifier) {
 

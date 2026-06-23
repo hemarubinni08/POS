@@ -17,4 +17,6 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     List<Stock> findByStatusTrueAndDeletedFalse();
 
     Page<Stock> findByDeletedFalse(Pageable pageable);
+
+    List<Stock> findByProductIdentifierAndDeletedFalse(String productIdentifier);
 }

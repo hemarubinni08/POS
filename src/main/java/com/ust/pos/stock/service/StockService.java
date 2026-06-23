@@ -21,4 +21,8 @@ public interface StockService {
     StockDto toggleStatus(String identifier);
 
     List<StockDto> findActiveStock();
+
+    boolean isStockAvailable(String productIdentifier, Integer quantity);
+
+    StockDto reduceStock(String productIdentifier, Integer quantity);
 }

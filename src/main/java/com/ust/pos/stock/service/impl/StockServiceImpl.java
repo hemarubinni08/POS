@@ -56,7 +56,16 @@ public class StockServiceImpl extends BaseService implements StockService {
         dto.setIdentifier(dto.getProductIdentifier()
                 + "_" + dto.getWarehouseIdentifier());
 
-        if (stockRepository.findByIdentifier(dto.getIdentifier()) != null) {
+        Stock existing = stockRepository.findByIdentifier(dto.getIdentifier());
+
+        if (existing != null) {
+
+            if (Boolean.TRUE.equals(existing.getDeleted())) {
+                dto.setSuccess(false);
+                dto.setMessage("Product was deleted from this warehouse — restore it instead of creating new");
+                return dto;
+            }
+
             dto.setSuccess(false);
             dto.setMessage("Product already exists in this warehouse");
             return dto;
@@ -134,12 +143,19 @@ public class StockServiceImpl extends BaseService implements StockService {
     @Override
     public WsDto<StockDto> findAll(Pageable pageable) {
 
-        Type listType = new TypeToken<List<StockDto>>() {}.getType();
-
         Page<Stock> stockPage = stockRepository.findByDeletedFalse(pageable);
 
+        List<StockDto> dtoList = stockPage.getContent()
+                .stream()
+                .map(s -> {
+                    StockDto dto = modelMapper.map(s, StockDto.class);
+                    dto.setStockState(calculateState(s));
+                    return dto;
+                })
+                .toList();
+
         WsDto<StockDto> ws = new WsDto<>();
-        ws.setDtoList(modelMapper.map(stockPage.getContent(), listType));
+        ws.setDtoList(dtoList);
         ws.setTotalRecords(stockPage.getTotalElements());
         ws.setTotalPages(stockPage.getTotalPages());
         ws.setSizePerPage(pageable.getPageSize());
@@ -147,7 +163,6 @@ public class StockServiceImpl extends BaseService implements StockService {
 
         return ws;
     }
-
     @Override
     public void delete(String identifier) {
 
@@ -199,5 +214,63 @@ public class StockServiceImpl extends BaseService implements StockService {
                     return dto;
                 })
                 .toList();
+    }
+
+    @Override
+    public boolean isStockAvailable(String productIdentifier, Integer quantity) {
+
+        int totalAvailable = stockRepository.findByProductIdentifierAndDeletedFalse(productIdentifier)
+                .stream()
+                .filter(s -> Boolean.TRUE.equals(s.getStatus()))
+                .mapToInt(s -> s.getAvailableQuantity() != null ? s.getAvailableQuantity() : 0)
+                .sum();
+
+        return totalAvailable >= quantity;
+    }
+
+    @Override
+    public StockDto reduceStock(String productIdentifier, Integer quantity) {
+
+        List<Stock> stocks = stockRepository.findByProductIdentifierAndDeletedFalse(productIdentifier)
+                .stream()
+                .filter(s -> Boolean.TRUE.equals(s.getStatus()))
+                .filter(s -> s.getAvailableQuantity() != null && s.getAvailableQuantity() > 0)
+                .sorted((a, b) -> b.getAvailableQuantity() - a.getAvailableQuantity()) // biggest warehouse first
+                .toList();
+
+        int totalAvailable = stocks.stream()
+                .mapToInt(Stock::getAvailableQuantity)
+                .sum();
+
+        StockDto dto = new StockDto();
+
+        if (totalAvailable < quantity) {
+            dto.setSuccess(false);
+            dto.setMessage("Insufficient stock for product: " + productIdentifier);
+            return dto;
+        }
+
+        int remaining = quantity;
+
+        for (Stock s : stocks) {
+
+            if (remaining <= 0) break;
+
+            int take = Math.min(remaining, s.getAvailableQuantity());
+
+            s.setAvailableQuantity(s.getAvailableQuantity() - take);
+
+            setModifiedDetails(s);
+
+            stockRepository.save(s);
+
+            remaining -= take;
+        }
+
+        dto.setProductIdentifier(productIdentifier);
+        dto.setSuccess(true);
+        dto.setMessage("Stock reduced successfully");
+
+        return dto;
     }
 }

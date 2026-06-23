@@ -57,8 +57,8 @@ public class StockControllerApi extends BaseController {
     }
 
     @PatchMapping("/toggle")
-    public StockDto toggle(@RequestBody String identifier) {
-        return stockService.toggleStatus(identifier);
+    public StockDto toggle(@RequestBody StockDto stockDto) {
+        return stockService.toggleStatus(stockDto.getIdentifier());
     }
 
     @PostMapping("/active")
