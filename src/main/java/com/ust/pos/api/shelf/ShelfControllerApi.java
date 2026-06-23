@@ -37,7 +37,7 @@ public class ShelfControllerApi extends BaseController {
         return shelfService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ShelfDto update(@RequestBody ShelfDto shelfDto) {
         return shelfService.update(shelfDto);
     }
@@ -61,7 +61,7 @@ public class ShelfControllerApi extends BaseController {
         return shelfService.getActiveShelves();
     }
 
-    @PostMapping("/toggle")
+    @PatchMapping("/toggle")
     public ShelfDto toggle(@RequestBody ShelfDto shelfDto) {
         return shelfService.toggleStatus(shelfDto.getIdentifier());
     }

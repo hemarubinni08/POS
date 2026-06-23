@@ -36,7 +36,7 @@ public class CartEntryControllerApi extends BaseController {
         return cartEntryService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public CartEntryDto update(@RequestBody CartEntryDto dto) {
         return cartEntryService.update(dto);
     }

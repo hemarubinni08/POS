@@ -39,7 +39,7 @@ public class CustomerControllerApi extends BaseController {
         return customerService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public CustomerDto updatePost(@RequestBody CustomerDto customerDto) {
         return customerService.update(customerDto);
     }
@@ -63,7 +63,7 @@ public class CustomerControllerApi extends BaseController {
         return customerService.findActive();
     }
 
-    @PostMapping("/toggle")
+    @PatchMapping("/toggle")
     public CustomerDto toggleStatus(@RequestBody CustomerDto customerDto) {
         return customerService.toggleStatus(customerDto.getIdentifier());
     }

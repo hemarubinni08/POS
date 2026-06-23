@@ -37,7 +37,7 @@ public class StockControllerApi extends BaseController {
         return stockService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public StockDto update(@RequestBody StockDto stockDto) {
         return stockService.update(stockDto);
     }
@@ -56,7 +56,7 @@ public class StockControllerApi extends BaseController {
         return response;
     }
 
-    @PostMapping("/toggle")
+    @PatchMapping("/toggle")
     public StockDto toggle(@RequestBody String identifier) {
         return stockService.toggleStatus(identifier);
     }

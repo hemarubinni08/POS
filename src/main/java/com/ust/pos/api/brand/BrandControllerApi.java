@@ -37,7 +37,7 @@ public class BrandControllerApi extends BaseController {
         return brandService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public BrandDto update(@RequestBody BrandDto brandDto) {
         return brandService.update(brandDto);
     }
@@ -56,7 +56,7 @@ public class BrandControllerApi extends BaseController {
         return response;
     }
 
-    @PostMapping("/toggle")
+    @PatchMapping("/toggle")
     public BrandDto toggleStatus(@RequestBody BrandDto brandDto) {
         return brandService.toggleStatus(brandDto.getIdentifier());
     }

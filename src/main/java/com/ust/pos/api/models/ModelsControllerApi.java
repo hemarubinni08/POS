@@ -39,7 +39,7 @@ public class ModelsControllerApi extends BaseController {
         return modelsService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ModelsDto updatePost(@RequestBody ModelsDto modelsDto) {
         return modelsService.update(modelsDto);
     }
@@ -58,7 +58,7 @@ public class ModelsControllerApi extends BaseController {
         return response;
     }
 
-    @PostMapping("/toggle-status")
+    @PatchMapping("/toggle")
     public ModelsDto toggleStatus(@RequestBody ModelsDto modelsDto) {
         return modelsService.toggleStatus(modelsDto.getIdentifier());
     }

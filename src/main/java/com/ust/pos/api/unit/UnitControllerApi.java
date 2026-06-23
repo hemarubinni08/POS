@@ -37,7 +37,7 @@ public class UnitControllerApi extends BaseController {
         return unitService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public UnitDto update(@RequestBody UnitDto unitDto) {
         return unitService.update(unitDto);
     }
@@ -56,7 +56,7 @@ public class UnitControllerApi extends BaseController {
         return response;
     }
 
-    @PostMapping("/toggle")
+    @PatchMapping("/toggle")
     public UnitDto toggle(@RequestBody UnitDto unitDto) {
         return unitService.toggleStatus(unitDto.getIdentifier());
     }

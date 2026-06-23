@@ -39,7 +39,7 @@ public class ProductControllerApi extends BaseController {
         return productService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ProductDto updatePost(@RequestBody ProductDto productDto) {
         return productService.update(productDto);
     }
@@ -58,7 +58,7 @@ public class ProductControllerApi extends BaseController {
         return response;
     }
 
-    @PostMapping("/toggle")
+    @PatchMapping("/toggle")
     public ProductDto toggleStatus(@RequestBody ProductDto productDto) {
         return productService.toggleStatus(productDto.getIdentifier());
     }

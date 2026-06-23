@@ -39,7 +39,7 @@ public class RackControllerApi extends BaseController {
         return rackService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public RackDto updatePost(@RequestBody RackDto rackDto) {
         return rackService.update(rackDto);
     }
@@ -63,7 +63,7 @@ public class RackControllerApi extends BaseController {
         return rackService.getActiveRacks();
     }
 
-    @PostMapping("/toggle")
+    @PatchMapping("/toggle")
     public RackDto toggleStatus(@RequestBody RackDto rackDto) {
         return rackService.toggleStatus(rackDto.getIdentifier());
     }
