@@ -5,7 +5,6 @@ import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.product.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/product")
 public class ProductApiController extends BaseController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+
+    public ProductApiController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @PostMapping("/list")
     public WsDto<ProductDto> home(@RequestBody PaginationDto paginationDto) {
@@ -40,12 +42,12 @@ public class ProductApiController extends BaseController {
         return productService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ProductDto updatePost(@RequestBody ProductDto productDto) {
         return productService.update(productDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             productService.delete(identifier);
@@ -55,7 +57,7 @@ public class ProductApiController extends BaseController {
         return true;
     }
     @PostMapping("/toggleStatus")
-    public boolean toggleStatus(@RequestParam String identifier) {
+    public boolean toggleStatus(@RequestBody String identifier) {
         try {
             productService.toggleStatus(identifier);
         } catch (Exception e) {
