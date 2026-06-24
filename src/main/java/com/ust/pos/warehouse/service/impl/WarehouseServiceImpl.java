@@ -109,7 +109,6 @@ public class WarehouseServiceImpl extends BaseService implements WarehouseServic
         warehouse.setState(warehouseDto.getState());
         warehouse.setCityName(warehouseDto.getCityName());
 
-        // FIXED (no address field)
         warehouse.setLocation(warehouseDto.getLocation());
 
         warehouse.setStatus(Boolean.TRUE.equals(warehouseDto.getStatus()));

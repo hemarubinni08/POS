@@ -38,7 +38,6 @@ class CartServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ---------------- FIND ALL ----------------
     @Test
     void findAll_success() {
 
@@ -50,15 +49,13 @@ class CartServiceTest {
 
         Type type = new TypeToken<List<CartDto>>() {}.getType();
 
-        when(modelMapper.map(anyList(), eq(type)))
-                .thenReturn(List.of(new CartDto()));
+        when(modelMapper.map(anyList(), eq(type))).thenReturn(List.of(new CartDto()));
 
         List<CartDto> result = cartService.findAll(pageable);
 
         assertEquals(1, result.size());
     }
 
-    // ---------------- FIND BY ID SUCCESS ----------------
     @Test
     void findByIdentifier_success() {
 
@@ -66,18 +63,14 @@ class CartServiceTest {
         CartDto dto = new CartDto();
         dto.setSuccess(true);
 
-        when(cartRepository.findByIdentifier("C1"))
-                .thenReturn(cart);
-
-        when(modelMapper.map(cart, CartDto.class))
-                .thenReturn(dto);
+        when(cartRepository.findByIdentifier("C1")).thenReturn(cart);
+        when(modelMapper.map(cart, CartDto.class)).thenReturn(dto);
 
         CartDto result = cartService.findByIdentifier("C1");
 
         assertTrue(result.isSuccess());
     }
 
-    // ---------------- FIND BY ID FAILURE ----------------
     @Test
     void findByIdentifier_failure() {
 
@@ -90,19 +83,12 @@ class CartServiceTest {
         assertEquals("Cart not found", result.getMessage());
     }
 
-    // ---------------- SAVE NEW CART ----------------
     @Test
     void save_new_cart() {
 
-        when(cartRepository.findByIdentifier("C1"))
-                .thenReturn(null);
-
-        when(cartRepository.save(any(Cart.class)))
-                .thenAnswer(i -> i.getArgument(0));
-
-        when(modelMapper.map(any(Cart.class), eq(CartDto.class)))
-                .thenReturn(new CartDto());
-
+        when(cartRepository.findByIdentifier("C1")).thenReturn(null);
+        when(cartRepository.save(any(Cart.class))).thenAnswer(i -> i.getArgument(0));
+        when(modelMapper.map(any(Cart.class), eq(CartDto.class))).thenReturn(new CartDto());
         CartDto result = cartService.save("C1");
 
         assertTrue(result.isSuccess());
@@ -111,7 +97,6 @@ class CartServiceTest {
         verify(cartRepository).save(any(Cart.class));
     }
 
-    // ---------------- SAVE EXISTING CART ----------------
     @Test
     void save_existing_cart() {
 
@@ -131,7 +116,6 @@ class CartServiceTest {
         verify(cartRepository, never()).save(any());
     }
 
-    // ---------------- DELETE CART ----------------
     @Test
     void delete_cart() {
 
@@ -141,7 +125,6 @@ class CartServiceTest {
         verify(cartRepository).deleteByIdentifier("C1");
     }
 
-    // ---------------- RECALCULATE SUCCESS ----------------
     @Test
     void recalculate_success() {
 
@@ -153,17 +136,10 @@ class CartServiceTest {
         entry.setOriginalPrice(BigDecimal.valueOf(120));
         entry.setDiscount(BigDecimal.valueOf(20));
 
-        when(cartEntryRepository.findByCartId("C1"))
-                .thenReturn(List.of(entry));
-
-        when(cartRepository.findByIdentifier("C1"))
-                .thenReturn(cart);
-
-        when(cartRepository.save(any(Cart.class)))
-                .thenAnswer(i -> i.getArgument(0));
-
-        when(modelMapper.map(any(Cart.class), eq(CartDto.class)))
-                .thenReturn(new CartDto());
+        when(cartEntryRepository.findByCartId("C1")).thenReturn(List.of(entry));
+        when(cartRepository.findByIdentifier("C1")).thenReturn(cart);
+        when(cartRepository.save(any(Cart.class))).thenAnswer(i -> i.getArgument(0));
+        when(modelMapper.map(any(Cart.class), eq(CartDto.class))).thenReturn(new CartDto());
 
         CartDto result = cartService.recalculate("C1");
 
@@ -176,15 +152,11 @@ class CartServiceTest {
         verify(cartRepository).save(cart);
     }
 
-    // ---------------- RECALCULATE FAILURE ----------------
     @Test
     void recalculate_failure() {
 
-        when(cartEntryRepository.findByCartId("C1"))
-                .thenReturn(List.of());
-
-        when(cartRepository.findByIdentifier("C1"))
-                .thenReturn(null);
+        when(cartEntryRepository.findByCartId("C1")).thenReturn(List.of());
+        when(cartRepository.findByIdentifier("C1")).thenReturn(null);
 
         CartDto result = cartService.recalculate("C1");
 

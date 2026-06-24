@@ -34,8 +34,6 @@ class UnitServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ================= SAVE =================
-
     @Test
     void save_success() {
 
@@ -43,9 +41,7 @@ class UnitServiceTest {
         dto.setUnitName("KG");
         dto.setStatus(true);
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(null);
-
+        when(unitRepository.findByIdentifier("KG")).thenReturn(null);
         UnitDto response = unitService.save(dto);
 
         Assertions.assertTrue(response.isSuccess());
@@ -74,9 +70,7 @@ class UnitServiceTest {
         UnitDto dto = new UnitDto();
         dto.setUnitName("KG");
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(new Unit());
-
+        when(unitRepository.findByIdentifier("KG")).thenReturn(new Unit());
         UnitDto response = unitService.save(dto);
 
         Assertions.assertFalse(response.isSuccess());
@@ -94,20 +88,15 @@ class UnitServiceTest {
         Unit deletedUnit = new Unit();
         deletedUnit.setDeleted(true);
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(deletedUnit);
-
+        when(unitRepository.findByIdentifier("KG")).thenReturn(deletedUnit);
         UnitDto response = unitService.save(dto);
 
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertTrue(
-                response.getMessage().contains("has been soft deleted")
-        );
+        Assertions.assertTrue(response.getMessage().contains("has been soft deleted"));
 
         verify(unitRepository, never()).save(any());
     }
 
-    // ================= FIND =================
 
     @Test
     void find_success() {
@@ -117,11 +106,8 @@ class UnitServiceTest {
         UnitDto dto = new UnitDto();
         dto.setIdentifier("KG");
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(unit);
-
-        when(modelMapper.map(unit, UnitDto.class))
-                .thenReturn(dto);
+        when(unitRepository.findByIdentifier("KG")).thenReturn(unit);
+        when(modelMapper.map(unit, UnitDto.class)).thenReturn(dto);
 
         UnitDto response = unitService.findByIdentifier("KG");
 
@@ -131,9 +117,7 @@ class UnitServiceTest {
     @Test
     void find_failure_notFound() {
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(null);
-
+        when(unitRepository.findByIdentifier("KG")).thenReturn(null);
         UnitDto response = unitService.findByIdentifier("KG");
 
         Assertions.assertFalse(response.isSuccess());
@@ -146,16 +130,12 @@ class UnitServiceTest {
         Unit unit = new Unit();
         unit.setDeleted(true);
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(unit);
-
+        when(unitRepository.findByIdentifier("KG")).thenReturn(unit);
         UnitDto response = unitService.findByIdentifier("KG");
 
         Assertions.assertFalse(response.isSuccess());
         Assertions.assertEquals("Unit not found", response.getMessage());
     }
-
-    // ================= UPDATE =================
 
     @Test
     void update_success() {
@@ -166,19 +146,13 @@ class UnitServiceTest {
 
         Unit unit = new Unit();
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(unit);
-
-        when(unitRepository.save(unit))
-                .thenReturn(unit);
+        when(unitRepository.findByIdentifier("KG")).thenReturn(unit);
+        when(unitRepository.save(unit)).thenReturn(unit);
 
         UnitDto response = unitService.update(dto);
 
         Assertions.assertTrue(response.isSuccess());
-        Assertions.assertEquals(
-                "Unit updated successfully",
-                response.getMessage()
-        );
+        Assertions.assertEquals("Unit updated successfully", response.getMessage());
 
         verify(unitRepository).save(unit);
     }
@@ -191,10 +165,7 @@ class UnitServiceTest {
         UnitDto response = unitService.update(dto);
 
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals(
-                "Invalid identifier",
-                response.getMessage()
-        );
+        Assertions.assertEquals("Invalid identifier", response.getMessage());
     }
 
     @Test
@@ -203,16 +174,11 @@ class UnitServiceTest {
         UnitDto dto = new UnitDto();
         dto.setIdentifier("KG");
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(null);
-
+        when(unitRepository.findByIdentifier("KG")).thenReturn(null);
         UnitDto response = unitService.update(dto);
 
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals(
-                "Unit not found",
-                response.getMessage()
-        );
+        Assertions.assertEquals("Unit not found", response.getMessage());
     }
 
     @Test
@@ -224,29 +190,20 @@ class UnitServiceTest {
         Unit unit = new Unit();
         unit.setDeleted(true);
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(unit);
-
+        when(unitRepository.findByIdentifier("KG")).thenReturn(unit);
         UnitDto response = unitService.update(dto);
 
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertTrue(
-                response.getMessage().contains("has been soft deleted")
-        );
+        Assertions.assertTrue(response.getMessage().contains("has been soft deleted"));
     }
-
-    // ================= DELETE =================
 
     @Test
     void delete_success() {
 
         Unit unit = new Unit();
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(unit);
-
+        when(unitRepository.findByIdentifier("KG")).thenReturn(unit);
         unitService.delete("KG");
-
         verify(unitRepository).save(unit);
 
         Assertions.assertTrue(unit.getDeleted());
@@ -255,42 +212,28 @@ class UnitServiceTest {
     @Test
     void delete_notFound() {
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(null);
-
+        when(unitRepository.findByIdentifier("KG")).thenReturn(null);
         unitService.delete("KG");
-
         verify(unitRepository, never()).save(any());
     }
-
-    // ================= FIND ALL =================
 
     @Test
     void findAll_success() {
 
         Unit unit = new Unit();
-
         List<Unit> units = List.of(unit);
-
         List<UnitDto> dtoList = List.of(new UnitDto());
 
         Pageable pageable = PageRequest.of(0, 5);
 
         Page<Unit> page = new PageImpl<>(units);
-
-        when(unitRepository.findByDeletedFalse(pageable))
-                .thenReturn(page);
-
-        when(modelMapper.map(eq(units), ArgumentMatchers.<Type>any()))
-                .thenReturn(dtoList);
-
+        when(unitRepository.findByDeletedFalse(pageable)).thenReturn(page);
+        when(modelMapper.map(eq(units), ArgumentMatchers.<Type>any())).thenReturn(dtoList);
         WsDto<UnitDto> result = unitService.findAll(pageable);
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(1, result.getDtoList().size());
     }
-
-    // ================= TOGGLE STATUS =================
 
     @Test
     void toggle_success() {
@@ -300,22 +243,13 @@ class UnitServiceTest {
 
         UnitDto dto = new UnitDto();
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(unit);
-
-        when(unitRepository.save(unit))
-                .thenReturn(unit);
-
-        when(modelMapper.map(unit, UnitDto.class))
-                .thenReturn(dto);
-
+        when(unitRepository.findByIdentifier("KG")).thenReturn(unit);
+        when(unitRepository.save(unit)).thenReturn(unit);
+        when(modelMapper.map(unit, UnitDto.class)).thenReturn(dto);
         UnitDto response = unitService.toggleStatus("KG");
 
         Assertions.assertTrue(response.isSuccess());
-        Assertions.assertEquals(
-                "Status updated successfully",
-                response.getMessage()
-        );
+        Assertions.assertEquals("Status updated successfully", response.getMessage());
 
         verify(unitRepository).save(unit);
     }
@@ -323,16 +257,10 @@ class UnitServiceTest {
     @Test
     void toggle_failure_notFound() {
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(null);
-
+        when(unitRepository.findByIdentifier("KG")).thenReturn(null);
         UnitDto response = unitService.toggleStatus("KG");
-
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals(
-                "Unit not found",
-                response.getMessage()
-        );
+        Assertions.assertEquals("Unit not found", response.getMessage());
     }
 
     @Test
@@ -341,18 +269,12 @@ class UnitServiceTest {
         Unit unit = new Unit();
         unit.setDeleted(true);
 
-        when(unitRepository.findByIdentifier("KG"))
-                .thenReturn(unit);
-
+        when(unitRepository.findByIdentifier("KG")).thenReturn(unit);
         UnitDto response = unitService.toggleStatus("KG");
 
         Assertions.assertFalse(response.isSuccess());
-        Assertions.assertTrue(
-                response.getMessage().contains("has been soft deleted")
-        );
+        Assertions.assertTrue(response.getMessage().contains("has been soft deleted"));
     }
-
-    // ================= ACTIVE UNITS =================
 
     @Test
     void active_units_test() {
@@ -369,12 +291,8 @@ class UnitServiceTest {
         deleted.setStatus(true);
         deleted.setDeleted(true);
 
-        when(unitRepository.findAll())
-                .thenReturn(List.of(active, inactive, deleted));
-
-        when(modelMapper.map(active, UnitDto.class))
-                .thenReturn(new UnitDto());
-
+        when(unitRepository.findAll()).thenReturn(List.of(active, inactive, deleted));
+        when(modelMapper.map(active, UnitDto.class)).thenReturn(new UnitDto());
         List<UnitDto> result = unitService.findActiveUnits();
 
         Assertions.assertEquals(1, result.size());

@@ -62,7 +62,6 @@ class AddressServiceTest {
         Assertions.assertTrue(dto.isSuccess());
         Assertions.assertEquals("Address saved successfully", dto.getMessage());
 
-        // verify update happened
         Assertions.assertEquals("Street 1", existing.getAddressLine());
         Assertions.assertEquals("Chennai", existing.getCity());
         Assertions.assertEquals("TN", existing.getState());

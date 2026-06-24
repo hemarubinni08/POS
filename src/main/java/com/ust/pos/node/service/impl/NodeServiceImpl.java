@@ -31,8 +31,7 @@ public class NodeServiceImpl extends BaseService implements NodeService {
     private final NodeRepository nodeRepository;
     private final ModelMapper modelMapper;
 
-    public NodeServiceImpl(UserRepository userRepository,
-                           NodeRepository nodeRepository,
+    public NodeServiceImpl(UserRepository userRepository,NodeRepository nodeRepository,
                            ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.nodeRepository = nodeRepository;

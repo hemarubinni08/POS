@@ -13,14 +13,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,7 +42,6 @@ class PriceServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ================= SAVE SUCCESS =================
     @Test
     void save_success() {
 
@@ -53,14 +56,9 @@ class PriceServiceTest {
 
         String expectedId = "P1_Retail_Price";
 
-        when(priceRepository.findByIdentifier(expectedId))
-                .thenReturn(null);
-
-        when(productService.findByIdentifier("P1"))
-                .thenReturn(productDto);
-
-        when(modelMapper.map(any(PriceDto.class), eq(Price.class)))
-                .thenReturn(priceEntity);
+        when(priceRepository.findByIdentifier(expectedId)).thenReturn(null);
+        when(productService.findByIdentifier("P1")).thenReturn(productDto);
+        when(modelMapper.map(any(PriceDto.class), eq(Price.class))).thenReturn(priceEntity);
 
         PriceDto result = priceService.save(dto);
 
@@ -71,7 +69,6 @@ class PriceServiceTest {
         verify(priceRepository).save(priceEntity);
     }
 
-    // ================= SAVE FAILURE (DUPLICATE) =================
     @Test
     void save_failure_duplicate() {
 
@@ -81,9 +78,7 @@ class PriceServiceTest {
 
         String expectedId = "P1_Retail_Price";
 
-        when(priceRepository.findByIdentifier(expectedId))
-                .thenReturn(new Price());
-
+        when(priceRepository.findByIdentifier(expectedId)).thenReturn(new Price());
         PriceDto result = priceService.save(dto);
 
         assertFalse(result.isSuccess());
@@ -92,7 +87,6 @@ class PriceServiceTest {
         verify(priceRepository, never()).save(any());
     }
 
-    // ================= UPDATE SUCCESS =================
     @Test
     void update_success() {
 
@@ -107,12 +101,8 @@ class PriceServiceTest {
         ProductDto productDto = new ProductDto();
         productDto.setProductName("Laptop");
 
-        when(priceRepository.findByIdentifier("P1_Retail_Price"))
-                .thenReturn(existing);
-
-        when(productService.findByIdentifier("P1"))
-                .thenReturn(productDto);
-
+        when(priceRepository.findByIdentifier("P1_Retail_Price")).thenReturn(existing);
+        when(productService.findByIdentifier("P1")).thenReturn(productDto);
         PriceDto result = priceService.update(dto);
 
         assertTrue(result.isSuccess());
@@ -121,18 +111,15 @@ class PriceServiceTest {
         verify(priceRepository).save(existing);
     }
 
-    // ================= FIND BY ID SUCCESS =================
     @Test
     void findByIdentifier_success() {
 
         Price price = new Price();
         PriceDto mapped = new PriceDto();
 
-        when(priceRepository.findByIdentifier("P1_Retail_Price"))
-                .thenReturn(price);
+        when(priceRepository.findByIdentifier("P1_Retail_Price")).thenReturn(price);
 
-        when(modelMapper.map(price, PriceDto.class))
-                .thenReturn(mapped);
+        when(modelMapper.map(price, PriceDto.class)).thenReturn(mapped);
 
         PriceDto result = priceService.findByIdentifier("P1_Retail_Price");
 
@@ -140,12 +127,10 @@ class PriceServiceTest {
         assertNotNull(result);
     }
 
-    // ================= FIND BY ID FAILURE =================
     @Test
     void findByIdentifier_failure() {
 
-        when(priceRepository.findByIdentifier("P1_Retail_Price"))
-                .thenReturn(null);
+        when(priceRepository.findByIdentifier("P1_Retail_Price")).thenReturn(null);
 
         PriceDto result = priceService.findByIdentifier("P1_Retail_Price");
 
@@ -153,7 +138,6 @@ class PriceServiceTest {
         assertEquals("Price not found", result.getMessage());
     }
 
-    // ================= FIND ALL =================
     @Test
     void findAll_success() {
 
@@ -163,12 +147,8 @@ class PriceServiceTest {
 
         List<PriceDto> dtoList = List.of(new PriceDto());
 
-        when(priceRepository.findByDeletedFalse(pageable))
-                .thenReturn(page);
-
-        when(modelMapper.map(eq(list), any(Type.class)))
-                .thenReturn(dtoList);
-
+        when(priceRepository.findByDeletedFalse(pageable)).thenReturn(page);
+        when(modelMapper.map(eq(list), any(Type.class))).thenReturn(dtoList);
         WsDto<PriceDto> result = priceService.findAll(pageable);
 
         assertNotNull(result);
@@ -176,53 +156,42 @@ class PriceServiceTest {
         assertEquals(0, result.getPage());
     }
 
-    // ================= DELETE (SOFT DELETE) =================
     @Test
     void delete_success() {
 
         Price price = new Price();
         price.setDeleted(false);
 
-        when(priceRepository.findByIdentifier("P1_Retail_Price"))
-                .thenReturn(price);
-
+        when(priceRepository.findByIdentifier("P1_Retail_Price")).thenReturn(price);
         priceService.delete("P1_Retail_Price");
 
         assertTrue(price.getDeleted());
         verify(priceRepository).save(price);
     }
 
-    // ================= DELETE NULL CASE =================
     @Test
     void delete_null_case() {
 
-        when(priceRepository.findByIdentifier("P1_Retail_Price"))
-                .thenReturn(null);
-
+        when(priceRepository.findByIdentifier("P1_Retail_Price")).thenReturn(null);
         priceService.delete("P1_Retail_Price");
 
         verify(priceRepository, never()).save(any());
     }
 
-    // ================= ACTIVE PRICES =================
     @Test
     void find_active_prices() {
 
         List<Price> list = List.of(new Price());
         List<PriceDto> dtoList = List.of(new PriceDto());
 
-        when(priceRepository.findByStatusTrueAndDeletedFalse())
-                .thenReturn(list);
-
-        when(modelMapper.map(eq(list), any(Type.class)))
-                .thenReturn(dtoList);
+        when(priceRepository.findByStatusTrueAndDeletedFalse()).thenReturn(list);
+        when(modelMapper.map(eq(list), any(Type.class))).thenReturn(dtoList);
 
         List<PriceDto> result = priceService.findActivePrices();
 
         assertEquals(1, result.size());
     }
 
-    // ================= PRICE TYPES =================
     @Test
     void get_price_types() {
 

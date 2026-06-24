@@ -24,8 +24,7 @@ public class ModelsServiceImpl extends BaseService implements ModelsService {
     private final ModelsRepository modelsRepository;
     private final ModelMapper modelMapper;
 
-    public ModelsServiceImpl(ModelsRepository modelsRepository,
-                             ModelMapper modelMapper) {
+    public ModelsServiceImpl(ModelsRepository modelsRepository,ModelMapper modelMapper) {
         this.modelsRepository = modelsRepository;
         this.modelMapper = modelMapper;
     }
@@ -132,7 +131,6 @@ public class ModelsServiceImpl extends BaseService implements ModelsService {
         if (model == null) return;
 
         model.setDeleted(true);
-
         setModifiedDetails(model);
 
         modelsRepository.save(model);
@@ -167,9 +165,7 @@ public class ModelsServiceImpl extends BaseService implements ModelsService {
     public List<ModelsDto> findActiveModels() {
 
         List<Models> list = modelsRepository.findByStatusTrueAndDeletedFalse();
-
         Type type = new TypeToken<List<ModelsDto>>() {}.getType();
-
         return modelMapper.map(list, type);
     }
 }

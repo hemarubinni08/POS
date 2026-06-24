@@ -28,7 +28,6 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         this.modelMapper = modelMapper;
     }
 
-    // ---------------- LIST (SOFT DELETE SAFE) ----------------
     @Override
     public WsDto<CategoryDto> findAll(Pageable pageable) {
 
@@ -46,7 +45,6 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         return ws;
     }
 
-    // ---------------- SIMPLE LIST ----------------
     @Override
     public List<CategoryDto> findAllcontroller(Pageable pageable) {
 
@@ -57,7 +55,6 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         return modelMapper.map(page.getContent(), type);
     }
 
-    // ---------------- FIND BY ID ----------------
     @Override
     public CategoryDto findByIdentifier(String identifier) {
 
@@ -74,7 +71,6 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         return modelMapper.map(category, CategoryDto.class);
     }
 
-    // ---------------- SAVE ----------------
     @Override
     public CategoryDto save(CategoryDto dto) {
 
@@ -102,7 +98,6 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         return response;
     }
 
-    // ---------------- UPDATE ----------------
     @Override
     public CategoryDto update(CategoryDto dto) {
 
@@ -133,7 +128,6 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         return response;
     }
 
-    // ---------------- DELETE (SOFT DELETE) ----------------
     @Override
     public void delete(String identifier) {
 
@@ -142,13 +136,10 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         if (category == null) return;
 
         category.setDeleted(true);
-
         setModifiedDetails(category);
-
         categoryRepository.save(category);
     }
 
-    // ---------------- SUPER CATEGORIES ----------------
     @Override
     public List<CategoryDto> findSuperCategories() {
 
@@ -165,7 +156,6 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         return result;
     }
 
-    // ---------------- LEAF CATEGORIES ----------------
     @Override
     public List<CategoryDto> findLeafCategories() {
 
@@ -191,7 +181,6 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         return result;
     }
 
-    // ---------------- CHILD CATEGORIES ----------------
     @Override
     public List<CategoryDto> findChildCategories() {
 

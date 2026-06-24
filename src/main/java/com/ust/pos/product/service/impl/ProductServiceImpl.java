@@ -27,8 +27,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
     private final PriceRepository priceRepository;
     private final ModelMapper modelMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository,
-                              PriceRepository priceRepository,
+    public ProductServiceImpl(ProductRepository productRepository,PriceRepository priceRepository,
                               ModelMapper modelMapper) {
         this.productRepository = productRepository;
         this.priceRepository = priceRepository;

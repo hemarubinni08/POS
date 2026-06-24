@@ -58,7 +58,6 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             return orderDto;
         }
 
-        // ================= STOCK VERIFICATION =================
         for (CartEntry ce : cartEntries) {
             boolean available = stockService.isStockAvailable(ce.getProductId(), ce.getQuantity().intValue());
             if (!available) {
@@ -70,7 +69,6 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
         String orderId = "ORD-" + System.currentTimeMillis();
 
-        // ================= ORDER =================
         Order order = new Order();
         order.setIdentifier(orderId);
         order.setCustomer(cart.getIdentifier());
@@ -98,7 +96,6 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         setCreatedDetails(order);
         orderRepository.save(order);
 
-        // ================= ORDER ENTRIES + STOCK REDUCTION =================
         for (CartEntry ce : cartEntries) {
 
             OrderEntry oe = new OrderEntry();
@@ -124,7 +121,6 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             }
         }
 
-        // ================= CLEAR CART =================
         cartEntryRepository.deleteAll(cartEntries);
 
         cart.setOriginalPrice(BigDecimal.ZERO);
@@ -134,13 +130,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         setModifiedDetails(cart);
         cartRepository.save(cart);
 
-        // ================= RESPONSE =================
         OrderDto response = modelMapper.map(order, OrderDto.class);
 
         Type listType = new TypeToken<List<OrderEntryDto>>() {}.getType();
 
-        List<OrderEntry> savedEntries =
-                orderEntryRepository.findByOrderIdentifier(orderId);
+        List<OrderEntry> savedEntries =orderEntryRepository.findByOrderIdentifier(orderId);
 
         response.setEntryList(modelMapper.map(savedEntries, listType));
 
@@ -163,11 +157,9 @@ public class OrderServiceImpl extends BaseService implements OrderService {
 
         OrderDto dto = modelMapper.map(order, OrderDto.class);
 
-        List<OrderEntry> entries =
-                orderEntryRepository.findByOrderIdentifier(identifier);
+        List<OrderEntry> entries =orderEntryRepository.findByOrderIdentifier(identifier);
 
         Type type = new TypeToken<List<OrderEntryDto>>() {}.getType();
-
         dto.setEntryList(modelMapper.map(entries, type));
 
         dto.setSuccess(true);
@@ -207,7 +199,6 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             return new ArrayList<>();
         }
         List<Order> orders = orderRepository.searchOrders(query);
-
         Type type = new TypeToken<List<OrderDto>>() {}.getType();
 
         return modelMapper.map(orders, type);

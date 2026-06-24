@@ -25,8 +25,7 @@ public class PriceServiceImpl extends BaseService implements PriceService {
     private final ProductService productService;
     private final ModelMapper modelMapper;
 
-    public PriceServiceImpl(PriceRepository priceRepository,
-                            ProductService productService,
+    public PriceServiceImpl(PriceRepository priceRepository,ProductService productService,
                             ModelMapper modelMapper) {
         this.priceRepository = priceRepository;
         this.productService = productService;
@@ -36,9 +35,7 @@ public class PriceServiceImpl extends BaseService implements PriceService {
     @Override
     public PriceDto save(PriceDto priceDto) {
 
-        String identifier =
-                priceDto.getProductId() + "_" +
-                        priceDto.getPriceType().replace(" ", "_");
+        String identifier =priceDto.getProductId() + "_" +priceDto.getPriceType().replace(" ", "_");
 
         Price existing = priceRepository.findByIdentifier(identifier);
 
@@ -49,9 +46,7 @@ public class PriceServiceImpl extends BaseService implements PriceService {
         }
 
         priceDto.setIdentifier(identifier);
-        priceDto.setProductName(
-                productService.findByIdentifier(priceDto.getProductId()).getProductName()
-        );
+        priceDto.setProductName(productService.findByIdentifier(priceDto.getProductId()).getProductName());
 
         Price price = modelMapper.map(priceDto, Price.class);
 
@@ -76,9 +71,7 @@ public class PriceServiceImpl extends BaseService implements PriceService {
             return priceDto;
         }
 
-        priceDto.setProductName(
-                productService.findByIdentifier(priceDto.getProductId()).getProductName()
-        );
+        priceDto.setProductName(productService.findByIdentifier(priceDto.getProductId()).getProductName());
 
         existing.setProductId(priceDto.getProductId());
         existing.setProductName(priceDto.getProductName());

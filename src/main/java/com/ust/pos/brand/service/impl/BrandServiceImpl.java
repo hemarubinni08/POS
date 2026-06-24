@@ -24,13 +24,11 @@ public class BrandServiceImpl extends BaseService implements BrandService {
     private final BrandRepository brandRepository;
     private final ModelMapper modelMapper;
 
-    public BrandServiceImpl(BrandRepository brandRepository,
-                            ModelMapper modelMapper) {
+    public BrandServiceImpl(BrandRepository brandRepository,ModelMapper modelMapper) {
         this.brandRepository = brandRepository;
         this.modelMapper = modelMapper;
     }
 
-    // ---------------- LIST ----------------
     @Override
     public WsDto<BrandDto> findAll(Pageable pageable) {
 
@@ -48,7 +46,6 @@ public class BrandServiceImpl extends BaseService implements BrandService {
         return ws;
     }
 
-    // ---------------- SAVE ----------------
     @Override
     public BrandDto save(BrandDto dto) {
 
@@ -84,7 +81,6 @@ public class BrandServiceImpl extends BaseService implements BrandService {
         return result;
     }
 
-    // ---------------- UPDATE ----------------
     @Override
     public BrandDto update(BrandDto dto) {
 
@@ -110,35 +106,27 @@ public class BrandServiceImpl extends BaseService implements BrandService {
         return result;
     }
 
-    // ---------------- SOFT DELETE ----------------
     @Override
     public void delete(String identifier) {
 
         Brand brand = brandRepository.findByIdentifier(identifier);
 
         if (brand == null) return;
-
         brand.setDeleted(true);
-
         setModifiedDetails(brand);
-
         brandRepository.save(brand);
     }
 
-    // ---------------- FIND BY ID ----------------
     @Override
     public BrandDto findByIdentifier(String identifier) {
 
         Brand brand = brandRepository.findByIdentifier(identifier);
-
         if (brand == null || Boolean.TRUE.equals(brand.getDeleted())) {
             return null;
         }
-
         return modelMapper.map(brand, BrandDto.class);
     }
 
-    // ---------------- ACTIVE BRANDS ----------------
     @Override
     public List<BrandDto> findActiveBrands() {
 
@@ -150,11 +138,9 @@ public class BrandServiceImpl extends BaseService implements BrandService {
                 result.add(modelMapper.map(b, BrandDto.class));
             }
         }
-
         return result;
     }
 
-    // ---------------- TOGGLE STATUS ----------------
     @Override
     public BrandDto toggleStatus(String identifier) {
 
