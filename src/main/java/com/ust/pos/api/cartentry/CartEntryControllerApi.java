@@ -34,7 +34,7 @@ public class CartEntryControllerApi {
         return cartEntryService.findByCartId(cartEntryDto.getCartId());
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             cartEntryService.delete(identifier);

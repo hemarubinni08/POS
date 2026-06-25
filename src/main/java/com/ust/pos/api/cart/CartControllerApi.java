@@ -20,7 +20,7 @@ public class CartControllerApi {
         return cartService.save(cartDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(Model model, @RequestParam String identifier) {
         try {
             cartService.delete(identifier);

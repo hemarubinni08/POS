@@ -3,7 +3,6 @@ package com.ust.pos.product;
 import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.ProductDto;
 import com.ust.pos.product.service.ProductService;
-import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

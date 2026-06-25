@@ -57,12 +57,12 @@ public class OrderControllerApi extends BaseController {
         return orderService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/updateStatus")
+    @PutMapping("/updateStatus")
     public OrderDto updateStatus(@RequestParam String orderId, @RequestParam String status) {
         return orderService.updateStatus(orderId, status);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             orderService.delete(identifier);

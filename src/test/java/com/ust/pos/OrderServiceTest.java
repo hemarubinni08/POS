@@ -136,8 +136,6 @@ class OrderServiceTest {
     @Test
     void findByIdentifierTest() {
         Order order = new Order();
-        OrderDto dto = new OrderDto();
-
         List<OrderItem> items = List.of(new OrderItem());
 
         Type itemListType = new TypeToken<List<OrderItemDto>>() {

@@ -12,4 +12,6 @@ import java.util.List;
 public class Product extends CommonFields {
     private List<String> categories;
     private String supplierID;
+    private String brand;
+    private String unit;
 }

@@ -86,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCouponCode(cart.getCoupon());
         order.setPaymentMethod(paymentMethod);
         order.setPaymentCompleted(true);
-        order.setOrderStatus(OrderStatus.PENDING);
+        order.setOrderStatus(OrderStatus.CONFIRMED);
         order.setCreatedAt(LocalDateTime.now());
         orderRepository.save(order);
 
