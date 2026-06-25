@@ -34,4 +34,18 @@ public class BaseService {
         entity.setModifiedBy(getLoggedInUser());
         entity.setModifiedOn(LocalDateTime.now());
     }
+
+    protected void softDelete(CommonFields entity) {
+        entity.setDeleted(true);
+        entity.setStatus(false);
+    }
+
+    protected boolean isSoftDeleted(CommonFields entity) {
+        return entity != null && entity.isDeleted();
+    }
+
+    protected String getDeletedMessage(String entityName, String identifier) {
+        return entityName + " " + identifier +
+                " has been deleted. Please contact the administrator.";
+    }
 }

@@ -3,15 +3,11 @@ package com.ust.pos.node.service.impl;
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationResponseDto;
-import com.ust.pos.model.Node;
-import com.ust.pos.model.NodeRepository;
-import com.ust.pos.model.User;
-import com.ust.pos.model.UserRepository;
+import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -27,27 +23,57 @@ import java.util.Set;
 @Transactional
 @Service
 public class NodeServiceImpl extends BaseService implements NodeService {
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private NodeRepository nodeRepository;
+    private static final String DELETED_MESSAGE =
+            " has been deleted. Please contact the administrator.";
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final UserRepository userRepository;
+    private final NodeRepository nodeRepository;
+    private final ModelMapper modelMapper;
+
+    public NodeServiceImpl(UserRepository userRepository, NodeRepository nodeRepository, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.nodeRepository = nodeRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public NodeDto save(NodeDto nodeDto) {
+
         String identifier = nodeDto.getIdentifier();
         String path = nodeDto.getPath();
 
-        if (nodeRepository.findByIdentifier(identifier) != null) {
+        Node existingNode = nodeRepository.findByIdentifier(identifier);
+
+        if (existingNode != null) {
+
+            if (existingNode.isDeleted()) {
+                nodeDto.setSuccess(false);
+                nodeDto.setMessage(
+                        "Node " + identifier +
+                                DELETED_MESSAGE
+                );
+                return nodeDto;
+            }
+
             nodeDto.setSuccess(false);
             nodeDto.setMessage("A node with this identifier already exists.");
             return nodeDto;
         }
 
-        if (nodeRepository.findByPath(path) != null) {
+        Node existingPathNode = nodeRepository.findByPath(path);
+
+        if (existingPathNode != null) {
+
+            if (existingPathNode.isDeleted()) {
+                nodeDto.setSuccess(false);
+                nodeDto.setMessage(
+                        "Node with path " + path +
+                                DELETED_MESSAGE
+                );
+                return nodeDto;
+            }
+
             nodeDto.setSuccess(false);
             nodeDto.setMessage("A node with this path already exists.");
             return nodeDto;
@@ -56,32 +82,60 @@ public class NodeServiceImpl extends BaseService implements NodeService {
         Node node = modelMapper.map(nodeDto, Node.class);
         setCreatedDetails(node);
         nodeRepository.save(node);
+
         nodeDto.setSuccess(true);
         nodeDto.setMessage("Node created successfully.");
+
         return nodeDto;
     }
 
+    @Override
     public NodeDto update(NodeDto nodeDto) {
+
         String identifier = nodeDto.getIdentifier();
         String path = nodeDto.getPath();
 
         Node existingNode = nodeRepository.findByIdentifier(identifier);
+
         if (existingNode == null) {
             nodeDto.setMessage("Node not found.");
             nodeDto.setSuccess(false);
             return nodeDto;
         }
 
+        if (existingNode.isDeleted()) {
+            nodeDto.setMessage(
+                    "Node " + identifier +
+                            DELETED_MESSAGE
+            );
+            nodeDto.setSuccess(false);
+            return nodeDto;
+        }
+
         Node nodeWithSamePath = nodeRepository.findByPath(path);
-        if (nodeWithSamePath != null && !nodeWithSamePath.getIdentifier().equals(identifier)) {
+
+        if (nodeWithSamePath != null &&
+                !nodeWithSamePath.getIdentifier().equals(identifier)) {
+
+            if (nodeWithSamePath.isDeleted()) {
+                nodeDto.setMessage(
+                        "Node with path " + path +
+                                DELETED_MESSAGE
+                );
+                nodeDto.setSuccess(false);
+                return nodeDto;
+            }
+
             nodeDto.setMessage("A node with this path already exists.");
             nodeDto.setSuccess(false);
             return nodeDto;
         }
 
         modelMapper.map(nodeDto, existingNode);
+
         setModifiedDetails(existingNode);
         nodeRepository.save(existingNode);
+
         nodeDto.setMessage("Node updated successfully.");
         nodeDto.setSuccess(true);
 
@@ -90,7 +144,10 @@ public class NodeServiceImpl extends BaseService implements NodeService {
 
     @Override
     public void delete(String identifier) {
-        nodeRepository.deleteByIdentifier(identifier);
+        Node node = nodeRepository.findByIdentifier(identifier);
+        softDelete(node);
+        setModifiedDetails(node);
+        nodeRepository.save(node);
     }
 
     @Override
@@ -102,20 +159,7 @@ public class NodeServiceImpl extends BaseService implements NodeService {
     public PaginationResponseDto<NodeDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
-        if (pageable == null) {
-
-            List<NodeDto> nodeDtoList =
-                    modelMapper.map(nodeRepository.findAll(), listType);
-
-            PaginationResponseDto<NodeDto> response =
-                    new PaginationResponseDto<>();
-
-            response.setDtoList(nodeDtoList);
-            response.setTotalRecords(nodeDtoList.size());
-
-            return response;
-        }
-        Page<Node> nodePage = nodeRepository.findAll(pageable);
+        Page<Node> nodePage = nodeRepository.findByIsDeletedFalse(pageable);
         List<NodeDto> productDtoList = modelMapper.map(nodePage.getContent(), listType);
 
         PaginationResponseDto<NodeDto> paginationResponseDto = new PaginationResponseDto<>();

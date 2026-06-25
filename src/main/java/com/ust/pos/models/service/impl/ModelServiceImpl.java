@@ -9,7 +9,6 @@ import com.ust.pos.models.service.ModelService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,33 +19,20 @@ import java.util.List;
 @Service
 public class ModelServiceImpl extends BaseService implements ModelService {
 
-    @Autowired
-    private ModelRepository modelRepository;
+    private final ModelRepository modelRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public ModelServiceImpl(ModelRepository modelRepository, ModelMapper modelMapper) {
+        this.modelRepository = modelRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public PaginationResponseDto<ModelDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<ModelDto>>() {
         }.getType();
-        if (pageable == null) {
-
-            List<ModelDto> modelDtoList =
-                    modelMapper.map(
-                            modelRepository.findAll(),
-                            listType
-                    );
-
-            PaginationResponseDto<ModelDto> response =
-                    new PaginationResponseDto<>();
-
-            response.setDtoList(modelDtoList);
-            response.setTotalRecords(modelDtoList.size());
-
-            return response;
-        }
-        Page<Model> modelPage = modelRepository.findAll(pageable);
+        
+        Page<Model> modelPage = modelRepository.findByIsDeletedFalse(pageable);
         List<ModelDto> modelDtoList = modelMapper.map(modelPage.getContent(), listType);
 
         PaginationResponseDto<ModelDto> paginationResponseDto = new PaginationResponseDto<>();
@@ -81,6 +67,11 @@ public class ModelServiceImpl extends BaseService implements ModelService {
             modelRepository.save(model);
             modelDto.setSuccess(true);
             modelDto.setMessage("Successfully added the model");
+        } else if (isSoftDeleted(model)) {
+            modelDto.setMessage(
+                    getDeletedMessage("Model", identifier)
+            );
+            modelDto.setSuccess(false);
         } else {
             modelDto.setMessage("Model " + identifier + " already exists");
             modelDto.setSuccess(false);
@@ -90,18 +81,35 @@ public class ModelServiceImpl extends BaseService implements ModelService {
 
     @Override
     public ModelDto update(ModelDto modelDto) {
+
         String identifier = modelDto.getIdentifier();
-        Model existingModel = modelRepository.findByIdentifier(identifier);
+
+        Model existingModel =
+                modelRepository.findByIdentifier(identifier);
+
         if (existingModel == null) {
             modelDto.setSuccess(false);
             modelDto.setMessage("Model does not exist");
-        } else {
-            modelMapper.map(modelDto, existingModel);
-            setModifiedDetails(existingModel);
-            modelRepository.save(existingModel);
-            modelDto.setSuccess(true);
-            modelDto.setMessage("Model updated successfully");
+            return modelDto;
         }
+
+        if (isSoftDeleted(existingModel)) {
+            modelDto.setSuccess(false);
+            modelDto.setMessage(
+                    getDeletedMessage("Model", identifier)
+            );
+            return modelDto;
+        }
+
+        modelMapper.map(modelDto, existingModel);
+
+        setModifiedDetails(existingModel);
+
+        modelRepository.save(existingModel);
+
+        modelDto.setSuccess(true);
+        modelDto.setMessage("Model updated successfully");
+
         return modelDto;
     }
 
@@ -128,6 +136,9 @@ public class ModelServiceImpl extends BaseService implements ModelService {
     @Override
     @Transactional
     public void delete(String identifier) {
-        modelRepository.deleteByIdentifier(identifier);
+        Model model = modelRepository.findByIdentifier(identifier);
+        softDelete(model);
+        setModifiedDetails(model);
+        modelRepository.save(model);
     }
 }

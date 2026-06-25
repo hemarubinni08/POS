@@ -11,7 +11,6 @@ import com.ust.pos.model.CustomerRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,14 +25,15 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
     private static final String SHIPPING = "shipping";
     private static final String BILLING = "billing";
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
+    private final ModelMapper modelMapper;
+    private final AddressService addressService;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private AddressService addressService;
+    public CustomerServiceImpl(CustomerRepository customerRepository, AddressService addressService, ModelMapper modelMapper) {
+        this.customerRepository = customerRepository;
+        this.addressService = addressService;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public CustomerDto findByIdentifier(String identifier) {
@@ -58,7 +58,17 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
 
         if (existingCustomer != null) {
 
-            customerDto.setMessage("Customer with identifier - " + identifier + " already exists");
+            if (isSoftDeleted(existingCustomer)) {
+                customerDto.setMessage(
+                        getDeletedMessage("Customer", identifier)
+                );
+                customerDto.setSuccess(false);
+                return customerDto;
+            }
+
+            customerDto.setMessage(
+                    "Customer with identifier - " + identifier + " already exists"
+            );
             customerDto.setSuccess(false);
             return customerDto;
         }
@@ -90,7 +100,17 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
 
         if (existingCustomer == null) {
 
-            customerDto.setMessage("Customer with identifier - " + identifier + " not found");
+            customerDto.setMessage(
+                    "Customer with identifier - " + identifier + " not found"
+            );
+            customerDto.setSuccess(false);
+            return customerDto;
+        }
+
+        if (isSoftDeleted(existingCustomer)) {
+            customerDto.setMessage(
+                    getDeletedMessage("Customer", identifier)
+            );
             customerDto.setSuccess(false);
             return customerDto;
         }
@@ -138,7 +158,10 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
     @Override
     @Transactional
     public void delete(String identifier) {
-        customerRepository.deleteByIdentifier(identifier);
+        Customer customer = customerRepository.findByIdentifier(identifier);
+        softDelete(customer);
+        setModifiedDetails(customer);
+        customerRepository.save(customer);
         addressService.delete(identifier);
     }
 
@@ -146,24 +169,8 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
     public PaginationResponseDto<CustomerDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();
-        if (pageable == null) {
-
-            List<CustomerDto> customerDtoList =
-                    modelMapper.map(
-                            customerRepository.findAll(),
-                            listType
-                    );
-
-            PaginationResponseDto<CustomerDto> response =
-                    new PaginationResponseDto<>();
-
-            response.setDtoList(customerDtoList);
-            response.setTotalRecords(customerDtoList.size());
-
-            return response;
-        }
         Page<Customer> customerPage =
-                customerRepository.findAll(pageable);
+                customerRepository.findByIsDeletedFalse(pageable);
 
         List<CustomerDto> customerDtoList =
                 modelMapper.map(
@@ -190,7 +197,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         if (query == null || query.trim().isEmpty()) {
             return new ArrayList<>();
         }
-        List<Customer> customers =customerRepository.searchActiveCustomers(query);
+        List<Customer> customers = customerRepository.searchActiveCustomers(query);
         return customers.stream().map(c -> modelMapper.map(c, CustomerDto.class)).toList();
     }
 }

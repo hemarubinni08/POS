@@ -6,9 +6,9 @@ import com.ust.pos.dto.OrderEntryDto;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.model.*;
 import com.ust.pos.order.service.OrderService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,21 +18,24 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@Transactional
 public class OrderServiceImpl extends BaseService implements OrderService {
-    @Autowired
-    private OrderRepository orderRepository;
 
-    @Autowired
-    private OrderEntryRepository orderEntryRepository;
+    private final OrderRepository orderRepository;
+    private final OrderEntryRepository orderEntryRepository;
+    private final CartRepository cartRepository;
+    private final CartEntryRepository cartEntryRepository;
+    private final StockRepository stockRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private CartRepository cartRepository;
-
-    @Autowired
-    private CartEntryRepository cartEntryRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    public OrderServiceImpl(OrderRepository orderRepository, OrderEntryRepository orderEntryRepository, CartRepository cartRepository, CartEntryRepository cartEntryRepository, StockRepository stockRepository, ModelMapper modelMapper) {
+        this.orderRepository = orderRepository;
+        this.orderEntryRepository = orderEntryRepository;
+        this.cartRepository = cartRepository;
+        this.cartEntryRepository = cartEntryRepository;
+        this.stockRepository = stockRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public OrderDto checkout(OrderDto orderDto) {
@@ -48,6 +51,25 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             orderDto.setMessage("Cart is empty");
             return orderDto;
         }
+        for (CartEntry cartEntry : cartEntryList) {
+
+            Stock stock = stockRepository.findByProduct(cartEntry.getProduct());
+
+            if (stock == null) {
+                orderDto.setSuccess(false);
+                orderDto.setMessage(
+                        "Stock not found for product: " + cartEntry.getProduct()
+                );
+                return orderDto;
+            }
+
+            if (BigDecimal.valueOf(stock.getQuantity())
+                            .compareTo(cartEntry.getQuantity()) < 0) {
+                orderDto.setSuccess(false);
+                orderDto.setMessage("Insufficient stock for product: " + cartEntry.getProduct());
+                return orderDto;
+            }
+        }
         String orderIdentifier = "ORD-" + System.currentTimeMillis();
         Order order = new Order();
         order.setIdentifier(orderIdentifier);
@@ -57,16 +79,36 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         order.setTotalPrice(cart.getTotalPrice());
         order.setPaymentMethod(orderDto.getPaymentMethod());
 
-        if ("CASH".equalsIgnoreCase(orderDto.getPaymentMethod())) {
-            order.setReceivedAmount(orderDto.getReceivedAmount());
-            BigDecimal changeAmount = orderDto.getReceivedAmount().subtract(cart.getTotalPrice());
-            order.setChangeAmount(changeAmount);
+        if ("CASH".equalsIgnoreCase(orderDto.getPaymentMethod())
+                && orderDto.getReceivedAmount().compareTo(cart.getTotalPrice()) < 0) {
+
+            orderDto.setSuccess(false);
+            orderDto.setMessage("Received amount is less than total price");
+
+            return orderDto;
         } else {
             order.setReceivedAmount(cart.getTotalPrice());
             order.setChangeAmount(BigDecimal.ZERO);
         }
         setCreatedDetails(order);
         orderRepository.save(order);
+
+        for (CartEntry cartEntry : cartEntryList) {
+
+            Stock stock = stockRepository.findByProduct(cartEntry.getProduct());
+
+            long updatedQuantity =
+                    BigDecimal.valueOf(stock.getQuantity())
+                            .subtract(cartEntry.getQuantity())
+                            .longValue();
+
+            stock.setQuantity(updatedQuantity);
+
+            setModifiedDetails(stock);
+
+            stockRepository.save(stock);
+        }
+
         for (CartEntry cartEntry : cartEntryList) {
             OrderEntry orderEntry = new OrderEntry();
             orderEntry.setIdentifier(orderIdentifier + "-" + cartEntry.getProduct());
@@ -87,7 +129,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         setModifiedDetails(cart);
         cartRepository.save(cart);
         OrderDto responseDto = modelMapper.map(order, OrderDto.class);
-        Type entryListType = new TypeToken<List<OrderEntryDto>>() {}.getType();
+        Type entryListType = new TypeToken<List<OrderEntryDto>>() {
+        }.getType();
 
         List<OrderEntry> orderEntryList = orderEntryRepository.findByOrderIdentifier(orderIdentifier);
 

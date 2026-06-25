@@ -9,7 +9,6 @@ import com.ust.pos.unit.service.UnitService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,30 +19,20 @@ import java.util.List;
 @Service
 public class UnitServiceImpl extends BaseService implements UnitService {
 
-    @Autowired
-    private UnitRepository unitRepository;
+    private final UnitRepository unitRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public UnitServiceImpl(UnitRepository unitRepository, ModelMapper modelMapper) {
+        this.unitRepository = unitRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public PaginationResponseDto<UnitDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
-        if (pageable == null) {
 
-            List<UnitDto> unitDtoList =
-                    modelMapper.map(unitRepository.findAll(), listType);
-
-            PaginationResponseDto<UnitDto> response =
-                    new PaginationResponseDto<>();
-
-            response.setDtoList(unitDtoList);
-            response.setTotalRecords(unitDtoList.size());
-
-            return response;
-        }
-        Page<Unit> unitPage = unitRepository.findAll(pageable);
+        Page<Unit> unitPage = unitRepository.findByIsDeletedFalse(pageable);
         List<UnitDto> unitDtoList = modelMapper.map(unitPage.getContent(), listType);
 
         PaginationResponseDto<UnitDto> paginationResponseDto = new PaginationResponseDto<>();
@@ -71,6 +60,11 @@ public class UnitServiceImpl extends BaseService implements UnitService {
             unitRepository.save(unit);
             unitDto.setMessage("Successfully added the unit");
             unitDto.setSuccess(true);
+        } else if (isSoftDeleted(unit)) {
+            unitDto.setMessage(
+                    getDeletedMessage("Unit", identifier)
+            );
+            unitDto.setSuccess(false);
         } else {
             unitDto.setMessage("Unit " + identifier + " already exists");
             unitDto.setSuccess(false);
@@ -82,16 +76,28 @@ public class UnitServiceImpl extends BaseService implements UnitService {
     public UnitDto update(UnitDto unitDto) {
         String identifier = unitDto.getIdentifier();
         Unit existingUnit = unitRepository.findByIdentifier(identifier);
+
         if (existingUnit == null) {
             unitDto.setMessage("Unit not found");
             unitDto.setSuccess(false);
-        } else {
-            modelMapper.map(unitDto, existingUnit);
-            setModifiedDetails(existingUnit);
-            unitRepository.save(existingUnit);
-            unitDto.setMessage("Unit updated successfully");
-            unitDto.setSuccess(true);
+            return unitDto;
         }
+
+        if (isSoftDeleted(existingUnit)) {
+            unitDto.setSuccess(false);
+            unitDto.setMessage(
+                    getDeletedMessage("Unit", identifier)
+            );
+            return unitDto;
+        }
+
+        modelMapper.map(unitDto, existingUnit);
+        setModifiedDetails(existingUnit);
+        unitRepository.save(existingUnit);
+
+        unitDto.setMessage("Unit updated successfully");
+        unitDto.setSuccess(true);
+
         return unitDto;
     }
 
@@ -118,6 +124,9 @@ public class UnitServiceImpl extends BaseService implements UnitService {
     @Override
     @Transactional
     public void delete(String identifier) {
-        unitRepository.deleteByIdentifier(identifier);
+        Unit unit = unitRepository.findByIdentifier(identifier);
+        softDelete(unit);
+        setModifiedDetails(unit);
+        unitRepository.save(unit);
     }
 }

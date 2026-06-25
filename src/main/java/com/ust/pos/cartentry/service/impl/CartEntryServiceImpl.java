@@ -6,11 +6,12 @@ import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.CartEntry;
 import com.ust.pos.model.CartEntryRepository;
+import com.ust.pos.model.Stock;
+import com.ust.pos.model.StockRepository;
 import com.ust.pos.price.service.impl.PriceServiceImpl;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,17 +24,19 @@ import java.util.List;
 @Transactional
 public class CartEntryServiceImpl implements CartEntryService {
 
-    @Autowired
-    private CartEntryRepository cartEntryRepository;
+    private final CartEntryRepository cartEntryRepository;
+    private final CartServiceImpl cartService;
+    private final ModelMapper modelMapper;
+    private final StockRepository stockRepository;
+    private final PriceServiceImpl priceService;
 
-    @Autowired
-    private CartServiceImpl cartService;
-
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private PriceServiceImpl priceService;
+    public CartEntryServiceImpl(CartEntryRepository cartEntryRepository, CartServiceImpl cartService, PriceServiceImpl priceService, StockRepository stockRepository, ModelMapper modelMapper) {
+        this.cartEntryRepository = cartEntryRepository;
+        this.cartService = cartService;
+        this.priceService = priceService;
+        this.stockRepository = stockRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public List<CartEntryDto> findAll(Pageable pageable) {
@@ -79,6 +82,8 @@ public class CartEntryServiceImpl implements CartEntryService {
                         : cartEntry.getQuantity();
 
         BigDecimal updatedQuantity = existingQuantity.add(quantity);
+
+        validateStock(product, updatedQuantity);
 
         cartEntry.setProduct(product);
         cartEntry.setQuantity(updatedQuantity);
@@ -129,6 +134,8 @@ public class CartEntryServiceImpl implements CartEntryService {
         }
 
         BigDecimal quantity = cartEntryDto.getQuantity();
+
+        validateStock(cartEntry.getProduct(), quantity);
 
         if (quantity == null ||
                 quantity.compareTo(BigDecimal.ZERO) <= 0) {
@@ -184,5 +191,35 @@ public class CartEntryServiceImpl implements CartEntryService {
         }.getType();
         List<CartEntry> cartEntryList = cartEntryRepository.findByCart(cart);
         return modelMapper.map(cartEntryList, listType);
+    }
+
+    private void validateStock(
+            String product,
+            BigDecimal requiredQuantity) {
+
+        Stock stock =
+                stockRepository.findByProduct(product);
+
+        if (stock == null) {
+            throw new IllegalArgumentException(
+                    "Stock not configured for product: "
+                            + product
+            );
+        }
+
+        if (stock.getQuantity() <= 0) {
+            throw new IllegalArgumentException(
+                    "Product is out of stock"
+            );
+        }
+
+        if (BigDecimal.valueOf(stock.getQuantity())
+                .compareTo(requiredQuantity) < 0) {
+
+            throw new IllegalArgumentException(
+                    "Only " + stock.getQuantity()
+                            + " items available in stock"
+            );
+        }
     }
 }

@@ -9,7 +9,6 @@ import com.ust.pos.rack.service.RackService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,33 +19,20 @@ import java.util.List;
 @Service
 public class RackServiceImpl extends BaseService implements RackService {
 
-    @Autowired
-    private RackRepository rackRepository;
+    private final RackRepository rackRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public RackServiceImpl(RackRepository rackRepository, ModelMapper modelMapper) {
+        this.rackRepository = rackRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public PaginationResponseDto<RackDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<RackDto>>() {
         }.getType();
-        if (pageable == null) {
 
-            List<RackDto> rackDtoList =
-                    modelMapper.map(
-                            rackRepository.findAll(),
-                            listType
-                    );
-
-            PaginationResponseDto<RackDto> response =
-                    new PaginationResponseDto<>();
-
-            response.setDtoList(rackDtoList);
-            response.setTotalRecords(rackDtoList.size());
-
-            return response;
-        }
-        Page<Rack> rackPage = rackRepository.findAll(pageable);
+        Page<Rack> rackPage = rackRepository.findByIsDeletedFalse(pageable);
         List<RackDto> rackDtoList = modelMapper.map(rackPage.getContent(), listType);
 
         PaginationResponseDto<RackDto> paginationResponseDto = new PaginationResponseDto<>();
@@ -83,6 +69,11 @@ public class RackServiceImpl extends BaseService implements RackService {
             rackRepository.save(rack);
             rackDto.setMessage("Successfully added the rack");
             rackDto.setSuccess(true);
+        } else if (isSoftDeleted(rack)) {
+            rackDto.setMessage(
+                    getDeletedMessage("Rack", identifier)
+            );
+            rackDto.setSuccess(false);
         } else {
             rackDto.setMessage("Rack " + identifier + " already exists");
             rackDto.setSuccess(false);
@@ -92,18 +83,35 @@ public class RackServiceImpl extends BaseService implements RackService {
 
     @Override
     public RackDto update(RackDto rackDto) {
+
         String identifier = rackDto.getIdentifier();
-        Rack existingRack = rackRepository.findByIdentifier(identifier);
+
+        Rack existingRack =
+                rackRepository.findByIdentifier(identifier);
+
         if (existingRack == null) {
             rackDto.setMessage("Rack not found");
             rackDto.setSuccess(false);
-        } else {
-            modelMapper.map(rackDto, existingRack);
-            setModifiedDetails(existingRack);
-            rackRepository.save(existingRack);
-            rackDto.setMessage("Rack updated successfully");
-            rackDto.setSuccess(true);
+            return rackDto;
         }
+
+        if (isSoftDeleted(existingRack)) {
+            rackDto.setSuccess(false);
+            rackDto.setMessage(
+                    getDeletedMessage("Rack", identifier)
+            );
+            return rackDto;
+        }
+
+        modelMapper.map(rackDto, existingRack);
+
+        setModifiedDetails(existingRack);
+
+        rackRepository.save(existingRack);
+
+        rackDto.setMessage("Rack updated successfully");
+        rackDto.setSuccess(true);
+
         return rackDto;
     }
 
@@ -130,6 +138,9 @@ public class RackServiceImpl extends BaseService implements RackService {
     @Override
     @Transactional
     public void delete(String identifier) {
-        rackRepository.deleteByIdentifier(identifier);
+        Rack rack = rackRepository.findByIdentifier(identifier);
+        softDelete(rack);
+        setModifiedDetails(rack);
+        rackRepository.save(rack);
     }
 }

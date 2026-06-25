@@ -16,4 +16,5 @@ public class ProductDto extends CommonDto {
     private String unit;
     private BigDecimal sellingPrice;
     private BigDecimal mrp;
+    private long stockQuantity;
 }

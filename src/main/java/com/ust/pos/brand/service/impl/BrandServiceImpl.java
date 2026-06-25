@@ -9,7 +9,6 @@ import com.ust.pos.model.BrandRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,30 +19,20 @@ import java.util.List;
 @Service
 public class BrandServiceImpl extends BaseService implements BrandService {
 
-    @Autowired
-    private BrandRepository brandRepository;
+    private final BrandRepository brandRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public BrandServiceImpl(BrandRepository brandRepository, ModelMapper modelMapper) {
+        this.brandRepository = brandRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public PaginationResponseDto<BrandDto> findAll(Pageable pageable) {
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
-        if (pageable == null) {
 
-            List<BrandDto> brandDtoList =
-                    modelMapper.map(brandRepository.findAll(), listType);
-
-            PaginationResponseDto<BrandDto> response =
-                    new PaginationResponseDto<>();
-
-            response.setDtoList(brandDtoList);
-            response.setTotalRecords(brandDtoList.size());
-
-            return response;
-        }
-        Page<Brand> brandPage = brandRepository.findAll(pageable);
+        Page<Brand> brandPage = brandRepository.findByIsDeletedFalse(pageable);
 
         List<BrandDto> brandDtoList = modelMapper.map(brandPage.getContent(), listType);
 
@@ -80,6 +69,11 @@ public class BrandServiceImpl extends BaseService implements BrandService {
             brandRepository.save(brand);
             brandDto.setMessage("Successfully added the brand");
             brandDto.setSuccess(true);
+        } else if (isSoftDeleted(brand)) {
+            brandDto.setMessage(
+                    getDeletedMessage("Brand", identifier)
+            );
+            brandDto.setSuccess(false);
         } else {
             brandDto.setMessage("Brand " + identifier + " already exists");
             brandDto.setSuccess(false);
@@ -92,6 +86,14 @@ public class BrandServiceImpl extends BaseService implements BrandService {
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
         if (existingBrand != null) {
+
+            if (isSoftDeleted(existingBrand)) {
+                brandDto.setSuccess(false);
+                brandDto.setMessage(
+                        getDeletedMessage("Brand", identifier)
+                );
+                return brandDto;
+            }
             modelMapper.map(brandDto, existingBrand);
 
             setModifiedDetails(existingBrand);
@@ -129,6 +131,9 @@ public class BrandServiceImpl extends BaseService implements BrandService {
     @Override
     @Transactional
     public void delete(String identifier) {
-        brandRepository.deleteByIdentifier(identifier);
+        Brand brand = brandRepository.findByIdentifier(identifier);
+        softDelete(brand);
+        setModifiedDetails(brand);
+        brandRepository.save(brand);
     }
 }

@@ -5,7 +5,6 @@ import com.ust.pos.dto.OrderDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.order.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/order")
 public class OrderApiController extends BaseController {
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
+
+    public OrderApiController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @PostMapping("/checkout")
     public OrderDto checkout(@RequestBody OrderDto orderDto) {
