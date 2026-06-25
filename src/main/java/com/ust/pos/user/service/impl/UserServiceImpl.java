@@ -47,13 +47,18 @@ public class UserServiceImpl extends CommonService implements UserService {
         String username = userDto.getUsername();
         User existingUser = userRepository.findByUsername(username);
         if (existingUser != null) {
+            if (existingUser.isDeleted()) {
+                userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " " + " has been soft deleted(Rollback by changing status)");
+                userDto.setSuccess(false);
+                return userDto;
+            }
             userDto.setMessage(USER_WITH_USERNAME_EMAIL + userDto.getUsername() + " already exists");
             userDto.setSuccess(false);
             return userDto;
         }
         User user = modelMapper.map(userDto, User.class);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        setAuditFields(user,true);
+        setAuditFields(user, true);
         userRepository.save(user);
         return userDto;
     }
@@ -76,7 +81,7 @@ public class UserServiceImpl extends CommonService implements UserService {
                 return userDto;
             }
             modelMapper.map(userDto, existingUser);
-            setAuditFields(existingUser,false);
+            setAuditFields(existingUser, false);
             userRepository.save(existingUser);
         }
         return userDto;
@@ -99,8 +104,8 @@ public class UserServiceImpl extends CommonService implements UserService {
             user.setMessage("Cannot delete the logged in User");
             return user;
         }
-
-        userRepository.deleteByUsername(username);
+        User existingUser = userRepository.findByUsername(username);
+        softDelete(existingUser);
         user.setSuccess(true);
         user.setMessage("User deleted");
         return user;
@@ -111,7 +116,7 @@ public class UserServiceImpl extends CommonService implements UserService {
 
         Type listType = new TypeToken<List<UserDto>>() {
         }.getType();
-        Page<User> userPage = userRepository.findAll(pageable);
+        Page<User> userPage = userRepository.findByDeletedFalse(pageable);
         WsDto<UserDto> userWsDto = new WsDto<>();
         userWsDto.setDtoList(modelMapper.map(userPage.getContent(), listType));
         userWsDto.setTotalRecords(userPage.getTotalElements());

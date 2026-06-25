@@ -91,12 +91,17 @@ public class NodeServiceImpl extends CommonService implements NodeService {
         String identifier = nodeDto.getIdentifier();
         Node existingNode = nodeRepository.findByIdentifier(identifier);
         if (existingNode != null) {
+            if (existingNode.isDeleted()) {
+                nodeDto.setMessage("Brand with identifier - " + identifier + " " + "has been soft deleted.(Rollback by changing status)");
+                nodeDto.setSuccess(false);
+                return nodeDto;
+            }
             nodeDto.setMessage("Node with identifier - " + identifier + " already exists");
             nodeDto.setSuccess(false);
             return nodeDto;
         }
         Node node = modelMapper.map(nodeDto, Node.class);
-        setAuditFields(node,true);
+        setAuditFields(node, true);
         nodeRepository.save(node);
         return nodeDto;
     }
@@ -111,7 +116,7 @@ public class NodeServiceImpl extends CommonService implements NodeService {
             return nodeDto;
         }
         modelMapper.map(nodeDto, existingNode);
-        setAuditFields(existingNode,false);
+        setAuditFields(existingNode, false);
         nodeRepository.save(existingNode);
         return nodeDto;
     }
@@ -119,7 +124,10 @@ public class NodeServiceImpl extends CommonService implements NodeService {
     @Override
     @Transactional
     public void delete(String identifier) {
-        nodeRepository.deleteByIdentifier(identifier);
+        Node node = nodeRepository.findByIdentifier(identifier);
+        softDelete(node);
+        setAuditFields(node, false);
+        nodeRepository.save(node);
     }
 
     @Override
@@ -127,7 +135,7 @@ public class NodeServiceImpl extends CommonService implements NodeService {
 
         Type listType = new TypeToken<List<NodeDto>>() {
         }.getType();
-        Page<Node> nodePage = nodeRepository.findAll(pageable);
+        Page<Node> nodePage = nodeRepository.findByDeletedFalse(pageable);
         WsDto<NodeDto> nodeWsDto = new WsDto<>();
         nodeWsDto.setDtoList(modelMapper.map(nodePage.getContent(), listType));
         nodeWsDto.setTotalRecords(nodePage.getTotalElements());

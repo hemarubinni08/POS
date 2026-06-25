@@ -12,7 +12,5 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     void deleteByIdentifier(String identifier);
 
-    List<Orders> findAllByStatus(boolean status);
-
     List<Orders> findAllByOrderByOrderDateDesc();
 }

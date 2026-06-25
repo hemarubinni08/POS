@@ -34,10 +34,10 @@ public class ProductControllerApi extends BaseController {
 
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam Long id) {
+    @DeleteMapping("/delete")
+    public boolean delete(@RequestParam String identifier) {
         try {
-            productService.delete(id);
+            productService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
@@ -50,7 +50,7 @@ public class ProductControllerApi extends BaseController {
 
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ProductDto update(@RequestBody ProductDto productDto) {
         return productService.update(productDto);
     }

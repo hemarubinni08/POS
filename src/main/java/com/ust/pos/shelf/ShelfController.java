@@ -19,7 +19,7 @@ public class ShelfController {
     }
 
     @GetMapping("/list")
-    public String listCategories(Model model, Pageable pageable) {
+    public String list(Model model, Pageable pageable) {
         model.addAttribute("categories", shelfService.findAll(pageable));
         return "shelf/list";
     }
@@ -56,8 +56,8 @@ public class ShelfController {
     }
 
     @GetMapping("/delete")
-    public String deleteShelf(@RequestParam Long id) {
-        shelfService.deleteById(id);
+    public String deleteShelf(@RequestParam String identifier) {
+        shelfService.delete(identifier);
         return REDIRECT_SHELF_LIST;
     }
 

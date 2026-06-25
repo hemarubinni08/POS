@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class WarehouseController {
     public static final String REDIRECT_WAREHOUSE_LIST = "redirect:/warehouse/list";
 
-   private final WarehouseService warehouseService;
+    private final WarehouseService warehouseService;
 
     public WarehouseController(WarehouseService warehouseService) {
         this.warehouseService = warehouseService;
@@ -55,8 +55,8 @@ public class WarehouseController {
     }
 
     @GetMapping("/delete")
-    public String deleteWarehouse(@RequestParam Long id) {
-        warehouseService.delete(id);
+    public String deleteWarehouse(@RequestParam String identifier) {
+        warehouseService.delete(identifier);
         return REDIRECT_WAREHOUSE_LIST;
     }
 

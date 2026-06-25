@@ -32,13 +32,18 @@ public class WarehouseServiceImpl extends CommonService implements WarehouseServ
 
         Warehouse existing = warehouseRepository.findByIdentifier(warehouseDto.getIdentifier());
         if (existing != null) {
+            if (existing.isDeleted()) {
+                warehouseDto.setMessage("Warehouse with identifier - " + existing + "has been soft deleted.(Rollback by changing status");
+                warehouseDto.setSuccess(false);
+                return warehouseDto;
+            }
             warehouseDto.setMessage("Warehouse Already Exist!");
             warehouseDto.setSuccess(false);
             return warehouseDto;
         }
 
         Warehouse warehouse = modelMapper.map(warehouseDto, Warehouse.class);
-        setAuditFields(warehouse,true);
+        setAuditFields(warehouse, true);
         warehouseRepository.save(warehouse);
         warehouseDto.setSuccess(true);
         return warehouseDto;
@@ -53,7 +58,7 @@ public class WarehouseServiceImpl extends CommonService implements WarehouseServ
             return warehouseDto;
         }
         modelMapper.map(warehouseDto, warehouse);
-        setAuditFields(warehouse,false);
+        setAuditFields(warehouse, false);
         warehouseRepository.save(warehouse);
         warehouseDto.setSuccess(true);
         return warehouseDto;
@@ -64,7 +69,7 @@ public class WarehouseServiceImpl extends CommonService implements WarehouseServ
 
         Type listType = new TypeToken<List<WarehouseDto>>() {
         }.getType();
-        Page<Warehouse> warehousePage = warehouseRepository.findAll(pageable);
+        Page<Warehouse> warehousePage = warehouseRepository.findByDeletedFalse(pageable);
         WsDto<WarehouseDto> warehouseWsDto = new WsDto<>();
         warehouseWsDto.setDtoList(modelMapper.map(warehousePage.getContent(), listType));
         warehouseWsDto.setTotalRecords(warehousePage.getTotalElements());
@@ -83,8 +88,11 @@ public class WarehouseServiceImpl extends CommonService implements WarehouseServ
     }
 
     @Override
-    public void delete(Long id) {
-        warehouseRepository.deleteById(id);
+    public void delete(String identifier) {
+        Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
+        softDelete(warehouse);
+        setAuditFields(warehouse, false);
+        warehouseRepository.save(warehouse);
     }
 
     @Override

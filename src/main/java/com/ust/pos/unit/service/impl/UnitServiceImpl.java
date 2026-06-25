@@ -1,5 +1,6 @@
 package com.ust.pos.unit.service.impl;
 
+import com.ust.pos.commonservice.CommonService;
 import com.ust.pos.dto.UnitDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Unit;
@@ -15,7 +16,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Service
-public class UnitServiceImpl implements UnitService {
+public class UnitServiceImpl extends CommonService implements UnitService {
 
     private final UnitRepository unitRepository;
 
@@ -31,11 +32,17 @@ public class UnitServiceImpl implements UnitService {
         String identifier = unitDto.getIdentifier();
         Unit existingUnit = unitRepository.findByIdentifier(identifier);
         if (existingUnit != null) {
+            if (existingUnit.isDeleted()) {
+                unitDto.setMessage("Unit with identifier - " + identifier + "has been soft deleted.(Rollback by changing status");
+                unitDto.setSuccess(false);
+                return unitDto;
+            }
             unitDto.setSuccess(false);
             unitDto.setMessage("Unit with this identifier" + unitDto.getIdentifier() + "already exist");
             return unitDto;
         }
         Unit unit = modelMapper.map(unitDto, Unit.class);
+        setAuditFields(unit, true);
         Unit savedUnit = unitRepository.save(unit);
         return modelMapper.map(savedUnit, UnitDto.class);
 
@@ -54,7 +61,7 @@ public class UnitServiceImpl implements UnitService {
 
         Type listType = new TypeToken<List<UnitDto>>() {
         }.getType();
-        Page<Unit> unitPage = unitRepository.findAll(pageable);
+        Page<Unit> unitPage = unitRepository.findByDeletedFalse(pageable);
         WsDto<UnitDto> unitWsDto = new WsDto<>();
         unitWsDto.setDtoList(modelMapper.map(unitPage.getContent(), listType));
         unitWsDto.setTotalRecords(unitPage.getTotalElements());
@@ -66,8 +73,11 @@ public class UnitServiceImpl implements UnitService {
     }
 
     @Override
-    public void delete(Long id) {
-        unitRepository.deleteById(id);
+    public void delete(String identifier) {
+        Unit unit = unitRepository.findByIdentifier(identifier);
+        softDelete(unit);
+        setAuditFields(unit, false);
+        unitRepository.save(unit);
     }
 
     @Override
@@ -84,6 +94,7 @@ public class UnitServiceImpl implements UnitService {
             return unitDto;
         }
         modelMapper.map(unitDto, unit);
+        setAuditFields(unit, false);
         unitRepository.save(unit);
         return unitDto;
     }

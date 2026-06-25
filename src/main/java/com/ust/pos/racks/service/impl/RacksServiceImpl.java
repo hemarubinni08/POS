@@ -32,12 +32,17 @@ public class RacksServiceImpl extends CommonService implements RacksService {
 
         Racks existing = racksRepository.findByIdentifier(racksDto.getIdentifier());
         if (existing != null) {
+            if (existing.isDeleted()) {
+                racksDto.setMessage("Racks with identifier - " + existing + "has been soft deleted.(Rollback by changing status");
+                racksDto.setSuccess(false);
+                return racksDto;
+            }
             racksDto.setMessage("Racks Already Exist!");
             racksDto.setSuccess(false);
             return racksDto;
         }
         Racks racks = modelMapper.map(racksDto, Racks.class);
-        setAuditFields(racks,true);
+        setAuditFields(racks, true);
         racksRepository.save(racks);
         racksDto.setSuccess(true);
         return racksDto;
@@ -55,7 +60,7 @@ public class RacksServiceImpl extends CommonService implements RacksService {
 
         Type listType = new TypeToken<List<RacksDto>>() {
         }.getType();
-        Page<Racks> racksPage = racksRepository.findAll(pageable);
+        Page<Racks> racksPage = racksRepository.findByDeletedFalse(pageable);
         WsDto<RacksDto> racksWsDto = new WsDto<>();
         racksWsDto.setDtoList(modelMapper.map(racksPage.getContent(), listType));
         racksWsDto.setTotalRecords(racksPage.getTotalElements());
@@ -67,8 +72,11 @@ public class RacksServiceImpl extends CommonService implements RacksService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        racksRepository.deleteById(id);
+    public void delete(String identifier) {
+        Racks racks = racksRepository.findByIdentifier(identifier);
+        softDelete(racks);
+        setAuditFields(racks, false);
+        racksRepository.save(racks);
     }
 
     @Override
@@ -86,7 +94,7 @@ public class RacksServiceImpl extends CommonService implements RacksService {
             return racksDto;
         }
         modelMapper.map(racksDto, racks);
-        setAuditFields(racks,false);
+        setAuditFields(racks, false);
         racksRepository.save(racks);
         racksDto.setSuccess(true);
         return racksDto;

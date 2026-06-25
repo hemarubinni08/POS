@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 public class CartControllerApi extends BaseController {
 
-   private final CartService cartService;
+    private final CartService cartService;
 
-   private final CartEntryService cartEntryService;
+    private final CartEntryService cartEntryService;
 
     public CartControllerApi(CartService cartService, CartEntryService cartEntryService) {
         this.cartService = cartService;
@@ -36,7 +36,7 @@ public class CartControllerApi extends BaseController {
         return cartService.recalculate(cartEntryDto.getCart());
     }
 
-    @PostMapping("/deleteCart")
+    @DeleteMapping("/deleteCart")
     public boolean deleteCart(@RequestBody CartDto cartDto) {
         try {
             cartService.deleteByIdentifier(cartDto.getIdentifier());
@@ -46,7 +46,7 @@ public class CartControllerApi extends BaseController {
         return true;
     }
 
-    @PostMapping("/deleteEntry")
+    @DeleteMapping("/deleteEntry")
     public boolean deleteEntry(@RequestBody CartEntryDto cartEntryDto) {
         String identifier = cartEntryDto.getProduct() + "-" + cartEntryDto.getCart();
         try {

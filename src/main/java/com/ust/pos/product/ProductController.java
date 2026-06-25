@@ -15,11 +15,11 @@ public class ProductController {
     public static final String PRODUCT_DTO = "productDto";
     public static final String REDIRECT_PRODUCT_LIST = "redirect:/product/list";
 
-   private final BrandService brandService;
+    private final BrandService brandService;
 
-   private final ProductService productService;
+    private final ProductService productService;
 
-   private final CategoryService categoryService;
+    private final CategoryService categoryService;
 
     public ProductController(BrandService brandService, ProductService productService, CategoryService categoryService) {
         this.brandService = brandService;
@@ -52,8 +52,8 @@ public class ProductController {
     }
 
     @GetMapping("/delete")
-    public String delete(Model model, @RequestParam Long id) {
-        productService.delete(id);
+    public String delete(Model model, @RequestParam String identifier) {
+        productService.delete(identifier);
         return REDIRECT_PRODUCT_LIST;
     }
 

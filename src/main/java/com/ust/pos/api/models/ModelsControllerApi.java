@@ -44,15 +44,15 @@ public class ModelsControllerApi extends BaseController {
 
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ModelsDto updatePost(@RequestBody ModelsDto modelsDto) {
         return modelsService.update(modelsDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam Long id) {
+    @DeleteMapping("/delete")
+    public boolean delete(@RequestParam String identifier) {
         try {
-            modelsService.deleteById(id);
+            modelsService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
@@ -61,9 +61,7 @@ public class ModelsControllerApi extends BaseController {
 
     @PostMapping("/changeStatus")
     public ModelsDto toggle(@RequestBody ModelsDto modelsDto) {
-
         return modelsService.changeModelsStatus(modelsDto.getIdentifier(), modelsDto.isStatus());
-
     }
 
     @GetMapping("/findAllActive")

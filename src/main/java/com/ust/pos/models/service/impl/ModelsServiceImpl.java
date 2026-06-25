@@ -32,12 +32,17 @@ public class ModelsServiceImpl extends CommonService implements ModelsService {
 
         Models existingModels = modelsRepository.findByIdentifier(modelsDto.getIdentifier());
         if (existingModels != null) {
+            if (existingModels.isDeleted()) {
+                modelsDto.setMessage("Models with identifier - " + existingModels + "has been soft deleted.(Rollback by changing status");
+                modelsDto.setSuccess(false);
+                return modelsDto;
+            }
             modelsDto.setSuccess(false);
             modelsDto.setMessage("Models with Identifier" + modelsDto.getIdentifier() + "already exist!");
             return modelsDto;
         }
         Models models = modelMapper.map(modelsDto, Models.class);
-        setAuditFields(models,true);
+        setAuditFields(models, true);
         modelsRepository.save(models);
         return modelsDto;
 
@@ -56,7 +61,7 @@ public class ModelsServiceImpl extends CommonService implements ModelsService {
 
         Type listType = new TypeToken<List<ModelsDto>>() {
         }.getType();
-        Page<Models> modelsPage = modelsRepository.findAll(pageable);
+        Page<Models> modelsPage = modelsRepository.findByDeletedFalse(pageable);
         WsDto<ModelsDto> modelsWsDto = new WsDto<>();
         modelsWsDto.setDtoList(modelMapper.map(modelsPage.getContent(), listType));
         modelsWsDto.setTotalRecords(modelsPage.getTotalElements());
@@ -68,8 +73,11 @@ public class ModelsServiceImpl extends CommonService implements ModelsService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        modelsRepository.deleteById(id);
+    public void delete(String identifier) {
+        Models models = modelsRepository.findByIdentifier(identifier);
+        softDelete(models);
+        setAuditFields(models, false);
+        modelsRepository.save(models);
     }
 
     @Override
@@ -81,7 +89,7 @@ public class ModelsServiceImpl extends CommonService implements ModelsService {
             return modelsDto;
         }
         modelMapper.map(modelsDto, models);
-        setAuditFields(models,false);
+        setAuditFields(models, false);
         modelsRepository.save(models);
         modelsDto.setSuccess(true);
         return modelsDto;

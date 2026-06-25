@@ -18,4 +18,5 @@ public class CommonDto {
     private LocalDateTime createdOn;
     private String modifiedBy;
     private LocalDateTime modifiedOn;
+    private boolean deleted = false;
 }

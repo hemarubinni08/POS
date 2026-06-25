@@ -5,7 +5,6 @@ import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartDto;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.model.Cart;
-import com.ust.pos.model.CartEntryRepository;
 import com.ust.pos.model.CartRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -18,20 +17,17 @@ import java.util.List;
 @Service
 public class CartServiceImpl implements CartService {
 
-
     private final CartEntryService cartEntryService;
 
     private final CartRepository cartRepository;
 
     private final ModelMapper modelMapper;
 
-    private final CartEntryRepository cartEntryRepository;
 
-    public CartServiceImpl(CartEntryService cartEntryService, CartRepository cartRepository, ModelMapper modelMapper, CartEntryRepository cartEntryRepository) {
+    public CartServiceImpl(CartEntryService cartEntryService, CartRepository cartRepository, ModelMapper modelMapper) {
         this.cartEntryService = cartEntryService;
         this.cartRepository = cartRepository;
         this.modelMapper = modelMapper;
-        this.cartEntryRepository = cartEntryRepository;
     }
 
     @Override

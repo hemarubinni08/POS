@@ -13,8 +13,7 @@ public class BrandController {
     public static final String REDIRECT_BRAND_LIST = "redirect:/brand/list";
     public static final String BRANDS = "brands";
 
-
-   private final BrandService brandService;
+    private final BrandService brandService;
 
     public BrandController(BrandService brandService) {
         this.brandService = brandService;
@@ -55,9 +54,9 @@ public class BrandController {
 
 
     @GetMapping("/delete")
-    public String deleteBrand(@RequestParam Long id) {
+    public String deleteBrand(@RequestParam String identifier) {
 
-        brandService.deleteById(id);
+        brandService.delete(identifier);
         return REDIRECT_BRAND_LIST;
     }
 

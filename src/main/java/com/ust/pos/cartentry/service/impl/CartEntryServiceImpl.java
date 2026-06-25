@@ -17,11 +17,11 @@ import java.util.List;
 @Service
 public class CartEntryServiceImpl implements CartEntryService {
 
-   private final PriceRepository priceRepository;
+    private final PriceRepository priceRepository;
 
-   private final CartEntryRepository cartEntryRepository;
+    private final CartEntryRepository cartEntryRepository;
 
-   private final ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public CartEntryServiceImpl(PriceRepository priceRepository, CartEntryRepository cartEntryRepository, ModelMapper modelMapper) {
         this.priceRepository = priceRepository;

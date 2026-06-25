@@ -46,9 +46,18 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public String generateOrderId(String cartIdentifier) {
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        String cleanIdentifier = (cartIdentifier != null && !cartIdentifier.trim().isEmpty())
-                ? cartIdentifier.replaceAll("[^0-9]", "")
-                : "WALKIN";
+
+        String cleanIdentifier = "WALKIN";
+        if (cartIdentifier != null && !cartIdentifier.trim().isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (char c : cartIdentifier.toCharArray()) {
+                if (Character.isDigit(c)) {
+                    sb.append(c);
+                }
+            }
+            cleanIdentifier = sb.toString();
+        }
+
         return "ORD-" + cleanIdentifier + "-" + timestamp;
     }
 
@@ -71,11 +80,13 @@ public class OrdersServiceImpl implements OrdersService {
             orderEntry.setOrderId(orderId);
             orderEntries.add(orderEntry);
         }
+
         orderEntryRepository.saveAll(orderEntries);
         cartEntryService.deleteAllByCart(cartIdentifier);
         cartService.recalculate(cartIdentifier);
         OrdersDto orderDto = modelMapper.map(order, OrdersDto.class);
-        Type listType = new TypeToken<List<OrderEntryDto>>() {}.getType();
+        Type listType = new TypeToken<List<OrderEntryDto>>() {
+        }.getType();
         orderDto.setOrderEntryDtoList(modelMapper.map(orderEntries, listType));
         return orderDto;
     }
@@ -87,7 +98,8 @@ public class OrdersServiceImpl implements OrdersService {
         for (Orders order : orders) {
             OrdersDto orderDto = modelMapper.map(order, OrdersDto.class);
             List<OrderEntry> entries = orderEntryRepository.findByOrderId(order.getOrderId());
-            Type listType = new TypeToken<List<OrderEntryDto>>() {}.getType();
+            Type listType = new TypeToken<List<OrderEntryDto>>() {
+            }.getType();
             orderDto.setOrderEntryDtoList(modelMapper.map(entries, listType));
             result.add(orderDto);
         }

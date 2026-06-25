@@ -33,12 +33,17 @@ public class BrandServiceImpl extends CommonService implements BrandService {
         String identifier = brandDto.getIdentifier();
         Brand existingBrand = brandRepository.findByIdentifier(identifier);
         if (existingBrand != null) {
+            if (existingBrand.isDeleted()) {
+                brandDto.setMessage("Brand with identifier - " + identifier + "has been soft deleted.(Rollback by changing status");
+                brandDto.setSuccess(false);
+                return brandDto;
+            }
             brandDto.setMessage("Brand with identifier - " + identifier + " already exists");
             brandDto.setSuccess(false);
             return brandDto;
         }
         Brand brand = modelMapper.map(brandDto, Brand.class);
-        setAuditFields(brand,true);
+        setAuditFields(brand, true);
         brandRepository.save(brand);
         return brandDto;
 
@@ -57,7 +62,7 @@ public class BrandServiceImpl extends CommonService implements BrandService {
 
         Type listType = new TypeToken<List<BrandDto>>() {
         }.getType();
-        Page<Brand> brandPage = brandRepository.findAll(pageable);
+        Page<Brand> brandPage = brandRepository.findByDeletedFalse(pageable);
         WsDto<BrandDto> brandWsDto = new WsDto<>();
         brandWsDto.setDtoList(modelMapper.map(brandPage.getContent(), listType));
         brandWsDto.setTotalRecords(brandPage.getTotalElements());
@@ -80,16 +85,18 @@ public class BrandServiceImpl extends CommonService implements BrandService {
         }
 
         modelMapper.map(brandDto, brand);
-        setAuditFields(brand,false);
+        setAuditFields(brand, false);
         brandRepository.save(brand);
         brandDto.setSuccess(true);
         brandDto.setMessage("Brand updated successfully");
         return brandDto;
     }
 
-    @Override
-    public void deleteById(Long id) {
-        brandRepository.deleteById(id);
+    public void delete(String identifier) {
+        Brand brand = brandRepository.findByIdentifier(identifier);
+        softDelete(brand);
+        setAuditFields(brand, false);
+        brandRepository.save(brand);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class RoleController {
     }
 
     @GetMapping("/list")
-    public String home(Model model, Pageable pageable) {
+    public String list(Model model, Pageable pageable) {
         model.addAttribute("roles", roleService.findAll(pageable));
         return "role/list";
     }

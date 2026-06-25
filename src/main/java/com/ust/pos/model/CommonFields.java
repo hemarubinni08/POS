@@ -22,4 +22,5 @@ public class CommonFields {
     private LocalDateTime createdOn;
     private String modifiedBy;
     private LocalDateTime modifiedOn;
+    private boolean deleted = false;
 }

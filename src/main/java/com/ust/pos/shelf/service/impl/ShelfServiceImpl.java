@@ -32,12 +32,17 @@ public class ShelfServiceImpl extends CommonService implements ShelfService {
 
         Shelf existing = shelfRepository.findByIdentifier(shelfDto.getIdentifier());
         if (existing != null) {
+            if (existing.isDeleted()) {
+                shelfDto.setMessage("Shelf with identifier - " + existing + "has been soft deleted.(Rollback by changing status");
+                shelfDto.setSuccess(false);
+                return shelfDto;
+            }
             shelfDto.setMessage("Shelf Already Exist!");
             shelfDto.setSuccess(false);
             return shelfDto;
         }
         Shelf shelf = modelMapper.map(shelfDto, Shelf.class);
-        setAuditFields(shelf,true);
+        setAuditFields(shelf, true);
         shelfRepository.save(shelf);
         shelfDto.setSuccess(true);
         return shelfDto;
@@ -54,7 +59,7 @@ public class ShelfServiceImpl extends CommonService implements ShelfService {
         }
 
         modelMapper.map(shelfDto, shelf);
-        setAuditFields(shelf,false);
+        setAuditFields(shelf, false);
         shelfRepository.save(shelf);
         shelfDto.setSuccess(true);
         return shelfDto;
@@ -72,7 +77,7 @@ public class ShelfServiceImpl extends CommonService implements ShelfService {
 
         Type listType = new TypeToken<List<ShelfDto>>() {
         }.getType();
-        Page<Shelf> shelfPage = shelfRepository.findAll(pageable);
+        Page<Shelf> shelfPage = shelfRepository.findByDeletedFalse(pageable);
         WsDto<ShelfDto> shelfWsDto = new WsDto<>();
         shelfWsDto.setDtoList(modelMapper.map(shelfPage.getContent(), listType));
         shelfWsDto.setTotalRecords(shelfPage.getTotalElements());
@@ -85,8 +90,11 @@ public class ShelfServiceImpl extends CommonService implements ShelfService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        shelfRepository.deleteById(id);
+    public void delete(String identifier) {
+        Shelf shelf = shelfRepository.findByIdentifier(identifier);
+        softDelete(shelf);
+        setAuditFields(shelf, false);
+        shelfRepository.save(shelf);
     }
 
     @Override

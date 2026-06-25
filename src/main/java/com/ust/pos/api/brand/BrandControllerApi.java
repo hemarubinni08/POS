@@ -14,7 +14,6 @@ import java.util.List;
 @RequestMapping("/api/brand")
 public class BrandControllerApi extends BaseController {
 
-
     private final BrandService brandService;
 
     public BrandControllerApi(BrandService brandService) {
@@ -22,7 +21,7 @@ public class BrandControllerApi extends BaseController {
     }
 
     @PostMapping("/list")
-    public WsDto<BrandDto> listCategories(@RequestBody PaginationDto paginationDto) {
+    public WsDto<BrandDto> list(@RequestBody PaginationDto paginationDto) {
 
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
         return brandService.findAll(pageable);
@@ -36,24 +35,23 @@ public class BrandControllerApi extends BaseController {
 
     }
 
-
     @GetMapping("/update")
     public BrandDto showEditPage(@RequestParam String identifier) {
 
         return brandService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public BrandDto saveEditedBrand(@RequestBody BrandDto brandDto) {
 
         return brandService.update(brandDto);
     }
 
 
-    @GetMapping("/delete")
-    public boolean deleteBrand(@RequestParam Long id) {
+    @DeleteMapping("/delete")
+    public boolean deleteBrand(@RequestParam String identifier) {
         try {
-            brandService.deleteById(id);
+            brandService.delete(identifier);
         } catch (Exception e) {
             return false;
         }

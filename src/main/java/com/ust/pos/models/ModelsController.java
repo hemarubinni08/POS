@@ -19,7 +19,7 @@ public class ModelsController {
     }
 
     @GetMapping("/list")
-    public String listCategories(Model model, Pageable pageable) {
+    public String listmodels(Model model, Pageable pageable) {
         model.addAttribute("Models", modelsService.findAll(pageable));
         return "models/list";
     }
@@ -40,10 +40,8 @@ public class ModelsController {
     @GetMapping("/save")
     public String showEditPage(@RequestParam Long id, Model model, Pageable pageable) {
 
-        // models being edited
         model.addAttribute("modelsDto", modelsService.findById(id));
 
-        // list used to populate Super Models dropdown
         model.addAttribute("categories", modelsService.findAll(pageable));
 
         return "models/models";
@@ -64,8 +62,8 @@ public class ModelsController {
     }
 
     @GetMapping("/delete")
-    public String deleteModels(@RequestParam Long id) {
-        modelsService.deleteById(id);
+    public String deleteModels(@RequestParam String identifier) {
+        modelsService.delete(identifier);
         return REDIRECT_MODELS_LIST;
     }
 }

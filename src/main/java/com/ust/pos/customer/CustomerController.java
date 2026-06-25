@@ -1,6 +1,5 @@
 package com.ust.pos.customer;
 
-import com.ust.pos.address.service.AddressService;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.WsDto;
@@ -17,11 +16,8 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    private final AddressService addressService;
-
-    public CustomerController(CustomerService customerService, AddressService addressService) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-        this.addressService = addressService;
     }
 
     @GetMapping("/list")
@@ -50,7 +46,7 @@ public class CustomerController {
 
     @GetMapping("/delete")
     public String delete(@RequestParam String identifier) {
-        customerService.deleteByIdentifier(identifier);
+        customerService.delete(identifier);
         return "redirect:/customer/list";
     }
 

@@ -104,7 +104,7 @@ class ModelsServiceTest {
 
         Page<Models> page = new PageImpl<>(List.of(models));
 
-        Mockito.when(modelsRepository.findAll(Mockito.any(Pageable.class)))
+        Mockito.when(modelsRepository.findByDeletedFalse(Mockito.any(Pageable.class)))
                 .thenReturn(page);
 
         Type listType = new TypeToken<List<ModelsDto>>() {
@@ -166,14 +166,60 @@ class ModelsServiceTest {
     }
 
     @Test
-    void deleteByIdSuccess() {
-        Mockito.doNothing()
-                .when(modelsRepository)
-                .deleteById(1L);
+    void deleteSoftDeletesAndSaves() {
+        Models models = new Models();
+        models.setIdentifier("MODEL-1");
+        models.setStatus(true);
+        models.setDeleted(false);
 
-        modelsService.deleteById(1L);
+        Mockito.when(modelsRepository.findByIdentifier("MODEL-1"))
+                .thenReturn(models);
 
-        Mockito.verify(modelsRepository, Mockito.times(1))
-                .deleteById(1L);
+        modelsService.delete("MODEL-1");
+
+        Assertions.assertTrue(models.isDeleted());
+        Assertions.assertFalse(models.isStatus());
+        Mockito.verify(modelsRepository, Mockito.times(1)).save(models);
+    }
+
+    @Test
+    void saveFailure_softDeletedRecord() {
+        ModelsDto dto = new ModelsDto();
+        dto.setIdentifier("MODEL-1");
+
+        Models existing = new Models();
+        existing.setDeleted(true);
+
+        Mockito.when(modelsRepository.findByIdentifier("MODEL-1"))
+                .thenReturn(existing);
+
+        ModelsDto response = modelsService.save(dto);
+
+        Assertions.assertFalse(response.isSuccess());
+        Mockito.verify(modelsRepository, Mockito.never()).save(Mockito.any());
+    }
+
+    @Test
+    void findActiveModelsTest() {
+        Models models = new Models();
+        models.setIdentifier("MODEL-1");
+        models.setStatus(true);
+
+        ModelsDto dto = new ModelsDto();
+        dto.setIdentifier("MODEL-1");
+        dto.setStatus(true);
+
+        Mockito.when(modelsRepository.findByStatus(true))
+                .thenReturn(List.of(models));
+
+        Type listType = new TypeToken<List<ModelsDto>>() {
+        }.getType();
+        Mockito.when(modelMapper.map(List.of(models), listType))
+                .thenReturn(List.of(dto));
+
+        List<ModelsDto> response = modelsService.findActiveModels();
+
+        Assertions.assertEquals(1, response.size());
+        Assertions.assertTrue(response.get(0).isStatus());
     }
 }

@@ -15,9 +15,9 @@ public class UnitControllerApi extends BaseController {
 
     public static final String REDIRECT_ROLE_LIST = "redirect:/unit/list";
     private final UnitService unitService;
-    public UnitControllerApi(UnitService unitService)
-    {
-        this.unitService=unitService;
+
+    public UnitControllerApi(UnitService unitService) {
+        this.unitService = unitService;
     }
 
     @PostMapping("/list")
@@ -32,23 +32,23 @@ public class UnitControllerApi extends BaseController {
         return unitService.save(unitDto);
     }
 
-    @GetMapping("/get")
-    public UnitDto update(@RequestBody Long id) {
+    @GetMapping("/update")
+    public UnitDto update(@RequestParam Long id) {
 
         return unitService.findById(id);
 
     }
 
-    @PostMapping("/update")
-    public UnitDto updatePost(@RequestBody UnitDto unitDto) {
+    @PutMapping("/update")
+    public UnitDto updatePost(@RequestParam UnitDto unitDto) {
 
         return unitService.update(unitDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam Long id) {
+    @DeleteMapping("/delete")
+    public boolean delete(@RequestParam String identifier) {
         try {
-            unitService.delete(id);
+            unitService.delete(identifier);
         } catch (Exception e) {
             return false;
         }

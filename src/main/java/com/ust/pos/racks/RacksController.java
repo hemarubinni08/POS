@@ -24,7 +24,7 @@ public class RacksController {
     }
 
     @GetMapping("/list")
-    public String listCategories(Model model, Pageable pageable) {
+    public String list(Model model, Pageable pageable) {
         model.addAttribute("racks", racksService.findAll(pageable));
         model.addAttribute(SHELF_LIST, shelfService.findActiveShelf());
         return "racks/list";
@@ -63,8 +63,8 @@ public class RacksController {
     }
 
     @GetMapping("/delete")
-    public String deleteRacks(@RequestParam Long id) {
-        racksService.deleteById(id);
+    public String deleteRacks(@RequestParam String identifier) {
+        racksService.delete(identifier);
         return REDIRECT_RACKS_LIST;
     }
 

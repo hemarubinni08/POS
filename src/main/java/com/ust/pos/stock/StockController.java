@@ -28,7 +28,7 @@ public class StockController {
 
 
     @GetMapping("/list")
-    public String listStocks(Model model, Pageable pageable) {
+    public String list(Model model, Pageable pageable) {
         model.addAttribute("stockList", stockService.findAll(pageable));
         return "stock/list";
     }
@@ -52,8 +52,8 @@ public class StockController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam Long id) {
-        stockService.delete(id);
+    public String delete(@RequestParam String identifier) {
+        stockService.delete(identifier);
         return "redirect:/stock/list";
     }
 

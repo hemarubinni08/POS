@@ -40,7 +40,7 @@ public class RacksControllerApi extends BaseController {
         return racksService.findById(id);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public RacksDto saveEditedRacks(@RequestBody RacksDto racksDto) {
 
         return racksService.update(racksDto);
@@ -48,11 +48,11 @@ public class RacksControllerApi extends BaseController {
     }
 
 
-    @GetMapping("/delete")
-    public boolean deleteRacks(@RequestParam Long id) {
+    @DeleteMapping("/delete")
+    public boolean deleteRacks(@RequestParam String identifier) {
 
         try {
-            racksService.deleteById(id);
+            racksService.delete(identifier);
         } catch (Exception e) {
             return false;
         }

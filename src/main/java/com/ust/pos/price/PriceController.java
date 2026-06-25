@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class PriceController {
     public static final String PRICE_DTO = "priceDto";
 
-   private final PriceService priceService;
+    private final PriceService priceService;
 
     public PriceController(PriceService priceService) {
         this.priceService = priceService;

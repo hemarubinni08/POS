@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/warehouse")
 public class WarehouseControllerApi extends BaseController {
 
-   private final WarehouseService warehouseService;
+    private final WarehouseService warehouseService;
 
     public WarehouseControllerApi(WarehouseService warehouseService) {
         this.warehouseService = warehouseService;
@@ -41,16 +41,15 @@ public class WarehouseControllerApi extends BaseController {
         return warehouseService.findById(id);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public WarehouseDto updateWarehouse(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.update(warehouseDto);
-
     }
 
-    @GetMapping("/delete")
-    public boolean deleteWarehouse(@RequestParam Long id) {
+    @DeleteMapping("/delete")
+    public boolean deleteWarehouse(@RequestParam String identifier) {
         try {
-            warehouseService.delete(id);
+            warehouseService.delete(identifier);
         } catch (Exception e) {
             return false;
         }

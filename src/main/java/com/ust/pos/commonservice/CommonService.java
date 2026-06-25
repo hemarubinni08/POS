@@ -14,7 +14,8 @@ public abstract class CommonService {
 
         if (isNew) {
             entity.setCreatedBy(currentUser);
-            entity.setCreatedOn(now);            entity.setModifiedBy(null);
+            entity.setCreatedOn(now);
+            entity.setModifiedBy(null);
             entity.setModifiedOn(null);
         } else {
             entity.setModifiedBy(currentUser);
@@ -28,5 +29,10 @@ public abstract class CommonService {
             return "system";
         }
         return authentication.getName();
+    }
+
+    protected void softDelete(CommonFields entity) {
+        entity.setDeleted(true);
+        entity.setStatus(false);
     }
 }

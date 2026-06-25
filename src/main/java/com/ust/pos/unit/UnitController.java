@@ -19,7 +19,7 @@ public class UnitController {
     }
 
     @GetMapping("/list")
-    public String listCategories(Model model, Pageable pageable) {
+    public String list(Model model, Pageable pageable) {
         model.addAttribute("units", unitService.findAll(pageable));
         return "unit/list";
     }
@@ -54,8 +54,8 @@ public class UnitController {
 
 
     @GetMapping("/delete")
-    public String deleteUnit(@RequestParam Long id) {
-        unitService.delete(id);
+    public String deleteUnit(@RequestParam String identifier) {
+        unitService.delete(identifier);
         return REDIRECT_UNIT_LIST;
     }
 }

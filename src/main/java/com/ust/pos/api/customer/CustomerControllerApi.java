@@ -1,6 +1,5 @@
 package com.ust.pos.api.customer;
 
-import com.ust.pos.address.service.AddressService;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
@@ -16,11 +15,8 @@ public class CustomerControllerApi extends BaseController {
 
     private final CustomerService customerService;
 
-    private final AddressService addressService;
-
-    public CustomerControllerApi(CustomerService customerService, AddressService addressService) {
+    public CustomerControllerApi(CustomerService customerService) {
         this.customerService = customerService;
-        this.addressService = addressService;
     }
 
     @PostMapping("/list")
@@ -38,24 +34,22 @@ public class CustomerControllerApi extends BaseController {
 
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
-            customerService.deleteByIdentifier(identifier);
+            customerService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
         return true;
-
     }
 
     @GetMapping("/update")
     public CustomerDto update(@RequestParam String identifier) {
         return customerService.findByIdentifier(identifier);
-
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public CustomerDto update(@RequestBody CustomerDto customerDto) {
         return customerService.update(customerDto);
     }

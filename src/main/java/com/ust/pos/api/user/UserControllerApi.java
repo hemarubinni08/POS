@@ -29,7 +29,6 @@ public class UserControllerApi extends BaseController {
     @PostMapping("/add")
     public UserDto add(@RequestBody UserDto userDto) {
         return userService.save(userDto);
-
     }
 
     @GetMapping("/update")
@@ -38,12 +37,12 @@ public class UserControllerApi extends BaseController {
 
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public UserDto updatePost(@RequestBody UserDto userDto) {
         return userService.update(userDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String username) {
         try {
             userService.delete(username);

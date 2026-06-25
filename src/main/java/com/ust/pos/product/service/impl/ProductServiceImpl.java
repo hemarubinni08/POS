@@ -18,9 +18,9 @@ import java.util.List;
 @Service
 public class ProductServiceImpl extends CommonService implements ProductService {
 
-   private final ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-   private final ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
         this.productRepository = productRepository;
@@ -31,13 +31,18 @@ public class ProductServiceImpl extends CommonService implements ProductService 
     public ProductDto save(ProductDto productDto) {
         Product product = productRepository.findByIdentifier(productDto.getIdentifier());
         if (product != null) {
+            if (product.isDeleted()) {
+                productDto.setMessage("Product with identifier - " + product + "has been soft deleted.(Rollback by changing status");
+                productDto.setSuccess(false);
+                return productDto;
+            }
             productDto.setSuccess(false);
             productDto.setMessage("This product Already Exist!");
             return productDto;
         }
         Product response = new Product();
         modelMapper.map(productDto, response);
-        setAuditFields(response,true);
+        setAuditFields(response, true);
         productRepository.save(response);
         productDto.setMessage("Product Added Successfully");
         return productDto;
@@ -48,7 +53,7 @@ public class ProductServiceImpl extends CommonService implements ProductService 
 
         Type listType = new TypeToken<List<ProductDto>>() {
         }.getType();
-        Page<Product> productPage = productRepository.findAll(pageable);
+        Page<Product> productPage = productRepository.findByDeletedFalse(pageable);
         WsDto<ProductDto> productWsDto = new WsDto<>();
         productWsDto.setDtoList(modelMapper.map(productPage.getContent(), listType));
         productWsDto.setTotalRecords(productPage.getTotalElements());
@@ -75,7 +80,7 @@ public class ProductServiceImpl extends CommonService implements ProductService 
             return productDto;
         }
         modelMapper.map(productDto, product);
-        setAuditFields(product,false);
+        setAuditFields(product, false);
         productRepository.save(product);
         productDto.setMessage("Product Updated Successfully");
         return productDto;
@@ -91,8 +96,11 @@ public class ProductServiceImpl extends CommonService implements ProductService 
     }
 
     @Override
-    public void delete(Long id) {
-        productRepository.deleteById(id);
+    public void delete(String identifier) {
+        Product product = productRepository.findByIdentifier(identifier);
+        softDelete(product);
+        setAuditFields(product, false);
+        productRepository.save(product);
     }
 
     @Override
@@ -111,4 +119,5 @@ public class ProductServiceImpl extends CommonService implements ProductService 
         }.getType();
         return modelMapper.map(productRepository.findByStatusTrue(true), listType);
     }
+
 }

@@ -19,6 +19,7 @@ import java.util.List;
 @Service
 public class RoleServiceImpl extends CommonService implements RoleService {
 
+    public static final String ROLE_WITH_IDENTIFIER = "Role with identifier";
     private final RoleRepository roleRepository;
 
     private final ModelMapper modelMapper;
@@ -55,12 +56,17 @@ public class RoleServiceImpl extends CommonService implements RoleService {
         String identifier = roleDto.getIdentifier();
         Role existingRole = roleRepository.findByIdentifier(identifier);
         if (existingRole != null) {
-            roleDto.setMessage("Role with identifier - " + identifier + " already exists");
+            if (existingRole.isDeleted()) {
+                roleDto.setMessage(ROLE_WITH_IDENTIFIER + " - " + identifier + " " + "has been soft deleted.(Rollback by changing status)");
+                roleDto.setSuccess(false);
+                return roleDto;
+            }
+            roleDto.setMessage(ROLE_WITH_IDENTIFIER + " - " + identifier + " already exists");
             roleDto.setSuccess(false);
             return roleDto;
         }
         Role role = modelMapper.map(roleDto, Role.class);
-        setAuditFields(role,true);
+        setAuditFields(role, true);
         roleRepository.save(role);
         return roleDto;
     }
@@ -70,12 +76,12 @@ public class RoleServiceImpl extends CommonService implements RoleService {
         String identifier = roleDto.getIdentifier();
         Role existingRole = roleRepository.findByIdentifier(identifier);
         if (existingRole == null) {
-            roleDto.setMessage("Role with identifier - " + identifier + " not found");
+            roleDto.setMessage(ROLE_WITH_IDENTIFIER + " - " + identifier + " not found");
             roleDto.setSuccess(false);
             return roleDto;
         }
         modelMapper.map(roleDto, existingRole);
-        setAuditFields(existingRole,false);
+        setAuditFields(existingRole, false);
         roleRepository.save(existingRole);
         return roleDto;
     }
@@ -83,7 +89,10 @@ public class RoleServiceImpl extends CommonService implements RoleService {
     @Override
     @Transactional
     public void delete(String identifier) {
-        roleRepository.deleteByIdentifier(identifier);
+        Role role = roleRepository.findByIdentifier(identifier);
+        softDelete(role);
+        setAuditFields(role, false);
+        roleRepository.save(role);
     }
 
     @Override
@@ -91,7 +100,7 @@ public class RoleServiceImpl extends CommonService implements RoleService {
 
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
-        Page<Role> rolePage = roleRepository.findAll(pageable);
+        Page<Role> rolePage = roleRepository.findByDeletedFalse(pageable);
         WsDto<RoleDto> roleWsDto = new WsDto<>();
         roleWsDto.setDtoList(modelMapper.map(rolePage.getContent(), listType));
         roleWsDto.setTotalRecords(rolePage.getTotalElements());

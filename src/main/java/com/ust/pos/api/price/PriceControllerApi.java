@@ -41,13 +41,13 @@ public class PriceControllerApi extends BaseController {
         return priceService.findById(id);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public PriceDto update(@RequestBody PriceDto priceDto) {
 
         return priceService.update(priceDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     @Transactional
     public boolean delete(@RequestParam String identifier) {
         try {

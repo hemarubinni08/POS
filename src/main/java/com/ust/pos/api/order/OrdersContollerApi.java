@@ -17,13 +17,13 @@ public class OrdersContollerApi {
     }
 
     @GetMapping("/generateId")
-    public String generateOrderId(@RequestBody OrdersDto ordersDto){
+    public String generateOrderId(@RequestBody OrdersDto ordersDto) {
         return ordersService.generateOrderId(ordersDto.getIdentifier());
     }
 
     @PostMapping("/create")
-    public OrdersDto createOrder(@RequestBody OrdersDto orderDto){
-        return ordersService.placeOrder(orderDto.getIdentifier(),orderDto.getPaymentMode());
+    public OrdersDto createOrder(@RequestBody OrdersDto orderDto) {
+        return ordersService.placeOrder(orderDto.getIdentifier(), orderDto.getPaymentMode());
     }
 
     @GetMapping("list")

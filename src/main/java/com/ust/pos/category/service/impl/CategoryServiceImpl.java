@@ -32,12 +32,17 @@ public class CategoryServiceImpl extends CommonService implements CategoryServic
         String identifier = categoryDto.getIdentifier();
         Category existingCategory = categoryRepository.findByIdentifier(identifier);
         if (existingCategory != null) {
+            if (existingCategory.isDeleted()) {
+                categoryDto.setMessage("Category with identifier - " + identifier + "has been soft deleted.(Rollback by changing status");
+                categoryDto.setSuccess(false);
+                return categoryDto;
+            }
             categoryDto.setMessage("Category with identifier - " + identifier + " already exists");
             categoryDto.setSuccess(false);
             return categoryDto;
         }
         Category category = modelMapper.map(categoryDto, Category.class);
-        setAuditFields(category,true);
+        setAuditFields(category, true);
         categoryRepository.save(category);
         return categoryDto;
     }
@@ -54,12 +59,11 @@ public class CategoryServiceImpl extends CommonService implements CategoryServic
 
     @Override
     public CategoryDto update(CategoryDto categoryDto) {
-        // Always UPDATE - id must exist
         Category existing = categoryRepository.findById(categoryDto.getId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
         existing.setIdentifier(categoryDto.getIdentifier());
         existing.setSupercategory(categoryDto.getSupercategory());
-        setAuditFields(existing,false);
+        setAuditFields(existing, false);
         Category updatedCategory = categoryRepository.save(existing);
         return modelMapper.map(updatedCategory, CategoryDto.class);
     }
@@ -69,7 +73,7 @@ public class CategoryServiceImpl extends CommonService implements CategoryServic
 
         Type listType = new TypeToken<List<CategoryDto>>() {
         }.getType();
-        Page<Category> categoryPage = categoryRepository.findAll(pageable);
+        Page<Category> categoryPage = categoryRepository.findByDeletedFalse(pageable);
         WsDto<CategoryDto> categoryWsDto = new WsDto<>();
         categoryWsDto.setDtoList(modelMapper.map(categoryPage.getContent(), listType));
         categoryWsDto.setTotalRecords(categoryPage.getTotalElements());
@@ -81,8 +85,11 @@ public class CategoryServiceImpl extends CommonService implements CategoryServic
     }
 
     @Override
-    public void deleteById(Long id) {
-        categoryRepository.deleteById(id);
+    public void delete(String identifier) {
+        Category category = categoryRepository.findByIdentifier(identifier);
+        softDelete(category);
+        setAuditFields(category, false);
+        categoryRepository.save(category);
     }
 
     @Override

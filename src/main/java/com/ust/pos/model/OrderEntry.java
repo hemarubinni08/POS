@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
-public class OrderEntry extends CommonFields{
+public class OrderEntry extends CommonFields {
     private BigDecimal price;
     private BigDecimal totalPrice;
     private BigDecimal sellingPrice;

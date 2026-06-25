@@ -41,17 +41,17 @@ public class ShelfControllerApi extends BaseController {
 
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ShelfDto saveEditedShelf(@RequestBody ShelfDto shelfDto) {
 
         return shelfService.update(shelfDto);
     }
 
 
-    @GetMapping("/delete")
-    public boolean deleteShelf(@RequestParam Long id) {
+    @DeleteMapping("/delete")
+    public boolean deleteShelf(@RequestParam String identifier) {
         try {
-            shelfService.deleteById(id);
+            shelfService.delete(identifier);
         } catch (Exception e) {
             return false;
         }

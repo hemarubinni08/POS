@@ -43,12 +43,9 @@ public class WebSecurityConfig {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final JwtFilter jwtFilter;
-
-    public WebSecurityConfig(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, JwtFilter jwtFilter) {
+    public WebSecurityConfig(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.jwtFilter = jwtFilter;
     }
 
     @Bean
@@ -110,11 +107,11 @@ public class WebSecurityConfig {
 
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
 
-        configuration.setAllowCredentials(true); // Allow credentials if needed
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
-        source.registerCorsConfiguration("/**", configuration); // Apply CORS settings to all paths
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
 
@@ -141,11 +138,8 @@ public class WebSecurityConfig {
     public AuthenticationProvider userDetailsAuthProvider() {
 
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
-
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
-
         return authenticationProvider;
 
     }
-
 }

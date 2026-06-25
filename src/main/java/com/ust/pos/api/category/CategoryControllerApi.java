@@ -41,21 +41,20 @@ public class CategoryControllerApi extends BaseController {
 
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public CategoryDto saveEditedCategory(@RequestBody CategoryDto categoryDto) {
 
         return categoryService.update(categoryDto);
     }
 
-    @GetMapping("/delete")
-    public boolean deleteCategory(@RequestParam Long id) {
+    @DeleteMapping("/delete")
+    public boolean deleteCategory(@RequestParam String identifier) {
         try {
-            categoryService.deleteById(id);
+            categoryService.delete(identifier);
         } catch (Exception e) {
             return false;
         }
         return true;
-
     }
 
     @GetMapping("/findActiveSubCategories")
