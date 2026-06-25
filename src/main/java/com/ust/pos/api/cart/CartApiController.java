@@ -31,7 +31,7 @@ public class CartApiController {
         return cartService.findByIdentifier(identifier);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             cartService.delete(identifier);

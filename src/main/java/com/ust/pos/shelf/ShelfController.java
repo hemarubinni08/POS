@@ -49,7 +49,7 @@ public class ShelfController {
         return "shelf/shelf";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String updatePost(Model model, @ModelAttribute ShelfDto shelfDto) {
         ShelfDto response = shelfService.update(shelfDto);
         if (!response.isSuccess()) {
@@ -60,7 +60,7 @@ public class ShelfController {
         return REDIRECT_SHELF_LIST;
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(@RequestParam String identifier) {
         shelfService.delete(identifier);
         return REDIRECT_SHELF_LIST;

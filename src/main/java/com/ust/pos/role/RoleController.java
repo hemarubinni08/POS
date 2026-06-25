@@ -46,7 +46,7 @@ public class RoleController {
         return "role/role";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String updatePost(Model model, @ModelAttribute RoleDto roleDto) {
         RoleDto response = roleService.update(roleDto);
         if (!response.isSuccess()) {
@@ -56,7 +56,7 @@ public class RoleController {
         return REDIRECT_ROLE_LIST;
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(@RequestParam String identifier) {
         roleService.delete(identifier);
         return REDIRECT_ROLE_LIST;

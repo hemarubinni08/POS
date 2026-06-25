@@ -36,7 +36,7 @@ public class UserController {
         return "user/user";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String updatePost(Model model, @ModelAttribute UserDto userDto) {
         UserDto response = userService.update(userDto);
 
@@ -49,7 +49,7 @@ public class UserController {
         return "redirect:/user/list";
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(@RequestParam String username) {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();

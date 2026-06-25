@@ -55,7 +55,7 @@ public class NodeServiceImpl implements NodeService {
 
         User currentUser = userRepository.findByUsername(principalObject.getUsername());
         Set<String> nodesString = new HashSet<>();
-        List<Node> nodes = nodeRepository.findAll();
+        List<Node> nodes = nodeRepository.findByDeletedFalse();
 
         for (String role : currentUser.getRoles()) {
             for (Node node : nodes) {
@@ -68,7 +68,7 @@ public class NodeServiceImpl implements NodeService {
         for (String nodeStr : nodesString) {
             nodeDtos.add(
                     modelMapper.map(
-                            nodeRepository.findByIdentifier(nodeStr),
+                            nodeRepository.findByIdentifierAndDeletedFalse(nodeStr),
                             NodeDto.class
                     )
             );

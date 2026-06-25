@@ -52,7 +52,7 @@ public class ProductController {
         return "product/product";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String doupdate(Model model, @ModelAttribute ProductDto productDto) {
         ProductDto productDto1 = productService.update(productDto);
         if (!productDto1.isSuccess()) {
@@ -63,7 +63,7 @@ public class ProductController {
         return REDIRECT_PRODUCT_LIST;
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         productService.delete(identifier);
         return REDIRECT_PRODUCT_LIST;

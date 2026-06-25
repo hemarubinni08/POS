@@ -49,7 +49,7 @@ public class BrandController {
         return "brand/brand";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String updatePost(Model model, @ModelAttribute BrandDto brandDto) {
         BrandDto response = brandService.update(brandDto);
         if (!response.isSuccess()) {
@@ -60,7 +60,7 @@ public class BrandController {
         return REDIRECT_BRAND_LIST;
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         brandService.delete(identifier);
         return REDIRECT_BRAND_LIST;

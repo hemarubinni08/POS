@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto update(ProductDto productDto) {
         String identifier = productDto.getIdentifier();
-        Product existingProduct = productRepository.findByIdentifier(identifier);
+        Product existingProduct = productRepository.findByIdentifierAndDeletedFalse(identifier);
         if (existingProduct == null) {
             productDto.setMessage("Product with identifier - " + identifier + " is not found");
             productDto.setSuccess(false);

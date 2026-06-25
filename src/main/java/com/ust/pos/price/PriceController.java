@@ -51,7 +51,7 @@ public class PriceController {
         return "price/price";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String doupdate(Model model, @ModelAttribute PriceDto priceDto) {
         PriceDto priceDto1 = priceService.update(priceDto);
         if (!priceDto1.isSuccess()) {
@@ -61,7 +61,7 @@ public class PriceController {
         return LIST_PRICE;
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         priceService.delete(identifier);
         return LIST_PRICE;

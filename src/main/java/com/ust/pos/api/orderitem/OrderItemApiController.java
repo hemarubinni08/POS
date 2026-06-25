@@ -52,13 +52,13 @@ public class OrderItemApiController extends BaseController {
         return orderItemService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public OrderItemDto update(@RequestBody OrderItemDto dto) {
 
         return orderItemService.update(dto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
 
         try {

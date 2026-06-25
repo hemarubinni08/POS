@@ -66,7 +66,7 @@ public class StockController {
         return "stock/stock";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String updatePost(Model model, @ModelAttribute StockDto stockDto) {
         StockDto response = stockService.update(stockDto);
 
@@ -81,7 +81,7 @@ public class StockController {
         return REDIRECT_STOCK_LIST;
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(@RequestParam String identifier) {
         stockService.delete(identifier);
         return REDIRECT_STOCK_LIST;

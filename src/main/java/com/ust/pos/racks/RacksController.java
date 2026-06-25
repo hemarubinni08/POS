@@ -56,7 +56,7 @@ public class RacksController {
         return "racks/racks";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String updatePost(Model model, @ModelAttribute RacksDto racksDto) {
         RacksDto response = racksService.update(racksDto);
         if (!response.isSuccess()) {
@@ -67,7 +67,7 @@ public class RacksController {
         return REDIRECT_RACKS_LIST;
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         racksService.delete(identifier);
         return REDIRECT_RACKS_LIST;

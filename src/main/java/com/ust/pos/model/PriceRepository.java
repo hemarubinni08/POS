@@ -20,5 +20,5 @@ public interface PriceRepository extends JpaRepository<Price, Long> {
 
     Page<Price> findByDeletedFalse(Pageable pageable);
 
-    List<Brand> findByDeletedFalse();
+    List<Price> findByDeletedFalse();
 }

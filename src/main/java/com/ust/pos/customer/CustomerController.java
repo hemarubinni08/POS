@@ -56,7 +56,7 @@ public class CustomerController {
         return "customer/customer";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String updatePost(Model model, @ModelAttribute CustomerDto customerDto) {
         CustomerDto customerDto1 = customerService.update(customerDto);
         if (!customerDto1.isSuccess()) {
@@ -67,7 +67,7 @@ public class CustomerController {
         return REDIRECT_CUSTOMER_LIST;
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         customerService.deleteByIdentifier(identifier);
         addressService.delete(identifier);

@@ -47,7 +47,7 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public PriceDto update(PriceDto priceDto) {
         String identifier = priceDto.getIdentifier();
-        Price existingPrice = priceRepository.findByIdentifier(identifier);
+        Price existingPrice = priceRepository.findByIdentifierAndDeletedFalse(identifier);
         if (existingPrice == null) {
             priceDto.setMessage("Price with identifier - " + identifier + " is not found");
             priceDto.setSuccess(false);

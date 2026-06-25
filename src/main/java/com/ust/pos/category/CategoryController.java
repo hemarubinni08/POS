@@ -50,7 +50,7 @@ public class CategoryController {
         return "category/category";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String updatePost(Model model, @ModelAttribute CategoryDto categoryDto) {
         CategoryDto response = categoryService.update(categoryDto);
         if (!response.isSuccess()) {
@@ -61,7 +61,7 @@ public class CategoryController {
         return REDIRECT_CATEGORY_LIST;
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(Model model, @RequestParam String identifier) {
         categoryService.delete(identifier);
         return REDIRECT_CATEGORY_LIST;

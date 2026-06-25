@@ -90,7 +90,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto findByIdentifier(String identifier) {
-        Customer customer = customerRepository.findByIdentifier(identifier);
+        Customer customer = customerRepository.findByIdentifierAndDeletedFalse(identifier);
         CustomerDto customerDto =
                 modelMapper.map(customer, CustomerDto.class);
         customerDto.setBilling(addressService.findByIdentifierAndBilling(identifier));

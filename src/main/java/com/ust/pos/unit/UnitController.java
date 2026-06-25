@@ -52,7 +52,7 @@ public class UnitController {
         return "unit/unit";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String updatePost(Model unit, @ModelAttribute UnitDto unitDto) {
         UnitDto unitDto1 = unitService.update(unitDto);
 
@@ -65,7 +65,7 @@ public class UnitController {
         return REDIRECT_UNIT_LIST;
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(@RequestParam String identifier) {
         unitService.delete(identifier);
         return REDIRECT_UNIT_LIST;

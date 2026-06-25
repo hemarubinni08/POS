@@ -96,7 +96,7 @@ public class ShelfServiceImpl implements ShelfService {
     public List<ShelfDto> findAllByStatus() {
         Type listType = new TypeToken<List<ShelfDto>>() {}.getType();
         List<ShelfDto> shelfDtos =
-                modelMapper.map(shelfRepository.findAll(), listType);
+                modelMapper.map(shelfRepository.findByDeletedFalse(), listType);
         return shelfDtos.stream()
                 .filter(ShelfDto::isStatus)
                 .toList();

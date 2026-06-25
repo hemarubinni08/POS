@@ -48,7 +48,7 @@ public class WarehouseController {
         return "warehouse/warehouse";
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String doupdate(Model model, @ModelAttribute WarehouseDto warehouseDto) {
         WarehouseDto response = warehouseService.update(warehouseDto);
 
@@ -61,7 +61,7 @@ public class WarehouseController {
         return REDIRECT_WAREHOUSE_LIST;
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(@RequestParam String identifier) {
         warehouseService.delete(identifier);
         return REDIRECT_WAREHOUSE_LIST;
