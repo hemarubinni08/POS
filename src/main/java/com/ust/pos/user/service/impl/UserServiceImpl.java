@@ -25,8 +25,7 @@ public class UserServiceImpl extends BaseService implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
-    public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder,
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
                            ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -128,7 +127,8 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     public WsDto<UserDto> findAll(Pageable pageable) {
 
-        Type listType = new TypeToken<List<UserDto>>() {}.getType();
+        Type listType = new TypeToken<List<UserDto>>() {
+        }.getType();
 
         Page<User> userPage = userRepository.findByDeletedFalse(pageable);
 
