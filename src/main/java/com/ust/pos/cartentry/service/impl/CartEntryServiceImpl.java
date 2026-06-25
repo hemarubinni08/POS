@@ -8,7 +8,6 @@ import com.ust.pos.model.*;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,15 +18,17 @@ import java.util.List;
 
 @Service
 public class CartEntryServiceImpl implements CartEntryService {
+    private final CartEntryRepository cartEntryRepository;
+    private final ModelMapper modelMapper;
+    private final PriceRepository priceRepository;
+    private final CartService cartService;
 
-    @Autowired
-    private CartEntryRepository cartEntryRepository;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private PriceRepository priceRepository;
-    @Autowired
-    private CartService cartService;
+    public CartEntryServiceImpl(CartEntryRepository cartEntryRepository, ModelMapper modelMapper, PriceRepository priceRepository, CartService cartService){
+        this.cartEntryRepository = cartEntryRepository;
+        this.cartService = cartService;
+        this.priceRepository = priceRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public CartEntryDto findByIdentifier(String identifier) {
@@ -53,9 +54,6 @@ public class CartEntryServiceImpl implements CartEntryService {
         Price sellingPrice = priceRepository.findByProductAndPriceType(cartEntryDto.getProductIdentifier(), "SELLING PRICE");
         Price mrp = priceRepository.findByProductAndPriceType(cartEntryDto.getProductIdentifier(), "MRP");
         BigDecimal unitPrice = sellingPrice.getAmount();
-        if (sellingPrice == null) {
-            throw new RuntimeException("Selling price not configured for product: " + cartEntryDto.getProductIdentifier());
-        }
         BigDecimal mrpPrice = mrp.getAmount();
 
         cartEntry.setQuantity(quantity);
@@ -97,12 +95,6 @@ public class CartEntryServiceImpl implements CartEntryService {
         }
         Price sellingPrice = priceRepository.findByProductAndPriceType(existingCartEntry.getProductIdentifier(), "SELLING PRICE");
         Price mrp = priceRepository.findByProductAndPriceType(existingCartEntry.getProductIdentifier(), "MRP");
-        if (sellingPrice == null) {
-            throw new RuntimeException("Selling price not configured for product: " + existingCartEntry.getProductIdentifier());
-        }
-        if (mrp == null) {
-            throw new RuntimeException("MRP not configured for product: " + existingCartEntry.getProductIdentifier());
-        }
 
         BigDecimal unitPrice = sellingPrice.getAmount();
         BigDecimal mrpPrice = mrp.getAmount();

@@ -2,7 +2,6 @@ package com.ust.pos.user.service.impl;
 
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PosUserDetailsService implements UserDetailsService {
+    private final UserService userService;
 
-    @Autowired
-    private UserService userService;
+    public PosUserDetailsService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

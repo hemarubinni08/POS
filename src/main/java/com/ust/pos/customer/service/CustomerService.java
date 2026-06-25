@@ -12,10 +12,13 @@ public interface CustomerService {
 
     CustomerDto update(CustomerDto customerDto);
 
-    void delete(String username);
+    void delete(String identifier);
+
     WsDto<CustomerDto> findAll(Pageable pageable);
 
     CustomerDto findByIdentifier(String identifier);
 
     CustomerDto toggleStatus(String identifier, boolean status);
+
+    List<CustomerDto> searchCustomer(String query);
 }
