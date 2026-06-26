@@ -7,6 +7,7 @@ import com.ust.pos.dto.WsDto;
 import com.ust.pos.warehouse.service.WarehouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class ApiWarehouseController extends BaseController {
     }
 
     @GetMapping("/get")
+    @PreAuthorize("hasAuthority('Developer')")
     public WarehouseDto update(@RequestParam String identifier) {
         return warehouseService.findByIdentifier(identifier);
     }
