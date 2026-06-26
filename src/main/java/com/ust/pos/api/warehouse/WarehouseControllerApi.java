@@ -6,6 +6,7 @@ import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,22 +22,23 @@ public class WarehouseControllerApi extends BaseController {
     }
 
     @PostMapping("/list")
-    public WsDto<WarehouseDto> list(@RequestBody PaginationDto pagination) {
-        Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
-                pagination.getSortDirection(), pagination.getSortfield());
+    @PreAuthorize("hasAuthority('Admin')")
+    public WsDto<WarehouseDto> list(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortDirection());
         return warehouseService.findAll(pageable);
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAuthority('Admin', 'Manager')")
     public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.save(warehouseDto);
     }
 
     @GetMapping("/get")
-    public WarehouseDto updatePage(@RequestParam String identifier) {
+    @PreAuthorize("hasAuthority('Admin')")
+    public WarehouseDto update(@RequestParam String identifier) {
         return warehouseService.findByIdentifier(identifier);
     }
-
     @PutMapping("/update")
     public WarehouseDto updatePost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.update(warehouseDto);
