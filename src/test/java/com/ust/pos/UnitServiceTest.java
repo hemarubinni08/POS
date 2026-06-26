@@ -137,7 +137,6 @@ class UnitServiceTest {
         Mockito.verify(unitRepository, Mockito.never()).save(Mockito.any());
     }
 
-    // ================= FIND BY IDENTIFIER =================
 
     @Test
     void findByIdentifier_Success() {
@@ -155,7 +154,6 @@ class UnitServiceTest {
         Assertions.assertNotNull(response);
     }
 
-    // ================= FIND ALL (LIST) =================
 
     @Test
     void findAll_List() {
@@ -175,7 +173,6 @@ class UnitServiceTest {
         Assertions.assertEquals(1, response.size());
     }
 
-    // ================= FIND ALL (PAGEABLE + SEARCH) =================
 
     @Test
     void findAll_WithSearch() {
@@ -218,7 +215,6 @@ class UnitServiceTest {
         Assertions.assertEquals(1, response.getContent().size());
     }
 
-    // ================= DELETE (SOFT DELETE) =================
 
     @Test
     void delete_Success() {
@@ -247,7 +243,6 @@ class UnitServiceTest {
         Mockito.verify(unitRepository, Mockito.never()).save(Mockito.any());
     }
 
-    // ================= TOGGLE STATUS =================
 
     @Test
     void toggleStatus_Success() {

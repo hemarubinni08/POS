@@ -34,7 +34,6 @@ class UserServiceTest {
     @Mock
     private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
-    // ================= SAVE =================
 
     @Test
     void saveTest_Success() {
@@ -81,7 +80,6 @@ class UserServiceTest {
         Mockito.verify(userRepository, Mockito.never()).save(Mockito.any());
     }
 
-    // ================= FIND BY USERNAME =================
 
     @Test
     void findByUserNameTest() {
@@ -103,7 +101,6 @@ class UserServiceTest {
         Assertions.assertEquals("admin", response.getUsername());
     }
 
-    // ================= UPDATE =================
 
     @Test
     void updateTest_Success() {
@@ -170,7 +167,6 @@ class UserServiceTest {
         Assertions.assertNotNull(response.getMessage());
     }
 
-    // ================= FIND ALL LIST =================
     @Test
     void findAllTest() {
         List<User> users = List.of(new User());
@@ -185,7 +181,6 @@ class UserServiceTest {
         Assertions.assertEquals(1, response.size());
     }
 
-    // ================= DELETE =================
 
     @Test
     void deleteTest() {
@@ -202,7 +197,6 @@ class UserServiceTest {
         Assertions.assertTrue(user.isDeleted());
     }
 
-    // ================= PAGINATION =================
 
     @Test
     void findAll_WithPagination_NoSearch() {

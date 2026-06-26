@@ -42,23 +42,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto update(ProductDto productDto) {
-
         Product existingProduct =
                 productRepository.findByIdentifierAndDeletedFalse(productDto.getIdentifier());
-
         if (existingProduct == null) {
             productDto.setSuccess(false);
             productDto.setMessage("Product not found");
             return productDto;
         }
-
         existingProduct.setSupplierId(productDto.getSupplierId());
         existingProduct.setBrand(productDto.getBrand());
         existingProduct.setUnit(productDto.getUnit());
         existingProduct.setCategory(productDto.getCategory());
         existingProduct.setDescription(productDto.getDescription());
         existingProduct.setStatus(productDto.isStatus());
-
         productRepository.save(existingProduct);
 
         productDto.setSuccess(true);

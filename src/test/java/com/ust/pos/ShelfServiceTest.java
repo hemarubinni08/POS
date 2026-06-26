@@ -31,7 +31,6 @@ class ShelfServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ================= SAVE =================
 
     @Test
     void saveTest_Success() {
@@ -57,7 +56,6 @@ class ShelfServiceTest {
         Mockito.verify(shelfRepository).save(entity);
     }
 
-    // ================= SAVE FAILURE =================
 
     @Test
     void saveTest_Failure_WhenAlreadyExists() {
@@ -76,7 +74,6 @@ class ShelfServiceTest {
         Mockito.verify(shelfRepository, Mockito.never()).save(Mockito.any());
     }
 
-    // ================= UPDATE SUCCESS =================
 
     @Test
     void updateTest_Success() {
@@ -104,7 +101,6 @@ class ShelfServiceTest {
         Mockito.verify(shelfRepository).save(existing);
     }
 
-    // ================= UPDATE FAILURE (NOT FOUND) =================
 
     @Test
     void updateTest_Failure_WhenIdNotFound() {
@@ -123,7 +119,6 @@ class ShelfServiceTest {
         Mockito.verify(shelfRepository, Mockito.never()).save(Mockito.any());
     }
 
-    // ================= UPDATE FAILURE (DUPLICATE) =================
 
     @Test
     void updateTest_Failure_WhenIdentifierExists() {
@@ -148,7 +143,6 @@ class ShelfServiceTest {
         Assertions.assertEquals("Shelf already exists", response.getMessage());
     }
 
-    // ================= FIND BY ID =================
 
     @Test
     void findByIdentifierTest() {
@@ -170,7 +164,6 @@ class ShelfServiceTest {
         Assertions.assertEquals("S1", response.getIdentifier());
     }
 
-    // ================= FIND ALL LIST =================
 
     @Test
     void findAllTest() {
@@ -191,7 +184,6 @@ class ShelfServiceTest {
         Assertions.assertEquals(1, response.size());
     }
 
-    // ================= TOGGLE STATUS =================
 
     @Test
     void toggleStatusTest() {
@@ -212,7 +204,6 @@ class ShelfServiceTest {
         Mockito.verify(shelfRepository).save(shelf);
     }
 
-    // ================= FILTER BY STATUS =================
 
     @Test
     void findAllByStatusTest() {
@@ -243,7 +234,6 @@ class ShelfServiceTest {
         Assertions.assertTrue(result.get(0).isStatus());
     }
 
-    // ================= DELETE =================
 
     @Test
     void deleteTest() {
@@ -260,7 +250,6 @@ class ShelfServiceTest {
         Mockito.verify(shelfRepository).save(shelf);
     }
 
-    // ================= PAGINATION (FIXED) =================
 
     @Test
     void findAll_WithPagination_ShouldReturnShelfDtos() {
@@ -291,7 +280,6 @@ class ShelfServiceTest {
         Mockito.verify(shelfRepository).findByDeletedFalse(pageable);
     }
 
-    // ================= PAGINATION WITH SEARCH =================
 
     @Test
     void findAll_WithSearch_ShouldReturnShelfDtos() {

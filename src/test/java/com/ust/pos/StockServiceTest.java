@@ -30,7 +30,6 @@ class StockServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ================= SAVE =================
 
     @Test
     void saveTest_Success() {
@@ -71,7 +70,6 @@ class StockServiceTest {
         Mockito.verify(stockRepository, Mockito.never()).save(Mockito.any());
     }
 
-    // ================= UPDATE =================
 
     @Test
     void updateTest_Success() {
@@ -111,7 +109,6 @@ class StockServiceTest {
         Mockito.verify(stockRepository, Mockito.never()).save(Mockito.any());
     }
 
-    // ================= FIND BY IDENTIFIER =================
 
     @Test
     void findByIdentifierTest() {
@@ -129,7 +126,6 @@ class StockServiceTest {
         Assertions.assertNotNull(response);
     }
 
-    // ================= FIND ALL (LIST) =================
 
     @Test
     void findAllTest() {
@@ -149,7 +145,6 @@ class StockServiceTest {
         Assertions.assertEquals(1, response.size());
     }
 
-    // ================= FIND ALL (PAGINATION + SEARCH) =================
 
     @Test
     void findAll_WithSearch() {
@@ -192,7 +187,6 @@ class StockServiceTest {
         Assertions.assertEquals(1, response.getContent().size());
     }
 
-    // ================= DELETE (SOFT DELETE) =================
 
     @Test
     void deleteTest() {
@@ -221,7 +215,6 @@ class StockServiceTest {
         Mockito.verify(stockRepository, Mockito.never()).save(Mockito.any());
     }
 
-    // ================= TOGGLE STATUS =================
 
     @Test
     void toggleStatusTest() {

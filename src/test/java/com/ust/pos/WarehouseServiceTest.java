@@ -30,7 +30,6 @@ class WarehouseServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ================= SAVE =================
 
     @Test
     void save_Success() {
@@ -70,7 +69,6 @@ class WarehouseServiceTest {
         Mockito.verify(warehouseRepository, Mockito.never()).save(Mockito.any());
     }
 
-    // ================= UPDATE =================
 
     @Test
     void update_Success() {
@@ -110,7 +108,6 @@ class WarehouseServiceTest {
         Mockito.verify(warehouseRepository, Mockito.never()).save(Mockito.any());
     }
 
-    // ================= FIND BY ID =================
 
     @Test
     void findByIdentifier_Success() {
@@ -128,7 +125,6 @@ class WarehouseServiceTest {
         Assertions.assertNotNull(response);
     }
 
-    // ================= FIND ALL (NON-PAGINATED) =================
 
     @Test
     void findAll_List() {
@@ -148,7 +144,6 @@ class WarehouseServiceTest {
         Assertions.assertEquals(1, response.size());
     }
 
-    // ================= FIND ALL (PAGINATION + SEARCH) =================
 
     @Test
     void findAll_WithSearch() {
@@ -191,7 +186,6 @@ class WarehouseServiceTest {
         Assertions.assertEquals(1, response.getContent().size());
     }
 
-    // ================= DELETE (SOFT DELETE) =================
 
     @Test
     void delete_Success() {
