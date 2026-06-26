@@ -13,6 +13,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class PosUserDetailsServiceTest {
 
@@ -28,33 +34,47 @@ class PosUserDetailsServiceTest {
         UserDto userDto = new UserDto();
         userDto.setUsername("admin");
         userDto.setPassword("encodedPwd");
+        userDto.setRoles(List.of("ROLE_ADMIN", "ROLE_USER"));
 
-        Mockito.when(userService.findByUserName("admin"))
+        Assertions.assertNotNull(userDto.getRoles());
+        assertEquals(2, userDto.getRoles().size());
+
+        when(userService.findByUserName("admin"))
                 .thenReturn(userDto);
 
         UserDetails userDetails =
                 posUserDetailsService.loadUserByUsername("admin");
 
-        Assertions.assertNotNull(userDetails);
-        Assertions.assertEquals("admin", userDetails.getUsername());
-        Assertions.assertEquals("encodedPwd", userDetails.getPassword());
+        assertEquals(2, userDetails.getAuthorities().size());
+
+        assertTrue(
+                userDetails.getAuthorities().stream()
+                        .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))
+        );
+
+        assertTrue(
+                userDetails.getAuthorities().stream()
+                        .anyMatch(a -> a.getAuthority().equals("ROLE_USER"))
+        );
     }
 
     @Test
     void loadUserByUsernameUserNotFoundTest() {
 
-        Mockito.when(userService.findByUserName("admin"))
+        when(userService.findByUserName("admin"))
                 .thenReturn(null);
 
-        UsernameNotFoundException ex =
+        UsernameNotFoundException exception =
                 Assertions.assertThrows(
                         UsernameNotFoundException.class,
                         () -> posUserDetailsService.loadUserByUsername("admin")
                 );
 
-        Assertions.assertEquals(
+        assertEquals(
                 "User not found: admin",
-                ex.getMessage()
+                exception.getMessage()
         );
+
+        Mockito.verify(userService).findByUserName("admin");
     }
 }
