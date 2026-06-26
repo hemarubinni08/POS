@@ -60,7 +60,7 @@ public class WarehouseApiController extends BaseController {
     }
 
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAuthority('Trinee')")
+    @PreAuthorize("hasAuthority('Trainee')")
     public boolean delete(@RequestParam String identifier) {
         try {
             warehouseService.delete(identifier);
