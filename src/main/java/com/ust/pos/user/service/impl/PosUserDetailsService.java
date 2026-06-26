@@ -37,5 +37,4 @@ public class PosUserDetailsService implements UserDetailsService {
                 .withUsername(userDto.getUsername())
                 .password(userDto.getPassword()).authorities(authorities)
                 .build();
-    }
-}
+    }}

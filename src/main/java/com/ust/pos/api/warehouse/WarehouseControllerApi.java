@@ -24,12 +24,12 @@ public class WarehouseControllerApi extends BaseController {
     @PostMapping("/list")
     @PreAuthorize("hasAuthority('Admin')")
     public WsDto<WarehouseDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortDirection());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortfield());
         return warehouseService.findAll(pageable);
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('Admin', 'Manager')")
+    @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
     public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.save(warehouseDto);
     }
