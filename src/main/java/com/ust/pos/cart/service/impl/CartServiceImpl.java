@@ -5,14 +5,14 @@ import com.ust.pos.dto.CartDto;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.modell.Cart;
 import com.ust.pos.modell.CartEntry;
 import com.ust.pos.modell.CartEntryRepository;
 import com.ust.pos.modell.CartRepository;
-import com.ust.pos.modell.Cart;
 import com.ust.pos.price.service.PriceService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,33 +21,27 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
-    @Autowired
-    private CartRepository cartRepository;
-
-    @Autowired
-    private CartEntryRepository cartEntryRepository;
-
-    @Autowired
-    private PriceService priceService;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    private final CartRepository cartRepository;
+    private final CartEntryRepository cartEntryRepository;
+    private final PriceService priceService;
+    private final ModelMapper modelMapper;
 
     @Override
     public CartDto save(CartDto cartDto) {
         String identifier = cartDto.getIdentifier();
+
         if (cartRepository.findByIdentifier(identifier) != null) {
             cartDto.setMessage("Cart already exists");
             cartDto.setSuccess(false);
             return cartDto;
         }
+
         Cart cart = new Cart();
         cart.setIdentifier(identifier);
-        cart.setCustomerIdentifier(
-                cartDto.getCustomerIdentifier()
-        );
+        cart.setCustomerIdentifier(cartDto.getCustomerIdentifier());
         cart.setCoupon(cartDto.getCoupon());
         cart.setOriginalPrice(BigDecimal.ZERO);
         cart.setTotalPrice(BigDecimal.ZERO);
@@ -61,11 +55,13 @@ public class CartServiceImpl implements CartService {
         CartEntry entry = cartEntryRepository.findByIdentifier(identifier);
 
         if (entry == null) {
-            throw new RuntimeException("Cart entry not found");
+            throw new IllegalArgumentException("Cart entry not found");
         }
+
         cartEntryRepository.delete(entry);
         String cartId = identifier.split("-")[0];
         Cart cart = cartRepository.findByIdentifier(cartId);
+
         if (cart != null) {
             recalculateAndSave(cart);
         }
@@ -74,9 +70,11 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartDto findByIdentifier(String identifier) {
         Cart cart = cartRepository.findByIdentifier(identifier);
+
         if (cart == null) {
-            throw new RuntimeException("Cart not found");
+            throw new IllegalArgumentException("Cart not found");
         }
+
         recalculateAndSave(cart);
         CartDto dto = modelMapper.map(cart, CartDto.class);
         List<CartEntry> entries = cartEntryRepository.findByCartIdentifier(identifier);
@@ -93,15 +91,9 @@ public class CartServiceImpl implements CartService {
         List<CartDto> cartDtos = cartPage.getContent().stream().map(cart -> {
             recalculateAndSave(cart);
             CartDto dto = modelMapper.map(cart, CartDto.class);
-            List<CartEntry> entries =
-                    cartEntryRepository.findByCartIdentifier(cart.getIdentifier());
-            dto.setEntryCart(
-                    entries.stream()
-                            .map(e -> modelMapper.map(e, CartEntryDto.class))
-                            .toList()
-            );
-            return dto;
-        }).toList();
+            List<CartEntry> entries = cartEntryRepository.findByCartIdentifier(cart.getIdentifier());
+            dto.setEntryCart(entries.stream().map(e -> modelMapper.map(e, CartEntryDto.class)).toList());
+            return dto;}).toList();
         WsDto<CartDto> cartWsDto = new WsDto<>();
         cartWsDto.setDtoList(cartDtos);
         cartWsDto.setTotalRecords(cartPage.getTotalElements());
@@ -112,24 +104,19 @@ public class CartServiceImpl implements CartService {
     }
 
     public void recalculateAndSave(Cart cart) {
-        List<CartEntry> entries =
-                cartEntryRepository.findByCartIdentifier(cart.getIdentifier());
+        List<CartEntry> entries = cartEntryRepository.findByCartIdentifier(cart.getIdentifier());
         BigDecimal totalPrice = BigDecimal.ZERO;
         BigDecimal originalPrice = BigDecimal.ZERO;
         for (CartEntry entry : entries) {
             String productId = entry.getProductIdentifier();
             int qty = entry.getQuantity();
-            PriceDto selling =
-                    priceService.findByIdentifier(productId + "-SELLING");
-            PriceDto mrp =
-                    priceService.findByIdentifier(productId + "-MRP");
+            PriceDto selling = priceService.findByIdentifier(productId + "-SELLING");
+            PriceDto mrp = priceService.findByIdentifier(productId + "-MRP");
             if (selling == null && mrp == null) {
-                throw new RuntimeException("Price not configured");
+                throw new IllegalArgumentException("Price not configured");
             }
             if (mrp != null) {
-                originalPrice = originalPrice.add(
-                        mrp.getPriceAmount().multiply(BigDecimal.valueOf(qty))
-                );
+                originalPrice = originalPrice.add(mrp.getPriceAmount().multiply(BigDecimal.valueOf(qty)));
             }
             BigDecimal unitPrice;
             if (selling != null) {
@@ -137,9 +124,7 @@ public class CartServiceImpl implements CartService {
             } else {
                 unitPrice = mrp.getPriceAmount();
             }
-            totalPrice = totalPrice.add(
-                    unitPrice.multiply(BigDecimal.valueOf(qty))
-            );
+            totalPrice = totalPrice.add(unitPrice.multiply(BigDecimal.valueOf(qty)));
         }
         BigDecimal discount = originalPrice.subtract(totalPrice);
         if ("FLAT10".equalsIgnoreCase(cart.getCoupon())) {
@@ -157,8 +142,9 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public void clearCart(String cartIdentifier) {
         Cart cart = cartRepository.findByIdentifier(cartIdentifier);
+
         if (cart == null) {
-            throw new RuntimeException("Cart not found");
+            throw new IllegalArgumentException("Cart not found");
         }
         cartEntryRepository.deleteByCartIdentifier(cartIdentifier);
         cart.setTotalPrice(BigDecimal.ZERO);
@@ -166,6 +152,5 @@ public class CartServiceImpl implements CartService {
         cart.setDiscount(BigDecimal.ZERO);
         cartRepository.save(cart);
     }
-
 }
 

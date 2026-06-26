@@ -1,5 +1,7 @@
 package com.ust.pos.modell;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,9 +12,10 @@ public interface NodeRepository extends JpaRepository<Node, Long> {
 
     Node findByIdentifier(String identifier);
 
-    List<Node> findByRoles(List<String> roles);
+    Node findByIdentifierAndDeletedFalse(String identifier);
 
-    void deleteByIdentifier(String identifier);
+    List<Node> findAllByDeletedFalse();
 
+    Page<Node> findAllByDeletedFalse(Pageable pageable);
 
 }

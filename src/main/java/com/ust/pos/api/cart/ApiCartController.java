@@ -7,19 +7,18 @@ import com.ust.pos.dto.CartDto;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cart")
+@RequiredArgsConstructor
 public class ApiCartController extends BaseController {
 
-    @Autowired
-    private CartService cartService;
+    private final CartService cartService;
 
-    @Autowired
-    private CartEntryService cartEntryService;
+    private final CartEntryService cartEntryService;
 
     @PostMapping("/add")
     public CartDto addPost(@RequestBody CartDto cartDto) {
@@ -28,21 +27,15 @@ public class ApiCartController extends BaseController {
 
     @PostMapping("/addToCart")
     public CartDto addToCart(@RequestBody CartEntryDto cartEntryDto) {
-
-        // ✅ STEP 1: Check if cart exists
         CartDto cart = cartService.findByIdentifier(cartEntryDto.getCartIdentifier());
 
-        // ✅ STEP 2: Create cart if not exists
         if (cart == null) {
             CartDto newCart = new CartDto();
             newCart.setIdentifier(cartEntryDto.getCartIdentifier());
             cartService.save(newCart);
         }
 
-        // ✅ STEP 3: Add product
         cartEntryService.save(cartEntryDto);
-
-        // ✅ STEP 4: Return updated cart
         return cartService.findByIdentifier(cartEntryDto.getCartIdentifier());
     }
 
@@ -52,8 +45,7 @@ public class ApiCartController extends BaseController {
                 paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(),
-                paginationDto.getSortField()
-        );
+                paginationDto.getSortField());
         return cartService.findAll(pageable);
     }
 

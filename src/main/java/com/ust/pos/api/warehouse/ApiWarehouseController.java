@@ -5,16 +5,18 @@ import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.warehouse.service.WarehouseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/warehouse")
+@RequiredArgsConstructor
 public class ApiWarehouseController extends BaseController {
 
-    @Autowired
-    private WarehouseService warehouseService;
+    private final WarehouseService warehouseService;
 
     @PostMapping("/add")
     public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
@@ -32,12 +34,12 @@ public class ApiWarehouseController extends BaseController {
         return warehouseService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public WarehouseDto updatePost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.update(warehouseDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             warehouseService.delete(identifier);
@@ -47,9 +49,14 @@ public class ApiWarehouseController extends BaseController {
         return true;
     }
 
-    @PostMapping("/toggle-status")
-    public void toggle(@RequestParam String identifier) {
-        warehouseService.toggleStatus(identifier);
+    @PatchMapping("/toggle-status")
+    public WarehouseDto toggle(@RequestParam String identifier) {
+        return warehouseService.toggleStatus(identifier);
+    }
+
+    @GetMapping("/findallactive")
+    public List<WarehouseDto> findAllActive() {
+        return warehouseService.findAllActive();
     }
 }
 

@@ -5,16 +5,16 @@ import com.ust.pos.dto.OrderDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.order.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/order")
+@RequiredArgsConstructor
 public class ApiOrderController extends BaseController {
 
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @PostMapping("/checkout")
     public OrderDto checkout(@RequestBody OrderDto orderDto) {
@@ -32,12 +32,11 @@ public class ApiOrderController extends BaseController {
                 paginationDto.getPage(),
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(),
-                paginationDto.getSortField()
-        );
+                paginationDto.getSortField());
         return orderService.findAll(pageable);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             return orderService.delete(identifier);

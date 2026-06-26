@@ -1,6 +1,5 @@
 package com.ust.pos.cartentry.service.impl;
 
-import com.ust.pos.cart.service.CartService;
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PriceDto;
@@ -8,9 +7,9 @@ import com.ust.pos.dto.WsDto;
 import com.ust.pos.modell.CartEntry;
 import com.ust.pos.modell.CartEntryRepository;
 import com.ust.pos.price.service.PriceService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,19 +19,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CartEntryServiceImpl implements CartEntryService {
 
-    @Autowired
-    private CartEntryRepository cartEntryRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private PriceService priceService;
-
-    @Autowired
-    private CartService cartService;
+    private final CartEntryRepository cartEntryRepository;
+    private final ModelMapper modelMapper;
+    private final PriceService priceService;
 
 
     @Override
@@ -42,7 +34,7 @@ public class CartEntryServiceImpl implements CartEntryService {
         int qty = dto.getQuantity();
 
         if (productId == null || productId.isBlank()) {
-            throw new RuntimeException("Product identifier is missing");
+            throw new IllegalArgumentException("Product identifier is missing");
         }
 
         String identifier = cartId + "-" + productId;
@@ -52,27 +44,30 @@ public class CartEntryServiceImpl implements CartEntryService {
             if (entry != null) {
                 cartEntryRepository.delete(entry);
             }
+
             CartEntryDto removedDto = new CartEntryDto();
             removedDto.setProductIdentifier(productId);
             removedDto.setCartIdentifier(cartId);
             removedDto.setQuantity(0);
             return removedDto;
         }
-        // -------------------------------------------
 
         PriceDto selling = priceService.findByIdentifier(productId + "-SELLING");
         PriceDto mrp = priceService.findByIdentifier(productId + "-MRP");
+
         if (selling == null && mrp == null) {
-            throw new RuntimeException("Price not configured for product: " + productId);
+            throw new IllegalArgumentException("Price not configured for product: " + productId);
         }
 
         BigDecimal unitPrice;
         BigDecimal discount = BigDecimal.ZERO;
+
         if (selling != null) {
             unitPrice = selling.getPriceAmount();
         } else {
             unitPrice = mrp.getPriceAmount();
         }
+
         if (selling != null && mrp != null) {
             BigDecimal mrpPrice = mrp.getPriceAmount();
             BigDecimal sellingPrice = selling.getPriceAmount();
@@ -92,7 +87,6 @@ public class CartEntryServiceImpl implements CartEntryService {
         entry.setUnitPrice(unitPrice);
         entry.setTotalPrice(unitPrice.multiply(BigDecimal.valueOf(updatedQty)));
         entry.setDiscount(discount);
-
         cartEntryRepository.save(entry);
         return modelMapper.map(entry, CartEntryDto.class);
     }
@@ -110,14 +104,12 @@ public class CartEntryServiceImpl implements CartEntryService {
         Type listType = new TypeToken<List<CartEntryDto>>() {
         }.getType();
         Page<CartEntry> cartEntryPage = cartEntryRepository.findAll(pageable);
-
         WsDto<CartEntryDto> cartEntryWsDto = new WsDto<>();
         cartEntryWsDto.setDtoList(modelMapper.map(cartEntryPage.getContent(), listType));
         cartEntryWsDto.setTotalRecords(cartEntryPage.getTotalElements());
         cartEntryWsDto.setTotalPage(cartEntryPage.getTotalPages());
         cartEntryWsDto.setSizePerPage(pageable.getPageSize());
         cartEntryWsDto.setPage(pageable.getPageNumber());
-
         return cartEntryWsDto;
     }
 }

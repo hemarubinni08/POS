@@ -9,7 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderDto extends CommonDto {
-
     private String customerIdentifier;
     private BigDecimal originalPrice;
     private BigDecimal discount;

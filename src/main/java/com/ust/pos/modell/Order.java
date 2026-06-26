@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "orders")
 public class Order extends CommonFields {
-
     private String customerIdentifier;
     private BigDecimal originalPrice;
     private BigDecimal discount;

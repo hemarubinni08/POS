@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WarehouseDto extends CommonDto {
-
     private String location;
     private Long capacity;
 }
