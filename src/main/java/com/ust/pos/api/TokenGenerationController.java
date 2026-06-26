@@ -38,7 +38,7 @@ public class TokenGenerationController {
     }
 
     @PostMapping("/api/validateToken")
-    public Boolean validateToken(@RequestBody UserDto jwtRequest) {
+    public boolean validateToken(@RequestBody UserDto jwtRequest) {
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
             return jwtUtility.validateToken(jwtRequest.getToken(), userDetails);
