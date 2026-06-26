@@ -119,9 +119,9 @@ class NodeServiceTest {
         Node node2 = new Node();
         node2.setIdentifier("NODE2");
         node2.setRoles(Arrays.asList("USER"));
-        Mockito.when(nodeRepository.findAll())
+        Mockito.when(nodeRepository.findByDeletedFalse())
                 .thenReturn(Arrays.asList(node1, node2));
-        Mockito.when(nodeRepository.findByIdentifier("NODE1"))
+        Mockito.when(nodeRepository.findByIdentifierAndDeletedFalse("NODE1"))
                 .thenReturn(node1);
         NodeDto nodeDto = new NodeDto();
         nodeDto.setIdentifier("NODE1");
