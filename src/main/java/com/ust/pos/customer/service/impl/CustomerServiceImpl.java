@@ -5,6 +5,7 @@ import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
 import com.ust.pos.customer.service.CustomerService;
@@ -37,9 +38,14 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
 
     @Override
     public CustomerDto findByIdentifier(String identifier) {
-        CustomerDto customerDto = modelMapper.map(customerRepository.findByIdentifier(identifier), CustomerDto.class);
+        Customer customer = customerRepository.findByIdentifier(identifier);
+        if (customer == null) {
+            throw new ResourceNotFoundException("Customer with identifier '" + identifier + "' not found");
+        }
+        CustomerDto customerDto = modelMapper.map(customer, CustomerDto.class);
         customerDto.setBillingAddress(addressService.findByPhoneAndAddressType(identifier, BILLING));
-        customerDto.setShippingAddress(addressService.findByPhoneAndAddressType(identifier, SHIPPING));
+        customerDto.setShippingAddress(addressService.findByPhoneAndAddressType(identifier, SHIPPING)
+        );
         return customerDto;
     }
 

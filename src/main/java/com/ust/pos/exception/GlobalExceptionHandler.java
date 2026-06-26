@@ -1,6 +1,7 @@
 package com.ust.pos.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,18 @@ public class GlobalExceptionHandler {
         log.error("Unhandled exception occurred", ex);
         return new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Something went wrong",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponse handleAccessDeniedException(Exception ex, HttpServletRequest request) {
+        log.error("Access Denied exception occurred", ex);
+        return new ErrorResponse(
+                HttpStatus.FORBIDDEN.value(),
+                ex.getMessage(),
                 request.getRequestURI()
         );
     }
