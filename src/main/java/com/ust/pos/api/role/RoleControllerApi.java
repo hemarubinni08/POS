@@ -42,7 +42,7 @@ public class RoleControllerApi extends BaseController {
         return roleService.update(roleDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public RoleDto delete(@RequestBody RoleDto roleDto) {
         RoleDto response = new RoleDto();
         try {

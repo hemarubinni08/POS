@@ -40,7 +40,7 @@ public class UserControllerApi extends BaseController {
         return userService.update(userDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public UserDto delete(@RequestBody UserDto userDto) {
         UserDto response = new UserDto();
         try {

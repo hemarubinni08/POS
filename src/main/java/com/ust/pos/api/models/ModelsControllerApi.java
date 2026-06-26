@@ -44,7 +44,7 @@ public class ModelsControllerApi extends BaseController {
         return modelsService.update(modelsDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ModelsDto delete(@RequestBody ModelsDto modelsDto) {
         ModelsDto response = new ModelsDto();
         try {

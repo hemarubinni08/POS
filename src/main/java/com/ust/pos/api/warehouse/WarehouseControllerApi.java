@@ -42,7 +42,7 @@ public class WarehouseControllerApi extends BaseController {
         return warehouseService.update(warehouseDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public Boolean delete(@RequestBody WarehouseDto warehouseDto) {
         try {
             warehouseService.delete(warehouseDto.getIdentifier());

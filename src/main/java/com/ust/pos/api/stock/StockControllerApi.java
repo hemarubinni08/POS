@@ -42,7 +42,7 @@ public class StockControllerApi extends BaseController {
         return stockService.update(stockDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public StockDto delete(@RequestBody StockDto stockDto) {
         StockDto response = new StockDto();
         try {

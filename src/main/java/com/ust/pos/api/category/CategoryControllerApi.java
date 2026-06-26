@@ -44,7 +44,7 @@ public class CategoryControllerApi extends BaseController {
         return categoryService.update(categoryDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public CategoryDto delete(@RequestBody CategoryDto categoryDto) {
         CategoryDto response = new CategoryDto();
         try {

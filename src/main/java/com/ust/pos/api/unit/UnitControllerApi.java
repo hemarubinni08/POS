@@ -42,7 +42,7 @@ public class UnitControllerApi extends BaseController {
         return unitService.update(unitDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public UnitDto delete(@RequestBody UnitDto unitDto) {
         UnitDto response = new UnitDto();
         try {

@@ -24,8 +24,6 @@ public class BaseService {
     }    protected void setCreatedDetails(CommonFields entity) {
         entity.setCreatedBy(getLoggedInUser());
         entity.setCreatedOn(LocalDateTime.now());
-//        entity.setModifiedBy(getLoggedInUser());
-//        entity.setModifiedOn(LocalDateTime.now());
     }
 
     protected void setModifiedDetails(CommonFields entity) {

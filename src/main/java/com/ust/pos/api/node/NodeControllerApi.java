@@ -44,7 +44,7 @@ public class NodeControllerApi extends BaseController {
         return nodeService.update(nodeDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public NodeDto delete(@RequestBody NodeDto nodeDto) {
         NodeDto response = new NodeDto();
         try {

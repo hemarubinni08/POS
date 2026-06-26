@@ -44,7 +44,7 @@ public class ProductControllerApi extends BaseController {
         return productService.update(productDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ProductDto delete(@RequestBody ProductDto productDto) {
         ProductDto response = new ProductDto();
         try {

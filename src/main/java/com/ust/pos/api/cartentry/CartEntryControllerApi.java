@@ -41,7 +41,7 @@ public class CartEntryControllerApi extends BaseController {
         return cartEntryService.update(dto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public CartEntryDto delete(@RequestBody CartEntryDto dto) {
         CartEntryDto response = new CartEntryDto();
         try {

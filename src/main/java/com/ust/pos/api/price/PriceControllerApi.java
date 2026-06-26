@@ -44,7 +44,7 @@ public class PriceControllerApi extends BaseController {
         return priceService.update(priceDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public PriceDto delete(@RequestBody PriceDto priceDto) {
         PriceDto response = new PriceDto();
         try {

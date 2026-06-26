@@ -37,7 +37,7 @@ public class CartControllerApi extends BaseController {
         return cartService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public CartDto delete(@RequestBody CartDto cartDto) {
 
         CartDto response = new CartDto();

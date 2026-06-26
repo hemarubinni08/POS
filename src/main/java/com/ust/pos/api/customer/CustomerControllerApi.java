@@ -44,7 +44,7 @@ public class CustomerControllerApi extends BaseController {
         return customerService.update(customerDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public CustomerDto delete(@RequestBody CustomerDto customerDto) {
         CustomerDto response = new CustomerDto();
         try {

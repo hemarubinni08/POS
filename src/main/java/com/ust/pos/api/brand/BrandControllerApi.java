@@ -42,7 +42,7 @@ public class BrandControllerApi extends BaseController {
         return brandService.update(brandDto);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public BrandDto delete(@RequestBody BrandDto brandDto) {
         BrandDto response = new BrandDto();
         try {
