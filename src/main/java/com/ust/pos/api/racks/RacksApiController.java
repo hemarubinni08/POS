@@ -1,6 +1,7 @@
 package com.ust.pos.api.racks;
 
 import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RacksDto;
 import com.ust.pos.dto.WsDto;
@@ -8,6 +9,8 @@ import com.ust.pos.racks.service.RacksService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/racks")
@@ -17,6 +20,11 @@ public class RacksApiController extends BaseController {
 
     public RacksApiController(RacksService racksService) {
         this.racksService = racksService;
+    }
+
+    @GetMapping("/list")
+    public List<RacksDto> home() {
+        return racksService.findAll();
     }
 
     @PostMapping("/list")

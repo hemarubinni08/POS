@@ -1,6 +1,7 @@
 package com.ust.pos.api.stock;
 
 import com.ust.pos.api.BaseController;
+import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.WsDto;
@@ -8,6 +9,8 @@ import com.ust.pos.stock.service.StockService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -18,6 +21,11 @@ public class StockApiController extends BaseController {
 
     public StockApiController(StockService stockService) {
         this.stockService = stockService;
+    }
+
+    @GetMapping("/list")
+    public List<StockDto> home() {
+        return stockService.findAll();
     }
 
     @PostMapping("/list")

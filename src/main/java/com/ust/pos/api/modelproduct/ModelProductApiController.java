@@ -2,12 +2,15 @@ package com.ust.pos.api.modelproduct;
 
 import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.ModelProductDto;
+import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.modelproduct.service.ModelProductService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/modelProduct")
@@ -17,6 +20,11 @@ public class ModelProductApiController extends BaseController {
 
     public ModelProductApiController(ModelProductService modelProductService) {
         this.modelProductService = modelProductService;
+    }
+
+    @GetMapping("/list")
+    public List<ModelProductDto> home() {
+        return modelProductService.findAll();
     }
 
     @PostMapping("/list")

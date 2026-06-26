@@ -26,7 +26,6 @@ public class UnitController {
     }
 
     @GetMapping("/add")
-
     public String add(Model unit, @ModelAttribute UnitDto unitDto) {
         unit.addAttribute(UNITS, unitService.findAll());
         return "unit/add";

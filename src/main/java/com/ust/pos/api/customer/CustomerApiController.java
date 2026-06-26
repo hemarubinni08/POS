@@ -3,12 +3,15 @@ package com.ust.pos.api.customer;
 import com.ust.pos.api.BaseController;
 import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.CustomerDto;
+import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/customer")
@@ -18,6 +21,11 @@ public class CustomerApiController extends BaseController {
 
     public CustomerApiController(CustomerService customerService) {
         this.customerService = customerService;
+    }
+
+    @GetMapping("/list")
+    public List<CustomerDto> home() {
+        return customerService.findAll();
     }
 
     @PostMapping("/list")

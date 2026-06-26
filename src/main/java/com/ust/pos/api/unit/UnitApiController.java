@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/unit")
 public class UnitApiController extends BaseController {
@@ -17,6 +19,11 @@ public class UnitApiController extends BaseController {
 
     public UnitApiController(UnitService unitService) {
         this.unitService = unitService;
+    }
+
+    @GetMapping("/list")
+    public List<UnitDto> home() {
+        return unitService.findAll();
     }
 
     @PostMapping("/list")

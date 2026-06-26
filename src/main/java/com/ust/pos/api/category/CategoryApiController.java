@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/category")
 public class CategoryApiController extends BaseController {
@@ -19,6 +21,11 @@ public class CategoryApiController extends BaseController {
         this.categoryService = categoryService;
     }
 
+    @GetMapping("/list")
+    public List<CategoryDto> list() {
+        return categoryService.findAll();
+    }
+    
     @PostMapping("/list")
     public WsDto<CategoryDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),

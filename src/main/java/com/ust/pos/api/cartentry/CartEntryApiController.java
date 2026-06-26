@@ -40,7 +40,7 @@ public class CartEntryApiController {
         }
         return true;
     }
-    @PostMapping("/list")
+    @GetMapping("/list")
     public List<CartEntryDto> list() {
         return cartEntryService.findAll();
     }

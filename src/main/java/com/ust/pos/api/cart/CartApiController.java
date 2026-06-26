@@ -31,7 +31,7 @@ public class CartApiController {
         }
         return true;
     }
-    @PostMapping("/list")
+    @GetMapping("/list")
     public List<CartDto> list() {
         return cartService.findAll();
     }

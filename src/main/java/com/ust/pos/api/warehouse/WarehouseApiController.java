@@ -7,7 +7,10 @@ import com.ust.pos.dto.WsDto;
 import com.ust.pos.warehouse.service.WarehouseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -20,7 +23,14 @@ public class WarehouseApiController extends BaseController {
         this.warehouseService = warehouseService;
     }
 
+    @GetMapping("/list")
+    @PreAuthorize("hasAuthority('Trainee')")
+    public List<WarehouseDto> home() {
+        return warehouseService.findAll();
+    }
+
     @PostMapping("/list")
+    @PreAuthorize("hasAuthority('Trainee')")
     public WsDto<WarehouseDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
                 paginationDto.getSizePerPage(),paginationDto.getSortField());
@@ -34,6 +44,7 @@ public class WarehouseApiController extends BaseController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAuthority('Trainee')")
     public WarehouseDto addPost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.save(warehouseDto);
     }
@@ -49,6 +60,7 @@ public class WarehouseApiController extends BaseController {
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAuthority('Trinee')")
     public boolean delete(@RequestParam String identifier) {
         try {
             warehouseService.delete(identifier);
