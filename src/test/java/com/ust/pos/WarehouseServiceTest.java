@@ -110,7 +110,8 @@ class WarehouseServiceTest {
     void findAllTest() {
         List<Warehouse> entities = List.of(new Warehouse());
         List<WarehouseDto> dtos = List.of(new WarehouseDto());
-        Type listType = new TypeToken<List<WarehouseDto>>() {}.getType();
+        Type listType = new TypeToken<List<WarehouseDto>>() {
+        }.getType();
         Mockito.when(warehouseRepository.findByDeletedFalse())
                 .thenReturn(entities);
         Mockito.when(modelMapper.map(entities, listType))

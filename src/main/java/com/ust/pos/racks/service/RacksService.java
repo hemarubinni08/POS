@@ -19,5 +19,5 @@ public interface RacksService {
 
     void toggleStatus(String identifier);
 
-    Page<RacksDto> findAll(Pageable pageable,String search);
+    Page<RacksDto> findAll(Pageable pageable, String search);
 }

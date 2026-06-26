@@ -160,7 +160,8 @@ class UserServiceTest {
         List<User> users = List.of(new User());
         List<UserDto> dtos = List.of(new UserDto());
         Type listType =
-                new TypeToken<List<UserDto>>() {}.getType();
+                new TypeToken<List<UserDto>>() {
+                }.getType();
         Mockito.when(userRepository.findByDeletedFalse())
                 .thenReturn(users);
         Mockito.when(modelMapper.map(users, listType))

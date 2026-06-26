@@ -75,7 +75,8 @@ public class RacksServiceImpl implements RacksService {
 
     @Override
     public List<RacksDto> findAll() {
-        Type listOfType = new TypeToken<List<RacksDto>>() {}.getType();
+        Type listOfType = new TypeToken<List<RacksDto>>() {
+        }.getType();
         return modelMapper.map(
                 racksRepository.findByDeletedFalse(),
                 listOfType

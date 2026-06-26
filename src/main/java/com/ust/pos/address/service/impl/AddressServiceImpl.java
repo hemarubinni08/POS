@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
 @Service
 @Transactional
 public class AddressServiceImpl implements AddressService {
@@ -91,7 +92,8 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public List<AddressDto> findAll() {
-        Type listOfType = new TypeToken<List<AddressDto>>() {}.getType();
+        Type listOfType = new TypeToken<List<AddressDto>>() {
+        }.getType();
         return modelMapper.map(addressRepository.findAll(), listOfType);
     }
 

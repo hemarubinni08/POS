@@ -81,7 +81,8 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public List<UnitDto> findAll() {
-        Type listOfType = new TypeToken<List<UnitDto>>() {}.getType();
+        Type listOfType = new TypeToken<List<UnitDto>>() {
+        }.getType();
         return modelMapper.map(
                 unitRepository.findByDeletedFalse(),
                 listOfType

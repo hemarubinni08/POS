@@ -128,7 +128,8 @@ class UnitServiceTest {
     void findAllTest() {
         List<Unit> entities = List.of(new Unit());
         List<UnitDto> dtos = List.of(new UnitDto());
-        Type listType = new TypeToken<List<UnitDto>>() {}.getType();
+        Type listType = new TypeToken<List<UnitDto>>() {
+        }.getType();
         Mockito.when(unitRepository.findByDeletedFalse())
                 .thenReturn(entities);
         Mockito.when(modelMapper.map(entities, listType))

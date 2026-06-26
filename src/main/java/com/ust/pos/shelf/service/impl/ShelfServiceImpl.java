@@ -77,7 +77,8 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public List<ShelfDto> findAll() {
-        Type listOfType = new TypeToken<List<ShelfDto>>() {}.getType();
+        Type listOfType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
         return modelMapper.map(
                 shelfRepository.findByDeletedFalse(),
                 listOfType
@@ -94,7 +95,8 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public List<ShelfDto> findAllByStatus() {
-        Type listType = new TypeToken<List<ShelfDto>>() {}.getType();
+        Type listType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
         List<ShelfDto> shelfDtos =
                 modelMapper.map(shelfRepository.findByDeletedFalse(), listType);
         return shelfDtos.stream()

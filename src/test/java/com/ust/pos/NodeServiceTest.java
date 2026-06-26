@@ -1,7 +1,6 @@
 package com.ust.pos;
 
 
-import java.util.Arrays;
 import com.ust.pos.dto.NodeDto;
 import com.ust.pos.model.Node;
 import com.ust.pos.model.NodeRepository;
@@ -27,7 +26,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class NodeServiceTest {
@@ -202,7 +203,8 @@ class NodeServiceTest {
     void findAllTest() {
         List<Node> entities = List.of(new Node());
         List<NodeDto> dtos = List.of(new NodeDto());
-        Type listType = new TypeToken<List<NodeDto>>() {}.getType();
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
         Mockito.when(nodeRepository.findByDeletedFalse())
                 .thenReturn(entities);
         Mockito.when(modelMapper.map(entities, listType))

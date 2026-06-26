@@ -1,7 +1,5 @@
 package com.ust.pos.order.service.impl;
 
-import com.ust.pos.model.Cart;
-import com.ust.pos.model.CartRepository;
 import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.OrderDto;
@@ -113,6 +111,7 @@ public class OrderServiceImpl implements OrderService {
         dto.setMessage("Order created successfully");
         return dto;
     }
+
     @Override
     public OrderDto updateStatus(String orderId, String status) {
         Order order = orderRepository.findByIdentifier(orderId);
@@ -143,14 +142,16 @@ public class OrderServiceImpl implements OrderService {
 
         dto = modelMapper.map(order, OrderDto.class);
         List<OrderItem> items = orderItemRepository.findByOrderIdentifier(identifier);
-        Type listType = new TypeToken<List<OrderItemDto>>() {}.getType();
+        Type listType = new TypeToken<List<OrderItemDto>>() {
+        }.getType();
         dto.setItems(modelMapper.map(items, listType));
         return dto;
     }
 
     @Override
     public List<OrderDto> findAll() {
-        Type listType = new TypeToken<List<OrderDto>>() {}.getType();
+        Type listType = new TypeToken<List<OrderDto>>() {
+        }.getType();
         return modelMapper.map(orderRepository.findAll(), listType);
     }
 

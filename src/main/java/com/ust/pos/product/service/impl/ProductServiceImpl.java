@@ -5,14 +5,14 @@ import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
 import com.ust.pos.product.service.ProductService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.lang.reflect.Type;
-import org.modelmapper.TypeToken;
+import java.util.List;
 
 @Service
 @Transactional
@@ -68,7 +68,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAll() {
-        Type listType = new TypeToken<List<ProductDto>>() {}.getType();
+        Type listType = new TypeToken<List<ProductDto>>() {
+        }.getType();
         return modelMapper.map(productRepository.findAll(), listType);
     }
 

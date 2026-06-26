@@ -21,5 +21,5 @@ public interface ShelfService {
 
     void toggleStatus(String identifier);
 
-    Page<ShelfDto> findAll(Pageable pageable,String search);
+    Page<ShelfDto> findAll(Pageable pageable, String search);
 }

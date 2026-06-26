@@ -5,14 +5,14 @@ import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.lang.reflect.Type;
-import org.modelmapper.TypeToken;
+import java.util.List;
 
 @Service
 @Transactional
@@ -74,7 +74,8 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public List<PriceDto> findAll() {
-        Type listOfType = new TypeToken<List<PriceDto>>() {}.getType();
+        Type listOfType = new TypeToken<List<PriceDto>>() {
+        }.getType();
         return modelMapper.map(
                 priceRepository.findByDeletedFalse(),
                 listOfType

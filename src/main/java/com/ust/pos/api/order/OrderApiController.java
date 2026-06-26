@@ -34,7 +34,7 @@ public class OrderApiController extends BaseController {
                 paginationDto.getSizePerPage(),
                 paginationDto.getSortField());
         Page<OrderDto> pageResult =
-                orderService.findAll(pageable,paginationDto.getSearch());
+                orderService.findAll(pageable, paginationDto.getSearch());
 
         WsDto<OrderDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());
@@ -48,7 +48,7 @@ public class OrderApiController extends BaseController {
     public OrderDto createOrder(
             @RequestParam String cartId,
             @RequestParam String paymentMethod) {
-        return orderService.createOrder(cartId,paymentMethod);
+        return orderService.createOrder(cartId, paymentMethod);
     }
 
     @GetMapping("/get")

@@ -107,7 +107,8 @@ class RacksServiceTest {
     void findAllTest() {
         List<Racks> entities = List.of(new Racks());
         List<RacksDto> dtos = List.of(new RacksDto());
-        Type listType = new TypeToken<List<RacksDto>>() {}.getType();
+        Type listType = new TypeToken<List<RacksDto>>() {
+        }.getType();
         Mockito.when(racksRepository.findByDeletedFalse())
                 .thenReturn(entities);
         Mockito.when(modelMapper.map(entities, listType))

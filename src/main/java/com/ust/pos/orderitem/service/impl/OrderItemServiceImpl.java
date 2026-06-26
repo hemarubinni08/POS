@@ -73,20 +73,23 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public List<OrderItemDto> findAll() {
-        Type listType = new TypeToken<List<OrderItemDto>>() {}.getType();
+        Type listType = new TypeToken<List<OrderItemDto>>() {
+        }.getType();
         return modelMapper.map(orderItemRepository.findAll(), listType);
     }
 
     @Override
     public List<OrderItemDto> findAll(Pageable pageable) {
-        Type listType = new TypeToken<List<OrderItemDto>>() {}.getType();
+        Type listType = new TypeToken<List<OrderItemDto>>() {
+        }.getType();
         Page<OrderItem> page = orderItemRepository.findAll(pageable);
         return modelMapper.map(page.getContent(), listType);
     }
 
     @Override
     public List<OrderItemDto> findByOrderIdentifier(String orderIdentifier) {
-        Type listType = new TypeToken<List<OrderItemDto>>() {}.getType();
+        Type listType = new TypeToken<List<OrderItemDto>>() {
+        }.getType();
         List<OrderItem> items = orderItemRepository.findByOrderIdentifier(orderIdentifier);
         return modelMapper.map(items, listType);
     }

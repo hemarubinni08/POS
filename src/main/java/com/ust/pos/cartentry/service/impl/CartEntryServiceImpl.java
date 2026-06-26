@@ -116,7 +116,8 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Override
     public List<CartEntryDto> findAll() {
-        Type listType = new TypeToken<List<CartEntryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CartEntryDto>>() {
+        }.getType();
         return modelMapper.map(cartEntryRepository.findAll(), listType);
     }
 
@@ -132,13 +133,15 @@ public class CartEntryServiceImpl implements CartEntryService {
     public List<CartEntryDto> findAll(Pageable pageable) {
         Page<CartEntry> page = cartEntryRepository.findAll(pageable);
 
-        Type listType = new TypeToken<List<CartEntryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CartEntryDto>>() {
+        }.getType();
         return modelMapper.map(page.getContent(), listType);
     }
 
     @Override
     public List<CartEntryDto> findByCartId(String cartId) {
-        Type listType = new TypeToken<List<CartEntryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CartEntryDto>>() {
+        }.getType();
         return modelMapper.map(cartEntryRepository.findByCartId(cartId), listType);
     }
 }

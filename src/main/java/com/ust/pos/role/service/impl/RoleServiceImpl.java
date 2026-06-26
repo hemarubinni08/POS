@@ -6,13 +6,13 @@ import com.ust.pos.model.RoleRepository;
 import com.ust.pos.role.service.RoleService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.lang.reflect.Type;
-import org.modelmapper.TypeToken;
+import java.util.List;
 
 @Service
 @Transactional
@@ -77,7 +77,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleDto> findAll() {
-        Type listOfType = new TypeToken<List<RoleDto>>() {}.getType();
+        Type listOfType = new TypeToken<List<RoleDto>>() {
+        }.getType();
         return modelMapper.map(
                 roleRepository.findByDeletedFalse(),
                 listOfType

@@ -106,11 +106,13 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             user.setDeleted(true);
             userRepository.save(user);
-        }    }
+        }
+    }
 
     @Override
     public List<UserDto> findAll() {
-        Type listType = new TypeToken<List<UserDto>>() {}.getType();
+        Type listType = new TypeToken<List<UserDto>>() {
+        }.getType();
         return modelMapper.map(userRepository.findByDeletedFalse(), listType);
     }
 

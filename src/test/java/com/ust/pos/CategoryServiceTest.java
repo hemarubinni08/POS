@@ -121,7 +121,8 @@ class CategoryServiceTest {
     void findAllTest() {
         List<Category> categories = List.of(new Category());
         List<CategoryDto> categoryDtos = List.of(new CategoryDto());
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
         Mockito.when(categoryRepository.findByDeletedFalse())
                 .thenReturn(categories);
         Mockito.when(modelMapper.map(categories, listType))
@@ -138,7 +139,8 @@ class CategoryServiceTest {
         dto2.setSuperCategory(null);
         List<Category> entities = List.of(new Category(), new Category());
         List<CategoryDto> dtoList = List.of(dto1, dto2);
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
         Mockito.when(categoryRepository.findAll())
                 .thenReturn(entities);
         Mockito.when(modelMapper.map(entities, listType))

@@ -69,7 +69,8 @@ public class ModelProductServiceImpl implements ModelProductService {
 
     @Override
     public List<ModelProductDto> findAll() {
-        Type listOfType = new TypeToken<List<ModelProductDto>>() {}.getType();
+        Type listOfType = new TypeToken<List<ModelProductDto>>() {
+        }.getType();
         return modelMapper.map(
                 modelProductRepository.findByDeletedFalse(),
                 listOfType

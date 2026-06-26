@@ -84,7 +84,8 @@ public class StockServiceImpl implements StockService {
 
     @Override
     public List<StockDto> findAll() {
-        Type listOfType = new TypeToken<List<StockDto>>() {}.getType();
+        Type listOfType = new TypeToken<List<StockDto>>() {
+        }.getType();
         return modelMapper.map(
                 stockRepository.findByDeletedFalse(),
                 listOfType

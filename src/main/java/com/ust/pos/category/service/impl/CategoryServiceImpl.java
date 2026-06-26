@@ -69,7 +69,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAll() {
-        Type listOfType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Type listOfType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
         return modelMapper.map(
                 categoryRepository.findByDeletedFalse(),
                 listOfType
@@ -86,7 +87,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAllWithoutNull() {
-        Type listType = new TypeToken<List<CategoryDto>>() {}.getType();
+        Type listType = new TypeToken<List<CategoryDto>>() {
+        }.getType();
         List<CategoryDto> categoryDtos =
                 modelMapper.map(categoryRepository.findAll(), listType);
         return categoryDtos.stream()

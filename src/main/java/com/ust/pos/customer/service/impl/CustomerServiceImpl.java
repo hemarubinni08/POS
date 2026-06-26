@@ -100,7 +100,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDto> findAll() {
-        Type listOfType = new TypeToken<List<CustomerDto>>() {}.getType();
+        Type listOfType = new TypeToken<List<CustomerDto>>() {
+        }.getType();
         return modelMapper.map(
                 customerRepository.findByDeletedFalse(),
                 listOfType

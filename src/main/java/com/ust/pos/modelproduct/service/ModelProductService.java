@@ -19,5 +19,5 @@ public interface ModelProductService {
 
     void toggleStatus(String identifier);
 
-    Page<ModelProductDto> findAll(Pageable pageable,String search);
+    Page<ModelProductDto> findAll(Pageable pageable, String search);
 }

@@ -7,7 +7,9 @@ import com.ust.pos.stock.service.impl.StockServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -110,8 +112,8 @@ class StockServiceTest {
         List<StockDto> dtos = List.of(new StockDto());
         Mockito.when(stockRepository.findByDeletedFalse()).thenReturn(entities);
         Mockito.when(modelMapper.map(
-                        Mockito.eq(entities),
-                        Mockito.any(Type.class))).thenReturn(dtos);
+                Mockito.eq(entities),
+                Mockito.any(Type.class))).thenReturn(dtos);
         List<StockDto> response = stockService.findAll();
         Assertions.assertEquals(1, response.size());
     }

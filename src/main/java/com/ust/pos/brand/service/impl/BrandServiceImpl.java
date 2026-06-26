@@ -71,7 +71,8 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public List<BrandDto> findAll() {
-        Type listOfType = new TypeToken<List<BrandDto>>() {}.getType();
+        Type listOfType = new TypeToken<List<BrandDto>>() {
+        }.getType();
         return modelMapper.map(
                 brandRepository.findByDeletedFalse(),
                 listOfType

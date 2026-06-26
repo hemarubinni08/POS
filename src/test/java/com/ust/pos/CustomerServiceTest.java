@@ -1,11 +1,11 @@
 package com.ust.pos;
 
+import com.ust.pos.address.service.AddressService;
 import com.ust.pos.customer.service.impl.CustomerServiceImpl;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
-import com.ust.pos.address.service.AddressService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -142,7 +142,7 @@ class CustomerServiceTest {
 
     @Test
     void findAllTest() {
-        Mockito.when(customerRepository.findByDeletedFalse() )
+        Mockito.when(customerRepository.findByDeletedFalse())
                 .thenReturn(List.of(new Customer()));
         Type listType = new TypeToken<List<CustomerDto>>() {
         }.getType();

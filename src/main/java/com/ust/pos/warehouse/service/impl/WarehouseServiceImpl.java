@@ -81,14 +81,13 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public Page<WarehouseDto> findAll(Pageable pageable,String search) {
+    public Page<WarehouseDto> findAll(Pageable pageable, String search) {
         Page<Warehouse> warehouses;
-        if(search!= null && !search.trim().isEmpty()){
-            warehouses = warehouseRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search , pageable);
-        }
-        else {
+        if (search != null && !search.trim().isEmpty()) {
+            warehouses = warehouseRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search, pageable);
+        } else {
             warehouses = warehouseRepository.findByDeletedFalse(pageable);
         }
-        return warehouses.map(warehouse -> modelMapper.map(warehouse , WarehouseDto.class));
+        return warehouses.map(warehouse -> modelMapper.map(warehouse, WarehouseDto.class));
     }
 }

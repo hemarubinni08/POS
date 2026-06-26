@@ -123,7 +123,8 @@ class PriceServiceTest {
     void findAllTest() {
         List<Price> entities = List.of(new Price());
         List<PriceDto> dtos = List.of(new PriceDto());
-        Type listType = new TypeToken<List<PriceDto>>() {}.getType();
+        Type listType = new TypeToken<List<PriceDto>>() {
+        }.getType();
         Mockito.when(priceRepository.findByDeletedFalse())
                 .thenReturn(entities);
         Mockito.when(modelMapper.map(entities, listType))
