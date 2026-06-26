@@ -30,7 +30,7 @@ public class RackApiController extends BaseController {
         return rackService.save(rackDto);
     }
 
-    @PostMapping("/toggle")
+    @PutMapping("/toggle")
     public RackDto toggleStatus(@RequestBody RackDto rackDto) {
         return rackService.updateStatus(rackDto.getIdentifier(), rackDto.isStatus());
     }
@@ -40,12 +40,12 @@ public class RackApiController extends BaseController {
         return rackService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public RackDto updatePost(@RequestBody RackDto rackDto) {
         return rackService.save(rackDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             rackService.delete(identifier);

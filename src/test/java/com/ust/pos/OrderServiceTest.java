@@ -1,7 +1,6 @@
 package com.ust.pos;
 
 import com.ust.pos.dto.OrderDto;
-import com.ust.pos.dto.OrderEntryDto;
 import com.ust.pos.dto.PaginationResponseDto;
 import com.ust.pos.model.*;
 import com.ust.pos.order.service.impl.OrderServiceImpl;

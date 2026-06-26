@@ -36,7 +36,7 @@ public class ShelfApiController extends BaseController {
         return shelfService.save(shelfDto);
     }
 
-    @PostMapping("/toggle")
+    @PutMapping("/toggle")
     public ShelfDto toggleStatus(@RequestBody ShelfDto shelfDto) {
         return shelfService.updateStatus(shelfDto.getIdentifier(), shelfDto.isStatus());
     }
@@ -46,12 +46,12 @@ public class ShelfApiController extends BaseController {
         return shelfService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ShelfDto updatePost(@RequestBody ShelfDto shelfDto) {
         return shelfService.save(shelfDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             shelfService.delete(identifier);

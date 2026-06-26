@@ -64,7 +64,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             }
 
             if (BigDecimal.valueOf(stock.getQuantity())
-                            .compareTo(cartEntry.getQuantity()) < 0) {
+                    .compareTo(cartEntry.getQuantity()) < 0) {
                 orderDto.setSuccess(false);
                 orderDto.setMessage("Insufficient stock for product: " + cartEntry.getProduct());
                 return orderDto;

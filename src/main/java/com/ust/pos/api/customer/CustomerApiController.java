@@ -33,7 +33,7 @@ public class CustomerApiController extends BaseController {
         return customerService.save(customerDto);
     }
 
-    @PostMapping("/toggle")
+    @PutMapping("/toggle")
     public CustomerDto toggleStatus(@RequestBody CustomerDto dto) {
         return customerService.updateStatus(dto.getIdentifier(), dto.isStatus());
     }
@@ -43,12 +43,12 @@ public class CustomerApiController extends BaseController {
         return customerService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public CustomerDto updatePost(@RequestBody CustomerDto customerDto) {
         return customerService.update(customerDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             customerService.delete(identifier);

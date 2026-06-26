@@ -4,6 +4,7 @@ import com.ust.pos.base.service.BaseService;
 import com.ust.pos.brand.service.BrandService;
 import com.ust.pos.dto.BrandDto;
 import com.ust.pos.dto.PaginationResponseDto;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.Brand;
 import com.ust.pos.model.BrandRepository;
 import jakarta.transaction.Transactional;
@@ -55,7 +56,13 @@ public class BrandServiceImpl extends BaseService implements BrandService {
 
     @Override
     public BrandDto findByIdentifier(String identifier) {
-        return modelMapper.map(brandRepository.findByIdentifier(identifier), BrandDto.class);
+        Brand brand = brandRepository.findByIdentifier(identifier);
+
+        if (brand == null) {
+            throw new ResourceNotFoundException("Brand does not exist");
+        }
+
+        return modelMapper.map(brand, BrandDto.class);
     }
 
     @Override

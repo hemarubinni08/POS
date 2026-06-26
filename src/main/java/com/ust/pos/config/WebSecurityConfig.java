@@ -48,7 +48,6 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) {
-
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 

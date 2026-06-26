@@ -73,40 +73,23 @@ public class ProductServiceImpl extends BaseService implements ProductService {
 
     @Override
     public ProductDto save(ProductDto productDto) {
-
         String identifier = productDto.getIdentifier();
-
-        Product existingProduct =
-                productRepository.findByIdentifier(identifier);
-
+        Product existingProduct = productRepository.findByIdentifier(identifier);
         if (existingProduct != null) {
-
             if (existingProduct.isDeleted()) {
-                productDto.setMessage(
-                        CONST_PRODUCT + identifier +
-                                DELETED_MESSAGE
-                );
+                productDto.setMessage(CONST_PRODUCT + identifier + DELETED_MESSAGE);
                 productDto.setSuccess(false);
                 return productDto;
             }
-
-            productDto.setMessage(
-                    CONST_PRODUCT + identifier + " already exists"
-            );
+            productDto.setMessage(CONST_PRODUCT + identifier + " already exists");
             productDto.setSuccess(false);
             return productDto;
         }
-
-        Product product =
-                modelMapper.map(productDto, Product.class);
-
+        Product product = modelMapper.map(productDto, Product.class);
         setCreatedDetails(product);
-
         productRepository.save(product);
-
         productDto.setMessage("Successfully added the product");
         productDto.setSuccess(true);
-
         return productDto;
     }
 
@@ -124,7 +107,6 @@ public class ProductServiceImpl extends BaseService implements ProductService {
     @Transactional
     @Override
     public ProductDto update(ProductDto productDto) {
-
         Optional<Product> productOptional =
                 productRepository.findById(productDto.getId());
 
@@ -137,7 +119,6 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         }
 
         Product existingProduct = productOptional.get();
-
         if (existingProduct.isDeleted()) {
             productDto.setMessage(
                     CONST_PRODUCT + existingProduct.getIdentifier()
@@ -148,14 +129,12 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         }
 
         String productName = productDto.getIdentifier();
-
         boolean isProductNameChanged =
                 !productName.equalsIgnoreCase(
                         existingProduct.getIdentifier()
                 );
 
         if (isProductNameChanged) {
-
             Product duplicateProduct =
                     productRepository.findByIdentifier(productName);
 
@@ -179,9 +158,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         }
 
         modelMapper.map(productDto, existingProduct);
-
         setModifiedDetails(existingProduct);
-
         productRepository.save(existingProduct);
 
         productDto.setMessage("Product successfully edited");
@@ -219,7 +196,6 @@ public class ProductServiceImpl extends BaseService implements ProductService {
     }
 
     private void enrichProduct(ProductDto productDto) {
-
         if (productDto == null || productDto.getIdentifier() == null) {
             return;
         }

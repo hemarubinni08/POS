@@ -30,7 +30,7 @@ public class RoleApiController extends BaseController {
         return roleService.save(roleDto);
     }
 
-    @PostMapping("/toggle")
+    @PutMapping("/toggle")
     public RoleDto toggleStatus(@RequestBody RoleDto dto) {
         return roleService.updateStatus(dto.getIdentifier(), dto.isStatus());
     }
@@ -40,12 +40,12 @@ public class RoleApiController extends BaseController {
         return roleService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public RoleDto updatePost(@RequestBody RoleDto roleDto) {
         return roleService.update(roleDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             roleService.delete(identifier);

@@ -37,7 +37,7 @@ public class CategoryApiController extends BaseController {
         return categoryService.save(categoryDto);
     }
 
-    @PostMapping("/toggle")
+    @PutMapping("/toggle")
     public CategoryDto toggleStatus(@RequestBody CategoryDto categoryDto) {
         return categoryService.updateStatus(categoryDto.getIdentifier(), categoryDto.isStatus());
     }
@@ -47,12 +47,12 @@ public class CategoryApiController extends BaseController {
         return categoryService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public CategoryDto updatePost(@RequestBody CategoryDto categoryDto) {
         return categoryService.update(categoryDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             categoryService.delete(identifier);

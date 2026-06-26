@@ -37,12 +37,12 @@ public class CartEntryApiController extends BaseController {
         return cartEntryService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public CartEntryDto updatePost(@RequestBody CartEntryDto cartEntryDto) {
         return cartEntryService.update(cartEntryDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             cartEntryService.delete(identifier);

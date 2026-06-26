@@ -30,7 +30,7 @@ public class ModelApiController extends BaseController {
         return modelService.save(modelDto);
     }
 
-    @PostMapping("/toggle")
+    @PutMapping("/toggle")
     public ModelDto toggleStatus(@RequestBody ModelDto dto) {
         return modelService.updateStatus(dto.getIdentifier(), dto.isStatus());
     }
@@ -40,12 +40,12 @@ public class ModelApiController extends BaseController {
         return modelService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ModelDto updatePost(@RequestBody ModelDto modelDto) {
         return modelService.update(modelDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             modelService.delete(identifier);

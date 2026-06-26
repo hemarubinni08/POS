@@ -29,7 +29,7 @@ public class UnitApiController extends BaseController {
         return unitService.save(unitDto);
     }
 
-    @PostMapping("/toggle")
+    @PutMapping("/toggle")
     public UnitDto toggleStatus(@RequestBody UnitDto dto) {
         return unitService.updateStatus(dto.getIdentifier(), dto.isStatus());
     }
@@ -39,12 +39,12 @@ public class UnitApiController extends BaseController {
         return unitService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public UnitDto updatePost(@RequestBody UnitDto unitDto) {
         return unitService.save(unitDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             unitService.delete(identifier);
