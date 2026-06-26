@@ -156,7 +156,8 @@ class CartEntryServiceTest {
         List<CartEntry> entries = List.of(new CartEntry());
         List<CartEntryDto> dtos = List.of(new CartEntryDto());
 
-        Type type = new TypeToken<List<CartEntryDto>>() {}.getType();
+        Type type = new TypeToken<List<CartEntryDto>>() {
+        }.getType();
 
         Mockito.when(cartEntryRepository.findAll())
                 .thenReturn(entries);
@@ -188,7 +189,8 @@ class CartEntryServiceTest {
 
         List<CartEntryDto> dtos = List.of(new CartEntryDto());
 
-        Type type = new TypeToken<List<CartEntryDto>>() {}.getType();
+        Type type = new TypeToken<List<CartEntryDto>>() {
+        }.getType();
 
         Mockito.when(cartEntryRepository.findAll(pageable))
                 .thenReturn(page);
@@ -206,7 +208,8 @@ class CartEntryServiceTest {
         List<CartEntry> entries = List.of(new CartEntry());
         List<CartEntryDto> dtos = List.of(new CartEntryDto());
 
-        Type type = new TypeToken<List<CartEntryDto>>() {}.getType();
+        Type type = new TypeToken<List<CartEntryDto>>() {
+        }.getType();
 
         Mockito.when(cartEntryRepository.findByCartId("C1"))
                 .thenReturn(entries);

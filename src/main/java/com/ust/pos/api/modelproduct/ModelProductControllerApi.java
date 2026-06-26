@@ -36,7 +36,7 @@ public class ModelProductControllerApi extends BaseController {
     @PostMapping("/list")
     public WsDto<ModelProductDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),paginationDto.getSortField());
+                paginationDto.getSizePerPage(), paginationDto.getSortField());
         Page<ModelProductDto> pageResult = modelProductService.findAll(pageable, paginationDto.getSearch());
         WsDto<ModelProductDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());

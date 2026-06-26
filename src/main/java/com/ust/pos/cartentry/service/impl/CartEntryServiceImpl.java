@@ -1,10 +1,10 @@
 package com.ust.pos.cartentry.service.impl;
 
+import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.CartEntry;
 import com.ust.pos.model.CartEntryRepository;
-import com.ust.pos.cartentry.service.CartEntryService;
 import com.ust.pos.price.service.PriceService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -113,10 +113,10 @@ public class CartEntryServiceImpl implements CartEntryService {
 
     @Override
     public List<CartEntryDto> findByCartId(String cart) {
-        Type listOfType = new TypeToken<List<CartEntryDto>>(){
+        Type listOfType = new TypeToken<List<CartEntryDto>>() {
         }.getType();
-        List<CartEntry> cartEntryList= cartEntryRepository.findByCartId(cart);
-        return modelMapper.map(cartEntryList , listOfType);
+        List<CartEntry> cartEntryList = cartEntryRepository.findByCartId(cart);
+        return modelMapper.map(cartEntryList, listOfType);
     }
 
     @Override

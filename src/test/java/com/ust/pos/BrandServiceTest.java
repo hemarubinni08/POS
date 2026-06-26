@@ -13,7 +13,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -141,7 +144,8 @@ class BrandServiceTest {
         List<Brand> brands = List.of(new Brand());
         List<BrandDto> dtos = List.of(new BrandDto());
 
-        Type type = new TypeToken<List<BrandDto>>() {}.getType();
+        Type type = new TypeToken<List<BrandDto>>() {
+        }.getType();
 
         Mockito.when(brandRepository.findByDeletedFalse())
                 .thenReturn(brands);

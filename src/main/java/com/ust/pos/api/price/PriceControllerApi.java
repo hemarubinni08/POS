@@ -29,7 +29,7 @@ public class PriceControllerApi extends BaseController {
     @PostMapping("/list")
     public WsDto<PriceDto> home(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),paginationDto.getSortField());
+                paginationDto.getSizePerPage(), paginationDto.getSortField());
         Page<PriceDto> pageResult = priceService.findAll(pageable, paginationDto.getSearch());
         WsDto<PriceDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());

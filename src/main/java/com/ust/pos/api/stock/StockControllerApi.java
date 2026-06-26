@@ -1,8 +1,8 @@
 package com.ust.pos.api.stock;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.stock.service.StockService;
 import org.springframework.data.domain.Page;
@@ -36,7 +36,7 @@ public class StockControllerApi extends BaseController {
     @PostMapping("/list")
     public WsDto<StockDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),paginationDto.getSortField());
+                paginationDto.getSizePerPage(), paginationDto.getSortField());
         Page<StockDto> pageResult = stockService.findAll(pageable, paginationDto.getSearch());
         WsDto<StockDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());

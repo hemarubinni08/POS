@@ -36,7 +36,7 @@ public class RoleControllerApi extends BaseController {
     @PostMapping("/list")
     public WsDto<RoleDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),paginationDto.getSortField());
+                paginationDto.getSizePerPage(), paginationDto.getSortField());
         Page<RoleDto> pageResult = roleService.findAll(pageable, paginationDto.getSearch());
         WsDto<RoleDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());
@@ -45,7 +45,7 @@ public class RoleControllerApi extends BaseController {
         response.setTotalPages(pageResult.getTotalPages());
         return response;
     }
-    
+
     @PostMapping("/add")
     public RoleDto addPost(@RequestBody RoleDto roleDto) {
         return roleService.save(roleDto);

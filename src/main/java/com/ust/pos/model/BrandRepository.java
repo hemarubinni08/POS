@@ -12,7 +12,7 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
     Brand findByIdentifier(String identifier);
 
     Brand findByIdentifierAndDeletedFalse(String identifier);
-    
+
     Page<Brand> findByIdentifierContainingIgnoreCaseAndDeletedFalse(String identifier, Pageable pageable);
 
     List<Brand> findByDeletedFalse();

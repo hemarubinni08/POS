@@ -122,7 +122,8 @@ class AddressServiceTest {
         List<Address> addresses = List.of(new Address());
         List<AddressDto> dtos = List.of(new AddressDto());
 
-        Type type = new TypeToken<List<AddressDto>>() {}.getType();
+        Type type = new TypeToken<List<AddressDto>>() {
+        }.getType();
 
         Mockito.when(addressRepository.findByDeletedFalse()).thenReturn(addresses);
         Mockito.when(modelMapper.map(addresses, type)).thenReturn(dtos);

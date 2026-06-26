@@ -5,16 +5,19 @@ import com.ust.pos.price.service.PriceService;
 import com.ust.pos.product.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/price")
 public class PriceController {
 
+    private static final String LIST_PRICE = "redirect:/price/list";
     private final ProductService productService;
     private final PriceService priceService;
-
-    private static final String LIST_PRICE = "redirect:/price/list";
 
     public PriceController(ProductService productService, PriceService priceService) {
         this.productService = productService;

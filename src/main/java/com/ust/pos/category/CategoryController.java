@@ -1,10 +1,14 @@
 package com.ust.pos.category;
 
-import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.category.service.CategoryService;
+import com.ust.pos.dto.CategoryDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/category")

@@ -36,7 +36,7 @@ public class BrandControllerApi extends BaseController {
     @PostMapping("/list")
     public WsDto<BrandDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),paginationDto.getSortField());
+                paginationDto.getSizePerPage(), paginationDto.getSortField());
         Page<BrandDto> pageResult = brandService.findAll(pageable, paginationDto.getSearch());
         WsDto<BrandDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());

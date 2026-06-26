@@ -1,8 +1,8 @@
 package com.ust.pos.api.shelf;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.shelf.service.ShelfService;
 import org.springframework.data.domain.Page;
@@ -41,7 +41,7 @@ public class ShelfControllerApi extends BaseController {
     @PostMapping("/list")
     public WsDto<ShelfDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),paginationDto.getSortField());
+                paginationDto.getSizePerPage(), paginationDto.getSortField());
         Page<ShelfDto> pageResult = shelfService.findAll(pageable, paginationDto.getSearch());
         WsDto<ShelfDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());

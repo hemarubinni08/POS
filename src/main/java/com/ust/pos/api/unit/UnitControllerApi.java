@@ -1,8 +1,8 @@
 package com.ust.pos.api.unit;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.UnitDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.UnitDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.unit.service.UnitService;
 import org.springframework.data.domain.Page;
@@ -36,7 +36,7 @@ public class UnitControllerApi extends BaseController {
     @PostMapping("/list")
     public WsDto<UnitDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),paginationDto.getSortField());
+                paginationDto.getSizePerPage(), paginationDto.getSortField());
         Page<UnitDto> pageResult = unitService.findAll(pageable, paginationDto.getSearch());
         WsDto<UnitDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());

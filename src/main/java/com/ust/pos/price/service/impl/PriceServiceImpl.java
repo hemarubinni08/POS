@@ -71,6 +71,7 @@ public class PriceServiceImpl implements PriceService {
             priceRepository.save(price);
         }
     }
+
     @Override
     public List<PriceDto> findAll() {
         Type listOfType = new TypeToken<List<PriceDto>>() {

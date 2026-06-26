@@ -1,9 +1,9 @@
 package com.ust.pos.category.service.impl;
 
+import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
-import com.ust.pos.category.service.CategoryService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

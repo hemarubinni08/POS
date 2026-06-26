@@ -1,8 +1,8 @@
 package com.ust.pos.api.customer;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.customer.service.CustomerService;
+import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Page;
@@ -36,7 +36,7 @@ public class CustomerControllerApi extends BaseController {
     @PostMapping("/list")
     public WsDto<CustomerDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),paginationDto.getSortField());
+                paginationDto.getSizePerPage(), paginationDto.getSortField());
         Page<CustomerDto> pageResult = customerService.findAll(pageable, paginationDto.getSearch());
         WsDto<CustomerDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());

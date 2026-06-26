@@ -1,8 +1,8 @@
 package com.ust.pos.api.racks;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.RacksDto;
 import com.ust.pos.dto.PaginationDto;
+import com.ust.pos.dto.RacksDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.racks.service.RacksService;
 import org.springframework.data.domain.Page;
@@ -36,7 +36,7 @@ public class RacksControllerApi extends BaseController {
     @PostMapping("/list")
     public WsDto<RacksDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),paginationDto.getSortField());
+                paginationDto.getSizePerPage(), paginationDto.getSortField());
         Page<RacksDto> pageResult = racksService.findAll(pageable, paginationDto.getSearch());
         WsDto<RacksDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());

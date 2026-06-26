@@ -1,8 +1,8 @@
 package com.ust.pos.api.category;
 
 import com.ust.pos.api.BaseController;
-import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.category.service.CategoryService;
+import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
 import org.springframework.data.domain.Page;
@@ -41,7 +41,7 @@ public class CategoryControllerApi extends BaseController {
     @PostMapping("/list")
     public WsDto<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(),
-                paginationDto.getSizePerPage(),paginationDto.getSortField());
+                paginationDto.getSizePerPage(), paginationDto.getSortField());
         Page<CategoryDto> pageResult = categoryService.findAll(pageable, paginationDto.getSearch());
         WsDto<CategoryDto> response = new WsDto<>();
         response.setContent(pageResult.getContent());
