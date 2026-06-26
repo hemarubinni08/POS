@@ -1,0 +1,245 @@
+/* =========================
+   DESIGN TOKENS
+========================= */
+
+:root {
+  --primary: #0f766e;
+  --primary-dark: #134e4a;
+  --primary-soft: #14b8a6;
+
+  --text: #0f172a;
+  --muted: #64748b;
+
+  --border: #e2e8f0;
+  --bg: #f8fafc;
+
+  --card: #ffffff;
+
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 10px 24px rgba(15, 23, 42, 0.12);
+}
+
+/* =========================
+   TOPBAR LAYOUT
+========================= */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 28px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary-dark);
+  letter-spacing: -0.02em;
+}
+
+.pageSubtitle {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* =========================
+   RIGHT ACTION AREA
+========================= */
+
+.topbarRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* =========================
+   CART BUTTON (PRO LEVEL)
+========================= */
+
+.cartBtn {
+  width: 42px;
+  height: 42px;
+
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+
+  background: var(--card);
+  color: var(--primary);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow: var(--shadow-sm);
+
+  transition: all 0.2s ease;
+}
+
+.cartBtn:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary-soft);
+  box-shadow: var(--shadow-md);
+}
+
+.cartBtn:active {
+  transform: scale(0.96);
+}
+
+.cartBtn:focus {
+  outline: 2px solid rgba(20, 184, 166, 0.4);
+  outline-offset: 2px;
+}
+
+/* =========================
+   PROFILE BUTTON
+========================= */
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: var(--card);
+  padding: 10px 14px;
+
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+
+  cursor: pointer;
+
+  box-shadow: var(--shadow-sm);
+
+  transition: all 0.2s ease;
+}
+
+.profile:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.profile:active {
+  transform: scale(0.98);
+}
+
+/* =========================
+   AVATAR
+========================= */
+
+.avatar {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--primary-soft)
+  );
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* =========================
+   PROFILE TEXT
+========================= */
+
+.profileName {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.profileRole {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+
+.heroCard {
+  background: linear-gradient(
+    135deg,
+    var(--primary-dark),
+    var(--primary)
+  );
+
+  color: white;
+
+  padding: 32px;
+  border-radius: 20px;
+
+  box-shadow: var(--shadow-md);
+
+  transition: all 0.25s ease;
+}
+
+.heroCard:hover {
+  transform: translateY(-2px);
+}
+
+.heroTitle {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.heroText {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .heroCard {
+    padding: 22px;
+  }
+
+  .heroTitle {
+    font-size: 22px;
+  }
+
+  .pageTitle {
+    font-size: 22px;
+  }
+
+  .topbarRight {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .profile {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

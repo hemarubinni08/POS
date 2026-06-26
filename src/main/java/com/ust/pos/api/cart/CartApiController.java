@@ -27,6 +27,10 @@ public class CartApiController {
         }
         return true;
     }
+    @GetMapping("/get")
+    public CartDto get(@RequestParam String identifier) {
+        return cartService.findByIdentifier(identifier);
+    }
 
     @GetMapping("/deleteAll")
     public boolean deleteAll(Model model, @RequestParam String identifier) {
