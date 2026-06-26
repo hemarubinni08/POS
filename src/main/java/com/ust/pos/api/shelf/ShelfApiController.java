@@ -7,7 +7,6 @@ import com.ust.pos.dto.WsDto;
 import com.ust.pos.shelf.service.ShelfService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,13 +34,13 @@ public class ShelfApiController extends BaseController {
         return shelfService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
-    public ShelfDto update(Model model, @ModelAttribute ShelfDto shelfDto) {
+    @PutMapping("/update")
+    public ShelfDto update(@RequestBody ShelfDto shelfDto) {
         return shelfService.update(shelfDto);
     }
 
-    @GetMapping("/delete")
-    public boolean delete(@RequestParam String identifier) {
+    @DeleteMapping("/delete")
+    public boolean delete(@RequestBody String identifier) {
         try {
             shelfService.delete(identifier);
         } catch (Exception e) {
@@ -50,7 +49,7 @@ public class ShelfApiController extends BaseController {
         return true;
     }
 
-    @GetMapping("/toggle")
+    @PatchMapping("/toggle")
     public ShelfDto toggle(@RequestParam String identifier) {
         return shelfService.toggleStatus(identifier);
     }

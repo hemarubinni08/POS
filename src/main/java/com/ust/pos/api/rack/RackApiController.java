@@ -34,12 +34,12 @@ public class RackApiController extends BaseController {
         return rackService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public RackDto updatePost(@RequestBody RackDto rackDto) {
         return rackService.update(rackDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             rackService.delete(identifier);
@@ -49,13 +49,13 @@ public class RackApiController extends BaseController {
         return true;
     }
 
-    @GetMapping("/toggle")
+    @PatchMapping("/toggle")
     public RackDto toggle(@RequestParam String identifier) {
         return rackService.toggleStatus(identifier);
     }
 
     @GetMapping("/active")
-    public List<RackDto> findActiveRacksDto() {
+    public List<RackDto> findActiveRacks() {
         return rackService.findActiveRacks();
     }
 

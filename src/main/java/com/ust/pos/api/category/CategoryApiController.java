@@ -34,12 +34,12 @@ public class CategoryApiController extends BaseController {
         return categoryService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public CategoryDto updatePost(@RequestBody CategoryDto categoryDto) {
         return categoryService.update(categoryDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             categoryService.delete(identifier);
@@ -54,7 +54,7 @@ public class CategoryApiController extends BaseController {
         return categoryService.findChildCategories();
     }
 
-    @GetMapping("/toggle")
+    @PatchMapping("/toggle")
     public CategoryDto toggle(@RequestParam String identifier) {
         return categoryService.toggleStatus(identifier);
     }

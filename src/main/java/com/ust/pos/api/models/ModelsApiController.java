@@ -34,12 +34,12 @@ public class ModelsApiController extends BaseController {
         return modelsService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ModelsDto update(@RequestBody ModelsDto modelsDto) {
         return modelsService.update(modelsDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             modelsService.delete(identifier);
@@ -49,7 +49,7 @@ public class ModelsApiController extends BaseController {
         return true;
     }
 
-    @GetMapping("/toggle")
+    @PatchMapping("/toggle")
     public ModelsDto toggle(@RequestParam String identifier) {
         return modelsService.toggleStatus(identifier);
     }

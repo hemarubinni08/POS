@@ -18,4 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByStatusTrueAndDeletedFalse();
 
+    List<Product> findByStatusTrueAndDeletedFalseAndIdentifierIn(List<String> identifiers);
+
 }

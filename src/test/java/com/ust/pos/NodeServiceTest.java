@@ -41,8 +41,6 @@ class NodeServiceTest {
     private ModelMapper modelMapper;
     @InjectMocks
     private NodeServiceImpl nodeService;
-    private Node sampleNode;
-    private NodeDto sampleNodeDto;
 
     @Test
     void testFindByIdentifier_Success() {

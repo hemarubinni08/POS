@@ -7,7 +7,6 @@ import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,12 +34,12 @@ public class BrandApiController extends BaseController {
         return brandService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
-    public BrandDto update(Model model, @ModelAttribute BrandDto brandDto) {
+    @PutMapping("/update")
+    public BrandDto update(@RequestBody BrandDto brandDto) {
         return brandService.update(brandDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             brandService.delete(identifier);
@@ -50,7 +49,7 @@ public class BrandApiController extends BaseController {
         return true;
     }
 
-    @GetMapping("/toggle")
+    @PatchMapping("/toggle")
     public BrandDto toggle(@RequestParam String identifier) {
         return brandService.toggleStatus(identifier);
     }

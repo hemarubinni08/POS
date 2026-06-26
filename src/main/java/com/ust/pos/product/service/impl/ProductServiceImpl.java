@@ -5,6 +5,7 @@ import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
+import com.ust.pos.model.StockRepository;
 import com.ust.pos.product.service.ProductService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
 
     public static final String PRODUCT_WITH_IDENTIFIER = "Product with identifier - ";
     private final ProductRepository productRepository;
+    private final StockRepository stockRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -114,6 +116,18 @@ public class ProductServiceImpl extends BaseService implements ProductService {
                 productRepository.findByStatusTrueAndDeletedFalse(),
                 listType
         );
+    }
+
+    public List<ProductDto> findActiveProductsWithStock() {
+        Type listType = new TypeToken<List<ProductDto>>() {
+        }.getType();
+        List<String> inStockProductIdentifiers = stockRepository.findProductIdentifiersWithStock();
+        if (inStockProductIdentifiers.isEmpty()) {
+            return List.of();
+        }
+        List<Product> products = productRepository
+                .findByStatusTrueAndDeletedFalseAndIdentifierIn(inStockProductIdentifiers);
+        return modelMapper.map(products, listType);
     }
 
 }

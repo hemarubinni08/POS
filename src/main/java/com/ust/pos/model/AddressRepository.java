@@ -8,11 +8,10 @@ import java.util.List;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
-    Address findByPhoneNumberAndAddressType(Long phoneNumber, String addressType);
-
     Address findByPhoneNumberAndAddressTypeAndDeletedFalse(Long phoneNumber, String addressType);
 
     List<Address> findByDeletedFalse();
 
     List<Address> findByPhoneNumberAndDeletedFalse(Long phoneNumber);
+
 }

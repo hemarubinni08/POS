@@ -34,12 +34,12 @@ public class UserApiController extends BaseController {
         return userService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public UserDto updatePost(@RequestBody UserDto userDto) {
         return userService.update(userDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

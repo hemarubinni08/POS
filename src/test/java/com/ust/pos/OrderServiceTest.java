@@ -27,25 +27,22 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
- class OrderServiceTest {
+class OrderServiceTest {
 
     @Mock
     private OrderRepository orderRepository;
-
     @Mock
     private OrderEntryRepository orderEntryRepository;
-
     @Mock
     private CartRepository cartRepository;
-
     @Mock
     private CartEntryRepository cartEntryRepository;
-
     @Mock
     private ModelMapper modelMapper;
-
     @InjectMocks
     private OrderServiceImpl orderService;
+    @Mock
+    private StockRepository stockRepository;
 
     @Test
     void testCheckout_Cash_Success() {
@@ -68,19 +65,36 @@ import static org.mockito.Mockito.*;
         cartEntry.setQuantity(BigDecimal.ONE);
         cartEntry.setTotalPrice(BigDecimal.valueOf(1000));
 
+        Stock stock = new Stock();
+        stock.setProduct("PROD-001");
+        stock.setQuantity(10L);
+
         OrderDto mappedOrderDto = new OrderDto();
         mappedOrderDto.setIdentifier("ORD-TEST");
 
         when(cartRepository.findByIdentifier("CUST-001")).thenReturn(cart);
-        when(cartEntryRepository.findByCartIdentifier("CUST-001")).thenReturn(List.of(cartEntry));
-        when(modelMapper.map(any(Order.class), eq(OrderDto.class))).thenReturn(mappedOrderDto);
-        when(orderEntryRepository.findByOrderIdentifier(anyString())).thenReturn(List.of(new OrderEntry()));
-        when(modelMapper.map(anyList(), any(Type.class))).thenReturn(List.of(new OrderEntryDto()));
+        when(cartEntryRepository.findByCartIdentifier("CUST-001"))
+                .thenReturn(List.of(cartEntry));
+
+        when(stockRepository.findByProductAndDeletedFalse("PROD-001"))
+                .thenReturn(stock);
+
+        when(modelMapper.map(any(Order.class), eq(OrderDto.class)))
+                .thenReturn(mappedOrderDto);
+
+        when(orderEntryRepository.findByOrderIdentifier(anyString()))
+                .thenReturn(List.of(new OrderEntry()));
+
+        when(modelMapper.map(anyList(), any(Type.class)))
+                .thenReturn(List.of(new OrderEntryDto()));
 
         OrderDto result = orderService.checkout(orderDto);
 
         assertTrue(result.isSuccess());
         assertEquals("Order placed successfully", result.getMessage());
+
+        assertEquals(9L, stock.getQuantity());
+        assertEquals("Low Stock", stock.getStockStatus());
 
         assertEquals(BigDecimal.ZERO, cart.getOriginalPrice());
         assertEquals(BigDecimal.ZERO, cart.getDiscount());
@@ -88,6 +102,8 @@ import static org.mockito.Mockito.*;
 
         verify(orderRepository).save(any(Order.class));
         verify(orderEntryRepository).save(any(OrderEntry.class));
+        verify(stockRepository, times(2)).findByProductAndDeletedFalse("PROD-001");
+        verify(stockRepository).save(stock);
         verify(cartEntryRepository).deleteAll(List.of(cartEntry));
         verify(cartRepository).save(cart);
     }

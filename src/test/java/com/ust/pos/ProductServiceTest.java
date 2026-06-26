@@ -4,6 +4,7 @@ import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
+import com.ust.pos.model.StockRepository;
 import com.ust.pos.product.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,6 +34,8 @@ class ProductServiceTest {
     private ProductRepository productRepository;
     @Mock
     private ModelMapper modelMapper;
+    @Mock
+    private StockRepository stockRepository;
 
     @Test
     void testFindByIdentifier_Success() {
@@ -263,6 +266,56 @@ class ProductServiceTest {
 
         assertEquals(1, result.size());
         assertEquals("PROD-001", result.get(0).getIdentifier());
+    }
+
+    @Test
+    void testFindActiveProductsWithStock_Success() {
+        List<String> productIdentifiers = List.of("PROD-001", "PROD-002");
+
+        Product product1 = new Product();
+        product1.setIdentifier("PROD-001");
+
+        Product product2 = new Product();
+        product2.setIdentifier("PROD-002");
+
+        ProductDto productDto1 = new ProductDto();
+        productDto1.setIdentifier("PROD-001");
+
+        ProductDto productDto2 = new ProductDto();
+        productDto2.setIdentifier("PROD-002");
+
+        when(stockRepository.findProductIdentifiersWithStock())
+                .thenReturn(productIdentifiers);
+
+        when(productRepository.findByStatusTrueAndDeletedFalseAndIdentifierIn(productIdentifiers))
+                .thenReturn(List.of(product1, product2));
+
+        when(modelMapper.map(anyList(), any(Type.class)))
+                .thenReturn(List.of(productDto1, productDto2));
+
+        List<ProductDto> result = productService.findActiveProductsWithStock();
+
+        assertEquals(2, result.size());
+        assertEquals("PROD-001", result.get(0).getIdentifier());
+        assertEquals("PROD-002", result.get(1).getIdentifier());
+
+        verify(stockRepository).findProductIdentifiersWithStock();
+        verify(productRepository)
+                .findByStatusTrueAndDeletedFalseAndIdentifierIn(productIdentifiers);
+    }
+
+    @Test
+    void testFindActiveProductsWithStock_NoStockProducts() {
+        when(stockRepository.findProductIdentifiersWithStock())
+                .thenReturn(List.of());
+
+        List<ProductDto> result = productService.findActiveProductsWithStock();
+
+        assertTrue(result.isEmpty());
+
+        verify(stockRepository).findProductIdentifiersWithStock();
+        verify(productRepository, never())
+                .findByStatusTrueAndDeletedFalseAndIdentifierIn(anyList());
     }
 
 }

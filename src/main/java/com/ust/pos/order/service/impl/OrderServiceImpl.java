@@ -6,6 +6,7 @@ import com.ust.pos.dto.OrderEntryDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.*;
 import com.ust.pos.order.service.OrderService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderServiceImpl extends BaseService implements OrderService {
 
     private final OrderRepository orderRepository;
@@ -26,6 +28,7 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     private final CartRepository cartRepository;
     private final CartEntryRepository cartEntryRepository;
     private final ModelMapper modelMapper;
+    private final StockRepository stockRepository;
 
     private static Order getOrder(OrderDto orderDto, String orderIdentifier, Cart cart) {
         Order order = new Order();
@@ -60,6 +63,21 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             orderDto.setMessage("Cart is empty");
             return orderDto;
         }
+        for (CartEntry cartEntry : cartEntryList) {
+            Stock stock = stockRepository.findByProductAndDeletedFalse(
+                    cartEntry.getProductIdentifier()
+            );
+            if (stock == null) {
+                orderDto.setSuccess(false);
+                orderDto.setMessage("Stock not found for product: " + cartEntry.getProductIdentifier());
+                return orderDto;
+            }
+            if (BigDecimal.valueOf(stock.getQuantity()).compareTo(cartEntry.getQuantity()) < 0) {
+                orderDto.setSuccess(false);
+                orderDto.setMessage("Insufficient stock for product: " + cartEntry.getProductIdentifier());
+                return orderDto;
+            }
+        }
         String orderIdentifier = "ORD-" + System.currentTimeMillis();
         Order order = getOrder(orderDto, orderIdentifier, cart);
         setCreatedDetails(order);
@@ -74,8 +92,23 @@ public class OrderServiceImpl extends BaseService implements OrderService {
             orderEntry.setUnitPrice(cartEntry.getUnitPrice());
             orderEntry.setQuantity(cartEntry.getQuantity());
             orderEntry.setTotalPrice(cartEntry.getTotalPrice());
+
             setCreatedDetails(orderEntry);
             orderEntryRepository.save(orderEntry);
+            Stock stock = stockRepository.findByProductAndDeletedFalse(
+                    cartEntry.getProductIdentifier()
+            );
+            long updatedQuantity = stock.getQuantity() - cartEntry.getQuantity().longValue();
+            stock.setQuantity(updatedQuantity);
+            if (updatedQuantity == 0) {
+                stock.setStockStatus("Out of Stock");
+            } else if (updatedQuantity <= 10) {
+                stock.setStockStatus("Low Stock");
+            } else {
+                stock.setStockStatus("Available");
+            }
+            setModifiedDetails(stock);
+            stockRepository.save(stock);
         }
         cartEntryRepository.deleteAll(cartEntryList);
         cart.setOriginalPrice(BigDecimal.ZERO);
@@ -86,13 +119,11 @@ public class OrderServiceImpl extends BaseService implements OrderService {
         OrderDto responseDto = modelMapper.map(order, OrderDto.class);
         Type entryListType = new TypeToken<List<OrderEntryDto>>() {
         }.getType();
-
-        List<OrderEntry> orderEntryList = orderEntryRepository.findByOrderIdentifier(orderIdentifier);
-
+        List<OrderEntry> orderEntryList =
+                orderEntryRepository.findByOrderIdentifier(orderIdentifier);
         responseDto.setEntryList(modelMapper.map(orderEntryList, entryListType));
         responseDto.setSuccess(true);
         responseDto.setMessage("Order placed successfully");
-
         return responseDto;
     }
 

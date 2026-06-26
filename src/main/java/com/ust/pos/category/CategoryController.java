@@ -77,4 +77,5 @@ public class CategoryController {
         categoryService.toggleStatus(identifier);
         return REDIRECT_CATEGORY_LIST;
     }
+
 }

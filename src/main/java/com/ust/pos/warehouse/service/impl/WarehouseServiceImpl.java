@@ -3,11 +3,13 @@ package com.ust.pos.warehouse.service.impl;
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@Slf4j
 @RequiredArgsConstructor
 public class WarehouseServiceImpl extends BaseService implements WarehouseService {
 
@@ -28,7 +31,12 @@ public class WarehouseServiceImpl extends BaseService implements WarehouseServic
 
     @Override
     public WarehouseDto findByIdentifier(String identifier) {
-        return modelMapper.map(wareHouseRepository.findByIdentifierAndDeletedFalse(identifier), WarehouseDto.class);
+
+        Warehouse warehouse = wareHouseRepository.findByIdentifierAndDeletedFalse(identifier);
+        if (warehouse == null) {
+            throw new ResourceNotFoundException("Warehouse with identifier '" + identifier + "' not found");
+        }
+        return modelMapper.map(warehouse, WarehouseDto.class);
     }
 
     @Override

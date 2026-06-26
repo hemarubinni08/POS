@@ -32,7 +32,7 @@ public class OrderApiController extends BaseController {
         return orderService.findAll(pageable);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             return orderService.delete(identifier);

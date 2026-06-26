@@ -143,18 +143,12 @@ class AddressServiceTest {
     void testFindAll_Success() {
         Address address = new Address();
         address.setPhoneNumber(9876543210L);
-
         AddressDto addressDto = new AddressDto();
         addressDto.setPhoneNumber(9876543210L);
 
-        when(addressRepository.findByDeletedFalse())
-                .thenReturn(List.of(address));
-
-        when(modelMapper.map(anyList(), any(Type.class)))
-                .thenReturn(List.of(addressDto));
-
+        when(addressRepository.findByDeletedFalse()).thenReturn(List.of(address));
+        when(modelMapper.map(anyList(), any(Type.class))).thenReturn(List.of(addressDto));
         List<AddressDto> result = addressService.findAll();
-
         assertEquals(1, result.size());
         assertEquals(9876543210L, result.get(0).getPhoneNumber());
     }
@@ -170,17 +164,11 @@ class AddressServiceTest {
         Address address2 = new Address();
         address2.setPhoneNumber(phoneNumber);
         address2.setDeleted(false);
-
         List<Address> addressList = List.of(address1, address2);
-
-        when(addressRepository.findByPhoneNumberAndDeletedFalse(phoneNumber))
-                .thenReturn(addressList);
-
+        when(addressRepository.findByPhoneNumberAndDeletedFalse(phoneNumber)).thenReturn(addressList);
         addressService.deleteByPhoneNumber(phoneNumber);
-
         assertTrue(address1.getDeleted());
         assertTrue(address2.getDeleted());
-
         verify(addressRepository).findByPhoneNumberAndDeletedFalse(phoneNumber);
         verify(addressRepository).saveAll(addressList);
     }

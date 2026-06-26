@@ -34,12 +34,12 @@ public class ProductApiController extends BaseController {
         return productService.findByIdentifier(identifier);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ProductDto updatePost(@RequestBody ProductDto productDto) {
         return productService.update(productDto);
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public boolean delete(@RequestParam String identifier) {
         try {
             productService.delete(identifier);
@@ -49,7 +49,7 @@ public class ProductApiController extends BaseController {
         return true;
     }
 
-    @GetMapping("/toggle")
+    @PatchMapping("/toggle")
     public ProductDto toggle(@RequestParam String identifier) {
         return productService.toggleStatus(identifier);
     }
@@ -57,6 +57,11 @@ public class ProductApiController extends BaseController {
     @GetMapping("/active")
     public List<ProductDto> findActiveProducts() {
         return productService.findActiveProducts();
+    }
+
+    @GetMapping("/in-stock")
+    public List<ProductDto> findActiveProductsWithStock() {
+        return productService.findActiveProductsWithStock();
     }
 
 }

@@ -1,6 +1,5 @@
 package com.ust.pos;
 
-
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.model.CommonFields;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +15,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
- class BaseServiceTest {
+class BaseServiceTest {
 
     private BaseService baseService;
 

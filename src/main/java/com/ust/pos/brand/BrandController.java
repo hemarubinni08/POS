@@ -39,7 +39,6 @@ public class BrandController {
             model.addAttribute("message", response.getMessage());
             return "brand/add";
         }
-
         return REDIRECT_LIST;
     }
 
