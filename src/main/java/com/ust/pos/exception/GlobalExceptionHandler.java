@@ -1,5 +1,6 @@
 package com.ust.pos.exception;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,17 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Something went wrong",
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse handleAuthorizationDeniedException(AuthorizationDeniedException ex, HttpServletRequest request) {
+        log.warn("Authorization Denied: {}", ex.getMessage());
+        return new ErrorResponse(
+                HttpStatus.FORBIDDEN.value(),
+                "You do not have authority to perform this action.",
                 request.getRequestURI()
         );
     }
