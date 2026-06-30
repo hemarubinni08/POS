@@ -6,9 +6,11 @@ import com.ust.pos.model.NodeRepository;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.node.service.NodeService;
+import com.ust.pos.service.BaseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -23,7 +25,7 @@ import java.util.Set;
 
 @Service
 @Transactional
-public class NodeServiceImpl implements NodeService {
+public class NodeServiceImpl extends BaseService implements NodeService {
 
     private final UserRepository userRepository;
     private final NodeRepository nodeRepository;
@@ -126,7 +128,8 @@ public class NodeServiceImpl implements NodeService {
     public Page<NodeDto> findAll(Pageable pageable, String search) {
         Page<Node> nodes;
         if (search != null && !search.trim().isEmpty()) {
-            nodes = nodeRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search, pageable);
+            Example<Node> example = buildGlobalSearchExample(Node.class, search);
+            nodes = nodeRepository.findAll(example, pageable);
         } else {
             nodes = nodeRepository.findByDeletedFalse(pageable);
         }

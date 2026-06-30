@@ -3,10 +3,12 @@ package com.ust.pos.user.service.impl;
 import com.ust.pos.dto.UserDto;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
+import com.ust.pos.service.BaseService;
 import com.ust.pos.user.service.UserService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +20,7 @@ import java.util.Optional;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseService implements UserService {
 
     public static final String USER_WITH_USERNAME_EMAIL = "User with username/email - ";
 
@@ -99,7 +101,8 @@ public class UserServiceImpl implements UserService {
     public Page<UserDto> findAll(Pageable pageable, String search) {
         Page<User> users;
         if (search != null && !search.trim().isEmpty()) {
-            users = userRepository.findByUsernameContainingIgnoreCaseAndDeletedFalse(search, pageable);
+            Example<User> example = buildGlobalSearchExample(User.class, search);
+            users = userRepository.findAll(example, pageable);
         } else {
             users = userRepository.findByDeletedFalse(pageable);
         }

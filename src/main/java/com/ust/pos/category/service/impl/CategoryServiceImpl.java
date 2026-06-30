@@ -4,9 +4,11 @@ import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.model.Category;
 import com.ust.pos.model.CategoryRepository;
+import com.ust.pos.service.BaseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl extends BaseService implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final ModelMapper modelMapper;
@@ -94,7 +96,8 @@ public class CategoryServiceImpl implements CategoryService {
     public Page<CategoryDto> findAll(Pageable pageable, String search) {
         Page<Category> categories;
         if (search != null && !search.trim().isEmpty()) {
-            categories = categoryRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search, pageable);
+            Example<Category> example = buildGlobalSearchExample(Category.class, search);
+            categories = categoryRepository.findAll(example, pageable);
         } else {
             categories = categoryRepository.findByDeletedFalse(pageable);
         }

@@ -3,10 +3,12 @@ package com.ust.pos.warehouse.service.impl;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
+import com.ust.pos.service.BaseService;
 import com.ust.pos.warehouse.service.WarehouseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class WarehouseServiceImpl implements WarehouseService {
+public class WarehouseServiceImpl extends BaseService implements WarehouseService {
 
     private final WarehouseRepository warehouseRepository;
     private final ModelMapper modelMapper;
@@ -86,7 +88,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     public Page<WarehouseDto> findAll(Pageable pageable, String search) {
         Page<Warehouse> warehouses;
         if (search != null && !search.trim().isEmpty()) {
-            warehouses = warehouseRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search, pageable);
+            Example<Warehouse> example = buildGlobalSearchExample(Warehouse.class, search);
+            warehouses = warehouseRepository.findAll(example, pageable);
         } else {
             warehouses = warehouseRepository.findByDeletedFalse(pageable);
         }

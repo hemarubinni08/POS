@@ -3,10 +3,12 @@ package com.ust.pos.stock.service.impl;
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
+import com.ust.pos.service.BaseService;
 import com.ust.pos.stock.service.StockService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class StockServiceImpl implements StockService {
+public class StockServiceImpl extends BaseService implements StockService {
 
     private final ModelMapper modelMapper;
     private final StockRepository stockRepository;
@@ -93,7 +95,8 @@ public class StockServiceImpl implements StockService {
     public Page<StockDto> findAll(Pageable pageable, String search) {
         Page<Stock> stocks;
         if (search != null && !search.trim().isEmpty()) {
-            stocks = stockRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search, pageable);
+            Example<Stock> example = buildGlobalSearchExample(Stock.class, search);
+            stocks = stockRepository.findAll(example, pageable);
         } else {
             stocks = stockRepository.findByDeletedFalse(pageable);
         }

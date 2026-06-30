@@ -4,8 +4,10 @@ import com.ust.pos.dto.RacksDto;
 import com.ust.pos.model.Racks;
 import com.ust.pos.model.RacksRepository;
 import com.ust.pos.racks.service.RacksService;
+import com.ust.pos.service.BaseService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class RacksServiceImpl implements RacksService {
+public class RacksServiceImpl extends BaseService implements RacksService {
 
     private final RacksRepository racksRepository;
     private final ModelMapper modelMapper;
@@ -93,7 +95,8 @@ public class RacksServiceImpl implements RacksService {
     public Page<RacksDto> findAll(Pageable pageable, String search) {
         Page<Racks> racksPage;
         if (search != null && !search.trim().isEmpty()) {
-            racksPage = racksRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search, pageable);
+            Example<Racks> example = buildGlobalSearchExample(Racks.class, search);
+            racksPage = racksRepository.findAll(example, pageable);
         } else {
             racksPage = racksRepository.findByDeletedFalse(pageable);
         }

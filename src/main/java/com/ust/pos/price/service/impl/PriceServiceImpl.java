@@ -4,8 +4,10 @@ import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
+import com.ust.pos.service.BaseService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class PriceServiceImpl implements PriceService {
+public class PriceServiceImpl extends BaseService implements PriceService {
 
     private final PriceRepository priceRepository;
     private final ModelMapper modelMapper;
@@ -88,7 +90,8 @@ public class PriceServiceImpl implements PriceService {
     public Page<PriceDto> findAll(Pageable pageable, String search) {
         Page<Price> prices;
         if (search != null && !search.trim().isEmpty()) {
-            prices = priceRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search, pageable);
+            Example<Price> example = buildGlobalSearchExample(Price.class, search);
+            prices = priceRepository.findAll(example, pageable);
         } else {
             prices = priceRepository.findByDeletedFalse(pageable);
         }

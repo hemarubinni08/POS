@@ -4,9 +4,11 @@ import com.ust.pos.dto.RoleDto;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
 import com.ust.pos.role.service.RoleService;
+import com.ust.pos.service.BaseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends BaseService implements RoleService {
 
     private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
@@ -84,7 +86,8 @@ public class RoleServiceImpl implements RoleService {
     public Page<RoleDto> findAll(Pageable pageable, String search) {
         Page<Role> roles;
         if (search != null && !search.trim().isEmpty()) {
-            roles = roleRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search, pageable);
+            Example<Role> example = buildGlobalSearchExample(Role.class, search);
+            roles = roleRepository.findAll(example, pageable);
         } else {
             roles = roleRepository.findByDeletedFalse(pageable);
         }

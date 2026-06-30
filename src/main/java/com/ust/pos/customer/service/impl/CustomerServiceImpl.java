@@ -6,8 +6,10 @@ import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
+import com.ust.pos.service.BaseService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerServiceImpl extends BaseService implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final ModelMapper modelMapper;
@@ -96,17 +98,16 @@ public class CustomerServiceImpl implements CustomerService {
     public Page<CustomerDto> findAll(Pageable pageable, String search) {
         Page<Customer> customers;
         if (search != null && !search.trim().isEmpty()) {
-            customers = customerRepository.findByIdentifierContainingIgnoreCaseAndDeletedFalse(search, pageable);
+            Example<Customer> example = buildGlobalSearchExample(Customer.class, search);
+            customers = customerRepository.findAll(example, pageable);
         } else {
             customers = customerRepository.findByDeletedFalse(pageable);
         }
 
         return customers.map(customer -> {
             CustomerDto dto = modelMapper.map(customer, CustomerDto.class);
-
             dto.setBilling(addressService.findByIdentifierAndBilling(customer.getIdentifier()));
             dto.setShipping(addressService.findByIdentifierAndShipping(customer.getIdentifier()));
-
             return dto;
         });
     }
