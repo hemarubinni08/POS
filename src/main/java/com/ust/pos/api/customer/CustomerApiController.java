@@ -23,8 +23,8 @@ public class CustomerApiController extends BaseController {
 
     @PostMapping("/list")
     public PaginationResponseDto<CustomerDto> list(@RequestBody PaginationDto paginationDto) {
-        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
-                paginationDto.getSortDirection(), paginationDto.getSortField());
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+
         return customerService.findAll(pageable);
     }
 
