@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -85,12 +86,22 @@ public class RoleServiceImpl extends BaseService implements RoleService {
     @Override
     public Page<RoleDto> findAll(Pageable pageable, String search) {
         Page<Role> roles;
+
         if (search != null && !search.trim().isEmpty()) {
             Example<Role> example = buildGlobalSearchExample(Role.class, search);
-            roles = roleRepository.findAll(example, pageable);
+
+            List<Role> filteredRoles = roleRepository.findAll(example, pageable)
+                    .getContent()
+                    .stream()
+                    .filter(role -> !role.isDeleted())
+                    .toList();
+
+            roles = new PageImpl<>(filteredRoles, pageable, filteredRoles.size());
+
         } else {
             roles = roleRepository.findByDeletedFalse(pageable);
         }
+
         return roles.map(role -> modelMapper.map(role, RoleDto.class));
     }
 }

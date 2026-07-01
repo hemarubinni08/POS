@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -94,12 +95,22 @@ public class StockServiceImpl extends BaseService implements StockService {
     @Override
     public Page<StockDto> findAll(Pageable pageable, String search) {
         Page<Stock> stocks;
+
         if (search != null && !search.trim().isEmpty()) {
             Example<Stock> example = buildGlobalSearchExample(Stock.class, search);
-            stocks = stockRepository.findAll(example, pageable);
+
+            List<Stock> filteredStocks = stockRepository.findAll(example, pageable)
+                    .getContent()
+                    .stream()
+                    .filter(stock -> !stock.isDeleted())
+                    .toList();
+
+            stocks = new PageImpl<>(filteredStocks, pageable, filteredStocks.size());
+
         } else {
             stocks = stockRepository.findByDeletedFalse(pageable);
         }
+
         return stocks.map(stock -> modelMapper.map(stock, StockDto.class));
     }
 }

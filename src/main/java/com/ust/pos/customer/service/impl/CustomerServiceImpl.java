@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -97,9 +98,18 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
     @Override
     public Page<CustomerDto> findAll(Pageable pageable, String search) {
         Page<Customer> customers;
+
         if (search != null && !search.trim().isEmpty()) {
             Example<Customer> example = buildGlobalSearchExample(Customer.class, search);
-            customers = customerRepository.findAll(example, pageable);
+
+            List<Customer> filteredCustomers = customerRepository.findAll(example, pageable)
+                    .getContent()
+                    .stream()
+                    .filter(customer -> !customer.isDeleted())
+                    .toList();
+
+            customers = new PageImpl<>(filteredCustomers, pageable, filteredCustomers.size());
+
         } else {
             customers = customerRepository.findByDeletedFalse(pageable);
         }

@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -95,12 +96,22 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
     @Override
     public Page<CategoryDto> findAll(Pageable pageable, String search) {
         Page<Category> categories;
+
         if (search != null && !search.trim().isEmpty()) {
             Example<Category> example = buildGlobalSearchExample(Category.class, search);
-            categories = categoryRepository.findAll(example, pageable);
+
+            List<Category> filteredCategories = categoryRepository.findAll(example, pageable)
+                    .getContent()
+                    .stream()
+                    .filter(category -> !category.isDeleted())
+                    .toList();
+
+            categories = new PageImpl<>(filteredCategories, pageable, filteredCategories.size());
+
         } else {
             categories = categoryRepository.findByDeletedFalse(pageable);
         }
+
         return categories.map(category -> modelMapper.map(category, CategoryDto.class));
     }
 }

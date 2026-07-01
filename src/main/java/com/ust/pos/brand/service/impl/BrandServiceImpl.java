@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -96,7 +97,14 @@ public class BrandServiceImpl extends BaseService implements BrandService {
 
         if (search != null && !search.trim().isEmpty()) {
             Example<Brand> example = buildGlobalSearchExample(Brand.class, search);
-            brands = brandRepository.findAll(example, pageable);
+
+            List<Brand> filteredBrands = brandRepository.findAll(example, pageable)
+                    .getContent()
+                    .stream()
+                    .filter(brand -> !brand.isDeleted())
+                    .toList();
+
+            brands = new PageImpl<>(filteredBrands, pageable, filteredBrands.size());
 
         } else {
             brands = brandRepository.findByDeletedFalse(pageable);

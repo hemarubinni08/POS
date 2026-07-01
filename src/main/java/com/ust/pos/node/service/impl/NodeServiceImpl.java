@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -127,12 +128,22 @@ public class NodeServiceImpl extends BaseService implements NodeService {
     @Override
     public Page<NodeDto> findAll(Pageable pageable, String search) {
         Page<Node> nodes;
+
         if (search != null && !search.trim().isEmpty()) {
             Example<Node> example = buildGlobalSearchExample(Node.class, search);
-            nodes = nodeRepository.findAll(example, pageable);
+
+            List<Node> filteredNodes = nodeRepository.findAll(example, pageable)
+                    .getContent()
+                    .stream()
+                    .filter(node -> !node.isDeleted())
+                    .toList();
+
+            nodes = new PageImpl<>(filteredNodes, pageable, filteredNodes.size());
+
         } else {
             nodes = nodeRepository.findByDeletedFalse(pageable);
         }
+
         return nodes.map(node -> modelMapper.map(node, NodeDto.class));
     }
 }

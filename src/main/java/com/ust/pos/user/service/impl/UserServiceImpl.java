@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -100,12 +101,22 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     public Page<UserDto> findAll(Pageable pageable, String search) {
         Page<User> users;
+
         if (search != null && !search.trim().isEmpty()) {
             Example<User> example = buildGlobalSearchExample(User.class, search);
-            users = userRepository.findAll(example, pageable);
+
+            List<User> filteredUsers = userRepository.findAll(example, pageable)
+                    .getContent()
+                    .stream()
+                    .filter(user -> !user.isDeleted())
+                    .toList();
+
+            users = new PageImpl<>(filteredUsers, pageable, filteredUsers.size());
+
         } else {
             users = userRepository.findByDeletedFalse(pageable);
         }
+
         return users.map(user -> modelMapper.map(user, UserDto.class));
     }
 }

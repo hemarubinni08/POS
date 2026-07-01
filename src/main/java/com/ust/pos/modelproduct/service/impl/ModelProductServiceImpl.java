@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -98,12 +99,22 @@ public class ModelProductServiceImpl extends BaseService implements ModelProduct
     @Override
     public Page<ModelProductDto> findAll(Pageable pageable, String search) {
         Page<ModelProduct> modelProducts;
+
         if (search != null && !search.trim().isEmpty()) {
             Example<ModelProduct> example = buildGlobalSearchExample(ModelProduct.class, search);
-            modelProducts = modelProductRepository.findAll(example, pageable);
+
+            List<ModelProduct> filteredModelProducts = modelProductRepository.findAll(example, pageable)
+                    .getContent()
+                    .stream()
+                    .filter(modelProduct -> !modelProduct.isDeleted())
+                    .toList();
+
+            modelProducts = new PageImpl<>(filteredModelProducts, pageable, filteredModelProducts.size());
+
         } else {
             modelProducts = modelProductRepository.findByDeletedFalse(pageable);
         }
+
         return modelProducts.map(modelProduct -> modelMapper.map(modelProduct, ModelProductDto.class));
     }
 }

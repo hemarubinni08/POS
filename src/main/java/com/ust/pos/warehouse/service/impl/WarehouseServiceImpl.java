@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -87,12 +88,22 @@ public class WarehouseServiceImpl extends BaseService implements WarehouseServic
     @Override
     public Page<WarehouseDto> findAll(Pageable pageable, String search) {
         Page<Warehouse> warehouses;
+
         if (search != null && !search.trim().isEmpty()) {
             Example<Warehouse> example = buildGlobalSearchExample(Warehouse.class, search);
-            warehouses = warehouseRepository.findAll(example, pageable);
+
+            List<Warehouse> filteredWarehouses = warehouseRepository.findAll(example, pageable)
+                    .getContent()
+                    .stream()
+                    .filter(warehouse -> !warehouse.isDeleted())
+                    .toList();
+
+            warehouses = new PageImpl<>(filteredWarehouses, pageable, filteredWarehouses.size());
+
         } else {
             warehouses = warehouseRepository.findByDeletedFalse(pageable);
         }
+
         return warehouses.map(warehouse -> modelMapper.map(warehouse, WarehouseDto.class));
     }
 }

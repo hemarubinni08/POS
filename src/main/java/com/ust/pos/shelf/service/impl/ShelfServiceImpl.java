@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,12 +110,22 @@ public class ShelfServiceImpl extends BaseService implements ShelfService {
     @Override
     public Page<ShelfDto> findAll(Pageable pageable, String search) {
         Page<Shelf> shelfs;
+
         if (search != null && !search.trim().isEmpty()) {
             Example<Shelf> example = buildGlobalSearchExample(Shelf.class, search);
-            shelfs = shelfRepository.findAll(example, pageable);
+
+            List<Shelf> filteredShelfs = shelfRepository.findAll(example, pageable)
+                    .getContent()
+                    .stream()
+                    .filter(shelf -> !shelf.isDeleted())
+                    .toList();
+
+            shelfs = new PageImpl<>(filteredShelfs, pageable, filteredShelfs.size());
+
         } else {
             shelfs = shelfRepository.findByDeletedFalse(pageable);
         }
+
         return shelfs.map(shelf -> modelMapper.map(shelf, ShelfDto.class));
     }
 }

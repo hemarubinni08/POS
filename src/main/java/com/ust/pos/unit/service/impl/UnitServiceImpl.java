@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,12 +104,22 @@ public class UnitServiceImpl extends BaseService implements UnitService {
     @Override
     public Page<UnitDto> findAll(Pageable pageable, String search) {
         Page<Unit> units;
+
         if (search != null && !search.trim().isEmpty()) {
             Example<Unit> example = buildGlobalSearchExample(Unit.class, search);
-            units = unitRepository.findAll(example, pageable);
+
+            List<Unit> filteredUnits = unitRepository.findAll(example, pageable)
+                    .getContent()
+                    .stream()
+                    .filter(unit -> !unit.isDeleted())
+                    .toList();
+
+            units = new PageImpl<>(filteredUnits, pageable, filteredUnits.size());
+
         } else {
             units = unitRepository.findByDeletedFalse(pageable);
         }
+
         return units.map(unit -> modelMapper.map(unit, UnitDto.class));
     }
 }

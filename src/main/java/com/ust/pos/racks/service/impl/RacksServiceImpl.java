@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,12 +95,22 @@ public class RacksServiceImpl extends BaseService implements RacksService {
     @Override
     public Page<RacksDto> findAll(Pageable pageable, String search) {
         Page<Racks> racksPage;
+
         if (search != null && !search.trim().isEmpty()) {
             Example<Racks> example = buildGlobalSearchExample(Racks.class, search);
-            racksPage = racksRepository.findAll(example, pageable);
+
+            List<Racks> filteredRacks = racksRepository.findAll(example, pageable)
+                    .getContent()
+                    .stream()
+                    .filter(racks -> !racks.isDeleted())
+                    .toList();
+
+            racksPage = new PageImpl<>(filteredRacks, pageable, filteredRacks.size());
+
         } else {
             racksPage = racksRepository.findByDeletedFalse(pageable);
         }
+
         return racksPage.map(racks -> modelMapper.map(racks, RacksDto.class));
     }
 }
