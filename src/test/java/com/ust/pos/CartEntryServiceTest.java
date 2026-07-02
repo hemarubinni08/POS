@@ -7,6 +7,8 @@ import com.ust.pos.dto.CartEntryDto;
 import com.ust.pos.dto.PriceDto;
 import com.ust.pos.model.CartEntry;
 import com.ust.pos.model.CartEntryRepository;
+import com.ust.pos.model.Stock;
+import com.ust.pos.model.StockRepository;
 import com.ust.pos.price.service.impl.PriceServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -42,6 +44,9 @@ class CartEntryServiceTest {
 
     @Mock
     private PriceServiceImpl priceService;
+
+    @Mock
+    private StockRepository stockRepository;
 
     @Test
     void findByIdentifierTest() {
@@ -176,6 +181,12 @@ class CartEntryServiceTest {
                         modelMapper.map(savedEntry, CartEntryDto.class))
                 .thenReturn(responseDto);
 
+        Stock stock = new Stock();
+        stock.setQuantity(10L);
+
+        Mockito.when(stockRepository.findByProduct("P001"))
+                .thenReturn(stock);
+
         CartEntryDto response =
                 cartEntryService.save(dto);
 
@@ -194,6 +205,12 @@ class CartEntryServiceTest {
         dto.setProduct("P001");
         dto.setCart("CART1");
         dto.setQuantity(BigDecimal.ONE);
+
+        Stock stock = new Stock();
+        stock.setQuantity(10L);
+
+        Mockito.when(stockRepository.findByProduct("P001"))
+                .thenReturn(stock);
 
         CartEntry cartEntry = new CartEntry();
         cartEntry.setQuantity(BigDecimal.ZERO);
@@ -245,6 +262,12 @@ class CartEntryServiceTest {
         Mockito.when(
                 modelMapper.map(cartEntry, CartEntryDto.class)
         ).thenReturn(responseDto);
+
+        Stock stock = new Stock();
+        stock.setQuantity(10L);
+
+        Mockito.when(stockRepository.findByProduct("P1"))
+                .thenReturn(stock);
 
         CartEntryDto result = cartEntryService.update(dto);
 
