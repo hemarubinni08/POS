@@ -45,7 +45,7 @@ public class BaseController {
                 current = current.getSuperclass();
             }
 
-            Predicate deletedFalse = queryBuilder.isFalse(root.get("deleted"));
+            Predicate deletedFalse = queryBuilder.isFalse(root.get("isDeleted"));
             Predicate orBlock = queryBuilder.or(orPredicates.toArray(new Predicate[0]));
 
             return queryBuilder.and(deletedFalse, orBlock);

@@ -1,7 +1,10 @@
 package com.ust.pos.model;
 
+import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.PaginationResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +21,6 @@ public interface NodeRepository extends JpaRepository<Node, Long> {
     void deleteByIdentifier(String identifier);
 
     Page<Node> findByIsDeletedFalse(Pageable pageable);
+
+    Page<Node> findAll(Specification example, Pageable pageable);
 }

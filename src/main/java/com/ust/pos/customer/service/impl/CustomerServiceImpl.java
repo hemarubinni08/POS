@@ -194,6 +194,23 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
     }
 
     @Override
+    public PaginationResponseDto<CustomerDto> findAll(Specification<Customer> example, Pageable pageable) {
+
+        Type listType = new TypeToken<List<CustomerDto>>() {
+        }.getType();
+        Page<Customer> page = customerRepository.findAll(example, pageable);
+
+        PaginationResponseDto<CustomerDto> paginationResponseDto = new PaginationResponseDto<>();
+        paginationResponseDto.setDtoList(modelMapper.map(page.getContent(), listType));
+        paginationResponseDto.setTotalRecords(page.getTotalElements());
+        paginationResponseDto.setTotalPages(page.getTotalPages());
+        paginationResponseDto.setSizePerPage(pageable.getPageSize());
+        paginationResponseDto.setPage(pageable.getPageNumber());
+
+        return paginationResponseDto;
+    }
+
+    @Override
     public List<CustomerDto> searchCustomer(String query) {
         if (query == null || query.trim().isEmpty()) {
             return new ArrayList<>();
