@@ -4,8 +4,12 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.Brand;
+import com.ust.pos.model.Shelf;
 import com.ust.pos.shelf.service.ShelfService;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,9 +25,16 @@ public class ShelfControllerApi extends BaseController {
     }
 
     @PostMapping("/list")
-    public WsDto<ShelfDto> list(@RequestBody PaginationDto pagination) {
-        Pageable pageable = getPageable(pagination.getPage(), pagination.getSizePerPage(),
-                pagination.getSortDirection(), pagination.getSortfield());
+    public WsDto<ShelfDto> list(@RequestBody PaginationDto paginationDto) {
+        Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
+                paginationDto.getSortDirection(), paginationDto.getSortfield());
+        if (StringUtils.isNotEmpty(paginationDto.getKeyword())) {
+            Specification<Shelf> example = buildGlobalSearchSpec(Shelf.class, paginationDto.getKeyword());
+            if (example != null) {
+                return shelfService.findAll(example, pageable);
+            }
+        }
+
         return shelfService.findAll(pageable);
     }
 

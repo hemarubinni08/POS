@@ -2,17 +2,16 @@ package com.ust.pos.node.service.impl;
 
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.NodeDto;
+import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Node;
-import com.ust.pos.model.NodeRepository;
-import com.ust.pos.model.User;
-import com.ust.pos.model.UserRepository;
+import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -75,11 +74,8 @@ public class NodeServiceImpl extends BaseService implements NodeService {
         Node node = modelMapper.map(nodeDto, Node.class);
         node.setIdentifier(identifier);
         node.setDeleted(false);
-
         setCreatedDetails(node);
-
         nodeRepository.save(node);
-
         nodeDto.setSuccess(true);
         nodeDto.setMessage("Node saved successfully");
 
@@ -98,11 +94,8 @@ public class NodeServiceImpl extends BaseService implements NodeService {
         }
 
         modelMapper.map(nodeDto, node);
-
         setModifiedDetails(node);
-
         nodeRepository.save(node);
-
         nodeDto.setSuccess(true);
         nodeDto.setMessage("Node updated successfully");
 
@@ -119,9 +112,7 @@ public class NodeServiceImpl extends BaseService implements NodeService {
         }
 
         node.setDeleted(true);
-
         setModifiedDetails(node);
-
         nodeRepository.save(node);
     }
 
@@ -129,7 +120,6 @@ public class NodeServiceImpl extends BaseService implements NodeService {
     public WsDto<NodeDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<NodeDto>>() {}.getType();
-
         Page<Node> page = nodeRepository.findByDeletedFalse(pageable);
 
         WsDto<NodeDto> ws = new WsDto<>();
@@ -153,7 +143,6 @@ public class NodeServiceImpl extends BaseService implements NodeService {
 
         org.springframework.security.core.userdetails.User principal =
                 (org.springframework.security.core.userdetails.User) auth.getPrincipal();
-
         User currentUser = userRepository.findByUsername(principal.getUsername());
 
         if (currentUser == null || currentUser.getRoles() == null) {
@@ -161,7 +150,6 @@ public class NodeServiceImpl extends BaseService implements NodeService {
         }
 
         List<Node> allNodes = nodeRepository.findByDeletedFalse();
-
         Set<String> allowedNodes = new HashSet<>();
 
         for (String role : currentUser.getRoles()) {
@@ -184,5 +172,22 @@ public class NodeServiceImpl extends BaseService implements NodeService {
         }
 
         return result;
+    }
+
+    @Override
+    public WsDto<NodeDto> findAll(Specification<Node> example, Pageable pageable) {
+
+        Type listType = new TypeToken<List<NodeDto>>() {
+        }.getType();
+        Page<Node> page = nodeRepository.findAll(example, pageable);
+
+        WsDto<NodeDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(modelMapper.map(page.getContent(), listType));
+        wsDto.setTotalRecords(page.getTotalElements());
+        wsDto.setTotalPages(page.getTotalPages());
+        wsDto.setSizePerPage(pageable.getPageSize());
+        wsDto.setPage(pageable.getPageNumber());
+
+        return wsDto;
     }
 }

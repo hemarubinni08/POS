@@ -2,9 +2,11 @@ package com.ust.pos.model;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -25,4 +27,6 @@ public interface PriceRepository extends JpaRepository<Price, Long> {
         AND p.priceType IN ('Selling Price', 'Cost Price', 'MRP')
     """)
     long countActivePriceTypes(@Param("productId") String productId);
+
+    Page<Price> findAll(Specification example, Pageable pageable);
 }

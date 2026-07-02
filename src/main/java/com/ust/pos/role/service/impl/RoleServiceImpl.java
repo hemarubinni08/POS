@@ -2,7 +2,9 @@ package com.ust.pos.role.service.impl;
 
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.RoleDto;
+import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.Role;
 import com.ust.pos.model.Role;
 import com.ust.pos.model.RoleRepository;
 import com.ust.pos.role.service.RoleService;
@@ -11,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -50,8 +53,7 @@ public class RoleServiceImpl extends BaseService implements RoleService {
     @Override
     public RoleDto save(RoleDto roleDto) {
 
-        if (roleDto.getIdentifier() == null ||
-                roleDto.getIdentifier().trim().isEmpty()) {
+        if (roleDto.getIdentifier() == null ||roleDto.getIdentifier().trim().isEmpty()) {
 
             roleDto.setSuccess(false);
             roleDto.setMessage("Role identifier is required");
@@ -62,8 +64,7 @@ public class RoleServiceImpl extends BaseService implements RoleService {
 
         Role existingRole = roleRepository.findByIdentifier(identifier);
 
-        if (existingRole != null &&
-                !Boolean.TRUE.equals(existingRole.getDeleted())) {
+        if (existingRole != null &&!Boolean.TRUE.equals(existingRole.getDeleted())) {
 
             roleDto.setSuccess(false);
             roleDto.setMessage("Role already exists");
@@ -74,11 +75,8 @@ public class RoleServiceImpl extends BaseService implements RoleService {
 
         role.setIdentifier(identifier);
         role.setDeleted(false);
-
         setCreatedDetails(role);
-
         roleRepository.save(role);
-
         roleDto.setSuccess(true);
         roleDto.setMessage("Role saved successfully");
 
@@ -88,11 +86,9 @@ public class RoleServiceImpl extends BaseService implements RoleService {
     @Override
     public RoleDto update(RoleDto roleDto) {
 
-        Role existingRole =
-                roleRepository.findByIdentifier(roleDto.getIdentifier());
+        Role existingRole =roleRepository.findByIdentifier(roleDto.getIdentifier());
 
-        if (existingRole == null ||
-                Boolean.TRUE.equals(existingRole.getDeleted())) {
+        if (existingRole == null ||Boolean.TRUE.equals(existingRole.getDeleted())) {
 
             roleDto.setSuccess(false);
             roleDto.setMessage("Role not found");
@@ -100,11 +96,8 @@ public class RoleServiceImpl extends BaseService implements RoleService {
         }
 
         modelMapper.map(roleDto, existingRole);
-
         setModifiedDetails(existingRole);
-
         roleRepository.save(existingRole);
-
         roleDto.setSuccess(true);
         roleDto.setMessage("Role updated successfully");
 
@@ -116,15 +109,12 @@ public class RoleServiceImpl extends BaseService implements RoleService {
 
         Role role = roleRepository.findByIdentifier(identifier);
 
-        if (role == null ||
-                Boolean.TRUE.equals(role.getDeleted())) {
+        if (role == null ||Boolean.TRUE.equals(role.getDeleted())) {
             return;
         }
 
         role.setDeleted(true);
-
         setModifiedDetails(role);
-
         roleRepository.save(role);
     }
 
@@ -134,19 +124,32 @@ public class RoleServiceImpl extends BaseService implements RoleService {
         Type listType = new TypeToken<List<RoleDto>>() {
         }.getType();
 
-        Page<Role> page =
-                roleRepository.findByDeletedFalse(pageable);
+        Page<Role> page =roleRepository.findByDeletedFalse(pageable);
 
         WsDto<RoleDto> ws = new WsDto<>();
-
-        ws.setDtoList(
-                modelMapper.map(page.getContent(), listType)
-        );
+        ws.setDtoList(modelMapper.map(page.getContent(), listType));
         ws.setTotalRecords(page.getTotalElements());
         ws.setTotalPages(page.getTotalPages());
         ws.setPage(pageable.getPageNumber());
         ws.setSizePerPage(pageable.getPageSize());
 
         return ws;
+    }
+
+    @Override
+    public WsDto<RoleDto> findAll(Specification<Role> example, Pageable pageable) {
+
+        Type listType = new TypeToken<List<RoleDto>>() {
+        }.getType();
+        Page<Role> page = roleRepository.findAll(example, pageable);
+
+        WsDto<RoleDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(modelMapper.map(page.getContent(), listType));
+        wsDto.setTotalRecords(page.getTotalElements());
+        wsDto.setTotalPages(page.getTotalPages());
+        wsDto.setSizePerPage(pageable.getPageSize());
+        wsDto.setPage(pageable.getPageNumber());
+
+        return wsDto;
     }
 }

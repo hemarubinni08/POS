@@ -2,7 +2,9 @@ package com.ust.pos.rack.service.impl;
 
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.RackDto;
+import com.ust.pos.dto.RackDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.Rack;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
 import com.ust.pos.rack.service.RackService;
@@ -11,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -42,7 +45,6 @@ public class RackServiceImpl extends BaseService implements RackService {
         }
 
         String name = rackDto.getName().trim();
-
         Rack existing = rackRepository.findByIdentifier(name);
 
         if (existing != null) {
@@ -53,7 +55,6 @@ public class RackServiceImpl extends BaseService implements RackService {
         }
 
         Rack rack = modelMapper.map(rackDto, Rack.class);
-
         rack.setName(name);
         rack.setIdentifier(name);
 
@@ -62,13 +63,10 @@ public class RackServiceImpl extends BaseService implements RackService {
         }
 
         setCreatedDetails(rack);
-
         Rack saved = rackRepository.save(rack);
-
         RackDto response = modelMapper.map(saved, RackDto.class);
         response.setSuccess(true);
         response.setMessage("Rack saved successfully");
-
         return response;
     }
 
@@ -110,11 +108,9 @@ public class RackServiceImpl extends BaseService implements RackService {
         setModifiedDetails(rack);
 
         Rack saved = rackRepository.save(rack);
-
         RackDto response = modelMapper.map(saved, RackDto.class);
         response.setSuccess(true);
         response.setMessage("Rack updated successfully");
-
         return response;
     }
 
@@ -166,13 +162,9 @@ public class RackServiceImpl extends BaseService implements RackService {
     public void delete(String identifier) {
 
         Rack rack = rackRepository.findByIdentifier(identifier);
-
         if (rack == null) return;
-
         rack.setDeleted(true);
-
         setModifiedDetails(rack);
-
         rackRepository.save(rack);
     }
 
@@ -189,15 +181,28 @@ public class RackServiceImpl extends BaseService implements RackService {
         }
 
         rack.setStatus(!Boolean.TRUE.equals(rack.getStatus()));
-
         setModifiedDetails(rack);
-
         Rack saved = rackRepository.save(rack);
-
         RackDto dto = modelMapper.map(saved, RackDto.class);
         dto.setSuccess(true);
         dto.setMessage("Status updated successfully");
-
         return dto;
+    }
+
+    @Override
+    public WsDto<RackDto> findAll(Specification<Rack> example, Pageable pageable) {
+
+        Type listType = new TypeToken<List<RackDto>>() {
+        }.getType();
+        Page<Rack> page = rackRepository.findAll(example, pageable);
+
+        WsDto<RackDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(modelMapper.map(page.getContent(), listType));
+        wsDto.setTotalRecords(page.getTotalElements());
+        wsDto.setTotalPages(page.getTotalPages());
+        wsDto.setSizePerPage(pageable.getPageSize());
+        wsDto.setPage(pageable.getPageNumber());
+
+        return wsDto;
     }
 }

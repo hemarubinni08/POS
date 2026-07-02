@@ -2,7 +2,9 @@ package com.ust.pos.shelf.service.impl;
 
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.ShelfDto;
+import com.ust.pos.dto.ShelfDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.Shelf;
 import com.ust.pos.model.Shelf;
 import com.ust.pos.model.ShelfRepository;
 import com.ust.pos.shelf.service.ShelfService;
@@ -11,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -41,7 +44,6 @@ public class ShelfServiceImpl extends BaseService implements ShelfService {
         }
 
         String name = shelfDto.getName().trim();
-
         Shelf existing = shelfRepository.findByIdentifier(name);
 
         if (existing != null) {
@@ -51,7 +53,6 @@ public class ShelfServiceImpl extends BaseService implements ShelfService {
         }
 
         Shelf shelf = modelMapper.map(shelfDto, Shelf.class);
-
         shelf.setName(name);
         shelf.setIdentifier(name);
 
@@ -60,13 +61,10 @@ public class ShelfServiceImpl extends BaseService implements ShelfService {
         }
 
         setCreatedDetails(shelf);
-
         shelfRepository.save(shelf);
-
         ShelfDto response = modelMapper.map(shelf, ShelfDto.class);
         response.setSuccess(true);
         response.setMessage("Shelf saved successfully");
-
         return response;
     }
 
@@ -102,13 +100,10 @@ public class ShelfServiceImpl extends BaseService implements ShelfService {
         }
 
         setModifiedDetails(shelf);
-
         shelfRepository.save(shelf);
-
         ShelfDto response = modelMapper.map(shelf, ShelfDto.class);
         response.setSuccess(true);
         response.setMessage("Shelf updated successfully");
-
         return response;
     }
 
@@ -131,16 +126,13 @@ public class ShelfServiceImpl extends BaseService implements ShelfService {
     public WsDto<ShelfDto> findAll(Pageable pageable) {
 
         Type listType = new TypeToken<List<ShelfDto>>() {}.getType();
-
         Page<Shelf> shelfPage = shelfRepository.findByDeletedFalse(pageable);
-
         WsDto<ShelfDto> ws = new WsDto<>();
         ws.setDtoList(modelMapper.map(shelfPage.getContent(), listType));
         ws.setTotalRecords(shelfPage.getTotalElements());
         ws.setTotalPages(shelfPage.getTotalPages());
         ws.setSizePerPage(pageable.getPageSize());
         ws.setPage(pageable.getPageNumber());
-
         return ws;
     }
 
@@ -161,9 +153,7 @@ public class ShelfServiceImpl extends BaseService implements ShelfService {
         if (shelf == null) return;
 
         shelf.setDeleted(true);
-
         setModifiedDetails(shelf);
-
         shelfRepository.save(shelf);
     }
 
@@ -180,15 +170,28 @@ public class ShelfServiceImpl extends BaseService implements ShelfService {
         }
 
         shelf.setStatus(!Boolean.TRUE.equals(shelf.getStatus()));
-
         setModifiedDetails(shelf);
-
         Shelf saved = shelfRepository.save(shelf);
-
         ShelfDto response = modelMapper.map(saved, ShelfDto.class);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
-
         return response;
+    }
+
+    @Override
+    public WsDto<ShelfDto> findAll(Specification<Shelf> example, Pageable pageable) {
+
+        Type listType = new TypeToken<List<ShelfDto>>() {
+        }.getType();
+        Page<Shelf> page = shelfRepository.findAll(example, pageable);
+
+        WsDto<ShelfDto> wsDto = new WsDto<>();
+        wsDto.setDtoList(modelMapper.map(page.getContent(), listType));
+        wsDto.setTotalRecords(page.getTotalElements());
+        wsDto.setTotalPages(page.getTotalPages());
+        wsDto.setSizePerPage(pageable.getPageSize());
+        wsDto.setPage(pageable.getPageNumber());
+
+        return wsDto;
     }
 }
