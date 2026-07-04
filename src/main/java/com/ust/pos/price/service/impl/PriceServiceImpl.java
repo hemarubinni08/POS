@@ -2,9 +2,8 @@ package com.ust.pos.price.service.impl;
 
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.PriceDto;
-import com.ust.pos.dto.PriceDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Price;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.Price;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.price.service.PriceService;
@@ -24,11 +23,13 @@ import java.util.List;
 @Transactional
 public class PriceServiceImpl extends BaseService implements PriceService {
 
+    public static final String PRICE_NOT_FOUND = "Price not found";
+
     private final PriceRepository priceRepository;
     private final ProductService productService;
     private final ModelMapper modelMapper;
 
-    public PriceServiceImpl(PriceRepository priceRepository,ProductService productService,
+    public PriceServiceImpl(PriceRepository priceRepository, ProductService productService,
                             ModelMapper modelMapper) {
         this.priceRepository = priceRepository;
         this.productService = productService;
@@ -38,7 +39,7 @@ public class PriceServiceImpl extends BaseService implements PriceService {
     @Override
     public PriceDto save(PriceDto priceDto) {
 
-        String identifier =priceDto.getProductId() + "_" +priceDto.getPriceType().replace(" ", "_");
+        String identifier = priceDto.getProductId() + "_" + priceDto.getPriceType().replace(" ", "_");
 
         Price existing = priceRepository.findByIdentifier(identifier);
 
@@ -69,9 +70,8 @@ public class PriceServiceImpl extends BaseService implements PriceService {
         Price existing = priceRepository.findByIdentifier(priceDto.getIdentifier());
 
         if (existing == null || Boolean.TRUE.equals(existing.getDeleted())) {
-            priceDto.setSuccess(false);
-            priceDto.setMessage("Price not found");
-            return priceDto;
+            throw new ResourceNotFoundException(
+                    "Price with identifier '" + priceDto.getIdentifier() + "' not found");
         }
 
         priceDto.setProductName(productService.findByIdentifier(priceDto.getProductId()).getProductName());
@@ -83,12 +83,13 @@ public class PriceServiceImpl extends BaseService implements PriceService {
 
         setModifiedDetails(existing);
 
-        priceRepository.save(existing);
+        Price saved = priceRepository.save(existing);
 
-        priceDto.setSuccess(true);
-        priceDto.setMessage("Price updated successfully");
+        PriceDto result = modelMapper.map(saved, PriceDto.class);
+        result.setSuccess(true);
+        result.setMessage("Price updated successfully");
 
-        return priceDto;
+        return result;
     }
 
     @Override
@@ -97,10 +98,8 @@ public class PriceServiceImpl extends BaseService implements PriceService {
         Price price = priceRepository.findByIdentifier(identifier);
 
         if (price == null || Boolean.TRUE.equals(price.getDeleted())) {
-            PriceDto dto = new PriceDto();
-            dto.setSuccess(false);
-            dto.setMessage("Price not found");
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Price with identifier '" + identifier + "' not found");
         }
 
         PriceDto dto = modelMapper.map(price, PriceDto.class);
@@ -131,7 +130,10 @@ public class PriceServiceImpl extends BaseService implements PriceService {
 
         Price price = priceRepository.findByIdentifier(identifier);
 
-        if (price == null) return;
+        if (price == null || Boolean.TRUE.equals(price.getDeleted())) {
+            throw new ResourceNotFoundException(
+                    "Price with identifier '" + identifier + "' not found");
+        }
 
         price.setDeleted(true);
         setModifiedDetails(price);

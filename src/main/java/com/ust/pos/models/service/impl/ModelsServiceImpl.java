@@ -2,9 +2,8 @@ package com.ust.pos.models.service.impl;
 
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.ModelsDto;
-import com.ust.pos.dto.ModelsDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Models;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.Models;
 import com.ust.pos.model.ModelsRepository;
 import com.ust.pos.models.service.ModelsService;
@@ -27,7 +26,7 @@ public class ModelsServiceImpl extends BaseService implements ModelsService {
     private final ModelsRepository modelsRepository;
     private final ModelMapper modelMapper;
 
-    public ModelsServiceImpl(ModelsRepository modelsRepository,ModelMapper modelMapper) {
+    public ModelsServiceImpl(ModelsRepository modelsRepository, ModelMapper modelMapper) {
         this.modelsRepository = modelsRepository;
         this.modelMapper = modelMapper;
     }
@@ -73,9 +72,8 @@ public class ModelsServiceImpl extends BaseService implements ModelsService {
         Models model = modelsRepository.findByIdentifier(dto.getIdentifier());
 
         if (model == null || Boolean.TRUE.equals(model.getDeleted())) {
-            dto.setSuccess(false);
-            dto.setMessage(MODEL_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Model with identifier '" + dto.getIdentifier() + "' not found");
         }
 
         if (dto.getModelName() != null && !dto.getModelName().trim().isEmpty()) {
@@ -86,12 +84,13 @@ public class ModelsServiceImpl extends BaseService implements ModelsService {
 
         setModifiedDetails(model);
 
-        modelsRepository.save(model);
+        Models saved = modelsRepository.save(model);
 
-        dto.setSuccess(true);
-        dto.setMessage("Model updated successfully");
+        ModelsDto result = modelMapper.map(saved, ModelsDto.class);
+        result.setSuccess(true);
+        result.setMessage("Model updated successfully");
 
-        return dto;
+        return result;
     }
 
     @Override
@@ -100,10 +99,8 @@ public class ModelsServiceImpl extends BaseService implements ModelsService {
         Models model = modelsRepository.findByIdentifier(identifier);
 
         if (model == null || Boolean.TRUE.equals(model.getDeleted())) {
-            ModelsDto dto = new ModelsDto();
-            dto.setSuccess(false);
-            dto.setMessage(MODEL_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Model with identifier '" + identifier + "' not found");
         }
 
         return modelMapper.map(model, ModelsDto.class);
@@ -131,7 +128,10 @@ public class ModelsServiceImpl extends BaseService implements ModelsService {
 
         Models model = modelsRepository.findByIdentifier(identifier);
 
-        if (model == null) return;
+        if (model == null || Boolean.TRUE.equals(model.getDeleted())) {
+            throw new ResourceNotFoundException(
+                    "Model with identifier '" + identifier + "' not found");
+        }
 
         model.setDeleted(true);
         setModifiedDetails(model);
@@ -145,10 +145,8 @@ public class ModelsServiceImpl extends BaseService implements ModelsService {
         Models model = modelsRepository.findByIdentifier(identifier);
 
         if (model == null || Boolean.TRUE.equals(model.getDeleted())) {
-            ModelsDto dto = new ModelsDto();
-            dto.setSuccess(false);
-            dto.setMessage(MODEL_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Model with identifier '" + identifier + "' not found");
         }
 
         model.setStatus(!Boolean.TRUE.equals(model.getStatus()));

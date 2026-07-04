@@ -2,8 +2,8 @@ package com.ust.pos.node.service.impl;
 
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.NodeDto;
-import com.ust.pos.dto.NodeDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.*;
 import com.ust.pos.node.service.NodeService;
 import jakarta.transaction.Transactional;
@@ -30,7 +30,7 @@ public class NodeServiceImpl extends BaseService implements NodeService {
     private final NodeRepository nodeRepository;
     private final ModelMapper modelMapper;
 
-    public NodeServiceImpl(UserRepository userRepository,NodeRepository nodeRepository,
+    public NodeServiceImpl(UserRepository userRepository, NodeRepository nodeRepository,
                            ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.nodeRepository = nodeRepository;
@@ -43,10 +43,8 @@ public class NodeServiceImpl extends BaseService implements NodeService {
         Node node = nodeRepository.findByIdentifierAndDeletedFalse(identifier);
 
         if (node == null) {
-            NodeDto dto = new NodeDto();
-            dto.setSuccess(false);
-            dto.setMessage("Node not found");
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Node with identifier '" + identifier + "' not found");
         }
 
         return modelMapper.map(node, NodeDto.class);
@@ -88,18 +86,19 @@ public class NodeServiceImpl extends BaseService implements NodeService {
         Node node = nodeRepository.findByIdentifierAndDeletedFalse(nodeDto.getIdentifier());
 
         if (node == null) {
-            nodeDto.setSuccess(false);
-            nodeDto.setMessage("Node not found");
-            return nodeDto;
+            throw new ResourceNotFoundException(
+                    "Node with identifier '" + nodeDto.getIdentifier() + "' not found");
         }
 
         modelMapper.map(nodeDto, node);
         setModifiedDetails(node);
-        nodeRepository.save(node);
-        nodeDto.setSuccess(true);
-        nodeDto.setMessage("Node updated successfully");
+        Node saved = nodeRepository.save(node);
 
-        return nodeDto;
+        NodeDto result = modelMapper.map(saved, NodeDto.class);
+        result.setSuccess(true);
+        result.setMessage("Node updated successfully");
+
+        return result;
     }
 
     @Override
@@ -108,7 +107,8 @@ public class NodeServiceImpl extends BaseService implements NodeService {
         Node node = nodeRepository.findByIdentifierAndDeletedFalse(identifier);
 
         if (node == null) {
-            return;
+            throw new ResourceNotFoundException(
+                    "Node with identifier '" + identifier + "' not found");
         }
 
         node.setDeleted(true);

@@ -2,9 +2,8 @@ package com.ust.pos.rack.service.impl;
 
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.RackDto;
-import com.ust.pos.dto.RackDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Rack;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
 import com.ust.pos.rack.service.RackService;
@@ -76,19 +75,14 @@ public class RackServiceImpl extends BaseService implements RackService {
         String identifier = rackDto.getIdentifier();
 
         if (identifier == null || identifier.trim().isEmpty()) {
-            RackDto dto = new RackDto();
-            dto.setSuccess(false);
-            dto.setMessage(RACK_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(RACK_NOT_FOUND);
         }
 
         Rack rack = rackRepository.findByIdentifier(identifier.trim());
 
         if (rack == null || Boolean.TRUE.equals(rack.getDeleted())) {
-            RackDto dto = new RackDto();
-            dto.setSuccess(false);
-            dto.setMessage(RACK_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Rack with identifier '" + identifier + "' not found");
         }
 
         if (rackDto.getName() != null && !rackDto.getName().trim().isEmpty()) {
@@ -120,10 +114,8 @@ public class RackServiceImpl extends BaseService implements RackService {
         Rack rack = rackRepository.findByIdentifier(identifier);
 
         if (rack == null || Boolean.TRUE.equals(rack.getDeleted())) {
-            RackDto dto = new RackDto();
-            dto.setSuccess(false);
-            dto.setMessage(RACK_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Rack with identifier '" + identifier + "' not found");
         }
 
         RackDto dto = modelMapper.map(rack, RackDto.class);
@@ -162,7 +154,12 @@ public class RackServiceImpl extends BaseService implements RackService {
     public void delete(String identifier) {
 
         Rack rack = rackRepository.findByIdentifier(identifier);
-        if (rack == null) return;
+
+        if (rack == null || Boolean.TRUE.equals(rack.getDeleted())) {
+            throw new ResourceNotFoundException(
+                    "Rack with identifier '" + identifier + "' not found");
+        }
+
         rack.setDeleted(true);
         setModifiedDetails(rack);
         rackRepository.save(rack);
@@ -174,10 +171,8 @@ public class RackServiceImpl extends BaseService implements RackService {
         Rack rack = rackRepository.findByIdentifier(identifier);
 
         if (rack == null || Boolean.TRUE.equals(rack.getDeleted())) {
-            RackDto dto = new RackDto();
-            dto.setSuccess(false);
-            dto.setMessage(RACK_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Rack with identifier '" + identifier + "' not found");
         }
 
         rack.setStatus(!Boolean.TRUE.equals(rack.getStatus()));

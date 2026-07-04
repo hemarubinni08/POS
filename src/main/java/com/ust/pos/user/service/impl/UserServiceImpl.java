@@ -2,9 +2,8 @@ package com.ust.pos.user.service.impl;
 
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.UserDto;
-import com.ust.pos.dto.UserDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.User;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.User;
 import com.ust.pos.model.UserRepository;
 import com.ust.pos.user.service.UserService;
@@ -79,17 +78,13 @@ public class UserServiceImpl extends BaseService implements UserService {
         Optional<User> userOptional = userRepository.findById(userDto.getId());
 
         if (userOptional.isEmpty()) {
-            userDto.setMessage("User not found");
-            userDto.setSuccess(false);
-            return userDto;
+            throw new ResourceNotFoundException("User not found");
         }
 
         User existingUser = userOptional.get();
 
         if (Boolean.TRUE.equals(existingUser.getDeleted())) {
-            userDto.setMessage("User is deleted");
-            userDto.setSuccess(false);
-            return userDto;
+            throw new ResourceNotFoundException("User with id '" + userDto.getId() + "' is deleted");
         }
 
         if (!userDto.getUsername().equalsIgnoreCase(existingUser.getUsername())
@@ -118,12 +113,13 @@ public class UserServiceImpl extends BaseService implements UserService {
 
         User user = userRepository.findByUsername(username);
 
-        if (user == null) return;
+        if (user == null || Boolean.TRUE.equals(user.getDeleted())) {
+            throw new ResourceNotFoundException(
+                    "User with username '" + username + "' not found");
+        }
 
         user.setDeleted(true);
-
         setModifiedDetails(user);
-
         userRepository.save(user);
     }
 

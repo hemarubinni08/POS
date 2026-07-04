@@ -2,10 +2,8 @@ package com.ust.pos.warehouse.service.impl;
 
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.WarehouseDto;
-import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.exception.ResourceNotFoundException;
-import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.WarehouseService;
@@ -89,42 +87,31 @@ public class WarehouseServiceImpl extends BaseService implements WarehouseServic
         String identifier = warehouseDto.getIdentifier();
 
         if (identifier == null || identifier.trim().isEmpty()) {
-            warehouseDto.setSuccess(false);
-            warehouseDto.setMessage("Invalid identifier");
-            return warehouseDto;
+            throw new ResourceNotFoundException("Invalid identifier");
         }
 
         Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
 
-        if (warehouse == null) {
-            warehouseDto.setSuccess(false);
-            warehouseDto.setMessage(WAREHOUSE_NOT_FOUND);
-            return warehouseDto;
-        }
-
-        if (Boolean.TRUE.equals(warehouse.getDeleted())) {
-            warehouseDto.setSuccess(false);
-            warehouseDto.setMessage("Warehouse is soft deleted");
-            return warehouseDto;
+        if (warehouse == null || Boolean.TRUE.equals(warehouse.getDeleted())) {
+            throw new ResourceNotFoundException(
+                    "Warehouse with identifier '" + identifier + "' not found");
         }
 
         warehouse.setWarehouseName(warehouseDto.getWarehouseName());
         warehouse.setCountry(warehouseDto.getCountry());
         warehouse.setState(warehouseDto.getState());
         warehouse.setCityName(warehouseDto.getCityName());
-
         warehouse.setLocation(warehouseDto.getLocation());
-
         warehouse.setStatus(Boolean.TRUE.equals(warehouseDto.getStatus()));
 
         setModifiedDetails(warehouse);
+        Warehouse saved = warehouseRepository.save(warehouse);
 
-        warehouseRepository.save(warehouse);
+        WarehouseDto result = modelMapper.map(saved, WarehouseDto.class);
+        result.setSuccess(true);
+        result.setMessage("Warehouse updated successfully");
 
-        warehouseDto.setSuccess(true);
-        warehouseDto.setMessage("Warehouse updated successfully");
-
-        return warehouseDto;
+        return result;
     }
 
     @Override
@@ -132,11 +119,13 @@ public class WarehouseServiceImpl extends BaseService implements WarehouseServic
 
         Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
 
-        if (warehouse == null) return;
+        if (warehouse == null || Boolean.TRUE.equals(warehouse.getDeleted())) {
+            throw new ResourceNotFoundException(
+                    "Warehouse with identifier '" + identifier + "' not found");
+        }
 
         softDelete(warehouse);
         setModifiedDetails(warehouse);
-
         warehouseRepository.save(warehouse);
     }
 
@@ -175,27 +164,16 @@ public class WarehouseServiceImpl extends BaseService implements WarehouseServic
 
         Warehouse warehouse = warehouseRepository.findByIdentifier(identifier);
 
-        WarehouseDto response = new WarehouseDto();
-
-        if (warehouse == null) {
-            response.setSuccess(false);
-            response.setMessage(WAREHOUSE_NOT_FOUND);
-            return response;
-        }
-
-        if (Boolean.TRUE.equals(warehouse.getDeleted())) {
-            response.setSuccess(false);
-            response.setMessage("Warehouse is soft deleted");
-            return response;
+        if (warehouse == null || Boolean.TRUE.equals(warehouse.getDeleted())) {
+            throw new ResourceNotFoundException(
+                    "Warehouse with identifier '" + identifier + "' not found");
         }
 
         warehouse.setStatus(!Boolean.TRUE.equals(warehouse.getStatus()));
-
         setModifiedDetails(warehouse);
-
         warehouseRepository.save(warehouse);
 
-        response = modelMapper.map(warehouse, WarehouseDto.class);
+        WarehouseDto response = modelMapper.map(warehouse, WarehouseDto.class);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
 

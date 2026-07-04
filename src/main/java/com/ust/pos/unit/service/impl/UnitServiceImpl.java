@@ -2,9 +2,8 @@ package com.ust.pos.unit.service.impl;
 
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.UnitDto;
-import com.ust.pos.dto.UnitDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Unit;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.Unit;
 import com.ust.pos.model.UnitRepository;
 import com.ust.pos.unit.service.UnitService;
@@ -80,33 +79,24 @@ public class UnitServiceImpl extends BaseService implements UnitService {
     public UnitDto update(UnitDto unitDto) {
         String identifier = unitDto.getIdentifier();
         if (identifier == null || identifier.trim().isEmpty()) {
-            unitDto.setSuccess(false);
-            unitDto.setMessage("Invalid identifier");
-            return unitDto;
+            throw new ResourceNotFoundException("Invalid identifier");
         }
 
         Unit unit = unitRepository.findByIdentifier(identifier);
-        if (unit == null) {
-            unitDto.setSuccess(false);
-            unitDto.setMessage(UNIT_NOT_FOUND);
-            return unitDto;
-        }
 
-        if (Boolean.TRUE.equals(unit.getDeleted())) {
-            unitDto.setSuccess(false);
-            unitDto.setMessage(
-                    UNIT_WITH_IDENTIFIER + identifier +
-                            HAS_BEEN_SOFT_DELETED_ROLLBACK_BY_CHANGING_STATUS
-            );
-            return unitDto;
+        if (unit == null || Boolean.TRUE.equals(unit.getDeleted())) {
+            throw new ResourceNotFoundException(
+                    UNIT_WITH_IDENTIFIER + identifier + "' not found");
         }
 
         unit.setStatus(Boolean.TRUE.equals(unitDto.getStatus()));
         setModifiedDetails(unit);
-        unitRepository.save(unit);
-        unitDto.setSuccess(true);
-        unitDto.setMessage("Unit updated successfully");
-        return unitDto;
+        Unit saved = unitRepository.save(unit);
+
+        UnitDto result = modelMapper.map(saved, UnitDto.class);
+        result.setSuccess(true);
+        result.setMessage("Unit updated successfully");
+        return result;
     }
 
     @Override
@@ -114,8 +104,9 @@ public class UnitServiceImpl extends BaseService implements UnitService {
 
         Unit unit = unitRepository.findByIdentifier(identifier);
 
-        if (unit == null) {
-            return;
+        if (unit == null || Boolean.TRUE.equals(unit.getDeleted())) {
+            throw new ResourceNotFoundException(
+                    "Unit with identifier '" + identifier + "' not found");
         }
 
         softDelete(unit);
@@ -145,37 +136,25 @@ public class UnitServiceImpl extends BaseService implements UnitService {
     public UnitDto findByIdentifier(String identifier) {
         Unit unit = unitRepository.findByIdentifier(identifier);
         if (unit == null || Boolean.TRUE.equals(unit.getDeleted())) {
-            UnitDto dto = new UnitDto();
-            dto.setSuccess(false);
-            dto.setMessage(UNIT_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Unit with identifier '" + identifier + "' not found");
         }
         return modelMapper.map(unit, UnitDto.class);
     }
 
     @Override
     public UnitDto toggleStatus(String identifier) {
-        UnitDto response = new UnitDto();
         Unit unit = unitRepository.findByIdentifier(identifier);
-        if (unit == null) {
-            response.setSuccess(false);
-            response.setMessage(UNIT_NOT_FOUND);
-            return response;
-        }
 
-        if (Boolean.TRUE.equals(unit.getDeleted())) {
-            response.setSuccess(false);
-            response.setMessage(
-                    UNIT_WITH_IDENTIFIER + identifier +
-                            HAS_BEEN_SOFT_DELETED_ROLLBACK_BY_CHANGING_STATUS
-            );
-            return response;
+        if (unit == null || Boolean.TRUE.equals(unit.getDeleted())) {
+            throw new ResourceNotFoundException(
+                    "Unit with identifier '" + identifier + "' not found");
         }
 
         unit.setStatus(!Boolean.TRUE.equals(unit.getStatus()));
         setModifiedDetails(unit);
-        unitRepository.save(unit);
-        response = modelMapper.map(unit, UnitDto.class);
+        Unit saved = unitRepository.save(unit);
+        UnitDto response = modelMapper.map(saved, UnitDto.class);
         response.setSuccess(true);
         response.setMessage("Status updated successfully");
         return response;

@@ -2,9 +2,8 @@ package com.ust.pos.product.service.impl;
 
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.ProductDto;
-import com.ust.pos.dto.ProductDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Product;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.PriceRepository;
 import com.ust.pos.model.Product;
 import com.ust.pos.model.ProductRepository;
@@ -30,7 +29,7 @@ public class ProductServiceImpl extends BaseService implements ProductService {
     private final PriceRepository priceRepository;
     private final ModelMapper modelMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository,PriceRepository priceRepository,
+    public ProductServiceImpl(ProductRepository productRepository, PriceRepository priceRepository,
                               ModelMapper modelMapper) {
         this.productRepository = productRepository;
         this.priceRepository = priceRepository;
@@ -67,10 +66,8 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         Product product = productRepository.findByIdentifier(productDto.getIdentifier());
 
         if (product == null || Boolean.TRUE.equals(product.getDeleted())) {
-            ProductDto dto = new ProductDto();
-            dto.setSuccess(false);
-            dto.setMessage(PRODUCT_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Product with identifier '" + productDto.getIdentifier() + "' not found");
         }
 
         modelMapper.map(productDto, product);
@@ -90,10 +87,8 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         Product product = productRepository.findByIdentifier(identifier);
 
         if (product == null || Boolean.TRUE.equals(product.getDeleted())) {
-            ProductDto dto = new ProductDto();
-            dto.setSuccess(false);
-            dto.setMessage(PRODUCT_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Product with identifier '" + identifier + "' not found");
         }
 
         return modelMapper.map(product, ProductDto.class);
@@ -121,7 +116,10 @@ public class ProductServiceImpl extends BaseService implements ProductService {
 
         Product product = productRepository.findByIdentifier(identifier);
 
-        if (product == null) return;
+        if (product == null || Boolean.TRUE.equals(product.getDeleted())) {
+            throw new ResourceNotFoundException(
+                    "Product with identifier '" + identifier + "' not found");
+        }
 
         product.setDeleted(true);
         setModifiedDetails(product);
@@ -143,10 +141,8 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         Product product = productRepository.findByIdentifier(identifier);
 
         if (product == null || Boolean.TRUE.equals(product.getDeleted())) {
-            ProductDto dto = new ProductDto();
-            dto.setSuccess(false);
-            dto.setMessage(PRODUCT_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Product with identifier '" + identifier + "' not found");
         }
 
         product.setStatus(!Boolean.TRUE.equals(product.getStatus()));

@@ -6,6 +6,7 @@ import com.ust.pos.customer.service.CustomerService;
 import com.ust.pos.dto.AddressDto;
 import com.ust.pos.dto.CustomerDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.Customer;
 import com.ust.pos.model.CustomerRepository;
 import jakarta.transaction.Transactional;
@@ -60,10 +61,8 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         Customer customer = customerRepository.findByIdentifier(identifier);
 
         if (customer == null || Boolean.TRUE.equals(customer.getDeleted())) {
-            CustomerDto dto = new CustomerDto();
-            dto.setSuccess(false);
-            dto.setMessage(CUSTOMER_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Customer with identifier '" + identifier + "' not found");
         }
 
         CustomerDto dto = modelMapper.map(customer, CustomerDto.class);
@@ -119,9 +118,8 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         Customer existing = customerRepository.findByIdentifier(dto.getIdentifier());
 
         if (existing == null || Boolean.TRUE.equals(existing.getDeleted())) {
-            dto.setSuccess(false);
-            dto.setMessage(CUSTOMER_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Customer with identifier '" + dto.getIdentifier() + "' not found");
         }
 
         existing.setName(dto.getName());
@@ -152,7 +150,10 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
 
         Customer customer = customerRepository.findByIdentifier(identifier);
 
-        if (customer == null) return;
+        if (customer == null || Boolean.TRUE.equals(customer.getDeleted())) {
+            throw new ResourceNotFoundException(
+                    "Customer with identifier '" + identifier + "' not found");
+        }
 
         customer.setDeleted(true);
 
@@ -178,12 +179,9 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
 
         Customer customer = customerRepository.findByIdentifier(identifier);
 
-        CustomerDto dto = new CustomerDto();
-
         if (customer == null || Boolean.TRUE.equals(customer.getDeleted())) {
-            dto.setSuccess(false);
-            dto.setMessage(CUSTOMER_NOT_FOUND);
-            return dto;
+            throw new ResourceNotFoundException(
+                    "Customer with identifier '" + identifier + "' not found");
         }
 
         customer.setStatus(!Boolean.TRUE.equals(customer.getStatus()));
@@ -192,6 +190,7 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
 
         customerRepository.save(customer);
 
+        CustomerDto dto = new CustomerDto();
         dto.setIdentifier(customer.getIdentifier());
         dto.setName(customer.getName());
         dto.setPhoneNo(customer.getPhoneNo());
