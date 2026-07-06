@@ -3,8 +3,6 @@ package com.ust.pos.rack.service.impl;
 import com.ust.pos.base.service.BaseService;
 import com.ust.pos.dto.RackDto;
 import com.ust.pos.dto.PaginationResponseDto;
-import com.ust.pos.dto.RackDto;
-import com.ust.pos.model.Rack;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
 import com.ust.pos.rack.service.RackService;

@@ -18,5 +18,5 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     Page<Model> findByIsDeletedFalse(Pageable pageable);
 
-    Page<Model> findAll(Specification example, Pageable pageable);
+    Page<Model> findAll(Specification <Model>example, Pageable pageable);
 }

@@ -18,5 +18,5 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 
     Page<Brand> findByIsDeletedFalse(Pageable pageable);
 
-    Page<Brand> findAll(Specification example, Pageable pageable);
+    Page<Brand> findAll(Specification <Brand>example, Pageable pageable);
 }

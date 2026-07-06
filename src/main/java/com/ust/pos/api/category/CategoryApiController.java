@@ -10,6 +10,7 @@ import com.ust.pos.model.Customer;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class CategoryApiController extends BaseController {
     }
 
     @PostMapping("/list")
+    @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
     public PaginationResponseDto<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortField());
@@ -38,31 +40,37 @@ public class CategoryApiController extends BaseController {
     }
 
     @GetMapping("/listSuperCategory")
+    @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
     public List<CategoryDto> listSuperCategory() {
         return categoryService.findBySuperCategoryIsNotNullAndStatusTrue();
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
     public CategoryDto addPost(@RequestBody CategoryDto categoryDto) {
         return categoryService.save(categoryDto);
     }
 
     @PutMapping("/toggle")
+    @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
     public CategoryDto toggleStatus(@RequestBody CategoryDto categoryDto) {
         return categoryService.updateStatus(categoryDto.getIdentifier(), categoryDto.isStatus());
     }
 
     @GetMapping("/get")
+    @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
     public CategoryDto update(@RequestParam String identifier) {
         return categoryService.findByIdentifier(identifier);
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
     public CategoryDto updatePost(@RequestBody CategoryDto categoryDto) {
         return categoryService.update(categoryDto);
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
     public boolean delete(@RequestParam String identifier) {
         try {
             categoryService.delete(identifier);
