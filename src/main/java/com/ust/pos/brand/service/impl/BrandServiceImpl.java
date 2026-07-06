@@ -22,6 +22,7 @@ import java.util.List;
 @Service
 public class BrandServiceImpl extends BaseService implements BrandService {
 
+    public static final String BRAND = "Brand";
     private final BrandRepository brandRepository;
     private final ModelMapper modelMapper;
 
@@ -93,7 +94,7 @@ public class BrandServiceImpl extends BaseService implements BrandService {
 
             if (isSoftDeleted(brand)) {
                 throw new IllegalStateException(
-                        getDeletedMessage("Brand", identifier)
+                        getDeletedMessage(BRAND, identifier)
                 );
             }
             throw new IllegalArgumentException(
@@ -125,7 +126,7 @@ public class BrandServiceImpl extends BaseService implements BrandService {
 
         if (isSoftDeleted(existingBrand)) {
             throw new IllegalStateException(
-                    getDeletedMessage("Brand", identifier)
+                    getDeletedMessage(BRAND, identifier)
             );
         }
 
@@ -176,7 +177,7 @@ public class BrandServiceImpl extends BaseService implements BrandService {
 
         if (isSoftDeleted(brand)) {
             throw new IllegalStateException(
-                    getDeletedMessage("Brand", identifier)
+                    getDeletedMessage(BRAND, identifier)
             );
         }
 
