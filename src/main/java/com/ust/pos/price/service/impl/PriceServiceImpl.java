@@ -7,10 +7,10 @@ import com.ust.pos.price.service.PriceService;
 import com.ust.pos.service.BaseService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,9 +92,9 @@ public class PriceServiceImpl extends BaseService implements PriceService {
         Page<Price> prices;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<Price> example = buildGlobalSearchExample(Price.class, search);
+            Specification<Price> specification = buildGlobalSearchSpec(Price.class, search);
 
-            List<Price> filteredPrices = priceRepository.findAll(example, pageable)
+            List<Price> filteredPrices = priceRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(price -> !price.isDeleted())

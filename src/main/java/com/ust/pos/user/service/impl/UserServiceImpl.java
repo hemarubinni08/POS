@@ -8,10 +8,10 @@ import com.ust.pos.user.service.UserService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -103,9 +103,9 @@ public class UserServiceImpl extends BaseService implements UserService {
         Page<User> users;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<User> example = buildGlobalSearchExample(User.class, search);
+            Specification<User> specification = buildGlobalSearchSpec(User.class, search);
 
-            List<User> filteredUsers = userRepository.findAll(example, pageable)
+            List<User> filteredUsers = userRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(user -> !user.isDeleted())

@@ -8,10 +8,10 @@ import com.ust.pos.warehouse.service.WarehouseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -90,9 +90,9 @@ public class WarehouseServiceImpl extends BaseService implements WarehouseServic
         Page<Warehouse> warehouses;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<Warehouse> example = buildGlobalSearchExample(Warehouse.class, search);
+            Specification<Warehouse> specification = buildGlobalSearchSpec(Warehouse.class, search);
 
-            List<Warehouse> filteredWarehouses = warehouseRepository.findAll(example, pageable)
+            List<Warehouse> filteredWarehouses = warehouseRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(warehouse -> !warehouse.isDeleted())

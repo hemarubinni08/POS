@@ -10,10 +10,10 @@ import com.ust.pos.service.BaseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -130,9 +130,9 @@ public class NodeServiceImpl extends BaseService implements NodeService {
         Page<Node> nodes;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<Node> example = buildGlobalSearchExample(Node.class, search);
+            Specification<Node> specification = buildGlobalSearchSpec(Node.class, search);
 
-            List<Node> filteredNodes = nodeRepository.findAll(example, pageable)
+            List<Node> filteredNodes = nodeRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(node -> !node.isDeleted())

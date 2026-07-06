@@ -8,10 +8,10 @@ import com.ust.pos.service.BaseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -98,9 +98,9 @@ public class CategoryServiceImpl extends BaseService implements CategoryService 
         Page<Category> categories;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<Category> example = buildGlobalSearchExample(Category.class, search);
+            Specification<Category> specification = buildGlobalSearchSpec(Category.class, search);
 
-            List<Category> filteredCategories = categoryRepository.findAll(example, pageable)
+            List<Category> filteredCategories = categoryRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(category -> !category.isDeleted())

@@ -7,10 +7,10 @@ import com.ust.pos.service.BaseService;
 import com.ust.pos.unit.service.UnitService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -106,9 +106,9 @@ public class UnitServiceImpl extends BaseService implements UnitService {
         Page<Unit> units;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<Unit> example = buildGlobalSearchExample(Unit.class, search);
+            Specification<Unit> specification = buildGlobalSearchSpec(Unit.class, search);
 
-            List<Unit> filteredUnits = unitRepository.findAll(example, pageable)
+            List<Unit> filteredUnits = unitRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(unit -> !unit.isDeleted())

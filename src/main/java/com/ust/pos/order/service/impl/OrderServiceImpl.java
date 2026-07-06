@@ -15,9 +15,9 @@ import com.ust.pos.order.service.OrderService;
 import com.ust.pos.service.BaseService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -182,8 +182,8 @@ public class OrderServiceImpl extends BaseService implements OrderService {
     public Page<OrderDto> findAll(Pageable pageable, String search) {
         Page<Order> orders;
         if (search != null && !search.trim().isEmpty()) {
-            Example<Order> example = buildGlobalSearchExample(Order.class, search);
-            orders = orderRepository.findAll(example, pageable);
+            Specification<Order> specification = buildGlobalSearchSpec(Order.class, search);
+            orders = orderRepository.findAll(specification, pageable);
         } else {
             orders = orderRepository.findAll(pageable);
         }

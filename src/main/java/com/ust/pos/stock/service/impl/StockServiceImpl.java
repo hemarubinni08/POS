@@ -8,10 +8,10 @@ import com.ust.pos.stock.service.StockService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -97,9 +97,9 @@ public class StockServiceImpl extends BaseService implements StockService {
         Page<Stock> stocks;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<Stock> example = buildGlobalSearchExample(Stock.class, search);
+            Specification<Stock> specification = buildGlobalSearchSpec(Stock.class, search);
 
-            List<Stock> filteredStocks = stockRepository.findAll(example, pageable)
+            List<Stock> filteredStocks = stockRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(stock -> !stock.isDeleted())

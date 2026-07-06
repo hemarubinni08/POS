@@ -7,10 +7,10 @@ import com.ust.pos.modelproduct.service.ModelProductService;
 import com.ust.pos.service.BaseService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,9 +101,9 @@ public class ModelProductServiceImpl extends BaseService implements ModelProduct
         Page<ModelProduct> modelProducts;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<ModelProduct> example = buildGlobalSearchExample(ModelProduct.class, search);
+            Specification<ModelProduct> specification = buildGlobalSearchSpec(ModelProduct.class, search);
 
-            List<ModelProduct> filteredModelProducts = modelProductRepository.findAll(example, pageable)
+            List<ModelProduct> filteredModelProducts = modelProductRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(modelProduct -> !modelProduct.isDeleted())

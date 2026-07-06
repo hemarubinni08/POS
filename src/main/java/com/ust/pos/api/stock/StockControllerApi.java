@@ -70,4 +70,14 @@ public class StockControllerApi extends BaseController {
         }
         return true;
     }
+
+    @PostMapping("/toggleStatus")
+    public boolean toggleStatus(@RequestParam String identifier) {
+        try {
+            stockService.toggleStatus(identifier);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }

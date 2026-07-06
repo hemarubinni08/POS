@@ -8,10 +8,10 @@ import com.ust.pos.service.BaseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -97,9 +97,9 @@ public class ProductServiceImpl extends BaseService implements ProductService {
         Page<Product> products;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<Product> example = buildGlobalSearchExample(Product.class, search);
+            Specification<Product> specification = buildGlobalSearchSpec(Product.class, search);
 
-            List<Product> filteredProducts = productRepository.findAll(example, pageable)
+            List<Product> filteredProducts = productRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(product -> !product.isDeleted())

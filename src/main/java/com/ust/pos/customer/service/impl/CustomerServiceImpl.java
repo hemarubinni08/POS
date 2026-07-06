@@ -9,10 +9,10 @@ import com.ust.pos.model.CustomerRepository;
 import com.ust.pos.service.BaseService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -100,9 +100,9 @@ public class CustomerServiceImpl extends BaseService implements CustomerService 
         Page<Customer> customers;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<Customer> example = buildGlobalSearchExample(Customer.class, search);
+            Specification<Customer> specification = buildGlobalSearchSpec(Customer.class, search);
 
-            List<Customer> filteredCustomers = customerRepository.findAll(example, pageable)
+            List<Customer> filteredCustomers = customerRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(customer -> !customer.isDeleted())

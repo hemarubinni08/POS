@@ -7,10 +7,10 @@ import com.ust.pos.service.BaseService;
 import com.ust.pos.shelf.service.ShelfService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -112,9 +112,9 @@ public class ShelfServiceImpl extends BaseService implements ShelfService {
         Page<Shelf> shelfs;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<Shelf> example = buildGlobalSearchExample(Shelf.class, search);
+            Specification<Shelf> specification = buildGlobalSearchSpec(Shelf.class, search);
 
-            List<Shelf> filteredShelfs = shelfRepository.findAll(example, pageable)
+            List<Shelf> filteredShelfs = shelfRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(shelf -> !shelf.isDeleted())

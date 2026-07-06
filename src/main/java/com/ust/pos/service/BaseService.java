@@ -1,54 +1,45 @@
 package com.ust.pos.service;
 
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import jakarta.persistence.criteria.Predicate;
+import org.springframework.data.jpa.domain.Specification;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseService {
 
-    protected <T> Example<T> buildGlobalSearchExample(
-            Class<T> clazz,
-            String keyword) {
+    protected <T> Specification<T> buildGlobalSearchSpec(Class<T> clazz, String keyword) {
 
-        try {
+        return (root, query, queryBuilder) -> {
 
-            T probe = clazz.getDeclaredConstructor().newInstance();
-            BeanWrapper beanWrapper = new BeanWrapperImpl(probe);
+            List<Predicate> orPredicates = new ArrayList<>();
+            Class<?> current = clazz;
 
-            for (PropertyDescriptor propertyDescriptor : beanWrapper.getPropertyDescriptors()) {
+            while (current != null && current != Object.class) {
 
-                if (beanWrapper.isWritableProperty(propertyDescriptor.getName())
-                        && propertyDescriptor.getPropertyType().equals(String.class)) {
+                for (Field field : current.getDeclaredFields()) {
 
-                    beanWrapper.setPropertyValue(propertyDescriptor.getName(), keyword);
+                    if (field.getType().equals(String.class)
+                            && !field.getName().equalsIgnoreCase("createdBy")
+                            && !field.getName().equalsIgnoreCase("modifiedBy")) {
+
+                        orPredicates.add(
+                                queryBuilder.like(
+                                        queryBuilder.lower(root.get(field.getName())),
+                                        "%" + keyword.toLowerCase() + "%"
+                                )
+                        );
+                    }
                 }
+
+                current = current.getSuperclass();
             }
 
-            ExampleMatcher matcher = ExampleMatcher.matchingAny()
-                    .withIgnoreNullValues()
-                    .withIgnoreCase()
-                    .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-                    .withIgnorePaths(
-                            "id",
-                            "createdOn",
-                            "modifiedOn",
-                            "createdBy",
-                            "modifiedBy",
-                            "status",
-                            "deleted"
-                    );
+            Predicate deletedFalse = queryBuilder.isFalse(root.get("deleted"));
+            Predicate orBlock = queryBuilder.or(orPredicates.toArray(new Predicate[0]));
 
-            return Example.of(probe, matcher);
-
-        } catch (NoSuchMethodException
-                 | InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException e) {
-            throw new IllegalStateException("Failed to build global search example", e);
-        }
+            return queryBuilder.and(deletedFalse, orBlock);
+        };
     }
 }

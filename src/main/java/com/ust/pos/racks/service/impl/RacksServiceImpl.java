@@ -7,10 +7,10 @@ import com.ust.pos.racks.service.RacksService;
 import com.ust.pos.service.BaseService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -97,9 +97,9 @@ public class RacksServiceImpl extends BaseService implements RacksService {
         Page<Racks> racksPage;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<Racks> example = buildGlobalSearchExample(Racks.class, search);
+            Specification<Racks> specification = buildGlobalSearchSpec(Racks.class, search);
 
-            List<Racks> filteredRacks = racksRepository.findAll(example, pageable)
+            List<Racks> filteredRacks = racksRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(racks -> !racks.isDeleted())

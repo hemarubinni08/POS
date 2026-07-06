@@ -8,10 +8,10 @@ import com.ust.pos.service.BaseService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -88,9 +88,9 @@ public class RoleServiceImpl extends BaseService implements RoleService {
         Page<Role> roles;
 
         if (search != null && !search.trim().isEmpty()) {
-            Example<Role> example = buildGlobalSearchExample(Role.class, search);
+            Specification<Role> specification = buildGlobalSearchSpec(Role.class, search);
 
-            List<Role> filteredRoles = roleRepository.findAll(example, pageable)
+            List<Role> filteredRoles = roleRepository.findAll(specification, pageable)
                     .getContent()
                     .stream()
                     .filter(role -> !role.isDeleted())
