@@ -35,8 +35,6 @@ class WarehouseServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ================= SAVE =================
-
     @Test
     void save_success() {
 
@@ -118,8 +116,6 @@ class WarehouseServiceTest {
         );
     }
 
-    // ================= FIND =================
-
     @Test
     void find_success() {
 
@@ -165,8 +161,6 @@ class WarehouseServiceTest {
                 ResourceNotFoundException.class,
                 () -> warehouseService.findByIdentifier("W1"));
     }
-
-    // ================= UPDATE =================
 
     @Test
     void update_success() {
@@ -243,8 +237,6 @@ class WarehouseServiceTest {
         verify(warehouseRepository, never()).save(any());
     }
 
-    // ================= DELETE =================
-
     @Test
     void delete_success() {
 
@@ -289,8 +281,6 @@ class WarehouseServiceTest {
         verify(warehouseRepository, never()).save(any());
     }
 
-    // ================= FIND ALL =================
-
     @Test
     void findAll_success() {
 
@@ -323,8 +313,6 @@ class WarehouseServiceTest {
                 result.getDtoList().size()
         );
     }
-
-    // ================= TOGGLE STATUS =================
 
     @Test
     void toggle_success() {
@@ -379,8 +367,6 @@ class WarehouseServiceTest {
 
         verify(warehouseRepository, never()).save(any());
     }
-
-    // ================= ACTIVE WAREHOUSES =================
 
     @Test
     void activeWarehouses_success() {

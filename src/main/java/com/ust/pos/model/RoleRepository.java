@@ -13,5 +13,5 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 
     Page<Role> findByDeletedFalse(Pageable pageable);
 
-    Page<Role> findAll(Specification example, Pageable pageable);
+    Page<Role> findAll(Specification <Role>example, Pageable pageable);
 }

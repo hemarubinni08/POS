@@ -37,7 +37,6 @@ class StockServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ---------------- SAVE SUCCESS ----------------
     @Test
     void save_success() {
 
@@ -74,7 +73,6 @@ class StockServiceTest {
         verify(stockRepository).save(stock);
     }
 
-    // ---------------- SAVE FAILURE ----------------
     @Test
     void save_failure_alreadyExists() {
 
@@ -117,7 +115,6 @@ class StockServiceTest {
         verify(stockRepository, never()).save(any());
     }
 
-    // ---------------- UPDATE SUCCESS ----------------
     @Test
     void update_success() {
 
@@ -150,7 +147,6 @@ class StockServiceTest {
         verify(stockRepository).save(existing);
     }
 
-    // ---------------- UPDATE FAIL NOT FOUND ----------------
     @Test
     void update_failure_notFound() {
 
@@ -188,7 +184,6 @@ class StockServiceTest {
         verify(stockRepository, never()).save(any());
     }
 
-    // ---------------- FIND SUCCESS ----------------
     @Test
     void find_success() {
 
@@ -210,7 +205,6 @@ class StockServiceTest {
         Assertions.assertTrue(response.isSuccess());
     }
 
-    // ---------------- FIND NOT FOUND ----------------
     @Test
     void find_notFound() {
 
@@ -222,7 +216,6 @@ class StockServiceTest {
                 () -> stockService.findByIdentifier("P1_W1"));
     }
 
-    // ---------------- FIND DELETED ----------------
     @Test
     void find_deleted() {
 
@@ -237,7 +230,6 @@ class StockServiceTest {
                 () -> stockService.findByIdentifier("P1_W1"));
     }
 
-    // ---------------- FIND ALL FIXED ----------------
     @Test
     void findAllTest() {
 
@@ -265,7 +257,6 @@ class StockServiceTest {
         Assertions.assertEquals(1, result.getDtoList().size());
     }
 
-    // ---------------- DELETE SUCCESS ----------------
     @Test
     void delete_success() {
 
@@ -282,7 +273,6 @@ class StockServiceTest {
         verify(stockRepository).save(stock);
     }
 
-    // ---------------- DELETE NOT FOUND ----------------
     @Test
     void delete_notFound() {
 
@@ -312,7 +302,6 @@ class StockServiceTest {
         verify(stockRepository, never()).save(any());
     }
 
-    // ---------------- TOGGLE SUCCESS (FIXED) ----------------
     @Test
     void toggle_success() {
 
@@ -337,11 +326,9 @@ class StockServiceTest {
         Assertions.assertTrue(response.isSuccess());
         Assertions.assertEquals("Stock status updated successfully", response.getMessage());
 
-        // IMPORTANT: verify toggle happened
         Assertions.assertFalse(stock.getStatus());
     }
 
-    // ---------------- TOGGLE FAIL ----------------
     @Test
     void toggle_notFound() {
 

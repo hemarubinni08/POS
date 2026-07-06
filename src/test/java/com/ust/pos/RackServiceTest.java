@@ -35,7 +35,6 @@ class RackServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ================= SAVE SUCCESS =================
     @Test
     void save_success() {
 
@@ -59,7 +58,6 @@ class RackServiceTest {
         verify(rackRepository).save(entity);
     }
 
-    // ================= SAVE FAILURE DUPLICATE =================
     @Test
     void save_failure_duplicate() {
 
@@ -77,7 +75,6 @@ class RackServiceTest {
         verify(rackRepository, never()).save(any());
     }
 
-    // ================= SAVE FAILURE NAME MISSING =================
     @Test
     void save_failure_name_missing() {
 
@@ -92,7 +89,6 @@ class RackServiceTest {
         verifyNoInteractions(rackRepository);
     }
 
-    // ================= UPDATE SUCCESS =================
     @Test
     void update_success() {
 
@@ -114,7 +110,6 @@ class RackServiceTest {
         verify(rackRepository).save(existing);
     }
 
-    // ================= UPDATE FAILURE - IDENTIFIER MISSING =================
     @Test
     void update_failure_identifier_missing() {
 
@@ -130,7 +125,6 @@ class RackServiceTest {
         verifyNoInteractions(rackRepository);
     }
 
-    // ================= UPDATE FAILURE - NOT FOUND =================
     @Test
     void update_failure_not_found() {
 
@@ -146,7 +140,6 @@ class RackServiceTest {
         verify(rackRepository, never()).save(any());
     }
 
-    // ================= UPDATE FAILURE - DELETED =================
     @Test
     void update_failure_deleted() {
 
@@ -165,7 +158,6 @@ class RackServiceTest {
         verify(rackRepository, never()).save(any());
     }
 
-    // ================= FIND BY ID SUCCESS =================
     @Test
     void find_success() {
 
@@ -180,7 +172,6 @@ class RackServiceTest {
         Assertions.assertTrue(response.isSuccess());
     }
 
-    // ================= FIND BY ID FAILURE =================
     @Test
     void find_failure() {
 
@@ -191,7 +182,6 @@ class RackServiceTest {
                 () -> rackService.findByIdentifier("R1"));
     }
 
-    // ================= FIND BY ID FAILURE - DELETED =================
     @Test
     void find_failure_deleted() {
 
@@ -205,7 +195,6 @@ class RackServiceTest {
                 () -> rackService.findByIdentifier("R1"));
     }
 
-    // ================= FIND ALL (PAGEABLE) =================
     @Test
     void find_all_pageable() {
 
@@ -228,7 +217,6 @@ class RackServiceTest {
         Assertions.assertEquals(1, result.getTotalPages());
     }
 
-    // ================= ACTIVE RACKS =================
     @Test
     void active_racks() {
 
@@ -249,7 +237,6 @@ class RackServiceTest {
         Assertions.assertEquals(2, result.size());
     }
 
-    // ================= DELETE SUCCESS =================
     @Test
     void delete_test() {
 
@@ -264,7 +251,6 @@ class RackServiceTest {
         Assertions.assertTrue(rack.getDeleted());
     }
 
-    // ================= DELETE FAILURE - NOT FOUND =================
     @Test
     void delete_failure_not_found() {
 
@@ -277,7 +263,6 @@ class RackServiceTest {
         verify(rackRepository, never()).save(any());
     }
 
-    // ================= DELETE FAILURE - ALREADY DELETED =================
     @Test
     void delete_failure_already_deleted() {
 
@@ -293,7 +278,6 @@ class RackServiceTest {
         verify(rackRepository, never()).save(any());
     }
 
-    // ================= TOGGLE SUCCESS =================
     @Test
     void toggle_success() {
 
@@ -310,7 +294,6 @@ class RackServiceTest {
         Assertions.assertEquals("Status updated successfully", response.getMessage());
     }
 
-    // ================= TOGGLE FAILURE - NOT FOUND =================
     @Test
     void toggle_failure_not_found() {
 
@@ -321,7 +304,6 @@ class RackServiceTest {
                 () -> rackService.toggleStatus("R1"));
     }
 
-    // ================= TOGGLE FAILURE - DELETED =================
     @Test
     void toggle_failure_deleted() {
 

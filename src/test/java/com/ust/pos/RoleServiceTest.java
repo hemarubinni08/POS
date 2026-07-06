@@ -202,7 +202,6 @@ class RoleServiceTest {
         when(roleRepository.findByIdentifier("Admin"))
                 .thenReturn(existing);
 
-        // mock void map(source,destination)
         doNothing().when(modelMapper).map(dto, existing);
 
         when(roleRepository.save(existing))

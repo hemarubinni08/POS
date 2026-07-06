@@ -15,5 +15,5 @@ public interface UnitRepository extends JpaRepository<Unit, Long> {
 
     Page<Unit> findByDeletedFalse(Pageable pageable);
 
-    Page<Unit> findAll(Specification example, Pageable pageable);
+    Page<Unit> findAll(Specification <Unit>example, Pageable pageable);
 }

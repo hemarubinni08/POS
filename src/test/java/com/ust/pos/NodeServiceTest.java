@@ -154,7 +154,6 @@ class NodeServiceTest {
         when(nodeRepository.findByIdentifierAndDeletedFalse("NODE1"))
                 .thenReturn(node);
 
-        // mock the void map(source,destination)
         doAnswer(invocation -> null)
                 .when(modelMapper)
                 .map(dto, node);

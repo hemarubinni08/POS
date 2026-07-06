@@ -31,5 +31,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     """)
     List<Product> searchActiveProducts(@Param("query") String query);
 
-    Page<Product> findAll(Specification example, Pageable pageable);
+    Page<Product> findAll(Specification <Product>example, Pageable pageable);
 }

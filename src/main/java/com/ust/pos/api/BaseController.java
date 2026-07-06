@@ -45,10 +45,8 @@ public class BaseController {
                 current = current.getSuperclass();
             }
 
-            // AND condition for deleted = false
             Predicate deletedFalse = queryBuilder.isFalse(root.get("deleted"));
 
-            // OR block for search fields
             Predicate orBlock = queryBuilder.or(orPredicates.toArray(new Predicate[0]));
 
             return queryBuilder.and(deletedFalse, orBlock);

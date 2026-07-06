@@ -27,5 +27,5 @@ public interface PriceRepository extends JpaRepository<Price, Long> {
     """)
     long countActivePriceTypes(@Param("productId") String productId);
 
-    Page<Price> findAll(Specification example, Pageable pageable);
+    Page<Price> findAll(Specification <Price>example, Pageable pageable);
 }

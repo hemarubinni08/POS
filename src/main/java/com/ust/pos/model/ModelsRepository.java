@@ -13,9 +13,9 @@ public interface ModelsRepository extends JpaRepository<Models, Long> {
 
     Models findByIdentifier(String identifier);
 
-    void deleteByIdentifier(String identifier); // optional (not used in soft delete)
+    void deleteByIdentifier(String identifier);
 
     List<Models> findByStatusTrueAndDeletedFalse();
 
-    Page<Models> findAll(Specification example, Pageable pageable);
+    Page<Models> findAll(Specification <Models>example, Pageable pageable);
 }

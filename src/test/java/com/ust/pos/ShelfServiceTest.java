@@ -36,7 +36,6 @@ class ShelfServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    // ================= SAVE SUCCESS =================
     @Test
     void save_success() {
 
@@ -68,7 +67,6 @@ class ShelfServiceTest {
         verify(shelfRepository).save(shelf);
     }
 
-    // ================= SAVE FAILURE =================
     @Test
     void save_failure_empty_name() {
 
@@ -99,7 +97,6 @@ class ShelfServiceTest {
         verify(shelfRepository, never()).save(any());
     }
 
-    // ================= UPDATE =================
     @Test
     void update_success() {
 
@@ -151,7 +148,6 @@ class ShelfServiceTest {
         verify(shelfRepository, never()).save(any());
     }
 
-    // ================= FIND =================
     @Test
     void find_success() {
 
@@ -187,7 +183,6 @@ class ShelfServiceTest {
         );
     }
 
-    // ================= FIND ALL (FIXED RETURN TYPE) =================
     @Test
     void findAll_test() {
 
@@ -211,7 +206,6 @@ class ShelfServiceTest {
         Assertions.assertEquals(1L, result.getTotalRecords());
     }
 
-    // ================= ACTIVE =================
     @Test
     void getActiveShelves_test() {
 
@@ -228,7 +222,6 @@ class ShelfServiceTest {
         Assertions.assertEquals(1, result.size());
     }
 
-    // ================= DELETE =================
     @Test
     void delete_test() {
 
@@ -256,7 +249,6 @@ class ShelfServiceTest {
         verify(shelfRepository, never()).save(any());
     }
 
-    // ================= TOGGLE =================
     @Test
     void toggle_success() {
 

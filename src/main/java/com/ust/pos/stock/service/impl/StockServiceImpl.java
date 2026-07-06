@@ -208,7 +208,7 @@ public class StockServiceImpl extends BaseService implements StockService {
                 .stream()
                 .filter(s -> Boolean.TRUE.equals(s.getStatus()))
                 .filter(s -> s.getAvailableQuantity() != null && s.getAvailableQuantity() > 0)
-                .sorted((a, b) -> b.getAvailableQuantity() - a.getAvailableQuantity()) // biggest warehouse first
+                .sorted((a, b) -> b.getAvailableQuantity() - a.getAvailableQuantity())
                 .toList();
 
         int totalAvailable = stocks.stream()
