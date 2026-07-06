@@ -2,6 +2,7 @@ package com.ust.pos;
 
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.model.WarehouseRepository;
 import com.ust.pos.warehouse.service.impl.WarehouseServiceImpl;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.*;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -145,14 +147,23 @@ class WarehouseServiceTest {
         when(warehouseRepository.findByIdentifier("W1"))
                 .thenReturn(null);
 
-        WarehouseDto response =
-                warehouseService.findByIdentifier("W1");
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> warehouseService.findByIdentifier("W1"));
+    }
 
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals(
-                "Warehouse not found",
-                response.getMessage()
-        );
+    @Test
+    void find_softDeleted() {
+
+        Warehouse warehouse = new Warehouse();
+        warehouse.setDeleted(true);
+
+        when(warehouseRepository.findByIdentifier("W1"))
+                .thenReturn(warehouse);
+
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> warehouseService.findByIdentifier("W1"));
     }
 
     // ================= UPDATE =================
@@ -173,6 +184,9 @@ class WarehouseServiceTest {
         when(warehouseRepository.save(any(Warehouse.class)))
                 .thenReturn(warehouse);
 
+        when(modelMapper.map(warehouse, WarehouseDto.class))
+                .thenReturn(new WarehouseDto());
+
         WarehouseDto response = warehouseService.update(dto);
 
         Assertions.assertTrue(response.isSuccess());
@@ -187,13 +201,11 @@ class WarehouseServiceTest {
 
         WarehouseDto dto = new WarehouseDto();
 
-        WarehouseDto response = warehouseService.update(dto);
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> warehouseService.update(dto));
 
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals(
-                "Invalid identifier",
-                response.getMessage()
-        );
+        verifyNoInteractions(warehouseRepository);
     }
 
     @Test
@@ -205,13 +217,11 @@ class WarehouseServiceTest {
         when(warehouseRepository.findByIdentifier("W1"))
                 .thenReturn(null);
 
-        WarehouseDto response = warehouseService.update(dto);
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> warehouseService.update(dto));
 
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals(
-                "Warehouse not found",
-                response.getMessage()
-        );
+        verify(warehouseRepository, never()).save(any());
     }
 
     @Test
@@ -226,13 +236,11 @@ class WarehouseServiceTest {
         when(warehouseRepository.findByIdentifier("W1"))
                 .thenReturn(warehouse);
 
-        WarehouseDto response = warehouseService.update(dto);
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> warehouseService.update(dto));
 
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals(
-                "Warehouse is soft deleted",
-                response.getMessage()
-        );
+        verify(warehouseRepository, never()).save(any());
     }
 
     // ================= DELETE =================
@@ -258,7 +266,25 @@ class WarehouseServiceTest {
         when(warehouseRepository.findByIdentifier("W1"))
                 .thenReturn(null);
 
-        warehouseService.delete("W1");
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> warehouseService.delete("W1"));
+
+        verify(warehouseRepository, never()).save(any());
+    }
+
+    @Test
+    void delete_alreadyDeleted() {
+
+        Warehouse warehouse = new Warehouse();
+        warehouse.setDeleted(true);
+
+        when(warehouseRepository.findByIdentifier("W1"))
+                .thenReturn(warehouse);
+
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> warehouseService.delete("W1"));
 
         verify(warehouseRepository, never()).save(any());
     }
@@ -333,14 +359,9 @@ class WarehouseServiceTest {
         when(warehouseRepository.findByIdentifier("W1"))
                 .thenReturn(null);
 
-        WarehouseDto response =
-                warehouseService.toggleStatus("W1");
-
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals(
-                "Warehouse not found",
-                response.getMessage()
-        );
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> warehouseService.toggleStatus("W1"));
     }
 
     @Test
@@ -352,14 +373,11 @@ class WarehouseServiceTest {
         when(warehouseRepository.findByIdentifier("W1"))
                 .thenReturn(warehouse);
 
-        WarehouseDto response =
-                warehouseService.toggleStatus("W1");
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> warehouseService.toggleStatus("W1"));
 
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals(
-                "Warehouse is soft deleted",
-                response.getMessage()
-        );
+        verify(warehouseRepository, never()).save(any());
     }
 
     // ================= ACTIVE WAREHOUSES =================

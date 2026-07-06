@@ -2,6 +2,7 @@ package com.ust.pos;
 
 import com.ust.pos.dto.StockDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.Stock;
 import com.ust.pos.model.StockRepository;
 import com.ust.pos.stock.service.impl.StockServiceImpl;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -94,6 +96,27 @@ class StockServiceTest {
         verify(stockRepository, never()).save(any());
     }
 
+    @Test
+    void save_failure_softDeleted() {
+
+        StockDto dto = new StockDto();
+        dto.setProductIdentifier("P1");
+        dto.setWarehouseIdentifier("W1");
+
+        Stock existing = new Stock();
+        existing.setDeleted(true);
+
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(existing);
+
+        StockDto response = stockService.save(dto);
+
+        Assertions.assertFalse(response.isSuccess());
+        Assertions.assertTrue(response.getMessage().contains("restore it"));
+
+        verify(stockRepository, never()).save(any());
+    }
+
     // ---------------- UPDATE SUCCESS ----------------
     @Test
     void update_success() {
@@ -138,10 +161,31 @@ class StockServiceTest {
         when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(null);
 
-        StockDto response = stockService.update(dto);
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> stockService.update(dto));
 
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals("Stock not found", response.getMessage());
+        verify(stockRepository, never()).save(any());
+    }
+
+    @Test
+    void update_failure_deleted() {
+
+        StockDto dto = new StockDto();
+        dto.setProductIdentifier("P1");
+        dto.setWarehouseIdentifier("W1");
+
+        Stock existing = new Stock();
+        existing.setDeleted(true);
+
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(existing);
+
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> stockService.update(dto));
+
+        verify(stockRepository, never()).save(any());
     }
 
     // ---------------- FIND SUCCESS ----------------
@@ -173,10 +217,9 @@ class StockServiceTest {
         when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(null);
 
-        StockDto response = stockService.findByIdentifier("P1_W1");
-
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals("Stock not found", response.getMessage());
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> stockService.findByIdentifier("P1_W1"));
     }
 
     // ---------------- FIND DELETED ----------------
@@ -189,10 +232,9 @@ class StockServiceTest {
         when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(stock);
 
-        StockDto response = stockService.findByIdentifier("P1_W1");
-
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals("Stock not found", response.getMessage());
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> stockService.findByIdentifier("P1_W1"));
     }
 
     // ---------------- FIND ALL FIXED ----------------
@@ -247,7 +289,25 @@ class StockServiceTest {
         when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(null);
 
-        stockService.delete("P1_W1");
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> stockService.delete("P1_W1"));
+
+        verify(stockRepository, never()).save(any());
+    }
+
+    @Test
+    void delete_alreadyDeleted() {
+
+        Stock stock = new Stock();
+        stock.setDeleted(true);
+
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(stock);
+
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> stockService.delete("P1_W1"));
 
         verify(stockRepository, never()).save(any());
     }
@@ -288,9 +348,24 @@ class StockServiceTest {
         when(stockRepository.findByIdentifier("P1_W1"))
                 .thenReturn(null);
 
-        StockDto response = stockService.toggleStatus("P1_W1");
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> stockService.toggleStatus("P1_W1"));
+    }
 
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals("Stock not found", response.getMessage());
+    @Test
+    void toggle_deleted() {
+
+        Stock stock = new Stock();
+        stock.setDeleted(true);
+
+        when(stockRepository.findByIdentifier("P1_W1"))
+                .thenReturn(stock);
+
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> stockService.toggleStatus("P1_W1"));
+
+        verify(stockRepository, never()).save(any());
     }
 }

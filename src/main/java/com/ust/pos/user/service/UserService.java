@@ -1,10 +1,8 @@
 package com.ust.pos.user.service;
 
 import com.ust.pos.dto.UserDto;
-import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
 import com.ust.pos.model.User;
-import com.ust.pos.model.Warehouse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 

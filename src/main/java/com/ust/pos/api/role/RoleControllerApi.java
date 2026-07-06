@@ -4,12 +4,12 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.RoleDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Brand;
 import com.ust.pos.model.Role;
 import com.ust.pos.role.service.RoleService;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,21 +39,25 @@ public class RoleControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
     public RoleDto addPost(@RequestBody RoleDto roleDto) {
         return roleService.save(roleDto);
     }
 
     @GetMapping("/get")
+    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
     public RoleDto updatePage(@RequestParam String identifier) {
         return roleService.findByIdentifier(identifier);
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
     public RoleDto updatePost(@RequestBody RoleDto roleDto) {
         return roleService.update(roleDto);
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
     public RoleDto delete(@RequestBody RoleDto roleDto) {
         RoleDto response = new RoleDto();
         try {

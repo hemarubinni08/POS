@@ -4,7 +4,6 @@ import com.ust.pos.api.BaseController;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WarehouseDto;
 import com.ust.pos.dto.WsDto;
-import com.ust.pos.model.Brand;
 import com.ust.pos.model.Warehouse;
 import com.ust.pos.warehouse.service.WarehouseService;
 import io.micrometer.common.util.StringUtils;
@@ -26,7 +25,7 @@ public class WarehouseControllerApi extends BaseController {
     }
 
     @PostMapping("/list")
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
     public WsDto<WarehouseDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortfield());
@@ -46,16 +45,18 @@ public class WarehouseControllerApi extends BaseController {
     }
 
     @GetMapping("/get")
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
     public WarehouseDto update(@RequestParam String identifier) {
         return warehouseService.findByIdentifier(identifier);
     }
     @PutMapping("/update")
+    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
     public WarehouseDto updatePost(@RequestBody WarehouseDto warehouseDto) {
         return warehouseService.update(warehouseDto);
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
     public Boolean delete(@RequestBody WarehouseDto warehouseDto) {
         try {
             warehouseService.delete(warehouseDto.getIdentifier());

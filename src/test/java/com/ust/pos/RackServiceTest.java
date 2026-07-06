@@ -2,6 +2,7 @@ package com.ust.pos;
 
 import com.ust.pos.dto.RackDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.exception.ResourceNotFoundException;
 import com.ust.pos.model.Rack;
 import com.ust.pos.model.RackRepository;
 import com.ust.pos.rack.service.impl.RackServiceImpl;
@@ -113,7 +114,23 @@ class RackServiceTest {
         verify(rackRepository).save(existing);
     }
 
-    // ================= UPDATE FAILURE =================
+    // ================= UPDATE FAILURE - IDENTIFIER MISSING =================
+    @Test
+    void update_failure_identifier_missing() {
+
+        RackDto dto = new RackDto();
+        dto.setIdentifier("  ");
+
+        ResourceNotFoundException ex = Assertions.assertThrows(
+                ResourceNotFoundException.class,
+                () -> rackService.update(dto));
+
+        Assertions.assertEquals(RackServiceImpl.RACK_NOT_FOUND, ex.getMessage());
+
+        verifyNoInteractions(rackRepository);
+    }
+
+    // ================= UPDATE FAILURE - NOT FOUND =================
     @Test
     void update_failure_not_found() {
 
@@ -122,10 +139,30 @@ class RackServiceTest {
 
         when(rackRepository.findByIdentifier("R1")).thenReturn(null);
 
-        RackDto response = rackService.update(dto);
+        Assertions.assertThrows(
+                ResourceNotFoundException.class,
+                () -> rackService.update(dto));
 
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals("Rack not found", response.getMessage());
+        verify(rackRepository, never()).save(any());
+    }
+
+    // ================= UPDATE FAILURE - DELETED =================
+    @Test
+    void update_failure_deleted() {
+
+        RackDto dto = new RackDto();
+        dto.setIdentifier("R1");
+
+        Rack deleted = new Rack();
+        deleted.setDeleted(true);
+
+        when(rackRepository.findByIdentifier("R1")).thenReturn(deleted);
+
+        Assertions.assertThrows(
+                ResourceNotFoundException.class,
+                () -> rackService.update(dto));
+
+        verify(rackRepository, never()).save(any());
     }
 
     // ================= FIND BY ID SUCCESS =================
@@ -149,13 +186,26 @@ class RackServiceTest {
 
         when(rackRepository.findByIdentifier("R1")).thenReturn(null);
 
-        RackDto response = rackService.findByIdentifier("R1");
-
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals("Rack not found", response.getMessage());
+        Assertions.assertThrows(
+                ResourceNotFoundException.class,
+                () -> rackService.findByIdentifier("R1"));
     }
 
-    // ================= FIND ALL (FIXED RETURN TYPE) =================
+    // ================= FIND BY ID FAILURE - DELETED =================
+    @Test
+    void find_failure_deleted() {
+
+        Rack deleted = new Rack();
+        deleted.setDeleted(true);
+
+        when(rackRepository.findByIdentifier("R1")).thenReturn(deleted);
+
+        Assertions.assertThrows(
+                ResourceNotFoundException.class,
+                () -> rackService.findByIdentifier("R1"));
+    }
+
+    // ================= FIND ALL (PAGEABLE) =================
     @Test
     void find_all_pageable() {
 
@@ -199,7 +249,7 @@ class RackServiceTest {
         Assertions.assertEquals(2, result.size());
     }
 
-    // ================= DELETE =================
+    // ================= DELETE SUCCESS =================
     @Test
     void delete_test() {
 
@@ -211,6 +261,36 @@ class RackServiceTest {
         rackService.delete("R1");
 
         verify(rackRepository).save(rack);
+        Assertions.assertTrue(rack.getDeleted());
+    }
+
+    // ================= DELETE FAILURE - NOT FOUND =================
+    @Test
+    void delete_failure_not_found() {
+
+        when(rackRepository.findByIdentifier("R1")).thenReturn(null);
+
+        Assertions.assertThrows(
+                ResourceNotFoundException.class,
+                () -> rackService.delete("R1"));
+
+        verify(rackRepository, never()).save(any());
+    }
+
+    // ================= DELETE FAILURE - ALREADY DELETED =================
+    @Test
+    void delete_failure_already_deleted() {
+
+        Rack deleted = new Rack();
+        deleted.setDeleted(true);
+
+        when(rackRepository.findByIdentifier("R1")).thenReturn(deleted);
+
+        Assertions.assertThrows(
+                ResourceNotFoundException.class,
+                () -> rackService.delete("R1"));
+
+        verify(rackRepository, never()).save(any());
     }
 
     // ================= TOGGLE SUCCESS =================
@@ -230,15 +310,28 @@ class RackServiceTest {
         Assertions.assertEquals("Status updated successfully", response.getMessage());
     }
 
-    // ================= TOGGLE FAILURE =================
+    // ================= TOGGLE FAILURE - NOT FOUND =================
     @Test
-    void toggle_failure() {
+    void toggle_failure_not_found() {
 
         when(rackRepository.findByIdentifier("R1")).thenReturn(null);
 
-        RackDto response = rackService.toggleStatus("R1");
+        Assertions.assertThrows(
+                ResourceNotFoundException.class,
+                () -> rackService.toggleStatus("R1"));
+    }
 
-        Assertions.assertFalse(response.isSuccess());
-        Assertions.assertEquals("Rack not found", response.getMessage());
+    // ================= TOGGLE FAILURE - DELETED =================
+    @Test
+    void toggle_failure_deleted() {
+
+        Rack deleted = new Rack();
+        deleted.setDeleted(true);
+
+        when(rackRepository.findByIdentifier("R1")).thenReturn(deleted);
+
+        Assertions.assertThrows(
+                ResourceNotFoundException.class,
+                () -> rackService.toggleStatus("R1"));
     }
 }
