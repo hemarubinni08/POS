@@ -59,7 +59,8 @@ public class StockServiceImpl extends BaseService implements StockService {
 
         if (existing != null) {
 
-            if (Boolean.TRUE.equals(existing.getDeleted())) {
+            if (!Boolean.TRUE.equals(existing.getDeleted())) { //to check delete
+            } else {
                 throw new ResourceNotFoundException(
                         "Product was deleted from this warehouse in '" + dto.getIdentifier()
                                 + "' — restore it instead of creating new");
