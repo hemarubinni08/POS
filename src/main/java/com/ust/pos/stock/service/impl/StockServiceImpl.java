@@ -60,14 +60,10 @@ public class StockServiceImpl extends BaseService implements StockService {
         if (existing != null) {
 
             if (Boolean.TRUE.equals(existing.getDeleted())) {
-                dto.setSuccess(false);
-                dto.setMessage("Product was deleted from this warehouse — restore it instead of creating new");
-                return dto;
+                throw new ResourceNotFoundException(
+                        "Product was deleted from this warehouse in '" + dto.getIdentifier()
+                                + "' — restore it instead of creating new");
             }
-
-            dto.setSuccess(false);
-            dto.setMessage("Product already exists in this warehouse");
-            return dto;
         }
 
         Stock stock = modelMapper.map(dto, Stock.class);
