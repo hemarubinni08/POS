@@ -5,7 +5,11 @@ import com.ust.pos.category.service.CategoryService;
 import com.ust.pos.dto.CategoryDto;
 import com.ust.pos.dto.PaginationDto;
 import com.ust.pos.dto.WsDto;
+import com.ust.pos.model.Category;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,32 +24,44 @@ public class CategoryApiController extends BaseController {
     }
 
     @PostMapping("/list")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     public WsDto<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortField());
+        if (StringUtils.isNotEmpty(paginationDto.getKeyword())) {
+            Specification<Category> example = buildGlobalSearchSpec(Category.class, paginationDto.getKeyword());
+            if (example != null) {
+                return categoryService.findAll(example, pageable);
+            }
+        }
         return categoryService.findAll(pageable);
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     public CategoryDto add(@RequestBody CategoryDto categoryDto) {
         return categoryService.save(categoryDto);
     }
 
     @GetMapping("/get")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     public CategoryDto get(@RequestParam String identifier) {
         return categoryService.findByIdentifier(identifier);
     }
 
     @GetMapping("/childCategories")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     public List<CategoryDto> findChildCategories() {
         return categoryService.findChildCategories();
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     public CategoryDto update(@RequestBody CategoryDto categoryDto) {
         return categoryService.update(categoryDto);
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     public boolean delete(@RequestBody CategoryDto categoryDto) {
         try {
             categoryService.delete(categoryDto.getIdentifier());
