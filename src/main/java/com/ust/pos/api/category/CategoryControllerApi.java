@@ -27,7 +27,7 @@ public class CategoryControllerApi extends BaseController {
     }
 
     @PostMapping("/list")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public WsDto<CategoryDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortfield());
@@ -41,25 +41,25 @@ public class CategoryControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public CategoryDto addPost(@RequestBody CategoryDto categoryDto) {
         return categoryService.save(categoryDto);
     }
 
     @GetMapping("/get")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public CategoryDto updatePage(@RequestParam String identifier) {
         return categoryService.findByIdentifier(identifier);
     }
 
     @PutMapping("/update")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public CategoryDto updatePost(@RequestBody CategoryDto categoryDto) {
         return categoryService.update(categoryDto);
     }
 
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public CategoryDto delete(@RequestBody CategoryDto categoryDto) {
         CategoryDto response = new CategoryDto();
         try {

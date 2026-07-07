@@ -27,7 +27,7 @@ public class NodeControllerApi extends BaseController {
     }
 
     @PostMapping("/list")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public WsDto<NodeDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortfield());
@@ -42,25 +42,25 @@ public class NodeControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public NodeDto addPost(@RequestBody NodeDto nodeDto) {
         return nodeService.save(nodeDto);
     }
 
     @GetMapping("/get")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public NodeDto updatePage(@RequestParam String identifier) {
         return nodeService.findByIdentifier(identifier);
     }
 
     @PutMapping("/update")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public NodeDto updatePost(@RequestBody NodeDto nodeDto) {
         return nodeService.update(nodeDto);
     }
 
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public NodeDto delete(@RequestBody NodeDto nodeDto) {
         NodeDto response = new NodeDto();
         try {

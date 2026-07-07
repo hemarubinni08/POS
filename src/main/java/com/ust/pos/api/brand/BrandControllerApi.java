@@ -40,25 +40,25 @@ public class BrandControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyAuthority( 'Manager')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public BrandDto add(@RequestBody BrandDto brandDto) {
         return brandService.save(brandDto);
     }
 
     @GetMapping("/get")
-    @PreAuthorize("hasAnyAuthority('Manager')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public BrandDto get(@RequestParam String identifier) {
         return brandService.findByIdentifier(identifier);
     }
 
     @PutMapping("/update")
-    @PreAuthorize("hasAnyAuthority( 'Manager')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public BrandDto update(@RequestBody BrandDto brandDto) {
         return brandService.update(brandDto);
     }
 
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAnyAuthority('Manager')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public BrandDto delete(@RequestBody BrandDto brandDto) {
         BrandDto response = new BrandDto();
         try {
@@ -73,13 +73,12 @@ public class BrandControllerApi extends BaseController {
     }
 
     @PatchMapping("/toggle")
-    @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public BrandDto toggleStatus(@RequestBody BrandDto brandDto) {
         return brandService.toggleStatus(brandDto.getIdentifier());
     }
 
     @GetMapping("/active")
-    @PreAuthorize("hasAnyAuthority('Admin', 'Manager')")
     public List<BrandDto> active() {
         return brandService.findActiveBrands();
     }

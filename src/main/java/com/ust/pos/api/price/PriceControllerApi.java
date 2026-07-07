@@ -41,13 +41,13 @@ public class PriceControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public PriceDto addPost(@RequestBody PriceDto priceDto) {
         return priceService.save(priceDto);
     }
 
     @GetMapping("/get")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public PriceDto updatePage(@RequestParam String identifier) {
         return priceService.findByIdentifier(identifier);
     }

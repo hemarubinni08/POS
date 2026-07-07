@@ -27,7 +27,7 @@ public class ModelsControllerApi extends BaseController {
     }
 
     @PostMapping("/list")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public WsDto<ModelsDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(),
                 paginationDto.getSortDirection(), paginationDto.getSortfield());
@@ -42,25 +42,25 @@ public class ModelsControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public ModelsDto addPost(@RequestBody ModelsDto modelsDto) {
         return modelsService.save(modelsDto);
     }
 
     @GetMapping("/get")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public ModelsDto updatePage(@RequestParam String identifier) {
         return modelsService.findByIdentifier(identifier);
     }
 
     @PutMapping("/update")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public ModelsDto updatePost(@RequestBody ModelsDto modelsDto) {
         return modelsService.update(modelsDto);
     }
 
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public ModelsDto delete(@RequestBody ModelsDto modelsDto) {
         ModelsDto response = new ModelsDto();
         try {
@@ -75,7 +75,7 @@ public class ModelsControllerApi extends BaseController {
     }
 
     @PatchMapping("/toggle")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public ModelsDto toggleStatus(@RequestBody ModelsDto modelsDto) {
         return modelsService.toggleStatus(modelsDto.getIdentifier());
     }

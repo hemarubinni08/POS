@@ -27,7 +27,7 @@ public class CustomerControllerApi extends BaseController {
     }
 
     @PostMapping("/list")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public WsDto<CustomerDto> list(@RequestBody PaginationDto paginationDto) {
         Pageable pageable = getPageable(paginationDto.getPage(), paginationDto.getSizePerPage(), paginationDto.getSortDirection(), paginationDto.getSortfield());
 
@@ -42,25 +42,25 @@ public class CustomerControllerApi extends BaseController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public CustomerDto addPost(@RequestBody CustomerDto customerDto) {
         return customerService.save(customerDto);
     }
 
     @GetMapping("/get")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public CustomerDto updatePage(@RequestParam String identifier) {
         return customerService.findByIdentifier(identifier);
     }
 
     @PutMapping("/update")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public CustomerDto updatePost(@RequestBody CustomerDto customerDto) {
         return customerService.update(customerDto);
     }
 
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public CustomerDto delete(@RequestBody CustomerDto customerDto) {
         CustomerDto response = new CustomerDto();
         try {
@@ -80,7 +80,7 @@ public class CustomerControllerApi extends BaseController {
     }
 
     @PatchMapping("/toggle")
-    @PreAuthorize("hasAnyAuthority('Manager','Admin')")
+    @PreAuthorize("hasAnyAuthority( 'Manager','Admin')")
     public CustomerDto toggleStatus(@RequestBody CustomerDto customerDto) {
         return customerService.toggleStatus(customerDto.getIdentifier());
     }
